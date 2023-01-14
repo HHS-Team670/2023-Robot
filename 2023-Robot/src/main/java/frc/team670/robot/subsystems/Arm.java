@@ -27,7 +27,7 @@ public class Arm extends MustangSubsystemBase{
         SparkMAXLite armMotor2;
         //constructor that inits motors and stuff
         public ArmSegment() {
-p            armMotor2 = SparkMAXFactory.buildSparkMAX(RobotMap.ARM_TWO_MOTOR, SparkMAXFactory.defaultConfig, Motor_Type.NEO_Brushless);
+            armMotor2 = SparkMAXFactory.buildSparkMAX(RobotMap.ARM_TWO_MOTOR, SparkMAXFactory.defaultConfig, Motor_Type.NEO_Brushless);
         }
 
         //store motor speed
