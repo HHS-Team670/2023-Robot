@@ -9,6 +9,7 @@ package frc.team670.robot;
 
 import frc.team670.mustanglib.RobotContainerBase;
 import frc.team670.mustanglib.commands.MustangCommand;
+import frc.team670.mustanglib.utils.MustangController;
 
 /**
  * RobotContainer is where we put the high-level code for the robot.
@@ -71,6 +72,24 @@ public class RobotContainer extends RobotContainerBase {
     public void autonomousPeriodic() {
         // TODO Auto-generated method stub
         
+    }
+
+    @Override
+    public MustangController getOperatorController() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public MustangController getDriverController() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public MustangController getBackupController() {
+        // TODO Auto-generated method stub
+        return null;
     }
     
 }
