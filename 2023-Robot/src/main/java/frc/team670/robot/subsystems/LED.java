@@ -20,13 +20,10 @@ import frc.team670.mustanglib.utils.LEDColor;
         //TODO Auto-generated constructor stub
     }
 
-    private LEDColor color;
-
-
-    public void setColorPurple(LEDColor color){
+    public void setColorPurple(){     
         solid(LEDColor.PURPLE.dimmer());
     }
-    public void setColorYellow(LEDColor color){
+    public void setColorYellow(){
         solid(LEDColor.YELLOW.dimmer());
     }
 }
