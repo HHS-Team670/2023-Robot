@@ -1,4 +1,5 @@
 package frc.team670.robot.subsystems;
+import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 import frc.team670.mustanglib.utils.motorcontroller.SparkMAXFactory;
 import frc.team670.mustanglib.utils.motorcontroller.SparkMAXLite;
@@ -6,7 +7,8 @@ import frc.team670.mustanglib.utils.motorcontroller.SparkMAXLite;
 public class Arm extends MustangSubsystemBase{
         
     //init motors
-    SparkMAXLite arm2Motor;
+    SparkMaxLite armMotor;
+    SparkMAXLite armMotor2;
     
     public enum ArmState{
         LEVEL1,
@@ -22,16 +24,17 @@ public class Arm extends MustangSubsystemBase{
     static class ArmSegment{
 
         SparkMAXLite armMotor;
+        SparkMAXLite armMotor2;
         //constructor that inits motors and stuff
         public ArmSegment() {
-            armMotor = SparkMAXFactory.buildSparkMAX(RobotMap.ARM_ONE_MOTOR, SparkMAXFactory.defaultConfig, Motor_Type.NEO_550);
-
+p            armMotor2 = SparkMAXFactory.buildSparkMAX(RobotMap.ARM_TWO_MOTOR, SparkMAXFactory.defaultConfig, Motor_Type.NEO_Brushless);
         }
 
         //store motor speed
         double motorSpeed;
         public void setSpeed(double speed){
             armMotor.set(speed);
+            armMotor2.set(speed);
         }
         //target
         //take a look at 2019 robot\
