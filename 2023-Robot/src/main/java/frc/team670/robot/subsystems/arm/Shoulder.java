@@ -4,7 +4,6 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import frc.team670.mustanglib.utils.motorcontroller.MotorConfig.Motor_Type;
 
 public class Shoulder extends SparkMaxRotatingSubsystem {
-    
 
 
 
@@ -99,8 +98,9 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
     }
 
     //constructor that inits motors and stuff
-    public Shoulder(Config config) {
-        super(config);
+    public static final Config SHOULDER_CONFIG = new Config();
+    public Shoulder() {
+        super(SHOULDER_CONFIG);
     }
 
     @Override

@@ -100,8 +100,9 @@ public class Elbow extends SparkMaxRotatingSubsystem {
     }
 
     //constructor that inits motors and stuff
-    public Shoulder(Config config) {
-        super(config);
+    public static final Config ELBOW_CONFIG = new Config();
+    public Elbow() {
+        super(ELBOW_CONFIG);
     }
 
     @Override
@@ -136,7 +137,6 @@ public class Elbow extends SparkMaxRotatingSubsystem {
 
     @Override
     public void debugSubsystem() {
-        // TODO Auto-generated method stub
         
     }
 }

@@ -21,11 +21,15 @@ public enum ArmState {
      * 
      * @return the corresponding integer code for each color on the wheel
      */
-    public int getColorNumber() {
-      return colorNumber;
+    public int getStateID() {
+      return stateID;
     }
 
-    private Color getTargetColor() {
-      return color;
+    public double getShoulderAngle() {
+      return shoulderAngle;
+    }
+
+    public double getElbowAngle() {
+      return elbowAngle;
     }
   }
