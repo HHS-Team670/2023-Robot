@@ -11,7 +11,7 @@ public class RobotMap {
     public static final int SPARK_RIGHT_MOTOR_2 = 23;
   
     //Encoders
-        //Drivebase
+    //Drivebase
     public static final int LEFT_ENCODER_CHANNEL_A = 0; // These are properly set
     public static final int LEFT_ENCODER_CHANNEL_B = 1;
     public static final int RIGHT_ENCODER_CHANNEL_A = 2;

@@ -7,13 +7,10 @@ import frc.team670.mustanglib.utils.motorcontroller.MotorConfig.Motor_Type;
 import frc.team670.mustanglib.utils.motorcontroller.SparkMAXFactory;
 import frc.team670.mustanglib.utils.motorcontroller.SparkMAXLite;
 import frc.team670.robot.constants.RobotMap;
-import frc.team670.robot.subsystems.SparkMaxLite;
 
 public class Arm extends MustangSubsystemBase{
-    Shoulder shoulder;
-    Elbow elbow;
-
-    ArrayList<ArmState> targetQueue = new ArrayList<ArmState>();
+    private Shoulder shoulder;
+    private Elbow elbow;
 
     private static final ArmState[][][] VALID_PATHS = new ArmState[][][] {
         { //From STOWED
@@ -42,42 +39,54 @@ public class Arm extends MustangSubsystemBase{
     public HealthState checkHealth() {
         return HealthState.GREEN;
     }
-//TODO: Add a get current state method
+    
     @Override
     public void mustangPeriodic() {
-        //if we're at the target, then remove from queue
-        
-        //targetQueue.remove(0);
-        
-        //if the queue isn't empty, move towards the first item
-        if(targetQueue.size() > 0){
-
-        }
-        
-        //if the queue is empty, do nothing
     }
 
-    public void addToQueue(ArmState start, ArmState target) {
-        //use getValidPath to determine the states between the current state and the target state
-        //for every state in that list, add to queue using targetQueue.add()  
-        for(int i = 0; i < VALID_PATHS[start.getStateID()][target.getStateID()].length; i++){
-            targetQueue.add(VALID_PATHS[start.getStateID()][target.getStateID()][i]);
-        }
-        targetQueue.add(target);
+    /**
+     * This moves DIRECTLY to the target ArmState
+     * We must handle checking for valid paths ELSEWHERE.
+     */
+    public void moveToTarget(ArmState target) {
+        //TODO: Give the proper setpoints to Shoulder and Elbow
     }
-    /*
+
+    /**
+     * Returns the state we're moving towards
+     * Ex: If we're moving from A to B, this returns B
+     */
+    public ArmState getCurrentState() {
+        return null; //TODO: Change this
+    }
+
+    /**
+     * Returns whether or not the arm is physically at the given state
+     * @param target The target state we're checking
+     */
+    public boolean isAt(ArmState target){
+        //TODO:
+        //Define margin of error
+        // Check if each each joint is within margin of error
+        return false;
+    }
+
+    /** 
      * Returns a valid list of states from the starting State to the ending State
      * This list should NOT include the starting state, but SHOULD include the ending state
      */
-    /*private  getValidPath(ArmState start, ArmState finish) {
+    public static ArmState[] getValidPath(ArmState start, ArmState finish) {
         //retrieve the list of intermediate states from VALID_PATHS
-        ArrayList<ArmSt\ate> tempValidPath = new ArrayList<ArmState>();
+        ArrayList<ArmState> tempValidPath = new ArrayList<ArmState>();
         tempValidPath.add(VALID_PATHS[start.getStateID()][finish.getStateID()][0]);
         tempValidPath.add(finish);
+
         //Add the final ArmState to this list
+
+
         //return this list
-        return tempValidPath.toArray();//VALID_PATHS[start.getStateID()][finish.getStateID()];
-    }*/
+        return null;
+    }
     
 
     @Override
