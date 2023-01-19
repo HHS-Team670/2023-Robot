@@ -3,7 +3,7 @@ import frc.team670.mustanglib.subsystems.SparkMaxRotatingSubsystem;
 import com.revrobotics.CANSparkMax.IdleMode;
 import frc.team670.mustanglib.utils.motorcontroller.MotorConfig.Motor_Type;
 
-public class Shoulder extends SparkMaxRotatingSubsystem {
+public class Shoulder extends Joint {
 
 
 
@@ -115,11 +115,7 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
         
     }
 
-    @Override
-    public double getCurrentAngleInDegrees() {
-        // TODO Auto-generated method stub
-        return 0;
-    }
+    
 
     @Override
     public HealthState checkHealth() {

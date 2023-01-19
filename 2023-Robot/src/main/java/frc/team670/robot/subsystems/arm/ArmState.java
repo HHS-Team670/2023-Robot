@@ -4,16 +4,34 @@ public enum ArmState {
 
     STOWED(0, 0.0, 90.0), 
     SCORE_CONE_MID(1, 90, 90),
-    SCORE_CONE_HIGH(2, 90.0, 180.0);
+    SCORE_CONE_HIGH(2, 90.0, 180.0),
+    HOPPER(3,90.0,90.0),
+    INTERMEDIATE_HOPPER(4,90.0,90.0),
+    //Intermediate Hooper
+    HIGH_SHELF(5,90.0,90.0),
+    HYBRID(6,90.0,90.0),
+
+    
+    //Intake ground
+    INTAKE_GROUND(7,90.0,90.0),
+    
+    //doublesubstationintake
+    DOUBLE_SUBSTATION(8,90,90),
+    ZERO(9,0,0);
+    
+    //zero????
+    
 
     private int stateID;
     private double shoulderAngle;
     private double elbowAngle;
+    // private double wristAngle;
 
     private ArmState(int stateID, double shoulderAngle, double elbowAngle) {
       this.stateID = stateID;
       this.shoulderAngle = shoulderAngle;
       this.elbowAngle = elbowAngle;
+      // this.wristAngle= wristAngle;
     }
     
     /**
@@ -31,4 +49,7 @@ public enum ArmState {
     public double getElbowAngle() {
       return elbowAngle;
     }
+    // public double getWristAngle() {
+    //   return wristAngle;
+    // }
   }

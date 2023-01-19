@@ -11,6 +11,7 @@ import frc.team670.robot.constants.RobotMap;
 public class Arm extends MustangSubsystemBase{
     private Shoulder shoulder;
     private Elbow elbow;
+    private ArmState currentState;
 
     private static final ArmState[][][] VALID_PATHS = new ArmState[][][] {
         { //From STOWED
@@ -49,7 +50,10 @@ public class Arm extends MustangSubsystemBase{
      * We must handle checking for valid paths ELSEWHERE.
      */
     public void moveToTarget(ArmState target) {
+        this.currentState = target;
         //TODO: Give the proper setpoints to Shoulder and Elbow
+        elbow.setSystemTargetAngleInDegrees(target.getElbowAngle());
+        shoulder.setSystemTargetAngleInDegrees(target.getShoulderAngle());
     }
 
     /**
@@ -57,7 +61,7 @@ public class Arm extends MustangSubsystemBase{
      * Ex: If we're moving from A to B, this returns B
      */
     public ArmState getCurrentState() {
-        return null; //TODO: Change this
+        return currentState; //TODO: Change this
     }
 
     /**
@@ -78,14 +82,21 @@ public class Arm extends MustangSubsystemBase{
     public static ArmState[] getValidPath(ArmState start, ArmState finish) {
         //retrieve the list of intermediate states from VALID_PATHS
         ArrayList<ArmState> tempValidPath = new ArrayList<ArmState>();
-        tempValidPath.add(VALID_PATHS[start.getStateID()][finish.getStateID()][0]);
+        for(ArmState state: VALID_PATHS[start.getStateID()][finish.getStateID()]){
+            tempValidPath.add(state);
+        }
+        // tempValidPath.add(VALID_PATHS[start.getStateID()][finish.getStateID()][0]);
         tempValidPath.add(finish);
 
         //Add the final ArmState to this list
-
+        ArmState[] path=new ArmState[tempValidPath.size()];
+        //transer all valuesinto path then return it
+        for(int i=0;i<path.length;i++){
+            path[i]=tempValidPath.get(i);
+        }
 
         //return this list
-        return null;
+        return path;
     }
     
 

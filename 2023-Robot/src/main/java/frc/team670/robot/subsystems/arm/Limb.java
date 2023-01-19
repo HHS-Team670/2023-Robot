@@ -3,16 +3,7 @@ import frc.team670.mustanglib.subsystems.SparkMaxRotatingSubsystem;
 // import com.revrobotics.CANSparkMax.IdleMode;
 import frc.team670.mustanglib.utils.motorcontroller.MotorConfig.Motor_Type;
 
-
-public class Elbow extends Joint {
-    
-
-
-
-    //TODO: Fix Constants
-    /*
-     * PID and SmartMotion constants for the Shoulder joint
-     */
+public abstract class Joint extends SparkMaxRotatingSubsystem {
     public static class Config extends SparkMaxRotatingSubsystem.Config {
 
         public int getDeviceID() {
@@ -100,9 +91,9 @@ public class Elbow extends Joint {
     }
 
     //constructor that inits motors and stuff
-    public static final Config ELBOW_CONFIG = new Config();
-    public Elbow() {
-        super(ELBOW_CONFIG);
+    public static final Config WRIST_CONFIG = new Config();
+    public Joint() {
+        super(WRIST_CONFIG);
     }
 
     @Override
@@ -117,7 +108,17 @@ public class Elbow extends Joint {
         
     }
 
-    
+    @Override
+    public double getCurrentAngleInDegrees() {
+        // TODO Auto-generated method stub
+        //RelativeEncoder encoder = super.getRotatorEncoder();
+        double rotations = 0.5;//
+        // convert rotations to angle here
+        //double oldrot = (angle / 360) * this.ROTATOR_GEAR_RATIO
+        // + ((int) (getUnadjustedPosition() / this.ROTATOR_GEAR_RATIO)) * this.ROTATOR_GEAR_RATIO;//reverse engineer
+        double angle = 360 * (( rotations - getUnadjustedPosition()) / this.ROTATOR_GEAR_RATIO);
+        return angle;
+    }
 
     @Override
     public HealthState checkHealth() {
@@ -136,3 +137,5 @@ public class Elbow extends Joint {
         
     }
 }
+
+
