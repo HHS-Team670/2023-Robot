@@ -3,10 +3,10 @@ package frc.team670.robot.subsystems.arm;
 public enum ArmState {
 
     STOWED(0, 0.0, 90.0), 
-    HOPPER(3,90.0,90.0),
-    INTERMEDIATE_HOPPER(4,90.0,90.0),
-    SCORE_CONE_MID(1, 90, 90),
-    SCORE_CONE_HIGH(2, 90.0, 180.0),
+    HOPPER(1,90.0,90.0),
+    INTERMEDIATE_HOPPER(2,90.0,90.0),
+    SCORE_CONE_MID(3, 90, 90),
+    SCORE_CONE_HIGH(4, 90.0, 180.0),
     
     //Intermediate Hooper
     HIGH_SHELF(5,90.0,90.0),

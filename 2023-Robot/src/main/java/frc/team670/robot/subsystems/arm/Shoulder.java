@@ -2,7 +2,7 @@ package frc.team670.robot.subsystems.arm;
 import frc.team670.mustanglib.subsystems.SparkMaxRotatingSubsystem;
 import com.revrobotics.CANSparkMax.IdleMode;
 import frc.team670.mustanglib.utils.motorcontroller.MotorConfig.Motor_Type;
-
+import com.revrobotics.REVLibError;
 public class Shoulder extends Joint {
 
 
@@ -119,8 +119,14 @@ public class Shoulder extends Joint {
 
     @Override
     public HealthState checkHealth() {
-        // TODO Auto-generated method stub
-        return null;
+        REVLibError rotatorError = super.rotator.getLastError();
+		if (rotatorError != null && rotatorError != rotatorError.kOk) {
+			return HealthState.RED;
+		}
+        
+		return HealthState.GREEN;
+        
+     
     }
 
     @Override

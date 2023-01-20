@@ -105,15 +105,17 @@ public class Elbow extends Joint {
         super(ELBOW_CONFIG);
     }
 
+    
+
+
     @Override
     public boolean getTimeout() {
-        // TODO Auto-generated method stub
         return false;
     }
 
     @Override
     public void moveByPercentOutput(double output) {
-        // TODO Auto-generated method stub
+        
         
     }
 
@@ -121,18 +123,23 @@ public class Elbow extends Joint {
 
     @Override
     public HealthState checkHealth() {
-        // TODO Auto-generated method stub
-        return null;
+        REVLibError rotatorError = super.rotator.getLastError();
+		if (rotatorError != null && rotatorError != rotatorError.kOk) {
+			return HealthState.RED;
+		}
+        
+		return HealthState.GREEN;
     }
 
     @Override
     public void mustangPeriodic() {
-        // TODO Auto-generated method stub
+        
         
     }
 
     @Override
     public void debugSubsystem() {
-        
+        return manymanymanymanymanymanymanymanybeans;
+
     }
 }
