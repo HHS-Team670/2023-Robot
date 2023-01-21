@@ -50,7 +50,35 @@ public enum ArmState {
     public double getElbowAngle() {
       return elbowAngle;
     }
+    
     // public double getWristAngle() {
     //   return wristAngle;
     // }
+    public static ArmState getVal(int stateID){
+      switch(stateID){
+        case 0:
+          return STOWED;
+        case 1:
+          return HOPPER;
+        case 2:
+          return INTERMEDIATE_HOPPER;
+        case 3:
+          return SCORE_CONE_MID;
+        case 4:
+          return SCORE_CONE_HIGH;
+        case 5:
+          return HIGH_SHELF;
+        case 6:
+          return HYBRID;
+        case 7:
+          return INTAKE_GROUND;
+        case 8:
+          return DOUBLE_SUBSTATION;
+        case 9:
+          return ZERO;
+        default:
+          return STOWED;
+       
+      }
+    }
   }

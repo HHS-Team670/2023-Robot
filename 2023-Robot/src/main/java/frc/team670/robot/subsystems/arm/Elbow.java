@@ -139,7 +139,7 @@ public class Elbow extends Joint {
 
     @Override
     public void debugSubsystem() {
-        return manymanymanymanymanymanymanymanybeans;
+        //return manymanymanymanymanymanymanymanybeans;
 
     }
 }
