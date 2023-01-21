@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>FRC Dashboard</title>
+    <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body>
+    <!-- <div id="camera-large">
+      <img id="camera-stream-large" style='height:100%; width:100%; object-fit:fill' src="http://10.6.70.26:443/?action=stream" onerror="this.src='http://10.6.70.26:443/?action=stream'"/>
+    </div> -->
+    <div id="v-crosshairs-large"> </div>
+
+    <!-- <svg id="back-indicator" width="33vw" height="58vh">
+      <rect x="0%" y="0%" width="100%" height="100%" style="stroke:rgb(0,200,0)"/>
+    </svg> -->
+    <!-- <svg id="front-indicator" width="50vw" height="20vh">
+      <rect x="0%" y="0%" width="100%" height="100%" style="stroke:rgb(0,200,0)"/>
+    </svg> -->
+
+    <!-- <div id="camera1">
+      <img id="camera-stream-1" style='height:100%; width:100%; object-fit:fill' src="http://10.6.70.26:80/?action=stream" onerror="this.src='http://10.6.70.26:80/?action=stream'"/>
+    </div>
+    <div id="camera2">
+      <img id="camera-stream-2" style='height:100%; width:100%; object-fit:fill' src="http://10.6.70.26:443/?action=stream" onerror="this.src='http://10.6.70.26:443/?action=stream'"/>
+    </div> -->
+    <div id="v-crosshairs-left"> </div>
+    <div id="v-crosshairs-right"> </div>
+
+    <svg id="status-lights-commands" width="700" height="100">
+    <rect x="0%" y="0%" width="55%" height="100%" style="stroke:rgb(0,200,0)" />
+
+    <rect id="vision-status" x="10%" y="20%" width="40" height="20" />
+    <text x="13%" y="80%" style="text-anchor: middle">Vision</text>
+    <rect id="auton-status" x="25%" y="20%" width="40" height="20" />
+    <text x="28%" y="80%" style="text-anchor: middle">Auton</text>
+    <!-- <rect id="drive-reversed-status" x="40%" y="20%" width="40" height="20" />
+    <text x="43%" y="80%" style="text-anchor: middle">Reversed</text> -->
+  </svg>
+
+
+
+    <svg id="status-lights-subsystems" width="700" height="200">
+    <rect x="0%" y="0" width="55%" height="100%" style="stroke:rgb(0,200,0)" />
+
+    <rect id="drivebase-status" x="10%" y="7%" width="40" height="20" />
+    <text x="13%" y="60" style="text-anchor: middle">DriveBase</text>
+    <rect id="shooter-status" x="25%" y="7%" width="40" height="20" />
+    <text x="28%" y="60" style="text-anchor: middle">Shooter</text>
+    <rect id="climber1-status" x="40%" y="7%" width="40" height="20" />
+    <text x="43%" y="60" style="text-anchor: middle">Climber 1</text>
+    <rect id="climber2-status" x="40%" y="135" width="40" height="20" />
+    <text x="43%" y="66%" style="text-anchor: middle">Climber 2</text>
+
+    <rect id="intake-status" x="10%" y="135" width="40" height="20" />
+    <text x="13%" y="66%" style="text-anchor: middle">Intake</text>
+    <rect id="conveyor-status" x="25%" y="135" width="40" height="20" />
+    <text x="28%" y="66%" style="text-anchor: middle">Conveyor</text>
+  </svg>
+
+    <!-- <svg id="auton-chooser" width="400" height="100">
+      <rect x="0%" y="0%" width="100%" height="100%" style="stroke:rgb(0,200,0)"/>
+      <circle id="left" cx="25%" cy="20%" r="5"/>
+      <text x="25%" y="10%" style="text-anchor: middle">Left</text>
+      <circle id="center" cx="50%" cy="20%" r="5"/>
+      <text x="50%" y="10%" style="text-anchor: middle">Center</text>   
+      <circle id="right" cx="75%" cy="20%" r="5"/>
+      <text x="75%" y="10%" style="text-anchor: middle">Right</text>
+      <circle id="auton-status" cx="50%" cy="45%" r="5"/>
+      <text x="50%" y="35%" style="text-anchor: middle">Generator</text>   
+      <circle id="intake-status" cx="75%" cy="45%" r="5"/>
+      <text x="75%" y="35%" style="text-anchor: middle">Trench</text>
+    </svg> -->
+
+    <div id="login">
+        <input id="connect-address" type="text" value="localhost" disabled>
+        <button id="connect" disabled>Connecting</button>
+    </div>
+
+    <svg id="warning-info" width="700" height="60">
+    <rect x="0%" y="0%" width="55%" height="100%" style="stroke:rgb(0,200,0)" />
+    <text id="warnings" x="5%" y="66%" style="text-anchor: start">Warnings:</text>
+  </svg>
+
+    <svg id="big-warning">
+    <text id="big-warning-text" x="50%" y="50%" style="text-anchor: middle; font:bold 60px sans-serif">WARNING!</text>
+  </svg>
+
+    <!-- <svg id="robot-diagram">
+      <rect x="0%" y="0%" width="100%" height="100%"/>
+      <text id="current-arm-state" x="50%" y="10%" style="text-anchor: middle">Current State</text>
+      <rect x="20%" y="85%" width="50%" height="12%"/>
+      <rect id="arm-base" x="85%" y="20%" width="50%" height="20%"/>
+      <rect x="65%" y="80%" width="2%" height="5%"/>
+      <rect id="intake" x="65%" y="75%" width="15%" height="5%"/>
+      <circle cx="25%" cy="95%" r="5%"/>
+      <circle cx="65%" cy="95%" r="5%"/>
+      <circle cx="45%" cy="95%" r="5%"/>
+    </svg> -->
+    <div id="robot-diagram">
+        
+    </div>
+
+    <div id="camera-streams">
+      <!-- <image class="camera-stream" src="http://photonvision.local:1186/stream.mjpg?1646964104873"></image>
+      <image class="camera-stream" src="http://photonvision.local:1184/stream.mjpg?1646964457545"></image> -->
+    </div>
+    <!-- <div id = "match-phase">
+      <p>Match Phase: NOT STARTED</p>
+    </div> -->
+<!-- <svg id="warning-info" width="700" height="60">
+    <rect x="45%" y="0%" width="55%" height="100%" style="stroke:rgb(0,200,0)" />
+    <text id="warnings" x="47%" y="66%" style="text-anchor: start">Warnings:</text>-->
+
+<div id = "current-text">
+  <button x="0%" y="30%" class = "general-button" id="toggle-camera" style = "margin-top:1%;">Toggle Streams</button>
+    <!-- <button class = "general-button" id="timer-stopper" style = "margin-top:1%">Reset Timer</button></div> -->
+    <!-- <button class = "general-button" id="timer-pauser" style = "margin-top:1%">Pause Timer</button></div> -->
+    
+    <svg id="current-text-svg" width="400" height="200">
+    <rect id="shooter-speed-indicator-bg" x="0%" y="30%" width="100%" height="30%" style="stroke:rgb(0,200,0)" />
+    <text id="shooter-speed-indicator" x="20%" y="45%" style="text-anchor: start; stroke:rgba(255, 255, 255, 0.582); font-size: 1.3rem" alignment-baseline="top"> USING DYNAMIC SPEED</text>
+    
+    <rect x="0%" y="50%" width="100%" height="50%" style="stroke:rgb(0,200,0)" />
+    <text id="balls-in-robot" x="20%" y="75%" style="text-anchor: start" alignment-baseline="top">Balls in Robot:</text>
+    <circle id="indicator1" cx="63%" cy="75%" r="10%" />
+    <circle id="indicator2" cx="85%" cy="75%" r="10%" />
+  </svg>
+  </div>
+
+
+    <div id="auton-chooser">
+        <rect x="0%" y="0%" width="100%" height="100%" style="stroke:rgb(0,200,0)" />
+        <form>
+            <fieldset id="position">
+                <input style="margin:5px;" type="radio" name="hub-type" value="Upper" id="Upper"/>
+                <label for="Upper">Upper Hub</label>
+                <input style="margin:5px;" type="radio" name="hub-type" value="Lower" id="Lower"/>
+                <label for="Lower">Lower Hub</label>
+
+                <!-- <input style="margin:5px;" type="radio" name="path" value="ATarmacEdge2Ball"/>
+                <label for="start-position-left">ATarmacEdge2Ball</label>
+                <input style="margin:5px;" type="radio" name="path" value="BTarmacEdgeCenter2Ball"/>
+                <label for="start-position-center">BTarmacEdgeCenter2Ball</label>
+                <input style="margin:5px;" type="radio" name="path" value="BTarmacEdgeLower2Ball"/>
+                <label for="start-position-right">BTarmacEdgeLower2Ball</label>
+                <input style="margin:5px;" type="radio" name="path" value="BTarmacHighHubTerminal"/>
+                <label for="start-position-right">BTarmacHighHubTerminal</label> -->
+                <div class="path-dropdown">
+                  <button style="margin:2px;" type="button" class="dropbtn general-button">Choose Path</button>
+                  <div class="dropup-content">
+                    <!-- <p>ATarmacEdge2Ball</p>
+                    <p >BTarmacEdgeCenter2Ball</p>
+                    <p>BTarmacEdgeLower2Ball</p>
+                    <p>BTarmacHighHubTerminal</p> -->
+                  </div>
+                </div>
+              </fieldset>
+            <!-- <fieldset>
+                <input style="margin:5px;" type="radio" name="location" value="Generator 2" />
+                <label for="Generator-2">Generator 2</label>
+                <input style="margin:5px;" type="radio" name="location" value="Generator 3" />
+                <label for="Generator-3">Generator 3</label>
+                <input style="margin:5px;" type="radio" name="location" value="Trench" />
+                <label for="Trench">Trench</label> -->
+            <!-- </fieldset> -->
+            <!-- <fieldset id="path">
+
+                <input style="margin:5px;" type="radio" id="shoot-then-back" value="EmptyToBack"> Shoot Then Back</input>
+
+            </fieldset>
+            <fieldset id="path2">
+
+                <input style="margin:5px;" type="radio" id="shoot-then-trench" value="Trench"> Shoot Then Trench</input>
+
+            </fieldset>
+            <fieldset id="path3">
+
+                <input style="margin:5px;" type="radio" id="shoot-then-forward" value="EmptyToFront"> Shoot Then Forward</input> -->
+
+            <!-- </fieldset> -->
+            <div id="delay">
+              <label for="delay-time">Delay Time</label>
+              <input type="number" min="0" max="15" name="delay-time" value="0" />
+            </div>
+            <button type="button" class="general-button" id="confirm-button" onclick="sendAuton();">SEND</button>
+        </form>
+        
+    </div>
+
+    
+
+
+
+  
+    <script src="networktables/networktables.js"></script>
+    <script src="connection.js"></script>
+    <script src="ui.js"></script>
+    <script src="ui/manualtimer.js"></script> <!--Use "ui/manualtimer.js" for a start/stop timer and 
+                                                "ui/livetimer.js" for a timer which pulls the match time directly 
+                                                (currently untested and probably doesn't work)-->
+
+
+</body>
+
+</html>

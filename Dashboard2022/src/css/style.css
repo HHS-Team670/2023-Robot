@@ -1,0 +1,396 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+::-webkit-scrollbar {
+    display: none;
+}
+body {
+    font: 16px sans-serif;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    color: white;
+    overflow: hidden;
+    background: #222;
+}
+
+@keyframes blink { 
+    50% { border: 10px solid greenyellow } 
+    
+ }
+
+
+button, input[type="text"], input[type="number"], .select-container, select {
+    color: white;
+    background: #444;
+    border: none;
+    font-size: 14px;
+    padding: 6px 8px;
+    cursor: pointer;
+    outline: 0;
+}
+.select-container {
+    padding: 0;
+    display: inline-block;
+}
+select {
+    border: none;
+    background: none;
+    color: white;
+    height: 25px;
+}
+input[type="text"], input[type="number"] {
+    cursor: text;
+}
+input[type="checkbox"] {
+    -webkit-filter: saturate(0);
+    filter: saturate(0);
+}
+/* Major interface panes, aside, article, header, etc. */
+body > * {
+    padding: 10px;
+    position: fixed;
+    /* overflow: scroll; */
+    background: #222;
+}
+header {
+    width: 20vw;
+    height: 20vh;
+    top: 0;
+    left: 30vw;
+    color: white;
+}
+#camera1 {
+    padding: 0;
+    position: absolute;
+    bottom: 25vh;
+    left: 1.5vw;
+    width: 12vw;
+    height: 50vh;
+    object-fit: fill;
+    overflow: hidden;
+    background-color: #333;
+    background-size: cover;
+}
+#camera2 {
+    padding: 0;
+    position: absolute;
+    bottom: 25vh;
+    left: 12vw;
+    width: 12vw;
+    height: 50vh;
+    object-fit: fill;
+    overflow: hidden;
+    background-color: #333;
+    background-size: cover;
+}
+#camera-large {
+    padding: 0;
+    position: absolute;
+    bottom: 2.5vh;
+    left: 0.5vw;
+    width: 66vw;
+    height: 95vh;
+    object-fit: fill;
+    overflow: hidden;
+    background-color: #333;
+    background-size: cover;
+}
+#camera-texts {
+    position: absolute;
+    width: 5vw;
+    height: 6vh;
+    transform: translate(1vw, 89vh);
+}
+svg * {
+    stroke: white;
+    fill: #222;
+    stroke-width: 2;
+    -webkit-transform-origin: center;
+    -ms-transform-origin: center;
+    transform-origin: center;
+}
+text {
+    font-size: 16px;
+    letter-spacing: 2px;
+    stroke: none;
+    fill: white;
+}
+#login {
+    position: fixed;
+    display: none;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 2;
+}
+body.login #login {
+    display: flex;
+}
+#login :disabled {
+    opacity: 0.6;
+}
+#login > * {
+    height: 40px;
+}
+#login > button {
+    margin-left: 5px;
+}
+#robot-info {
+  position: absolute;
+  transform: translate(90vw, 70vh);
+  font-size: 12pt;
+}
+#status-lights-commands {
+  position: absolute;
+  transform: translate(70vw, 66vh);
+  z-index: 1;
+}
+#status-lights-subsystems {
+    position: absolute;
+    transform: translate(70vw, 76vh);
+    z-index: 1;
+  }
+#warning-info {
+    position: absolute;
+    /*top: 51vh;*/
+    transform: translate(70vw, 60vh);
+    /* width: 40vw;
+    height: 10vh; */
+    z-index: 1;
+}
+#robot-diagram {
+    position: absolute;
+    transform: translate(50vw, 1vh);
+    width: 50vw;
+    height: 55vh;
+}
+#claw {
+    position: absolute;
+    transform-origin: bottom center;
+    transform: rotate(90deg);
+}
+#arm-base {
+    transform-origin: top center;
+    transform: rotate(180deg);
+}
+#arm-extension {
+    transform-origin: top center;
+    transform: rotate(180deg);
+}
+#arm {
+    transform-origin: bottom center;
+}
+#claw-destination {
+    position: absolute;
+    transform-origin: bottom center;
+    transform: rotate(90deg);
+    stroke-opacity: 0.3;
+    stroke: rgb(0,200,0);
+}
+#arm-extension-destination {
+    transform-origin: top center;
+    transform: rotate(180deg);
+    stroke-opacity: 0.3;
+    stroke: rgb(0,200,0);
+}
+#arm-destination {
+    transform-origin: bottom center;
+    stroke-opacity: 0.3;
+    stroke: rgb(0,200,0);
+}
+#intake {
+    transform-origin: bottom left;
+    /* transform: rotate(180deg); */
+}
+
+#delay {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+#start-holding {
+    position: absolute;
+}
+#position {
+    width:400px;
+}
+#path {
+    position: absolute;
+    transform: translate(0, 90px);
+    width:400px;
+}
+#path2 {
+    position: absolute;
+    transform: translate(0, 130px);
+    width:400px;
+}
+#confirm-button {
+    width:400px;
+}
+
+
+#big-warning {
+    position: absolute;
+    background: red;
+    transform: translate(35vw, 70vh);
+    width: 30vw;
+    height: 15vh;
+    z-index: 1;
+}
+#v-crosshairs-left {
+    border-left: 1px dotted white;
+    transform: translate(10vw, 17vh) rotate(-15deg);
+    background-color: rgba(0, 0, 0, 0);
+    height: 66vh;
+    display: none;
+}
+#v-crosshairs-right {
+    border-left: 1px dotted white;
+    transform: translate(50vw, 17vh) rotate(-5deg);
+    background-color: rgba(0, 0, 0, 0);
+    height: 66vh;
+    display: none;
+}
+#v-crosshairs-large {
+    border-left: 1px dotted white;
+    transform: translate(33vw, 0vh) rotate(-5deg);
+    background-color: rgba(0, 0, 0, 0);
+    height: 100vh;
+    display: none;
+}
+#back-indicator {
+    position: absolute;
+    transform: translate(0vw, 21vh);
+}
+#front-indicator {
+    position: absolute;
+    transform: translate(0vw, 21vh);
+}
+
+
+#auton-chooser {
+    position: absolute;
+    /*top: 51vh;*/
+    transform: translate(5vw, 72vh);
+    display: flex;
+    flex-direction: column wrap;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid rgb(8, 218, 8);
+    width: 430px;
+}
+
+fieldset#position {
+    border: none;
+}
+
+/* Dropup Button */
+.dropbtn {
+    color: white;
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+  }
+  
+  /* The container <div> - needed to position the dropup content */
+  .path-dropdown {
+    position: relative;
+    display: inline-block;
+    margin-left: 20px;
+  }
+  
+  /* Dropup content (Hidden by Default) */
+  .dropup-content {
+    display: none;
+    position: absolute;
+    bottom: 38px;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+  }
+  
+  /* Links inside the dropup */
+  .dropup-content p {
+    color: black;
+    padding: 10px 13px;
+    text-decoration: none;
+    display: block;
+  }
+  
+  /* Change color of dropup links on hover */
+  .dropup-content p:hover {background-color: #ddd}
+  
+  /* Show the dropup menu on hover */
+  .path-dropdown:hover .dropup-content {
+    display: block;
+  }
+
+
+#current-text {
+    position: absolute;
+    /*top: 51vh;*/
+    width: 30vw;
+    transform: translate(38vw, 70vh);
+}
+
+#match-phase {
+    background-color: rgb(25, 67, 75);
+    transform: translate(5vw, 71.5vh);
+
+}
+
+
+.general-button { 
+    background-color: rgb(25, 105, 25);
+    font-size: 100%;
+}
+
+.general-button:hover {
+    background-color:rgb(23, 167, 23);
+}
+
+.general-button:active {
+    background-color:rgb(8, 218, 8);
+}
+
+#shooter-values  {
+    position: absolute;
+    /* 0 is center of screen, neg moves up*/
+    transform: translate(75vw, 35vh);
+    width: 20vw;
+    height: 10vh;
+}
+
+#camera-streams {
+    width: 100vw;
+    height: 50vh;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.camera-stream {
+    width: 48vw;
+    border: 1px solid rgb(8, 218, 8);
+}
+
+/* .camera-stream {
+    width: 60vw;
+    border: 1px solid rgb(8, 218, 8);
+}  */
+
+#green-border {
+    animation: blink .25s step-end infinite alternate;
+}
+
