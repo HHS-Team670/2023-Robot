@@ -52,16 +52,15 @@ public class Arm extends MustangSubsystemBase{
         
     // };
     private static final ArmState[][] VALID_PATHS=new ArmState[][]{//graph verison
-        {},//Place that you can go from this state to
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {}
-        
+        {ArmState.DOUBLE_SUBSTATION,ArmState.HIGH_SHELF},//Place that you can go from this state to
+        {ArmState.HOPPER, ArmState.INTERMEDIATE_HOPPER},
+        {ArmState.INTAKE_GROUND, ArmState.HYBRID, ArmState.ZERO},
+        {ArmState.INTERMEDIATE_HOPPER, ArmState.HIGH_SHELF},
+        {ArmState.INTERMEDIATE_HOPPER, ArmState.SCORE_CONE_HIGH},
+        {ArmState.HIGH_SHELF, ArmState.SCORE_CONE_HIGH},
+        {ArmState.SCORE_CONE_MID, ArmState.INTAKE_GROUND, ArmState.HOPPER},
+        {ArmState.INTERMEDIATE_HOPPER, ArmState.SCORE_CONE_MID},
+        {ArmState.INTERMEDIATE_HOPPER, ArmState.MID_Shel
     }
     // private static final ArmState[][][] VALID_PATHS = new ArmState[][][] {
     //     {//From STOWED
@@ -266,7 +265,9 @@ public class Arm extends MustangSubsystemBase{
            
         }
         ArmState[] path = tempValidPath.toArray(new ArmState[tempValidPath.size()]);
-        
+        if (path.length == 0){
+            Logger.consoleLog("No valid path found.");
+        }
         return path;
     }
     
