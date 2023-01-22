@@ -10,6 +10,9 @@ package frc.team670.robot;
 import frc.team670.mustanglib.RobotContainerBase;
 import frc.team670.mustanglib.commands.MustangCommand;
 import frc.team670.mustanglib.utils.MustangController;
+import frc.team670.robot.commands.drivebase.AutoLevel;
+import frc.team670.robot.constants.OI;
+import frc.team670.robot.subsystems.DriveBase;
 
 /**
  * RobotContainer is where we put the high-level code for the robot.
@@ -19,17 +22,47 @@ import frc.team670.mustanglib.utils.MustangController;
 
 public class RobotContainer extends RobotContainerBase {
 
+    private final DriveBase driveBase = new DriveBase(getDriverController());
+
+    private static OI oi = new OI();
+
+    public RobotContainer() {
+        super();
+        addSubsystem(driveBase);
+        oi.configureButtonBindings(driveBase);
+    }
 
     @Override
     public void robotInit() {
         // TODO Auto-generated method stub
-        
     }
-
+    
+    /**
+     * Use this to pass the autonomous command to the main {@link Robot} class.
+     *
+     * @return the command to run in autonomous
+     */
     @Override
     public MustangCommand getAutonomousCommand() {
-        // TODO Auto-generated method stub
-        return null;
+        return new AutoLevel(driveBase);
+        // PathPlannerTrajectory trajectory = PathPlanner.loadPath("s_curve", 0.5, 0.2);
+        // driveBase.resetOdometry(trajectory.getInitialHolonomicPose());
+        
+        // PIDController PID_x = new PIDController(1.0, 0, 0);
+        // PIDController PID_y = new PIDController(1.0, 0, 0);
+        // PIDController PID_theta = new PIDController(1.0, 0, 0);
+        // PID_theta.enableContinuousInput(-Math.PI, Math.PI);
+        
+        // return new MustangPPSwerveControllerCommand(
+        //             trajectory,
+        //             driveBase::getPose, 
+        //             driveBase.getSwerveKinematics(),
+        //             PID_x,
+        //             PID_y,
+        //             PID_theta,
+        //             driveBase::setModuleStates,
+        //             new Subsystem[] {driveBase}
+        //             );
     }
 
     @Override
@@ -82,8 +115,7 @@ public class RobotContainer extends RobotContainerBase {
 
     @Override
     public MustangController getDriverController() {
-        // TODO Auto-generated method stub
-        return null;
+        return OI.getDriverController();
     }
 
     @Override
