@@ -1,7 +1,7 @@
 package frc.team670.robot.constants;
 
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.team670.mustanglib.commands.drive.teleop.SetSwerveForwardDirection;
+import frc.team670.mustanglib.commands.drive.teleop.SetForwardDirection;
 import frc.team670.mustanglib.constants.OIBase;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 import frc.team670.mustanglib.utils.MustangController;
