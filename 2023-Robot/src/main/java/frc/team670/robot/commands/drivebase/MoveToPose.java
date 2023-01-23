@@ -8,6 +8,7 @@ import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
@@ -29,16 +30,19 @@ public class MoveToPose extends CommandBase implements MustangCommand {
     private Pose2d startPose;
     private Pose2d targetPose;
     private MustangController controller;
+    private double x, y;
 
     protected Map<MustangSubsystemBase, HealthState> healthReqs;
 
 
-    public MoveToPose(SwerveDrive swerve, Pose2d targetPose2d, boolean isRelative, MustangController controller) {
+    public MoveToPose(SwerveDrive swerve, double x, double y, boolean isRelative, MustangController controller) {
         this.swerve = swerve;
         this.startPose = new Pose2d();
-        this.targetPose = targetPose2d;
+        this.targetPose = new Pose2d();
         this.isRelative = isRelative;
         this.controller = controller;
+        this.x = x;
+        this.y = y;
 
         PIDController xcontroller = new PIDController(0, 0, 0);
         PIDController ycontroller = new PIDController(0, 0, 0);
@@ -61,9 +65,9 @@ public class MoveToPose extends CommandBase implements MustangCommand {
     public void initialize() {
         startPose = swerve.getPose();
         if (isRelative) {
-            targetPose = startPose.plus(new Transform2d(startPose, targetPose));
+            targetPose = startPose.plus(new Transform2d(new Translation2d(x, y), new Rotation2d()));
         } else {
-            
+            targetPose = new Pose2d(x, y, new Rotation2d());
         }
     }
 
