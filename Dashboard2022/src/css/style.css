@@ -15,12 +15,27 @@ body {
     color: white;
     overflow: hidden;
     background: #222;
+    border: 5px solid transparent;
 }
 
-@keyframes blink { 
-    50% { border: 10px solid greenyellow } 
-    
- }
+@keyframes borderBlink {    
+    from, to {    
+        border-color: transparent    
+    }    
+    50% {    
+        border-color: rgb(81, 255, 0)    
+    }    
+}  
+
+.aligned {
+    animation: borderBlink 1s step-end infinite;    
+}
+
+#level_indicator {
+    display: none;
+    font-size: 5rem;
+    font-weight: bold;
+}
 
 
 button, input[type="text"], input[type="number"], .select-container, select {

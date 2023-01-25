@@ -123,6 +123,24 @@ NetworkTables.addKeyListener('/SmartDashboard/Conveyor Ball Count', (key, value)
 });
 
 
+// updates status lights for driveBase
+NetworkTables.addKeyListener('/SmartDashboard/aligned', (key, value) => {
+
+    var body = document.querySelector('body');
+    if (value && body.className !== "aligned") {
+        body.setAttribute('class', 'aligned');
+    } else if (!value && body.className === "aligned") {
+        body.removeAttribute('class')
+    }
+});
+
+
+NetworkTables.addKeyListener('/SmartDashboard/level', (key, value) => {
+
+    var level_indicator = document.querySelector('#level-indicator');
+    value ? level_indicator.style.display = "block" : level_indicator.style.display = "none"; 
+});
+
 
 // updates vision frame
 NetworkTables.addKeyListener('/SmartDashboard/vision-frame-updated', (key, value) => {

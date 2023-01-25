@@ -44,6 +44,7 @@ public class AutoLevel extends CommandBase implements MustangCommand {
 
     @Override
     public boolean isFinished() {
+        SmartDashboard.putBoolean("level", true);
         return false;
     }
 }
