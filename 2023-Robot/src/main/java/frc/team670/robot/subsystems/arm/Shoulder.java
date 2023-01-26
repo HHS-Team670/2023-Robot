@@ -1,6 +1,6 @@
 package frc.team670.robot.subsystems.arm;
-import frc.team670.mustanglib.subsystems.SparkMaxRotatingSubsystem;
-import frc.team670.mustanglib.subsystems.SparkMaxRotatingSubsystemLeaderFollower;
+
+
 
 import com.revrobotics.CANSparkMax.IdleMode;
 
