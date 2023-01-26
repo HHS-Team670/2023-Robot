@@ -26,5 +26,7 @@ import frc.team670.mustanglib.utils.LEDColor;
     public void setColorYellow(){
         solid(LEDColor.YELLOW.dimmer());
     }
+
+
 }
 

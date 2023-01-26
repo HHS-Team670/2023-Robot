@@ -18,7 +18,9 @@ import frc.team670.mustanglib.commands.MustangCommand;
 
 public class RobotContainer extends RobotContainerBase {
 
-
+    public RobotContainer(){
+        super(null);//TODO: Change this
+    }
     @Override
     public void robotInit() {
         // TODO Auto-generated method stub
