@@ -44,13 +44,13 @@ public class MoveToPose extends CommandBase implements MustangCommand {
         this.x = x;
         this.y = y;
 
-        PIDController xcontroller = new PIDController(0, 0, 0);
-        PIDController ycontroller = new PIDController(0, 0, 0);
+        PIDController xController = new PIDController(0.5, 0, 0);
+        PIDController ycontroller = new PIDController(0.5, 0, 0);
         ProfiledPIDController thetacontroller = new ProfiledPIDController(4, 0, 1,  // not tuned yet
                 new Constraints(RobotConstants.kMaxAngularSpeedRadiansPerSecond,
                 RobotConstants.kMaxAngularSpeedRadiansPerSecondSquared));
-        holonomicDriveController = new HolonomicDriveController(xcontroller, ycontroller, thetacontroller);
-        holonomicDriveController.setTolerance(new Pose2d(0.5, 0.5, Rotation2d.fromDegrees(0.5)));
+        holonomicDriveController = new HolonomicDriveController(xController, ycontroller, thetacontroller);
+        holonomicDriveController.setTolerance(new Pose2d(0.1, 0.1, Rotation2d.fromDegrees(0.5)));
 
         this.healthReqs = new HashMap<MustangSubsystemBase, HealthState>();
         this.healthReqs.put(swerve, HealthState.GREEN);
@@ -74,7 +74,7 @@ public class MoveToPose extends CommandBase implements MustangCommand {
     @Override
     public void execute() {
         Pose2d currPose2d = swerve.getPose();
-        ChassisSpeeds chassisSpeeds = this.holonomicDriveController.calculate(currPose2d, targetPose, 0.25,
+        ChassisSpeeds chassisSpeeds = this.holonomicDriveController.calculate(currPose2d, targetPose, 0,
                 targetPose.getRotation());
         SwerveModuleState[] swerveModuleStates = swerve.getSwerveKinematics().toSwerveModuleStates(chassisSpeeds);
         swerve.setModuleStates(swerveModuleStates);
