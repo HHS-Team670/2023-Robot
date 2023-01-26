@@ -10,9 +10,8 @@ package frc.team670.robot;
 import frc.team670.mustanglib.RobotContainerBase;
 import frc.team670.mustanglib.commands.MustangCommand;
 import frc.team670.mustanglib.utils.MustangController;
-import frc.team670.robot.commands.drivebase.AutoLevel;
 import frc.team670.robot.constants.OI;
-import frc.team670.robot.subsystems.DriveBase;
+import frc.team670.robot.subsystems.Claw;
 
 /**
  * RobotContainer is where we put the high-level code for the robot.
@@ -22,14 +21,14 @@ import frc.team670.robot.subsystems.DriveBase;
 
 public class RobotContainer extends RobotContainerBase {
 
-    private final DriveBase driveBase = new DriveBase(getDriverController());
+    private final Claw claw = new Claw();
 
     private static OI oi = new OI();
 
     public RobotContainer() {
         super();
-        addSubsystem(driveBase);
-        oi.configureButtonBindings(driveBase);
+        addSubsystem(claw);
+        oi.configureButtonBindings(claw);
     }
 
     @Override
@@ -44,7 +43,7 @@ public class RobotContainer extends RobotContainerBase {
      */
     @Override
     public MustangCommand getAutonomousCommand() {
-        return new AutoLevel(driveBase);
+        return null;
         // PathPlannerTrajectory trajectory = PathPlanner.loadPath("s_curve", 0.5, 0.2);
         // driveBase.resetOdometry(trajectory.getInitialHolonomicPose());
         
