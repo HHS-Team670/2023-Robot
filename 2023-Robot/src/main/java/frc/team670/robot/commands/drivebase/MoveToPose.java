@@ -74,7 +74,7 @@ public class MoveToPose extends CommandBase implements MustangCommand {
     @Override
     public void execute() {
         Pose2d currPose2d = swerve.getPose();
-        ChassisSpeeds chassisSpeeds = this.holonomicDriveController.calculate(currPose2d, targetPose, 0,
+        ChassisSpeeds chassisSpeeds = this.holonomicDriveController.calculate(currPose2d, targetPose, 0.25,
                 targetPose.getRotation());
         SwerveModuleState[] swerveModuleStates = swerve.getSwerveKinematics().toSwerveModuleStates(chassisSpeeds);
         swerve.setModuleStates(swerveModuleStates);
