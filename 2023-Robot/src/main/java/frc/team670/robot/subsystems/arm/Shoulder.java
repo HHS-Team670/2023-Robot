@@ -1,9 +1,13 @@
 package frc.team670.robot.subsystems.arm;
 import frc.team670.mustanglib.subsystems.SparkMaxRotatingSubsystem;
+import frc.team670.mustanglib.subsystems.SparkMaxRotatingSubsystemLeaderFollower;
+
 import com.revrobotics.CANSparkMax.IdleMode;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team670.mustanglib.utils.motorcontroller.MotorConfig.Motor_Type;
 import com.revrobotics.REVLibError;
-public class Shoulder extends Joint {
+public class Shoulder extends SparkMaxRotatingSubsystemLeaderFollower {
 
 
 
@@ -11,11 +15,19 @@ public class Shoulder extends Joint {
     /*
      * PID and SmartMotion constants for the Shoulder joint
      */
-    public static class Config extends SparkMaxRotatingSubsystem.Config {
+    public static class Config extends SparkMaxRotatingSubsystemLeaderFollower.Config {
 
-        public int getDeviceID() {
-            return 0; //RobotMap.FLIP_OUT;
-        }
+        	@Override
+		public int getLeaderDeviceID() {
+			// TODO Auto-generated method stub
+			return 0;
+		}
+
+		@Override
+		public int getFollowerDeviceID() {
+			// TODO Auto-generated method stub
+			return 0;
+		}
 
         public int getSlot() {
             return 0;
@@ -95,6 +107,8 @@ public class Shoulder extends Joint {
             return 0;
         }
 
+	
+
     }
 
     //constructor that inits motors and stuff
@@ -102,25 +116,24 @@ public class Shoulder extends Joint {
     public Shoulder() {
         super(SHOULDER_CONFIG);
     }
-
+    
     @Override
     public boolean getTimeout() {
-        // TODO Auto-generated method stub
         return false;
     }
 
     @Override
     public void moveByPercentOutput(double output) {
-        // TODO Auto-generated method stub
-        
+
     }
 
     
 
     @Override
     public HealthState checkHealth() {
-        REVLibError rotatorError = super.rotator.getLastError();
-		if (rotatorError != null && rotatorError != rotatorError.kOk) {
+        REVLibError leaderRotatorError = super.leaderRotator.getLastError();
+        REVLibError followerRotatorError = super.followerRotator.getLastError();
+		if ((leaderRotatorError != null && leaderRotatorError != leaderRotatorError.kOk) || (followerRotatorError != null && followerRotatorError != followerRotatorError.kOk)) {
 			return HealthState.RED;
 		}
         
@@ -137,7 +150,18 @@ public class Shoulder extends Joint {
 
     @Override
     public void debugSubsystem() {
-        // TODO Auto-generated method stub
+        SmartDashboard.putNumber("Shoulder Speed:",super.leaderRotator.get());
         
     }
+
+	@Override
+	public double getCurrentAngleInDegrees() {
+		 double rotations = super.getRotatorEncoder().getPosition()/super.getRotatorEncoder().getCountsPerRevolution();//
+         
+        // convert rotations to angle here
+        //double oldrot = (angle / 360) * this.ROTATOR_GEAR_RATIO
+        // + ((int) (getUnadjustedPosition() / this.ROTATOR_GEAR_RATIO)) * this.ROTATOR_GEAR_RATIO;//reverse engineer
+        double angle = 360 * (( rotations - getUnadjustedPosition()) / this.ROTATOR_GEAR_RATIO);
+        return angle;
+	}
 }

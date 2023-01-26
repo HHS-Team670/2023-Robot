@@ -1,10 +1,16 @@
+
 package frc.team670.robot.subsystems.arm;
 import frc.team670.mustanglib.subsystems.SparkMaxRotatingSubsystem;
-// import com.revrobotics.CANSparkMax.IdleMode;
+
+import com.revrobotics.REVLibError;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import com.revrobotics.CANSparkMax.IdleMode;
 import frc.team670.mustanglib.utils.motorcontroller.MotorConfig.Motor_Type;
 
 
-public class Elbow extends Joint {
+public class Elbow extends SparkMaxRotatingSubsystem {
     
 
 
@@ -113,12 +119,16 @@ public class Elbow extends Joint {
         return false;
     }
 
+    
     @Override
-    public void moveByPercentOutput(double output) {
-        
-        
+    public double getCurrentAngleInDegrees(){
+         double rotations = super.getRotatorEncoder().getPosition()/super.getRotatorEncoder().getCountsPerRevolution();;//get encoder ticks here
+        // convert rotations to angle here
+        //double oldrot = (angle / 360) * this.ROTATOR_GEAR_RATIO
+        // + ((int) (getUnadjustedPosition() / this.ROTATOR_GEAR_RATIO)) * this.ROTATOR_GEAR_RATIO;//reverse engineer
+        double angle = 360 * (( rotations - getUnadjustedPosition()) / this.ROTATOR_GEAR_RATIO);
+        return angle;
     }
-
     
 
     @Override
@@ -131,6 +141,7 @@ public class Elbow extends Joint {
 		return HealthState.GREEN;
     }
 
+
     @Override
     public void mustangPeriodic() {
         
@@ -140,6 +151,18 @@ public class Elbow extends Joint {
     @Override
     public void debugSubsystem() {
         //return manymanymanymanymanymanymanymanybeans;
-
+        SmartDashboard.putNumber("Elbow Speed:",super.rotator.get());
     }
+
+
+
+    /** 
+        Sets the motor speed to output 
+        output=[-1,1]
+     */
+	@Override
+	public void moveByPercentOutput(double output) {
+        super.rotator.set(output);
+		
+	}
 }

@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.PriorityQueue;
 
 public class ArmGraphTest {
-    private static final double MAX_DEPTH = 10;
+    private static final int MAX_DEPTH = 10;
     private static final int NUM_STATES = 10;
     private static final ArmState[][] VALID_PATHS_GRAPH = new ArmState[][] { // graph verison
             { ArmState.DOUBLE_SUBSTATION, ArmState.HIGH_SHELF }, // Place that you can go from this state to

@@ -211,7 +211,8 @@ public class Arm extends MustangSubsystemBase {
      * Ex: If we're moving from A to B, this returns B
      */
     public ArmState getCurrentState() {
-        return currentState; // TODO: Change this
+        
+        return currentState; 
     }
 
     /**
@@ -222,7 +223,6 @@ public class Arm extends MustangSubsystemBase {
     public boolean isAt(ArmState target) {
         // TODO:
         double elbowError = Math.abs(target.getElbowAngle() - elbow.getCurrentAngleInDegrees());
-        // jazz
         double shoulderError = Math.abs(target.getShoulderAngle() - shoulder.getCurrentAngleInDegrees());
         if (elbowError >= MAX_ERROR || shoulderError >= MAX_ERROR) {
             return false;
@@ -290,8 +290,8 @@ public class Arm extends MustangSubsystemBase {
                     // Logger.consoleLog("No valid path found.");
                 }
                 return path;
-                }
-                return new ArmState[]{};
+            }
+            return new ArmState[]{};
 
         } else {
             // return VALID_PATHS[start.getStateID()][finish.getStateID()];
