@@ -17,7 +17,7 @@ public class OI extends OIBase {
     // Buttons
     private static JoystickButton zeroGyro = new JoystickButton(driverController, XboxButtons.X);
     private static JoystickButton move = new JoystickButton(driverController, XboxButtons.Y);
-    
+
 
     public static MustangController getDriverController() {
         return driverController;
@@ -29,8 +29,10 @@ public class OI extends OIBase {
 
         driveBase.initDefaultCommand();
 
-        zeroGyro.onTrue(new SetSwerveForwardDirection(driveBase)); // deprecated Button.whenPressed(), used Trigger.onTrue()
+        zeroGyro.onTrue(new SetSwerveForwardDirection(driveBase)); // deprecated
+                                                                   // Button.whenPressed(), used
+                                                                   // Trigger.onTrue()
         move.onTrue(new MoveToPose(driveBase, 1, 1, false, driverController));
     }
-    
+
 }

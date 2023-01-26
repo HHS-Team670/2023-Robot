@@ -2,6 +2,10 @@ package frc.team670.robot.commands.drivebase;
 
 import java.util.HashMap;
 import java.util.Map;
+import com.pathplanner.lib.PathConstraints;
+import com.pathplanner.lib.PathPlanner;
+import com.pathplanner.lib.PathPlannerTrajectory;
+import com.pathplanner.lib.PathPoint;
 import edu.wpi.first.math.controller.HolonomicDriveController;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
@@ -13,7 +17,10 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.team670.mustanglib.commands.MustangCommand;
+import frc.team670.mustanglib.commands.MustangScheduler;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase.HealthState;
 import frc.team670.mustanglib.subsystems.drivebase.SwerveDrive;
@@ -23,37 +30,43 @@ import frc.team670.robot.constants.RobotConstants;
 /**
  * MoveToPose
  */
-public class MoveToPose extends CommandBase implements MustangCommand {
+public class MoveToPose extends InstantCommand implements MustangCommand {
     private SwerveDrive swerve;
     private boolean isRelative;
-    private HolonomicDriveController holonomicDriveController;
-    private Pose2d startPose;
-    private Pose2d targetPose;
+    private PathPlannerTrajectory path;
     private MustangController controller;
     private double x, y;
+    private MustangScheduler scheduler = MustangScheduler.getInstance();
 
     protected Map<MustangSubsystemBase, HealthState> healthReqs;
 
 
-    public MoveToPose(SwerveDrive swerve, double x, double y, boolean isRelative, MustangController controller) {
-        this.swerve = swerve;
-        this.startPose = new Pose2d();
-        this.targetPose = new Pose2d();
-        this.isRelative = isRelative;
-        this.controller = controller;
+    public MoveToPose(SwerveDrive swerve, double x, double y, boolean isRelative,
+            MustangController controller) {
         this.x = x;
         this.y = y;
+        this.controller = controller;
+        this.swerve = swerve;
+        this.isRelative = isRelative;
 
-        PIDController xController = new PIDController(0.5, 0, 0);
-        PIDController ycontroller = new PIDController(0.5, 0, 0);
-        ProfiledPIDController thetacontroller = new ProfiledPIDController(4, 0, 1,  // not tuned yet
-                new Constraints(RobotConstants.kMaxAngularSpeedRadiansPerSecond,
-                RobotConstants.kMaxAngularSpeedRadiansPerSecondSquared));
-        holonomicDriveController = new HolonomicDriveController(xController, ycontroller, thetacontroller);
-        holonomicDriveController.setTolerance(new Pose2d(0.1, 0.1, Rotation2d.fromDegrees(0.5)));
+        path = null;
 
         this.healthReqs = new HashMap<MustangSubsystemBase, HealthState>();
         this.healthReqs.put(swerve, HealthState.GREEN);
+    }
+
+    private PathPoint calcStartPoint() {
+        return new PathPoint(swerve.getPose().getTranslation(), swerve.getGyroscopeRotation());
+    }
+
+    private PathPoint calcEndPoint() {
+        Pose2d targetPose;
+        if (isRelative) {
+            targetPose = new Pose2d(swerve.getPose().getX() + x, swerve.getPose().getY() + y, null);
+        } else {
+            targetPose = new Pose2d(x, y, swerve.getGyroscopeRotation());
+        }
+        return new PathPoint(targetPose.getTranslation(), targetPose.getRotation());
     }
 
     @Override
@@ -63,33 +76,15 @@ public class MoveToPose extends CommandBase implements MustangCommand {
 
     @Override
     public void initialize() {
-        startPose = swerve.getPose();
-        if (isRelative) {
-            targetPose = startPose.plus(new Transform2d(new Translation2d(x, y), new Rotation2d()));
-        } else {
-            targetPose = new Pose2d(x, y, new Rotation2d());
-        }
-    }
+        path = PathPlanner.generatePath(new PathConstraints(0.5, 0.1), calcStartPoint(),
+                calcEndPoint());
 
-    @Override
-    public void execute() {
-        Pose2d currPose2d = swerve.getPose();
-        ChassisSpeeds chassisSpeeds = this.holonomicDriveController.calculate(currPose2d, targetPose, 0,
-                targetPose.getRotation());
-        SwerveModuleState[] swerveModuleStates = swerve.getSwerveKinematics().toSwerveModuleStates(chassisSpeeds);
-        swerve.setModuleStates(swerveModuleStates);
-    }
-
-    @Override
-    public boolean isFinished() {
-        return controller.getBButtonPressed() || holonomicDriveController.atReference();
-    }
-
-    @Override
-    public void end(boolean interrupted) {
-        // stop
-        ChassisSpeeds chassisSpeeds = new ChassisSpeeds(0, 0, 0);
-        SwerveModuleState[] swerveModuleStates = swerve.getSwerveKinematics().toSwerveModuleStates(chassisSpeeds);
-        swerve.setModuleStates(swerveModuleStates);
+        // TODO: TUNE PID CONTROLLERS
+        PIDController xController = new PIDController(0.5, 0, 0);
+        PIDController yController = new PIDController(0.5, 0, 0);
+        PIDController θController = new PIDController(4, 0, 1);
+        
+        scheduler.schedule(new MustangPPSwerveControllerCommand(path, swerve::getPose,
+                swerve.getSwerveKinematics(), xController, yController, θController, swerve::setModuleStates, new Subsystem[] {swerve}), swerve);
     }
 }
