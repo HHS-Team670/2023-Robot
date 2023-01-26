@@ -15,8 +15,8 @@ import frc.team670.mustanglib.utils.LEDColor;
  public class LED extends LEDSubsystem {
     
     
-    public LED(int port, int length) {
-        super(port, length);
+    public LED(int port, int startIndex, int endIndex) {
+        super(port, startIndex, endIndex);
         //TODO Auto-generated constructor stub
     }
 
