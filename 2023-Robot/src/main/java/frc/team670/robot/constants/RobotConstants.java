@@ -50,7 +50,6 @@ public final class RobotConstants extends RobotConstantsBase {
             entry("BACK_RIGHT_MODULE_STEER_OFFSET", -Math.toRadians(292.5)),
             entry("BACK_LEFT_MODULE_STEER_OFFSET",-Math.toRadians(232.91)),
             entry("FRONT_RIGHT_MODULE_STEER_OFFSET", -Math.toRadians(352.35)),
-            entry("FRONT_LEFT_MODULE_STEER_OFFSET", -Math.toRadians(136.67)),
             entry("FRONT_LEFT_MODULE_STEER_OFFSET", -Math.toRadians(136.67))
         ))
 
