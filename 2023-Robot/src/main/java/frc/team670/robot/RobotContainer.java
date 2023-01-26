@@ -7,10 +7,17 @@
 
 package frc.team670.robot;
 
+import java.util.HashMap;
+
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
+import com.pathplanner.lib.commands.FollowPathWithEvents;
+
 import frc.team670.robot.commands.drivebase.MustangPPSwerveControllerCommand;
+import frc.team670.robot.commands.pathplanner.MustangFollowPathWithEvents;
+import frc.team670.robot.commands.pathplanner.PrintOnStopPoint;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.team670.mustanglib.RobotContainerBase;
 import frc.team670.mustanglib.commands.MustangCommand;
@@ -50,6 +57,7 @@ public class RobotContainer extends RobotContainerBase {
     @Override
     public MustangCommand getAutonomousCommand() {
         //return new AutoLevel(driveBase);
+
         PathPlannerTrajectory trajectory = PathPlanner.loadPath("LeftConeCube", 1, 0.5);
         driveBase.resetOdometry(trajectory.getInitialHolonomicPose());
         
@@ -58,7 +66,11 @@ public class RobotContainer extends RobotContainerBase {
         PIDController PID_theta = new PIDController(1.0, 0, 0);
         PID_theta.enableContinuousInput(-Math.PI, Math.PI);
         
-        return new MustangPPSwerveControllerCommand(
+        HashMap<String, Command> eventMap = new HashMap<>();
+        eventMap.put("stopPoint", new PrintOnStopPoint());
+
+        MustangFollowPathWithEvents command = new MustangFollowPathWithEvents(
+            new MustangPPSwerveControllerCommand(
                     trajectory,
                     driveBase::getPose, 
                     driveBase.getSwerveKinematics(),
@@ -67,7 +79,13 @@ public class RobotContainer extends RobotContainerBase {
                     PID_theta,
                     driveBase::setModuleStates,
                     new Subsystem[] {driveBase}
-                    );
+                    ),
+            trajectory.getMarkers(),
+            eventMap
+        );
+
+        return command;
+
     }
 
     @Override
