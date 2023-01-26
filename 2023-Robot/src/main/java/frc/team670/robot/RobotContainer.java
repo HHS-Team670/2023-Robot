@@ -58,7 +58,7 @@ public class RobotContainer extends RobotContainerBase {
     public MustangCommand getAutonomousCommand() {
         //return new AutoLevel(driveBase);
 
-        PathPlannerTrajectory trajectory = PathPlanner.loadPath("LeftConeCube", 1, 0.5);
+        PathPlannerTrajectory trajectory = PathPlanner.loadPath("StraightLine", 1, 0.5);
         driveBase.resetOdometry(trajectory.getInitialHolonomicPose());
         
         PIDController PID_x = new PIDController(1.0, 0, 0);
@@ -67,7 +67,7 @@ public class RobotContainer extends RobotContainerBase {
         PID_theta.enableContinuousInput(-Math.PI, Math.PI);
         
         HashMap<String, Command> eventMap = new HashMap<>();
-        eventMap.put("stopPoint", new PrintOnStopPoint());
+        eventMap.put("event", new PrintOnStopPoint());
 
         MustangFollowPathWithEvents command = new MustangFollowPathWithEvents(
             new MustangPPSwerveControllerCommand(
