@@ -18,6 +18,7 @@ import com.pathplanner.lib.auto.SwerveAutoBuilder;
 import com.pathplanner.lib.commands.FollowPathWithEvents;
 
 import frc.team670.robot.commands.drivebase.MustangPPSwerveControllerCommand;
+import frc.team670.robot.commands.pathplanner.MustangAutoBuilder;
 import frc.team670.robot.commands.pathplanner.MustangFollowPathWithEvents;
 import frc.team670.robot.commands.pathplanner.PrintOnStopPoint;
 import edu.wpi.first.math.controller.PIDController;
@@ -89,7 +90,7 @@ public class RobotContainer extends RobotContainerBase {
             new Subsystem[] {driveBase}
         );
 
-        MustangCommand fullAuto = (MustangCommand) autoBuilder.fullAuto(trajectory);
+        MustangCommand fullAuto = (MustangAutoBuilder) autoBuilder.fullAuto(trajectory);
 
         return fullAuto;
 
