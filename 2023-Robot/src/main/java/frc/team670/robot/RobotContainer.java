@@ -8,16 +8,20 @@
 package frc.team670.robot;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
+import com.pathplanner.lib.auto.PIDConstants;
+import com.pathplanner.lib.auto.SwerveAutoBuilder;
 import com.pathplanner.lib.commands.FollowPathWithEvents;
 
 import frc.team670.robot.commands.drivebase.MustangPPSwerveControllerCommand;
 import frc.team670.robot.commands.pathplanner.MustangFollowPathWithEvents;
 import frc.team670.robot.commands.pathplanner.PrintOnStopPoint;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.team670.mustanglib.RobotContainerBase;
@@ -59,31 +63,59 @@ public class RobotContainer extends RobotContainerBase {
     public MustangCommand getAutonomousCommand() {
         //return new AutoLevel(driveBase);
 
-        PathPlannerTrajectory trajectory = PathPlanner.loadPath("StraightLine", 1.0, 0.5);
+        PathPlannerTrajectory trajectory = PathPlanner.loadPath("LeftConeCube", 1.0, 0.5);
         driveBase.resetOdometry(trajectory.getInitialHolonomicPose());
         
-        PIDController PID_x = new PIDController(1.0, 0, 0);
-        PIDController PID_y = new PIDController(1.0, 0, 0);
-        PIDController PID_theta = new PIDController(1.0, 0, 0);
-        PID_theta.enableContinuousInput(-Math.PI, Math.PI);
+        PIDConstants PID_translation = new PIDConstants(1.0, 0, 0);
+        PIDConstants PID_theta = new PIDConstants(1.0, 0, 0);
+        // PID_theta.enableContinuousInput(-Math.PI, Math.PI);
         
-        HashMap<String, Command> eventMap = new HashMap<>();
+        // auto builder - stop event command
+
+        Map<String, Command> eventMap = new HashMap<>();
         eventMap.put("event", new PrintOnStopPoint());
 
-        MustangFollowPathWithEvents command = new MustangFollowPathWithEvents(
-            new MustangPPSwerveControllerCommand(
-                    trajectory,
-                    driveBase::getPose, 
-                    driveBase.getSwerveKinematics(),
-                    PID_x,
-                    PID_y,
-                    PID_theta,
-                    driveBase::setModuleStates,
-                    new Subsystem[] {driveBase}
-                    ),
-            trajectory.getMarkers(),
-            eventMap
+        SwerveDriveKinematics driveBaseKinematics = driveBase.getSwerveKinematics();
+
+        SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(
+            driveBase::getPose, 
+            driveBase::resetOdometry,
+            driveBaseKinematics, 
+            PID_translation, 
+            PID_theta,
+            driveBase::setModuleStates, 
+            eventMap,
+            false,
+            new Subsystem[] {driveBase}
         );
+
+        MustangCommand fullAuto = (MustangCommand) autoBuilder.fullAuto(trajectory);
+
+        return fullAuto;
+
+        // marker command (in path "StraightLine")
+
+        // HashMap<String, Command> eventMap = new HashMap<>();
+        // eventMap.put("event", new PrintOnStopPoint());
+
+        // MustangFollowPathWithEvents command = new MustangFollowPathWithEvents(
+        //     new MustangPPSwerveControllerCommand(
+        //             trajectory,
+        //             driveBase::getPose, 
+        //             driveBase.getSwerveKinematics(),
+        //             PID_x,
+        //             PID_y,
+        //             PID_theta,
+        //             driveBase::setModuleStates,
+        //             new Subsystem[] {driveBase}
+        //             ),
+        //     trajectory.getMarkers(),
+        //     eventMap
+        // );
+
+        // return command;
+
+        // the original command
 
         // return new MustangPPSwerveControllerCommand(
         //     trajectory,
@@ -95,8 +127,6 @@ public class RobotContainer extends RobotContainerBase {
         //     driveBase::setModuleStates,
         //     new Subsystem[] {driveBase}
         //     );
-
-        return command;
 
     }
 
