@@ -65,107 +65,7 @@ public class Arm extends MustangSubsystemBase {
             { ArmState.INTAKE_GROUND },
             { ArmState.SCORE_CONE_HIGH }
     };
-    // private static final ArmState[][][] VALID_PATHS = new ArmState[][][] {
-    // {//From STOWED
-    // {},//To STOWED
-    // {},//To HOPPER
-    // {},//To INTERMEDIATE_HOPPER
-    // {},//To SCORE_CONE_MID
-    // {},//To SCORE_CONE_HIGH
-    // {},//To HYBRID
-    // {},//To INTAKE_GROUND
-    // {},//To DOUBLE_SUBSTAION
-    // {}//To ZERO
-    // },
-    // {//From HOPPER
-    // {},//To STOWED
-    // {},//To HOPPER
-    // {},//To INTERMEDIATE_HOPPER
-    // {},//To SCORE_CONE_MID
-    // {},//To SCORE_CONE_HIGH
-    // {},//To HYBRID
-    // {},// INTAKE_GROUND
-    // {},//To DOUBLE_SUBSTAION
-    // {}//To ZERO
-    // },
-    // {//From INTERMEDIATE_HOPPER
-    // {},//To STOWED
-    // {},//To HOPPER
-    // {},//To INTERMEDIATE_HOPPER
-    // {},//To SCORE_CONE_MID
-    // {},//To SCORE_CONE_HIGH
-    // {},//To HYBRID
-    // {},// INTAKE_GROUND
-    // {},//To DOUBLE_SUBSTAION
-    // {}//To ZERO
-    // },
-    // {//From SCORE_CONE_MID
-    // {},//To STOWED
-    // {},//To HOPPER
-    // {},//To INTERMEDIATE_HOPPER
-    // {},//To SCORE_CONE_MID
-    // {},//To SCORE_CONE_HIGH
-    // {},//To HYBRID
-    // {},// INTAKE_GROUND
-    // {},//To DOUBLE_SUBSTAION
-    // {}//To ZERO
-    // },
-    // {//From SCORE_CONE_HIGH
-    // {},//To STOWED
-    // {},//To HOPPER
-    // {},//To INTERMEDIATE_HOPPER
-    // {},//To SCORE_CONE_MID
-    // {},//To SCORE_CONE_HIGH
-    // {},//To HYBRID
-    // {},// INTAKE_GROUND
-    // {},//To DOUBLE_SUBSTAION
-    // {}//To ZERO
-    // },
-    // {//From HYBRID
-    // {},//To STOWED
-    // {},//To HOPPER
-    // {},//To INTERMEDIATE_HOPPER
-    // {},//To SCORE_CONE_MID
-    // {},//To SCORE_CONE_HIGH
-    // {},//To HYBRID
-    // {},// INTAKE_GROUND
-    // {},//To DOUBLE_SUBSTAION
-    // {}//To ZERO
-    // },
-    // {//From INTAKE_GROUND
-    // {},//To STOWED
-    // {},//To HOPPER
-    // {},//To INTERMEDIATE_HOPPER
-    // {},//To SCORE_CONE_MID
-    // {},//To SCORE_CONE_HIGH
-    // {},//To HYBRID
-    // {},// INTAKE_GROUND
-    // {},//To DOUBLE_SUBSTAION
-    // {}//To ZERO
-    // },
-    // {//From DOUBLE_SUBSTAION
-    // {},//To STOWED
-    // {},//To HOPPER
-    // {},//To INTERMEDIATE_HOPPER
-    // {},//To SCORE_CONE_MID
-    // {},//To SCORE_CONE_HIGH
-    // {},//To HYBRID
-    // {},// INTAKE_GROUND
-    // {},//To DOUBLE_SUBSTAION
-    // {}//To ZERO
-    // },
-    // {//From ZERO
-    // {},//To STOWED
-    // {},//To HOPPER
-    // {},//To INTERMEDIATE_HOPPER
-    // {},//To SCORE_CONE_MID
-    // {},//To SCORE_CONE_HIGH
-    // {},//To HYBRID
-    // {},// INTAKE_GROUND
-    // {},//To DOUBLE_SUBSTAION
-    // {}//To ZERO
-    // }
-    // };
+
     private static ArmState VALID_PATHS[][][] = new ArmState[NUM_STATES][NUM_STATES][];
 
     public Arm() {
@@ -258,12 +158,15 @@ public class Arm extends MustangSubsystemBase {
     // return path;
     // }
 
-    
+    /**
+     * Returns a valid list of states from the starting State to the ending State
+     * This list should NOT include the starting state, but SHOULD include the
+     * ending state
+     */
     public static ArmState[] getValidPath(ArmState start, ArmState finish) {
         // retrieve the list of intermediate states from VALID_PATHS
-        // if Validpath[start][finish]==null then run dykestras below else return
-        // validpaths[start[finish]]
-        //System.out.println(Arrays.toString(VALID_PATHS[start.getStateID()][finish.getStateID()]));
+        
+        
         if (VALID_PATHS[start.getStateID()][finish.getStateID()]== null) {
             ArrayList<ArmState> tempValidPath = null;
             PriorityQueue<Pair> queue = new PriorityQueue<Pair>();
