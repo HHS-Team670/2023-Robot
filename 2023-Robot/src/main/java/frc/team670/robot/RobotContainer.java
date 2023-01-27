@@ -9,6 +9,7 @@ package frc.team670.robot;
 
 import java.util.HashMap;
 
+import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.commands.FollowPathWithEvents;
@@ -58,7 +59,7 @@ public class RobotContainer extends RobotContainerBase {
     public MustangCommand getAutonomousCommand() {
         //return new AutoLevel(driveBase);
 
-        PathPlannerTrajectory trajectory = PathPlanner.loadPath("StraightLine", 1, 0.5);
+        PathPlannerTrajectory trajectory = PathPlanner.loadPath("StraightLine", 1.0, 0.5);
         driveBase.resetOdometry(trajectory.getInitialHolonomicPose());
         
         PIDController PID_x = new PIDController(1.0, 0, 0);
@@ -83,6 +84,17 @@ public class RobotContainer extends RobotContainerBase {
             trajectory.getMarkers(),
             eventMap
         );
+
+        // return new MustangPPSwerveControllerCommand(
+        //     trajectory,
+        //     driveBase::getPose, 
+        //     driveBase.getSwerveKinematics(),
+        //     PID_x,
+        //     PID_y,
+        //     PID_theta,
+        //     driveBase::setModuleStates,
+        //     new Subsystem[] {driveBase}
+        //     );
 
         return command;
 
