@@ -32,6 +32,7 @@ public class AutoLevel extends CommandBase implements MustangCommand {
 
     @Override
     public void execute() {
+        SmartDashboard.putBoolean("level", false); //TODO: will change this line after this command is finished
         double pitch = driveBase.getPitch();
         SmartDashboard.putNumber("pitch", pitch);
 
