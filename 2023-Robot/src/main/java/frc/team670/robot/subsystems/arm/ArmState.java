@@ -2,40 +2,56 @@ package frc.team670.robot.subsystems.arm;
 
 public enum ArmState {
 
-    STOWED(0, 0.0, 90.0), 
-    HOPPER(1,90.0,90.0),
-    INTERMEDIATE_HOPPER(2,90.0,90.0),
-    SCORE_CONE_MID(3, 90, 90),
-    SCORE_CONE_HIGH(4, 90.0, 180.0),
+    STOWED(0, 11, 28), //Same as hopper FOR NOW
+    HOPPER(1,11, 28),
+    INTERMEDIATE_HOPPER(2,11,36), //Must check later
+    SCORE_CONE_MID(3, 42, 46),
+    SCORE_CONE_HIGH(4, 51, 57),
     
     //Intermediate Hooper
-    HIGH_SHELF(5,90.0,90.0),
-    HYBRID(6,90.0,90.0),
+    HIGH_SHELF(4, 51, 57),
+    HYBRID(5, 25,12), //Check later as well
 
     
     //Intake ground
-    INTAKE_GROUND(7,90.0,90.0),
+    INTAKE_GROUND(5,25, 12),
     
     //doublesubstationintake
-    DOUBLE_SUBSTATION(8,90,90),
-    ZERO(9,0,0);
-    
-    //zero????
+    DOUBLE_SUBSTATION(3,42,46); //Needs tuning later
+    //ZERO(9,0,0);
     
 
     private int stateID;
     private double shoulderAngle;
     private double elbowAngle;
+
     // private double wristAngle;
 
-    private ArmState(int stateID, double shoulderAngle, double elbowAngle) {
+    private ArmState(int stateID, double xPos, double yPos) {
+
+
+      double L1 = 20.0;
+      double L2 = 25.0;
+      double L3 = 35;
+      
       this.stateID = stateID;
-      this.shoulderAngle = shoulderAngle;
-      this.elbowAngle = elbowAngle;
-      // this.wristAngle= wristAngle;
+
+      //arm segment lengths
+      //20"(to bottomof drive base tubes), 25", 35"
+      
+    
+      double yDisplacement = yPos - L1;
+
+      double q2 = -Math.acos((xPos*xPos + yDisplacement*yDisplacement - L2*L2 - L3*L3) / (2 * L2 * L3));
+
+      double q1 = Math.toDegrees(Math.atan(yDisplacement/xPos)) + Math.toDegrees(Math.atan((L2 * Math.sin(q2))/(L2 + L3 * Math.cos(q2))));
+
+      shoulderAngle = q1 + 90;
+      elbowAngle = 180 + Math.toDegrees(q2); //q2 should be negative
+
     }
     
-    /**
+    /*
      * 
      * @return the corresponding integer code for each color on the wheel
      */
@@ -74,8 +90,8 @@ public enum ArmState {
           return INTAKE_GROUND;
         case 8:
           return DOUBLE_SUBSTATION;
-        case 9:
-          return ZERO;
+        //case 9:
+          //return ZERO;
         default:
           return STOWED;
        

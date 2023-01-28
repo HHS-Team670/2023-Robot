@@ -7,17 +7,17 @@ import java.util.PriorityQueue;
 public class ArmGraphTest {
     private static final int MAX_DEPTH = 10;
     private static final int NUM_STATES = 10;
-    private static final ArmState[][] VALID_PATHS_GRAPH = new ArmState[][] { // graph verison
-            { ArmState.DOUBLE_SUBSTATION, ArmState.HIGH_SHELF }, // Place that you can go from this state to
-            { ArmState.INTERMEDIATE_HOPPER },
-            { ArmState.INTAKE_GROUND, ArmState.HYBRID, ArmState.ZERO },
-            { ArmState.INTERMEDIATE_HOPPER, ArmState.HIGH_SHELF },
-            { ArmState.INTERMEDIATE_HOPPER },
-            { ArmState.SCORE_CONE_HIGH },
-            { ArmState.SCORE_CONE_MID, ArmState.INTAKE_GROUND, ArmState.HOPPER },
-            { ArmState.INTERMEDIATE_HOPPER, ArmState.SCORE_CONE_MID },
-            { ArmState.INTAKE_GROUND },
-            { ArmState.SCORE_CONE_HIGH }
+    private static final ArmState[][] VALID_PATHS_GRAPH = new ArmState[][] {
+        { ArmState.DOUBLE_SUBSTATION, ArmState.HIGH_SHELF }, // STOWED
+        { ArmState.INTERMEDIATE_HOPPER }, // HOPPER
+        { ArmState.INTAKE_GROUND, ArmState.HYBRID}, // INTERMEDIATE_HOPPER
+        { ArmState.INTERMEDIATE_HOPPER, ArmState.HIGH_SHELF }, // SCORE_CONE_HIGH
+        { ArmState.INTERMEDIATE_HOPPER }, // SCORE_CONE_HIGH
+        { ArmState.SCORE_CONE_HIGH }, // HIGH_SHELF
+        { ArmState.SCORE_CONE_MID, ArmState.INTAKE_GROUND, ArmState.HOPPER }, // HYBRID
+        { ArmState.INTERMEDIATE_HOPPER, ArmState.SCORE_CONE_MID }, // INTAKE_GROUND
+        { ArmState.INTAKE_GROUND }, // DOUBLE_SUBSTATION
+        //{ ArmState.SCORE_CONE_HIGH }
     };
     private static ArmState VALID_PATHS[][][] = new ArmState[NUM_STATES][NUM_STATES][];
     static{
@@ -104,23 +104,23 @@ public class ArmGraphTest {
 
     public static void main(String[] args) {
         // ArmGraphTest test = new ArmGraphTest();
-        ArmState[] path1 = ArmGraphTest.getValidPath(ArmState.SCORE_CONE_MID, ArmState.SCORE_CONE_HIGH);
-        ArmState[] path2 = ArmGraphTest.getValidPath(ArmState.ZERO, ArmState.SCORE_CONE_MID);
-        ArmState[] path3 = ArmGraphTest.getValidPath(ArmState.ZERO, ArmState.ZERO);
-        ArmState[] path4 = ArmGraphTest.getValidPath(ArmState.INTAKE_GROUND, ArmState.DOUBLE_SUBSTATION);
-        ArmState[] path5 = ArmGraphTest.getValidPath(ArmState.HIGH_SHELF, ArmState.SCORE_CONE_MID);
-        ArmState[] path6 = ArmGraphTest.getValidPath(ArmState.HIGH_SHELF, ArmState.STOWED);
+        // ArmState[] path1 = ArmGraphTest.getValidPath(ArmState.SCORE_CONE_MID, ArmState.SCORE_CONE_HIGH);
+        // ArmState[] path2 = ArmGraphTest.getValidPath(ArmState.ZERO, ArmState.SCORE_CONE_MID);
+        // ArmState[] path3 = ArmGraphTest.getValidPath(ArmState.ZERO, ArmState.ZERO);
+        // ArmState[] path4 = ArmGraphTest.getValidPath(ArmState.INTAKE_GROUND, ArmState.DOUBLE_SUBSTATION);
+        // ArmState[] path5 = ArmGraphTest.getValidPath(ArmState.HIGH_SHELF, ArmState.SCORE_CONE_MID);
+        // ArmState[] path6 = ArmGraphTest.getValidPath(ArmState.HIGH_SHELF, ArmState.STOWED);
         // for( int i=0;i<ArmGraphTest.NUM_STATES;i++){
         //     for(int j=0;j<ArmGraphTest.NUM_STATES;j++){
         //         System.out.println(Arrays.toString(ArmGraphTest.getValidPath(ArmState.getVal(i), ArmState.getVal(j))));
         //     }
         // }
-        System.out.println(Arrays.toString(path1));
-        System.out.println(Arrays.toString(path2));
-        System.out.println(Arrays.toString(path3));
-        System.out.println(Arrays.toString(path4));
-        System.out.println(Arrays.toString(path5));
-        System.out.println(Arrays.toString(path6));
+        // Logger.consoleLog(Arrays.toString(path1));
+        // Logger.consoleLog(Arrays.toString(path2));
+        // Logger.consoleLog(Arrays.toString(path3));
+        // Logger.consoleLog(Arrays.toString(path4));
+        // Logger.consoleLog(Arrays.toString(path5));
+        // Logger.consoleLog(Arrays.toString(path6));
         
         
     }

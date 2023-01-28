@@ -19,51 +19,17 @@ public class Arm extends MustangSubsystemBase {
     private Elbow elbow;
     private ArmState currentState;
 
-    // private static final ArmState[][][] VALID_PATHS = new ArmState[][][] {
-    // { //From STOWED
-    // {}, //To STOWED
-    // {}, //To HOPPER
-    // {}, //To INTERMEDIATE_HOPPER
-    // {}, //To SCORE_CONE_MID
-    // I was here search up java.beans.beancontext; - KEDAR HALDAR 2023
-    // Jump to content
-
-    // dangit...the beans have been eliminateddd....bean revolution
-    //
-    // {ArmState.SCORE_CONE_MID}, //To SCORE_CONE_HIGH
-    // {},//to HIGH_SHELF
-    // {},//To HYBRID
-    // {},//To INTAKING_GROUND
-    // {},//DOUBLE_SUBSTATION
-    // {},//To ZERO
-
-    // },
-    // {
-
-    // },
-    // { //From SCORE_CONE_MID
-    // {}, //To STOWED
-    // {}, //To SCORE_CONE_MID
-    // {}, //To SCORE_CONE_HIGH
-    // },
-    // { //From SCORE_CONE_HIGH
-    // {ArmState.SCORE_CONE_MID}, //To STOWED
-    // {}, //To SCORE_CONE_MID
-    // {}, //To SCORE_CONE_HIGH
-    // },
-
-    // };
-    private static final ArmState[][] VALID_PATHS_GRAPH = new ArmState[][] { // graph verison
-            { ArmState.DOUBLE_SUBSTATION, ArmState.HIGH_SHELF }, // Place that you can go from this state to
-            { ArmState.INTERMEDIATE_HOPPER },
-            { ArmState.INTAKE_GROUND, ArmState.HYBRID, ArmState.ZERO },
-            { ArmState.INTERMEDIATE_HOPPER, ArmState.HIGH_SHELF },
-            { ArmState.INTERMEDIATE_HOPPER },
-            { ArmState.SCORE_CONE_HIGH },
-            { ArmState.SCORE_CONE_MID, ArmState.INTAKE_GROUND, ArmState.HOPPER },
-            { ArmState.INTERMEDIATE_HOPPER, ArmState.SCORE_CONE_MID },
-            { ArmState.INTAKE_GROUND },
-            { ArmState.SCORE_CONE_HIGH }
+    private static final ArmState[][] VALID_PATHS_GRAPH = new ArmState[][] {
+            { ArmState.DOUBLE_SUBSTATION, ArmState.HIGH_SHELF }, // STOWED
+            { ArmState.INTERMEDIATE_HOPPER }, // HOPPER
+            { ArmState.INTAKE_GROUND, ArmState.HYBRID}, // INTERMEDIATE_HOPPER
+            { ArmState.INTERMEDIATE_HOPPER, ArmState.HIGH_SHELF }, // SCORE_CONE_HIGH
+            { ArmState.INTERMEDIATE_HOPPER }, // SCORE_CONE_HIGH
+            { ArmState.SCORE_CONE_HIGH }, // HIGH_SHELF
+            { ArmState.SCORE_CONE_MID, ArmState.INTAKE_GROUND, ArmState.HOPPER }, // HYBRID
+            { ArmState.INTERMEDIATE_HOPPER, ArmState.SCORE_CONE_MID }, // INTAKE_GROUND
+            { ArmState.INTAKE_GROUND }, // DOUBLE_SUBSTATION
+            //{ ArmState.SCORE_CONE_HIGH }
     };
 
     private static ArmState VALID_PATHS[][][] = new ArmState[NUM_STATES][NUM_STATES][];
@@ -131,32 +97,6 @@ public class Arm extends MustangSubsystemBase {
         // Check if each each joint is within margin of error
         return true;
     }
-
-    /**
-     * Returns a valid list of states from the starting State to the ending State
-     * This list should NOT include the starting state, but SHOULD include the
-     * ending state
-     */
-    // public static ArmState[] getValidPath(ArmState start, ArmState finish) {
-    // //retrieve the list of intermediate states from VALID_PATHS
-    // ArrayList<ArmState> tempValidPath = new ArrayList<ArmState>();
-    // for(ArmState state: VALID_PATHS[start.getStateID()][finish.getStateID()]){
-    // tempValidPath.add(state);
-    // }
-    // //
-    // tempValidPath.add(VALID_PATHS[start.getStateID()][finish.getStateID()][0]);
-    // tempValidPath.add(finish);
-
-    // //Add the final ArmState to this list
-    // ArmState[] path=new ArmState[tempValidPath.size()];
-    // //transer all valuesinto path then return it
-    // for(int i=0;i<path.length;i++){
-    // path[i]=tempValidPath.get(i);
-    // }
-
-    // //return this list
-    // return path;
-    // }
 
     /**
      * Returns a valid list of states from the starting State to the ending State
