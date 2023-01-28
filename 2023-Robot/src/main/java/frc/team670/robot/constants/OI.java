@@ -32,7 +32,7 @@ public class OI extends OIBase {
         zeroGyro.onTrue(new SetSwerveForwardDirection(driveBase)); // deprecated
                                                                    // Button.whenPressed(), used
                                                                    // Trigger.onTrue()
-        move.onTrue(new MoveToPose(driveBase, 1, 1, false, driverController));
+        move.onTrue(new MoveToPose(driveBase, 1, 1, false));
     }
 
 }
