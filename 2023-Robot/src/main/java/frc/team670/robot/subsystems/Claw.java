@@ -19,8 +19,9 @@ public class Claw extends MustangSubsystemBase
         EJECTING, INTAKING, OFF;
     }
 
-    private static final double ROLLING_SPEED = 0.3;
+    private double ROLLING_SPEED = 0.3;
     private static final double CURRENT_MAX = 25.0;
+
     public int overCount = 0;
     public int overCountCap = 25;
 
@@ -44,37 +45,41 @@ public class Claw extends MustangSubsystemBase
 
         if(this.stat == Status.INTAKING)
         {
-            this.intaking();
+            this.intaking(ROLLING_SPEED);
         }else if(this.stat == Status.EJECTING)
         {
-            this.ejecting();
+            this.eject();
         }else 
         {
             this.stopAll();
         }
     }
 
-    public void intaking()
+    public void intaking(double speed)
     {
-        stat = Status.INTAKING;
-
-        left.set(-ROLLING_SPEED);
-        right.set(ROLLING_SPEED);
+        left.set(-speed);
+        right.set(speed);
     }
 
-    public void ejecting()
+    public void eject()
     {
-        stat = Status.EJECTING;
-
         right.set(-ROLLING_SPEED);
         left.set(ROLLING_SPEED);
-        overCount=0;
+
+        overCount--;
+
+        if((right.getOutputCurrent() < 1) && (left.getOutputCurrent() < 1) && overCount < -25)
+        {
+            setStatus(Status.OFF);
+            overCount = 0;
+        }
     }
 
     public void stopAll() 
     {
         left.set(0);
         right.set(0);
+        overCount=0;
     }
 
     // Checks if a game object is currently being held.
@@ -90,7 +95,7 @@ public class Claw extends MustangSubsystemBase
             overCount++;
             if(overCount > overCountCap)
             {
-                setStatus(Status.OFF);
+                this.intaking(0.05);
             }
         }
     }
@@ -109,14 +114,10 @@ public class Claw extends MustangSubsystemBase
     // What is mustangPeriodic() used for? Is it used for updating the motors?
     public void mustangPeriodic() {
         debugSubsystem();
-        
-        //stopClaw();
-        // if (isLeftJammed() || isRightJammed()) {
-        //     left.set(-left.get());
-        //     right.set(-right.get());
-        // }
-
-        stopClaw();
+        if(this.stat != Status.EJECTING)
+        {
+            stopClaw();
+        }
     }
 
     @Override
@@ -124,7 +125,6 @@ public class Claw extends MustangSubsystemBase
     {
         SmartDashboard.putNumber("left current", left.getOutputCurrent());
         SmartDashboard.putNumber("right current", right.getOutputCurrent());
-        
     }
 
     // Method(s) to detect if the claw is outtaking or intaking to further check what direction the motors should spin.

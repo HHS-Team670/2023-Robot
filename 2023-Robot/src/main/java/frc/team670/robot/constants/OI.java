@@ -9,6 +9,8 @@ import frc.team670.mustanglib.utils.MustangController;
 import frc.team670.mustanglib.utils.MustangController.DPadState;
 import frc.team670.mustanglib.utils.MustangController.XboxButtons;
 import frc.team670.robot.commands.ClawIntake;
+import frc.team670.robot.commands.ClawEject;
+import frc.team670.robot.commands.ClawIdle;
 import frc.team670.robot.subsystems.Claw;
 
 public class OI extends OIBase {
@@ -16,7 +18,9 @@ public class OI extends OIBase {
     private static MustangController driverController = new MustangController(0);
 
     // Buttons
-    private static JoystickButton clawjoystick = new JoystickButton(driverController, XboxButtons.X);
+    private static JoystickButton clawSuck = new JoystickButton(driverController, XboxButtons.X);
+    private static JoystickButton clawEject = new JoystickButton(driverController, XboxButtons.B);
+    private static JoystickButton clawIdle = new JoystickButton(driverController, XboxButtons.A);
 
 
     public static MustangController getDriverController() {
@@ -27,6 +31,8 @@ public class OI extends OIBase {
     public void configureButtonBindings(MustangSubsystemBase... subsystemBases) {
         Claw claw = (Claw) subsystemBases[0];
 
-        clawjoystick.onTrue(new ClawIntake(claw)); 
+        clawSuck.onTrue(new ClawIntake(claw)); 
+        clawEject.onTrue(new ClawEject(claw));
+        clawIdle.onTrue(new ClawIdle(claw));
     }
 }
