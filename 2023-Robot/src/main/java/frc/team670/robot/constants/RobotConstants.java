@@ -28,14 +28,25 @@ public final class RobotConstants extends RobotConstantsBase {
 
     public static final String MAC_ADDRESS = getMACAddress();
 
+    // Set your team number using the WPILib extension's "Set Team Number" action.
+    // 1) Set all of the *_ANGLE_OFFSET constants to -Math.toRadians(0.0).
+    // 2) Deploy the code to your robot.
+    //      NOTE: The robot isn't drivable quite yet, we still have to setup the module offsets
+    // 3) Turn the robot on its side and align all the wheels so they are facing in the forwards direction.
+    //      NOTE: The wheels will be pointed forwards (not backwards) when modules are turned so the large bevel gears are towards the LEFT side of the robot. When aligning the wheels they must be as straight as possible. It is recommended to use a long strait edge such as a piece of 2x1 in order to make the wheels straight.
+    // 4) Record the angles of each module using the angle put onto Shuffleboard. The values are named Front Left Module Angle, Front Right Module Angle, etc.
+    // 5) Set the values of the *_ANGLE_OFFSET to -Math.toRadians(<the angle you recorded>)
+    //      NOTE: All angles must be in degrees.
+    // 6) Re-deploy and try to drive the robot forwards. All the wheels should stay parallel to each other. If not go back to step 3.
+    // 7) Make sure all the wheels are spinning in the correct direction. If not, add 180 degrees to the offset of each wheel that is spinning in the incorrect direction. i.e -Math.toRadians(<angle> + 180.0).
     public static Map<String, Map<String, Double>> hardwareSpecificConstants = Map.ofEntries(
-        entry("00:80:2F:34:0B:07", Map.ofEntries( //Mac address from BLUE
-            entry("BACK_RIGHT_MODULE_STEER_OFFSET", 0.0),
-            entry("BACK_LEFT_MODULE_STEER_OFFSET",0.0),
-            entry("FRONT_RIGHT_MODULE_STEER_OFFSET", 0.0),
-            entry("FRONT_LEFT_MODULE_STEER_OFFSET", 0.0)
+        entry("00:80:2F:34:0B:07", Map.ofEntries( //Mac address from 670_bench
+            entry("BACK_RIGHT_MODULE_STEER_OFFSET", -Math.toRadians(228.85)),
+            entry("BACK_LEFT_MODULE_STEER_OFFSET",-Math.toRadians(228.3)),
+            entry("FRONT_RIGHT_MODULE_STEER_OFFSET", -Math.toRadians(2.37)),
+            entry("FRONT_LEFT_MODULE_STEER_OFFSET", -Math.toRadians(30.2))
         )),
-        entry("00:80:2F:24:4A:34", Map.ofEntries( //The mac address is from RED 
+        entry("00:80:2F:24:4A:34", Map.ofEntries( //The mac address is from 670_MadMax
             entry("BACK_RIGHT_MODULE_STEER_OFFSET", -Math.toRadians(292.5)),
             entry("BACK_LEFT_MODULE_STEER_OFFSET",-Math.toRadians(232.91)),
             entry("FRONT_RIGHT_MODULE_STEER_OFFSET", -Math.toRadians(352.35)),
