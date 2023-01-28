@@ -18,12 +18,9 @@ public class RobotMap {
     public static final int RIGHT_ENCODER_CHANNEL_B = 3;
   
     // Arm
-    public static final int ARM_EXTENSION_MOTOR = 8;
-    //public static final int ARM_ELBOW_ROTATION_MOTOR_TALON = 6;
-    public static final int ARM_ONE_MOTOR = 6;
-    public static final int ARM_TWO_MOTOR = 6;
-    public static final int ARM_ELBOW_ROTATION_MOTOR_VICTOR = 5;
-    public static final int ARM_WRIST_ROTATION = 9;
+    public static final int SHOULDER_LEADER_MOTOR = 8;
+    public static final int SHOULDER_FOLLOWER_MOTOR = 8;
+    public static final int ELBOW_MOTOR = 6;
   
     // Claw
     public static final int SOLENOID_0 = 0;
@@ -31,13 +28,6 @@ public class RobotMap {
     public static final int CLAW_PUSH_SOLENOID = 2;
   
     public static final int PCM_MODULE = 12;
-  
-  // Climber
-    public static final int BACK_CLIMBER_PISTON_CONTROLLER = 14;
-    public static final int FRONT_CLIMBER_PISTON_CONTROLLER = 15;
-    
-    // Sensors
-    //public final static Port NAVX_PORT = SerialPort.Port.kUSB;  
   
     public static final int FRONT_ULTRASONIC_TRIGGER_PIN = 8; // TODO set these
     public static final int FRONT_ULTRASONIC_ECHO_PIN = 9;

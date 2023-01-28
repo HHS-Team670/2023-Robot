@@ -5,14 +5,20 @@ package frc.team670.robot.subsystems.arm;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team670.mustanglib.subsystems.SparkMaxRotatingSubsystem;
 import frc.team670.mustanglib.utils.motorcontroller.SparkMAXFactory;
 import frc.team670.mustanglib.utils.motorcontroller.SparkMAXLite;
 import frc.team670.mustanglib.utils.motorcontroller.MotorConfig.Motor_Type;
+import frc.team670.robot.constants.RobotMap;
+
 import com.revrobotics.REVLibError;
 public class Shoulder extends SparkMaxRotatingSubsystem {
     
+    DutyCycleEncoder absEncoder;
+    private static final double ABSOLUTE_ENCODER_POSITION_AT_SHOULDER_MAX = 0.0;
+    private static final double ABSOLUTE_ENCODER_POSITION_AT_SHOULDER_MIN = 0.0;
 
 
     //TODO: Fix Constants
@@ -23,11 +29,8 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
 
         	
 		public int getDeviceID() {
-			// TODO Auto-generated method stub
-			return 0;
-		}
-        
-
+			return RobotMap.SHOULDER_LEADER_MOTOR; //Must set this later
+        }
 		
 
         public int getSlot() {
@@ -39,7 +42,7 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
         }
 
         public double getP() {
-            return 0.00015; // Good enough for 2/17
+            return 0.00002; // Good enough for 2/17
         }
 
         public double getI() {
@@ -107,9 +110,6 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
         public double getMinRotatorRPM() {
             return 0;
         }
-
-	
-
     }
 
     //constructor that inits motors and stuff
@@ -117,7 +117,12 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
     private SparkMAXLite follower;
     public Shoulder() {
         super(SHOULDER_CONFIG);
-        follower=SparkMAXFactory.setPermanentFollower(0/*RobotMap.SHOULDER_FOLLOWER_MOTOR */, rotator);
+        SmartDashboard.putNumber("shoulderTarget", 0);
+        rotator_encoder.setPosition(0);
+        //follower=SparkMAXFactory.setPermanentFollower(0/*RobotMap.SHOULDER_FOLLOWER_MOTOR */, rotator);
+        
+        //absEncoder = new DutyCycleEncoder(RobotMap.FLIP_OUT_ABS_ENCODER);
+        //setEncoderPositionFromAbsolute();
 
     }
     
@@ -148,13 +153,13 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
 
     @Override
     public void mustangPeriodic() {
-        // TODO Auto-generated method stub
-        
+        setSystemTargetAngleInDegrees(SmartDashboard.getNumber("shoulderTarget", 0));
     }
 
     @Override
     public void debugSubsystem() {
         SmartDashboard.putNumber("Shoulder Speed:",super.rotator.get());
+        SmartDashboard.putNumber("Shoulder position", super.rotator_encoder.getPosition());
         
     }
 
@@ -168,4 +173,27 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
         double angle = 360 * (( rotations - getUnadjustedPosition()) / this.ROTATOR_GEAR_RATIO);
         return angle;
 	}
+
+    /**
+     * Sets the rotator encoder's reference position to the constant obtained from
+     * the absolute encoder corresponding to that position.
+     */
+    // public void setEncoderPositionFromAbsolute() {
+    //     clearSetpoint();
+    //     rotator_encoder.setPosition(
+    //             -1 * (getAbsoluteEncoderRotations() - ABSOLUTE_ENCODER_POSITION_AT_FLIPOUT_ZERO)
+    //                     * ABSOLUTE_ENCODER_GEAR_RATIO);
+    //     // Logger.consoleLog("Encoder position set: %s", rotator_encoder.getPosition());
+    // }
+
+    // public double getAbsoluteEncoderRotations() {
+    //     double pos = absEncoder.get();
+    //     while (pos > ABSOLUTE_ENCODER_POSITION_AT_FLIPOUT_MAX + 0.1) {
+    //         pos -= 1;
+    //     }
+    //     while (pos < ABSOLUTE_ENCODER_POSITION_AT_FLIPOUT_ZERO - 0.1) {
+    //         pos += 1;
+    //     }
+    //     return pos;
+    // }
 }
