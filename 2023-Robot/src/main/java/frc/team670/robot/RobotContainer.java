@@ -10,25 +10,19 @@ package frc.team670.robot;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.auto.PIDConstants;
 import com.pathplanner.lib.auto.SwerveAutoBuilder;
-import com.pathplanner.lib.commands.FollowPathWithEvents;
 
-import frc.team670.robot.commands.drivebase.MustangPPSwerveControllerCommand;
-import frc.team670.robot.commands.pathplanner.MustangAutoBuilder;
-import frc.team670.robot.commands.pathplanner.MustangFollowPathWithEvents;
+import frc.team670.robot.commands.pathplanner.LeftConeCube;
 import frc.team670.robot.commands.pathplanner.PrintOnStopPoint;
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.team670.mustanglib.RobotContainerBase;
 import frc.team670.mustanglib.commands.MustangCommand;
 import frc.team670.mustanglib.utils.MustangController;
-import frc.team670.robot.commands.drivebase.AutoLevel;
 import frc.team670.robot.constants.OI;
 import frc.team670.robot.subsystems.DriveBase;
 
@@ -64,35 +58,7 @@ public class RobotContainer extends RobotContainerBase {
     public MustangCommand getAutonomousCommand() {
         //return new AutoLevel(driveBase);
 
-        PathPlannerTrajectory trajectory = PathPlanner.loadPath("LeftConeCube", 1.0, 0.5);
-        driveBase.resetOdometry(trajectory.getInitialHolonomicPose());
-        
-        PIDConstants PID_translation = new PIDConstants(1.0, 0, 0);
-        PIDConstants PID_theta = new PIDConstants(1.0, 0, 0);
-        // PID_theta.enableContinuousInput(-Math.PI, Math.PI);
-        
-        // auto builder - stop event command
-
-        Map<String, Command> eventMap = new HashMap<>();
-        eventMap.put("event", new PrintOnStopPoint());
-
-        SwerveDriveKinematics driveBaseKinematics = driveBase.getSwerveKinematics();
-
-        SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(
-            driveBase::getPose, 
-            driveBase::resetOdometry,
-            driveBaseKinematics, 
-            PID_translation, 
-            PID_theta,
-            driveBase::setModuleStates, 
-            eventMap,
-            false,
-            new Subsystem[] {driveBase}
-        );
-
-        MustangCommand fullAuto = (MustangAutoBuilder) autoBuilder.fullAuto(trajectory);
-
-        return fullAuto;
+        return new LeftConeCube(driveBase);
 
         // marker command (in path "StraightLine")
 

@@ -44,7 +44,7 @@
         "names": [
           "event"
         ],
-        "executionBehavior": "sequential",
+        "executionBehavior": "parallelDeadline",
         "waitBehavior": "after",
         "waitTime": 5.0
       }
