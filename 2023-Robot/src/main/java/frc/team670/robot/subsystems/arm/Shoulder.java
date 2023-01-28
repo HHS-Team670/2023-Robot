@@ -3,31 +3,32 @@ package frc.team670.robot.subsystems.arm;
 
 
 import com.revrobotics.CANSparkMax.IdleMode;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.team670.mustanglib.subsystems.SparkMaxRotatingSubsystem;
+import frc.team670.mustanglib.utils.motorcontroller.SparkMAXFactory;
+import frc.team670.mustanglib.utils.motorcontroller.SparkMAXLite;
 import frc.team670.mustanglib.utils.motorcontroller.MotorConfig.Motor_Type;
 import com.revrobotics.REVLibError;
-public class Shoulder extends SparkMaxRotatingSubsystemLeaderFollower {
-
+public class Shoulder extends SparkMaxRotatingSubsystem {
+    
 
 
     //TODO: Fix Constants
     /*
      * PID and SmartMotion constants for the Shoulder joint
      */
-    public static class Config extends SparkMaxRotatingSubsystemLeaderFollower.Config {
+    public static class Config extends SparkMaxRotatingSubsystem.Config {
 
-        	@Override
-		public int getLeaderDeviceID() {
+        	
+		public int getDeviceID() {
 			// TODO Auto-generated method stub
 			return 0;
 		}
+        
 
-		@Override
-		public int getFollowerDeviceID() {
-			// TODO Auto-generated method stub
-			return 0;
-		}
+		
 
         public int getSlot() {
             return 0;
@@ -113,8 +114,11 @@ public class Shoulder extends SparkMaxRotatingSubsystemLeaderFollower {
 
     //constructor that inits motors and stuff
     public static final Config SHOULDER_CONFIG = new Config();
+    private SparkMAXLite follower;
     public Shoulder() {
         super(SHOULDER_CONFIG);
+        follower=SparkMAXFactory.setPermanentFollower(0/*RobotMap.SHOULDER_FOLLOWER_MOTOR */, rotator);
+
     }
     
     @Override
@@ -131,8 +135,8 @@ public class Shoulder extends SparkMaxRotatingSubsystemLeaderFollower {
 
     @Override
     public HealthState checkHealth() {
-        REVLibError leaderRotatorError = super.leaderRotator.getLastError();
-        REVLibError followerRotatorError = super.followerRotator.getLastError();
+        REVLibError leaderRotatorError = super.rotator.getLastError();
+        REVLibError followerRotatorError = follower.getLastError();
 		if ((leaderRotatorError != null && leaderRotatorError != leaderRotatorError.kOk) || (followerRotatorError != null && followerRotatorError != followerRotatorError.kOk)) {
 			return HealthState.RED;
 		}
@@ -150,7 +154,7 @@ public class Shoulder extends SparkMaxRotatingSubsystemLeaderFollower {
 
     @Override
     public void debugSubsystem() {
-        SmartDashboard.putNumber("Shoulder Speed:",super.leaderRotator.get());
+        SmartDashboard.putNumber("Shoulder Speed:",super.rotator.get());
         
     }
 
