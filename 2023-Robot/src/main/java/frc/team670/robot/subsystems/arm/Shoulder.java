@@ -3,6 +3,7 @@ package frc.team670.robot.subsystems.arm;
 
 
 import com.revrobotics.CANSparkMax.IdleMode;
+import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import frc.team670.mustanglib.utils.motorcontroller.MotorConfig;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
@@ -84,7 +85,7 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
         }
 
         public float[] setSoftLimits() {
-            return new float[]{5, -5};
+            return new float[]{0.5f, -0.5f};
         }
 
         public int getContinuousCurrent() {
@@ -155,6 +156,8 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
 
     @Override
     public void mustangPeriodic() {
+        SmartDashboard.putNumber("shoulder forward soft limit", super.rotator.getSoftLimit(SoftLimitDirection.kForward));
+        SmartDashboard.putNumber("shoulder backward soft limit", super.rotator.getSoftLimit(SoftLimitDirection.kReverse));
         setSystemTargetAngleInDegrees(SmartDashboard.getNumber("shoulderTarget", 0));
     }
 
