@@ -9,15 +9,14 @@ public enum ArmState {
     SCORE_CONE_HIGH(4, 51, 57),
     
     //Intermediate Hooper
-    HIGH_SHELF(4, 51, 57),
-    HYBRID(5, 25,12), //Check later as well
-
+    HIGH_SHELF(5, 51, 57),
+    HYBRID(6, 25,12), //Check later as well
     
     //Intake ground
-    INTAKE_GROUND(5,25, 12),
+    INTAKE_GROUND(7,25, 12),
     
     //doublesubstationintake
-    DOUBLE_SUBSTATION(3,42,46); //Needs tuning later
+    DOUBLE_SUBSTATION(8,42,46); //Needs tuning later
     //ZERO(9,0,0);
     
 

@@ -41,6 +41,7 @@ public class Arm extends MustangSubsystemBase {
     }
 
     private static void init() {
+        SmartDashboard.putNumber("arm Target ID", 0);
         for (int i = 0; i < NUM_STATES; i++) {
             for (int j = 0; j < NUM_STATES; j++) {
                 // set validpaths[i][j] to the path between i and j
@@ -59,6 +60,7 @@ public class Arm extends MustangSubsystemBase {
 
     @Override
     public void mustangPeriodic() {
+        moveToTarget(ArmState.getVal(SmartDashboard.getNumber("arm Target ID", 0)));
     }
 
     /**

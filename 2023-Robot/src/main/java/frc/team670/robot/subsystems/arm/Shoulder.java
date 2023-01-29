@@ -121,7 +121,7 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
     private SparkMAXLite follower;
     public Shoulder() {
         super(SHOULDER_CONFIG);
-        SmartDashboard.putNumber("shoulderTarget", 0);
+        //SmartDashboard.putNumber("shoulderTarget", 0);
         rotator_encoder.setPosition(0);
         //follower=SparkMAXFactory.setPermanentFollower(0/*RobotMap.SHOULDER_FOLLOWER_MOTOR */, rotator);
         
@@ -159,7 +159,7 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
     public void mustangPeriodic() {
         SmartDashboard.putNumber("shoulder forward soft limit", super.rotator.getSoftLimit(SoftLimitDirection.kForward));
         SmartDashboard.putNumber("shoulder backward soft limit", super.rotator.getSoftLimit(SoftLimitDirection.kReverse));
-        setSystemTargetAngleInDegrees(SmartDashboard.getNumber("shoulderTarget", 0));
+        //setSystemTargetAngleInDegrees(SmartDashboard.getNumber("shoulderTarget", 0));
     }
 
     @Override
