@@ -90,8 +90,7 @@ public class Elbow extends SparkMaxRotatingSubsystem {
         }
 
         public IdleMode setRotatorIdleMode() {
-            //return IdleMode.kBrake;
-            return null;
+            return IdleMode.kBrake;
         }
 
         @Override
