@@ -81,11 +81,11 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
         }
 
         public boolean enableSoftLimits() {
-            return false;
+            return true;
         }
 
         public float[] setSoftLimits() {
-            return new float[]{0.5f, -0.5f};
+            return new float[]{5f, -5f};
         }
 
         public int getContinuousCurrent() {
@@ -101,7 +101,8 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
         }
 
         public IdleMode setRotatorIdleMode() {
-            return IdleMode.kBrake;
+            //return IdleMode.kBrake;
+            return null;
         }
 
         @Override
