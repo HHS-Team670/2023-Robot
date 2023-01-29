@@ -15,7 +15,7 @@ import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.auto.PIDConstants;
 import com.pathplanner.lib.auto.SwerveAutoBuilder;
 
-import frc.team670.robot.commands.pathplanner.LeftConeCube;
+import frc.team670.robot.commands.pathplanner.ConeCube;
 import frc.team670.robot.commands.pathplanner.PrintOnStopPoint;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj2.command.Command;
