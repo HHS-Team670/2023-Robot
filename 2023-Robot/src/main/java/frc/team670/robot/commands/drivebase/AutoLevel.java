@@ -18,7 +18,7 @@ public class AutoLevel extends CommandBase implements MustangCommand {
     DriveBase driveBase;
     double target = 0;
 
-    PIDController controller = new PIDController(0.03, 0.0023, 0); //p: 0.03, d: 0.025
+    PIDController controller = new PIDController(0.03, 0.001, 0.0015); //p: 0.03, d: 0.025
 
     public AutoLevel(DriveBase driveBase) {
         this.driveBase = driveBase;
