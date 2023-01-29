@@ -15,6 +15,7 @@ import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.auto.PIDConstants;
 import com.pathplanner.lib.auto.SwerveAutoBuilder;
 
+import frc.team670.robot.commands.drivebase.AutoLevel;
 import frc.team670.robot.commands.pathplanner.ConeCube;
 import frc.team670.robot.commands.pathplanner.PrintOnStopPoint;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -56,9 +57,9 @@ public class RobotContainer extends RobotContainerBase {
      */
     @Override
     public MustangCommand getAutonomousCommand() {
-        //return new AutoLevel(driveBase);
+        return new AutoLevel(driveBase);
 
-        return new ConeCube(driveBase, "LeftConeCube");
+        //return new ConeCube(driveBase, "LeftConeCube");
 
         // marker command (in path "StraightLine")
 

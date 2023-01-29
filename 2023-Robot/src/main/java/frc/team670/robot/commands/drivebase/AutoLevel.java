@@ -18,7 +18,7 @@ public class AutoLevel extends CommandBase implements MustangCommand {
     DriveBase driveBase;
     double target = 0;
 
-    PIDController controller = new PIDController(0.03, 0, 0);
+    PIDController controller = new PIDController(0.03, 0.0023, 0); //p: 0.03, d: 0.025
 
     public AutoLevel(DriveBase driveBase) {
         this.driveBase = driveBase;
@@ -41,6 +41,7 @@ public class AutoLevel extends CommandBase implements MustangCommand {
         // Run while facing positive X direction
         //double adjustedSpeed = MathUtil.clamp((target - pitch) * kp, -1, 1); //This may need to be PLUS (pitch-prevPitch)*kD, rather than minus. Please test!
         double adjustedSpeed = controller.calculate(pitch, target);
+        SmartDashboard.putNumber("speed", adjustedSpeed);
 
         ChassisSpeeds chassisSpeeds = new ChassisSpeeds(adjustedSpeed, 0.0, 0.0);
         SwerveModuleState[] states = driveBase.getSwerveKinematics().toSwerveModuleStates(chassisSpeeds);
