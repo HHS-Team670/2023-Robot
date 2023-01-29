@@ -18,7 +18,7 @@ public class RobotMap {
     public static final int RIGHT_ENCODER_CHANNEL_B = 3;
   
     // Arm
-    public static final int SHOULDER_LEADER_MOTOR = 8;
+    public static final int SHOULDER_LEADER_MOTOR = 24;
     public static final int SHOULDER_FOLLOWER_MOTOR = 8;
     public static final int ELBOW_MOTOR = 6;
   

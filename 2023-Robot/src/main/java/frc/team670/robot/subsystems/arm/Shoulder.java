@@ -4,7 +4,7 @@ package frc.team670.robot.subsystems.arm;
 
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
+import frc.team670.mustanglib.utils.motorcontroller.MotorConfig;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team670.mustanglib.subsystems.SparkMaxRotatingSubsystem;
@@ -28,6 +28,8 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
     public static class Config extends SparkMaxRotatingSubsystem.Config {
 
         	
+
+
 		public int getDeviceID() {
 			return RobotMap.SHOULDER_LEADER_MOTOR; //Must set this later
         }
@@ -38,7 +40,7 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
         }
 
         public Motor_Type getMotorType() {
-            return null;//MotorConfig.Motor_Type.NEO;
+            return MotorConfig.Motor_Type.NEO;
         }
 
         public double getP() {
@@ -82,7 +84,7 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
         }
 
         public float[] setSoftLimits() {
-            return null;
+            return new float[]{5, -5};
         }
 
         public int getContinuousCurrent() {
@@ -94,7 +96,7 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
         }
 
         public double getRotatorGearRatio() {
-            return 0;//FLIPOUT_GEAR_RATIO;
+            return 25;//FLIPOUT_GEAR_RATIO;
         }
 
         public IdleMode setRotatorIdleMode() {
@@ -141,8 +143,8 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
     @Override
     public HealthState checkHealth() {
         REVLibError leaderRotatorError = super.rotator.getLastError();
-        REVLibError followerRotatorError = follower.getLastError();
-		if ((leaderRotatorError != null && leaderRotatorError != leaderRotatorError.kOk) || (followerRotatorError != null && followerRotatorError != followerRotatorError.kOk)) {
+        //REVLibError followerRotatorError = follower.getLastError();
+		if ((leaderRotatorError != null && leaderRotatorError != leaderRotatorError.kOk) /*|| (followerRotatorError != null && followerRotatorError != followerRotatorError.kOk)*/) {
 			return HealthState.RED;
 		}
         
