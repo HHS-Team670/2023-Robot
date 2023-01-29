@@ -101,7 +101,7 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
         }
 
         public IdleMode setRotatorIdleMode() {
-            return null;//IdleMode.kCoast;
+            return IdleMode.kBrake;
         }
 
         @Override
