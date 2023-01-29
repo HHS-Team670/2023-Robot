@@ -19,14 +19,14 @@ import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase.HealthState;
 import frc.team670.robot.subsystems.DriveBase;
 
-public class LeftConeCube extends SequentialCommandGroup implements MustangCommand {
+public class ConeCube extends SequentialCommandGroup implements MustangCommand {
     
     public Map<MustangSubsystemBase, HealthState> getHealthRequirements() {
         return new HashMap();
     }
 
-    public LeftConeCube(DriveBase driveBase) {
-        List<PathPlannerTrajectory> trajectoryGroup = PathPlanner.loadPathGroup("LeftConeCube", 1.0, 0.5);
+    public ConeCube(DriveBase driveBase, String pathName) {
+        List<PathPlannerTrajectory> trajectoryGroup = PathPlanner.loadPathGroup(pathName, 1.0, 0.5);
         
         PIDConstants PID_translation = new PIDConstants(1.0, 0, 0);
         PIDConstants PID_theta = new PIDConstants(1.0, 0, 0);
