@@ -135,9 +135,17 @@ NetworkTables.addKeyListener('/SmartDashboard/aligned', (key, value) => {
 });
 
 
-NetworkTables.addKeyListener('/SmartDashboard/level', (key, value) => {
+NetworkTables.addKeyListener('/SmartDashboard/aligned', (key, value) => { // TODO change key listener
 
-    var level_indicator = document.querySelector('#level-indicator');
+    var level_indicator = document.querySelector('div#level-indicator');
+    // var login = document.querySelector("#login");
+    // if (value) {
+    //     var level_indicator = ` <div id="level-indicator"> <h1>LEVEL</h1> </div>`;
+    //     login.insertAdjacentHTML("afterend", level_indicator)
+    // } else {
+    //     body.removeChild(login.getElemen)
+    // }
+   
     value ? level_indicator.style.display = "block" : level_indicator.style.display = "none"; 
 });
 
@@ -323,10 +331,6 @@ NetworkTables.addKeyListener('/SmartDashboard/overrided-rpm', (key, value) => {
     }
 });
 
-NetworkTables.addKeyListener('/SmartDashboard/aligned', (key, value) => {
-    var db = document.querySelector('.camera-stream');
-    value ? db.id = 'green-border' : db.id = '';
-})
 
 document.getElementById("confirm-button").onclick = function() {
   sendAuton();

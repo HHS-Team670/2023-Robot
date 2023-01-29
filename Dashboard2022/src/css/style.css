@@ -15,7 +15,9 @@ body {
     color: white;
     overflow: hidden;
     background: #222;
-    border: 5px solid transparent;
+    width: 100vw;
+    height: 100vh;
+    border: 40px solid transparent;
 }
 
 @keyframes borderBlink {    
@@ -28,10 +30,11 @@ body {
 }  
 
 .aligned {
-    animation: borderBlink 1s step-end infinite;    
+    animation: borderBlink 0.5s step-end infinite;    
 }
 
-#level_indicator {
+#level-indicator{
+    
     display: none;
     font-size: 5rem;
     font-weight: bold;
