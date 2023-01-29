@@ -1,6 +1,7 @@
 package frc.team670.robot.commands.pathplanner;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.pathplanner.lib.PathPlanner;
@@ -25,8 +26,7 @@ public class LeftConeCube extends SequentialCommandGroup implements MustangComma
     }
 
     public LeftConeCube(DriveBase driveBase) {
-        PathPlannerTrajectory trajectory = PathPlanner.loadPath("LeftConeCube", 1.0, 0.5);
-        driveBase.resetOdometry(trajectory.getInitialHolonomicPose());
+        List<PathPlannerTrajectory> trajectoryGroup = PathPlanner.loadPathGroup("LeftConeCube", 1.0, 0.5);
         
         PIDConstants PID_translation = new PIDConstants(1.0, 0, 0);
         PIDConstants PID_theta = new PIDConstants(1.0, 0, 0);
@@ -48,10 +48,8 @@ public class LeftConeCube extends SequentialCommandGroup implements MustangComma
             new Subsystem[] {driveBase}
         );
 
-        CommandBase fullAuto = autoBuilder.fullAuto(trajectory);
+        CommandBase fullAuto = autoBuilder.fullAuto(trajectoryGroup);
 
         addCommands(fullAuto);
     }
-
-
 }
