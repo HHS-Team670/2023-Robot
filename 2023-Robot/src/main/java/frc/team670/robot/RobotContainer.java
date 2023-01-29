@@ -58,7 +58,7 @@ public class RobotContainer extends RobotContainerBase {
     public MustangCommand getAutonomousCommand() {
         //return new AutoLevel(driveBase);
 
-        return new LeftConeCube(driveBase);
+        return new ConeCube(driveBase, "LeftConeCube");
 
         // marker command (in path "StraightLine")
 
