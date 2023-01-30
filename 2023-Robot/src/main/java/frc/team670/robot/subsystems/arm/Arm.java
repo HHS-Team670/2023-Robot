@@ -13,15 +13,14 @@ import frc.team670.robot.constants.RobotMap;
 import com.revrobotics.REVLibError;
 
 public class Arm extends MustangSubsystemBase {
-    private static final double MAX_ERROR = 1;
     private static final double MAX_DEPTH = 10;
-    public static final int NUM_STATES = 10;
+    public static final int NUM_STATES = 9;
     //private Shoulder shoulder;
     private Elbow elbow;
     private ArmState currentState;
 
     private static final ArmState[][] VALID_PATHS_GRAPH = new ArmState[][] {
-            { ArmState.DOUBLE_SUBSTATION, ArmState.HIGH_SHELF }, // STOWED
+            { ArmState.DOUBLE_SUBSTATION, ArmState.HIGH_SHELF}, // STOWED
             { ArmState.INTERMEDIATE_HOPPER }, // HOPPER
             { ArmState.INTAKE_GROUND, ArmState.HYBRID}, // INTERMEDIATE_HOPPER
             { ArmState.INTERMEDIATE_HOPPER, ArmState.HIGH_SHELF }, // SCORE_CONE_HIGH
@@ -30,7 +29,6 @@ public class Arm extends MustangSubsystemBase {
             { ArmState.SCORE_CONE_MID, ArmState.INTAKE_GROUND, ArmState.HOPPER }, // HYBRID
             { ArmState.INTERMEDIATE_HOPPER, ArmState.SCORE_CONE_MID }, // INTAKE_GROUND
             { ArmState.INTAKE_GROUND }, // DOUBLE_SUBSTATION
-            //{ ArmState.SCORE_CONE_HIGH }
     };
 
     private static ArmState VALID_PATHS[][][] = new ArmState[NUM_STATES][NUM_STATES][];
