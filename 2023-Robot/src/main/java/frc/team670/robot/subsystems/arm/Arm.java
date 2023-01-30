@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.PriorityQueue;
 
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 import frc.team670.mustanglib.utils.motorcontroller.MotorConfig.Motor_Type;
 import frc.team670.mustanglib.utils.motorcontroller.SparkMAXFactory;
@@ -12,11 +13,11 @@ import frc.team670.robot.constants.RobotMap;
 import com.revrobotics.REVLibError;
 
 public class Arm extends MustangSubsystemBase {
-    private static final double MAX_ERROR = 5;
+    private static final double MAX_ERROR = 1;
     private static final double MAX_DEPTH = 10;
     public static final int NUM_STATES = 10;
     private Shoulder shoulder;
-    private Elbow elbow;
+    // private Elbow elbow;
     private ArmState currentState;
 
     private static final ArmState[][] VALID_PATHS_GRAPH = new ArmState[][] {
@@ -36,7 +37,7 @@ public class Arm extends MustangSubsystemBase {
 
     public Arm() {
         this.shoulder = new Shoulder();
-        this.elbow = new Elbow();
+        // this.elbow = new Elbow();
         init();
     }
 
@@ -52,7 +53,7 @@ public class Arm extends MustangSubsystemBase {
 
     @Override
     public HealthState checkHealth() {
-        if (elbow.checkHealth() == HealthState.RED || shoulder.checkHealth() == HealthState.RED) {
+        if (/*elbow.checkHealth() == HealthState.RED || */shoulder.checkHealth() == HealthState.RED) {
             return HealthState.RED;
         }
         return HealthState.GREEN;
@@ -60,7 +61,8 @@ public class Arm extends MustangSubsystemBase {
 
     @Override
     public void mustangPeriodic() {
-        moveToTarget(ArmState.getVal(SmartDashboard.getNumber("arm Target ID", 0)));
+        shoulder.debugSubsystem();
+        moveToTarget(ArmState.getVal((int) SmartDashboard.getNumber("arm Target ID", 0)));
     }
 
     /**
@@ -70,8 +72,11 @@ public class Arm extends MustangSubsystemBase {
     public void moveToTarget(ArmState target) {
         this.currentState = target;
         // TODO: Give the proper setpoints to Shoulder and Elbow
-        elbow.setSystemTargetAngleInDegrees(target.getElbowAngle());
+        // elbow.setSystemTargetAngleInDegrees(target.getElbowAngle());
         shoulder.setSystemTargetAngleInDegrees(target.getShoulderAngle());
+        SmartDashboard.putNumber("shoulder target (deg)", target.getShoulderAngle());
+        SmartDashboard.putNumber("elbow target (deg)", target.getElbowAngle());
+
     }
 
     /**
@@ -89,15 +94,7 @@ public class Arm extends MustangSubsystemBase {
      * @param target The target state we're checking
      */
     public boolean isAt(ArmState target) {
-        // TODO:
-        double elbowError = Math.abs(target.getElbowAngle() - elbow.getCurrentAngleInDegrees());
-        double shoulderError = Math.abs(target.getShoulderAngle() - shoulder.getCurrentAngleInDegrees());
-        if (elbowError >= MAX_ERROR || shoulderError >= MAX_ERROR) {
-            return false;
-        }
-        // TODO Re Define margin of error
-        // Check if each each joint is within margin of error
-        return true;
+        return shoulder.hasReachedTargetPosition()/*&& elbow.hasReachedTargetPosition()*/;
     }
 
     /**
@@ -149,7 +146,7 @@ public class Arm extends MustangSubsystemBase {
     @Override
     public void debugSubsystem() {
         shoulder.debugSubsystem();
-        elbow.debugSubsystem();
+        // elbow.debugSubsystem();
     }
 
     static class Pair implements Comparable<Pair> {

@@ -14,6 +14,8 @@ import frc.team670.mustanglib.utils.motorcontroller.SparkMAXLite;
 import frc.team670.mustanglib.utils.motorcontroller.MotorConfig.Motor_Type;
 import frc.team670.robot.constants.RobotMap;
 
+import org.ejml.simple.ConvertToDenseException;
+
 import com.revrobotics.REVLibError;
 public class Shoulder extends SparkMaxRotatingSubsystem {
     
@@ -28,7 +30,7 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
      */
     public static class Config extends SparkMaxRotatingSubsystem.Config {
 
-        	
+        public static final double SHOULDER_GEAR_RATIO = 25.0;
 
 
 		public int getDeviceID() {
@@ -45,7 +47,7 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
         }
 
         public double getP() {
-            return 0.00002; // Good enough for 2/17
+            return 0.0001; // Good enough for 2/17
         }
 
         public double getI() {
@@ -77,7 +79,7 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
         }
 
         public double getAllowedError() {
-            return 0.35;
+            return 0.07;
         }
 
         public boolean enableSoftLimits() {
@@ -85,7 +87,7 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
         }
 
         public float[] setSoftLimits() {
-            return new float[]{5f, -5f};
+            return new float[]{convertDegreesToRotations(315), convertDegreesToRotations(45)};
         }
 
         public int getContinuousCurrent() {
@@ -97,7 +99,7 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
         }
 
         public double getRotatorGearRatio() {
-            return 25;//FLIPOUT_GEAR_RATIO;
+            return SHOULDER_GEAR_RATIO;//FLIPOUT_GEAR_RATIO;
         }
 
         public IdleMode setRotatorIdleMode() {
@@ -113,6 +115,10 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
         @Override
         public double getMinRotatorRPM() {
             return 0;
+        }
+
+        public float convertDegreesToRotations(float d) {
+        return (float) ((d / 360) * SHOULDER_GEAR_RATIO);
         }
     }
 
@@ -165,18 +171,20 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
     @Override
     public void debugSubsystem() {
         SmartDashboard.putNumber("Shoulder Speed:",super.rotator.get());
-        SmartDashboard.putNumber("Shoulder position", super.rotator_encoder.getPosition());
+        //SmartDashboard.putNumber("Shoulder position", super.rotator_encoder.getPosition());
+        SmartDashboard.putNumber("Shoulder position (deg)", getCurrentAngleInDegrees());
         
     }
 
 	@Override
 	public double getCurrentAngleInDegrees() {
-		 double rotations = super.getRotatorEncoder().getPosition()/super.getRotatorEncoder().getCountsPerRevolution();//
+		 //double rotations = super.getRotatorEncoder().getPosition()/super.getRotatorEncoder().getCountsPerRevolution();//
+         double rotations = super.getRotatorEncoder().getPosition();
          
         // convert rotations to angle here
         //double oldrot = (angle / 360) * this.ROTATOR_GEAR_RATIO
         // + ((int) (getUnadjustedPosition() / this.ROTATOR_GEAR_RATIO)) * this.ROTATOR_GEAR_RATIO;//reverse engineer
-        double angle = 360 * (( rotations - getUnadjustedPosition()) / this.ROTATOR_GEAR_RATIO);
+        double angle = 360 * (( rotations ) / this.ROTATOR_GEAR_RATIO);
         return angle;
 	}
 
