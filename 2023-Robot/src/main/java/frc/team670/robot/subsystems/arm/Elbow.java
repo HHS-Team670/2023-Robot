@@ -1,6 +1,7 @@
 
 package frc.team670.robot.subsystems.arm;
 import frc.team670.mustanglib.subsystems.SparkMaxRotatingSubsystem;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import com.revrobotics.REVLibError;
 
@@ -9,6 +10,19 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.revrobotics.CANSparkMax.IdleMode;
 import frc.team670.mustanglib.utils.motorcontroller.MotorConfig.Motor_Type;
 
+import com.revrobotics.CANSparkMax.IdleMode;
+import com.revrobotics.CANSparkMax.SoftLimitDirection;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import frc.team670.mustanglib.utils.motorcontroller.MotorConfig;
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.team670.mustanglib.subsystems.SparkMaxRotatingSubsystem;
+import frc.team670.mustanglib.utils.motorcontroller.SparkMAXFactory;
+import frc.team670.mustanglib.utils.motorcontroller.SparkMAXLite;
+import frc.team670.mustanglib.utils.motorcontroller.MotorConfig.Motor_Type;
+import frc.team670.robot.constants.RobotMap;
+
+import org.ejml.simple.ConvertToDenseException;
 
 public class Elbow extends SparkMaxRotatingSubsystem {
     
@@ -20,9 +34,10 @@ public class Elbow extends SparkMaxRotatingSubsystem {
      * PID and SmartMotion constants for the Shoulder joint
      */
     public static class Config extends SparkMaxRotatingSubsystem.Config {
+        public static final double ELBOW_GEAR_RATIO = 25.0;
 
         public int getDeviceID() {
-            return 0; //RobotMap.FLIP_OUT;
+            return 24; //RobotMap.FLIP_OUT;
         }
 
         public int getSlot() {
@@ -30,11 +45,11 @@ public class Elbow extends SparkMaxRotatingSubsystem {
         }
 
         public Motor_Type getMotorType() {
-            return null;//MotorConfig.Motor_Type.NEO;
+            return MotorConfig.Motor_Type.NEO;
         }
 
         public double getP() {
-            return 0.00015; // Good enough for 2/17
+            return 0.0001; // Good enough for 2/17
         }
 
         public double getI() {
@@ -66,15 +81,15 @@ public class Elbow extends SparkMaxRotatingSubsystem {
         }
 
         public double getAllowedError() {
-            return 0.35;
+            return 0.1;
         }
 
         public boolean enableSoftLimits() {
-            return false;
+            return true;
         }
 
         public float[] setSoftLimits() {
-            return null;
+            return new float[]{convertDegreesToRotations(340), convertDegreesToRotations(20)};
         }
 
         public int getContinuousCurrent() {
@@ -86,7 +101,7 @@ public class Elbow extends SparkMaxRotatingSubsystem {
         }
 
         public double getRotatorGearRatio() {
-            return 0;//FLIPOUT_GEAR_RATIO;
+            return ELBOW_GEAR_RATIO;//FLIPOUT_GEAR_RATIO;
         }
 
         public IdleMode setRotatorIdleMode() {
@@ -102,6 +117,9 @@ public class Elbow extends SparkMaxRotatingSubsystem {
         public double getMinRotatorRPM() {
             return 0;
         }
+        public float convertDegreesToRotations(float d) {
+            return (float) ((d / 360) * ELBOW_GEAR_RATIO);
+            }
 
     }
 
@@ -109,6 +127,8 @@ public class Elbow extends SparkMaxRotatingSubsystem {
     public static final Config ELBOW_CONFIG = new Config();
     public Elbow() {
         super(ELBOW_CONFIG);
+        rotator_encoder.setPosition(12.5);
+
     }
 
     
@@ -122,11 +142,13 @@ public class Elbow extends SparkMaxRotatingSubsystem {
     
     @Override
     public double getCurrentAngleInDegrees(){
-         double rotations = super.getRotatorEncoder().getPosition()/super.getRotatorEncoder().getCountsPerRevolution();;//get encoder ticks here
+        //double rotations = super.getRotatorEncoder().getPosition()/super.getRotatorEncoder().getCountsPerRevolution();//
+        double rotations = super.getRotatorEncoder().getPosition();
+         
         // convert rotations to angle here
         //double oldrot = (angle / 360) * this.ROTATOR_GEAR_RATIO
         // + ((int) (getUnadjustedPosition() / this.ROTATOR_GEAR_RATIO)) * this.ROTATOR_GEAR_RATIO;//reverse engineer
-        double angle = 360 * (( rotations - getUnadjustedPosition()) / this.ROTATOR_GEAR_RATIO);
+        double angle = 360 * (( rotations ) / this.ROTATOR_GEAR_RATIO);
         return angle;
     }
     
@@ -144,7 +166,8 @@ public class Elbow extends SparkMaxRotatingSubsystem {
 
     @Override
     public void mustangPeriodic() {
-        
+        SmartDashboard.putNumber("elbow forward soft limit", super.rotator.getSoftLimit(SoftLimitDirection.kForward));
+        SmartDashboard.putNumber("elbow backward soft limit", super.rotator.getSoftLimit(SoftLimitDirection.kReverse));
         
     }
 
@@ -152,6 +175,8 @@ public class Elbow extends SparkMaxRotatingSubsystem {
     public void debugSubsystem() {
         //return manymanymanymanymanymanymanymanybeans;
         SmartDashboard.putNumber("Elbow Speed:",super.rotator.get());
+        SmartDashboard.putNumber("Elbow position (deg)", getCurrentAngleInDegrees());
+
     }
 
 

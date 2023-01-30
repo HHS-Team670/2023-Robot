@@ -16,8 +16,8 @@ public class Arm extends MustangSubsystemBase {
     private static final double MAX_ERROR = 1;
     private static final double MAX_DEPTH = 10;
     public static final int NUM_STATES = 10;
-    private Shoulder shoulder;
-    // private Elbow elbow;
+    //private Shoulder shoulder;
+    private Elbow elbow;
     private ArmState currentState;
 
     private static final ArmState[][] VALID_PATHS_GRAPH = new ArmState[][] {
@@ -36,8 +36,8 @@ public class Arm extends MustangSubsystemBase {
     private static ArmState VALID_PATHS[][][] = new ArmState[NUM_STATES][NUM_STATES][];
 
     public Arm() {
-        this.shoulder = new Shoulder();
-        // this.elbow = new Elbow();
+        //this.shoulder = new Shoulder();
+        this.elbow = new Elbow();
         init();
     }
 
@@ -53,7 +53,7 @@ public class Arm extends MustangSubsystemBase {
 
     @Override
     public HealthState checkHealth() {
-        if (/*elbow.checkHealth() == HealthState.RED || */shoulder.checkHealth() == HealthState.RED) {
+        if (elbow.checkHealth() == HealthState.RED /*|| shoulder.checkHealth() == HealthState.RED*/) {
             return HealthState.RED;
         }
         return HealthState.GREEN;
@@ -61,7 +61,8 @@ public class Arm extends MustangSubsystemBase {
 
     @Override
     public void mustangPeriodic() {
-        shoulder.debugSubsystem();
+        //shoulder.debugSubsystem();
+        elbow.debugSubsystem();
         moveToTarget(ArmState.getVal((int) SmartDashboard.getNumber("arm Target ID", 0)));
     }
 
@@ -72,8 +73,9 @@ public class Arm extends MustangSubsystemBase {
     public void moveToTarget(ArmState target) {
         this.currentState = target;
         // TODO: Give the proper setpoints to Shoulder and Elbow
-        // elbow.setSystemTargetAngleInDegrees(target.getElbowAngle());
-        shoulder.setSystemTargetAngleInDegrees(target.getShoulderAngle());
+         elbow.setSystemTargetAngleInDegrees(target.getElbowAngle());
+        //shoulder.setSystemTargetAngleInDegrees(target.getShoulderAngle());
+        
         SmartDashboard.putNumber("shoulder target (deg)", target.getShoulderAngle());
         SmartDashboard.putNumber("elbow target (deg)", target.getElbowAngle());
 
@@ -94,7 +96,7 @@ public class Arm extends MustangSubsystemBase {
      * @param target The target state we're checking
      */
     public boolean isAt(ArmState target) {
-        return shoulder.hasReachedTargetPosition()/*&& elbow.hasReachedTargetPosition()*/;
+        return /*shoulder.hasReachedTargetPosition()&&*/ elbow.hasReachedTargetPosition();
     }
 
     /**
@@ -145,8 +147,8 @@ public class Arm extends MustangSubsystemBase {
 
     @Override
     public void debugSubsystem() {
-        shoulder.debugSubsystem();
-        // elbow.debugSubsystem();
+        //shoulder.debugSubsystem();
+         elbow.debugSubsystem();
     }
 
     static class Pair implements Comparable<Pair> {
