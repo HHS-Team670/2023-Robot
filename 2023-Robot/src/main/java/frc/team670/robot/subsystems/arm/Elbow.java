@@ -13,7 +13,7 @@ import frc.team670.mustanglib.utils.motorcontroller.MotorConfig.Motor_Type;
 import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import frc.team670.mustanglib.utils.motorcontroller.MotorConfig;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team670.mustanglib.utils.motorcontroller.SparkMAXFactory;
 import frc.team670.mustanglib.utils.motorcontroller.SparkMAXLite;
 import frc.team670.robot.constants.RobotMap;
@@ -29,7 +29,7 @@ public class Elbow extends SparkMaxRotatingSubsystem {
 
     //TODO: Fix Constants
     /*
-     * PID and SmartMotion constants for the elbow joint
+     * PID and SmartMotion constants for the Shoulder joint
      */
     public static class Config extends SparkMaxRotatingSubsystem.Config {
         public static final double ELBOW_GEAR_RATIO = 25.0;
@@ -123,9 +123,12 @@ public class Elbow extends SparkMaxRotatingSubsystem {
 
     //constructor that inits motors and stuff
     public static final Config ELBOW_CONFIG = new Config();
+
     public Elbow() {
         super(ELBOW_CONFIG);
+        absEncoder = new DutyCycleEncoder(0);
         rotator_encoder.setPosition(12.5);
+
 
     }
 
@@ -164,16 +167,17 @@ public class Elbow extends SparkMaxRotatingSubsystem {
 
     @Override
     public void mustangPeriodic() {
-        SmartDashboard.putNumber("elbow forward soft limit", super.rotator.getSoftLimit(SoftLimitDirection.kForward));
-        SmartDashboard.putNumber("elbow backward soft limit", super.rotator.getSoftLimit(SoftLimitDirection.kReverse));
+        // SmartDashboard.putNumber("elbow forward soft limit", super.rotator.getSoftLimit(SoftLimitDirection.kForward));
+        // SmartDashboard.putNumber("elbow backward soft limit", super.rotator.getSoftLimit(SoftLimitDirection.kReverse));
+        SmartDashboard.putNumber("Elbow position (deg)", getCurrentAngleInDegrees());
+        SmartDashboard.putNumber("abs encoder position", absEncoder.getAbsolutePosition());
         
     }
 
     @Override
     public void debugSubsystem() {
-        //return manymanymanymanymanymanymanymanybeans;
-        SmartDashboard.putNumber("Elbow Speed:",super.rotator.get());
-        SmartDashboard.putNumber("Elbow position (deg)", getCurrentAngleInDegrees());
+        // SmartDashboard.putNumber("Elbow Speed:",super.rotator.get());
+        // SmartDashboard.putNumber("Elbow position (deg)", getCurrentAngleInDegrees());
 
     }
 

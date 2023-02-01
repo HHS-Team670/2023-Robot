@@ -34,7 +34,8 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
 
 
 		public int getDeviceID() {
-			return RobotMap.SHOULDER_LEADER_MOTOR; //Must set this later
+            return 0;
+			//return RobotMap.SHOULDER_LEADER_MOTOR; //Must set this later
         }
 		
 

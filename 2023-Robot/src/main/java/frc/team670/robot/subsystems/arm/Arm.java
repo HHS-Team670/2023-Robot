@@ -74,7 +74,7 @@ public class Arm extends MustangSubsystemBase {
          elbow.setSystemTargetAngleInDegrees(target.getElbowAngle());
         //shoulder.setSystemTargetAngleInDegrees(target.getShoulderAngle());
         
-        SmartDashboard.putNumber("shoulder target (deg)", target.getShoulderAngle());
+        //SmartDashboard.putNumber("shoulder target (deg)", target.getShoulderAngle());
         SmartDashboard.putNumber("elbow target (deg)", target.getElbowAngle());
 
     }
