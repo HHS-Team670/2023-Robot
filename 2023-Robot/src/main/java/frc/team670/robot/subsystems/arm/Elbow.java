@@ -10,28 +10,26 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.revrobotics.CANSparkMax.IdleMode;
 import frc.team670.mustanglib.utils.motorcontroller.MotorConfig.Motor_Type;
 
-import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMax.SoftLimitDirection;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import frc.team670.mustanglib.utils.motorcontroller.MotorConfig;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.team670.mustanglib.subsystems.SparkMaxRotatingSubsystem;
 import frc.team670.mustanglib.utils.motorcontroller.SparkMAXFactory;
 import frc.team670.mustanglib.utils.motorcontroller.SparkMAXLite;
-import frc.team670.mustanglib.utils.motorcontroller.MotorConfig.Motor_Type;
 import frc.team670.robot.constants.RobotMap;
 
 import org.ejml.simple.ConvertToDenseException;
 
 public class Elbow extends SparkMaxRotatingSubsystem {
     
-
+    DutyCycleEncoder absEncoder;
+    private static final double ABSOLUTE_ENCODER_POSITION_AT_ELBOW_MAX = 0.0;
+    private static final double ABSOLUTE_ENCODER_POSITION_AT_ELBOW_MIN = 0.0;
 
 
     //TODO: Fix Constants
     /*
-     * PID and SmartMotion constants for the Shoulder joint
+     * PID and SmartMotion constants for the elbow joint
      */
     public static class Config extends SparkMaxRotatingSubsystem.Config {
         public static final double ELBOW_GEAR_RATIO = 25.0;
