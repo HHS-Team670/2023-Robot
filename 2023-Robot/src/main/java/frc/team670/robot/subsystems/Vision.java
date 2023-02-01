@@ -4,6 +4,7 @@ import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -32,18 +33,20 @@ public class Vision extends VisionSubsystemBase {
 
     }
 
-    public Transform2d getTranslationToBestTarget() {
-        PhotonPipelineResult result = camera.getLatestResult();
-        if (result.hasTargets()) {
-            PhotonTrackedTarget target = result.getBestTarget();
-            target.getSkew();
-            Transform3d cameraToTarget = target.getBestCameraToTarget();
-            cameraToTarget.getRotation();
-            double x = cameraToTarget.getX();
-            double y = cameraToTarget.getY();
+    // public Transform2d getTransformationToBestTarget() {
+    //     PhotonPipelineResult result = camera.getLatestResult();
+    //     if (result.hasTargets()) {
+    //         PhotonTrackedTarget target = result.getBestTarget();
+    //         Transform3d cameraToTarget = target.getBestCameraToTarget();
+    //         cameraToTarget.getTranslation().toTranslation2d();
+    //         Rotation3d rotation = cameraToTarget.getRotation();
+    //         double x = cameraToTarget.getX();
+    //         double y = cameraToTarget.getY();
+
             
-            return new Transform2d(new Translation2d(x, y), new Rotation2d());
-        } else return new Transform2d();
-    }
+            
+    //         return new Transform2d(new Translation2d(x, y), rotation);
+    //     } else return new Transform2d();
+    // }
 
 }

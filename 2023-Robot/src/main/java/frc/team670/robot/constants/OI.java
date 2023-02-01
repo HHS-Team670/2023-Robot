@@ -1,6 +1,7 @@
 package frc.team670.robot.constants;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.team670.mustanglib.commands.drive.teleop.SetSwerveForwardDirection;
 import frc.team670.mustanglib.constants.OIBase;
@@ -32,7 +33,7 @@ public class OI extends OIBase {
         zeroGyro.onTrue(new SetSwerveForwardDirection(driveBase)); // deprecated
                                                                    // Button.whenPressed(), used
                                                                    // Trigger.onTrue()
-        move.onTrue(new MoveToPose(driveBase, 1, 1, false));
+        move.onTrue(new MoveToPose(driveBase, new Pose2d(1, 1, new Rotation2d()), true));
     }
 
 }

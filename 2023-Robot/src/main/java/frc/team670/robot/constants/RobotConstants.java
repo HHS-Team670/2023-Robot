@@ -4,13 +4,14 @@
 
 package frc.team670.robot.constants;
 
+import static java.util.Map.entry;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.Enumeration;
 import java.util.Map;
-
-import static java.util.Map.entry; 
-
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.trajectory.constraint.DifferentialDriveKinematicsConstraint;
 import edu.wpi.first.wpilibj.SerialPort;
@@ -93,14 +94,21 @@ public final class RobotConstants extends RobotConstantsBase {
     public static final double FRONT_LEFT_MODULE_STEER_OFFSET = hardwareSpecificConstants.get(MAC_ADDRESS).get("FRONT_LEFT_MODULE_STEER_OFFSET"); //   Measure and set front left steer offset
 
     public final static SerialPort.Port NAVX_PORT = SerialPort.Port.kMXP;
-
     
     public static final double kMaxSpeedMetersPerSecond = 2;
     public static final double kMaxAccelerationMetersPerSecondSquared = 2;
     public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI * 16;
     public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI * 16;
     
-    //Everything below is copied from 2022 robot
+    // vision
+    public static final String VISION_CAMERA_NAME = "Microsoft_LifeCam_HD-3000"; // TODO: change to global shutter camera name
+    public static final Transform2d CAMERA_OFFSET = 
+        new Transform2d(new Translation2d(0, 0), new Rotation2d(0));    // TODO: changed when camera actually mounted, may need to change based on robot
+    public static final Transform2d GRID_TO_TARGET_OFFSET = 
+        new Transform2d(new Translation2d(1, 0), new Rotation2d(0));    // TODO: check game manual for actual specs
+    
+    
+        //Everything below is copied from 2022 robot
     public static final double kTrackwidthMeters = 0.702;
 
     public static final int kTimeoutMs = 0;

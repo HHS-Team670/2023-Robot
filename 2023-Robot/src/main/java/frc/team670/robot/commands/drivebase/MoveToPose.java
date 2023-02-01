@@ -8,6 +8,9 @@ import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.PathPoint;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.team670.mustanglib.commands.MustangCommand;
@@ -23,34 +26,44 @@ public class MoveToPose extends InstantCommand implements MustangCommand {
     private SwerveDrive swerve;
     private boolean isRelative;
     private PathPlannerTrajectory path;
-    private double x, y;
     private MustangScheduler scheduler = MustangScheduler.getInstance();
-
+    private double x, y;
+    private Rotation2d rotation;
     protected Map<MustangSubsystemBase, HealthState> healthReqs;
 
 
-    public MoveToPose(SwerveDrive swerve, double x, double y, boolean isRelative) {
-        this.x = x;
-        this.y = y;
+    public MoveToPose(SwerveDrive swerve, double x, double y, Rotation2d rotation,
+            boolean isRelative) {
         this.swerve = swerve;
         this.isRelative = isRelative;
         path = null;
+        this.x = x;
+        this.y = y;
+        this.rotation = rotation;
+        this.healthReqs = new HashMap<MustangSubsystemBase, HealthState>();
+        this.healthReqs.put(swerve, HealthState.GREEN);
+    }
+
+    public MoveToPose(SwerveDrive swerve, Pose2d targetPose, boolean isRelative) {
+        this.swerve = swerve;
+        this.isRelative = false;
+        path = null;
+        this.x = targetPose.getX();
+        this.y = targetPose.getY();
+        this.rotation = targetPose.getRotation();
         this.healthReqs = new HashMap<MustangSubsystemBase, HealthState>();
         this.healthReqs.put(swerve, HealthState.GREEN);
     }
 
     private PathPoint calcStartPoint() {
-        return new PathPoint(swerve.getPose().getTranslation(), swerve.getGyroscopeRotation());
+        PathPoint.fromCurrentHolonomicState(null, null);
+        return new PathPoint(swerve.getPose().getTranslation(), new Rotation2d(),
+                swerve.getGyroscopeRotation());
     }
 
-    private PathPoint calcEndPoint() {
-        Pose2d targetPose;
-        if (isRelative) {
-            targetPose = new Pose2d(swerve.getPose().getX() + x, swerve.getPose().getY() + y, null);
-        } else {
-            targetPose = new Pose2d(x, y, swerve.getGyroscopeRotation());
-        }
-        return new PathPoint(targetPose.getTranslation(), targetPose.getRotation());
+    private PathPoint calcEndPoint(Pose2d targetPose) {
+        return new PathPoint(targetPose.getTranslation(), new Rotation2d(),
+                swerve.getGyroscopeRotation());
     }
 
     @Override
@@ -60,8 +73,15 @@ public class MoveToPose extends InstantCommand implements MustangCommand {
 
     @Override
     public void initialize() {
+        Pose2d targetPose;
+        if (isRelative)
+            targetPose = new Pose2d(swerve.getPose().getX() + x, swerve.getPose().getY() + y,
+                    swerve.getPose().getRotation().plus(rotation));
+        else
+            targetPose = new Pose2d(x, y, rotation);
+
         path = PathPlanner.generatePath(new PathConstraints(1, 0.5), calcStartPoint(),
-                calcEndPoint());
+                calcEndPoint(targetPose));
 
         // TODO: TUNE PID CONTROLLERS
         PIDController xController = new PIDController(3, 0, 0);
