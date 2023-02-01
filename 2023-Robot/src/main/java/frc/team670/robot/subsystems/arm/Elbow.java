@@ -132,7 +132,13 @@ public class Elbow extends SparkMaxRotatingSubsystem {
 
     }
 
-    
+    public void setEncoderPositionFromAbsolute() {
+        clearSetpoint();
+        rotator_encoder.setPosition(
+             (getAbsoluteEncoderRotations() - ABSOLUTE_ENCODER_POSITION_AT_ELBOW_MIN)
+                        * ELBOW_GEAR_RATIO);
+        // Logger.consoleLog("Encoder position set: %s", rotator_encoder.getPosition());
+    }
 
 
     @Override
