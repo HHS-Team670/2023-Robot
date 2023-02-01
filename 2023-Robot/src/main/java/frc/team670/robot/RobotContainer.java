@@ -42,7 +42,8 @@ public class RobotContainer extends RobotContainerBase {
 
     @Override
     public void robotInit() {
-        new MoveArmTest();
+       MoveArmTest armTest = new MoveArmTest();
+        armTest.testMoveArm();
         // TODO Auto-generated method stub
     }
     
