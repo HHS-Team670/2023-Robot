@@ -21,20 +21,33 @@ import frc.team670.robot.subsystems.DriveBase;
 
 public class ConeCube extends SequentialCommandGroup implements MustangCommand {
     
+    String pathName;
+
     public Map<MustangSubsystemBase, HealthState> getHealthRequirements() {
         return new HashMap();
     }
 
+    public HashMap<String, Command> initialzeEventMap() {
+        HashMap<String, Command> eventMap = new HashMap<>();
+        if (pathName.equals("LeftConeCube")) {
+            eventMap.put("dropOff1", new PrintOutCommand("Drop Off 1 Occured"));
+            eventMap.put("pickup", new PrintOutCommand("Pickup Occured"));
+            eventMap.put("dropOff2", new PrintOutCommand("Drop Off 2 Occured"));
+        }
+
+        return eventMap;
+    }
+
     public ConeCube(DriveBase driveBase, String pathName) {
+        this.pathName = pathName;
         List<PathPlannerTrajectory> trajectoryGroup = PathPlanner.loadPathGroup(pathName, 1.0, 0.5);
         
         PIDConstants PID_translation = new PIDConstants(1.0, 0, 0);
         PIDConstants PID_theta = new PIDConstants(1.0, 0, 0);
 
-        Map<String, Command> eventMap = new HashMap<>();
-        eventMap.put("dropOff1", new PrintOutCommand("Drop Off 1 Occured")); // should be replaced with our arm command later
-        eventMap.put("pickup", new PrintOutCommand("Pickup Occured"));
-        eventMap.put("dropOff2", new PrintOutCommand("Drop Off 2 Occured"));
+        
+        HashMap<String, Command> eventMap = initialzeEventMap(); 
+
         SwerveDriveKinematics driveBaseKinematics = driveBase.getSwerveKinematics();
 
         SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(
