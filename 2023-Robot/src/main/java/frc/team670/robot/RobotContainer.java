@@ -19,6 +19,7 @@ import frc.team670.robot.commands.drivebase.AutoLevel;
 import frc.team670.robot.constants.OI;
 import frc.team670.robot.subsystems.DriveBase;
 import frc.team670.robot.commands.arm.MoveArmTest;
+
 import frc.team670.robot.subsystems.arm.Arm;
 import frc.team670.robot.subsystems.arm.Shoulder;
 
@@ -42,8 +43,8 @@ public class RobotContainer extends RobotContainerBase {
 
     @Override
     public void robotInit() {
-       MoveArmTest armTest = new MoveArmTest();
-        armTest.testMoveArm();
+    //    MoveArmTest armTest = new MoveArmTest();
+        // armTest.testMoveArm();
         // TODO Auto-generated method stub
     }
     

@@ -20,6 +20,7 @@ public class MoveDirectlyToTarget extends CommandBase implements MustangCommand 
 
     public MoveDirectlyToTarget(Arm arm, ArmState end){
         //
+        addRequirements(arm);
         healthReqs = new HashMap<MustangSubsystemBase, HealthState>();
         this.arm = arm;
         
