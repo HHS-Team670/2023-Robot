@@ -32,8 +32,9 @@ public class ConeCube extends SequentialCommandGroup implements MustangCommand {
         PIDConstants PID_theta = new PIDConstants(1.0, 0, 0);
 
         Map<String, Command> eventMap = new HashMap<>();
-        eventMap.put("event", new PrintOnStopPoint());
-
+        eventMap.put("dropOff1", new PrintOutCommand("Drop Off 1 Occured")); // should be replaced with our arm command later
+        eventMap.put("pickup", new PrintOutCommand("Pickup Occured"));
+        eventMap.put("dropOff2", new PrintOutCommand("Drop Off 2 Occured"));
         SwerveDriveKinematics driveBaseKinematics = driveBase.getSwerveKinematics();
 
         SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(

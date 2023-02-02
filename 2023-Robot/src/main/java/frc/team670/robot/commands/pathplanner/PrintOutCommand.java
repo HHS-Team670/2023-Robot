@@ -8,15 +8,21 @@ import frc.team670.mustanglib.commands.MustangCommand;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase.HealthState;
 
-public class PrintOnStopPoint extends InstantCommand implements MustangCommand {
+public class PrintOutCommand extends InstantCommand implements MustangCommand {
     
+    String message;
+
+    public PrintOutCommand(String message) {
+        this.message = message;
+    }
+
     public Map<MustangSubsystemBase, HealthState> getHealthRequirements() {
         return null;
     }
 
     public void execute() {
-        System.out.println("Waypoint reached");
-        SmartDashboard.putBoolean("Waypoint reached", true);
+        System.out.println(message);
+        SmartDashboard.putBoolean(message, true);
     }
 
 }
