@@ -17,7 +17,7 @@ import com.pathplanner.lib.auto.SwerveAutoBuilder;
 
 import frc.team670.robot.commands.drivebase.AutoLevel;
 import frc.team670.robot.commands.pathplanner.ConeCube;
-import frc.team670.robot.commands.pathplanner.PrintOutCommand;
+
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;

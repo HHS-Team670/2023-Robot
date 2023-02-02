@@ -12,6 +12,7 @@ import com.pathplanner.lib.auto.SwerveAutoBuilder;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.team670.mustanglib.commands.MustangCommand;
@@ -33,7 +34,8 @@ public class CubeEngage extends SequentialCommandGroup implements MustangCommand
         PIDConstants PID_theta = new PIDConstants(1.0, 0, 0);
 
         Map<String, Command> eventMap = new HashMap<>();
-        eventMap.put("auto level", new AutoLevel(driveBase));
+        eventMap.put("dropOff", new PrintCommand("dropOff reached")); // may add side differences later
+        eventMap.put("auto level", new AutoLevel(driveBase)); // regardless of what side (right/left) you are on, markers are the same
 
         SwerveDriveKinematics driveBaseKinematics = driveBase.getSwerveKinematics();
 
