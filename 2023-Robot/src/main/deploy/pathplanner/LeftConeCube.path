@@ -16,8 +16,10 @@
       "isLocked": false,
       "isStopPoint": false,
       "stopEvent": {
-        "names": [],
-        "executionBehavior": "parallel",
+        "names": [
+          "dropOff1"
+        ],
+        "executionBehavior": "sequential",
         "waitBehavior": "none",
         "waitTime": 0
       }
@@ -42,10 +44,10 @@
       "isStopPoint": true,
       "stopEvent": {
         "names": [
-          "event"
+          "pickup"
         ],
-        "executionBehavior": "parallel",
-        "waitBehavior": "before",
+        "executionBehavior": "sequential",
+        "waitBehavior": "none",
         "waitTime": 5.0
       }
     },
@@ -65,8 +67,10 @@
       "isLocked": false,
       "isStopPoint": false,
       "stopEvent": {
-        "names": [],
-        "executionBehavior": "parallel",
+        "names": [
+          "dropOff2"
+        ],
+        "executionBehavior": "sequential",
         "waitBehavior": "none",
         "waitTime": 0
       }
