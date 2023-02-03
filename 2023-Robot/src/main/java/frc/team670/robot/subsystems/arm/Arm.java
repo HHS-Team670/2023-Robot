@@ -161,13 +161,13 @@ public class Arm extends MustangSubsystemBase {
         @Override
         public int compareTo(Pair o) {
             if (this.path.size() < o.path.size())
-                return 1;
+                return 0;
             else if (this.path.size() > o.path.size())
-                return 0;
-            else if (this.node.getStateID() < o.node.getStateID())
                 return 1;
-            else
+            else if (this.node.getStateID() < o.node.getStateID())
                 return 0;
+            else
+                return 1;
 
         }
 

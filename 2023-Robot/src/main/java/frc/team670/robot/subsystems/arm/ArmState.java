@@ -51,7 +51,7 @@ public enum ArmState {
     //   double L2 = 25.0;
     //   double L3 = 35;
       
-    //   this.stateID = stateID;
+      this.stateID = stateID;
 
     //   //arm segment lengths
     //   //20"(to bottomof drive base tubes), 25", 35"
