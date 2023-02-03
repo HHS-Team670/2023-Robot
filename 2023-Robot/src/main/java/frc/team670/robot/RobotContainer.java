@@ -26,6 +26,7 @@ import frc.team670.mustanglib.commands.MustangCommand;
 import frc.team670.mustanglib.utils.MustangController;
 import frc.team670.robot.constants.OI;
 import frc.team670.robot.subsystems.DriveBase;
+import frc.team670.robot.commands.drivebase.NonPidAutoLevel;
 
 /**
  * RobotContainer is where we put the high-level code for the robot.
@@ -57,7 +58,7 @@ public class RobotContainer extends RobotContainerBase {
      */
     @Override
     public MustangCommand getAutonomousCommand() {
-        return new AutoLevel(driveBase);
+        return new NonPidAutoLevel(driveBase);
 
         //return new ConeCube(driveBase, "LeftConeCube");
 
