@@ -44,13 +44,17 @@ public final class RobotConstants extends RobotConstantsBase {
             entry("BACK_RIGHT_MODULE_STEER_OFFSET", -Math.toRadians(228.85)),
             entry("BACK_LEFT_MODULE_STEER_OFFSET",-Math.toRadians(228.3)),
             entry("FRONT_RIGHT_MODULE_STEER_OFFSET", -Math.toRadians(2.37)),
-            entry("FRONT_LEFT_MODULE_STEER_OFFSET", -Math.toRadians(30.2))
+            entry("FRONT_LEFT_MODULE_STEER_OFFSET", -Math.toRadians(30.2)),
+            entry("SHOULDER_ABSOLUTE_ENCODER_AT_VERTICAL", 0.0),
+            entry("ELBOW_ABSOLUTE_ENCODER_AT_VERTICAL", 0.0)
         )),
         entry("00:80:2F:24:4A:34", Map.ofEntries( //The mac address is from 670_MadMax
             entry("BACK_RIGHT_MODULE_STEER_OFFSET", -Math.toRadians(292.5)),
             entry("BACK_LEFT_MODULE_STEER_OFFSET",-Math.toRadians(232.91)),
             entry("FRONT_RIGHT_MODULE_STEER_OFFSET", -Math.toRadians(352.35)),
-            entry("FRONT_LEFT_MODULE_STEER_OFFSET", -Math.toRadians(136.67))    
+            entry("FRONT_LEFT_MODULE_STEER_OFFSET", -Math.toRadians(136.67)),
+            entry("SHOULDER_ABSOLUTE_ENCODER_AT_VERTICAL", 0.0),
+            entry("ELBOW_ABSOLUTE_ENCODER_AT_VERTICAL", 0.0)
         ))
 
     );
@@ -102,6 +106,17 @@ public final class RobotConstants extends RobotConstantsBase {
     
     //Everything below is copied from 2022 robot
     public static final double kTrackwidthMeters = 0.702;
+
+    //Arm
+    public static final double ELBOW_ABSOLUTE_ENCODER_AT_VERTICAL = hardwareSpecificConstants.get(MAC_ADDRESS).get("ELBOW_ABSOLUTE_ENCODER_AT_VERTICAL");
+    public static final double SHOULDER_ABSOLUTE_ENCODER_AT_VERTICAL = hardwareSpecificConstants.get(MAC_ADDRESS).get("SHOULDER_ABSOLUTE_ENCODER_AT_VERTICAL");
+    public static final int SHOULDER_GEAR_RATIO = 96;
+    public static final int ELBOW_GEAR_RATIO = 75;
+    public static final int ELBOW_SOFT_LIMIT_MIN = 45;
+    public static final int ELBOW_SOFT_LIMIT_MAX = 315;
+    public static final int SHOULDER_SOFT_LIMIT_MIN = 45;
+    public static final int SHOULDER_SOFT_LIMIT_MAX = 315;
+    
 
     public static final int kTimeoutMs = 0;
     public static final double leftKsVolts = 0.4;

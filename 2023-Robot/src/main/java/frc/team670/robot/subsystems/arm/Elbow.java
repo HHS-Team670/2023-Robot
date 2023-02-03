@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.DutyCycleEncoder;
 //import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team670.mustanglib.utils.motorcontroller.SparkMAXFactory;
 import frc.team670.mustanglib.utils.motorcontroller.SparkMAXLite;
+import frc.team670.robot.constants.RobotConstants;
 import frc.team670.robot.constants.RobotMap;
 
 import org.ejml.simple.ConvertToDenseException;
@@ -23,8 +24,6 @@ import org.ejml.simple.ConvertToDenseException;
 public class Elbow extends SparkMaxRotatingSubsystem {
     
     DutyCycleEncoder absEncoder;
-    private static final double ABSOLUTE_ENCODER_POSITION_AT_ELBOW_MAX = 0.0;
-    private static final double ABSOLUTE_ENCODER_POSITION_AT_ELBOW_MIN = 0.0;
 
 
     //TODO: Fix Constants
@@ -32,7 +31,6 @@ public class Elbow extends SparkMaxRotatingSubsystem {
      * PID and SmartMotion constants for the Shoulder joint
      */
     public static class Config extends SparkMaxRotatingSubsystem.Config {
-        public static final double ELBOW_GEAR_RATIO = 25.0;
 
         public int getDeviceID() {
             return 24; //RobotMap.FLIP_OUT;
@@ -58,7 +56,7 @@ public class Elbow extends SparkMaxRotatingSubsystem {
             return 0;
         }
 
-        public double getFF() { // Good enough for 2/17
+        public double getFF() {
             return 0.000176;
         }
 
@@ -87,7 +85,7 @@ public class Elbow extends SparkMaxRotatingSubsystem {
         }
 
         public float[] setSoftLimits() {
-            return new float[]{convertDegreesToRotations(340), convertDegreesToRotations(20)};
+            return new float[]{convertDegreesToRotations(RobotConstants.ELBOW_SOFT_LIMIT_MAX), convertDegreesToRotations(RobotConstants.ELBOW_SOFT_LIMIT_MIN)};
         }
 
         public int getContinuousCurrent() {
@@ -99,7 +97,7 @@ public class Elbow extends SparkMaxRotatingSubsystem {
         }
 
         public double getRotatorGearRatio() {
-            return ELBOW_GEAR_RATIO;//FLIPOUT_GEAR_RATIO;
+            return RobotConstants.ELBOW_GEAR_RATIO;
         }
 
         public IdleMode setRotatorIdleMode() {
@@ -116,7 +114,7 @@ public class Elbow extends SparkMaxRotatingSubsystem {
             return 0;
         }
         public float convertDegreesToRotations(float d) {
-            return (float) ((d / 360) * ELBOW_GEAR_RATIO);
+            return (float) ((d / 360) * RobotConstants.ELBOW_GEAR_RATIO);
         }
 
     }
@@ -135,7 +133,7 @@ public class Elbow extends SparkMaxRotatingSubsystem {
     public void setEncoderPositionFromAbsolute() {
         clearSetpoint();
         rotator_encoder.setPosition(
-             (rotator_encoder.getPosition() - ABSOLUTE_ENCODER_POSITION_AT_ELBOW_MIN)* super.ROTATOR_GEAR_RATIO);
+             (rotator_encoder.getPosition() - (RobotConstants.ELBOW_ABSOLUTE_ENCODER_AT_VERTICAL - 0.5) ) * RobotConstants.ELBOW_GEAR_RATIO);
         // Logger.consoleLog("Encoder position set: %s", rotator_encoder.getPosition());
     }
 
@@ -148,7 +146,6 @@ public class Elbow extends SparkMaxRotatingSubsystem {
     
     @Override
     public double getCurrentAngleInDegrees(){
-        //double rotations = super.getRotatorEncoder().getPosition()/super.getRotatorEncoder().getCountsPerRevolution();//
         double rotations = super.getRotatorEncoder().getPosition();
          
         // convert rotations to angle here
@@ -172,20 +169,18 @@ public class Elbow extends SparkMaxRotatingSubsystem {
 
     @Override
     public void mustangPeriodic() {
-        // SmartDashboard.putNumber("elbow forward soft limit", super.rotator.getSoftLimit(SoftLimitDirection.kForward));
-        // SmartDashboard.putNumber("elbow backward soft limit", super.rotator.getSoftLimit(SoftLimitDirection.kReverse));
-        SmartDashboard.putNumber("Elbow position (deg)", getCurrentAngleInDegrees());
-        SmartDashboard.putNumber("abs encoder position", absEncoder.getAbsolutePosition());
         
     }
 
     @Override
     public void debugSubsystem() {
-        // SmartDashboard.putNumber("Elbow Speed:",super.rotator.get());
-        // SmartDashboard.putNumber("Elbow position (deg)", getCurrentAngleInDegrees());
-
+        SmartDashboard.putNumber("Elbow Speed:",super.rotator.get());
+        SmartDashboard.putNumber("Elbow position (deg)", getCurrentAngleInDegrees());
+        SmartDashboard.putNumber("elbow forward soft limit", super.rotator.getSoftLimit(SoftLimitDirection.kForward));
+        SmartDashboard.putNumber("elbow backward soft limit", super.rotator.getSoftLimit(SoftLimitDirection.kReverse));
+        SmartDashboard.putNumber("Elbow position (deg)", getCurrentAngleInDegrees());
+        SmartDashboard.putNumber("abs encoder position", absEncoder.getAbsolutePosition());
     }
-
 
 
     /** 

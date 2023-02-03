@@ -18,7 +18,6 @@ import frc.team670.mustanglib.utils.MustangController;
 import frc.team670.robot.commands.drivebase.AutoLevel;
 import frc.team670.robot.constants.OI;
 import frc.team670.robot.subsystems.DriveBase;
-import frc.team670.robot.commands.arm.MoveArmTest;
 
 import frc.team670.robot.subsystems.arm.Arm;
 import frc.team670.robot.subsystems.arm.Shoulder;

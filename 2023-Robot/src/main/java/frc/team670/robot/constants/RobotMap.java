@@ -18,9 +18,11 @@ public class RobotMap {
     public static final int RIGHT_ENCODER_CHANNEL_B = 3;
   
     // Arm
-    public static final int SHOULDER_LEADER_MOTOR = 24;
-    public static final int SHOULDER_FOLLOWER_MOTOR = 8;
-    public static final int ELBOW_MOTOR = 6;
+    public static final int SHOULDER_LEADER_MOTOR = 2;
+    public static final int SHOULDER_FOLLOWER_MOTOR = 3;
+    public static final int ELBOW_MOTOR = 4;
+    public static final int SHOULDER_ABSOLUTE_ENCODER = 0;
+    public static final int ELBOW_ABSOLUTE_ENCODER = 1;
   
     // Claw
     public static final int SOLENOID_0 = 0;
@@ -42,11 +44,5 @@ public class RobotMap {
     // Joysticks
     public static final int DRIVER_CONTROLLER_PORT = 0;
     public static final int OPERATOR_CONTROLLER_PORT = 1;
-  
-    //Intake
-    public static final int INTAKE_BASE_TALON = 7;
-    public static final int INTAKE_ROLLER_TALON = 4;
-  
-    /** PCM Port of the back LED ring (super bright one) */
-    public static int BACK_LED_RING = 4;
+
 }

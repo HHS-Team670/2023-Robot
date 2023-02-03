@@ -34,7 +34,7 @@ public class Arm extends MustangSubsystemBase {
     private static ArmState VALID_PATHS[][][] = new ArmState[NUM_STATES][NUM_STATES][];
 
     public Arm() {
-        //this.shoulder = new Shoulder();
+        this.shoulder = new Shoulder();
         this.elbow = new Elbow();
         init();
     }
@@ -71,7 +71,7 @@ public class Arm extends MustangSubsystemBase {
     public void moveToTarget(ArmState target) {
         this.currentState = target;
         // TODO: Give the proper setpoints to Shoulder and Elbow
-         elbow.setSystemTargetAngleInDegrees(target.getElbowAngle());
+        elbow.setSystemTargetAngleInDegrees(target.getElbowAngle());
         shoulder.setSystemTargetAngleInDegrees(target.getShoulderAngle());
         
         SmartDashboard.putNumber("shoulder target (deg)", target.getShoulderAngle());
