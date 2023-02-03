@@ -169,6 +169,8 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
         SmartDashboard.putNumber("Shoulder Speed:",super.rotator.get());
         //SmartDashboard.putNumber("Shoulder position", super.rotator_encoder.getPosition());
         SmartDashboard.putNumber("Shoulder position (deg)", getCurrentAngleInDegrees());
+        SmartDashboard.putNumber("abs encoder position", absEncoder.getAbsolutePosition());
+
         
     }
 
