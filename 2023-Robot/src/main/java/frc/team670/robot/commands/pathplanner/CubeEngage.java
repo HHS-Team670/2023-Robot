@@ -29,7 +29,7 @@ public class CubeEngage extends SequentialCommandGroup implements MustangCommand
     }
 
     public CubeEngage(DriveBase driveBase, String pathName) {
-        List<PathPlannerTrajectory> trajectoryGroup = PathPlanner.loadPathGroup(pathName, 1.0, 0.5);
+        List<PathPlannerTrajectory> trajectoryGroup = PathPlanner.loadPathGroup(pathName, 3, 1.5);
         
         PIDConstants PID_translation = new PIDConstants(1.0, 0, 0);
         PIDConstants PID_theta = new PIDConstants(1.0, 0, 0);
