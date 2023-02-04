@@ -39,7 +39,7 @@ public class MoveArmTest {
                     MustangScheduler.getInstance.run();
                 }
                 try {
-                    assertTrue(Arm.isAt(end));
+                    assertTrue(arm.hasReachedTargetPosition());
                 } catch (Exception e) {
                     // TODO: handle exception
                 }

@@ -2,36 +2,31 @@ package frc.team670.robot.subsystems.arm;
 
 import java.util.ArrayList;
 import java.util.PriorityQueue;
-
-import edu.wpi.first.wpilibj.motorcontrol.Spark;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
-import frc.team670.mustanglib.utils.motorcontroller.MotorConfig.Motor_Type;
-import frc.team670.mustanglib.utils.motorcontroller.SparkMAXFactory;
-import frc.team670.mustanglib.utils.motorcontroller.SparkMAXLite;
-import frc.team670.robot.constants.RobotMap;
-import com.revrobotics.REVLibError;
 
+/**
+ * Represents the whole Arm system, containing multiple joints.
+ * Models the arm as a state machine.
+ * @author Armaan, Aditi, Alexander, Gabriel, Kedar, Justin
+ */
 public class Arm extends MustangSubsystemBase {
-    private static final double MAX_DEPTH = 10;
-    public static final int NUM_STATES = 9;
     private Shoulder shoulder;
     private Elbow elbow;
-    private ArmState currentState;
+    private ArmState targetState;
 
     private static final ArmState[][] VALID_PATHS_GRAPH = new ArmState[][] {
-            { ArmState.DOUBLE_SUBSTATION, ArmState.HIGH_SHELF}, // STOWED
+            { ArmState.INTERMEDIATE_HOPPER, ArmState.SCORE_MID, ArmState.SCORE_HIGH, ArmState.DOUBLE_SUBSTATION }, // STOWED
             { ArmState.INTERMEDIATE_HOPPER }, // HOPPER
-            { ArmState.INTAKE_GROUND, ArmState.HYBRID}, // INTERMEDIATE_HOPPER
-            { ArmState.INTERMEDIATE_HOPPER, ArmState.HIGH_SHELF }, // SCORE_CONE_HIGH
-            { ArmState.INTERMEDIATE_HOPPER }, // SCORE_CONE_HIGH
-            { ArmState.SCORE_CONE_HIGH }, // HIGH_SHELF
-            { ArmState.SCORE_CONE_MID, ArmState.INTAKE_GROUND, ArmState.HOPPER }, // HYBRID
-            { ArmState.INTERMEDIATE_HOPPER, ArmState.SCORE_CONE_MID }, // INTAKE_GROUND
-            { ArmState.INTAKE_GROUND }, // DOUBLE_SUBSTATION
+            { ArmState.STOWED, ArmState.SCORE_MID, ArmState.SCORE_HIGH, ArmState.DOUBLE_SUBSTATION, ArmState.HOPPER }, // INTERMEDIATE_HOPPER
+            { ArmState.STOWED, ArmState.INTERMEDIATE_HOPPER, ArmState.SCORE_HIGH, ArmState.HYBRID,
+                    ArmState.INTAKE_GROUND }, // SCORE_MID
+            { ArmState.STOWED, ArmState.INTERMEDIATE_HOPPER, ArmState.SCORE_MID }, // SCORE_HIGH
+            { ArmState.SCORE_MID }, // HYBRID
+            { ArmState.SCORE_MID }, // INTAKE_GROUND
+            { ArmState.STOWED, ArmState.INTERMEDIATE_HOPPER }, // DOUBLE_SUBSTATION
     };
 
-    private static ArmState VALID_PATHS[][][] = new ArmState[NUM_STATES][NUM_STATES][];
+    private static ArmState VALID_PATHS[][][] = new ArmState[VALID_PATHS_GRAPH.length][VALID_PATHS_GRAPH.length][];
 
     public Arm() {
         this.shoulder = new Shoulder();
@@ -40,9 +35,8 @@ public class Arm extends MustangSubsystemBase {
     }
 
     private static void init() {
-        SmartDashboard.putNumber("arm Target ID", 0);
-        for (int i = 0; i < NUM_STATES; i++) {
-            for (int j = 0; j < NUM_STATES; j++) {
+        for (int i = 0; i < VALID_PATHS_GRAPH.length; i++) {
+            for (int j = 0; j < VALID_PATHS_GRAPH.length; j++) {
                 // set validpaths[i][j] to the path between i and j
                 VALID_PATHS[i][j] = getValidPath(ArmState.getVal(i), ArmState.getVal(j));
             }
@@ -59,9 +53,7 @@ public class Arm extends MustangSubsystemBase {
 
     @Override
     public void mustangPeriodic() {
-        shoulder.debugSubsystem();
-        elbow.debugSubsystem();
-        moveToTarget(ArmState.getVal((int) SmartDashboard.getNumber("arm Target ID", 0)));
+        debugSubsystem();
     }
 
     /**
@@ -69,51 +61,46 @@ public class Arm extends MustangSubsystemBase {
      * We must handle checking for valid paths ELSEWHERE.
      */
     public void moveToTarget(ArmState target) {
-        this.currentState = target;
-        // TODO: Give the proper setpoints to Shoulder and Elbow
+        this.targetState = target;
         elbow.setSystemTargetAngleInDegrees(target.getElbowAngle());
         shoulder.setSystemTargetAngleInDegrees(target.getShoulderAngle());
-        
-        SmartDashboard.putNumber("shoulder target (deg)", target.getShoulderAngle());
-        SmartDashboard.putNumber("elbow target (deg)", target.getElbowAngle());
-
     }
 
     /**
      * Returns the state we're moving towards
      * Ex: If we're moving from A to B, this returns B
      */
-    public ArmState getCurrentState() {
-        
-        return currentState; 
+    public ArmState getTargetState() {
+
+        return targetState;
     }
 
     /**
-     * Returns whether or not the arm is physically at the given state
+     * Returns whether or not the arm is physically at the targetState
      * 
-     * @param target The target state we're checking
+     * 
      */
-    public boolean isAt(ArmState target) {
-        return shoulder.hasReachedTargetPosition()&& elbow.hasReachedTargetPosition();
+    public boolean hasReachedTargetPosition() {
+        return shoulder.hasReachedTargetPosition() && elbow.hasReachedTargetPosition();
     }
 
     /**
      * Returns a valid list of states from the starting State to the ending State
-     * This list should NOT include the starting state, but SHOULD include the
-     * ending state
+     * This path should include BOTH the starting state AND the ending state
      */
     public static ArmState[] getValidPath(ArmState start, ArmState finish) {
         // retrieve the list of intermediate states from VALID_PATHS
-        
-        
-        if (VALID_PATHS[start.getStateID()][finish.getStateID()]== null) {
+        // if Validpath[start][finish]==null then run dykestras below else return
+        // validpaths[start[finish]]
+        // System.out.println(Arrays.toString(VALID_PATHS[start.getStateID()][finish.getStateID()]));
+        if (VALID_PATHS[start.getStateID()][finish.getStateID()] == null) {
+
             ArrayList<ArmState> tempValidPath = null;
             PriorityQueue<Pair> queue = new PriorityQueue<Pair>();
             ArrayList<ArmState> list = new ArrayList<ArmState>();
 
             queue.add(new Pair(list, start));
-            int count = 0;
-            while (count < MAX_DEPTH && !queue.isEmpty()) {
+            while (!queue.isEmpty()) {
                 Pair v = queue.poll();
                 v.path.add(v.node);
                 if (v.node == finish) {
@@ -124,20 +111,19 @@ public class Arm extends MustangSubsystemBase {
                     list = new ArrayList<>(v.path);
                     queue.add(new Pair(list, state));
                 }
-                count++;
 
             }
-            if(tempValidPath!=null){
+            if (tempValidPath != null) {
                 ArmState[] path = tempValidPath.toArray(new ArmState[tempValidPath.size()]);
                 if (path.length == 0) {
-                    // Logger.consoleLog("No valid path found.");
+                    System.out.println("No valid path found between " + start + " and " + finish);
                 }
                 return path;
             }
-            return new ArmState[]{};
+
+            return new ArmState[] {};
 
         } else {
-            // return VALID_PATHS[start.getStateID()][finish.getStateID()];
             return VALID_PATHS[start.getStateID()][finish.getStateID()];
         }
 
@@ -145,8 +131,8 @@ public class Arm extends MustangSubsystemBase {
 
     @Override
     public void debugSubsystem() {
-        //shoulder.debugSubsystem();
-         elbow.debugSubsystem();
+        shoulder.debugSubsystem();
+        elbow.debugSubsystem();
     }
 
     static class Pair implements Comparable<Pair> {
@@ -170,6 +156,5 @@ public class Arm extends MustangSubsystemBase {
                 return 1;
 
         }
-
     }
 }

@@ -10,7 +10,8 @@ import frc.team670.mustanglib.utils.MustangController.XboxButtons;
 import frc.team670.robot.commands.drivebase.MoveToPose;
 import frc.team670.robot.subsystems.DriveBase;
 import frc.team670.robot.commands.arm.MoveToTarget;
-import frc.team670.robot.subsystems.arm.*;
+import frc.team670.robot.subsystems.arm.Arm;
+import frc.team670.robot.subsystems.arm.ArmState;
 public class OI extends OIBase {
     // Controllers
     private static MustangController driverController = new MustangController(0);
@@ -37,8 +38,8 @@ public class OI extends OIBase {
                                                                    // Button.whenPressed(), used
                                                                    // Trigger.onTrue()
         move.onTrue(new MoveToPose(driveBase, 1, 1, false));
-        highCone.onTrue(new MoveToTarget(ArmState.HIGH_SHELF, arm));
-        stowButton.onTrue(new MoveToTarget(ArmState.HOPPER, arm));
+        highCone.onTrue(new MoveToTarget(arm, ArmState.SCORE_HIGH));
+        stowButton.onTrue(new MoveToTarget(arm, ArmState.HOPPER));
     }
 
 }

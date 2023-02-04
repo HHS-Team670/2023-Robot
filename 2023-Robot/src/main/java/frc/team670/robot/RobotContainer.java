@@ -20,7 +20,7 @@ import frc.team670.robot.constants.OI;
 import frc.team670.robot.subsystems.DriveBase;
 
 import frc.team670.robot.subsystems.arm.Arm;
-import frc.team670.robot.subsystems.arm.Shoulder;
+
 
 /**
  * RobotContainer is where we put the high-level code for the robot.
@@ -31,20 +31,17 @@ import frc.team670.robot.subsystems.arm.Shoulder;
 public class RobotContainer extends RobotContainerBase {
 
     private final DriveBase driveBase = new DriveBase(getDriverController());
-
+    private final Arm arm=new Arm();
     private static OI oi = new OI();
 
     public RobotContainer() {
         super();
         addSubsystem(driveBase);
-        oi.configureButtonBindings(driveBase);
+        oi.configureButtonBindings(driveBase,arm);
     }
 
     @Override
     public void robotInit() {
-    //    MoveArmTest armTest = new MoveArmTest();
-        // armTest.testMoveArm();
-        // TODO Auto-generated method stub
     }
     
     /**
