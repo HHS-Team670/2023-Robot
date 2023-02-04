@@ -59,16 +59,15 @@ public enum ArmState {
     
       double yDisplacement = yPos - L1;
 
-      //double q2 =Math.toDegrees(-Math.acos((xPos*xPos + yDisplacement*yDisplacement - L2*L2 - L3*L3) / (2 * L2 * L3)));
+      double q2 =Math.toDegrees(-Math.acos((xPos*xPos + yDisplacement*yDisplacement - L2*L2 - L3*L3) / (2 * L2 * L3)));
 
-      //double q1 = Math.toDegrees(Math.atan(yDisplacement/xPos)) + Math.toDegrees(Math.atan((L2 * Math.toDegrees(Math.sin(q2)))/(L2 + L3 * Math.toDegrees(Math.cos(q2)))));
-      double q2 = -Math.acos(Math.pow(xPos,2) + Math.pow(yDisplacement,2) - Math.pow(L2,2) - Math.pow(L3,2)/(2*L2*L3)); 
-      // System.out.println(xPos);
-      // System.out.println(Math.pow(xPos,2) + Math.pow(yDisplacement,2) - Math.pow(L2,2) - Math.pow(L3,2)/(2*L2*L3));
-      // System.out.println(Math.pow(yDisplacement,2));
-      double q1 = Math.atan(yDisplacement/xPos)+ Math.atan(L3*Math.sin(q2)/(L2 + L3*Math.cos(q2)));
-      shoulderAngle = Math.toDegrees(q1) + 90;
-      elbowAngle = 180 + Math.toDegrees(q2); //q2 should be negative
+      double q1 = Math.toDegrees(Math.atan(yDisplacement/xPos)) + Math.toDegrees(Math.atan((L2 * Math.toDegrees(Math.sin(q2)))/(L2 + L3 * Math.toDegrees(Math.cos(q2)))));
+      shoulderAngle = q1 + 90;
+      elbowAngle = 180+ q2;
+      //double q2 = -Math.acos((Math.pow(xPos,2) + Math.pow(yDisplacement,2) - Math.pow(L2,2) - Math.pow(L3,2))/(2*L2*L3)); 
+      //double q1 = Math.atan(yDisplacement/xPos)+ Math.atan(L3*Math.sin(q2)/(L2 + L3*Math.cos(q2)));
+      // shoulderAngle = Math.toDegrees(q1) + 90;
+      // elbowAngle = 180 + Math.toDegrees(q2); //q2 should be negative
 
     }
     
