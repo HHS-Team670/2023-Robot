@@ -17,6 +17,7 @@ import com.pathplanner.lib.auto.SwerveAutoBuilder;
 
 import frc.team670.robot.commands.drivebase.AutoLevel;
 import frc.team670.robot.commands.pathplanner.ConeCube;
+import frc.team670.robot.commands.pathplanner.CubeEngage;
 
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -58,7 +59,7 @@ public class RobotContainer extends RobotContainerBase {
      */
     @Override
     public MustangCommand getAutonomousCommand() {
-        return new NonPidAutoLevel(driveBase);
+        return new CubeEngage(driveBase, "RightCubeEngage");
 
         //return new ConeCube(driveBase, "LeftConeCube");
 

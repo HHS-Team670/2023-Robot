@@ -53,19 +53,24 @@ public class NonPidAutoLevel extends CommandBase implements MustangCommand {
             hasGoneUp = true;
         }
 
-        if ((previousPitch - pitch) < 0.5) { // we are increasing
+        if ((previousPitch - pitch) < 0) { // we are increasing
             
-            ChassisSpeeds chassisSpeeds = new ChassisSpeeds(0.55, 0.0, 0.0);
+            ChassisSpeeds chassisSpeeds = new ChassisSpeeds(-0.55, 0.0, 0.0); // bc facing -x
             SwerveModuleState[] states = driveBase.getSwerveKinematics().toSwerveModuleStates(chassisSpeeds);
             driveBase.setModuleStates(states);
         }
         else { // we are decreasing now
             SwerveModuleState[] states = new SwerveModuleState[4];
-            states[0] = new SwerveModuleState(0, new Rotation2d(Math.PI/4)); // front right
-            states[1] = new SwerveModuleState(0, new Rotation2d(-Math.PI/4)); // front left
-            states[2] = new SwerveModuleState(0, new Rotation2d(-Math.PI/4)); // back left
-            states[3] = new SwerveModuleState(0, new Rotation2d(Math.PI/4));
+            states[0] = new SwerveModuleState(0.0, new Rotation2d(Math.PI/4)); 
+            states[1] = new SwerveModuleState(0.0, new Rotation2d(-Math.PI/4));
+            states[2] = new SwerveModuleState(0.0, new Rotation2d(-Math.PI/4));
+            states[3] = new SwerveModuleState(0.0, new Rotation2d(Math.PI/4));
             driveBase.setModuleStates(states);
+
+            // states[0] = new SwerveModuleState(0.01, new Rotation2d(Math.PI/4)); 
+            // states[1] = new SwerveModuleState(0.01, new Rotation2d(-Math.PI/4));
+            // states[2] = new SwerveModuleState(0.01, new Rotation2d(-Math.PI/4));
+            // states[3] = new SwerveModuleState(0.01, new Rotation2d(Math.PI/4));
         }
     }
 

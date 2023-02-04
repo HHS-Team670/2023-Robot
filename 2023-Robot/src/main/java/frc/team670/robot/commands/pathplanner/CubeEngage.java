@@ -20,6 +20,7 @@ import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase.HealthState;
 import frc.team670.robot.commands.drivebase.AutoLevel;
 import frc.team670.robot.subsystems.DriveBase;
+import frc.team670.robot.commands.drivebase.NonPidAutoLevel;
 
 public class CubeEngage extends SequentialCommandGroup implements MustangCommand {
     
@@ -35,7 +36,7 @@ public class CubeEngage extends SequentialCommandGroup implements MustangCommand
 
         Map<String, Command> eventMap = new HashMap<>();
         eventMap.put("dropOff", new PrintCommand("dropOff reached")); // may add side differences later
-        eventMap.put("auto level", new AutoLevel(driveBase)); // regardless of what side (right/left) you are on, markers are the same
+        eventMap.put("auto level", new NonPidAutoLevel(driveBase)); // regardless of what side (right/left) you are on, markers are the same
 
         SwerveDriveKinematics driveBaseKinematics = driveBase.getSwerveKinematics();
 
