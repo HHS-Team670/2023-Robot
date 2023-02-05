@@ -21,6 +21,7 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
 
     DutyCycleEncoder absEncoder;
     private SparkMAXLite follower;
+    private boolean hasSetAbsolutePosition = false;
 
     /*
      * PID and SmartMotion constants for the Shoulder joint
@@ -135,6 +136,10 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
         boolean leaderOK = (leaderRotatorError == REVLibError.kOk);
         boolean followerOK = (followerRotatorError == REVLibError.kOk);
 
+        if(!hasSetAbsolutePosition) {
+            return HealthState.RED;
+        }
+
         if(!leaderOK && !followerOK) {
             return HealthState.RED;
         }
@@ -178,7 +183,12 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
 
 	@Override
 	public void mustangPeriodic() {
-		setEncoderPositionFromAbsolute();
+        if(!hasSetAbsolutePosition) {
+            if(absEncoder.getAbsolutePosition() != 0.000) { //If it's PRECISELY 0, then it doesn't have a valid position yet
+            	setEncoderPositionFromAbsolute();
+                hasSetAbsolutePosition = true;
+            }
+        }
 		
 	}
 }

@@ -19,6 +19,7 @@ import frc.team670.robot.constants.RobotMap;
 public class Elbow extends SparkMaxRotatingSubsystem {
 
     DutyCycleEncoder absEncoder;
+    private boolean hasSetAbsolutePosition = false;
 
     /*
      * PID and SmartMotion constants for the Shoulder joint
@@ -155,7 +156,12 @@ public class Elbow extends SparkMaxRotatingSubsystem {
     @Override
     public void mustangPeriodic() {
 
-		setEncoderPositionFromAbsolute();
+		if(!hasSetAbsolutePosition) {
+            if(absEncoder.getAbsolutePosition() != 0.000) { //If it's PRECISELY 0, then it doesn't have a valid position yet
+            	setEncoderPositionFromAbsolute();
+                hasSetAbsolutePosition = true;
+            }
+        }
         
     }
 }
