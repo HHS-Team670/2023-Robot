@@ -136,6 +136,11 @@ public class Elbow extends SparkMaxRotatingSubsystem {
     @Override
     public HealthState checkHealth() {
         REVLibError rotatorError = super.rotator.getLastError();
+
+        if(!hasSetAbsolutePosition) {
+            return HealthState.RED;
+        }
+        
         if (rotatorError != null && rotatorError != REVLibError.kOk) {
             return HealthState.RED;
         }
