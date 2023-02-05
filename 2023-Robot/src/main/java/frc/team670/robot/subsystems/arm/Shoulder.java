@@ -132,8 +132,8 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
         REVLibError leaderRotatorError = super.rotator.getLastError();
         REVLibError followerRotatorError = follower.getLastError();
 
-        boolean leaderOK = (leaderRotatorError != null && leaderRotatorError != REVLibError.kOk);
-        boolean followerOK = (followerRotatorError != null && followerRotatorError != REVLibError.kOk);
+        boolean leaderOK = (leaderRotatorError == REVLibError.kOk);
+        boolean followerOK = (followerRotatorError == REVLibError.kOk);
 
         if(!leaderOK && !followerOK) {
             return HealthState.RED;
@@ -157,6 +157,8 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
         SmartDashboard.putNumber("Shoulder position (deg)", getCurrentAngleInDegrees());
         SmartDashboard.putNumber("Shoulder abs encoder position", absEncoder.getAbsolutePosition());
 
+        SmartDashboard.putString("Shoulder health", checkHealth().toString());
+
     }
 
     /**
@@ -165,14 +167,18 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
      */
     public void setEncoderPositionFromAbsolute() {
         clearSetpoint();
+        double absEncoderPosition = absEncoder.getAbsolutePosition();
         rotator_encoder.setPosition(
-                (absEncoder.getAbsolutePosition() - (RobotConstants.SHOULDER_ABSOLUTE_ENCODER_AT_VERTICAL - 0.5))
+                (absEncoderPosition - (RobotConstants.SHOULDER_ABSOLUTE_ENCODER_AT_VERTICAL - 0.5))
                         * RobotConstants.SHOULDER_GEAR_RATIO);
+        SmartDashboard.putNumber("shoulder position at init", absEncoderPosition);
+        SmartDashboard.putNumber("shoulder rotator encoder setPosition", absEncoderPosition - (RobotConstants.SHOULDER_ABSOLUTE_ENCODER_AT_VERTICAL - 0.5)
+        * RobotConstants.SHOULDER_GEAR_RATIO);
     }
 
 	@Override
 	public void mustangPeriodic() {
-		// TODO Auto-generated method stub
+		setEncoderPositionFromAbsolute();
 		
 	}
 }

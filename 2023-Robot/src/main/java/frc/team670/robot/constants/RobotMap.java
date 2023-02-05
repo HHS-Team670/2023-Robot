@@ -16,8 +16,8 @@ public class RobotMap {
     public static final int SHOULDER_LEADER_MOTOR = 2;
     public static final int SHOULDER_FOLLOWER_MOTOR = 3;
     public static final int ELBOW_MOTOR = 4;
-    public static final int SHOULDER_ABSOLUTE_ENCODER = 0;
-    public static final int ELBOW_ABSOLUTE_ENCODER = 1;
+    public static final int SHOULDER_ABSOLUTE_ENCODER = 1;
+    public static final int ELBOW_ABSOLUTE_ENCODER = 2;
   
     
 

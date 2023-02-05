@@ -115,7 +115,7 @@ public class Elbow extends SparkMaxRotatingSubsystem {
 
     public Elbow() {
         super(ELBOW_CONFIG);
-        absEncoder = new DutyCycleEncoder(0);
+        absEncoder = new DutyCycleEncoder(RobotMap.ELBOW_ABSOLUTE_ENCODER);
         setEncoderPositionFromAbsolute();
 
     }
@@ -149,11 +149,13 @@ public class Elbow extends SparkMaxRotatingSubsystem {
         SmartDashboard.putNumber("elbow backward soft limit", super.rotator.getSoftLimit(SoftLimitDirection.kReverse));
         SmartDashboard.putNumber("Elbow position (deg)", getCurrentAngleInDegrees());
         SmartDashboard.putNumber("Elbow abs encoder position", absEncoder.getAbsolutePosition());
+        SmartDashboard.putString("Elbow health", checkHealth().toString());
     }
 
     @Override
     public void mustangPeriodic() {
-        // TODO Auto-generated method stub
+
+		setEncoderPositionFromAbsolute();
         
     }
 }

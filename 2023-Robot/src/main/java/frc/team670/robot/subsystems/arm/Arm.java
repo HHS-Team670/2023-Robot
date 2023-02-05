@@ -2,6 +2,8 @@ package frc.team670.robot.subsystems.arm;
 
 import java.util.ArrayList;
 import java.util.PriorityQueue;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 
 /**
@@ -31,6 +33,7 @@ public class Arm extends MustangSubsystemBase {
     public Arm() {
         this.shoulder = new Shoulder();
         this.elbow = new Elbow();
+        this.targetState = ArmState.STOWED;
         init();
     }
 
@@ -133,6 +136,7 @@ public class Arm extends MustangSubsystemBase {
     public void debugSubsystem() {
         shoulder.debugSubsystem();
         elbow.debugSubsystem();
+        SmartDashboard.putString("Arm target state", getTargetState().toString());
     }
 
     static class Pair implements Comparable<Pair> {
@@ -156,5 +160,13 @@ public class Arm extends MustangSubsystemBase {
                 return 1;
 
         }
+    }
+
+    public Shoulder getShoulder() {
+        return shoulder;
+    }
+
+    public Elbow getElbow() {
+        return elbow;
     }
 }

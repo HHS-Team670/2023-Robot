@@ -95,7 +95,7 @@ public enum ArmState {
           return state;
         }
       }
-      return null;
+      return ArmState.STOWED;
       
     }
   }
