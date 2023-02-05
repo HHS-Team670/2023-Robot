@@ -69,11 +69,11 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
         }
 
         public double getMaxAcceleration() {
-            return 500;
+            return 1000;
         }
 
         public double getAllowedError() {
-            return 0.07;
+            return RobotConstants.SHOULDER_GEAR_RATIO * 2.0/360;
         }
 
         public boolean enableSoftLimits() {
@@ -103,7 +103,7 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
 
         @Override
         public double getMaxRotatorRPM() {
-            return 500;
+            return 960;
         }
 
         @Override
@@ -119,7 +119,7 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
         super(SHOULDER_CONFIG);
         follower = SparkMAXFactory.setPermanentFollower(RobotMap.SHOULDER_FOLLOWER_MOTOR, rotator);
         absEncoder = new DutyCycleEncoder(RobotMap.SHOULDER_ABSOLUTE_ENCODER);
-        setEncoderPositionFromAbsolute();
+        //setEncoderPositionFromAbsolute();
 
     }
 
@@ -137,7 +137,7 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
         boolean followerOK = (followerRotatorError == REVLibError.kOk);
 
         if(!hasSetAbsolutePosition) {
-            return HealthState.RED;
+            return HealthState.YELLOW;
         }
 
         if(!leaderOK && !followerOK) {

@@ -67,11 +67,11 @@ public class Elbow extends SparkMaxRotatingSubsystem {
         }
 
         public double getMaxAcceleration() {
-            return 5000;
+            return 1000;
         }
 
         public double getAllowedError() {
-            return 0.1;
+            return RobotConstants.ELBOW_GEAR_RATIO * 2.0/360;
         }
 
         public boolean enableSoftLimits() {
@@ -101,7 +101,7 @@ public class Elbow extends SparkMaxRotatingSubsystem {
 
         @Override
         public double getMaxRotatorRPM() {
-            return 500;
+            return 450;
         }
 
         @Override
@@ -117,7 +117,7 @@ public class Elbow extends SparkMaxRotatingSubsystem {
     public Elbow() {
         super(ELBOW_CONFIG);
         absEncoder = new DutyCycleEncoder(RobotMap.ELBOW_ABSOLUTE_ENCODER);
-        setEncoderPositionFromAbsolute();
+        //setEncoderPositionFromAbsolute();
 
     }
 
@@ -138,7 +138,7 @@ public class Elbow extends SparkMaxRotatingSubsystem {
         REVLibError rotatorError = super.rotator.getLastError();
 
         if(!hasSetAbsolutePosition) {
-            return HealthState.RED;
+            return HealthState.YELLOW;
         }
         
         if (rotatorError != null && rotatorError != REVLibError.kOk) {
