@@ -11,6 +11,8 @@ import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
 import frc.team670.robot.commands.drivebase.MustangPPSwerveControllerCommand;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.PowerDistribution;
+import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.team670.mustanglib.RobotContainerBase;
 import frc.team670.mustanglib.commands.MustangCommand;
@@ -18,6 +20,7 @@ import frc.team670.mustanglib.utils.MustangController;
 import frc.team670.robot.commands.drivebase.AutoLevel;
 import frc.team670.robot.constants.OI;
 import frc.team670.robot.subsystems.DriveBase;
+import frc.team670.robot.subsystems.Vision;
 
 /**
  * RobotContainer is where we put the high-level code for the robot.
@@ -27,14 +30,18 @@ import frc.team670.robot.subsystems.DriveBase;
 
 public class RobotContainer extends RobotContainerBase {
 
+    private final PowerDistribution pd = new PowerDistribution(1, ModuleType.kCTRE);
+    
     private final DriveBase driveBase = new DriveBase(getDriverController());
+    private final Vision vision = new Vision(pd);
 
     private static OI oi = new OI();
 
     public RobotContainer() {
         super();
-        addSubsystem(driveBase);
-        oi.configureButtonBindings(driveBase);
+        addSubsystem(driveBase, vision);
+
+        oi.configureButtonBindings(driveBase, vision);
     }
 
     @Override
@@ -112,18 +119,15 @@ public class RobotContainer extends RobotContainerBase {
         
     }
 
-    @Override
     public MustangController getOperatorController() {
         // TODO Auto-generated method stub
         return null;
     }
 
-    @Override
     public MustangController getDriverController() {
         return OI.getDriverController();
     }
 
-    @Override
     public MustangController getBackupController() {
         // TODO Auto-generated method stub
         return null;

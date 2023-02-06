@@ -24,7 +24,7 @@ public class Vision extends VisionSubsystemBase {
     @Override
     public void mustangPeriodic() {
         // TODO Auto-generated method stub
-
+        // super.processImage(0, 0, 0); //TODO: find camera offsets
     }
 
     @Override

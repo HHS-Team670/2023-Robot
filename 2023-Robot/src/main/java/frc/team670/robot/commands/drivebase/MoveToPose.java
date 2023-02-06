@@ -9,8 +9,6 @@ import com.pathplanner.lib.PathPoint;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Transform2d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.team670.mustanglib.commands.MustangCommand;
@@ -56,7 +54,6 @@ public class MoveToPose extends InstantCommand implements MustangCommand {
     }
 
     private PathPoint calcStartPoint() {
-        PathPoint.fromCurrentHolonomicState(null, null);
         return new PathPoint(swerve.getPose().getTranslation(), new Rotation2d(),
                 swerve.getGyroscopeRotation());
     }

@@ -4,6 +4,7 @@ import java.util.Map;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.team670.mustanglib.commands.MustangCommand;
@@ -36,6 +37,8 @@ public class AutoAlign extends InstantCommand implements MustangCommand {
         // find pose of nearest target
         Pose2d robotPose = swerve.getPose();
         var result = vision.getCamera().getLatestResult();
+        if (!result.hasTargets()) return;
+
         var camToTarget = result.getBestTarget().getBestCameraToTarget();
         Transform2d transform = new Transform2d(camToTarget.getTranslation().toTranslation2d(),
                 camToTarget.getRotation().toRotation2d());
@@ -44,12 +47,24 @@ public class AutoAlign extends InstantCommand implements MustangCommand {
 
         // transform by offset (to not crash)
         Pose2d goalPose = targetPose.transformBy(RobotConstants.GRID_TO_TARGET_OFFSET);
+        SmartDashboard.putNumber("goal pose x", goalPose.getX());
+        SmartDashboard.putNumber("goal pose y", goalPose.getY());
 
-        if (getDistance(goalPose.getX(), goalPose.getY()) < 1) scheduler.schedule(new MoveToPose(swerve, goalPose, true), swerve);
-        else scheduler.schedule(new MoveToPosePID(swerve, goalPose, true), swerve);
+        double distance = getDistance(transform.getX(), transform.getY());
+        SmartDashboard.putNumber("goal pose distance", distance);
+
+        scheduler.schedule(new MoveToPose(swerve, goalPose, false), swerve);
+        // String command = "";
+        // if (distance < 1)
+        // // command = "PID";
+        // scheduler.schedule(new MoveToPosePID(swerve, goalPose, false), swerve);
+        // else
+        //     scheduler.schedule(new MoveToPose(swerve, goalPose, false), swerve);
+        // // command = "path planner";
+        // SmartDashboard.putString("move to pose type: ", command);
         // move to target pose, make sure dont crash into target
-        
-    }  
+
+    }
 
 
     @Override
