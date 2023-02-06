@@ -66,7 +66,7 @@ public class Arm extends MustangSubsystemBase {
     public void moveToTarget(ArmState target) {
         this.targetState = target;
         elbow.setSystemTargetAngleInDegrees(target.getElbowAngle());
-       // shoulder.setSystemTargetAngleInDegrees(target.getShoulderAngle());
+       shoulder.setSystemTargetAngleInDegrees(target.getShoulderAngle());
     }
 
     /**
@@ -84,7 +84,7 @@ public class Arm extends MustangSubsystemBase {
      * 
      */
     public boolean hasReachedTargetPosition() {
-        return /*shoulder.hasReachedTargetPosition() && */elbow.hasReachedTargetPosition();
+        return shoulder.hasReachedTargetPosition() && elbow.hasReachedTargetPosition();
     }
 
     /**

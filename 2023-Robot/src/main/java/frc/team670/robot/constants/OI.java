@@ -1,6 +1,5 @@
 package frc.team670.robot.constants;
 
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.team670.mustanglib.commands.drive.teleop.SetSwerveForwardDirection;
 import frc.team670.mustanglib.constants.OIBase;
@@ -9,7 +8,7 @@ import frc.team670.mustanglib.utils.MustangController;
 import frc.team670.mustanglib.utils.MustangController.XboxButtons;
 import frc.team670.robot.commands.drivebase.MoveToPose;
 import frc.team670.robot.subsystems.DriveBase;
-import frc.team670.robot.commands.arm.MoveToTarget;
+import frc.team670.robot.commands.arm.MoveDirectlyToTarget;
 import frc.team670.robot.subsystems.arm.Arm;
 import frc.team670.robot.subsystems.arm.ArmState;
 public class OI extends OIBase {
@@ -38,8 +37,8 @@ public class OI extends OIBase {
                                                                    // Button.whenPressed(), used
                                                                    // Trigger.onTrue()
         move.onTrue(new MoveToPose(driveBase, 1, 1, false));
-        highCone.onTrue(new MoveToTarget(arm, ArmState.SCORE_HIGH));
-        stowButton.onTrue(new MoveToTarget(arm, ArmState.HOPPER));
+        highCone.onTrue(new MoveDirectlyToTarget(arm, ArmState.SCORE_HIGH));
+        stowButton.onTrue(new MoveDirectlyToTarget(arm, ArmState.STOWED));
     }
 
 }

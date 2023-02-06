@@ -45,7 +45,7 @@ public final class RobotConstants extends RobotConstantsBase {
             entry("BACK_LEFT_MODULE_STEER_OFFSET",-Math.toRadians(228.3)),
             entry("FRONT_RIGHT_MODULE_STEER_OFFSET", -Math.toRadians(2.37)),
             entry("FRONT_LEFT_MODULE_STEER_OFFSET", -Math.toRadians(30.2)),
-            entry("SHOULDER_ABSOLUTE_ENCODER_AT_VERTICAL", 0.872),
+            entry("SHOULDER_ABSOLUTE_ENCODER_AT_VERTICAL", 0.940),
             entry("ELBOW_ABSOLUTE_ENCODER_AT_VERTICAL", 0.944)
         )),
         entry("00:80:2F:24:4A:34", Map.ofEntries( //The mac address is from 670_MadMax
@@ -112,7 +112,7 @@ public final class RobotConstants extends RobotConstantsBase {
     public static final double SHOULDER_ABSOLUTE_ENCODER_AT_VERTICAL = hardwareSpecificConstants.get(MAC_ADDRESS).get("SHOULDER_ABSOLUTE_ENCODER_AT_VERTICAL");
     public static final int SHOULDER_GEAR_RATIO = 96;
     public static final int ELBOW_GEAR_RATIO = 75;
-    public static final int ELBOW_SOFT_LIMIT_MIN = 90;
+    public static final int ELBOW_SOFT_LIMIT_MIN = 60;
     public static final int ELBOW_SOFT_LIMIT_MAX = 270;
     public static final int SHOULDER_SOFT_LIMIT_MIN = 90;
     public static final int SHOULDER_SOFT_LIMIT_MAX = 270;

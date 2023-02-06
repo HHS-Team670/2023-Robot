@@ -11,6 +11,8 @@ import frc.team670.mustanglib.utils.motorcontroller.SparkMAXLite;
 import frc.team670.mustanglib.utils.motorcontroller.MotorConfig.Motor_Type;
 import frc.team670.robot.constants.RobotConstants;
 import frc.team670.robot.constants.RobotMap;
+
+import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.REVLibError;
 
 /**
@@ -22,6 +24,10 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
     DutyCycleEncoder absEncoder;
     private SparkMAXLite follower;
     private boolean hasSetAbsolutePosition = false;
+    int counter = 0;
+    double reading = 0.0;
+    double calculatedRelativePosition = 0.0;
+    boolean relativePositionIsSet = false;
 
     /*
      * PID and SmartMotion constants for the Shoulder joint
@@ -117,8 +123,8 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
 
     public Shoulder() {
         super(SHOULDER_CONFIG);
-        follower = SparkMAXFactory.setPermanentFollower(RobotMap.SHOULDER_FOLLOWER_MOTOR, rotator);
-        follower.setInverted(true);
+        follower = SparkMAXFactory.setPermanentFollower(RobotMap.SHOULDER_FOLLOWER_MOTOR, rotator, true);
+        follower.setIdleMode(IdleMode.kBrake);
         absEncoder = new DutyCycleEncoder(RobotMap.SHOULDER_ABSOLUTE_ENCODER);
         //setEncoderPositionFromAbsolute();
 
@@ -162,7 +168,7 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
                 super.rotator.getSoftLimit(SoftLimitDirection.kReverse));
         SmartDashboard.putNumber("Shoulder position (deg)", getCurrentAngleInDegrees());
         SmartDashboard.putNumber("Shoulder abs encoder position", absEncoder.getAbsolutePosition());
-
+        SmartDashboard.putNumber("Shoulder current", super.rotator.getOutputCurrent());
         SmartDashboard.putString("Shoulder health", checkHealth().toString());
 
     }
@@ -174,22 +180,37 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
     public void setEncoderPositionFromAbsolute() {
         clearSetpoint();
         double absEncoderPosition = absEncoder.getAbsolutePosition();
-        rotator_encoder.setPosition(
-                (absEncoderPosition - (RobotConstants.SHOULDER_ABSOLUTE_ENCODER_AT_VERTICAL - 0.5))
-                        * RobotConstants.SHOULDER_GEAR_RATIO);
+        double relativePosition =  ((-1 *(absEncoderPosition - (RobotConstants.SHOULDER_ABSOLUTE_ENCODER_AT_VERTICAL - 0.5)) + 1)
+        * RobotConstants.SHOULDER_GEAR_RATIO) % RobotConstants.SHOULDER_GEAR_RATIO;
+        REVLibError error = rotator_encoder.setPosition(relativePosition);
         SmartDashboard.putNumber("shoulder position at init", absEncoderPosition);
-        SmartDashboard.putNumber("shoulder rotator encoder setPosition", absEncoderPosition - (RobotConstants.SHOULDER_ABSOLUTE_ENCODER_AT_VERTICAL - 0.5)
-        * RobotConstants.SHOULDER_GEAR_RATIO);
+        SmartDashboard.putNumber("shoulder rotator encoder setPosition", relativePosition);
+        SmartDashboard.putString("shoulder error", error.toString());
+        calculatedRelativePosition = relativePosition;
     }
 
 	@Override
 	public void mustangPeriodic() {
-        if(!hasSetAbsolutePosition) {
-            if(absEncoder.getAbsolutePosition() != 0.000) { //If it's PRECISELY 0, then it doesn't have a valid position yet
+		if(!hasSetAbsolutePosition) {
+            double position =  absEncoder.getAbsolutePosition();
+            if(Math.abs(reading - position) < 0.02 && position != 0.0){
+                counter ++;
+            }else{
+                counter = 0;
+                reading = position;
+            }
+            if(counter > 200) { //If it's PRECISELY 0, then it doesn't have a valid position yet
             	setEncoderPositionFromAbsolute();
                 hasSetAbsolutePosition = true;
             }
+        }else if(!relativePositionIsSet){
+            if(Math.abs(super.rotator_encoder.getPosition() - calculatedRelativePosition)< 0.01){
+                relativePositionIsSet = true;
+            }else{
+                super.rotator_encoder.setPosition(calculatedRelativePosition);
+            }
+        } else {
+            
         }
-		
 	}
 }
