@@ -29,18 +29,41 @@ public class MoveToPosePID extends CommandBase implements MustangCommand {
     private HolonomicDriveController holonomicDriveController;
     private Pose2d startPose;
     private Pose2d targetPose;
-    private MustangController controller;
+    // private MustangController controller;
     private double x, y;
 
     protected Map<MustangSubsystemBase, HealthState> healthReqs;
 
 
-    public MoveToPosePID(SwerveDrive swerve, double x, double y, boolean isRelative, MustangController controller) {
+    // public MoveToPosePID(SwerveDrive swerve, Pose2d pose, boolean isRelative, MustangController controller) {
+    public MoveToPosePID(SwerveDrive swerve, Pose2d pose, boolean isRelative) {
         this.swerve = swerve;
         this.startPose = new Pose2d();
         this.targetPose = new Pose2d();
         this.isRelative = isRelative;
-        this.controller = controller;
+        // this.controller = controller;
+        this.x = pose.getX();
+        this.y = pose.getY();
+
+        PIDController xController = new PIDController(0.5, 0, 0);
+        PIDController yController = new PIDController(0.5, 0, 0);
+        ProfiledPIDController thetacontroller = new ProfiledPIDController(4, 0, 1,  // not tuned yet
+                new Constraints(RobotConstants.kMaxAngularSpeedRadiansPerSecond,
+                RobotConstants.kMaxAngularSpeedRadiansPerSecondSquared));
+        holonomicDriveController = new HolonomicDriveController(xController, yController, thetacontroller);
+        holonomicDriveController.setTolerance(new Pose2d(0.1, 0.1, Rotation2d.fromDegrees(0.5)));
+
+        this.healthReqs = new HashMap<MustangSubsystemBase, HealthState>();
+        this.healthReqs.put(swerve, HealthState.GREEN);
+    }
+
+    // public MoveToPosePID(SwerveDrive swerve, double x, double y, boolean isRelative, MustangController controller) {
+    public MoveToPosePID(SwerveDrive swerve, double x, double y, boolean isRelative) {
+        this.swerve = swerve;
+        this.startPose = new Pose2d();
+        this.targetPose = new Pose2d();
+        this.isRelative = isRelative;
+        // this.controller = controller;
         this.x = x;
         this.y = y;
 
@@ -82,7 +105,8 @@ public class MoveToPosePID extends CommandBase implements MustangCommand {
 
     @Override
     public boolean isFinished() {
-        return controller.getBButtonPressed() || holonomicDriveController.atReference();
+        // return controller.getBButtonPressed() || holonomicDriveController.atReference();
+        return holonomicDriveController.atReference();
     }
 
     @Override
