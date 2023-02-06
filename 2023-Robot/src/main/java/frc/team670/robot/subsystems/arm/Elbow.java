@@ -20,6 +20,12 @@ public class Elbow extends SparkMaxRotatingSubsystem {
 
     DutyCycleEncoder absEncoder;
     private boolean hasSetAbsolutePosition = false;
+    int counter = 0;
+    double reading = 0.0;
+    double calculatedRelativePosition = 0.0;
+    boolean relativePositionIsSet = false;
+
+    double target = 0.0;
 
     /*
      * PID and SmartMotion constants for the Shoulder joint
@@ -84,7 +90,7 @@ public class Elbow extends SparkMaxRotatingSubsystem {
         }
 
         public int getContinuousCurrent() {
-            return 20;
+            return 20 ;
         }
 
         public int getPeakCurrent() {
@@ -101,7 +107,7 @@ public class Elbow extends SparkMaxRotatingSubsystem {
 
         @Override
         public double getMaxRotatorRPM() {
-            return 450;
+            return 750;
         }
 
         @Override
@@ -117,15 +123,22 @@ public class Elbow extends SparkMaxRotatingSubsystem {
     public Elbow() {
         super(ELBOW_CONFIG);
         absEncoder = new DutyCycleEncoder(RobotMap.ELBOW_ABSOLUTE_ENCODER);
+        super.getRotator().setInverted(true);
+        SmartDashboard.putNumber("elbow target", target);
         //setEncoderPositionFromAbsolute();
 
     }
 
     public void setEncoderPositionFromAbsolute() {
         clearSetpoint();
-        rotator_encoder.setPosition(
-                (absEncoder.getAbsolutePosition() - (RobotConstants.ELBOW_ABSOLUTE_ENCODER_AT_VERTICAL - 0.5))
-                        * RobotConstants.ELBOW_GEAR_RATIO);
+        double absEncoderPosition = absEncoder.getAbsolutePosition();
+        double relativePosition =  (-1 *(absEncoderPosition - (RobotConstants.ELBOW_ABSOLUTE_ENCODER_AT_VERTICAL - 0.5)) + 1)
+        * RobotConstants.ELBOW_GEAR_RATIO;
+        REVLibError error = rotator_encoder.setPosition(relativePosition);
+        SmartDashboard.putNumber("elbow position at init", absEncoderPosition);
+        SmartDashboard.putNumber("elbow rotator encoder setPosition", relativePosition);
+        SmartDashboard.putString("Elbow error", error.toString());
+        calculatedRelativePosition = relativePosition;
     }
 
     @Override
@@ -137,9 +150,9 @@ public class Elbow extends SparkMaxRotatingSubsystem {
     public HealthState checkHealth() {
         REVLibError rotatorError = super.rotator.getLastError();
 
-        if(!hasSetAbsolutePosition) {
-            return HealthState.YELLOW;
-        }
+        // if(!hasSetAbsolutePosition) {
+        //     return HealthState.YELLOW;
+        // }
         
         if (rotatorError != null && rotatorError != REVLibError.kOk) {
             return HealthState.RED;
@@ -154,19 +167,35 @@ public class Elbow extends SparkMaxRotatingSubsystem {
         SmartDashboard.putNumber("elbow forward soft limit", super.rotator.getSoftLimit(SoftLimitDirection.kForward));
         SmartDashboard.putNumber("elbow backward soft limit", super.rotator.getSoftLimit(SoftLimitDirection.kReverse));
         SmartDashboard.putNumber("Elbow position (deg)", getCurrentAngleInDegrees());
+        SmartDashboard.putNumber("Elbow position", super.rotator_encoder.getPosition());
         SmartDashboard.putNumber("Elbow abs encoder position", absEncoder.getAbsolutePosition());
-        SmartDashboard.putString("Elbow health", checkHealth().toString());
     }
 
     @Override
     public void mustangPeriodic() {
-
+        //setEncoderPositionFromAbsolute();
 		if(!hasSetAbsolutePosition) {
-            if(absEncoder.getAbsolutePosition() != 0.000) { //If it's PRECISELY 0, then it doesn't have a valid position yet
+            double position =  absEncoder.getAbsolutePosition();
+            if(Math.abs(reading - position) < 0.02 && position != 0.0){
+                counter ++;
+            }else{
+                counter = 0;
+                reading = position;
+            }
+            if(counter > 200) { //If it's PRECISELY 0, then it doesn't have a valid position yet
             	setEncoderPositionFromAbsolute();
                 hasSetAbsolutePosition = true;
             }
+        }else if(!relativePositionIsSet){
+            if(Math.abs(super.rotator_encoder.getPosition() - calculatedRelativePosition)< 0.01){
+                relativePositionIsSet = true;
+            }else{
+                super.rotator_encoder.setPosition(calculatedRelativePosition);
+            }
+        } else {
+            setSystemTargetAngleInDegrees(SmartDashboard.getNumber("elbow target", 0.0));
+            
         }
-        
+
     }
 }

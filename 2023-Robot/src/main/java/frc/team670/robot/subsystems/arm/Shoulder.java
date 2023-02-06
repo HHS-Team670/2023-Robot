@@ -118,6 +118,7 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
     public Shoulder() {
         super(SHOULDER_CONFIG);
         follower = SparkMAXFactory.setPermanentFollower(RobotMap.SHOULDER_FOLLOWER_MOTOR, rotator);
+        follower.setInverted(true);
         absEncoder = new DutyCycleEncoder(RobotMap.SHOULDER_ABSOLUTE_ENCODER);
         //setEncoderPositionFromAbsolute();
 
@@ -136,9 +137,9 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
         boolean leaderOK = (leaderRotatorError == REVLibError.kOk);
         boolean followerOK = (followerRotatorError == REVLibError.kOk);
 
-        if(!hasSetAbsolutePosition) {
-            return HealthState.YELLOW;
-        }
+        // if(!hasSetAbsolutePosition) {
+        //     return HealthState.YELLOW;
+        // }
 
         if(!leaderOK && !followerOK) {
             return HealthState.RED;

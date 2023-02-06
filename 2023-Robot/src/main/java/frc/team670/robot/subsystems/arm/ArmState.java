@@ -2,7 +2,7 @@ package frc.team670.robot.subsystems.arm;
 
 /**
  * In order to add an ArmState
- * 1) Add ArmState to enum
+* 1) Add ArmState to enum
  * 2) Add to VALID_PATHS_GRAPH in Arm.java, along with all valid connections
  * 3) Add the state to the valid connections (i.e. if you can go from NEW_STATE to STOWED, then add NEW_STATE to STOWED's neighbor list)
  */
