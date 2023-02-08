@@ -176,28 +176,23 @@ body.login #login {
 }
 #status-lights-commands {
   position: absolute;
-  transform: translate(70vw, 66vh);
+  transform: translate(60vw, 56vh);
   z-index: 1;
 }
 #status-lights-subsystems {
     position: absolute;
-    transform: translate(70vw, 76vh);
+    transform: translate(60vw, 66vh);
     z-index: 1;
   }
 #warning-info {
     position: absolute;
     /*top: 51vh;*/
-    transform: translate(70vw, 60vh);
+    transform: translate(60vw, 60vh);
     /* width: 40vw;
     height: 10vh; */
     z-index: 1;
 }
-#robot-diagram {
-    position: absolute;
-    transform: translate(50vw, 1vh);
-    width: 50vw;
-    height: 55vh;
-}
+
 #claw {
     position: absolute;
     transform-origin: bottom center;
@@ -397,7 +392,6 @@ fieldset#position {
 }
 
 #camera-streams {
-    width: 100vw;
     height: 50vh;
     display: flex;
     flex-direction: row;
