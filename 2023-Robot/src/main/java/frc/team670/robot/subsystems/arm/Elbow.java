@@ -128,6 +128,10 @@ public class Elbow extends SparkMaxRotatingSubsystem {
         //setEncoderPositionFromAbsolute();
 
     }
+    
+    public double powerCalculator(int mass, double angle, int length){
+        return mass/2.205 * 9.8 * Math.sin(angle);
+    }
 
     public void setEncoderPositionFromAbsolute() {
         clearSetpoint();

@@ -31,7 +31,7 @@ public class Arm extends MustangSubsystemBase {
     private static ArmState VALID_PATHS[][][] = new ArmState[VALID_PATHS_GRAPH.length][VALID_PATHS_GRAPH.length][];
 
     public Arm() {
-        this.shoulder = new Shoulder();
+        //this.shoulder = new Shoulder();
         this.elbow = new Elbow();
         this.targetState = ArmState.STOWED;
         init();
@@ -48,9 +48,13 @@ public class Arm extends MustangSubsystemBase {
 
     @Override
     public HealthState checkHealth() {
-        if (elbow.checkHealth() == HealthState.RED || shoulder.checkHealth() == HealthState.RED) {
+        if(elbow.checkHealth() == HealthState.RED){
             return HealthState.RED;
         }
+        
+        // if (elbow.checkHealth() == HealthState.RED || shoulder.checkHealth() == HealthState.RED) {
+        //     return HealthState.RED;
+        // }
         return HealthState.GREEN;
     }
 
@@ -66,7 +70,7 @@ public class Arm extends MustangSubsystemBase {
     public void moveToTarget(ArmState target) {
         this.targetState = target;
         elbow.setSystemTargetAngleInDegrees(target.getElbowAngle());
-       shoulder.setSystemTargetAngleInDegrees(target.getShoulderAngle());
+       //shoulder.setSystemTargetAngleInDegrees(target.getShoulderAngle());
     }
 
     /**
@@ -84,7 +88,8 @@ public class Arm extends MustangSubsystemBase {
      * 
      */
     public boolean hasReachedTargetPosition() {
-        return shoulder.hasReachedTargetPosition() && elbow.hasReachedTargetPosition();
+        //return shoulder.hasReachedTargetPosition() && elbow.hasReachedTargetPosition();
+        return elbow.hasReachedTargetPosition();
     }
 
     /**
@@ -134,7 +139,7 @@ public class Arm extends MustangSubsystemBase {
 
     @Override
     public void debugSubsystem() {
-        shoulder.debugSubsystem();
+        //shoulder.debugSubsystem();
         elbow.debugSubsystem();
         SmartDashboard.putString("Arm target state", getTargetState().toString());
     }
@@ -162,9 +167,9 @@ public class Arm extends MustangSubsystemBase {
         }
     }
 
-    public Shoulder getShoulder() {
-        return shoulder;
-    }
+    // public Shoulder getShoulder() {
+    //     return shoulder;
+    // }
 
     public Elbow getElbow() {
         return elbow;
