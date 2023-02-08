@@ -135,7 +135,7 @@ NetworkTables.addKeyListener('/SmartDashboard/aligned', (key, value) => {
 });
 
 
-NetworkTables.addKeyListener('/SmartDashboard/aligned', (key, value) => { // TODO change key listener
+NetworkTables.addKeyListener('/SmartDashboard/level', (key, value) => { // TODO change key listener
 
     var level_indicator = document.querySelector('div#level-indicator');
     // var login = document.querySelector("#login");

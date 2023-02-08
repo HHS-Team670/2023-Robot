@@ -18,6 +18,7 @@ body {
     width: 100vw;
     height: 100vh;
     border: 40px solid transparent;
+    z-index: 999;
 }
 
 @keyframes borderBlink {    
@@ -39,7 +40,7 @@ body {
     font-size: 5rem;
     font-weight: bold;
     color: white;
-    z-index: 999;
+    z-index: 998;
     position: absolute;
     left: 30vw;
     top: 30vh;
