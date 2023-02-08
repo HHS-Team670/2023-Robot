@@ -35,9 +35,15 @@ body {
 
 #level-indicator{
     
-    display: none;
+    display: block;
     font-size: 5rem;
     font-weight: bold;
+    color: white;
+    z-index: 999;
+    position: absolute;
+    left: 30vw;
+    top: 30vh;
+    text-anchor: start
 }
 
 
