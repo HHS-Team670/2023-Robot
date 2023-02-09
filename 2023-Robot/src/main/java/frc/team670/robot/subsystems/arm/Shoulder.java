@@ -16,7 +16,9 @@ import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.REVLibError;
 
 /**
- * Represents the shoulder joint. The shoulder uses a leader-follower SparkMax pair
+ * Represents the shoulder joint. The shoulder uses a leader-follower SparkMax
+ * pair
+ * 
  * @author Armaan, Kedar, Aditi, Justin, Alexander, Gabriel
  */
 public class Shoulder extends SparkMaxRotatingSubsystem {
@@ -79,7 +81,7 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
         }
 
         public double getAllowedError() {
-            return RobotConstants.SHOULDER_GEAR_RATIO * 2.0/360;
+            return RobotConstants.SHOULDER_GEAR_RATIO * 2.0 / 360;
         }
 
         public boolean enableSoftLimits() {
@@ -126,8 +128,27 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
         follower = SparkMAXFactory.setPermanentFollower(RobotMap.SHOULDER_FOLLOWER_MOTOR, rotator, true);
         follower.setIdleMode(IdleMode.kBrake);
         absEncoder = new DutyCycleEncoder(RobotMap.SHOULDER_ABSOLUTE_ENCODER);
-        //setEncoderPositionFromAbsolute();
+        // setEncoderPositionFromAbsolute();
 
+    }
+
+    public double calculateFeedForward(double shoulderAngle, double elbowAngle) {
+        double L1 = 25;// TODO: length of shoulder CHANGE cm
+        double L2 = 35;// TODO: length of elbow CHANGE cm
+        double M1 = 25;// TODO: mass of shoulder CHANGE kg
+        double M2 = 35;// TODO: mass of elbow CHANGE kg
+        double M3 = 8;// TODO: mass of claw CHANGE kg
+        double x1 = L1 * Math.cos(shoulderAngle);
+        double x2 = L2 * Math.cos(shoulderAngle + elbowAngle - 270);
+        double xcm = M1 * x1 / 2.0 + M2 * (x1 + x2 / 2.0) + M3 * (x1 + x2);
+        return super.PIDs.FF * xcm;
+
+    }
+
+    public void updateArbitraryFeedForward(double elbowAngle) {
+        rotator_controller.setReference(setpoint,
+                SparkMAXLite.ControlType.kSmartMotion, super.SMARTMOTION_SLOT,
+                calculateFeedForward(this.getCurrentAngleInDegrees(), elbowAngle));
     }
 
     @Override
@@ -144,14 +165,14 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
         boolean followerOK = (followerRotatorError == REVLibError.kOk);
 
         // if(!hasSetAbsolutePosition) {
-        //     return HealthState.YELLOW;
+        // return HealthState.YELLOW;
         // }
 
-        if(!leaderOK && !followerOK) {
+        if (!leaderOK && !followerOK) {
             return HealthState.RED;
         }
 
-        if((leaderOK && !followerOK) || (!leaderOK && followerOK)) {
+        if ((leaderOK && !followerOK) || (!leaderOK && followerOK)) {
             return HealthState.YELLOW;
         }
 
@@ -180,8 +201,9 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
     public void setEncoderPositionFromAbsolute() {
         clearSetpoint();
         double absEncoderPosition = absEncoder.getAbsolutePosition();
-        double relativePosition =  ((-1 *(absEncoderPosition - (RobotConstants.SHOULDER_ABSOLUTE_ENCODER_AT_VERTICAL - 0.5)) + 1)
-        * RobotConstants.SHOULDER_GEAR_RATIO) % RobotConstants.SHOULDER_GEAR_RATIO;
+        double relativePosition = ((-1
+                * (absEncoderPosition - (RobotConstants.SHOULDER_ABSOLUTE_ENCODER_AT_VERTICAL - 0.5)) + 1)
+                * RobotConstants.SHOULDER_GEAR_RATIO) % RobotConstants.SHOULDER_GEAR_RATIO;
         REVLibError error = rotator_encoder.setPosition(relativePosition);
         SmartDashboard.putNumber("shoulder position at init", absEncoderPosition);
         SmartDashboard.putNumber("shoulder rotator encoder setPosition", relativePosition);
@@ -189,28 +211,28 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
         calculatedRelativePosition = relativePosition;
     }
 
-	@Override
-	public void mustangPeriodic() {
-		if(!hasSetAbsolutePosition) {
-            double position =  absEncoder.getAbsolutePosition();
-            if(Math.abs(reading - position) < 0.02 && position != 0.0){
-                counter ++;
-            }else{
+    @Override
+    public void mustangPeriodic() {
+        if (!hasSetAbsolutePosition) {
+            double position = absEncoder.getAbsolutePosition();
+            if (Math.abs(reading - position) < 0.02 && position != 0.0) {
+                counter++;
+            } else {
                 counter = 0;
                 reading = position;
             }
-            if(counter > 200) { //If it's PRECISELY 0, then it doesn't have a valid position yet
-            	setEncoderPositionFromAbsolute();
+            if (counter > 200) { // If it's PRECISELY 0, then it doesn't have a valid position yet
+                setEncoderPositionFromAbsolute();
                 hasSetAbsolutePosition = true;
             }
-        }else if(!relativePositionIsSet){
-            if(Math.abs(super.rotator_encoder.getPosition() - calculatedRelativePosition)< 0.01){
+        } else if (!relativePositionIsSet) {
+            if (Math.abs(super.rotator_encoder.getPosition() - calculatedRelativePosition) < 0.01) {
                 relativePositionIsSet = true;
-            }else{
+            } else {
                 super.rotator_encoder.setPosition(calculatedRelativePosition);
             }
         } else {
-            
+
         }
-	}
+    }
 }

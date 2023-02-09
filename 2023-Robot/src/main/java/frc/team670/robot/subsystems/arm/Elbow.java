@@ -1,19 +1,22 @@
 
 package frc.team670.robot.subsystems.arm;
 
-import frc.team670.mustanglib.subsystems.SparkMaxRotatingSubsystem;
-import com.revrobotics.REVLibError;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.revrobotics.CANSparkMax.IdleMode;
-import frc.team670.mustanglib.utils.motorcontroller.MotorConfig.Motor_Type;
 import com.revrobotics.CANSparkMax.SoftLimitDirection;
-import frc.team670.mustanglib.utils.motorcontroller.MotorConfig;
+import com.revrobotics.REVLibError;
+
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.team670.mustanglib.subsystems.SparkMaxRotatingSubsystem;
+import frc.team670.mustanglib.utils.motorcontroller.MotorConfig;
+import frc.team670.mustanglib.utils.motorcontroller.MotorConfig.Motor_Type;
+import frc.team670.mustanglib.utils.motorcontroller.SparkMAXLite;
 import frc.team670.robot.constants.RobotConstants;
 import frc.team670.robot.constants.RobotMap;
 
 /**
  * Represents the Elbow joint. Uses only one motor
+ * 
  * @author Armaan Aditi Kedar Gabriel Alexander Justin
  */
 public class Elbow extends SparkMaxRotatingSubsystem {
@@ -75,7 +78,7 @@ public class Elbow extends SparkMaxRotatingSubsystem {
         }
 
         public double getAllowedError() {
-            return RobotConstants.ELBOW_GEAR_RATIO * 2.0/360;
+            return RobotConstants.ELBOW_GEAR_RATIO * 2.0 / 360;
         }
 
         public boolean enableSoftLimits() {
@@ -88,7 +91,7 @@ public class Elbow extends SparkMaxRotatingSubsystem {
         }
 
         public int getContinuousCurrent() {
-            return 20 ;
+            return 20;
         }
 
         public int getPeakCurrent() {
@@ -113,8 +116,6 @@ public class Elbow extends SparkMaxRotatingSubsystem {
             return 0;
         }
 
-
-
     }
 
     // constructor that inits motors and stuff
@@ -125,19 +126,33 @@ public class Elbow extends SparkMaxRotatingSubsystem {
         absEncoder = new DutyCycleEncoder(RobotMap.ELBOW_ABSOLUTE_ENCODER);
         super.getRotator().setInverted(true);
         // SmartDashboard.putNumber("elbow target", target);
-        //setEncoderPositionFromAbsolute();
+        // setEncoderPositionFromAbsolute();
 
     }
-    
-    public double powerCalculator(int mass, double angle, int length){
-        return mass/2.205 * 9.8 * Math.sin(angle);
+
+    /**
+     * @param mass   the mass in kg
+     * @param angle  the angle in radians
+     * @param length the length in meters
+     *
+     */
+    public double calculateFeedForward(double shoulderAngle, double elbowAngle) {
+
+        return super.PIDs.FF * Math.cos(shoulderAngle + elbowAngle - 180);
+    }
+
+    public void updateArbitraryFeedForward(double shoulderAngle) {
+        rotator_controller.setReference(setpoint,
+                SparkMAXLite.ControlType.kSmartMotion, super.SMARTMOTION_SLOT,
+                calculateFeedForward(shoulderAngle, this.getCurrentAngleInDegrees()));
     }
 
     public void setEncoderPositionFromAbsolute() {
         clearSetpoint();
         double absEncoderPosition = absEncoder.getAbsolutePosition();
-        double relativePosition =  ((-1 *(absEncoderPosition - (RobotConstants.ELBOW_ABSOLUTE_ENCODER_AT_VERTICAL - 0.5)) + 1)
-        * RobotConstants.ELBOW_GEAR_RATIO) % RobotConstants.ELBOW_GEAR_RATIO;
+        double relativePosition = ((-1
+                * (absEncoderPosition - (RobotConstants.ELBOW_ABSOLUTE_ENCODER_AT_VERTICAL - 0.5)) + 1)
+                * RobotConstants.ELBOW_GEAR_RATIO) % RobotConstants.ELBOW_GEAR_RATIO;
         REVLibError error = rotator_encoder.setPosition(relativePosition);
         SmartDashboard.putNumber("elbow position at init", absEncoderPosition);
         SmartDashboard.putNumber("elbow rotator encoder setPosition", relativePosition);
@@ -155,16 +170,16 @@ public class Elbow extends SparkMaxRotatingSubsystem {
         REVLibError rotatorError = super.rotator.getLastError();
 
         // if(!hasSetAbsolutePosition) {
-        //     return HealthState.YELLOW;
+        // return HealthState.YELLOW;
         // }
-        
+
         if (rotatorError != null && rotatorError != REVLibError.kOk) {
             return HealthState.RED;
         }
 
         return HealthState.GREEN;
     }
-    
+
     @Override
     public void debugSubsystem() {
         SmartDashboard.putNumber("Elbow Speed:", super.rotator.get());
@@ -178,28 +193,28 @@ public class Elbow extends SparkMaxRotatingSubsystem {
 
     @Override
     public void mustangPeriodic() {
-        //setEncoderPositionFromAbsolute();
-		if(!hasSetAbsolutePosition) {
-            double position =  absEncoder.getAbsolutePosition();
-            if(Math.abs(reading - position) < 0.02 && position != 0.0){
-                counter ++;
-            }else{
+        // setEncoderPositionFromAbsolute();
+        if (!hasSetAbsolutePosition) {
+            double position = absEncoder.getAbsolutePosition();
+            if (Math.abs(reading - position) < 0.02 && position != 0.0) {
+                counter++;
+            } else {
                 counter = 0;
                 reading = position;
             }
-            if(counter > 200) { //If it's PRECISELY 0, then it doesn't have a valid position yet
-            	setEncoderPositionFromAbsolute();
+            if (counter > 200) { // If it's PRECISELY 0, then it doesn't have a valid position yet
+                setEncoderPositionFromAbsolute();
                 hasSetAbsolutePosition = true;
             }
-        }else if(!relativePositionIsSet){
-            if(Math.abs(super.rotator_encoder.getPosition() - calculatedRelativePosition)< 0.01){
+        } else if (!relativePositionIsSet) {
+            if (Math.abs(super.rotator_encoder.getPosition() - calculatedRelativePosition) < 0.01) {
                 relativePositionIsSet = true;
-            }else{
+            } else {
                 super.rotator_encoder.setPosition(calculatedRelativePosition);
             }
         } else {
             // setSystemTargetAngleInDegrees(SmartDashboard.getNumber("elbow target", 0.0));
-            
+
         }
 
     }

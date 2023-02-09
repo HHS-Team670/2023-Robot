@@ -3,18 +3,21 @@ package frc.team670.robot.subsystems.arm;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
 
+import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 
 /**
  * Represents the whole Arm system, containing multiple joints.
  * Models the arm as a state machine.
+ * 
  * @author Armaan, Aditi, Alexander, Gabriel, Kedar, Justin
  */
 public class Arm extends MustangSubsystemBase {
     private Shoulder shoulder;
     private Elbow elbow;
     private ArmState targetState;
+    private Notifier updateArbitraryFeedForwards;
 
     private static final ArmState[][] VALID_PATHS_GRAPH = new ArmState[][] {
             { ArmState.INTERMEDIATE_HOPPER, ArmState.SCORE_MID, ArmState.SCORE_HIGH, ArmState.DOUBLE_SUBSTATION }, // STOWED
@@ -31,7 +34,7 @@ public class Arm extends MustangSubsystemBase {
     private static ArmState VALID_PATHS[][][] = new ArmState[VALID_PATHS_GRAPH.length][VALID_PATHS_GRAPH.length][];
 
     public Arm() {
-        //this.shoulder = new Shoulder();
+        // this.shoulder = new Shoulder();
         this.elbow = new Elbow();
         this.targetState = ArmState.STOWED;
         init();
@@ -48,12 +51,13 @@ public class Arm extends MustangSubsystemBase {
 
     @Override
     public HealthState checkHealth() {
-        if(elbow.checkHealth() == HealthState.RED){
+        if (elbow.checkHealth() == HealthState.RED) {
             return HealthState.RED;
         }
-        
-        // if (elbow.checkHealth() == HealthState.RED || shoulder.checkHealth() == HealthState.RED) {
-        //     return HealthState.RED;
+
+        // if (elbow.checkHealth() == HealthState.RED || shoulder.checkHealth() ==
+        // HealthState.RED) {
+        // return HealthState.RED;
         // }
         return HealthState.GREEN;
     }
@@ -69,8 +73,12 @@ public class Arm extends MustangSubsystemBase {
      */
     public void moveToTarget(ArmState target) {
         this.targetState = target;
-        elbow.setSystemTargetAngleInDegrees(target.getElbowAngle());
-       //shoulder.setSystemTargetAngleInDegrees(target.getShoulderAngle());
+
+    }
+
+    public void updateArbitraryFeedForwards() {
+        elbow.updateArbitraryFeedForward(Math.toRadians(shoulder.getCurrentAngleInDegrees()));
+        shoulder.updateArbitraryFeedForward(Math.toRadians(elbow.getCurrentAngleInDegrees()));
     }
 
     /**
@@ -88,7 +96,8 @@ public class Arm extends MustangSubsystemBase {
      * 
      */
     public boolean hasReachedTargetPosition() {
-        //return shoulder.hasReachedTargetPosition() && elbow.hasReachedTargetPosition();
+        // return shoulder.hasReachedTargetPosition() &&
+        // elbow.hasReachedTargetPosition();
         return elbow.hasReachedTargetPosition();
     }
 
@@ -139,7 +148,7 @@ public class Arm extends MustangSubsystemBase {
 
     @Override
     public void debugSubsystem() {
-        //shoulder.debugSubsystem();
+        // shoulder.debugSubsystem();
         elbow.debugSubsystem();
         SmartDashboard.putString("Arm target state", getTargetState().toString());
     }
@@ -168,7 +177,7 @@ public class Arm extends MustangSubsystemBase {
     }
 
     // public Shoulder getShoulder() {
-    //     return shoulder;
+    // return shoulder;
     // }
 
     public Elbow getElbow() {
