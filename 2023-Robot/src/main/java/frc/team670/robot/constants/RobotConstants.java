@@ -128,12 +128,16 @@ public final class RobotConstants extends RobotConstantsBase {
             .get("ELBOW_ABSOLUTE_ENCODER_AT_VERTICAL");
     public static final double SHOULDER_ABSOLUTE_ENCODER_AT_VERTICAL = hardwareSpecificConstants.get(MAC_ADDRESS)
             .get("SHOULDER_ABSOLUTE_ENCODER_AT_VERTICAL");
-    public static final int SHOULDER_GEAR_RATIO = 96;
+    
     public static final int ELBOW_GEAR_RATIO = 75;
     public static final int ELBOW_SOFT_LIMIT_MIN = 20;
     public static final int ELBOW_SOFT_LIMIT_MAX = 340;
+    public static final double ELBOW_ARBITRARY_FF = 1.05;
+    public static final int SHOULDER_GEAR_RATIO = 96;
     public static final int SHOULDER_SOFT_LIMIT_MIN = 60;
     public static final int SHOULDER_SOFT_LIMIT_MAX = 300;
+    public static final double SHOUDLER_ARBITRARY_FF = 1.25;
+    
 
     public static final int kTimeoutMs = 0;
     public static final double leftKsVolts = 0.4;

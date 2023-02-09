@@ -138,13 +138,15 @@ public class Elbow extends SparkMaxRotatingSubsystem {
      */
     public double calculateFeedForward(double shoulderAngle, double elbowAngle) {
 
-        return super.PIDs.FF * Math.cos(shoulderAngle + elbowAngle - 180);
+        return RobotConstants.ELBOW_ARBITRARY_FF * Math.cos(shoulderAngle + elbowAngle - 180);
     }
 
     public void updateArbitraryFeedForward(double shoulderAngle) {
-        rotator_controller.setReference(setpoint,
-                SparkMAXLite.ControlType.kSmartMotion, super.SMARTMOTION_SLOT,
-                calculateFeedForward(shoulderAngle, this.getCurrentAngleInDegrees()));
+        if(setpoint != SparkMaxRotatingSubsystem.NO_SETPOINT){
+            rotator_controller.setReference(setpoint,
+                    SparkMAXLite.ControlType.kSmartMotion, super.SMARTMOTION_SLOT,
+                    calculateFeedForward(shoulderAngle, this.getCurrentAngleInDegrees()));
+        }
     }
 
     public void setEncoderPositionFromAbsolute() {
@@ -189,6 +191,8 @@ public class Elbow extends SparkMaxRotatingSubsystem {
         SmartDashboard.putNumber("Elbow position (rotations)", super.rotator_encoder.getPosition());
         SmartDashboard.putNumber("Elbow current", super.rotator.getOutputCurrent());
         SmartDashboard.putNumber("Elbow abs encoder position", absEncoder.getAbsolutePosition());
+        SmartDashboard.putNumber("Elbow setpoint", setpoint);
+
     }
 
     @Override

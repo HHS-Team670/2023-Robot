@@ -40,17 +40,10 @@ public class OI extends OIBase {
         zeroGyro.onTrue(new SetSwerveForwardDirection(driveBase)); // deprecated
 
         move.onTrue(new MoveToPose(driveBase, 1, 1, false));
-        stow.onTrue(new InstantCommand() {
-            public void initialize() {
-                MustangScheduler.getInstance().schedule(new MoveToTarget(arm, ArmState.STOWED));
-            }
-        });
+        stow.onTrue(new MoveDirectlyToTarget(arm, ArmState.STOWED));
+         
 
-        highCone.onTrue(new InstantCommand() {
-            public void initialize() {
-                MustangScheduler.getInstance().schedule(new MoveToTarget(arm, ArmState.SCORE_HIGH));
-            }
-        });
+        highCone.onTrue(new MoveDirectlyToTarget(arm, ArmState.SCORE_HIGH));
 
     }
 
