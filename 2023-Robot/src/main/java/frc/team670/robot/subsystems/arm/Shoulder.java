@@ -19,7 +19,7 @@ import com.revrobotics.REVLibError;
  * Represents the shoulder joint. The shoulder uses a leader-follower SparkMax
  * pair
  * 
- * @author Armaan, Kedar, Aditi, Justin, Alexander, Gabriel
+ * @author Armaan, Kedar, Aditi, Justin, Alexander, Gabriel, Srinish
  */
 public class Shoulder extends SparkMaxRotatingSubsystem {
 
@@ -49,7 +49,7 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
         }
 
         public double getP() {
-            return 0.0001;
+            return 0.0005;
         }
 
         public double getI() {
@@ -57,11 +57,11 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
         }
 
         public double getD() {
-            return 0;
+            return  0;
         }
 
         public double getFF() {
-            return 0.000176;
+            return 0.00017618;
         }
 
         public double getIz() {
@@ -77,11 +77,11 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
         }
 
         public double getMaxAcceleration() {
-            return 1000;
+            return 2500;
         }
 
         public double getAllowedError() {
-            return RobotConstants.SHOULDER_GEAR_RATIO * 2.0 / 360;
+            return RobotConstants.SHOULDER_GEAR_RATIO * 0.2 / 360;
         }
 
         public boolean enableSoftLimits() {
@@ -111,7 +111,7 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
 
         @Override
         public double getMaxRotatorRPM() {
-            return 960;
+            return 1500;
         }
 
         @Override
@@ -132,21 +132,15 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
 
     }
 
-    public double calculateFeedForward(double shoulderAngle, double elbowAngle) {
-        double L1 = 25;// TODO: length of shoulder CHANGE cm
-        double L2 = 35;// TODO: length of elbow CHANGE cm
-        double M1 = 25;// TODO: mass of shoulder CHANGE kg
-        double M2 = 35;// TODO: mass of elbow CHANGE kg
-        double M3 = 8;// TODO: mass of claw CHANGE kg
-        double x1 = L1 * Math.cos(shoulderAngle);
-        double x2 = L2 * Math.cos(shoulderAngle + elbowAngle - 270);
-        double xcm = M1 * x1 / 2.0 + M2 * (x1 + x2 / 2.0) + M3 * (x1 + x2);
-        return RobotConstants.SHOUDLER_ARBITRARY_FF * xcm;
+    public static double calculateFeedForward(double shoulderAngle, double elbowAngle) {
+
+        return RobotConstants.SHOULDER_ARBITRARY_FF * RobotConstants.armXCM(shoulderAngle, elbowAngle)
+                / RobotConstants.ARM_MAX_XCM;
 
     }
 
     public void updateArbitraryFeedForward(double elbowAngle) {
-        if(setpoint != SparkMaxRotatingSubsystem.NO_SETPOINT){
+        if (setpoint != SparkMaxRotatingSubsystem.NO_SETPOINT) {
             rotator_controller.setReference(setpoint,
                     SparkMAXLite.ControlType.kSmartMotion, super.SMARTMOTION_SLOT,
                     calculateFeedForward(this.getCurrentAngleInDegrees(), elbowAngle));
@@ -187,14 +181,13 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
         SmartDashboard.putNumber("Shoulder Speed:", super.rotator.get());
         SmartDashboard.putNumber("Shoulder forward soft limit",
                 super.rotator.getSoftLimit(SoftLimitDirection.kForward));
-        SmartDashboard.putNumber("Shoudler backward soft limit",
+        SmartDashboard.putNumber("Shoulder backward soft limit",
                 super.rotator.getSoftLimit(SoftLimitDirection.kReverse));
         SmartDashboard.putNumber("Shoulder position (deg)", getCurrentAngleInDegrees());
         SmartDashboard.putNumber("Shoulder abs encoder position", absEncoder.getAbsolutePosition());
         SmartDashboard.putNumber("Shoulder current", super.rotator.getOutputCurrent());
         SmartDashboard.putString("Shoulder health", checkHealth().toString());
         SmartDashboard.putNumber("Shoulder setpoint", setpoint);
-
 
     }
 
@@ -205,8 +198,8 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
     public void setEncoderPositionFromAbsolute() {
         clearSetpoint();
         double absEncoderPosition = absEncoder.getAbsolutePosition();
-        double relativePosition = ((-1
-                * (absEncoderPosition - (RobotConstants.SHOULDER_ABSOLUTE_ENCODER_AT_VERTICAL - 0.5)) + 1)
+        double relativePosition = ((
+                (absEncoderPosition - (RobotConstants.SHOULDER_ABSOLUTE_ENCODER_AT_VERTICAL - 0.5)) + 1)
                 * RobotConstants.SHOULDER_GEAR_RATIO) % RobotConstants.SHOULDER_GEAR_RATIO;
         REVLibError error = rotator_encoder.setPosition(relativePosition);
         SmartDashboard.putNumber("shoulder position at init", absEncoderPosition);

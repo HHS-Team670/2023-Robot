@@ -46,7 +46,7 @@ public class Elbow extends SparkMaxRotatingSubsystem {
         }
 
         public double getP() {
-            return 0.0001; // Good enough for 2/17
+            return 0.0002; // Good enough for 2/17
         }
 
         public double getI() {
@@ -78,7 +78,7 @@ public class Elbow extends SparkMaxRotatingSubsystem {
         }
 
         public double getAllowedError() {
-            return RobotConstants.ELBOW_GEAR_RATIO * 2.0 / 360;
+            return RobotConstants.ELBOW_GEAR_RATIO * 0.2 / 360;
         }
 
         public boolean enableSoftLimits() {

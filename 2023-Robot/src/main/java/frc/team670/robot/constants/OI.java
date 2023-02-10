@@ -23,8 +23,10 @@ public class OI extends OIBase {
     // Buttons
     private static JoystickButton zeroGyro = new JoystickButton(driverController, XboxButtons.X);
     private static JoystickButton move = new JoystickButton(driverController, XboxButtons.Y);
-    private static JoystickButton highCone = new JoystickButton(driverController, XboxButtons.B);
+    private static JoystickButton hopper = new JoystickButton(driverController, XboxButtons.B);
     private static JoystickButton stow = new JoystickButton(driverController, XboxButtons.A);
+    private static JoystickButton highCone = new JoystickButton(driverController, XboxButtons.LEFT_BUMPER);
+    private static JoystickButton hybrid = new JoystickButton(driverController, XboxButtons.RIGHT_BUMPER);
 
     public static MustangController getDriverController() {
         return driverController;
@@ -40,11 +42,11 @@ public class OI extends OIBase {
         zeroGyro.onTrue(new SetSwerveForwardDirection(driveBase)); // deprecated
 
         move.onTrue(new MoveToPose(driveBase, 1, 1, false));
-        stow.onTrue(new MoveDirectlyToTarget(arm, ArmState.STOWED));
-         
 
-        highCone.onTrue(new MoveDirectlyToTarget(arm, ArmState.SCORE_HIGH));
-
+        stow.onTrue(new MoveDirectlyToTarget(arm, ArmState.STOWED)); 
+        hopper.onTrue(new MoveToTarget(arm, ArmState.HOPPER));
+        hybrid.onTrue(new MoveToTarget(arm, ArmState.HYBRID));
+        highCone.onTrue(new MoveToTarget(arm, ArmState.SCORE_HIGH));
     }
 
 }

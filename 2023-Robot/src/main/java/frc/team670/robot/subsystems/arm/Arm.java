@@ -55,9 +55,8 @@ public class Arm extends MustangSubsystemBase {
             return HealthState.RED;
         }
 
-        if (elbow.checkHealth() == HealthState.RED || shoulder.checkHealth() ==
-        HealthState.RED) {
-        return HealthState.RED;
+        if (elbow.checkHealth() == HealthState.RED || shoulder.checkHealth() == HealthState.RED) {
+            return HealthState.RED;
         }
         return HealthState.GREEN;
     }
@@ -73,6 +72,8 @@ public class Arm extends MustangSubsystemBase {
      */
     public void moveToTarget(ArmState target) {
         this.targetState = target;
+        elbow.setSystemTargetAngleInDegrees(target.getElbowAngle());
+        shoulder.setSystemTargetAngleInDegrees(target.getShoulderAngle());
 
     }
 
@@ -175,7 +176,7 @@ public class Arm extends MustangSubsystemBase {
     }
 
     public Shoulder getShoulder() {
-    return shoulder;
+        return shoulder;
     }
 
     public Elbow getElbow() {
