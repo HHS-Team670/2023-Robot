@@ -5,6 +5,11 @@ import frc.team670.mustanglib.utils.motorcontroller.MotorConfig.Motor_Type;
 import frc.team670.mustanglib.utils.motorcontroller.SparkMAXFactory;
 import frc.team670.mustanglib.utils.motorcontroller.SparkMAXLite;
 import frc.team670.robot.constants.RobotMap;
+
+import java.util.List;
+
+import com.revrobotics.CANSparkMax.IdleMode;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
@@ -12,93 +17,42 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Claw extends MustangSubsystemBase {
 
     public enum Status {
-        EJECTING, INTAKING, OFF, IDLE;
+        EJECTING, INTAKING, IDLE;
     }
 
     private static final double ROLLING_SPEED = 0.3;
     public static final double CURRENT_MAX = 25.0;
     private static final double IDLE_SPEED = 0.05;
-    private double leftSpeed, rightSpeed; 
 
-    // public int overCount = 0;
-    // public int overCountCap = 25;
+    private SparkMAXLite leader, follower;
 
-    private SparkMAXLite left, right;
-    private Claw.Status stat;
+    private Claw.Status status;
     
-    // Placeholder
-    
+    class MotorConfig {
+
+    }
+
     public Claw() {
-        left = SparkMAXFactory.buildFactorySparkMAX(RobotMap.LEFT_CLAW, Motor_Type.NEO_550);
-        right = SparkMAXFactory.buildFactorySparkMAX(RobotMap.RIGHT_CLAW, Motor_Type.NEO_550);
-        left.setFollow(right);
-        
-        leftSpeed = 0;
-        rightSpeed = 0;
-        // left.setIdleMode(IdleMode.kBrake);
-        // right.setIdleMode(IdleMode.kBrake);
+        List<SparkMAXLite> motorControllers = SparkMAXFactory.buildSparkMAXPair(RobotMap.LEFT_CLAW, 6, true, SparkMAXFactory.defaultConfig, Motor_Type.NEO_550);
+        leader = motorControllers.get(0);
+        follower = motorControllers.get(1);
+        status = Status.IDLE;
+        leader.setIdleMode(IdleMode.kBrake);
+        follower.setIdleMode(IdleMode.kBrake);
     }
     
-    public void setStatus (Claw.Status stat) {
-        this.stat = stat;   
-
-        if (this.stat == Status.INTAKING) {
-            this.intaking();
-        } else if(this.stat == Status.EJECTING) {
-            this.eject();
-        } else if (this.stat == Status.IDLE) {
-            this.idle();
-        } else {
-            this.stopAll();
-        }
+    public void setStatus (Claw.Status status) {
+        this.status = status;   
     }
 
-    private void intaking() {
-        leftSpeed = -ROLLING_SPEED;
-        rightSpeed = ROLLING_SPEED;
-    }
-
-    private void eject() {
-        rightSpeed = -ROLLING_SPEED;
-        leftSpeed = ROLLING_SPEED;
-
-        // overCount--;
-
-        // if ((right.getOutputCurrent() < 1) && (left.getOutputCurrent() < 1) && overCount < -25) {
-        //     setStatus(Status.IDLE);
-        //     overCount = 0;
-        // }
-    }
-
-    private void idle() {      
-        leftSpeed = -IDLE_SPEED;
-        rightSpeed = IDLE_SPEED;
-
-        // if (left.getOutputCurrent() > CURRENT_MAX)
-        // {
-        //     overCount++;
-        //     if(overCount > overCountCap)
-        //     {
-        //         leftSpeed = -IDLE_SPEED;
-        //         rightSpeed = IDLE_SPEED;
-        //     }
-        // }
-    }
     private void stopAll() {
-        leftSpeed = 0;
-        rightSpeed = 0;
-        //overCount = 0;
+        leader.set(0);
     }
-
-    // Checks if a game object is currently being held.
-    // public boolean isFull() {
-    //     return overCount > 0;
-    // }
 
     @Override
     // Checking for hardware breaks within the motors.
     public HealthState checkHealth() {
-        if (left == null || left.isErrored() || right == null || right.isErrored()) {
+        if (leader == null || leader.isErrored() || follower == null || follower.isErrored()) {
             return HealthState.RED;
         }
         return HealthState.GREEN;
@@ -106,88 +60,33 @@ public class Claw extends MustangSubsystemBase {
     
     
     @Override
-    // What is mustangPeriodic() used for? Is it used for updating the motors?
     public void mustangPeriodic() {
-        left.set(leftSpeed);
-        right.set(rightSpeed);
         debugSubsystem();
-        // if(this.stat != Status.EJECTING)
-        // {
-        //     stopClaw();
-        // }
+
+        switch(status) {
+            case IDLE:
+                leader.set(IDLE_SPEED);
+                break;
+            case INTAKING:
+                leader.set(ROLLING_SPEED);
+                break;
+            case EJECTING:
+                leader.set(-ROLLING_SPEED);
+                break;
+            default:
+                leader.set(0);
+        }
+
+        if(leader.getOutputCurrent() > CURRENT_MAX) {
+            setStatus(Status.IDLE);
+        }
     }
 
     @Override
-    public void debugSubsystem() 
-    {
-        SmartDashboard.putNumber("left current", left.getOutputCurrent());
-        SmartDashboard.putNumber("right current", right.getOutputCurrent());
+    public void debugSubsystem() {
+        // SmartDashboard.putNumber("leader current", leader.getOutputCurrent());
+        // SmartDashboard.putNumber("follower current", leader.getOutputCurrent());
+        SmartDashboard.putString("Claw state", status.toString());
     }
 
-    public double getLeftCurrent() {
-        return left.getOutputCurrent();
-    }
-
-    public double getRightCurrent() {
-        return right.getOutputCurrent();
-    }
-
-    // Method(s) to detect if the claw is outtaking or intaking to further check what direction the motors should spin.
-    // Perhaps there should be a sensor.
-
-    // public void setSpinOfMotors() {
-    //     // Still unsure of the motors spinning.
-    //     // TODO: change directions based on Mech
-    //     switch(stat) {
-    //         case INTAKING:
-    //             // Make the motors spins outwards.
-    //             left.set(ROLLING_SPEED);
-    //             right.set(-ROLLING_SPEED);
-    //             break;
-    //         case OUTTAKING:
-    //             // Make the motors spin inwards.
-    //             right.set(-ROLLING_SPEED);
-    //             left.set(ROLLING_SPEED);
-    //             break;
-    //         case OFF:
-    //             // If the motors are turned off.
-    //             stopAll();
-    //             break;   
-    //     }
-    // }
-
-    // /**
-    //  * Returns true if the left claw intake is jammed.
-    //  * @return
-    //  */
-    // public boolean isLeftJammed() {
-    //     double intakeCurrent = left.getOutputCurrent();
-    //     if (intakeCurrent > 0.2) {
-    //         if (intakeCurrent >= INTAKE_PEAK_CURRENT) {
-    //             exceededCurrentLimitCountLeft++;
-    //         } else {
-    //             exceededCurrentLimitCountLeft = 0;
-    //         }
-    //         if (exceededCurrentLimitCountLeft >= 4) { // 4 consecutive readings higher than peak
-    //             return true;
-    //         }
-    //     }
-    //     return false;
-    // }
-
-    // public boolean isRightJammed() {
-    //     double intakeCurrent = right.getOutputCurrent();
-    //     if (intakeCurrent > 0.2) {
-    //         if (intakeCurrent >= INTAKE_PEAK_CURRENT) {
-    //             exceededCurrentLimitCountRight++;
-    //         } else {
-    //             exceededCurrentLimitCountRight = 0;
-    //         }
-    //         if (exceededCurrentLimitCountRight >= 4) { // 4 consecutive readings higher than peak
-    //             return true;
-    //         }
-    //     }
-    //     return false;
-    // }
-    
 }

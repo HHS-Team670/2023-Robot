@@ -34,10 +34,7 @@ public class ClawEject extends CommandBase implements MustangCommand
     public boolean isFinished() {
         // some arbitrary amount of time until ejection is finished
         // TODO: adjust length of time or find a better way to check for finishing ejection
-        if (timer > 25) {
-            return true;
-        } 
-        return false;
+        return timer > 25;
     }
 
     @Override
@@ -47,7 +44,6 @@ public class ClawEject extends CommandBase implements MustangCommand
 
     @Override
     public Map<MustangSubsystemBase, HealthState> getHealthRequirements() {
-        // TODO Auto-generated method stub
         return null;
     }
 }

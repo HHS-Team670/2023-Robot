@@ -108,8 +108,7 @@ public class RobotContainer extends RobotContainerBase {
 
     @Override
     public MustangController getOperatorController() {
-        // TODO Auto-generated method stub
-        return null;
+        return oi.getOperatorController();
     }
 
     @Override
