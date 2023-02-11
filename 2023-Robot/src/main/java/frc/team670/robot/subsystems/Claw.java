@@ -4,6 +4,7 @@ import frc.team670.mustanglib.utils.motorcontroller.MotorConfig.Motor_Type;
 // SparkMAX is used for the motor control.
 import frc.team670.mustanglib.utils.motorcontroller.SparkMAXFactory;
 import frc.team670.mustanglib.utils.motorcontroller.SparkMAXLite;
+import frc.team670.robot.constants.RobotConstants;
 import frc.team670.robot.constants.RobotMap;
 
 import java.util.List;
@@ -20,17 +21,9 @@ public class Claw extends MustangSubsystemBase {
         EJECTING, INTAKING, IDLE;
     }
 
-    private static final double ROLLING_SPEED = 0.3;
-    public static final double CURRENT_MAX = 25.0;
-    private static final double IDLE_SPEED = 0.05;
-
     private SparkMAXLite leader, follower;
 
     private Claw.Status status;
-    
-    class MotorConfig {
-
-    }
 
     public Claw() {
         List<SparkMAXLite> motorControllers = SparkMAXFactory.buildSparkMAXPair(RobotMap.LEFT_CLAW, 6, true, SparkMAXFactory.defaultConfig, Motor_Type.NEO_550);
@@ -65,19 +58,19 @@ public class Claw extends MustangSubsystemBase {
 
         switch(status) {
             case IDLE:
-                leader.set(IDLE_SPEED);
+                leader.set(RobotConstants.CLAW_IDLE_SPEED);
                 break;
             case INTAKING:
-                leader.set(ROLLING_SPEED);
+                leader.set(RobotConstants.CLAW_ROLLING_SPEED);
                 break;
             case EJECTING:
-                leader.set(-ROLLING_SPEED);
+                leader.set(-RobotConstants.CLAW_ROLLING_SPEED);
                 break;
             default:
                 leader.set(0);
         }
 
-        if(leader.getOutputCurrent() > CURRENT_MAX) {
+        if(leader.getOutputCurrent() > RobotConstants.CLAW_CURRENT_MAX) {
             setStatus(Status.IDLE);
         }
     }

@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.team670.robot.subsystems.Claw;
 import frc.team670.robot.subsystems.Claw.Status;
+import frc.team670.robot.constants.RobotConstants;
 
 /**
  * @author Tarini, Samanyu and Ishaan
