@@ -173,6 +173,22 @@ public class Arm extends MustangSubsystemBase {
 
         }
     }
+    
+    //prioritize elbow accuracy
+    public ArmState getClosestState() {
+        double shoulderAngle = shoulder.getCurrentAngleInDegrees();
+        double elbowAngle = elbow.getCurrentAngleInDegrees();
+        ArmState closestState = ArmState.STOWED;
+        for (int i = 1; i <= 7; i++) {
+            ArmState current = ArmState.getVal(i);
+            if (current.getShoulderAngle() - shoulderAngle < closestState.getShoulderAngle() - shoulderAngle 
+              && (current.getElbowAngle() - elbowAngle < closestState.getElbowAngle() - elbowAngle 
+              || current.getElbowAngle() - elbowAngle - (closestState.getElbowAngle() - elbowAngle) <= 20)) { // 20 degrees is an arbritrary threshold
+                closestState = current;
+            }
+        }
+        return closestState;
+    }
 
     public Shoulder getShoulder() {
         return shoulder;
