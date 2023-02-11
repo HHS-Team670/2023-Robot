@@ -35,7 +35,8 @@ public class Arm extends MustangSubsystemBase {
     public Arm() {
         this.shoulder = new Shoulder();
         this.elbow = new Elbow();
-        this.targetState = ArmState.STOWED;
+        //this.targetState = ArmState.STOWED;
+        this.targetState = getClosestState();
         init();
     }
 
@@ -71,6 +72,8 @@ public class Arm extends MustangSubsystemBase {
      */
     public void moveToTarget(ArmState target) {
         this.targetState = target;
+        elbow.setEncoderPositionFromAbsolute();
+        shoulder.setEncoderPositionFromAbsolute(); 
         elbow.setSystemTargetAngleInDegrees(target.getElbowAngle());
         shoulder.setSystemTargetAngleInDegrees(target.getShoulderAngle());
 

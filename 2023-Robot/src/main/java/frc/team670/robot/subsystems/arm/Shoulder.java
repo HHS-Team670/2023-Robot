@@ -126,7 +126,7 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
         follower = SparkMAXFactory.setPermanentFollower(RobotMap.SHOULDER_FOLLOWER_MOTOR, rotator, true);
         follower.setIdleMode(IdleMode.kBrake);
         absEncoder = new DutyCycleEncoder(RobotMap.SHOULDER_ABSOLUTE_ENCODER);
-
+        setEncoderPositionFromAbsolute();
     }
 
     public static double calculateFeedForward(double shoulderAngle, double elbowAngle) {

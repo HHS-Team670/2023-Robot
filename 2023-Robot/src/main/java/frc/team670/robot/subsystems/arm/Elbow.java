@@ -125,7 +125,7 @@ public class Elbow extends SparkMaxRotatingSubsystem {
         super(ELBOW_CONFIG);
         absEncoder = new DutyCycleEncoder(RobotMap.ELBOW_ABSOLUTE_ENCODER);
         super.getRotator().setInverted(true);
-
+        setEncoderPositionFromAbsolute();
     }
 
     /**
