@@ -18,6 +18,7 @@ public class RobotMap {
     public static final int ELBOW_ABSOLUTE_ENCODER = 2;
     public static final int CLAW_LEADER_MOTOR = 5;
     public static final int CLAW_FOLLOWER_MOTOR = 6; // needs to be inverted
+    
     // Joysticks
     public static final int DRIVER_CONTROLLER_PORT = 0;
     public static final int OPERATOR_CONTROLLER_PORT = 1;

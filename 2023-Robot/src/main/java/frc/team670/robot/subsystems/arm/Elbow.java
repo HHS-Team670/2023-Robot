@@ -24,7 +24,7 @@ public class Elbow extends SparkMaxRotatingSubsystem {
     DutyCycleEncoder absEncoder;
     private boolean hasSetAbsolutePosition = false;
     int counter = 0;
-    double reading = 0.0;
+    double previousReading = 0.0;
     double calculatedRelativePosition = 0.0;
     boolean relativePositionIsSet = false;
 
@@ -125,8 +125,6 @@ public class Elbow extends SparkMaxRotatingSubsystem {
         super(ELBOW_CONFIG);
         absEncoder = new DutyCycleEncoder(RobotMap.ELBOW_ABSOLUTE_ENCODER);
         super.getRotator().setInverted(true);
-        // SmartDashboard.putNumber("elbow target", target);
-        // setEncoderPositionFromAbsolute();
 
     }
 
@@ -137,7 +135,6 @@ public class Elbow extends SparkMaxRotatingSubsystem {
      *
      */
     public double calculateFeedForward(double shoulderAngle, double elbowAngle) {
-
         return RobotConstants.ELBOW_ARBITRARY_FF * Math.cos(shoulderAngle + elbowAngle - 180);
     }
 
@@ -171,10 +168,6 @@ public class Elbow extends SparkMaxRotatingSubsystem {
     public HealthState checkHealth() {
         REVLibError rotatorError = super.rotator.getLastError();
 
-        // if(!hasSetAbsolutePosition) {
-        // return HealthState.YELLOW;
-        // }
-
         if (rotatorError != null && rotatorError != REVLibError.kOk) {
             return HealthState.RED;
         }
@@ -191,22 +184,22 @@ public class Elbow extends SparkMaxRotatingSubsystem {
         SmartDashboard.putNumber("Elbow position (rotations)", super.rotator_encoder.getPosition());
         SmartDashboard.putNumber("Elbow current", super.rotator.getOutputCurrent());
         SmartDashboard.putNumber("Elbow abs encoder position", absEncoder.getAbsolutePosition());
-        SmartDashboard.putNumber("Elbow setpoint", setpoint);
+        SmartDashboard.putNumber("Elbow setpoint (rotations)", setpoint);
 
     }
 
     @Override
     public void mustangPeriodic() {
-        // setEncoderPositionFromAbsolute();
-        if (!hasSetAbsolutePosition) {
+        if (!hasSetAbsolutePosition) { //before it's set an absolute position...
             double position = absEncoder.getAbsolutePosition();
-            if (Math.abs(reading - position) < 0.02 && position != 0.0) {
-                counter++;
+            if (Math.abs(previousReading - position) < 0.02 && position != 0.0) { // If the current reading is PRECISELY 0, then it's not valid.
+                counter++; // increases the counter if the current reading is close enough to the last reading.
+                           // We do this because when the absEncoder gets initialized, its reading fluctuates drastically at the start.
             } else {
                 counter = 0;
-                reading = position;
+                previousReading = position;
             }
-            if (counter > 200) { // If it's PRECISELY 0, then it doesn't have a valid position yet
+            if (counter > 200) { //Once it's maintained a constant value for long enough...
                 setEncoderPositionFromAbsolute();
                 hasSetAbsolutePosition = true;
             }
@@ -216,9 +209,6 @@ public class Elbow extends SparkMaxRotatingSubsystem {
             } else {
                 super.rotator_encoder.setPosition(calculatedRelativePosition);
             }
-        } else {
-            // setSystemTargetAngleInDegrees(SmartDashboard.getNumber("elbow target", 0.0));
-
         }
 
     }

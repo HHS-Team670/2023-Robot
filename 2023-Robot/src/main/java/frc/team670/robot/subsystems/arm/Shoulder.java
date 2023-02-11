@@ -11,8 +11,6 @@ import frc.team670.mustanglib.utils.motorcontroller.SparkMAXLite;
 import frc.team670.mustanglib.utils.motorcontroller.MotorConfig.Motor_Type;
 import frc.team670.robot.constants.RobotConstants;
 import frc.team670.robot.constants.RobotMap;
-
-import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.REVLibError;
 
 /**
@@ -27,7 +25,7 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
     private SparkMAXLite follower;
     private boolean hasSetAbsolutePosition = false;
     int counter = 0;
-    double reading = 0.0;
+    double previousReading = 0.0;
     double calculatedRelativePosition = 0.0;
     boolean relativePositionIsSet = false;
 
@@ -128,7 +126,6 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
         follower = SparkMAXFactory.setPermanentFollower(RobotMap.SHOULDER_FOLLOWER_MOTOR, rotator, true);
         follower.setIdleMode(IdleMode.kBrake);
         absEncoder = new DutyCycleEncoder(RobotMap.SHOULDER_ABSOLUTE_ENCODER);
-        // setEncoderPositionFromAbsolute();
 
     }
 
@@ -160,10 +157,6 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
         boolean leaderOK = (leaderRotatorError == REVLibError.kOk);
         boolean followerOK = (followerRotatorError == REVLibError.kOk);
 
-        // if(!hasSetAbsolutePosition) {
-        // return HealthState.YELLOW;
-        // }
-
         if (!leaderOK && !followerOK) {
             return HealthState.RED;
         }
@@ -187,7 +180,7 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
         SmartDashboard.putNumber("Shoulder abs encoder position", absEncoder.getAbsolutePosition());
         SmartDashboard.putNumber("Shoulder current", super.rotator.getOutputCurrent());
         SmartDashboard.putString("Shoulder health", checkHealth().toString());
-        SmartDashboard.putNumber("Shoulder setpoint", setpoint);
+        SmartDashboard.putNumber("Shoulder setpoint (rotations)", setpoint);
 
     }
 
@@ -210,15 +203,16 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
 
     @Override
     public void mustangPeriodic() {
-        if (!hasSetAbsolutePosition) {
+        if (!hasSetAbsolutePosition) { //before it's set an absolute position...
             double position = absEncoder.getAbsolutePosition();
-            if (Math.abs(reading - position) < 0.02 && position != 0.0) {
-                counter++;
+            if (Math.abs(previousReading - position) < 0.02 && position != 0.0) { // If the current reading is PRECISELY 0, then it's not valid.
+                counter++; // increases the counter if the current reading is close enough to the last reading.
+                           // We do this because when the absEncoder gets initialized, its reading fluctuates drastically at the start.
             } else {
                 counter = 0;
-                reading = position;
+                previousReading = position;
             }
-            if (counter > 200) { // If it's PRECISELY 0, then it doesn't have a valid position yet
+            if (counter > 200) { //Once it's maintained a constant value for long enough...
                 setEncoderPositionFromAbsolute();
                 hasSetAbsolutePosition = true;
             }
@@ -228,8 +222,6 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
             } else {
                 super.rotator_encoder.setPosition(calculatedRelativePosition);
             }
-        } else {
-
         }
     }
 }

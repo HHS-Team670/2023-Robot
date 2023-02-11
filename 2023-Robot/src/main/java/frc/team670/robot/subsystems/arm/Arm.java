@@ -17,7 +17,6 @@ public class Arm extends MustangSubsystemBase {
     private Shoulder shoulder;
     private Elbow elbow;
     private ArmState targetState;
-    private Notifier updateArbitraryFeedForwards;
 
     private static final ArmState[][] VALID_PATHS_GRAPH = new ArmState[][] {
             { ArmState.INTERMEDIATE_HOPPER, ArmState.SCORE_MID, ArmState.SCORE_HIGH, ArmState.DOUBLE_SUBSTATION }, // STOWED
