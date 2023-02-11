@@ -1,6 +1,8 @@
 package frc.team670.robot.subsystems;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 import org.photonvision.PhotonCamera;
@@ -13,9 +15,11 @@ import edu.wpi.first.math.Pair;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import frc.team670.mustanglib.subsystems.VisionSubsystemBase;
 import frc.team670.robot.commands.vision.IsLockedOn;
+import frc.team670.robot.constants.FieldConstants;
 import frc.team670.robot.constants.RobotConstants;
 
 public class Vision extends VisionSubsystemBase {
@@ -70,11 +74,13 @@ public class Vision extends VisionSubsystemBase {
             AprilTagFieldLayout atfl = new AprilTagFieldLayout(atList, FieldConstants.length, FieldConstants.width);
 
             // Forward Camera
-            photonCamera = new PhotonCamera(VisionConstants.cameraName); // Change the name of your camera here to whatever it is in the
+            photonCamera = new PhotonCamera(getCamera().getName()); // Change the name of your camera here to whatever it is in the
             // PhotonVision UI.
 
             // Create pose estimator
-            photonPoseEstimator = new RobotPoseEstimator(atfl, PoseStrategy.CLOSEST_TO_REFERENCE_POSE, photonCamera, VisionConstants.robotToCam);
+            List<Pair<PhotonCamera, Transform3d>> cam = new ArrayList<>();
+            cam.add(new Pair<PhotonCamera, Transform3d>(getCamera(), RobotConstants.CAMERA_OFFSET));
+            photonPoseEstimator = new RobotPoseEstimator(atfl, PoseStrategy.CLOSEST_TO_REFERENCE_POSE, photonCamera, );
         }
 
         /**
