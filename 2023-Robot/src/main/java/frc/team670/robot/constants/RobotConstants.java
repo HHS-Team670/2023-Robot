@@ -101,12 +101,6 @@ public final class RobotConstants extends RobotConstantsBase {
     public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI * 16;
     public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI * 16;
     
-    //Speeds for the claw states
-    public static final double ROLLING_SPEED = 0.3;
-    public static final double CURRENT_MAX = 25.0;
-    public static final double IDLE_SPEED = 0.05;
-
-
     //Everything below is copied from 2022 robot
     public static final double kTrackwidthMeters = 0.702;
 
