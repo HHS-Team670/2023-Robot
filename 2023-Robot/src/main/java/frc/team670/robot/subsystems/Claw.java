@@ -4,101 +4,96 @@ import frc.team670.mustanglib.utils.motorcontroller.MotorConfig.Motor_Type;
 // SparkMAX is used for the motor control.
 import frc.team670.mustanglib.utils.motorcontroller.SparkMAXFactory;
 import frc.team670.mustanglib.utils.motorcontroller.SparkMAXLite;
-import frc.team670.mustanglib.dataCollection.sensors.BeamBreak;
-import frc.team670.mustanglib.subsystems.*;
 import frc.team670.robot.constants.RobotMap;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 
-public class Claw extends MustangSubsystemBase 
-{
+public class Claw extends MustangSubsystemBase {
 
-    public enum Status 
-    {
-        EJECTING, INTAKING, OFF;
+    public enum Status {
+        EJECTING, INTAKING, OFF, IDLE;
     }
 
-    private double ROLLING_SPEED = 0.3;
-    private static final double CURRENT_MAX = 25.0;
+    private static final double ROLLING_SPEED = 0.3;
+    public static final double CURRENT_MAX = 25.0;
+    private static final double IDLE_SPEED = 0.05;
+    private double leftSpeed, rightSpeed; 
 
-    public int overCount = 0;
-    public int overCountCap = 25;
+    // public int overCount = 0;
+    // public int overCountCap = 25;
 
     private SparkMAXLite left, right;
     private Claw.Status stat;
     
     // Placeholder
     
-    public Claw() 
-    {
+    public Claw() {
         left = SparkMAXFactory.buildFactorySparkMAX(RobotMap.LEFT_CLAW, Motor_Type.NEO_550);
         right = SparkMAXFactory.buildFactorySparkMAX(RobotMap.RIGHT_CLAW, Motor_Type.NEO_550);
-    
+        left.setFollow(right);
+        
+        leftSpeed = 0;
+        rightSpeed = 0;
         // left.setIdleMode(IdleMode.kBrake);
         // right.setIdleMode(IdleMode.kBrake);
     }
     
-    public void setStatus (Claw.Status stat)
-    {
+    public void setStatus (Claw.Status stat) {
         this.stat = stat;   
 
-        if(this.stat == Status.INTAKING)
-        {
-            this.intaking(ROLLING_SPEED);
-        }else if(this.stat == Status.EJECTING)
-        {
+        if (this.stat == Status.INTAKING) {
+            this.intaking();
+        } else if(this.stat == Status.EJECTING) {
             this.eject();
-        }else 
-        {
+        } else if (this.stat == Status.IDLE) {
+            this.idle();
+        } else {
             this.stopAll();
         }
     }
 
-    public void intaking(double speed)
-    {
-        left.set(-speed);
-        right.set(speed);
+    private void intaking() {
+        leftSpeed = -ROLLING_SPEED;
+        rightSpeed = ROLLING_SPEED;
     }
 
-    public void eject()
-    {
-        right.set(-ROLLING_SPEED);
-        left.set(ROLLING_SPEED);
+    private void eject() {
+        rightSpeed = -ROLLING_SPEED;
+        leftSpeed = ROLLING_SPEED;
 
-        overCount--;
+        // overCount--;
 
-        if((right.getOutputCurrent() < 1) && (left.getOutputCurrent() < 1) && overCount < -25)
-        {
-            setStatus(Status.OFF);
-            overCount = 0;
-        }
+        // if ((right.getOutputCurrent() < 1) && (left.getOutputCurrent() < 1) && overCount < -25) {
+        //     setStatus(Status.IDLE);
+        //     overCount = 0;
+        // }
     }
 
-    public void stopAll() 
-    {
-        left.set(0);
-        right.set(0);
-        overCount=0;
+    private void idle() {      
+        leftSpeed = -IDLE_SPEED;
+        rightSpeed = IDLE_SPEED;
+
+        // if (left.getOutputCurrent() > CURRENT_MAX)
+        // {
+        //     overCount++;
+        //     if(overCount > overCountCap)
+        //     {
+        //         leftSpeed = -IDLE_SPEED;
+        //         rightSpeed = IDLE_SPEED;
+        //     }
+        // }
+    }
+    private void stopAll() {
+        leftSpeed = 0;
+        rightSpeed = 0;
+        //overCount = 0;
     }
 
     // Checks if a game object is currently being held.
-    public boolean isFull() 
-    {
-        return overCount > 0;
-    }
-
-    public void stopClaw()
-    {
-        if(left.getOutputCurrent() > CURRENT_MAX)
-        {
-            overCount++;
-            if(overCount > overCountCap)
-            {
-                this.intaking(0.05);
-            }
-        }
-    }
+    // public boolean isFull() {
+    //     return overCount > 0;
+    // }
 
     @Override
     // Checking for hardware breaks within the motors.
@@ -113,11 +108,13 @@ public class Claw extends MustangSubsystemBase
     @Override
     // What is mustangPeriodic() used for? Is it used for updating the motors?
     public void mustangPeriodic() {
+        left.set(leftSpeed);
+        right.set(rightSpeed);
         debugSubsystem();
-        if(this.stat != Status.EJECTING)
-        {
-            stopClaw();
-        }
+        // if(this.stat != Status.EJECTING)
+        // {
+        //     stopClaw();
+        // }
     }
 
     @Override
@@ -125,6 +122,14 @@ public class Claw extends MustangSubsystemBase
     {
         SmartDashboard.putNumber("left current", left.getOutputCurrent());
         SmartDashboard.putNumber("right current", right.getOutputCurrent());
+    }
+
+    public double getLeftCurrent() {
+        return left.getOutputCurrent();
+    }
+
+    public double getRightCurrent() {
+        return right.getOutputCurrent();
     }
 
     // Method(s) to detect if the claw is outtaking or intaking to further check what direction the motors should spin.
