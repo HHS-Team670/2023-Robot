@@ -10,7 +10,7 @@ import frc.team670.mustanglib.utils.MustangController.DPadState;
 import frc.team670.mustanglib.utils.MustangController.XboxButtons;
 import frc.team670.robot.commands.ClawIntake;
 import frc.team670.robot.commands.ClawEject;
-import frc.team670.robot.commands.ClawIdle;
+// import frc.team670.robot.commands.ClawIdle;
 import frc.team670.robot.subsystems.Claw;
 
 public class OI extends OIBase {
@@ -33,6 +33,6 @@ public class OI extends OIBase {
 
         clawSuck.onTrue(new ClawIntake(claw)); 
         clawEject.onTrue(new ClawEject(claw));
-        clawIdle.onTrue(new ClawIdle(claw));
+        // clawIdle.onTrue(new ClawIdle(claw));
     }
 }

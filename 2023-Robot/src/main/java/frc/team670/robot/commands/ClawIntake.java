@@ -9,6 +9,7 @@ import java.util.Map;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.team670.robot.subsystems.Claw;
 import frc.team670.robot.subsystems.Claw.Status;
+import frc.team670.robot.constants.RobotConstants;
 
 /**
  * @author Tarini, Samanyu and Ishaan
@@ -31,7 +32,7 @@ public class ClawIntake extends CommandBase implements MustangCommand
 
     @Override
     public boolean isFinished() {
-        if (claw.getLeftCurrent() >= Claw.CURRENT_MAX && claw.getRightCurrent() >= Claw.CURRENT_MAX) {
+        if (claw.getLeftCurrent() >= RobotConstants.CURRENT_MAX && claw.getRightCurrent() >= RobotConstants.CURRENT_MAX) {
             return true;
         } else {
             return false;

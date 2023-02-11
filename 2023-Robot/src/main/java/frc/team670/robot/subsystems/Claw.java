@@ -4,6 +4,7 @@ import frc.team670.mustanglib.utils.motorcontroller.MotorConfig.Motor_Type;
 // SparkMAX is used for the motor control.
 import frc.team670.mustanglib.utils.motorcontroller.SparkMAXFactory;
 import frc.team670.mustanglib.utils.motorcontroller.SparkMAXLite;
+import frc.team670.robot.constants.RobotConstants;
 import frc.team670.robot.constants.RobotMap;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -15,9 +16,6 @@ public class Claw extends MustangSubsystemBase {
         EJECTING, INTAKING, OFF, IDLE;
     }
 
-    private static final double ROLLING_SPEED = 0.3;
-    public static final double CURRENT_MAX = 25.0;
-    private static final double IDLE_SPEED = 0.05;
     private double leftSpeed, rightSpeed; 
 
     // public int overCount = 0;
@@ -54,13 +52,13 @@ public class Claw extends MustangSubsystemBase {
     }
 
     private void intaking() {
-        leftSpeed = -ROLLING_SPEED;
-        rightSpeed = ROLLING_SPEED;
+        leftSpeed = -RobotConstants.ROLLING_SPEED;
+        rightSpeed = RobotConstants.ROLLING_SPEED;
     }
 
     private void eject() {
-        rightSpeed = -ROLLING_SPEED;
-        leftSpeed = ROLLING_SPEED;
+        rightSpeed = -RobotConstants.ROLLING_SPEED;
+        leftSpeed = RobotConstants.ROLLING_SPEED;
 
         // overCount--;
 
@@ -71,8 +69,8 @@ public class Claw extends MustangSubsystemBase {
     }
 
     private void idle() {      
-        leftSpeed = -IDLE_SPEED;
-        rightSpeed = IDLE_SPEED;
+        leftSpeed = -RobotConstants.IDLE_SPEED;
+        rightSpeed = RobotConstants.IDLE_SPEED;
 
         // if (left.getOutputCurrent() > CURRENT_MAX)
         // {
