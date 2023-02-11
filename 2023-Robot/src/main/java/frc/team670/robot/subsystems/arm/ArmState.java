@@ -22,18 +22,29 @@ public enum ArmState {
     //Angle-based states. For the shoulder, straight up is 180. If the elbow joint is straight, that's 180.
     //As of 2/4, these are estimates
     STOWED(0, 180, 40),
-    HOPPER(1,180, 40),
-    INTERMEDIATE_HOPPER(2,225,45),
+    HOPPER(1, 180, 40),
+    INTERMEDIATE_HOPPER(2, 225, 45),
     SCORE_MID(3, 170, 100),
-    SCORE_HIGH(4,135, 180),
-    HYBRID(5, 110,80),
-    INTAKE_GROUND(6,110, 80),
-    DOUBLE_SUBSTATION(7,170,100);
+    SCORE_HIGH(4, 135, 180),
+    HYBRID(5, 110, 80),
+    INTAKE_GROUND(6, 110, 80),
+    DOUBLE_SUBSTATION(7, 170, 100);
+    
+    // STOWED(0, 180, 40, 33, 60),
+    // HOPPER(1, 180, 40, 33, 60),
+    // INTERMEDIATE_HOPPER(2, 225, 45, 30, 60),
+    // SCORE_MID(3, 170, 100, 40, 180),
+    // SCORE_HIGH(4, 135, 180, 90, 225),
+    // HYBRID(5, 110, 80, 60, 100),
+    // INTAKE_GROUND(6, 110, 80, 60, 100),
+    // DOUBLE_SUBSTATION(7, 170, 100, 40, 180);
     
 
     private int stateID;
     private double shoulderAngle;
     private double elbowAngle;
+    //private double lowerElbowSoftLimit;
+    //private double upperElbowSoftLimit;
     // private double wristAngle;
 
     //private ArmState(int stateID, double xPos, double yPos) {
@@ -41,6 +52,8 @@ public enum ArmState {
       this.shoulderAngle=shoulderPos;
       this.elbowAngle=elbowPos;
       this.stateID = stateID;
+      //this.lowerElbowSoftLimit = lowerSoftLimit;
+      //this.upperElbowSoftLimit = upperSoftLimit;
 
 
       // double L1 = 20.0; // From floor to shoulder joint
@@ -81,6 +94,14 @@ public enum ArmState {
     public double getElbowAngle() {
       return elbowAngle;
     }
+
+    // public double getLowerElbowSoftLimit() {
+    //   return lowerElbowSoftLimit;
+    // }
+
+    // public double getUpperElbowSoftLimit() {
+    //   return upperElbowSoftLimit;
+    // }
     
     
     // public double getWristAngle() {

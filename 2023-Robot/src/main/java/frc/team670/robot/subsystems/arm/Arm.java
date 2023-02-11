@@ -11,7 +11,7 @@ import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
  * Represents the whole Arm system, containing multiple joints.
  * Models the arm as a state machine.
  * 
- * @author Armaan, Aditi, Alexander, Gabriel, Kedar, Justin, Sanatan
+ * @author Armaan, Aditi, Alexander, Gabriel, Kedar, Justin, Sanatan, Srinish
  */
 public class Arm extends MustangSubsystemBase {
     private Shoulder shoulder;
@@ -83,7 +83,7 @@ public class Arm extends MustangSubsystemBase {
         shoulder.setEncoderPositionFromAbsolute(); 
         elbow.setSystemTargetAngleInDegrees(target.getElbowAngle());
         shoulder.setSystemTargetAngleInDegrees(target.getShoulderAngle());
-
+        elbow.updateSoftLimits(new float[]{, });
     }
 
     public void updateArbitraryFeedForwards() {
