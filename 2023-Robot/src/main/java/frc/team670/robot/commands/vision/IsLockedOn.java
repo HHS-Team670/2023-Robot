@@ -1,10 +1,17 @@
 package frc.team670.robot.commands.vision;
 
 import java.util.Map;
+
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Transform2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.team670.mustanglib.commands.MustangCommand;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
+import frc.team670.mustanglib.subsystems.VisionSubsystemBase;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase.HealthState;
+import frc.team670.mustanglib.subsystems.drivebase.SwerveDrive;
+import frc.team670.robot.constants.RobotConstants;
 
 /**
  * IsLockedOn
@@ -30,14 +37,14 @@ public class IsLockedOn extends CommandBase implements MustangCommand {
     @Override
     public void initialize() {
         // find pose of nearest target
-        currentPose = swerve.getPose();
+        currentPose = driveBase.getPose();
         var result = vision.getCamera().getLatestResult();
         if (!result.hasTargets()) return;
 
         var camToTarget = result.getBestTarget().getBestCameraToTarget();
         Transform2d transform = new Transform2d(camToTarget.getTranslation().toTranslation2d(),
                 camToTarget.getRotation().toRotation2d());
-        Pose2d cameraPose = robotPose.transformBy(RobotConstants.CAMERA_OFFSET.inverse());
+        Pose2d cameraPose = currentPose.transformBy(RobotConstants.CAMERA_OFFSET.inverse());
         Pose2d targetPose = cameraPose.transformBy(transform);
 
         // transform by offset (to not crash)
@@ -54,6 +61,7 @@ public class IsLockedOn extends CommandBase implements MustangCommand {
     @Override
     public boolean isFinished() {
         if (Math.abs(currentPose.getX() - goalPose.getX()) <= 0.3 && Math.abs(currentPose.getY() - goalPose.getY()) <= 0.3 && Math.abs(currentPose.getRotation().toRotation2d().toDegrees() - goalPose.getRotation().toRotation2d().toDegrees()) <= 4) {
+            SmartDashboard.putBoolean("aligned", true);
             return true;
         }
         return false;
@@ -62,6 +70,7 @@ public class IsLockedOn extends CommandBase implements MustangCommand {
     @Override
     public void end(boolean interrupted) {
         vision.switchLEDS(true, true);
+
     }
     
 }

@@ -1,5 +1,4 @@
 
-var PopupClass = require('js-popup');
 
 document.getElementById('big-warning').style.display = "none";
 

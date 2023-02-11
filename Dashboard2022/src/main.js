@@ -2,6 +2,7 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 const electron = require('electron');
+const { contextIsolated } = require('process');
 const wpilib_NT = require('wpilib-nt-client');
 const client = new wpilib_NT.Client();
 
@@ -16,6 +17,7 @@ const app = electron.app;
 
 /** Module to create native browser window.*/
 const BrowserWindow = electron.BrowserWindow;
+
 
 /** Module for receiving messages from the BrowserWindow */
 const ipc = electron.ipcMain;
@@ -108,6 +110,12 @@ function createWindow() {
     });
     // Create the browser window.
     mainWindow = new BrowserWindow({
+        webPreferences: {
+        //preload: path.join(app.getAppPath(), 'preload.js')
+            nodeIntegration: true,
+            contextIsolation: false
+        },
+
         width: 1500,
         height: 900,
         // 1366x570 is a good standard height, but you may want to change this to fit your DriverStation's screen better.
