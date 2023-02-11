@@ -142,7 +142,7 @@ public final class RobotConstants extends RobotConstantsBase {
     public static final int SHOULDER_GEAR_RATIO = 96;
     public static final int SHOULDER_SOFT_LIMIT_MIN = 60;
     public static final int SHOULDER_SOFT_LIMIT_MAX = 300;
-    public static final double SHOULDER_ARBITRARY_FF = 1.2;
+    public static final double SHOULDER_ARBITRARY_FF = 1.3;
     public static final double ARM_MAX_XCM = armXCM(0, 0);
 
     public static final double SHOULDER_LENGTH_INCHES = 25;
@@ -150,6 +150,11 @@ public final class RobotConstants extends RobotConstantsBase {
     public static final double SHOULDER_TO_ELBOW_MASS_LB = 6.5;
     public static final double ELBOW_TO_CLAW_MASS_LB = 2;
     public static final double CLAW_MASS_LB = 6;
+
+    // claw constants
+    public static final double CLAW_ROLLING_SPEED = 0.3;
+    public static final double CLAW_CURRENT_MAX = 25.0;
+    public static final double CLAW_IDLE_SPEED = 0.05;
 
     public static final int kTimeoutMs = 0;
     public static final double leftKsVolts = 0.4;

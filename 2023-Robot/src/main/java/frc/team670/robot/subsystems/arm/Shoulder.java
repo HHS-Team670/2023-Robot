@@ -126,12 +126,14 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
         follower = SparkMAXFactory.setPermanentFollower(RobotMap.SHOULDER_FOLLOWER_MOTOR, rotator, true);
         follower.setIdleMode(IdleMode.kBrake);
         absEncoder = new DutyCycleEncoder(RobotMap.SHOULDER_ABSOLUTE_ENCODER);
+        SmartDashboard.putNumber("shoulder arbitary feed forward value", RobotConstants.SHOULDER_ARBITRARY_FF);
+
 
     }
 
     public static double calculateFeedForward(double shoulderAngle, double elbowAngle) {
 
-        return RobotConstants.SHOULDER_ARBITRARY_FF * RobotConstants.armXCM(shoulderAngle, elbowAngle)
+        return SmartDashboard.getNumber("shoulder arbitary feed forward value", RobotConstants.SHOULDER_ARBITRARY_FF) * RobotConstants.armXCM(shoulderAngle, elbowAngle)
                 / RobotConstants.ARM_MAX_XCM;
 
     }
@@ -181,6 +183,7 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
         SmartDashboard.putNumber("Shoulder current", super.rotator.getOutputCurrent());
         SmartDashboard.putString("Shoulder health", checkHealth().toString());
         SmartDashboard.putNumber("Shoulder setpoint (rotations)", setpoint);
+
 
     }
 
