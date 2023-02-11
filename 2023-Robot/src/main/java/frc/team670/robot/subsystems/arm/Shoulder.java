@@ -17,7 +17,7 @@ import com.revrobotics.REVLibError;
  * Represents the shoulder joint. The shoulder uses a leader-follower SparkMax
  * pair
  * 
- * @author Armaan, Kedar, Aditi, Justin, Alexander, Gabriel, Srinish
+ * @author Armaan, Kedar, Aditi, Justin, Alexander, Gabriel, Srinish, Sanatan
  */
 public class Shoulder extends SparkMaxRotatingSubsystem {
 
@@ -126,7 +126,6 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
         follower = SparkMAXFactory.setPermanentFollower(RobotMap.SHOULDER_FOLLOWER_MOTOR, rotator, true);
         follower.setIdleMode(IdleMode.kBrake);
         absEncoder = new DutyCycleEncoder(RobotMap.SHOULDER_ABSOLUTE_ENCODER);
-        setEncoderPositionFromAbsolute();
     }
 
     public static double calculateFeedForward(double shoulderAngle, double elbowAngle) {
@@ -134,6 +133,10 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
         return RobotConstants.SHOULDER_ARBITRARY_FF * RobotConstants.armXCM(shoulderAngle, elbowAngle)
                 / RobotConstants.ARM_MAX_XCM;
 
+    }
+
+    public boolean isRelativePositionSet() {
+        return relativePositionIsSet;
     }
 
     public void updateArbitraryFeedForward(double elbowAngle) {

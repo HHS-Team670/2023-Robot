@@ -11,12 +11,13 @@ import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
  * Represents the whole Arm system, containing multiple joints.
  * Models the arm as a state machine.
  * 
- * @author Armaan, Aditi, Alexander, Gabriel, Kedar, Justin
+ * @author Armaan, Aditi, Alexander, Gabriel, Kedar, Justin, Sanatan
  */
 public class Arm extends MustangSubsystemBase {
     private Shoulder shoulder;
     private Elbow elbow;
     private ArmState targetState;
+    private boolean initializedState;
 
     private static final ArmState[][] VALID_PATHS_GRAPH = new ArmState[][] {
             { ArmState.INTERMEDIATE_HOPPER, ArmState.SCORE_MID, ArmState.SCORE_HIGH, ArmState.DOUBLE_SUBSTATION }, // STOWED
@@ -35,8 +36,8 @@ public class Arm extends MustangSubsystemBase {
     public Arm() {
         this.shoulder = new Shoulder();
         this.elbow = new Elbow();
-        //this.targetState = ArmState.STOWED;
-        this.targetState = getClosestState();
+        this.targetState = ArmState.STOWED;
+        this.initializedState = false;
         init();
     }
 
@@ -64,6 +65,12 @@ public class Arm extends MustangSubsystemBase {
     @Override
     public void mustangPeriodic() {
         debugSubsystem();
+        if (!initializedState) {
+            if (elbow.isRelativePositionSet() && shoulder.isRelativePositionSet()) {
+                initializedState = true;
+                this.targetState = getClosestState();
+            }
+        }
     }
 
     /**

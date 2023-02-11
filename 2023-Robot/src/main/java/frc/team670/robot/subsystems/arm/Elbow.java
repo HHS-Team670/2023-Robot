@@ -17,7 +17,7 @@ import frc.team670.robot.constants.RobotMap;
 /**
  * Represents the Elbow joint. Uses only one motor
  * 
- * @author Armaan Aditi Kedar Gabriel Alexander Justin
+ * @author Armaan Aditi Kedar Gabriel Alexander Justin Sanatan
  */
 public class Elbow extends SparkMaxRotatingSubsystem {
 
@@ -125,7 +125,6 @@ public class Elbow extends SparkMaxRotatingSubsystem {
         super(ELBOW_CONFIG);
         absEncoder = new DutyCycleEncoder(RobotMap.ELBOW_ABSOLUTE_ENCODER);
         super.getRotator().setInverted(true);
-        setEncoderPositionFromAbsolute();
     }
 
     /**
@@ -173,6 +172,10 @@ public class Elbow extends SparkMaxRotatingSubsystem {
         }
 
         return HealthState.GREEN;
+    }
+
+    public boolean isRelativePositionSet() {
+        return relativePositionIsSet;
     }
 
     @Override
