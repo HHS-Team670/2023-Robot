@@ -1,6 +1,7 @@
 package frc.team670.robot.constants;
 
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.team670.mustanglib.commands.drive.teleop.SetSwerveForwardDirection;
 import frc.team670.mustanglib.constants.OIBase;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
@@ -16,18 +17,26 @@ import frc.team670.robot.subsystems.arm.ArmState;
 public class OI extends OIBase {
     // Controllers
     private static MustangController driverController = new MustangController(0);
+    private static MustangController operatorController = new MustangController(1);
 
-    // Buttons
+    // Driver buttons
     private static JoystickButton zeroGyro = new JoystickButton(driverController, XboxButtons.X);
     private static JoystickButton moveToTarget = new JoystickButton(driverController, XboxButtons.Y);
+
     //private static JoystickButton move = new JoystickButton(driverController, XboxButtons.Y);
-    private static JoystickButton hopper = new JoystickButton(driverController, XboxButtons.B);
-    private static JoystickButton stow = new JoystickButton(driverController, XboxButtons.A);
-    private static JoystickButton highCone = new JoystickButton(driverController, XboxButtons.LEFT_BUMPER);
-    private static JoystickButton hybrid = new JoystickButton(driverController, XboxButtons.RIGHT_BUMPER);
+
+    // Operator buttons
+    private static POVButton hybrid = new POVButton(operatorController, 180);
+    private static POVButton scoreMid = new POVButton(operatorController, 90);
+    private static POVButton scoreHigh = new POVButton(operatorController, 0);
+
 
     public static MustangController getDriverController() {
         return driverController;
+    }
+
+    public static MustangController getOperatorController() {
+        return operatorController;
     }
 
     @Override
@@ -44,10 +53,15 @@ public class OI extends OIBase {
         moveToTarget.onTrue(new AutoAlign(vision, driveBase));
         // move.onTrue(new MoveToPose(driveBase, new Pose2d(1, 1, new Rotation2d()), true));
 
-        stow.onTrue(new MoveToTarget(arm, ArmState.STOWED)); 
-        hopper.onTrue(new MoveToTarget(arm, ArmState.HOPPER));
+        // //arm movement commands
         hybrid.onTrue(new MoveToTarget(arm, ArmState.HYBRID));
-        highCone.onTrue(new MoveToTarget(arm, ArmState.SCORE_HIGH));
+        scoreMid.onTrue(new MoveToTarget(arm, ArmState.SCORE_MID));
+        scoreHigh.onTrue(new MoveToTarget(arm, ArmState.SCORE_HIGH));
+
+        hybrid.onFalse(new MoveToTarget(arm, ArmState.STOWED));
+        scoreMid.onFalse(new MoveToTarget(arm, ArmState.STOWED));
+        scoreHigh.onFalse(new MoveToTarget(arm, ArmState.STOWED));
+
     }
 
 }

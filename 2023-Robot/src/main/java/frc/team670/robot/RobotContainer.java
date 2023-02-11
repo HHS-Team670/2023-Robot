@@ -18,7 +18,6 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.team670.mustanglib.RobotContainerBase;
 import frc.team670.mustanglib.commands.MustangCommand;
 import frc.team670.mustanglib.utils.MustangController;
-import frc.team670.robot.commands.drivebase.AutoLevel;
 import frc.team670.robot.constants.OI;
 import frc.team670.robot.subsystems.DriveBase;
 import frc.team670.robot.subsystems.Vision;

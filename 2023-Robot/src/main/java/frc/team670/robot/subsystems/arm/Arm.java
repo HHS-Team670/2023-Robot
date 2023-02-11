@@ -19,13 +19,13 @@ public class Arm extends MustangSubsystemBase {
     private ArmState targetState;
 
     private static final ArmState[][] VALID_PATHS_GRAPH = new ArmState[][] {
-            { ArmState.INTERMEDIATE_HOPPER, ArmState.SCORE_MID, ArmState.SCORE_HIGH, ArmState.DOUBLE_SUBSTATION }, // STOWED
+            { ArmState.INTERMEDIATE_HOPPER, ArmState.SCORE_MID, ArmState.SCORE_HIGH, ArmState.DOUBLE_SUBSTATION, ArmState.HYBRID }, // STOWED
             { ArmState.INTERMEDIATE_HOPPER }, // HOPPER
             { ArmState.STOWED, ArmState.SCORE_MID, ArmState.SCORE_HIGH, ArmState.DOUBLE_SUBSTATION, ArmState.HOPPER }, // INTERMEDIATE_HOPPER
             { ArmState.STOWED, ArmState.INTERMEDIATE_HOPPER, ArmState.SCORE_HIGH, ArmState.HYBRID,
                     ArmState.INTAKE_GROUND }, // SCORE_MID
             { ArmState.STOWED, ArmState.INTERMEDIATE_HOPPER, ArmState.SCORE_MID }, // SCORE_HIGH
-            { ArmState.SCORE_MID }, // HYBRID
+            { ArmState.STOWED }, // HYBRID
             { ArmState.SCORE_MID }, // INTAKE_GROUND
             { ArmState.STOWED, ArmState.INTERMEDIATE_HOPPER }, // DOUBLE_SUBSTATION
     };
