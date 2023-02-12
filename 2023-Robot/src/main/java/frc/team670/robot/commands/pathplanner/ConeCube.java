@@ -18,7 +18,13 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.team670.mustanglib.commands.MustangCommand;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase.HealthState;
+import frc.team670.robot.commands.arm.MoveDirectlyToTarget;
+import frc.team670.robot.commands.claw.ClawEject;
+import frc.team670.robot.commands.claw.ClawIntake;
+import frc.team670.robot.subsystems.Claw;
 import frc.team670.robot.subsystems.DriveBase;
+import frc.team670.robot.subsystems.arm.Arm;
+import frc.team670.robot.subsystems.arm.ArmState;
 
 public class ConeCube extends SequentialCommandGroup implements MustangCommand {
     
@@ -29,7 +35,7 @@ public class ConeCube extends SequentialCommandGroup implements MustangCommand {
     }
 
 
-    public ConeCube(DriveBase driveBase, String pathName) {
+    public ConeCube(DriveBase driveBase, Claw claw, Arm arm, String pathName) {
         this.pathName = pathName;
         List<PathPlannerTrajectory> trajectoryGroup = PathPlanner.loadPathGroup(pathName, 1.0, 0.5);
         
@@ -37,9 +43,14 @@ public class ConeCube extends SequentialCommandGroup implements MustangCommand {
         PIDConstants PID_theta = new PIDConstants(1.0, 0, 0);
 
         HashMap<String, Command> eventMap = new HashMap<>();
-        eventMap.put("dropOff1", new PrintCommand("Drop Off 1 Occured"));
-        eventMap.put("pickup", new PrintCommand("Pickup Occured"));
-        eventMap.put("dropOff2", new PrintCommand("Drop Off 2 Occured"));
+        // eventMap.put("dropOff1", new PrintCommand("Drop Off 1 Occured"));
+        // eventMap.put("pickup", new PrintCommand("Pickup Occured"));
+        // eventMap.put("dropOff2", new PrintCommand("Drop Off 2 Occured"));
+        eventMap.put("dropOff1", new ClawEject(claw));
+        eventMap.put("lower arm", new MoveDirectlyToTarget(arm, ArmState.INTERMEDIATE_BACKWARD_GROUND)); //not sure if this is the correct state
+        eventMap.put("pickup", new ClawIntake(claw));
+        eventMap.put("raise arm", new MoveDirectlyToTarget(arm, ArmState.SCORE_HIGH));
+        eventMap.put("dropOff2", new ClawEject(claw));
 
         // HashMap<String, Command> eventMap = initialzeEventMap(); 
 

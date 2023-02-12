@@ -64,7 +64,7 @@ public class RobotContainer extends RobotContainerBase {
      */
     @Override
     public MustangCommand getAutonomousCommand() {
-        return new CubeEngage(driveBase, "RightCubeEngage");
+        return new CubeEngage(driveBase, claw, "RightCubeEngage");
 
         //return new ConeCube(driveBase, "LeftConeCube");
 

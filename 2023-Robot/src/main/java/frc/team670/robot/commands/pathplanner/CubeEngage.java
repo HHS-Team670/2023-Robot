@@ -18,7 +18,8 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.team670.mustanglib.commands.MustangCommand;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase.HealthState;
-import frc.team670.robot.commands.drivebase.AutoLevel;
+import frc.team670.robot.commands.claw.ClawEject;
+import frc.team670.robot.subsystems.Claw;
 import frc.team670.robot.subsystems.DriveBase;
 import frc.team670.robot.commands.drivebase.NonPidAutoLevel;
 
@@ -28,14 +29,15 @@ public class CubeEngage extends SequentialCommandGroup implements MustangCommand
         return new HashMap();
     }
 
-    public CubeEngage(DriveBase driveBase, String pathName) {
+    public CubeEngage(DriveBase driveBase, Claw claw, String pathName) {
         List<PathPlannerTrajectory> trajectoryGroup = PathPlanner.loadPathGroup(pathName, 3, 1.5);
         
         PIDConstants PID_translation = new PIDConstants(1.0, 0, 0);
         PIDConstants PID_theta = new PIDConstants(1.0, 0, 0);
 
         Map<String, Command> eventMap = new HashMap<>();
-        eventMap.put("dropOff", new PrintCommand("dropOff reached")); // may add side differences later
+        //eventMap.put("dropOff", new PrintCommand("dropOff reached")); // may add side differences later
+        eventMap.put("dropOff", new ClawEject(claw));
         eventMap.put("auto level", new NonPidAutoLevel(driveBase)); // regardless of what side (right/left) you are on, markers are the same
 
         SwerveDriveKinematics driveBaseKinematics = driveBase.getSwerveKinematics();
