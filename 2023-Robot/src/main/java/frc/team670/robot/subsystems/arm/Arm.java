@@ -76,8 +76,8 @@ public class Arm extends MustangSubsystemBase {
     }
 
     public void updateArbitraryFeedForwards() {
-        elbow.updateArbitraryFeedForward(Math.toRadians(shoulder.getCurrentAngleInDegrees()));
-        shoulder.updateArbitraryFeedForward(Math.toRadians(elbow.getCurrentAngleInDegrees()));
+        elbow.updateArbitraryFeedForward(shoulder.getCurrentAngleInDegrees());
+        shoulder.updateArbitraryFeedForward(elbow.getCurrentAngleInDegrees());
     }
 
     /**
