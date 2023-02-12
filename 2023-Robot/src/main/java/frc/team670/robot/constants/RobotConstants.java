@@ -9,9 +9,14 @@ import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.Enumeration;
 import java.util.Map;
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform2d;
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.trajectory.constraint.DifferentialDriveKinematicsConstraint;
 import edu.wpi.first.wpilibj.SerialPort;
@@ -101,12 +106,13 @@ public final class RobotConstants extends RobotConstantsBase {
     public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI * 16;
     
     // vision
+
     public static final String VISION_CAMERA_NAME = "Arducam_OV9281_USB_Camera";
-    public static final Transform2d CAMERA_OFFSET = 
-        new Transform2d(new Translation2d(0, 0), new Rotation2d(0));    // TODO: changed when camera actually mounted, may need to change based on robot
+    public static final Transform3d CAMERA_OFFSET = 
+        new Transform3d(new Translation3d(0, 0, 0), new Rotation3d(0, 0, 0));
+        // new Transform2d(new Translation2d(0, 0), new Rotation2d(0));    // TODO: changed when camera actually mounted, may need to change based on robot
     public static final Transform2d GRID_TO_TARGET_OFFSET = 
         new Transform2d(new Translation2d(1, 0), new Rotation2d(0));    // TODO: check game manual for actual specs
-    
     
         //Everything below is copied from 2022 robot
     public static final double kTrackwidthMeters = 0.702;
