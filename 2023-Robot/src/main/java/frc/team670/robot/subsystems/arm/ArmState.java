@@ -8,27 +8,18 @@ package frc.team670.robot.subsystems.arm;
  */
 
 public enum ArmState {
-
-    //Position-based states (x, y) coordinates
-    // STOWED(0, 11, 28), //Same as hopper FOR NOW
-    // HOPPER(1,11, 28),
-    // INTERMEDIATE_HOPPER(2,11,36), //Must check later
-    // SCORE_MID(3, 42, 46),
-    // SCORE_HIGH(4, 51, 57),
-    // HYBRID(5, 25,12), //Check later as well
-    // INTAKE_GROUND(6,25, 12),
-    // DOUBLE_SUBSTATION(7,42,46); //Needs tuning later
-
+  
     //Angle-based states. For the shoulder, straight up is 180. If the elbow joint is straight, that's 180.
-    //As of 2/4, these are estimates
+    
     STOWED(0, 180, 40),
-    HOPPER(1,180, 40),
-    INTERMEDIATE_HOPPER(2,225,45),
-    SCORE_MID(3, 170, 100),
-    SCORE_HIGH(4,135, 180),
-    HYBRID(5, 118,130),
-    INTAKE_GROUND(6,110, 80),
-    DOUBLE_SUBSTATION(7,170,100);
+    HYBRID(1, 108,165),
+    SCORE_MID(2, 180, 112),//172
+    SCORE_HIGH(3,145, 180),
+    INTERMEDIATE_BACKWARD_GROUND(4, 230, 40),
+    BACKGROUND_GROUND(5, 230, 290),
+    TUNING(6, 90, 180);
+  
+     
     
 
     private int stateID;

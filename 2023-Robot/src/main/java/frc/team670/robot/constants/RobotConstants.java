@@ -138,11 +138,11 @@ public final class RobotConstants extends RobotConstantsBase {
     public static final int ELBOW_GEAR_RATIO = 75;
     public static final int ELBOW_SOFT_LIMIT_MIN = 20;
     public static final int ELBOW_SOFT_LIMIT_MAX = 340;
-    public static final double ELBOW_ARBITRARY_FF = 1.0;
+    public static final double ELBOW_ARBITRARY_FF = 0.2;
     public static final int SHOULDER_GEAR_RATIO = 96;
     public static final int SHOULDER_SOFT_LIMIT_MIN = 60;
     public static final int SHOULDER_SOFT_LIMIT_MAX = 300;
-    public static final double SHOULDER_ARBITRARY_FF = 1.3;
+    public static final double SHOULDER_ARBITRARY_FF = 0.2;
     public static final double ARM_MAX_XCM = armXCM(0, 0);
 
     public static final double SHOULDER_LENGTH_INCHES = 25;
@@ -153,6 +153,7 @@ public final class RobotConstants extends RobotConstantsBase {
 
     // claw constants
     public static final double CLAW_ROLLING_SPEED = 0.3;
+    public static final double CLAW_EJECTING_SPEED = -0.1;
     public static final double CLAW_CURRENT_MAX = 25.0;
     public static final double CLAW_IDLE_SPEED = 0.05;
 
@@ -207,7 +208,7 @@ public final class RobotConstants extends RobotConstantsBase {
     public static double armXCM(double shoulderAngle, double elbowAngle) {
         double x1 = RobotConstants.SHOULDER_LENGTH_INCHES * Math.sin(shoulderAngle);
         double x2 = RobotConstants.ELBOW_LENGTH_INCHES * Math.sin(shoulderAngle + elbowAngle - 180);
-        double xcm = (RobotConstants.SHOULDER_TO_ELBOW_MASS_LB * x1 / 2.0 // first segment CM
+        double xcm = (RobotConstants.SHOULDER_TO_ELBOW_MASS_LB * x1 / 4.0 // first segment CM
                 + RobotConstants.ELBOW_TO_CLAW_MASS_LB * (x1 + x2 / 2.0) // second segment CM
                 + RobotConstants.CLAW_MASS_LB * (x1 + x2)) // claw CM
                 /(RobotConstants.SHOULDER_TO_ELBOW_MASS_LB + RobotConstants.ELBOW_TO_CLAW_MASS_LB + RobotConstants.CLAW_MASS_LB); //divide by total mass

@@ -63,7 +63,7 @@ public class Claw extends MustangSubsystemBase {
                 leader.set(RobotConstants.CLAW_ROLLING_SPEED);
                 break;
             case EJECTING:
-                leader.set(-RobotConstants.CLAW_ROLLING_SPEED);
+                leader.set(RobotConstants.CLAW_EJECTING_SPEED);
                 break;
             default:
                 leader.set(0);
