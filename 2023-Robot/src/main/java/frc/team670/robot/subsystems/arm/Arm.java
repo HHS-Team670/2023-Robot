@@ -23,7 +23,7 @@ public class Arm extends MustangSubsystemBase {
             { ArmState.SCORE_MID}, // HYBRID
             { ArmState.STOWED, ArmState.SCORE_HIGH, ArmState.HYBRID}, // SCORE_MID
             { ArmState.SCORE_MID }, // SCORE_HIGH
-            { ArmState.BACKGROUND_GROUND, ArmState.STOWED}, // INTERMEDIATE_BACKWARD_GROUND
+            { ArmState.BACKWARD_GROUND, ArmState.STOWED}, // INTERMEDIATE_BACKWARD_GROUND
             { ArmState.INTERMEDIATE_BACKWARD_GROUND }, // BACKWARD_GROUND
             { ArmState.STOWED }, // TUNING
 
