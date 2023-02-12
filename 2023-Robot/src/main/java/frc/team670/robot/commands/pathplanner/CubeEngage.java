@@ -19,7 +19,9 @@ import frc.team670.mustanglib.commands.MustangCommand;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase.HealthState;
 import frc.team670.robot.commands.arm.MoveDirectlyToTarget;
+import frc.team670.robot.commands.arm.MoveToTarget;
 import frc.team670.robot.commands.claw.ClawEject;
+import frc.team670.robot.commands.claw.ClawIntake;
 import frc.team670.robot.subsystems.Claw;
 import frc.team670.robot.subsystems.DriveBase;
 import frc.team670.robot.subsystems.arm.Arm;
@@ -39,10 +41,15 @@ public class CubeEngage extends SequentialCommandGroup implements MustangCommand
         PIDConstants PID_theta = new PIDConstants(1.0, 0, 0);
 
         Map<String, Command> eventMap = new HashMap<>();
-        //eventMap.put("dropOff", new PrintCommand("dropOff reached")); // may add side differences later
-        eventMap.put("raiseArm", new MoveDirectlyToTarget(arm, ArmState.SCORE_HIGH));
-        eventMap.put("dropOff", new ClawEject(claw));
-        eventMap.put("auto level", new NonPidAutoLevel(driveBase)); // regardless of what side (right/left) you are on, markers are the same
+
+        // eventMap stuff
+        eventMap.put("moveToHigh", new MoveToTarget(arm, ArmState.SCORE_HIGH));
+        eventMap.put("clawEject", new ClawEject(claw));
+        eventMap.put("moveToStowed1", new MoveToTarget(arm, ArmState.STOWED));
+        eventMap.put("moveToBackwards", new MoveToTarget(arm, ArmState.BACKWARD_GROUND));
+        eventMap.put("clawIntake", new ClawIntake(claw));
+        eventMap.put("moveToStowed2", new MoveToTarget(arm, ArmState.STOWED));
+        eventMap.put("autoLevel", new NonPidAutoLevel(driveBase)); // regardless of what side (right/left) you are on, markers are the same
 
         SwerveDriveKinematics driveBaseKinematics = driveBase.getSwerveKinematics();
 

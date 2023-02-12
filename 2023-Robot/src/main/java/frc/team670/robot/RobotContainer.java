@@ -64,44 +64,9 @@ public class RobotContainer extends RobotContainerBase {
      */
     @Override
     public MustangCommand getAutonomousCommand() {
-        return new CubeEngage(driveBase, claw, "RightCubeEngage");
+        return new CubeEngage(driveBase, claw, arm, "RightCubeEngage");
 
         //return new ConeCube(driveBase, "LeftConeCube");
-
-        // marker command (in path "StraightLine")
-
-        // HashMap<String, Command> eventMap = new HashMap<>();
-        // eventMap.put("event", new PrintOnStopPoint());
-
-        // MustangFollowPathWithEvents command = new MustangFollowPathWithEvents(
-        //     new MustangPPSwerveControllerCommand(
-        //             trajectory,
-        //             driveBase::getPose, 
-        //             driveBase.getSwerveKinematics(),
-        //             PID_x,
-        //             PID_y,
-        //             PID_theta,
-        //             driveBase::setModuleStates,
-        //             new Subsystem[] {driveBase}
-        //             ),
-        //     trajectory.getMarkers(),
-        //     eventMap
-        // );
-
-        // return command;
-
-        // the original command
-
-        // return new MustangPPSwerveControllerCommand(
-        //     trajectory,
-        //     driveBase::getPose, 
-        //     driveBase.getSwerveKinematics(),
-        //     PID_x,
-        //     PID_y,
-        //     PID_theta,
-        //     driveBase::setModuleStates,
-        //     new Subsystem[] {driveBase}
-        //     );
 
     }
 

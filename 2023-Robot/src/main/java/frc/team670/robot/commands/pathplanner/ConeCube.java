@@ -19,6 +19,7 @@ import frc.team670.mustanglib.commands.MustangCommand;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase.HealthState;
 import frc.team670.robot.commands.arm.MoveDirectlyToTarget;
+import frc.team670.robot.commands.arm.MoveToTarget;
 import frc.team670.robot.commands.claw.ClawEject;
 import frc.team670.robot.commands.claw.ClawIntake;
 import frc.team670.robot.subsystems.Claw;
@@ -43,18 +44,18 @@ public class ConeCube extends SequentialCommandGroup implements MustangCommand {
         PIDConstants PID_theta = new PIDConstants(1.0, 0, 0);
 
         HashMap<String, Command> eventMap = new HashMap<>();
-        // eventMap.put("dropOff1", new PrintCommand("Drop Off 1 Occured"));
-        // eventMap.put("pickup", new PrintCommand("Pickup Occured"));
-        // eventMap.put("dropOff2", new PrintCommand("Drop Off 2 Occured"));
-        eventMap.put("raiseArm1", new MoveDirectlyToTarget(arm, ArmState.SCORE_HIGH));
-        eventMap.put("dropOff1", new ClawEject(claw));
-        eventMap.put("lowerArm", new MoveDirectlyToTarget(arm, ArmState.BACKWARD_GROUND)); //not sure if this is the correct state
-        eventMap.put("pickup", new ClawIntake(claw));
-        eventMap.put("raiseArm2", new MoveDirectlyToTarget(arm, ArmState.SCORE_HIGH));
-        eventMap.put("dropOff2", new ClawEject(claw));
 
-        // HashMap<String, Command> eventMap = initialzeEventMap(); 
-
+        // eventMap stuff
+        eventMap.put("moveToHigh1", new MoveToTarget(arm, ArmState.SCORE_HIGH));
+        eventMap.put("clawEject1", new ClawEject(claw));
+        eventMap.put("moveToStowed1", new MoveToTarget(arm, ArmState.STOWED)); 
+        eventMap.put("moveToBackwards", new MoveToTarget(arm, ArmState.BACKWARD_GROUND));
+        eventMap.put("clawIntake", new ClawIntake(claw));
+        eventMap.put("moveToStowed2", new MoveToTarget(arm, ArmState.STOWED));
+        eventMap.put("moveToHigh2", new MoveToTarget(arm, ArmState.SCORE_HIGH));
+        eventMap.put("clawEject2", new ClawEject(claw));
+        eventMap.put("moveToStowed3", new MoveToTarget(arm, ArmState.STOWED));
+        
         SwerveDriveKinematics driveBaseKinematics = driveBase.getSwerveKinematics();
 
         SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(

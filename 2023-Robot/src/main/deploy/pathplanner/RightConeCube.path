@@ -17,9 +17,9 @@
       "isStopPoint": false,
       "stopEvent": {
         "names": [
-          "raiseArm1",
-          "dropOff1",
-          "lowerArm"
+          "moveToHigh1",
+          "clawEject1",
+          "moveToStowed1"
         ],
         "executionBehavior": "sequential",
         "waitBehavior": "none",
@@ -46,7 +46,9 @@
       "isStopPoint": true,
       "stopEvent": {
         "names": [
-          "pickup"
+          "moveToBackwards",
+          "clawIntake",
+          "moveToStowed2"
         ],
         "executionBehavior": "sequential",
         "waitBehavior": "none",
@@ -70,8 +72,9 @@
       "isStopPoint": false,
       "stopEvent": {
         "names": [
-          "raiseArm2",
-          "dropOff2"
+          "moveToHigh2",
+          "clawEject2",
+          "moveToStowed3"
         ],
         "executionBehavior": "sequential",
         "waitBehavior": "none",

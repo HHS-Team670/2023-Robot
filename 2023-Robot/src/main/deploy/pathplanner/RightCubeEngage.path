@@ -17,8 +17,9 @@
       "isStopPoint": false,
       "stopEvent": {
         "names": [
-          "raiseArm",
-          "dropOff"
+          "moveToHigh",
+          "clawEject",
+          "moveToStowed1"
         ],
         "executionBehavior": "sequential",
         "waitBehavior": "none",
@@ -42,10 +43,14 @@
       "isReversal": false,
       "velOverride": null,
       "isLocked": false,
-      "isStopPoint": false,
+      "isStopPoint": true,
       "stopEvent": {
-        "names": [],
-        "executionBehavior": "parallel",
+        "names": [
+          "moveToBackwards",
+          "clawIntake",
+          "moveToStowed2"
+        ],
+        "executionBehavior": "sequential",
         "waitBehavior": "none",
         "waitTime": 0
       }
@@ -67,7 +72,7 @@
       "isStopPoint": false,
       "stopEvent": {
         "names": [
-          "auto level"
+          "autoLevel"
         ],
         "executionBehavior": "sequential",
         "waitBehavior": "none",
