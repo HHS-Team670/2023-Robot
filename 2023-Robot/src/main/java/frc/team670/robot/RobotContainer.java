@@ -7,27 +7,20 @@
 
 package frc.team670.robot;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import com.pathplanner.lib.PathPlanner;
-import com.pathplanner.lib.PathPlannerTrajectory;
-import com.pathplanner.lib.auto.PIDConstants;
-import com.pathplanner.lib.auto.SwerveAutoBuilder;
-
-import frc.team670.robot.commands.drivebase.AutoLevel;
-import frc.team670.robot.commands.pathplanner.ConeCube;
 import frc.team670.robot.commands.pathplanner.CubeEngage;
 
-import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Subsystem;
+import edu.wpi.first.wpilibj.PowerDistribution;
+import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
+import edu.wpi.first.wpilibj.Notifier;
 import frc.team670.mustanglib.RobotContainerBase;
 import frc.team670.mustanglib.commands.MustangCommand;
 import frc.team670.mustanglib.utils.MustangController;
 import frc.team670.robot.constants.OI;
+import frc.team670.robot.subsystems.Claw;
 import frc.team670.robot.subsystems.DriveBase;
-import frc.team670.robot.commands.drivebase.NonPidAutoLevel;
+import frc.team670.robot.subsystems.Vision;
+
+import frc.team670.robot.subsystems.arm.Arm;
 
 /**
  * RobotContainer is where we put the high-level code for the robot.
@@ -37,21 +30,33 @@ import frc.team670.robot.commands.drivebase.NonPidAutoLevel;
 
 public class RobotContainer extends RobotContainerBase {
 
+    private final PowerDistribution pd = new PowerDistribution(1, ModuleType.kCTRE);
+    
     private final DriveBase driveBase = new DriveBase(getDriverController());
-
+    private final Vision vision = new Vision(pd);
+    private final Arm arm = new Arm();
+    private final Claw claw = new Claw();
     private static OI oi = new OI();
+    
+    private Notifier updateArbitraryFeedForwards;
 
     public RobotContainer() {
         super();
-        addSubsystem(driveBase);
-        oi.configureButtonBindings(driveBase);
+        addSubsystem(driveBase, vision, arm, arm.getShoulder(), arm.getElbow(), claw);
+        oi.configureButtonBindings(driveBase, vision, arm, claw);
     }
 
     @Override
     public void robotInit() {
-        // TODO Auto-generated method stub
+        updateArbitraryFeedForwards = new Notifier(new Runnable() {
+            public void run() {
+                arm.updateArbitraryFeedForwards();
+            }
+        });
+
+        updateArbitraryFeedForwards.startPeriodic(0.01);
     }
-    
+
     /**
      * Use this to pass the autonomous command to the main {@link Robot} class.
      *
@@ -103,60 +108,57 @@ public class RobotContainer extends RobotContainerBase {
     @Override
     public void autonomousInit() {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void teleopInit() {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void testInit() {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void disabled() {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void disabledPeriodic() {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void periodic() {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void autonomousPeriodic() {
         // TODO Auto-generated method stub
-        
+
     }
 
-    @Override
     public MustangController getOperatorController() {
         // TODO Auto-generated method stub
         return null;
     }
 
-    @Override
     public MustangController getDriverController() {
         return OI.getDriverController();
     }
 
-    @Override
     public MustangController getBackupController() {
         // TODO Auto-generated method stub
         return null;
     }
-    
+
 }
