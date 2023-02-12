@@ -205,9 +205,9 @@ public final class RobotConstants extends RobotConstantsBase {
         return "";
     }
 
-    public static double armXCM(double shoulderAngle, double elbowAngle) {
-        double x1 = RobotConstants.SHOULDER_LENGTH_INCHES * Math.sin(Math.toRadians(shoulderAngle));
-        double x2 = RobotConstants.ELBOW_LENGTH_INCHES * Math.sin(Math.toRadians(shoulderAngle + elbowAngle - 180));
+    public static double armXCM(double shoulderAngleDegrees, double elbowAngleDegrees) {
+        double x1 = RobotConstants.SHOULDER_LENGTH_INCHES * Math.sin(Math.toRadians(shoulderAngleDegrees));
+        double x2 = RobotConstants.ELBOW_LENGTH_INCHES * Math.sin(Math.toRadians(shoulderAngleDegrees + elbowAngleDegrees - 180));
         double xcm = (RobotConstants.SHOULDER_TO_ELBOW_MASS_LB * x1 / 4.0 // first segment CM
                 + RobotConstants.ELBOW_TO_CLAW_MASS_LB * (x1 + x2 / 2.0) // second segment CM
                 + RobotConstants.CLAW_MASS_LB * (x1 + x2)) // claw CM

@@ -55,7 +55,7 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
         }
 
         public double getD() {
-            return  0;
+            return  0.00005;
         }
 
         public double getFF() {

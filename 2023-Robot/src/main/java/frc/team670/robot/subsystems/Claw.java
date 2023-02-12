@@ -22,6 +22,8 @@ public class Claw extends MustangSubsystemBase {
 
     private SparkMAXLite leader, follower;
 
+    private int count = 0;
+
     private Claw.Status status;
 
     public Claw() {
@@ -69,15 +71,23 @@ public class Claw extends MustangSubsystemBase {
                 leader.set(0);
         }
 
-        if(leader.getOutputCurrent() > RobotConstants.CLAW_CURRENT_MAX) {
-            setStatus(Status.IDLE);
+        if(this.status == Status.INTAKING) {
+            if(leader.getOutputCurrent() > RobotConstants.CLAW_CURRENT_MAX || follower.getOutputCurrent() > RobotConstants.CLAW_CURRENT_MAX) {
+                count++;
+                if(count > 5) {
+                    setStatus(Status.IDLE);
+                }
+            } else {
+                count = 0;
+            }
+            
         }
     }
 
     @Override
     public void debugSubsystem() {
-        // SmartDashboard.putNumber("leader current", leader.getOutputCurrent());
-        // SmartDashboard.putNumber("follower current", leader.getOutputCurrent());
+        SmartDashboard.putNumber("Claw leader current", leader.getOutputCurrent());
+        SmartDashboard.putNumber("Claw follower current", leader.getOutputCurrent());
         SmartDashboard.putString("Claw state", status.toString());
     }
 
