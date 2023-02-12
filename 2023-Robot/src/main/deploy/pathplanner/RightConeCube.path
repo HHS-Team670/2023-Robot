@@ -17,7 +17,9 @@
       "isStopPoint": false,
       "stopEvent": {
         "names": [
-          "dropOff1"
+          "raiseArm1",
+          "dropOff1",
+          "lowerArm"
         ],
         "executionBehavior": "sequential",
         "waitBehavior": "none",
@@ -44,8 +46,7 @@
       "isStopPoint": true,
       "stopEvent": {
         "names": [
-          "lower arm ",
-          "pickup "
+          "pickup"
         ],
         "executionBehavior": "sequential",
         "waitBehavior": "none",
@@ -69,7 +70,7 @@
       "isStopPoint": false,
       "stopEvent": {
         "names": [
-          "raise arm ",
+          "raiseArm2",
           "dropOff2"
         ],
         "executionBehavior": "sequential",
