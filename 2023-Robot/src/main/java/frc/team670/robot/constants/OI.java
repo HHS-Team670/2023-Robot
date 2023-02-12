@@ -29,7 +29,7 @@ public class OI extends OIBase {
     //private static JoystickButton move = new JoystickButton(driverController, XboxButtons.Y);
 
     // Operator buttons
-    private static POVButton hybrid = new POVButton(operatorController, 180);
+    private static POVButton backward = new POVButton(operatorController, 180);
     private static POVButton scoreMid = new POVButton(operatorController, 90);
     private static POVButton scoreHigh = new POVButton(operatorController, 0);
     private static JoystickButton clawSuck = new JoystickButton(operatorController, XboxButtons.A);
@@ -61,11 +61,11 @@ public class OI extends OIBase {
         // move.onTrue(new MoveToPose(driveBase, new Pose2d(1, 1, new Rotation2d()), true));
 
         // //arm movement commands
-        hybrid.onTrue(new MoveToTarget(arm, ArmState.HYBRID));
+        backward.onTrue(new MoveToTarget(arm, ArmState.BACKWARD_GROUND));
         scoreMid.onTrue(new MoveToTarget(arm, ArmState.SCORE_MID));
         scoreHigh.onTrue(new MoveToTarget(arm, ArmState.SCORE_HIGH));
 
-        hybrid.onFalse(new MoveToTarget(arm, ArmState.STOWED));
+        backward.onFalse(new MoveToTarget(arm, ArmState.STOWED));
         scoreMid.onFalse(new MoveToTarget(arm, ArmState.STOWED));
         scoreHigh.onFalse(new MoveToTarget(arm, ArmState.STOWED));
 

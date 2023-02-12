@@ -127,14 +127,18 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
         follower.setIdleMode(IdleMode.kBrake);
         absEncoder = new DutyCycleEncoder(RobotMap.SHOULDER_ABSOLUTE_ENCODER);
         SmartDashboard.putNumber("shoulder arbitary feed forward value", RobotConstants.SHOULDER_ARBITRARY_FF);
+        
 
 
     }
 
     public static double calculateFeedForward(double shoulderAngle, double elbowAngle) {
 
-        return SmartDashboard.getNumber("shoulder arbitary feed forward value", RobotConstants.SHOULDER_ARBITRARY_FF) * RobotConstants.armXCM(shoulderAngle, elbowAngle)
+        double ffValue =  SmartDashboard.getNumber("shoulder arbitary feed forward value", RobotConstants.SHOULDER_ARBITRARY_FF) * RobotConstants.armXCM(shoulderAngle, elbowAngle)
                 / RobotConstants.ARM_MAX_XCM;
+        SmartDashboard.putNumber("shoulder arbitrary feed forward value calculated", ffValue);
+        return ffValue;
+
 
     }
 
