@@ -74,7 +74,7 @@ public class Elbow extends SparkMaxRotatingSubsystem {
         }
 
         public double getMaxAcceleration() {
-            return 2500;
+            return 3500;
         }
 
         public double getAllowedError() {
@@ -108,7 +108,7 @@ public class Elbow extends SparkMaxRotatingSubsystem {
 
         @Override
         public double getMaxRotatorRPM() {
-            return 1500;
+            return 2400;
         }
 
         @Override

@@ -19,13 +19,14 @@ public class Arm extends MustangSubsystemBase {
     private ArmState targetState;
 
     private static final ArmState[][] VALID_PATHS_GRAPH = new ArmState[][] {
-            { ArmState.TUNING, ArmState.SCORE_MID, ArmState.INTERMEDIATE_BACKWARD_GROUND }, // STOWED
+            { ArmState.TUNING, ArmState.INTERMEDIATE_SCORE, ArmState.INTERMEDIATE_BACKWARD_GROUND }, // STOWED
             { ArmState.SCORE_MID}, // HYBRID
-            { ArmState.STOWED, ArmState.SCORE_HIGH, ArmState.HYBRID}, // SCORE_MID
-            { ArmState.SCORE_MID }, // SCORE_HIGH
-            { ArmState.BACKWARD_GROUND, ArmState.STOWED}, // INTERMEDIATE_BACKWARD_GROUND
-            { ArmState.INTERMEDIATE_BACKWARD_GROUND }, // BACKWARD_GROUND
+            { ArmState.INTERMEDIATE_SCORE, ArmState.SCORE_HIGH, ArmState.HYBRID}, // SCORE_MID
+            { ArmState.SCORE_MID, ArmState.INTERMEDIATE_BACKWARD_GROUND, ArmState.INTERMEDIATE_SCORE }, // SCORE_HIGH
+            { ArmState.BACKWARD_GROUND, ArmState.STOWED, ArmState.INTERMEDIATE_SCORE}, // INTERMEDIATE_BACKWARD_GROUND
+            { ArmState.INTERMEDIATE_BACKWARD_GROUND, ArmState.INTERMEDIATE_SCORE }, // BACKWARD_GROUND
             { ArmState.STOWED }, // TUNING
+            { ArmState.STOWED, ArmState.SCORE_MID, ArmState.INTERMEDIATE_BACKWARD_GROUND, ArmState.SCORE_HIGH }, // INTERMEDIATE_SCORE
 
     };
 

@@ -65,25 +65,18 @@ public class OI extends OIBase {
         // move.onTrue(new MoveToPose(driveBase, new Pose2d(1, 1, new Rotation2d()), true));
 
         // //arm movement commands
-        backward.onTrue(scheduleMoveToTarget(arm, ArmState.BACKWARD_GROUND));
-        scoreMid.onTrue(scheduleMoveToTarget(arm, ArmState.SCORE_MID));
-        scoreHigh.onTrue(scheduleMoveToTarget(arm, ArmState.SCORE_HIGH));
+        backward.onTrue(new MoveToTarget(arm, ArmState.BACKWARD_GROUND));
+        scoreMid.onTrue(new MoveToTarget(arm, ArmState.SCORE_MID));
+        scoreHigh.onTrue(new MoveToTarget(arm, ArmState.SCORE_HIGH));
 
-        backward.onFalse(scheduleMoveToTarget(arm, ArmState.STOWED));
-        scoreMid.onFalse(scheduleMoveToTarget(arm, ArmState.STOWED));
-        scoreHigh.onFalse(scheduleMoveToTarget(arm, ArmState.STOWED));
+        backward.onFalse(new MoveToTarget(arm, ArmState.STOWED));
+        scoreMid.onFalse(new MoveToTarget(arm, ArmState.STOWED));
+        scoreHigh.onFalse(new MoveToTarget(arm, ArmState.STOWED));
 
         //Claw control commands
         clawSuck.onTrue(new ClawIntake(claw));
         clawEject.onTrue(new ClawEject(claw));
         
-    }
-    private InstantCommand scheduleMoveToTarget(Arm arm, ArmState target){
-        return new InstantCommand(){
-            public void initialize() {
-                MustangScheduler.getInstance().schedule(new MoveToTarget(arm, target));
-            }
-        };
     }
 
 }

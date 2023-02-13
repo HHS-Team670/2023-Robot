@@ -25,10 +25,12 @@ public class NonPidAutoLevel extends CommandBase implements MustangCommand {
     double previousPitch;
     double counter = 0;
     boolean hasGoneUp = false;
+    boolean fromDriverSide = false;;
 
 
-    public NonPidAutoLevel(DriveBase driveBase) {
+    public NonPidAutoLevel(DriveBase driveBase, boolean fromDriverSide) {
         this.driveBase = driveBase;
+        this.fromDriverSide = fromDriverSide;
     }
 
     @Override
@@ -54,8 +56,12 @@ public class NonPidAutoLevel extends CommandBase implements MustangCommand {
         }
 
         if ((previousPitch - pitch) < 0.5) { // we are increasing
-            
-            ChassisSpeeds chassisSpeeds = new ChassisSpeeds(0.6, 0.0, 0.0); // bc facing -x
+            ChassisSpeeds chassisSpeeds;
+            if(fromDriverSide) {
+                chassisSpeeds = new ChassisSpeeds(0.6, 0.0, 0.0); // bc facing -x
+            } else {
+                chassisSpeeds = new ChassisSpeeds(-0.6, 0.0, 0.0); // bc facing -x
+            }
             SwerveModuleState[] states = driveBase.getSwerveKinematics().toSwerveModuleStates(chassisSpeeds);
             driveBase.setModuleStates(states);
         }
