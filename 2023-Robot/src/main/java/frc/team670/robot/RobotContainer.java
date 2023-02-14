@@ -13,6 +13,7 @@ import frc.team670.robot.commands.drivebase.MustangPPSwerveControllerCommand;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.team670.mustanglib.RobotContainerBase;
@@ -24,6 +25,8 @@ import frc.team670.robot.subsystems.DriveBase;
 import frc.team670.robot.subsystems.Vision;
 
 import frc.team670.robot.subsystems.arm.Arm;
+
+import frc.team670.mustanglib.utils.CodeVersionStringGenerator;
 
 /**
  * RobotContainer is where we put the high-level code for the robot.
@@ -58,6 +61,9 @@ public class RobotContainer extends RobotContainerBase {
         });
 
         updateArbitraryFeedForwards.startPeriodic(0.01);
+
+        // Put the code version on dashboard
+        SmartDashboard.putString("codeVersion", CodeVersionStringGenerator.genVersionString());
     }
 
     /**

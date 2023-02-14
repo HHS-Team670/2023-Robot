@@ -1,6 +1,7 @@
 plugins {
     id "java"
     id "edu.wpi.first.GradleRIO" version "2023.1.1"
+    id "com.peterabeles.gversion" version "1.10"
 }
 
 sourceCompatibility = JavaVersion.VERSION_11
@@ -97,3 +98,17 @@ wpi.java.configureTestTasks(test)
 tasks.withType(JavaCompile) {
     options.compilerArgs.add '-XDstringConcat=inline'
 }
+
+gversion {
+  srcDir       = "src/main/java/" // path is relative to the sub-project by default, can use Gradle variables
+  classPackage = "frc.team670.robot.constants"
+  className    = "CodeVersion" // name of constants class
+  dateFormat   = "yyyy-MM-dd'_'HH:mm:ss" // format for timestamp
+  timeZone     = "America/Los_Angeles" // timezone to use for timestamp
+  debug        = false // optional. print out extra debug information
+  language     = "java" // language to use
+  indent       = "    " // indentation type - 4 spaces here
+  annotate     = false // adds @Generated annotation to the generated class
+}
+
+project.compileJava.dependsOn(createVersionFile)
