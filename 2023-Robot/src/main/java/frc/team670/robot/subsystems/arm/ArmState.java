@@ -1,6 +1,7 @@
 package frc.team670.robot.subsystems.arm;
 
 /**
+ * 
  * In order to add an ArmState
 * 1) Add ArmState to enum
  * 2) Add to VALID_PATHS_GRAPH in Arm.java, along with all valid connections
@@ -11,10 +12,11 @@ public enum ArmState {
   
     //Angle-based states. For the shoulder, straight up is 180. If the elbow joint is straight, that's 180.
     
+    // shoulder second, elbow third\][]
     STOWED(0, 180, 40),
     HYBRID(1, 108,165),
-    SCORE_MID(2, 180, 112),//172
-    SCORE_HIGH(3,145, 180),
+    SCORE_MID(2, 170, 115),//163, 113 (FAIL)
+    SCORE_HIGH(3,120, 203), //120, 197
     INTERMEDIATE_BACKWARD_GROUND(4, 217, 40),
     BACKWARD_GROUND(5, 217, 310),
     TUNING(6, 90, 180);
