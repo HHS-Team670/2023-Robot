@@ -167,8 +167,27 @@ public final class RobotConstants extends RobotConstantsBase {
     public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(
             kTrackwidthMeters);
 
+    //WRIST STUFF
+    public static final double WRIST_GEAR_RATIO = 0;
+    public static final float WRIST_SOFT_LIMIT_MAX = 0;
+    public static final float WRIST_SOFT_LIMIT_MIN = 0;
+    public static final double WRIST_ARBITRARY_FF = 0;
+    public static final double WRIST_ABSOLUTE_ENCODER_AT_VERTICAL = 0;
+
+    //lengths
+    // shoulder to elbow = 26
+    // elbow to wrist = 35
+    // wrist to claw = 
+
+    //mass
+    //shoulder
+    //elbow
+    //wrist
+    
     public static final DifferentialDriveKinematicsConstraint kAutoPathConstraints = new DifferentialDriveKinematicsConstraint(
             kDriveKinematics, kMaxSpeedMetersPerSecond);
+
+
 
     /**
      * This is code from Poofs 2022
@@ -207,7 +226,7 @@ public final class RobotConstants extends RobotConstantsBase {
 
     public static double armXCM(double shoulderAngleDegrees, double elbowAngleDegrees) {
         double x1 = RobotConstants.SHOULDER_LENGTH_INCHES * Math.sin(Math.toRadians(shoulderAngleDegrees));
-        double x2 = RobotConstants.ELBOW_LENGTH_INCHES * Math.sin(Math.toRadians(shoulderAngleDegrees + elbowAngleDegrees - 180));
+        double x2 = RobotConstants.ELBOW_LENGTH_INCHES * Math.sin(Math.toRadians(shoulderAngleDegrees - (180 - elbowAngleDegrees)));
         double xcm = (RobotConstants.SHOULDER_TO_ELBOW_MASS_LB * x1 / 4.0 // first segment CM
                 + RobotConstants.ELBOW_TO_CLAW_MASS_LB * (x1 + x2 / 2.0) // second segment CM
                 + RobotConstants.CLAW_MASS_LB * (x1 + x2)) // claw CM
