@@ -36,8 +36,11 @@ public class OI extends OIBase {
     private static POVButton backward = new POVButton(operatorController, 180);
     private static POVButton scoreMid = new POVButton(operatorController, 90);
     private static POVButton scoreHigh = new POVButton(operatorController, 0);
-    private static JoystickButton clawSuck = new JoystickButton(operatorController, XboxButtons.A);
-    private static JoystickButton clawEject = new JoystickButton(operatorController, XboxButtons.B);
+    private static JoystickButton stow = new JoystickButton(operatorController, XboxButtons.B);
+
+    private static JoystickButton clawSuck = new JoystickButton(operatorController, XboxButtons.RIGHT_BUMPER);
+    private static JoystickButton clawEject = new JoystickButton(operatorController, XboxButtons.LEFT_BUMPER);
+
 
 
 
@@ -68,10 +71,8 @@ public class OI extends OIBase {
         backward.onTrue(scheduleMoveToTarget(arm, ArmState.BACKWARD_GROUND));
         scoreMid.onTrue(scheduleMoveToTarget(arm, ArmState.SCORE_MID));
         scoreHigh.onTrue(scheduleMoveToTarget(arm, ArmState.SCORE_HIGH));
-
-        backward.onFalse(scheduleMoveToTarget(arm, ArmState.STOWED));
-        scoreMid.onFalse(scheduleMoveToTarget(arm, ArmState.STOWED));
-        scoreHigh.onFalse(scheduleMoveToTarget(arm, ArmState.STOWED));
+        stow.onTrue(scheduleMoveToTarget(arm,ArmState.STOWED));
+        
 
         //Claw control commands
         clawSuck.onTrue(new ClawIntake(claw));
