@@ -55,7 +55,7 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
         }
 
         public double getD() {
-            return  0;
+            return 0;
         }
 
         public double getFF() {
@@ -172,6 +172,10 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
 
     }
 
+    public void resetPositionFromAbsolute() {
+        hasSetAbsolutePosition = false;
+    }
+
     @Override
     public void debugSubsystem() {
         SmartDashboard.putNumber("Shoulder Speed:", super.rotator.get());
@@ -194,8 +198,8 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
     public void setEncoderPositionFromAbsolute() {
         clearSetpoint();
         double absEncoderPosition = absEncoder.getAbsolutePosition();
-        double relativePosition = ((
-                (absEncoderPosition - (RobotConstants.SHOULDER_ABSOLUTE_ENCODER_AT_VERTICAL - 0.5)) + 1)
+        double relativePosition = (((absEncoderPosition - (RobotConstants.SHOULDER_ABSOLUTE_ENCODER_AT_VERTICAL - 0.5))
+                + 1)
                 * RobotConstants.SHOULDER_GEAR_RATIO) % RobotConstants.SHOULDER_GEAR_RATIO;
         REVLibError error = rotator_encoder.setPosition(relativePosition);
         SmartDashboard.putNumber("shoulder position at init", absEncoderPosition);
@@ -206,16 +210,19 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
 
     @Override
     public void mustangPeriodic() {
-        if (!hasSetAbsolutePosition) { //before it's set an absolute position...
+        if (!hasSetAbsolutePosition) { // before it's set an absolute position...
             double position = absEncoder.getAbsolutePosition();
-            if (Math.abs(previousReading - position) < 0.02 && position != 0.0) { // If the current reading is PRECISELY 0, then it's not valid.
-                counter++; // increases the counter if the current reading is close enough to the last reading.
-                           // We do this because when the absEncoder gets initialized, its reading fluctuates drastically at the start.
+            if (Math.abs(previousReading - position) < 0.02 && position != 0.0) { // If the current reading is PRECISELY
+                                                                                  // 0, then it's not valid.
+                counter++; // increases the counter if the current reading is close enough to the last
+                           // reading.
+                           // We do this because when the absEncoder gets initialized, its reading
+                           // fluctuates drastically at the start.
             } else {
                 counter = 0;
                 previousReading = position;
             }
-            if (counter > 200) { //Once it's maintained a constant value for long enough...
+            if (counter > 200) { // Once it's maintained a constant value for long enough...
                 setEncoderPositionFromAbsolute();
                 hasSetAbsolutePosition = true;
             }
