@@ -35,6 +35,7 @@ public class OI extends OIBase {
     // Operator buttons
     private static POVButton backward = new POVButton(operatorController, 180);
     private static POVButton scoreMid = new POVButton(operatorController, 90);
+    private static POVButton scoreMid = new POVButton(operatorController, 270);
     private static POVButton scoreHigh = new POVButton(operatorController, 0);
     private static JoystickButton stow = new JoystickButton(operatorController, XboxButtons.B);
 
