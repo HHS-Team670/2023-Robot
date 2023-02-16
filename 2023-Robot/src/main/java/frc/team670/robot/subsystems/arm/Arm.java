@@ -36,7 +36,7 @@ public class Arm extends MustangSubsystemBase {
     public Arm() {
         this.shoulder = new Shoulder();
         this.elbow = new Elbow();
-        this.targetState = ArmState.STOWED;
+        this.targetState = ArmState.STOWED; // TODO: Make this be the closest position (getClosestState)
         this.initializedState = false;
         init();
     }
@@ -80,10 +80,10 @@ public class Arm extends MustangSubsystemBase {
     public void moveToTarget(ArmState target) {
         this.targetState = target;
         elbow.setEncoderPositionFromAbsolute();
-        shoulder.setEncoderPositionFromAbsolute(); 
+        shoulder.setEncoderPositionFromAbsolute();
         elbow.setSystemTargetAngleInDegrees(target.getElbowAngle());
         shoulder.setSystemTargetAngleInDegrees(target.getShoulderAngle());
-        elbow.updateSoftLimits(new float[]{, });
+        elbow.updateSoftLimits(new float[] {,});
     }
 
     public void updateArbitraryFeedForwards() {
@@ -183,17 +183,22 @@ public class Arm extends MustangSubsystemBase {
 
         }
     }
-    
-    //prioritize elbow accuracy
+
+    // prioritize elbow accuracy
     public ArmState getClosestState() {
         double shoulderAngle = shoulder.getCurrentAngleInDegrees();
         double elbowAngle = elbow.getCurrentAngleInDegrees();
         ArmState closestState = ArmState.STOWED;
-        for (int i = 1; i <= 7; i++) {
-            ArmState current = ArmState.getVal(i);
-            if (current.getShoulderAngle() - shoulderAngle < closestState.getShoulderAngle() - shoulderAngle 
-              && (current.getElbowAngle() - elbowAngle < closestState.getElbowAngle() - elbowAngle 
-              || current.getElbowAngle() - elbowAngle - (closestState.getElbowAngle() - elbowAngle) <= 20)) { // 20 degrees is an arbritrary threshold
+        for (ArmState current : ArmState.values()) {
+
+            if (Math.abs(current.getShoulderAngle() - shoulderAngle) < Math
+                    .abs(closestState.getShoulderAngle() - shoulderAngle)
+                    && (Math.abs(current.getElbowAngle() - elbowAngle) < Math
+                            .abs(closestState.getElbowAngle() - elbowAngle)
+                            || Math.abs(current.getElbowAngle() - elbowAngle)
+                                    - (Math.abs(closestState.getElbowAngle() - elbowAngle)) <= 20)) { // 20 degrees is
+                                                                                                      // an
+                // arbritrary threshold
                 closestState = current;
             }
         }
