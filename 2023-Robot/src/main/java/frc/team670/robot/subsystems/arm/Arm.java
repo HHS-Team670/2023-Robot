@@ -20,6 +20,7 @@ public class Arm extends MustangSubsystemBase {
     private boolean initializedState;
 
     private static final ArmState[][] VALID_PATHS_GRAPH = new ArmState[][] {
+<<<<<<< Updated upstream
             { ArmState.INTERMEDIATE_HOPPER, ArmState.SCORE_MID, ArmState.SCORE_HIGH, ArmState.DOUBLE_SUBSTATION }, // STOWED
             { ArmState.INTERMEDIATE_HOPPER }, // HOPPER
             { ArmState.STOWED, ArmState.SCORE_MID, ArmState.SCORE_HIGH, ArmState.DOUBLE_SUBSTATION, ArmState.HOPPER }, // INTERMEDIATE_HOPPER
@@ -29,9 +30,23 @@ public class Arm extends MustangSubsystemBase {
             { ArmState.SCORE_MID }, // HYBRID
             { ArmState.SCORE_MID }, // INTAKE_GROUND
             { ArmState.STOWED, ArmState.INTERMEDIATE_HOPPER }, // DOUBLE_SUBSTATION
+=======
+            { ArmState.TUNING, ArmState.SCORE_MID, ArmState.INTERMEDIATE_BACKWARD_GROUND }, // STOWED
+            { ArmState.SCORE_MID }, // HYBRID
+            { ArmState.STOWED, ArmState.SCORE_HIGH, ArmState.HYBRID }, // SCORE_MID
+            { ArmState.SCORE_MID }, // SCORE_HIGH
+            { ArmState.BACKWARD_GROUND, ArmState.STOWED }, // INTERMEDIATE_BACKWARD_GROUND
+            { ArmState.INTERMEDIATE_BACKWARD_GROUND }, // BACKWARD_GROUND
+            { ArmState.STOWED }, // TUNING
+
+>>>>>>> Stashed changes
     };
 
     private static ArmState VALID_PATHS[][][] = new ArmState[VALID_PATHS_GRAPH.length][VALID_PATHS_GRAPH.length][];
+
+    public static void getClosestArmState() {
+
+    }
 
     public Arm() {
         this.shoulder = new Shoulder();
