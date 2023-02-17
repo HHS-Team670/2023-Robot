@@ -17,7 +17,7 @@ import frc.team670.robot.constants.RobotMap;
 /**
  * Represents the Elbow joint. Uses only one motor
  * 
- * @author Armaan Aditi Kedar Gabriel Alexander Justin
+ * @author Armaan Aditi Kedar Gabriel Alexander Justin Sanatan Srinish
  */
 public class Elbow extends SparkMaxRotatingSubsystem {
 
@@ -145,7 +145,7 @@ public class Elbow extends SparkMaxRotatingSubsystem {
     }
 
     public void updateArbitraryFeedForward(double shoulderAngle) {
-        if(setpoint != SparkMaxRotatingSubsystem.NO_SETPOINT){
+        if (setpoint != SparkMaxRotatingSubsystem.NO_SETPOINT) {
             rotator_controller.setReference(setpoint,
                     SparkMAXLite.ControlType.kSmartMotion, super.SMARTMOTION_SLOT,
                     calculateFeedForward(shoulderAngle, this.getCurrentAngleInDegrees()));
@@ -181,6 +181,14 @@ public class Elbow extends SparkMaxRotatingSubsystem {
         return HealthState.GREEN;
     }
 
+    public boolean isRelativePositionSet() {
+        return relativePositionIsSet;
+    }
+
+    public void resetPositionFromAbsolute() {
+        hasSetAbsolutePosition = false;
+    }
+
     @Override
     public void debugSubsystem() {
         SmartDashboard.putNumber("Elbow Speed:", super.rotator.get());
@@ -196,16 +204,19 @@ public class Elbow extends SparkMaxRotatingSubsystem {
 
     @Override
     public void mustangPeriodic() {
-        if (!hasSetAbsolutePosition) { //before it's set an absolute position...
+        if (!hasSetAbsolutePosition) { // before it's set an absolute position...
             double position = absEncoder.getAbsolutePosition();
-            if (Math.abs(previousReading - position) < 0.02 && position != 0.0) { // If the current reading is PRECISELY 0, then it's not valid.
-                counter++; // increases the counter if the current reading is close enough to the last reading.
-                           // We do this because when the absEncoder gets initialized, its reading fluctuates drastically at the start.
+            if (Math.abs(previousReading - position) < 0.02 && position != 0.0) { // If the current reading is PRECISELY
+                                                                                  // 0, then it's not valid.
+                counter++; // increases the counter if the current reading is close enough to the last
+                           // reading.
+                           // We do this because when the absEncoder gets initialized, its reading
+                           // fluctuates drastically at the start.
             } else {
                 counter = 0;
                 previousReading = position;
             }
-            if (counter > 200) { //Once it's maintained a constant value for long enough...
+            if (counter > 200) { // Once it's maintained a constant value for long enough...
                 setEncoderPositionFromAbsolute();
                 hasSetAbsolutePosition = true;
             }

@@ -27,6 +27,8 @@ public enum ArmState {
     private int stateID;
     private double shoulderAngle;
     private double elbowAngle;
+    //private double lowerElbowSoftLimit;
+    //private double upperElbowSoftLimit;
     // private double wristAngle;
 
     //private ArmState(int stateID, double xPos, double yPos) {
@@ -34,6 +36,8 @@ public enum ArmState {
       this.shoulderAngle=shoulderPos;
       this.elbowAngle=elbowPos;
       this.stateID = stateID;
+      //this.lowerElbowSoftLimit = lowerSoftLimit;
+      //this.upperElbowSoftLimit = upperSoftLimit;
 
 
       // double L1 = 20.0; // From floor to shoulder joint
@@ -74,6 +78,14 @@ public enum ArmState {
     public double getElbowAngle() {
       return elbowAngle;
     }
+
+    // public double getLowerElbowSoftLimit() {
+    //   return lowerElbowSoftLimit;
+    // }
+
+    // public double getUpperElbowSoftLimit() {
+    //   return upperElbowSoftLimit;
+    // }
     
     
     // public double getWristAngle() {

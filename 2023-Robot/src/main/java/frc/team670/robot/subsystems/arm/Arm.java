@@ -11,12 +11,13 @@ import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
  * Represents the whole Arm system, containing multiple joints.
  * Models the arm as a state machine.
  * 
- * @author Armaan, Aditi, Alexander, Gabriel, Kedar, Justin
+ * @author Armaan, Aditi, Alexander, Gabriel, Kedar, Justin, Sanatan, Srinish
  */
 public class Arm extends MustangSubsystemBase {
     private Shoulder shoulder;
     private Elbow elbow;
     private ArmState targetState;
+    private boolean initializedState;
 
     private static final ArmState[][] VALID_PATHS_GRAPH = new ArmState[][] {
             { ArmState.TUNING, ArmState.SCORE_MID, ArmState.INTERMEDIATE_BACKWARD_GROUND }, // STOWED
@@ -34,7 +35,8 @@ public class Arm extends MustangSubsystemBase {
     public Arm() {
         this.shoulder = new Shoulder();
         this.elbow = new Elbow();
-        this.targetState = ArmState.STOWED;
+        this.targetState = ArmState.STOWED; // TODO: Make this be the closest position (getClosestState)
+        this.initializedState = false;
         init();
     }
 
@@ -62,6 +64,12 @@ public class Arm extends MustangSubsystemBase {
     @Override
     public void mustangPeriodic() {
         debugSubsystem();
+        if (!initializedState) {
+            if (elbow.isRelativePositionSet() && shoulder.isRelativePositionSet()) {
+                initializedState = true;
+                this.targetState = getClosestState();
+            }
+        }
     }
 
     /**
@@ -70,9 +78,11 @@ public class Arm extends MustangSubsystemBase {
      */
     public void moveToTarget(ArmState target) {
         this.targetState = target;
+        elbow.setEncoderPositionFromAbsolute();
+        shoulder.setEncoderPositionFromAbsolute();
         elbow.setSystemTargetAngleInDegrees(target.getElbowAngle());
         shoulder.setSystemTargetAngleInDegrees(target.getShoulderAngle());
-
+        // elbow.updateSoftLimits(new float[] {,});
     }
 
     public void updateArbitraryFeedForwards() {
@@ -171,6 +181,27 @@ public class Arm extends MustangSubsystemBase {
                 return 1;
 
         }
+    }
+
+    // prioritize elbow accuracy
+    public ArmState getClosestState() {
+        double shoulderAngle = shoulder.getCurrentAngleInDegrees();
+        double elbowAngle = elbow.getCurrentAngleInDegrees();
+        ArmState closestState = ArmState.STOWED;
+        for (ArmState current : ArmState.values()) {
+
+            if (Math.abs(current.getShoulderAngle() - shoulderAngle) < Math
+                    .abs(closestState.getShoulderAngle() - shoulderAngle)
+                    && (Math.abs(current.getElbowAngle() - elbowAngle) < Math
+                            .abs(closestState.getElbowAngle() - elbowAngle)
+                            || Math.abs(current.getElbowAngle() - elbowAngle)
+                                    - (Math.abs(closestState.getElbowAngle() - elbowAngle)) <= 20)) { // 20 degrees is
+                                                                                                      // an
+                // arbritrary threshold
+                closestState = current;
+            }
+        }
+        return closestState;
     }
 
     public Shoulder getShoulder() {
