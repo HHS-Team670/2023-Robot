@@ -58,7 +58,7 @@ public class OI extends OIBase {
 
         driveBase.initDefaultCommand();
 
-        zeroGyro.onTrue(new SetSwerveForwardDirection(driveBase)); // deprecated
+        zeroGyro.onTrue(new SetSwerveForwardDirection(driveBase, arm)); // deprecated
                                                                    // Button.whenPressed(), used
                                                                    // Trigger.onTrue()
         moveToTarget.onTrue(new AutoAlign(vision, driveBase));
