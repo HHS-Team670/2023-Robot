@@ -83,7 +83,7 @@ public class Arm extends MustangSubsystemBase {
         shoulder.setEncoderPositionFromAbsolute();
         elbow.setSystemTargetAngleInDegrees(target.getElbowAngle());
         shoulder.setSystemTargetAngleInDegrees(target.getShoulderAngle());
-        elbow.updateSoftLimits(new float[] {,});
+        // elbow.updateSoftLimits(new float[] {,});
     }
 
     public void updateArbitraryFeedForwards() {

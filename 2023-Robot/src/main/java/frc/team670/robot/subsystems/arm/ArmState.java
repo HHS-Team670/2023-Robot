@@ -20,7 +20,6 @@ public enum ArmState {
     // DOUBLE_SUBSTATION(7,42,46); //Needs tuning later
 
     //Angle-based states. For the shoulder, straight up is 180. If the elbow joint is straight, that's 180.
-    //As of 2/4, these are estimates
     STOWED(0, 180, 40),
     HOPPER(1, 180, 40),
     INTERMEDIATE_HOPPER(2, 225, 45),
@@ -29,15 +28,6 @@ public enum ArmState {
     HYBRID(5, 110, 80),
     INTAKE_GROUND(6, 110, 80),
     DOUBLE_SUBSTATION(7, 170, 100);
-    
-    // STOWED(0, 180, 40, 33, 60),
-    // HOPPER(1, 180, 40, 33, 60),
-    // INTERMEDIATE_HOPPER(2, 225, 45, 30, 60),
-    // SCORE_MID(3, 170, 100, 40, 180),
-    // SCORE_HIGH(4, 135, 180, 90, 225),
-    // HYBRID(5, 110, 80, 60, 100),
-    // INTAKE_GROUND(6, 110, 80, 60, 100),
-    // DOUBLE_SUBSTATION(7, 170, 100, 40, 180);
     
 
     private int stateID;
