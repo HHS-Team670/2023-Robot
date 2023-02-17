@@ -46,7 +46,7 @@ public class Elbow extends SparkMaxRotatingSubsystem {
         }
 
         public double getP() {
-            return 0.0011; 
+            return 0.0011;
         }
 
         public double getI() {
@@ -127,7 +127,6 @@ public class Elbow extends SparkMaxRotatingSubsystem {
         super.getRotator().setInverted(true);
         SmartDashboard.putNumber("elbow arbitary feed forward value", RobotConstants.ELBOW_ARBITRARY_FF);
 
-
     }
 
     /**
@@ -137,19 +136,25 @@ public class Elbow extends SparkMaxRotatingSubsystem {
      *
      */
     public double calculateFeedForward(double shoulderAngle, double elbowAngle) {
-        double ffValue = SmartDashboard.getNumber("elbow arbitary feed forward value", RobotConstants.ELBOW_ARBITRARY_FF) * Math.sin(Math.toRadians(shoulderAngle + elbowAngle - 180));
-        SmartDashboard.putNumber("elbow arbitary feed forward value sin", Math.sin(Math.toRadians(shoulderAngle + elbowAngle - 180)));
+        double ffValue = SmartDashboard.getNumber("elbow arbitary feed forward value",
+                RobotConstants.ELBOW_ARBITRARY_FF) * Math.sin(Math.toRadians(shoulderAngle + elbowAngle - 180));
+        SmartDashboard.putNumber("elbow arbitary feed forward value sin",
+                Math.sin(Math.toRadians(shoulderAngle + elbowAngle - 180)));
         SmartDashboard.putNumber("elbow arbitary feed forward value calculated", ffValue);
 
         return ffValue;
     }
 
     public void updateArbitraryFeedForward(double shoulderAngle) {
-        if(setpoint != SparkMaxRotatingSubsystem.NO_SETPOINT){
+        if (setpoint != SparkMaxRotatingSubsystem.NO_SETPOINT) {
             rotator_controller.setReference(setpoint,
                     SparkMAXLite.ControlType.kSmartMotion, super.SMARTMOTION_SLOT,
                     calculateFeedForward(shoulderAngle, this.getCurrentAngleInDegrees()));
         }
+    }
+    //TODO: Move to mustang lib after testing
+    public double getSetpoint() {
+        return setpoint;
     }
 
     public void setEncoderPositionFromAbsolute() {
@@ -196,16 +201,19 @@ public class Elbow extends SparkMaxRotatingSubsystem {
 
     @Override
     public void mustangPeriodic() {
-        if (!hasSetAbsolutePosition) { //before it's set an absolute position...
+        if (!hasSetAbsolutePosition) { // before it's set an absolute position...
             double position = absEncoder.getAbsolutePosition();
-            if (Math.abs(previousReading - position) < 0.02 && position != 0.0) { // If the current reading is PRECISELY 0, then it's not valid.
-                counter++; // increases the counter if the current reading is close enough to the last reading.
-                           // We do this because when the absEncoder gets initialized, its reading fluctuates drastically at the start.
+            if (Math.abs(previousReading - position) < 0.02 && position != 0.0) { // If the current reading is PRECISELY
+                                                                                  // 0, then it's not valid.
+                counter++; // increases the counter if the current reading is close enough to the last
+                           // reading.
+                           // We do this because when the absEncoder gets initialized, its reading
+                           // fluctuates drastically at the start.
             } else {
                 counter = 0;
                 previousReading = position;
             }
-            if (counter > 200) { //Once it's maintained a constant value for long enough...
+            if (counter > 200) { // Once it's maintained a constant value for long enough...
                 setEncoderPositionFromAbsolute();
                 hasSetAbsolutePosition = true;
             }

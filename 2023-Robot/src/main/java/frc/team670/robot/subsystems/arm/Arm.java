@@ -18,12 +18,15 @@ public class Arm extends MustangSubsystemBase {
     private Elbow elbow;
     private ArmState targetState;
 
+    private double elbowOffset;
+    private double shoulderOffset;
+
     private static final ArmState[][] VALID_PATHS_GRAPH = new ArmState[][] {
             { ArmState.TUNING, ArmState.SCORE_MID, ArmState.INTERMEDIATE_BACKWARD_GROUND }, // STOWED
-            { ArmState.SCORE_MID}, // HYBRID
-            { ArmState.STOWED, ArmState.SCORE_HIGH, ArmState.HYBRID}, // SCORE_MID
+            { ArmState.SCORE_MID }, // HYBRID
+            { ArmState.STOWED, ArmState.SCORE_HIGH, ArmState.HYBRID }, // SCORE_MID
             { ArmState.SCORE_MID }, // SCORE_HIGH
-            { ArmState.BACKWARD_GROUND, ArmState.STOWED}, // INTERMEDIATE_BACKWARD_GROUND
+            { ArmState.BACKWARD_GROUND, ArmState.STOWED }, // INTERMEDIATE_BACKWARD_GROUND
             { ArmState.INTERMEDIATE_BACKWARD_GROUND }, // BACKWARD_GROUND
             { ArmState.STOWED }, // TUNING
 
@@ -61,7 +64,12 @@ public class Arm extends MustangSubsystemBase {
 
     @Override
     public void mustangPeriodic() {
+
+        elbow.setSystemTargetAngleInDegrees(targetState.getElbowAngle() + elbowOffset);
+        shoulder.setSystemTargetAngleInDegrees(targetState.getShoulderAngle() + shoulderOffset);
+
         debugSubsystem();
+
     }
 
     /**
@@ -70,8 +78,8 @@ public class Arm extends MustangSubsystemBase {
      */
     public void moveToTarget(ArmState target) {
         this.targetState = target;
-        elbow.setSystemTargetAngleInDegrees(target.getElbowAngle());
-        shoulder.setSystemTargetAngleInDegrees(target.getShoulderAngle());
+        // elbow.setSystemTargetAngleInDegrees(target.getElbowAngle());
+        // shoulder.setSystemTargetAngleInDegrees(target.getShoulderAngle());
 
     }
 
@@ -87,6 +95,39 @@ public class Arm extends MustangSubsystemBase {
     public ArmState getTargetState() {
 
         return targetState;
+    }
+
+    public void setArmOffsets(double elbowOffset, double shoulderOffset) {
+        this.elbowOffset = elbowOffset;
+        this.shoulderOffset = shoulderOffset;
+
+    }
+
+    public void setElbowOffset(double elbowOffset) {
+        this.elbowOffset = elbowOffset;
+    }
+
+    public void setShoulderOffset(double shoulderOffset) {
+        this.shoulderOffset = shoulderOffset;
+    }
+
+    public void resetElbowOffset() {
+
+        this.elbowOffset = 0;
+    }
+
+    public void resetShoulderOffset() {
+
+        this.shoulderOffset = 0;
+    }
+
+    public double getElbowOffset() {
+        return elbowOffset;
+
+    }
+
+    public double getShoulderOffset() {
+        return shoulderOffset;
     }
 
     /**

@@ -55,7 +55,7 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
         }
 
         public double getD() {
-            return  0.00005;
+            return 0.00005;
         }
 
         public double getFF() {
@@ -127,18 +127,16 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
         follower.setIdleMode(IdleMode.kBrake);
         absEncoder = new DutyCycleEncoder(RobotMap.SHOULDER_ABSOLUTE_ENCODER);
         SmartDashboard.putNumber("shoulder arbitary feed forward value", RobotConstants.SHOULDER_ARBITRARY_FF);
-        
-
 
     }
 
     public static double calculateFeedForward(double shoulderAngle, double elbowAngle) {
 
-        double ffValue =  SmartDashboard.getNumber("shoulder arbitary feed forward value", RobotConstants.SHOULDER_ARBITRARY_FF) * RobotConstants.armXCM(shoulderAngle, elbowAngle)
+        double ffValue = SmartDashboard.getNumber("shoulder arbitary feed forward value",
+                RobotConstants.SHOULDER_ARBITRARY_FF) * RobotConstants.armXCM(shoulderAngle, elbowAngle)
                 / RobotConstants.ARM_MAX_XCM;
         SmartDashboard.putNumber("shoulder arbitrary feed forward value calculated", ffValue);
         return ffValue;
-
 
     }
 
@@ -188,7 +186,6 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
         SmartDashboard.putString("Shoulder health", checkHealth().toString());
         SmartDashboard.putNumber("Shoulder setpoint (rotations)", setpoint);
 
-
     }
 
     /**
@@ -198,8 +195,8 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
     public void setEncoderPositionFromAbsolute() {
         clearSetpoint();
         double absEncoderPosition = absEncoder.getAbsolutePosition();
-        double relativePosition = ((
-                -1 * (absEncoderPosition - (RobotConstants.SHOULDER_ABSOLUTE_ENCODER_AT_VERTICAL - 0.5)) + 1)
+        double relativePosition = ((-1
+                * (absEncoderPosition - (RobotConstants.SHOULDER_ABSOLUTE_ENCODER_AT_VERTICAL - 0.5)) + 1)
                 * RobotConstants.SHOULDER_GEAR_RATIO) % RobotConstants.SHOULDER_GEAR_RATIO;
         REVLibError error = rotator_encoder.setPosition(relativePosition);
         SmartDashboard.putNumber("shoulder position at init", absEncoderPosition);
@@ -208,18 +205,26 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
         calculatedRelativePosition = relativePosition;
     }
 
+    // TODO: Move to mustang lib after testing;
+    public double getSetpoint() {
+        return setpoint;
+    }
+
     @Override
     public void mustangPeriodic() {
-        if (!hasSetAbsolutePosition) { //before it's set an absolute position...
+        if (!hasSetAbsolutePosition) { // before it's set an absolute position...
             double position = absEncoder.getAbsolutePosition();
-            if (Math.abs(previousReading - position) < 0.02 && position != 0.0) { // If the current reading is PRECISELY 0, then it's not valid.
-                counter++; // increases the counter if the current reading is close enough to the last reading.
-                           // We do this because when the absEncoder gets initialized, its reading fluctuates drastically at the start.
+            if (Math.abs(previousReading - position) < 0.02 && position != 0.0) { // If the current reading is PRECISELY
+                                                                                  // 0, then it's not valid.
+                counter++; // increases the counter if the current reading is close enough to the last
+                           // reading.
+                           // We do this because when the absEncoder gets initialized, its reading
+                           // fluctuates drastically at the start.
             } else {
                 counter = 0;
                 previousReading = position;
             }
-            if (counter > 200) { //Once it's maintained a constant value for long enough...
+            if (counter > 200) { // Once it's maintained a constant value for long enough...
                 setEncoderPositionFromAbsolute();
                 hasSetAbsolutePosition = true;
             }

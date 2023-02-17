@@ -1,5 +1,6 @@
 package frc.team670.robot.constants;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -40,6 +41,10 @@ public class OI extends OIBase {
     private static POVButton scoreMidL = new POVButton(operatorController, 270);
     private static POVButton scoreHigh = new POVButton(operatorController, 0);
     private static JoystickButton stow = new JoystickButton(operatorController, XboxButtons.B);
+    private static JoystickButton manualElbowControl = new JoystickButton(operatorController,
+            XboxButtons.RIGHT_JOYSTICK_BUTTON);
+    private static JoystickButton manualShoulderControl = new JoystickButton(operatorController,
+            XboxButtons.LEFT_JOYSTICK_BUTTON);
 
     private static JoystickButton clawSuck = new JoystickButton(operatorController, XboxButtons.RIGHT_BUMPER);
     private static JoystickButton clawEject = new JoystickButton(operatorController, XboxButtons.LEFT_BUMPER);
