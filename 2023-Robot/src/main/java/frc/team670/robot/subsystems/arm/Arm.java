@@ -72,6 +72,12 @@ public class Arm extends MustangSubsystemBase {
         }
     }
 
+    public void resetPositionFromAbsolute() {
+        initializedState = false;
+        elbow.resetPositionFromAbsolute();
+        shoulder.resetPositionFromAbsolute();
+    }
+
     /**
      * This moves DIRECTLY to the target ArmState
      * We must handle checking for valid paths ELSEWHERE.
@@ -188,17 +194,15 @@ public class Arm extends MustangSubsystemBase {
         double shoulderAngle = shoulder.getCurrentAngleInDegrees();
         double elbowAngle = elbow.getCurrentAngleInDegrees();
         ArmState closestState = ArmState.STOWED;
-        for (ArmState current : ArmState.values()) {
+        double closestStateDistance = 10000; //high number so first one will be less
 
-            if (Math.abs(current.getShoulderAngle() - shoulderAngle) < Math
-                    .abs(closestState.getShoulderAngle() - shoulderAngle)
-                    && (Math.abs(current.getElbowAngle() - elbowAngle) < Math
-                            .abs(closestState.getElbowAngle() - elbowAngle)
-                            || Math.abs(current.getElbowAngle() - elbowAngle)
-                                    - (Math.abs(closestState.getElbowAngle() - elbowAngle)) <= 20)) { // 20 degrees is
-                                                                                                      // an
-                // arbritrary threshold
-                closestState = current;
+        for (ArmState state : ArmState.values()) {
+            double shoulderDistance = Math.abs(state.getShoulderAngle() - shoulderAngle);
+            double elbowDistance = Math.abs(state.getElbowAngle() - elbowAngle);
+            double stateDistance = shoulderDistance * 1.5 + elbowDistance;
+            if(stateDistance < closestStateDistance) {
+                closestStateDistance = stateDistance;
+                closestState = state;
             }
         }
         return closestState;
