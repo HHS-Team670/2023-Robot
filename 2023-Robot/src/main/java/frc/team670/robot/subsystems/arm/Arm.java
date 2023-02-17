@@ -19,6 +19,8 @@ public class Arm extends MustangSubsystemBase {
     private ArmState targetState;
     private boolean initializedState;
 
+    private ArmSegment shoulderSegment, elbowSegment, claw;
+
     private static final ArmState[][] VALID_PATHS_GRAPH = new ArmState[][] {
             { ArmState.TUNING, ArmState.SCORE_MID, ArmState.INTERMEDIATE_BACKWARD_GROUND }, // STOWED
             { ArmState.SCORE_MID}, // HYBRID
@@ -37,6 +39,7 @@ public class Arm extends MustangSubsystemBase {
         this.elbow = new Elbow();
         this.targetState = ArmState.STOWED; // TODO: Make this be the closest position (getClosestState)
         this.initializedState = false;
+
         init();
     }
 

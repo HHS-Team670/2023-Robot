@@ -20,19 +20,16 @@ public class Claw extends MustangSubsystemBase {
         EJECTING, INTAKING, IDLE;
     }
 
-    private SparkMAXLite leader, follower;
+    private SparkMAXLite leader;
 
     private int count = 0;
 
     private Claw.Status status;
 
     public Claw() {
-        List<SparkMAXLite> motorControllers = SparkMAXFactory.buildSparkMAXPair(RobotMap.CLAW_LEADER_MOTOR, RobotMap.CLAW_FOLLOWER_MOTOR, true, SparkMAXFactory.defaultConfig, Motor_Type.NEO_550);
-        leader = motorControllers.get(0);
-        follower = motorControllers.get(1);
+        leader = SparkMAXFactory.buildSparkMAX(RobotMap.CLAW_LEADER_MOTOR, SparkMAXFactory.defaultConfig, Motor_Type.NEO_550);
         status = Status.IDLE;
         leader.setIdleMode(IdleMode.kBrake);
-        follower.setIdleMode(IdleMode.kBrake);
     }
     
     public void setStatus (Claw.Status status) {
@@ -46,7 +43,7 @@ public class Claw extends MustangSubsystemBase {
     @Override
     // Checking for hardware breaks within the motors.
     public HealthState checkHealth() {
-        if (leader == null || leader.isErrored() || follower == null || follower.isErrored()) {
+        if (leader == null || leader.isErrored()) {
             return HealthState.RED;
         }
         return HealthState.GREEN;
@@ -72,7 +69,7 @@ public class Claw extends MustangSubsystemBase {
         }
 
         if(this.status == Status.INTAKING) {
-            if(leader.getOutputCurrent() > RobotConstants.CLAW_CURRENT_MAX || follower.getOutputCurrent() > RobotConstants.CLAW_CURRENT_MAX) {
+            if(leader.getOutputCurrent() > RobotConstants.CLAW_CURRENT_MAX) {
                 count++;
                 if(count > 5) {
                     setStatus(Status.IDLE);
