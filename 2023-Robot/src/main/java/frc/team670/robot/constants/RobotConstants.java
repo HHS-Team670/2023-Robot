@@ -12,11 +12,11 @@ import java.util.Map;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import static java.util.Map.entry;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.trajectory.constraint.DifferentialDriveKinematicsConstraint;
 import edu.wpi.first.wpilibj.SerialPort;
 import frc.team670.mustanglib.constants.RobotConstantsBase;
+import frc.team670.robot.subsystems.arm.ArmSegment;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -34,45 +34,59 @@ public final class RobotConstants extends RobotConstantsBase {
 
     public static final String MAC_ADDRESS = getMACAddress();
 
-    // Set your team number using the WPILib extension's "Set Team Number" action.
-    // 1) Set all of the *_ANGLE_OFFSET constants to -Math.toRadians(0.0).
-    // 2) Deploy the code to your robot.
-    // NOTE: The robot isn't drivable quite yet, we still have to setup the module
-    // offsets
-    // 3) Turn the robot on its side and align all the wheels so they are facing in
-    // the forwards direction.
-    // NOTE: The wheels will be pointed forwards (not backwards) when modules are
-    // turned so the large bevel gears are towards the LEFT side of the robot. When
-    // aligning the wheels they must be as straight as possible. It is recommended
-    // to use a long strait edge such as a piece of 2x1 in order to make the wheels
-    // straight.
-    // 4) Record the angles of each module using the angle put onto Shuffleboard.
-    // The values are named Front Left Module Angle, Front Right Module Angle, etc.
-    // 5) Set the values of the *_ANGLE_OFFSET to -Math.toRadians(<the angle you
-    // recorded>)
-    // NOTE: All angles must be in degrees.
-    // 6) Re-deploy and try to drive the robot forwards. All the wheels should stay
-    // parallel to each other. If not go back to step 3.
-    // 7) Make sure all the wheels are spinning in the correct direction. If not,
-    // add 180 degrees to the offset of each wheel that is spinning in the incorrect
-    // direction. i.e -Math.toRadians(<angle> + 180.0).
+    /**
+     * Set your team number using the WPILib extension's "Set Team Number" action.
+     * 1) Set all of the *_ANGLE_OFFSET constants to -Math.toRadians(0.0).
+     * 2) Deploy the code to your robot.
+     *      NOTE: The robot isn't drivable quite yet, we still have to setup the module
+     *      offsets
+     * 3) Turn the robot on its side and align all the wheels so they are facing in
+     *      the forwards direction.
+     *      NOTE: The wheels will be pointed forwards (not backwards) when modules are
+     *      turned so the large bevel gears are towards the LEFT side of the robot. When
+     *      aligning the wheels they must be as straight as possible. It is recommended
+     *      to use a long strait edge such as a piece of 2x1 in order to make the wheels
+     *      straight.
+     * 4) Record the angles of each module using the angle put onto Shuffleboard.
+     *      The values are named Front Left Module Angle, Front Right Module Angle, etc.
+     * 5) Set the values of the *_ANGLE_OFFSET to -Math.toRadians(<the angle you
+     *       recorded>)
+     *       NOTE: All angles must be in degrees.
+     *  6) Re-deploy and try to drive the robot forwards. All the wheels should stay
+     *      parallel to each other. If not go back to step 3.
+     *  7) Make sure all the wheels are spinning in the correct direction. If not,
+     *      add 180 degrees to the offset of each wheel that is spinning in the incorrect
+     *      direction. i.e -Math.toRadians(<angle> + 180.0).
+     * */
     public static Map<String, Map<String, Double>> hardwareSpecificConstants = Map.ofEntries(
             entry("00:80:2F:34:0B:07", Map.ofEntries( // Mac address from 670_bench
-                    entry("BACK_RIGHT_MODULE_STEER_OFFSET", -Math.toRadians(228.85)),
-                    entry("BACK_LEFT_MODULE_STEER_OFFSET", -Math.toRadians(228.3)),
-                    entry("FRONT_RIGHT_MODULE_STEER_OFFSET", -Math.toRadians(2.37)),
-                    entry("FRONT_LEFT_MODULE_STEER_OFFSET", -Math.toRadians(30.2)),
-                    entry("SHOULDER_ABSOLUTE_ENCODER_AT_VERTICAL", 0.957),
-                    entry("ELBOW_ABSOLUTE_ENCODER_AT_VERTICAL", 0.944))),
+                        entry("BACK_RIGHT_MODULE_STEER_OFFSET", -Math.toRadians(228.85)),
+                        entry("BACK_LEFT_MODULE_STEER_OFFSET", -Math.toRadians(228.3)),
+                        entry("FRONT_RIGHT_MODULE_STEER_OFFSET", -Math.toRadians(2.37)),
+                        entry("FRONT_LEFT_MODULE_STEER_OFFSET", -Math.toRadians(30.2)),
+                        entry("SHOULDER_ABSOLUTE_ENCODER_AT_VERTICAL", 0.957),
+                        entry("ELBOW_ABSOLUTE_ENCODER_AT_VERTICAL", 0.944),
+                        entry("WRIST_ABSOLUTE_ENCODER_AT_VERTICAL", 0.0),
+                        entry("SHOULDER_GEAR_RATIO",96.0),
+                        entry("ELBOW_GEAR_RATIO",75.0),
+                        entry("WRIST_GEAR_RATIO",0.0)
+                    )
+                ),
             entry("00:80:2F:24:4A:34", Map.ofEntries( // The mac address is from 670_MadMax
-                    entry("BACK_RIGHT_MODULE_STEER_OFFSET", -Math.toRadians(292.5)),
-                    entry("BACK_LEFT_MODULE_STEER_OFFSET", -Math.toRadians(232.91)),
-                    entry("FRONT_RIGHT_MODULE_STEER_OFFSET", -Math.toRadians(352.35)),
-                    entry("FRONT_LEFT_MODULE_STEER_OFFSET", -Math.toRadians(136.67)),
-                    entry("SHOULDER_ABSOLUTE_ENCODER_AT_VERTICAL", 0.0),
-                    entry("ELBOW_ABSOLUTE_ENCODER_AT_VERTICAL", 0.0)))
+                        entry("BACK_RIGHT_MODULE_STEER_OFFSET", -Math.toRadians(292.5)),
+                        entry("BACK_LEFT_MODULE_STEER_OFFSET", -Math.toRadians(232.91)),
+                        entry("FRONT_RIGHT_MODULE_STEER_OFFSET", -Math.toRadians(352.35)),
+                        entry("FRONT_LEFT_MODULE_STEER_OFFSET", -Math.toRadians(136.67)),
+                        entry("SHOULDER_ABSOLUTE_ENCODER_AT_VERTICAL", 0.0),
+                        entry("ELBOW_ABSOLUTE_ENCODER_AT_VERTICAL", 0.0),
+                        entry("WRIST_ABSOLUTE_ENCODER_AT_VERTICAL", 0.0),
+                        entry("SHOULDER_GEAR_RATIO",75.0),
+                        entry("ELBOW_GEAR_RATIO",90.0),
+                        entry("WRIST_GEAR_RATIO",125.0)
+                    )
+                )
 
-    );
+            );
 
     /**
      * The left-to-right distance between the drivetrain wheels
@@ -90,30 +104,32 @@ public final class RobotConstants extends RobotConstantsBase {
 
     public static final double LIMIT = 1.0;
 
-    public static final int BACK_RIGHT_MODULE_DRIVE_MOTOR = 25; // Set back right module drive motor ID
-    public static final int BACK_RIGHT_MODULE_STEER_MOTOR = 24; // Set back right module steer motor ID
-    public static final int BACK_RIGHT_MODULE_STEER_ENCODER = 34; // Set back right steer encoder ID
+
+    // Swerve Drivebase constants
+
+    public static final int BACK_RIGHT_MODULE_DRIVE_MOTOR = 25;
+    public static final int BACK_RIGHT_MODULE_STEER_MOTOR = 24;
+    public static final int BACK_RIGHT_MODULE_STEER_ENCODER = 34;
     public static final double BACK_RIGHT_MODULE_STEER_OFFSET = hardwareSpecificConstants.get(MAC_ADDRESS)
-            .get("BACK_RIGHT_MODULE_STEER_OFFSET"); // Measure and set back right steer offset
+            .get("BACK_RIGHT_MODULE_STEER_OFFSET");
 
-    public static final int BACK_LEFT_MODULE_DRIVE_MOTOR = 27; // Set back left drive motor ID
-    public static final int BACK_LEFT_MODULE_STEER_MOTOR = 26; // Set back left steer motor ID
-    public static final int BACK_LEFT_MODULE_STEER_ENCODER = 36; // Set back left steer encoder ID
+    public static final int BACK_LEFT_MODULE_DRIVE_MOTOR = 27;
+    public static final int BACK_LEFT_MODULE_STEER_MOTOR = 26;
+    public static final int BACK_LEFT_MODULE_STEER_ENCODER = 36;
     public static final double BACK_LEFT_MODULE_STEER_OFFSET = hardwareSpecificConstants.get(MAC_ADDRESS)
-            .get("BACK_LEFT_MODULE_STEER_OFFSET"); // Measure and set back left steer offset
+            .get("BACK_LEFT_MODULE_STEER_OFFSET");
 
-    public static final int FRONT_RIGHT_MODULE_DRIVE_MOTOR = 23; // Set front right drive motor ID
-    public static final int FRONT_RIGHT_MODULE_STEER_MOTOR = 22; // Set front right steer motor ID
-    public static final int FRONT_RIGHT_MODULE_STEER_ENCODER = 32; // Set front right steer encoder ID
+    public static final int FRONT_RIGHT_MODULE_DRIVE_MOTOR = 23;
+    public static final int FRONT_RIGHT_MODULE_STEER_MOTOR = 22;
+    public static final int FRONT_RIGHT_MODULE_STEER_ENCODER = 32;
     public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = hardwareSpecificConstants.get(MAC_ADDRESS)
-            .get("FRONT_RIGHT_MODULE_STEER_OFFSET"); // Measure and set back left steer offset
-    // Measure and set front right steer offset
+            .get("FRONT_RIGHT_MODULE_STEER_OFFSET");
 
-    public static final int FRONT_LEFT_MODULE_DRIVE_MOTOR = 21; // Set front left drive motor ID
-    public static final int FRONT_LEFT_MODULE_STEER_MOTOR = 20; // Set front left steer motor ID
-    public static final int FRONT_LEFT_MODULE_STEER_ENCODER = 30; // Set front left steer encoder ID
+    public static final int FRONT_LEFT_MODULE_DRIVE_MOTOR = 21;
+    public static final int FRONT_LEFT_MODULE_STEER_MOTOR = 20;
+    public static final int FRONT_LEFT_MODULE_STEER_ENCODER = 30;
     public static final double FRONT_LEFT_MODULE_STEER_OFFSET = hardwareSpecificConstants.get(MAC_ADDRESS)
-            .get("FRONT_LEFT_MODULE_STEER_OFFSET"); // Measure and set front left steer offset
+            .get("FRONT_LEFT_MODULE_STEER_OFFSET");
 
     public final static SerialPort.Port NAVX_PORT = SerialPort.Port.kMXP;
     public static final double kMaxSpeedMetersPerSecond = 2;
@@ -121,6 +137,8 @@ public final class RobotConstants extends RobotConstantsBase {
     public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI * 16;
     public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI * 16;
     
+
+
     // vision
     public static final String VISION_CAMERA_NAME = "Arducam_OV9281_USB_Camera";
     public static final Transform2d CAMERA_OFFSET = 
@@ -129,27 +147,50 @@ public final class RobotConstants extends RobotConstantsBase {
         new Transform2d(new Translation2d(1, 0), new Rotation2d(0));    // TODO: check game manual for actual specs
     public static final double kTrackwidthMeters = 0.702;
 
-    // Arm
-    public static final double ELBOW_ABSOLUTE_ENCODER_AT_VERTICAL = hardwareSpecificConstants.get(MAC_ADDRESS)
-            .get("ELBOW_ABSOLUTE_ENCODER_AT_VERTICAL");
-    public static final double SHOULDER_ABSOLUTE_ENCODER_AT_VERTICAL = hardwareSpecificConstants.get(MAC_ADDRESS)
-            .get("SHOULDER_ABSOLUTE_ENCODER_AT_VERTICAL");
 
-    public static final int ELBOW_GEAR_RATIO = 75;
-    public static final int ELBOW_SOFT_LIMIT_MIN = 20;
-    public static final int ELBOW_SOFT_LIMIT_MAX = 340;
-    public static final double ELBOW_ARBITRARY_FF = 0.8;
-    public static final int SHOULDER_GEAR_RATIO = 96;
+
+    // Shoulder
+    public static final double SHOULDER_ABSOLUTE_ENCODER_AT_VERTICAL = hardwareSpecificConstants.get(MAC_ADDRESS)
+    .get("SHOULDER_ABSOLUTE_ENCODER_AT_VERTICAL");
+    public static final int SHOULDER_GEAR_RATIO = (hardwareSpecificConstants.get(MAC_ADDRESS).get("SHOULDER_GEAR_RATIO")).intValue();
     public static final int SHOULDER_SOFT_LIMIT_MIN = 60;
     public static final int SHOULDER_SOFT_LIMIT_MAX = 300;
     public static final double SHOULDER_ARBITRARY_FF = 0.5;
-    public static final double ARM_MAX_XCM = armXCM(90, 180);
 
     public static final double SHOULDER_LENGTH_INCHES = 25;
-    public static final double ELBOW_LENGTH_INCHES = 35;
     public static final double SHOULDER_TO_ELBOW_MASS_LB = 6.5;
+    public static final double SHOULDER_MASS_DISTRIBUTION = 0.33; //approximate mass distribution. See ArmSegment.CMDistribution
+
+    // Elbow
+    public static final double ELBOW_ABSOLUTE_ENCODER_AT_VERTICAL = hardwareSpecificConstants.get(MAC_ADDRESS)
+    .get("ELBOW_ABSOLUTE_ENCODER_AT_VERTICAL");
+    public static final int ELBOW_GEAR_RATIO = (hardwareSpecificConstants.get(MAC_ADDRESS).get("ELBOW_GEAR_RATIO")).intValue();;
+    public static final int ELBOW_SOFT_LIMIT_MIN = 20;
+    public static final int ELBOW_SOFT_LIMIT_MAX = 340;
+    public static final double ELBOW_ARBITRARY_FF = 0.8;
+
+    public static final double ELBOW_LENGTH_INCHES = 35;
     public static final double ELBOW_TO_CLAW_MASS_LB = 2;
+    public static final double ELBOW_MASS_DISTRIBUTION = 0.33; //approximate mass distribution. See ArmSegment.CMDistribution
+
+    // Wrist
+    public static final double WRIST_ABSOLUTE_ENCODER_AT_VERTICAL = hardwareSpecificConstants.get(MAC_ADDRESS).get("WRIST_ABSOLUTE_ENCODER_AT_VERTICAL");
+    public static final double WRIST_GEAR_RATIO = (hardwareSpecificConstants.get(MAC_ADDRESS).get("WRIST_GEAR_RATIO")).intValue();;
+    public static final float WRIST_SOFT_LIMIT_MAX = 0;
+    public static final float WRIST_SOFT_LIMIT_MIN = 0;
+    public static final double WRIST_ARBITRARY_FF = 0;
+
+    public static final double CLAW_LENGTH_INCHES = 0;
     public static final double CLAW_MASS_LB = 6;
+    public static final double CLAW_MASS_DISTRIBUTION = 0.25; //approximate mass distribution. See ArmSegment.CMDistribution
+
+    // Gravity-cancelling constants
+    public static final ArmSegment SHOULDER_SEGMENT = new ArmSegment(SHOULDER_LENGTH_INCHES, SHOULDER_TO_ELBOW_MASS_LB, SHOULDER_MASS_DISTRIBUTION, SHOULDER_ARBITRARY_FF);
+    public static final ArmSegment ELBOW_SEGMENT = new ArmSegment(ELBOW_LENGTH_INCHES, ELBOW_TO_CLAW_MASS_LB, ELBOW_MASS_DISTRIBUTION, ELBOW_ARBITRARY_FF);
+    public static final ArmSegment WRIST_SEGMENT = new ArmSegment(CLAW_LENGTH_INCHES, CLAW_MASS_LB, CLAW_MASS_DISTRIBUTION, WRIST_ARBITRARY_FF);
+
+
+
 
     // claw constants
     public static final double CLAW_ROLLING_SPEED = 0.3;
@@ -166,23 +207,6 @@ public final class RobotConstants extends RobotConstantsBase {
     public static final double rightKaVoltSecondsSquaredPerMeter = leftKaVoltSecondsSquaredPerMeter;
     public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(
             kTrackwidthMeters);
-
-    //WRIST STUFF
-    public static final double WRIST_GEAR_RATIO = 0;
-    public static final float WRIST_SOFT_LIMIT_MAX = 0;
-    public static final float WRIST_SOFT_LIMIT_MIN = 0;
-    public static final double WRIST_ARBITRARY_FF = 0;
-    public static final double WRIST_ABSOLUTE_ENCODER_AT_VERTICAL = 0;
-
-    //lengths
-    // shoulder to elbow = 26
-    // elbow to wrist = 35
-    // wrist to claw = 
-
-    //mass
-    //shoulder
-    //elbow
-    //wrist
     
     public static final DifferentialDriveKinematicsConstraint kAutoPathConstraints = new DifferentialDriveKinematicsConstraint(
             kDriveKinematics, kMaxSpeedMetersPerSecond);

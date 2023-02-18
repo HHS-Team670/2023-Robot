@@ -130,25 +130,11 @@ public class Elbow extends SparkMaxRotatingSubsystem {
 
     }
 
-    /**
-     * @param mass   the mass in kg
-     * @param angle  the angle in radians
-     * @param length the length in meters
-     *
-     */
-    public double calculateFeedForward(double shoulderAngle, double elbowAngle) {
-        double ffValue = SmartDashboard.getNumber("elbow arbitary feed forward value", RobotConstants.ELBOW_ARBITRARY_FF) * Math.sin(Math.toRadians(shoulderAngle + elbowAngle - 180));
-        SmartDashboard.putNumber("elbow arbitary feed forward value sin", Math.sin(Math.toRadians(shoulderAngle + elbowAngle - 180)));
-        SmartDashboard.putNumber("elbow arbitary feed forward value calculated", ffValue);
-
-        return ffValue;
-    }
-
-    public void updateArbitraryFeedForward(double shoulderAngle) {
+    public void updateArbitraryFeedForward(double voltage) {
         if (setpoint != SparkMaxRotatingSubsystem.NO_SETPOINT) {
             rotator_controller.setReference(setpoint,
                     SparkMAXLite.ControlType.kSmartMotion, super.SMARTMOTION_SLOT,
-                    calculateFeedForward(shoulderAngle, this.getCurrentAngleInDegrees()));
+                    voltage);
         }
     }
 

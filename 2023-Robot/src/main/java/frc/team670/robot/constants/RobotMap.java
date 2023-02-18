@@ -15,13 +15,12 @@ public class RobotMap {
     // Arm
     public static final int SHOULDER_LEADER_MOTOR = 2;
     public static final int SHOULDER_FOLLOWER_MOTOR = 3;
-    public static final int ELBOW_MOTOR = 4;
     public static final int SHOULDER_ABSOLUTE_ENCODER = 1;
+    public static final int ELBOW_MOTOR = 4;
     public static final int ELBOW_ABSOLUTE_ENCODER = 2;
-    public static final int CLAW_LEADER_MOTOR = 5;
-    //public static final int CLAW_FOLLOWER_MOTOR = 6; // needs to be inverted
-    public static final int WRIST_MOTOR = 6;
-    public static final DutyCycle WRIST_ABSOLUTE_ENCODER = null;
+    public static final int WRIST_MOTOR = 5;
+    public static final int WRIST_ABSOLUTE_ENCODER = 3;
+    public static final int CLAW_MOTOR = 6;
 
     // Joysticks
     public static final int DRIVER_CONTROLLER_PORT = 0;

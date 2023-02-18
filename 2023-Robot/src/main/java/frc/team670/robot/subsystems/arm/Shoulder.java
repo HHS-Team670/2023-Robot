@@ -129,25 +129,15 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
         SmartDashboard.putNumber("shoulder arbitary feed forward value", RobotConstants.SHOULDER_ARBITRARY_FF);
     }
 
-    public static double calculateFeedForward(double shoulderAngle, double elbowAngle) {
-
-        double ffValue =  SmartDashboard.getNumber("shoulder arbitary feed forward value", RobotConstants.SHOULDER_ARBITRARY_FF) * RobotConstants.armXCM(shoulderAngle, elbowAngle)
-                / RobotConstants.ARM_MAX_XCM;
-        SmartDashboard.putNumber("shoulder arbitrary feed forward value calculated", ffValue);
-        return ffValue;
-
-
-    }
-
     public boolean isRelativePositionSet() {
         return relativePositionIsSet;
     }
 
-    public void updateArbitraryFeedForward(double elbowAngle) {
+    public void updateArbitraryFeedForward(double voltage) {
         if (setpoint != SparkMaxRotatingSubsystem.NO_SETPOINT) {
             rotator_controller.setReference(setpoint,
                     SparkMAXLite.ControlType.kSmartMotion, super.SMARTMOTION_SLOT,
-                    calculateFeedForward(this.getCurrentAngleInDegrees(), elbowAngle));
+                    voltage);
         }
     }
 
@@ -227,7 +217,7 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
                 counter = 0;
                 previousReading = position;
             }
-            if (counter > 25) { // Once it's maintained a constant value for long enough...
+            if (counter > 200) { // Once it's maintained a constant value for long enough...
                 setEncoderPositionFromAbsolute();
                 hasSetAbsolutePosition = true;
             }

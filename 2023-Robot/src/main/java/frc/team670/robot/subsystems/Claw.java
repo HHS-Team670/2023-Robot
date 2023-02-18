@@ -21,13 +21,11 @@ public class Claw extends MustangSubsystemBase {
     }
 
     private SparkMAXLite leader;
-
     private int count = 0;
-
     private Claw.Status status;
 
     public Claw() {
-        leader = SparkMAXFactory.buildSparkMAX(RobotMap.CLAW_LEADER_MOTOR, SparkMAXFactory.defaultConfig, Motor_Type.NEO_550);
+        leader = SparkMAXFactory.buildSparkMAX(RobotMap.CLAW_MOTOR, SparkMAXFactory.defaultConfig, Motor_Type.NEO_550);
         status = Status.IDLE;
         leader.setIdleMode(IdleMode.kBrake);
     }

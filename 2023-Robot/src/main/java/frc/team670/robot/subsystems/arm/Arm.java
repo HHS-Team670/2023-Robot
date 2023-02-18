@@ -6,6 +6,7 @@ import java.util.PriorityQueue;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
+import frc.team670.robot.constants.RobotConstants;
 
 /**
  * Represents the whole Arm system, containing multiple joints.
@@ -16,10 +17,10 @@ import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 public class Arm extends MustangSubsystemBase {
     private Shoulder shoulder;
     private Elbow elbow;
+    private Wrist wrist;
     private ArmState targetState;
     private boolean initializedState;
-
-    private ArmSegment shoulderSegment, elbowSegment, claw;
+    private VoltageCalculator voltageCalculator;
 
     private static final ArmState[][] VALID_PATHS_GRAPH = new ArmState[][] {
             { ArmState.TUNING, ArmState.SCORE_MID, ArmState.INTERMEDIATE_BACKWARD_GROUND }, // STOWED
@@ -37,8 +38,10 @@ public class Arm extends MustangSubsystemBase {
     public Arm() {
         this.shoulder = new Shoulder();
         this.elbow = new Elbow();
-        this.targetState = ArmState.STOWED; // TODO: Make this be the closest position (getClosestState)
+        this.wrist = new Wrist();
+        this.targetState = ArmState.STOWED;
         this.initializedState = false;
+        this.voltageCalculator = new VoltageCalculator(RobotConstants.SHOULDER_SEGMENT, RobotConstants.ELBOW_SEGMENT, RobotConstants.WRIST_SEGMENT);
 
         init();
     }
@@ -95,8 +98,12 @@ public class Arm extends MustangSubsystemBase {
     }
 
     public void updateArbitraryFeedForwards() {
-        elbow.updateArbitraryFeedForward(shoulder.getCurrentAngleInDegrees());
-        shoulder.updateArbitraryFeedForward(elbow.getCurrentAngleInDegrees());
+        //The -90 here is so that the first joint's position is relative to the GROUND.
+        ArrayList<Double> voltages = voltageCalculator.calculateVoltages(shoulder.getCurrentAngleInDegrees()-90, elbow.getCurrentAngleInDegrees(), wrist.getCurrentAngleInDegrees());
+        
+        elbow.updateArbitraryFeedForward(voltages.get(0));
+        shoulder.updateArbitraryFeedForward(voltages.get(1));
+        wrist.updateArbitraryFeedForward(voltages.get(2));
     }
 
     /**

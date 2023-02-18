@@ -17,15 +17,16 @@ public class ArmSegment {
     double CMDistribution;
 
     /**
-     * This is the arbitrary_ff when this segment (and all further joints) are parallel to the ground
+     * This is the measured voltage when this segment (and all further segments) are parallel to the ground
      */
-    double arbitrary_ff;
+    double arbitraryFF;
 
 
-    public ArmSegment(double length, double mass, double CMDistribution) {
+    public ArmSegment(double length, double mass, double CMDistribution, double arbitraryFF) {
         this.length = length;
         this.mass = mass;
         this.CMDistribution = CMDistribution;
+        this.arbitraryFF = arbitraryFF;
     }
     
     public double getLength() {
@@ -40,4 +41,7 @@ public class ArmSegment {
         return CMDistribution;
     }
 
+    public double getArbitraryFF() {
+        return arbitraryFF;
+    }
 }
