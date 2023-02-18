@@ -10,6 +10,7 @@ import frc.team670.mustanglib.subsystems.MustangSubsystemBase.HealthState;
 import frc.team670.mustanglib.subsystems.VisionSubsystemBase;
 import frc.team670.mustanglib.subsystems.drivebase.SwerveDrive;
 import frc.team670.robot.constants.RobotConstants;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * IsLockedOn
@@ -20,6 +21,7 @@ public class IsLockedOn extends CommandBase implements MustangCommand {
     private VisionSubsystemBase vision;
     private Pose2d currentPose;
     private Pose2d goalPose;
+    private boolean isLockedOn = false;
 
     public IsLockedOn(SwerveDrive driveBase, VisionSubsystemBase vision) {
         this.driveBase = driveBase;
@@ -54,7 +56,9 @@ public class IsLockedOn extends CommandBase implements MustangCommand {
     }
 
     @Override
-    public void execute() {}
+    public void execute() {
+        SmartDashboard.putBoolean("isLockedOn", isLockedOn);
+    }
 
     @Override
     public boolean isFinished() {
@@ -69,6 +73,8 @@ public class IsLockedOn extends CommandBase implements MustangCommand {
 
     @Override
     public void end(boolean interrupted) {
+        isLockedOn = true;
+        SmartDashboard.putBoolean("isLockedOn", isLockedOn);
         vision.switchLEDS(true, true);
     }
 
