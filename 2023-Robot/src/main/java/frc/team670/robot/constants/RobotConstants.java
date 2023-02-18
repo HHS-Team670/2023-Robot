@@ -35,6 +35,8 @@ public final class RobotConstants extends RobotConstantsBase {
 
     public static final String MAC_ADDRESS = getMACAddress();
 
+
+
     // Set your team number using the WPILib extension's "Set Team Number" action.
     // 1) Set all of the *_ANGLE_OFFSET constants to -Math.toRadians(0.0).
     // 2) Deploy the code to your robot.
@@ -54,6 +56,12 @@ public final class RobotConstants extends RobotConstantsBase {
             entry("FRONT_LEFT_MODULE_STEER_OFFSET", -Math.toRadians(30.2))
         )),
         entry("00:80:2F:24:4A:34", Map.ofEntries( //The mac address is from 670_MadMax
+            entry("BACK_RIGHT_MODULE_STEER_OFFSET", -Math.toRadians(292.5)),
+            entry("BACK_LEFT_MODULE_STEER_OFFSET",-Math.toRadians(232.91)),
+            entry("FRONT_RIGHT_MODULE_STEER_OFFSET", -Math.toRadians(352.35)),
+            entry("FRONT_LEFT_MODULE_STEER_OFFSET", -Math.toRadians(136.67))    
+        )),
+        entry("00:80:2F:22:B4:F6", Map.ofEntries( //The mac address is from 670_WCD (test bench)
             entry("BACK_RIGHT_MODULE_STEER_OFFSET", -Math.toRadians(292.5)),
             entry("BACK_LEFT_MODULE_STEER_OFFSET",-Math.toRadians(232.91)),
             entry("FRONT_RIGHT_MODULE_STEER_OFFSET", -Math.toRadians(352.35)),
@@ -108,7 +116,8 @@ public final class RobotConstants extends RobotConstantsBase {
     
     // vision
 
-    public static final String VISION_CAMERA_NAME = "Arducam_OV9281_USB_Camera";
+    // public static final String VISION_CAMERA_NAME = "Arducam_OV9281_USB_Camera";
+    public static final String VISION_CAMERA_NAME = "Arducam_A";
     public static final Transform3d CAMERA_OFFSET = 
         new Transform3d(new Translation3d(0, 0, 0), new Rotation3d(0, 0, 0));
         // new Transform2d(new Translation2d(0, 0), new Rotation2d(0));    // TODO: changed when camera actually mounted, may need to change based on robot
