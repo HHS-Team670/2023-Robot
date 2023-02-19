@@ -10,6 +10,7 @@ import frc.team670.mustanglib.utils.MustangController;
 import frc.team670.mustanglib.utils.MustangController.XboxButtons;
 import frc.team670.robot.commands.drivebase.MoveToPose;
 import frc.team670.robot.commands.vision.AutoAlign;
+import frc.team670.robot.commands.vision.IsLockedOn;
 import frc.team670.robot.subsystems.DriveBase;
 import frc.team670.robot.subsystems.Vision;
 
@@ -32,6 +33,7 @@ public class OI extends OIBase {
         Vision vision = (Vision) subsystemBases[1];
 
         driveBase.initDefaultCommand();
+        vision.initDefaultCommand(new IsLockedOn(driveBase, vision));
 
         zeroGyro.onTrue(new SetSwerveForwardDirection(driveBase)); // deprecated
                                                                    // Button.whenPressed(), used
