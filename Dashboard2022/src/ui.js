@@ -71,6 +71,9 @@ function resetAndAddDropdownListeners() {
 }
 
 
+var line = document.querySelector('#leveling-line');
+var angle = 2*___;
+line.style.transform = `rotate(${angle}deg)`;
 
 
 // listens for robot-state and updates status lights and auton chooser accordingly
@@ -170,128 +173,74 @@ NetworkTables.addKeyListener('/SmartDashboard/expectedSpeed', (key, value) => {
 
 // updates status lights for driveBase
 NetworkTables.addKeyListener('/SmartDashboard/DriveBase', (key, value) => {
-    var statusLights = document.getElementById('status-lights-subsystems');
-    var commands = statusLights.contentDocument;
+    var subsystem = document.getElementById('drivebase');
     if (value === 'GREEN') {
-        document.getElementById('drivebase-status').style.fill = "rgb(0,255,0)";
-        document.getElementById('drivebase-status').style.stroke = "rgb(0,255,0)";
+        subsystem.style.backgroundColor = "rgb(0,255,0)";
     } else if (value === 'YELLOW') {
-        document.getElementById('drivebase-status').style.fill = "rgb(255,255,0)";
-        document.getElementById('drivebase-status').style.stroke = "rgb(255,255,0)";
+        subsystem.style.backgroundColor = "rgb(255,255,0)";
     } else if (value === 'RED') {
-        document.getElementById('drivebase-status').style.fill = "rgb(255,0,0)";
-        document.getElementById('drivebase-status').style.stroke = "rgb(255,0,0)";
+        subsystem.style.backgroundColor = "rgb(255,0,0)";
     }
 });
 
-
-// updates status lights for conveyor
-NetworkTables.addKeyListener('/SmartDashboard/ConveyorSystem', (key, value) => {
-    var statusLights = document.getElementById('status-lights-subsystems');
-    var commands = statusLights.contentDocument;
-    if (value === 'GREEN') {
-        document.getElementById('conveyor-status').style.fill = "rgb(0,255,0)";
-        document.getElementById('conveyor-status').style.stroke = "rgb(0,255,0)";
-    } else if (value === 'YELLOW') {
-        document.getElementById('conveyor-status').style.fill = "rgb(255,255,0)";
-        document.getElementById('conveyor-status').style.stroke = "rgb(255,255,0)";
-    } else if (value === 'RED') {
-        document.getElementById('conveyor-status').style.fill = "rgb(255,0,0)";
-        document.getElementById('conveyor-status').style.stroke = "rgb(255,0,0)";
-    }
-});
-
-// updates status lights for shooter
-NetworkTables.addKeyListener('/SmartDashboard/Shooter', (key, value) => {
-    var statusLights = document.getElementById('status-lights-subsystems');
-    var commands = statusLights.contentDocument;
-    if (value === 'GREEN') {
-        document.getElementById('shooter-status').style.fill = "rgb(0,255,0)";
-        document.getElementById('shooter-status').style.stroke = "rgb(0,255,0)";
-    } else if (value === 'YELLOW') {
-        document.getElementById('shooter-status').style.fill = "rgb(255,255,0)";
-        document.getElementById('shooter-status').style.stroke = "rgb(255,255,0)";
-    } else if (value === 'RED') {
-        document.getElementById('shooter-status').style.fill = "rgb(255,0,0)";
-        document.getElementById('shooter-status').style.stroke = "rgb(255,0,0)";
-    }
-});
+// NetworkTables.addKeyListener('/SmartDashboard/DriveBase', (key, value) => {
+//     var subsystem = document.getElementById('drivebase');
+//     if (value === 'GREEN') {
+//         subsystem.style.backgroundColor = "rgb(0,255,0)";
+//     } else if (value === 'YELLOW') {
+//         subsystem.style.backgroundColor = "rgb(255,255,0)";
+//     } else if (value === 'RED') {
+//         subsystem.style.backgroundColor = "rgb(255,0,0)";
+//     }
+// });
 
 
-// updates status lights for Climber 1
-NetworkTables.addKeyListener('/SmartDashboard/Climber 1', (key, value) => {
-    var statusLights = document.getElementById('status-lights-subsystems');
-    var commands = statusLights.contentDocument;
-    if (value === 'GREEN') {
-        document.getElementById('climber1-status').style.fill = "rgb(0,255,0)";
-        document.getElementById('climber1-status').style.stroke = "rgb(0,255,0)";
-    } else if (value === 'YELLOW') {
-        document.getElementById('climber1-status').style.fill = "rgb(255,255,0)";
-        document.getElementById('climber1-status').style.stroke = "rgb(255,255,0)";
-    } else if (value === 'RED') {
-        document.getElementById('climber1-status').style.fill = "rgb(255,0,0)";
-        document.getElementById('climber1-status').style.stroke = "rgb(255,0,0)";
-    }
-    else if (value === 'UNKNOWN') {
-        document.getElementById('climber1-status').style.fill = "rgb(255,255,255)";
-        document.getElementById('climber1-status').style.stroke = "rgb(255,255,255)";
-    }
-});
+// NetworkTables.addKeyListener('/SmartDashboard/DriveBase', (key, value) => {
+//     var subsystem = document.getElementById('drivebase');
+//     if (value === 'GREEN') {
+//         subsystem.style.backgroundColor = "rgb(0,255,0)";
+//     } else if (value === 'YELLOW') {
+//         subsystem.style.backgroundColor = "rgb(255,255,0)";
+//     } else if (value === 'RED') {
+//         subsystem.style.backgroundColor = "rgb(255,0,0)";
+//     }
+// });
 
-// updates status lights for Climber 2
-NetworkTables.addKeyListener('/SmartDashboard/Climber 2', (key, value) => {
-    var statusLights = document.getElementById('status-lights-subsystems');
-    var commands = statusLights.contentDocument;
-    if (value === 'GREEN') {
-        document.getElementById('climber2-status').style.fill = "rgb(0,255,0)";
-        document.getElementById('climber2-status').style.stroke = "rgb(0,255,0)";
-    } else if (value === 'YELLOW') {
-        document.getElementById('climber2-status').style.fill = "rgb(255,255,0)";
-        document.getElementById('climber2-status').style.stroke = "rgb(255,255,0)";
-    } else if (value === 'RED') {
-        document.getElementById('climber2-status').style.fill = "rgb(255,0,0)";
-        document.getElementById('climber2-status').style.stroke = "rgb(255,0,0)";
-    }
-    else if (value === 'UNKNOWN') {
-        document.getElementById('climber2-status').style.fill = "rgb(255,255,255)";
-        document.getElementById('climber2-status').style.stroke = "rgb(255,255,255)";
-    }
-});
+// NetworkTables.addKeyListener('/SmartDashboard/DriveBase', (key, value) => {
+//     var subsystem = document.getElementById('drivebase');
+//     if (value === 'GREEN') {
+//         subsystem.style.backgroundColor = "rgb(0,255,0)";
+//     } else if (value === 'YELLOW') {
+//         subsystem.style.backgroundColor = "rgb(255,255,0)";
+//     } else if (value === 'RED') {
+//         subsystem.style.backgroundColor = "rgb(255,0,0)";
+//     }
+// });
 
-// updates status lights for Intake
-NetworkTables.addKeyListener('/SmartDashboard/Intake', (key, value) => {
-    var statusLights = document.getElementById('status-lights-commands');
-    var commands = statusLights.contentDocument;
-    if (value === 'GREEN') {
-        document.getElementById('intake-status').style.fill = "rgb(0,255,0)";
-        document.getElementById('intake-status').style.stroke = "rgb(0,255,0)";
-    } else if (value === 'YELLOW') {
-        document.getElementById('intake-status').style.fill = "rgb(255,255,0)";
-        document.getElementById('intake-status').style.stroke = "rgb(255,255,0)";
-    } else if (value === 'RED') {
-        document.getElementById('intake-status').style.fill = "rgb(255,0,0)";
-        document.getElementById('intake-status').style.stroke = "rgb(255,0,0)";
-    }
-});
 
-// updates status lights for vision
-NetworkTables.addKeyListener('/Vision/vision-data', (key, value) => {
-    var statusLights = document.getElementById('status-lights-commands');
-    var commands = statusLights.contentDocument;
-    if (value === 'engaged') {
-        document.getElementById('vision-status').style.fill = "rgb(0,255,0)";
-        document.getElementById('vision-status').style.stroke = "rgb(0,255,0)";
-    } else if (value === 'invalid-target') {
-        document.getElementById('vision-status').style.fill = "rgb(241,244,66)";
-        document.getElementById('vision-status').style.stroke = "rgb(241,244,66)";
-    } else if (value === 'error' || value === -99999) {
-        document.getElementById('vision-status').style.fill = "rgb(255,0,0)";
-        document.getElementById('vision-status').style.stroke = "rgb(255,0,0)";
-    } else {
-        document.getElementById('vision-status').style.fill = "none";
-        document.getElementById('vision-status').style.stroke = "rgb(255,255,255)";
-    }
-});
+// NetworkTables.addKeyListener('/SmartDashboard/DriveBase', (key, value) => {
+//     var subsystem = document.getElementById('drivebase');
+//     if (value === 'GREEN') {
+//         subsystem.style.backgroundColor = "rgb(0,255,0)";
+//     } else if (value === 'YELLOW') {
+//         subsystem.style.backgroundColor = "rgb(255,255,0)";
+//     } else if (value === 'RED') {
+//         subsystem.style.backgroundColor = "rgb(255,0,0)";
+//     }
+// });
+
+
+// NetworkTables.addKeyListener('/SmartDashboard/DriveBase', (key, value) => {
+//     var subsystem = document.getElementById('drivebase');
+//     if (value === 'GREEN') {
+//         subsystem.style.backgroundColor = "rgb(0,255,0)";
+//     } else if (value === 'YELLOW') {
+//         subsystem.style.backgroundColor = "rgb(255,255,0)";
+//     } else if (value === 'RED') {
+//         subsystem.style.backgroundColor = "rgb(255,0,0)";
+//     }
+// });
+
 
 // updates status lights for vision
 NetworkTables.addKeyListener('/SmartDashboard/overrided-rpm', (key, value) => {
