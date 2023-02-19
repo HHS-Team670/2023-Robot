@@ -50,10 +50,6 @@ public class Arm extends MustangSubsystemBase {
 
     @Override
     public HealthState checkHealth() {
-        if (elbow.checkHealth() == HealthState.RED) {
-            return HealthState.RED;
-        }
-
         if (elbow.checkHealth() == HealthState.RED || shoulder.checkHealth() == HealthState.RED) {
             return HealthState.RED;
         }

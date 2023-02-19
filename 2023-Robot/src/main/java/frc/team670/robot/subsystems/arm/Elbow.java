@@ -178,6 +178,10 @@ public class Elbow extends SparkMaxRotatingSubsystem {
             return HealthState.RED;
         }
 
+        if(!hasSetAbsolutePosition || !relativePositionIsSet) {
+            return HealthState.YELLOW;
+        }
+
         return HealthState.GREEN;
     }
 
@@ -187,6 +191,8 @@ public class Elbow extends SparkMaxRotatingSubsystem {
 
     public void resetPositionFromAbsolute() {
         hasSetAbsolutePosition = false;
+        counter = 0;
+        relativePositionIsSet = true;
     }
 
     @Override
