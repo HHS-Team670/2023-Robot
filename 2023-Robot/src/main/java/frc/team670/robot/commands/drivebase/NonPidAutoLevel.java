@@ -25,7 +25,7 @@ public class NonPidAutoLevel extends CommandBase implements MustangCommand {
     double previousPitch;
     double counter = 0;
     boolean hasGoneUp = false;
-    boolean fromDriverSide = false;;
+    boolean fromDriverSide = false;
 
 
     public NonPidAutoLevel(DriveBase driveBase, boolean fromDriverSide) {
@@ -42,6 +42,7 @@ public class NonPidAutoLevel extends CommandBase implements MustangCommand {
     public void initialize() {
         pitch = Math.abs(driveBase.getPitch());
         previousPitch = Math.abs(driveBase.getPitch()); // just to ensure we are going forward
+        this.hasGoneUp = false;
     }
 
     @Override
@@ -67,10 +68,10 @@ public class NonPidAutoLevel extends CommandBase implements MustangCommand {
         }
         else { // we are decreasing now
             SwerveModuleState[] states = new SwerveModuleState[4];
-            states[0] = new SwerveModuleState(0, new Rotation2d(Math.PI/4)); 
-            states[1] = new SwerveModuleState(0, new Rotation2d(-Math.PI/4));
-            states[2] = new SwerveModuleState(0, new Rotation2d(-Math.PI/4));
-            states[3] = new SwerveModuleState(0, new Rotation2d(Math.PI/4));
+            states[0] = new SwerveModuleState(0.1, new Rotation2d(Math.PI/4)); 
+            states[1] = new SwerveModuleState(0.1, new Rotation2d(-Math.PI/4));
+            states[2] = new SwerveModuleState(0.1, new Rotation2d(-Math.PI/4));
+            states[3] = new SwerveModuleState(0.1, new Rotation2d(Math.PI/4));
             driveBase.setModuleStates(states);
 
             // states[0] = new SwerveModuleState(0.01, new Rotation2d(Math.PI/4)); 

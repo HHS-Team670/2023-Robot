@@ -40,22 +40,22 @@ public class ConeCube extends SequentialCommandGroup implements MustangCommand {
     public ConeCube(DriveBase driveBase, Claw claw, Arm arm, String pathName) {
         this.pathName = pathName;
         List<PathPlannerTrajectory> trajectoryGroup = PathPlanner.loadPathGroup(pathName, 1.0, 0.5);
-        
+
         PIDConstants PID_translation = new PIDConstants(1.0, 0, 0);
         PIDConstants PID_theta = new PIDConstants(1.0, 0, 0);
+
+        driveBase.resetOdometry(trajectoryGroup.get(0).getInitialHolonomicPose());
 
         HashMap<String, Command> eventMap = new HashMap<>();
 
         // eventMap stuff
         eventMap.put("moveToHigh1", new MoveToTarget(arm, ArmState.SCORE_HIGH));
         eventMap.put("clawEject1", new ClawEject(claw));
-        eventMap.put("moveToStowed1", new MoveToTarget(arm, ArmState.STOWED)); 
-        eventMap.put("moveToBackwards", new MoveToTarget(arm, ArmState.BACKWARD_GROUND));
+        eventMap.put("moveToBackward", new MoveToTarget(arm, ArmState.BACKWARD_GROUND));
         eventMap.put("clawIntake", new ClawIntake(claw));
-        eventMap.put("moveToStowed2", new MoveToTarget(arm, ArmState.STOWED));
         eventMap.put("moveToHigh2", new MoveToTarget(arm, ArmState.SCORE_HIGH));
         eventMap.put("clawEject2", new ClawEject(claw));
-        eventMap.put("moveToStowed3", new MoveToTarget(arm, ArmState.STOWED));
+        eventMap.put("moveToStowed1", new MoveToTarget(arm, ArmState.STOWED));
         
         SwerveDriveKinematics driveBaseKinematics = driveBase.getSwerveKinematics();
 

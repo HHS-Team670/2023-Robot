@@ -7,8 +7,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.4220914545344883,
-        "y": 1.0539825970188668
+        "x": 1.9614880235164962,
+        "y": 0.6809038985670836
       },
       "holonomicAngle": 0.0,
       "isReversal": false,
@@ -17,6 +17,7 @@
       "isStopPoint": false,
       "stopEvent": {
         "names": [
+          "clawIntake1",
           "moveToHigh",
           "clawEject"
         ],
@@ -27,22 +28,22 @@
     },
     {
       "anchorPoint": {
-        "x": 6.357558945696987,
-        "y": 0.9350264772210338
+        "x": 6.578049612904761,
+        "y": 0.9281026639192494
       },
       "prevControl": {
-        "x": 5.968757646324644,
-        "y": 0.18002680089562406
+        "x": 5.926744600174876,
+        "y": 0.8868574318811365
       },
       "nextControl": {
-        "x": 6.700555935539837,
-        "y": 1.6010803631776764
+        "x": 6.640430940969191,
+        "y": 0.9320530900645647
       },
       "holonomicAngle": 0.0,
       "isReversal": false,
       "velOverride": null,
       "isLocked": false,
-      "isStopPoint": false,
+      "isStopPoint": true,
       "stopEvent": {
         "names": [],
         "executionBehavior": "parallel",
@@ -56,8 +57,8 @@
         "y": 2.0941773029379385
       },
       "prevControl": {
-        "x": 5.990826722457481,
-        "y": 2.079464669400258
+        "x": 6.8630054148881525,
+        "y": 2.1763021983282504
       },
       "nextControl": null,
       "holonomicAngle": 0.0,
@@ -80,10 +81,10 @@
   "isReversed": null,
   "markers": [
     {
-      "position": 0.04917879971590923,
+      "position": 0.07719726562499997,
       "names": [
         "moveToGround",
-        "clawIntake"
+        "clawIntake2"
       ]
     },
     {

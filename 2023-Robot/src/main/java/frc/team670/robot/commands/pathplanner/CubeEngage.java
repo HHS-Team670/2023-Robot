@@ -36,19 +36,22 @@ public class CubeEngage extends SequentialCommandGroup implements MustangCommand
     }
 
     public CubeEngage(DriveBase driveBase, Claw claw, Arm arm, String pathName) {
-        List<PathPlannerTrajectory> trajectoryGroup = PathPlanner.loadPathGroup(pathName, 1.0, 0.5);
+        List<PathPlannerTrajectory> trajectoryGroup = PathPlanner.loadPathGroup(pathName, 2, 1);
         
         PIDConstants PID_translation = new PIDConstants(1.0, 0, 0);
         PIDConstants PID_theta = new PIDConstants(1.0, 0, 0);
 
+        driveBase.resetOdometry(trajectoryGroup.get(0).getInitialHolonomicPose());
+
         Map<String, Command> eventMap = new HashMap<>();
 
         // eventMap stuff
+        eventMap.put("clawIntake1", new ClawIntake(claw));
         eventMap.put("moveToHigh", new MoveToTarget(arm, ArmState.SCORE_HIGH));
         eventMap.put("clawEject", new ClawEject(claw));
         eventMap.put("moveToGround", new MoveToTarget(arm, ArmState.BACKWARD_GROUND));
-        eventMap.put("clawIntake", new ClawIntake(claw));
-        eventMap.put("moveToStowed", new MoveToTarget(arm, ArmState.STOWED));
+        eventMap.put("clawIntake2", new ClawIntake(claw));
+        // eventMap.put("moveToStowed", new MoveToTarget(arm, ArmState.STOWED));
         eventMap.put("autoLevel", new NonPidAutoLevel(driveBase, false)); // regardless of what side (right/left) you are on, markers are the same
 
         SwerveDriveKinematics driveBaseKinematics = driveBase.getSwerveKinematics();

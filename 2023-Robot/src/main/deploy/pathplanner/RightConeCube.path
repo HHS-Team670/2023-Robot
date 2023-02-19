@@ -10,7 +10,7 @@
         "x": 2.189029877706648,
         "y": 0.49871714944701073
       },
-      "holonomicAngle": 180.0,
+      "holonomicAngle": 0.0,
       "isReversal": false,
       "velOverride": null,
       "isLocked": false,
@@ -18,8 +18,7 @@
       "stopEvent": {
         "names": [
           "moveToHigh1",
-          "clawEject1",
-          "moveToStowed1"
+          "clawEject1"
         ],
         "executionBehavior": "sequential",
         "waitBehavior": "none",
@@ -28,27 +27,25 @@
     },
     {
       "anchorPoint": {
-        "x": 6.375080675655703,
-        "y": 0.9273150908589963
+        "x": 6.575214412440084,
+        "y": 0.9370826836988277
       },
       "prevControl": {
-        "x": 4.380375104412141,
-        "y": 0.8949335069102363
+        "x": 4.580508841196522,
+        "y": 0.9047010997500677
       },
       "nextControl": {
-        "x": 4.380375104412141,
-        "y": 0.8949335069102363
+        "x": 4.580508841196522,
+        "y": 0.9047010997500677
       },
-      "holonomicAngle": 180.0,
+      "holonomicAngle": 0.0,
       "isReversal": true,
       "velOverride": null,
       "isLocked": false,
       "isStopPoint": true,
       "stopEvent": {
         "names": [
-          "moveToBackwards",
-          "clawIntake",
-          "moveToStowed2"
+          "moveToHigh2"
         ],
         "executionBehavior": "sequential",
         "waitBehavior": "none",
@@ -61,20 +58,19 @@
         "y": 1.0693141107327422
       },
       "prevControl": {
-        "x": 1.8856392982913086,
-        "y": 0.4398094583618553
+        "x": 3.3802125440934625,
+        "y": 0.5933686467650237
       },
       "nextControl": null,
-      "holonomicAngle": 180.0,
+      "holonomicAngle": 0.0,
       "isReversal": false,
       "velOverride": null,
       "isLocked": false,
       "isStopPoint": false,
       "stopEvent": {
         "names": [
-          "moveToHigh2",
           "clawEject2",
-          "moveToStowed3"
+          "moveToStowed"
         ],
         "executionBehavior": "sequential",
         "waitBehavior": "none",
@@ -82,5 +78,13 @@
       }
     }
   ],
-  "markers": []
+  "markers": [
+    {
+      "position": 0.14540793678977268,
+      "names": [
+        "moveToBackward",
+        "clawIntake"
+      ]
+    }
+  ]
 }
