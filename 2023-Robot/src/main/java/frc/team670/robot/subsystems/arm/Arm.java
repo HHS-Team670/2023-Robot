@@ -2,8 +2,6 @@ package frc.team670.robot.subsystems.arm;
 
 import java.util.ArrayList;
 import java.util.PriorityQueue;
-
-import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 
@@ -36,7 +34,7 @@ public class Arm extends MustangSubsystemBase {
     public Arm() {
         this.shoulder = new Shoulder();
         this.elbow = new Elbow();
-        this.targetState = ArmState.STOWED; // TODO: Make this be the closest position (getClosestState)
+        this.targetState = ArmState.STOWED;
         this.initializedState = false;
         init();
     }
@@ -195,7 +193,7 @@ public class Arm extends MustangSubsystemBase {
         double shoulderAngle = shoulder.getCurrentAngleInDegrees();
         double elbowAngle = elbow.getCurrentAngleInDegrees();
         ArmState closestState = ArmState.STOWED;
-        double closestStateDistance = 10000; //high number so first one will be less
+        double closestStateDistance = 10000; //Intentionally high number. The first state checked will be less
 
         for (ArmState state : ArmState.values()) {
             double shoulderDistance = Math.abs(state.getShoulderAngle() - shoulderAngle);
