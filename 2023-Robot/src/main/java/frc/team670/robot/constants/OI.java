@@ -63,7 +63,7 @@ public class OI extends OIBase {
         scoreMid.onTrue(new MoveToTarget(arm, ArmState.SCORE_MID));
         scoreHigh.onTrue(new MoveToTarget(arm, ArmState.SCORE_HIGH));
 
-        backward.onFalse(new MoveToTarget(arm, ArmState.BACKWARD_GROUND));
+        backward.onFalse(new MoveToTarget(arm, ArmState.STOWED));
         scoreMid.onFalse(new MoveToTarget(arm, ArmState.STOWED));
         scoreHigh.onFalse(new MoveToTarget(arm, ArmState.STOWED));
 

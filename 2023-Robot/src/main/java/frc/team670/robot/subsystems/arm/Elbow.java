@@ -192,7 +192,7 @@ public class Elbow extends SparkMaxRotatingSubsystem {
     public void resetPositionFromAbsolute() {
         hasSetAbsolutePosition = false;
         counter = 0;
-        relativePositionIsSet = true;
+        relativePositionIsSet = false;
     }
 
     @Override
@@ -204,8 +204,7 @@ public class Elbow extends SparkMaxRotatingSubsystem {
         SmartDashboard.putNumber("Elbow position (rotations)", super.rotator_encoder.getPosition());
         SmartDashboard.putNumber("Elbow current", super.rotator.getOutputCurrent());
         SmartDashboard.putNumber("Elbow abs encoder position", absEncoder.getAbsolutePosition());
-        SmartDashboard.putNumber("Elbow setpoint (rotations)", setpoint);
-
+        SmartDashboard.putNumber("Elbow setpoint (rotations)", setpoint); 
     }
 
     @Override

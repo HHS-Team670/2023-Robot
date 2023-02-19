@@ -179,7 +179,7 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
     public void resetPositionFromAbsolute() {
         hasSetAbsolutePosition = false;
         counter = 0;
-        relativePositionIsSet = true;
+        relativePositionIsSet = false;
     }
 
     @Override
