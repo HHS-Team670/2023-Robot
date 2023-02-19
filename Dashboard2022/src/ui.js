@@ -71,9 +71,11 @@ function resetAndAddDropdownListeners() {
 }
 
 
-var line = document.querySelector('#leveling-line');
-var angle = 2*___;
-line.style.transform = `rotate(${angle}deg)`;
+NetworkTables.addKeyListener('/SmartDashboard/pitch', (key, value) => {
+    var angle = 2*value;
+    var line = document.querySelector('#leveling-line');
+    line.style.transform = `rotate(${angle}deg)`;
+})
 
 
 // listens for robot-state and updates status lights and auton chooser accordingly
