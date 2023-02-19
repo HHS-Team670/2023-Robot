@@ -67,7 +67,6 @@ public final class RobotConstants extends RobotConstantsBase {
             entry("FRONT_RIGHT_MODULE_STEER_OFFSET", -Math.toRadians(352.35)),
             entry("FRONT_LEFT_MODULE_STEER_OFFSET", -Math.toRadians(136.67))    
         ))
-
     );
 
     /**
@@ -123,6 +122,9 @@ public final class RobotConstants extends RobotConstantsBase {
         // new Transform2d(new Translation2d(0, 0), new Rotation2d(0));    // TODO: changed when camera actually mounted, may need to change based on robot
     public static final Transform2d GRID_TO_TARGET_OFFSET = 
         new Transform2d(new Translation2d(1, 0), new Rotation2d(0));    // TODO: check game manual for actual specs
+    public static final double LOCKED_ON_ERROR_X = 0.3; // TODO: test what angles are appropriate for grabbing
+    public static final double LOCKED_ON_ERROR_Y = 0.3;
+    public static final double LOCKED_ON_ERROR_DEGREES = 10;    
     
         //Everything below is copied from 2022 robot
     public static final double kTrackwidthMeters = 0.702;
