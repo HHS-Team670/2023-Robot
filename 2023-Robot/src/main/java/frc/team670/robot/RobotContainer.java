@@ -7,20 +7,20 @@
 
 package frc.team670.robot;
 
-import com.pathplanner.lib.PathPlanner;
-import com.pathplanner.lib.PathPlannerTrajectory;
-import frc.team670.robot.commands.drivebase.MustangPPSwerveControllerCommand;
-import edu.wpi.first.math.controller.PIDController;
+import frc.team670.robot.commands.pathplanner.CubeEngage;
+
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
-import edu.wpi.first.wpilibj2.command.Subsystem;
+import edu.wpi.first.wpilibj.Notifier;
 import frc.team670.mustanglib.RobotContainerBase;
 import frc.team670.mustanglib.commands.MustangCommand;
 import frc.team670.mustanglib.utils.MustangController;
-import frc.team670.robot.commands.drivebase.AutoLevel;
 import frc.team670.robot.constants.OI;
+import frc.team670.robot.subsystems.Claw;
 import frc.team670.robot.subsystems.DriveBase;
 import frc.team670.robot.subsystems.Vision;
+
+import frc.team670.robot.subsystems.arm.Arm;
 
 /**
  * RobotContainer is where we put the high-level code for the robot.
@@ -34,21 +34,29 @@ public class RobotContainer extends RobotContainerBase {
     
     private final DriveBase driveBase = new DriveBase(getDriverController());
     private final Vision vision = new Vision(pd);
-
+    private final Arm arm = new Arm();
+    private final Claw claw = new Claw();
     private static OI oi = new OI();
+    
+    private Notifier updateArbitraryFeedForwards;
 
     public RobotContainer() {
         super();
-        addSubsystem(driveBase, vision);
-
-        oi.configureButtonBindings(driveBase, vision);
+        addSubsystem(driveBase, vision, arm, arm.getShoulder(), arm.getElbow(), claw);
+        oi.configureButtonBindings(driveBase, vision, arm, claw);
     }
 
     @Override
     public void robotInit() {
-        // TODO Auto-generated method stub
+        updateArbitraryFeedForwards = new Notifier(new Runnable() {
+            public void run() {
+                arm.updateArbitraryFeedForwards();
+            }
+        });
+
+        updateArbitraryFeedForwards.startPeriodic(0.01);
     }
-    
+
     /**
      * Use this to pass the autonomous command to the main {@link Robot} class.
      *
@@ -56,67 +64,52 @@ public class RobotContainer extends RobotContainerBase {
      */
     @Override
     public MustangCommand getAutonomousCommand() {
-        //return new AutoLevel(driveBase);
-        PathPlannerTrajectory trajectory = PathPlanner.loadPath("LeftConeCube", 1, 0.5);
-        driveBase.resetOdometry(trajectory.getInitialHolonomicPose());
-        
-        PIDController PID_x = new PIDController(1.0, 0, 0);
-        PIDController PID_y = new PIDController(1.0, 0, 0);
-        PIDController PID_theta = new PIDController(1.0, 0, 0);
-        PID_theta.enableContinuousInput(-Math.PI, Math.PI);
-        
-        return new MustangPPSwerveControllerCommand(
-                    trajectory,
-                    driveBase::getPose, 
-                    driveBase.getSwerveKinematics(),
-                    PID_x,
-                    PID_y,
-                    PID_theta,
-                    driveBase::setModuleStates,
-                    new Subsystem[] {driveBase}
-                    );
+        return new CubeEngage(driveBase, claw, arm, "RightCubeEngage");
+
+        //return new ConeCube(driveBase, "LeftConeCube");
+
     }
 
     @Override
     public void autonomousInit() {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void teleopInit() {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void testInit() {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void disabled() {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void disabledPeriodic() {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void periodic() {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void autonomousPeriodic() {
         // TODO Auto-generated method stub
-        
+
     }
 
     public MustangController getOperatorController() {
@@ -132,5 +125,5 @@ public class RobotContainer extends RobotContainerBase {
         // TODO Auto-generated method stub
         return null;
     }
-    
+
 }

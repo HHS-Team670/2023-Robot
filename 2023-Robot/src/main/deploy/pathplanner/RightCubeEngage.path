@@ -2,40 +2,43 @@
   "waypoints": [
     {
       "anchorPoint": {
-        "x": 1.87,
-        "y": 1.1
+        "x": 1.87122037467945,
+        "y": 1.0539825970188668
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.4208710798550372,
-        "y": 1.1
+        "x": 2.4220914545344883,
+        "y": 1.0539825970188668
       },
-      "holonomicAngle": 180.0,
+      "holonomicAngle": 0.0,
       "isReversal": false,
       "velOverride": null,
       "isLocked": false,
       "isStopPoint": false,
       "stopEvent": {
-        "names": [],
-        "executionBehavior": "parallel",
+        "names": [
+          "moveToHigh",
+          "clawEject"
+        ],
+        "executionBehavior": "sequential",
         "waitBehavior": "none",
         "waitTime": 0
       }
     },
     {
       "anchorPoint": {
-        "x": 6.065915698427534,
-        "y": 1.39
+        "x": 6.357558945696987,
+        "y": 0.9350264772210338
       },
       "prevControl": {
-        "x": 6.031260725095855,
-        "y": 0.24999109908585182
+        "x": 5.968757646324644,
+        "y": 0.18002680089562406
       },
       "nextControl": {
-        "x": 6.088966665494736,
-        "y": 2.1482838797705073
+        "x": 6.700555935539837,
+        "y": 1.6010803631776764
       },
-      "holonomicAngle": 180.0,
+      "holonomicAngle": 0.0,
       "isReversal": false,
       "velOverride": null,
       "isLocked": false,
@@ -49,26 +52,46 @@
     },
     {
       "anchorPoint": {
-        "x": 4.524931785594908,
-        "y": 2.35
+        "x": 5.3954226254535405,
+        "y": 2.0941773029379385
       },
       "prevControl": {
-        "x": 5.120335882598848,
-        "y": 2.3352873664623197
+        "x": 5.990826722457481,
+        "y": 2.079464669400258
       },
       "nextControl": null,
-      "holonomicAngle": 180.0,
+      "holonomicAngle": 0.0,
       "isReversal": false,
-      "velOverride": null,
+      "velOverride": 0.6,
       "isLocked": false,
       "isStopPoint": false,
       "stopEvent": {
-        "names": [],
-        "executionBehavior": "parallel",
+        "names": [
+          "autoLevel"
+        ],
+        "executionBehavior": "sequential",
         "waitBehavior": "none",
         "waitTime": 0
       }
     }
   ],
-  "markers": []
+  "maxVelocity": 2.0,
+  "maxAcceleration": 1.0,
+  "isReversed": null,
+  "markers": [
+    {
+      "position": 0.04917879971590923,
+      "names": [
+        "moveToGround",
+        "clawIntake"
+      ]
+    },
+    {
+      "position": 1.262406782670455,
+      "names": [
+        "event",
+        "moveToStowed"
+      ]
+    }
+  ]
 }
