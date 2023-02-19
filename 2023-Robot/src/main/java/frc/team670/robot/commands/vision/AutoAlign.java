@@ -3,6 +3,7 @@ package frc.team670.robot.commands.vision;
 import java.util.Map;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Transform2d;
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -36,13 +37,15 @@ public class AutoAlign extends InstantCommand implements MustangCommand {
     public void initialize() {
         // find pose of nearest target
         Pose2d robotPose = swerve.getPose();
-        var result = vision.getCamera().getLatestResult();
+        var result = vision.getCameras()[0].getLatestResult();
         if (!result.hasTargets()) return;
 
         var camToTarget = result.getBestTarget().getBestCameraToTarget();
         Transform2d transform = new Transform2d(camToTarget.getTranslation().toTranslation2d(),
                 camToTarget.getRotation().toRotation2d());
-        Pose2d cameraPose = robotPose.transformBy(RobotConstants.CAMERA_OFFSET.inverse());
+        Transform2d camOffset2d = new Transform2d(RobotConstants.CAMERA_OFFSET.getTranslation().toTranslation2d(), 
+        RobotConstants.CAMERA_OFFSET.getRotation().toRotation2d());
+        Pose2d cameraPose = robotPose.transformBy(camOffset2d.inverse());
         Pose2d targetPose = cameraPose.transformBy(transform);
 
         // transform by offset (to not crash)

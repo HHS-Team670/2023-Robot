@@ -9,9 +9,15 @@ import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.Enumeration;
 import java.util.Map;
+import edu.wpi.first.apriltag.AprilTag;
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform2d;
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.trajectory.constraint.DifferentialDriveKinematicsConstraint;
 import edu.wpi.first.wpilibj.SerialPort;
@@ -28,6 +34,8 @@ import frc.team670.mustanglib.constants.RobotConstantsBase;
 public final class RobotConstants extends RobotConstantsBase {
 
     public static final String MAC_ADDRESS = getMACAddress();
+
+
 
     // Set your team number using the WPILib extension's "Set Team Number" action.
     // 1) Set all of the *_ANGLE_OFFSET constants to -Math.toRadians(0.0).
@@ -53,8 +61,8 @@ public final class RobotConstants extends RobotConstantsBase {
             entry("FRONT_RIGHT_MODULE_STEER_OFFSET", -Math.toRadians(352.35)),
             entry("FRONT_LEFT_MODULE_STEER_OFFSET", -Math.toRadians(136.67))    
         )),
-        entry("00:80:2F:33:D0:46", Map.ofEntries( //The mac address is from 670_2023 (rev2)
-            entry("BACK_RIGHT_MODULE_STEER_OFFSET", -Math.toRadians(292.5)),    // TODO: find actual offsets
+        entry("00:80:2F:22:B4:F6", Map.ofEntries( //The mac address is from 670_WCD (test bench)
+            entry("BACK_RIGHT_MODULE_STEER_OFFSET", -Math.toRadians(292.5)),
             entry("BACK_LEFT_MODULE_STEER_OFFSET",-Math.toRadians(232.91)),
             entry("FRONT_RIGHT_MODULE_STEER_OFFSET", -Math.toRadians(352.35)),
             entry("FRONT_LEFT_MODULE_STEER_OFFSET", -Math.toRadians(136.67))    
@@ -106,9 +114,12 @@ public final class RobotConstants extends RobotConstantsBase {
     public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI * 16;
     
     // vision
-    public static final String VISION_CAMERA_NAME = "Arducam_OV9281_USB_Camera";
-    public static final Transform2d CAMERA_OFFSET = 
-        new Transform2d(new Translation2d(0, 0), new Rotation2d(0));    // TODO: changed when camera actually mounted, may need to change based on robot
+
+    // public static final String VISION_CAMERA_NAME = "Arducam_OV9281_USB_Camera";
+    public static final String VISION_CAMERA_NAME = "Arducam_A";
+    public static final Transform3d CAMERA_OFFSET = 
+        new Transform3d(new Translation3d(0, 0, 0), new Rotation3d(0, 0, 0));
+        // new Transform2d(new Translation2d(0, 0), new Rotation2d(0));    // TODO: changed when camera actually mounted, may need to change based on robot
     public static final Transform2d GRID_TO_TARGET_OFFSET = 
         new Transform2d(new Translation2d(1, 0), new Rotation2d(0));    // TODO: check game manual for actual specs
     public static final double LOCKED_ON_ERROR_X = 0.3; // TODO: test what angles are appropriate for grabbing
