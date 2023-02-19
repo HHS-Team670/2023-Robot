@@ -1,11 +1,7 @@
 package frc.team670.robot.constants;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
-import frc.team670.mustanglib.commands.MustangCommand;
-import frc.team670.mustanglib.commands.MustangScheduler;
 import frc.team670.mustanglib.commands.drive.teleop.SetSwerveForwardDirection;
 import frc.team670.mustanglib.constants.OIBase;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
@@ -58,32 +54,23 @@ public class OI extends OIBase {
 
         driveBase.initDefaultCommand();
 
-        zeroGyro.onTrue(new SetSwerveForwardDirection(driveBase, arm)); // deprecated
-                                                                   // Button.whenPressed(), used
-                                                                   // Trigger.onTrue()
+        zeroGyro.onTrue(new SetSwerveForwardDirection(driveBase, arm));
         moveToTarget.onTrue(new AutoAlign(vision, driveBase));
         // move.onTrue(new MoveToPose(driveBase, new Pose2d(1, 1, new Rotation2d()), true));
 
-        // //arm movement commands
-        backward.onTrue(scheduleMoveToTarget(arm, ArmState.BACKWARD_GROUND));
-        scoreMid.onTrue(scheduleMoveToTarget(arm, ArmState.SCORE_MID));
-        scoreHigh.onTrue(scheduleMoveToTarget(arm, ArmState.SCORE_HIGH));
+        // Arm movement commands
+        backward.onTrue(new MoveToTarget(arm, ArmState.BACKWARD_GROUND));
+        scoreMid.onTrue(new MoveToTarget(arm, ArmState.SCORE_MID));
+        scoreHigh.onTrue(new MoveToTarget(arm, ArmState.SCORE_HIGH));
 
-        backward.onFalse(scheduleMoveToTarget(arm, ArmState.STOWED));
-        scoreMid.onFalse(scheduleMoveToTarget(arm, ArmState.STOWED));
-        scoreHigh.onFalse(scheduleMoveToTarget(arm, ArmState.STOWED));
+        backward.onFalse(new MoveToTarget(arm, ArmState.STOWED));
+        scoreMid.onFalse(new MoveToTarget(arm, ArmState.STOWED));
+        scoreHigh.onFalse(new MoveToTarget(arm, ArmState.STOWED));
 
         //Claw control commands
         clawSuck.onTrue(new ClawIntake(claw));
         clawEject.onTrue(new ClawEject(claw));
         
-    }
-    private InstantCommand scheduleMoveToTarget(Arm arm, ArmState target){
-        return new InstantCommand(){
-            public void initialize() {
-                MustangScheduler.getInstance().schedule(new MoveToTarget(arm, target));
-            }
-        };
     }
 
 }

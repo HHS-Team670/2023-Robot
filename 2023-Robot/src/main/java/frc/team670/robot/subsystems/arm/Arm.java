@@ -2,8 +2,6 @@ package frc.team670.robot.subsystems.arm;
 
 import java.util.ArrayList;
 import java.util.PriorityQueue;
-
-import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 
@@ -20,13 +18,14 @@ public class Arm extends MustangSubsystemBase {
     private boolean initializedState;
 
     private static final ArmState[][] VALID_PATHS_GRAPH = new ArmState[][] {
-            { ArmState.TUNING, ArmState.SCORE_MID, ArmState.INTERMEDIATE_BACKWARD_GROUND }, // STOWED
+            { ArmState.TUNING, ArmState.INTERMEDIATE_SCORE, ArmState.INTERMEDIATE_BACKWARD_GROUND }, // STOWED
             { ArmState.SCORE_MID}, // HYBRID
-            { ArmState.STOWED, ArmState.SCORE_HIGH, ArmState.HYBRID}, // SCORE_MID
-            { ArmState.SCORE_MID }, // SCORE_HIGH
-            { ArmState.BACKWARD_GROUND, ArmState.STOWED}, // INTERMEDIATE_BACKWARD_GROUND
-            { ArmState.INTERMEDIATE_BACKWARD_GROUND }, // BACKWARD_GROUND
+            { ArmState.INTERMEDIATE_SCORE, ArmState.SCORE_HIGH, ArmState.HYBRID}, // SCORE_MID
+            { ArmState.SCORE_MID, ArmState.INTERMEDIATE_BACKWARD_GROUND, ArmState.INTERMEDIATE_SCORE }, // SCORE_HIGH
+            { ArmState.BACKWARD_GROUND, ArmState.STOWED, ArmState.INTERMEDIATE_SCORE}, // INTERMEDIATE_BACKWARD_GROUND
+            { ArmState.INTERMEDIATE_BACKWARD_GROUND, ArmState.INTERMEDIATE_SCORE }, // BACKWARD_GROUND
             { ArmState.STOWED }, // TUNING
+            { ArmState.STOWED, ArmState.SCORE_MID, ArmState.INTERMEDIATE_BACKWARD_GROUND, ArmState.SCORE_HIGH }, // INTERMEDIATE_SCORE
 
     };
 
@@ -35,7 +34,7 @@ public class Arm extends MustangSubsystemBase {
     public Arm() {
         this.shoulder = new Shoulder();
         this.elbow = new Elbow();
-        this.targetState = ArmState.STOWED; // TODO: Make this be the closest position (getClosestState)
+        this.targetState = ArmState.STOWED;
         this.initializedState = false;
         init();
     }
@@ -51,10 +50,6 @@ public class Arm extends MustangSubsystemBase {
 
     @Override
     public HealthState checkHealth() {
-        if (elbow.checkHealth() == HealthState.RED) {
-            return HealthState.RED;
-        }
-
         if (elbow.checkHealth() == HealthState.RED || shoulder.checkHealth() == HealthState.RED) {
             return HealthState.RED;
         }
@@ -194,7 +189,7 @@ public class Arm extends MustangSubsystemBase {
         double shoulderAngle = shoulder.getCurrentAngleInDegrees();
         double elbowAngle = elbow.getCurrentAngleInDegrees();
         ArmState closestState = ArmState.STOWED;
-        double closestStateDistance = 10000; //high number so first one will be less
+        double closestStateDistance = 10000; //Intentionally high number. The first state checked will be less
 
         for (ArmState state : ArmState.values()) {
             double shoulderDistance = Math.abs(state.getShoulderAngle() - shoulderAngle);

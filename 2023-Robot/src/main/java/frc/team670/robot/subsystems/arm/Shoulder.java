@@ -168,7 +168,7 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
             return HealthState.RED;
         }
 
-        if ((leaderOK && !followerOK) || (!leaderOK && followerOK)) {
+        if ((leaderOK && !followerOK) || (!leaderOK && followerOK) || !hasSetAbsolutePosition || !relativePositionIsSet) {
             return HealthState.YELLOW;
         }
 
@@ -178,6 +178,8 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
 
     public void resetPositionFromAbsolute() {
         hasSetAbsolutePosition = false;
+        counter = 0;
+        relativePositionIsSet = false;
     }
 
     @Override

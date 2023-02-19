@@ -19,7 +19,8 @@ public enum ArmState {
     SCORE_HIGH(3,120, 203), //120, 197
     INTERMEDIATE_BACKWARD_GROUND(4, 217, 40),
     BACKWARD_GROUND(5, 217, 310),
-    TUNING(6, 90, 180);
+    TUNING(6, 90, 180),
+    INTERMEDIATE_SCORE(7, 210, 40);
   
      
     

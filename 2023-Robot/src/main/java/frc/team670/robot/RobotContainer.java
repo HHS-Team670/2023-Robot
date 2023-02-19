@@ -7,14 +7,13 @@
 
 package frc.team670.robot;
 
-import com.pathplanner.lib.PathPlanner;
-import com.pathplanner.lib.PathPlannerTrajectory;
-import frc.team670.robot.commands.drivebase.MustangPPSwerveControllerCommand;
-import edu.wpi.first.math.controller.PIDController;
+import frc.team670.robot.commands.drivebase.NonPidAutoLevel;
+import frc.team670.robot.commands.pathplanner.ConeCube;
+import frc.team670.robot.commands.pathplanner.CubeEngage;
+
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj.Notifier;
-import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.team670.mustanglib.RobotContainerBase;
 import frc.team670.mustanglib.commands.MustangCommand;
 import frc.team670.mustanglib.utils.MustangController;
@@ -67,24 +66,10 @@ public class RobotContainer extends RobotContainerBase {
      */
     @Override
     public MustangCommand getAutonomousCommand() {
-        // return new AutoLevel(driveBase);
-        PathPlannerTrajectory trajectory = PathPlanner.loadPath("LeftConeCube", 1, 0.5);
-        driveBase.resetOdometry(trajectory.getInitialHolonomicPose());
+        //return new CubeEngage(driveBase, claw, arm, "RightCubeEngage");
+        //return new ConeCube(driveBase, claw, arm, "RightConeCube");
+        return new NonPidAutoLevel(driveBase, false);
 
-        PIDController PID_x = new PIDController(1.0, 0, 0);
-        PIDController PID_y = new PIDController(1.0, 0, 0);
-        PIDController PID_theta = new PIDController(1.0, 0, 0);
-        PID_theta.enableContinuousInput(-Math.PI, Math.PI);
-
-        return new MustangPPSwerveControllerCommand(
-                trajectory,
-                driveBase::getPose,
-                driveBase.getSwerveKinematics(),
-                PID_x,
-                PID_y,
-                PID_theta,
-                driveBase::setModuleStates,
-                new Subsystem[] { driveBase });
     }
 
     @Override
