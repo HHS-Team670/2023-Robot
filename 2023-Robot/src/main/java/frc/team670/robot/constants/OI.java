@@ -9,6 +9,7 @@ import frc.team670.mustanglib.utils.MustangController;
 import frc.team670.mustanglib.utils.MustangController.XboxButtons;
 import frc.team670.robot.commands.vision.AutoAlign;
 import frc.team670.robot.subsystems.Claw;
+import frc.team670.robot.commands.vision.IsLockedOn;
 import frc.team670.robot.subsystems.DriveBase;
 import frc.team670.robot.subsystems.Vision;
 import frc.team670.robot.commands.arm.MoveToTarget;
@@ -53,6 +54,7 @@ public class OI extends OIBase {
         Claw claw = (Claw) subsystemBases[3];
 
         driveBase.initDefaultCommand();
+        vision.initDefaultCommand(new IsLockedOn(driveBase, vision));
 
         zeroGyro.onTrue(new SetSwerveForwardDirection(driveBase, arm));
         moveToTarget.onTrue(new AutoAlign(vision, driveBase));

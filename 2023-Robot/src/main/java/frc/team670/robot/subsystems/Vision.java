@@ -10,6 +10,7 @@ import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import frc.team670.mustanglib.subsystems.VisionSubsystemBase;
+import frc.team670.robot.commands.vision.IsLockedOn;
 import frc.team670.robot.constants.RobotConstants;
 
 public class Vision extends VisionSubsystemBase {
@@ -17,7 +18,8 @@ public class Vision extends VisionSubsystemBase {
     public Vision(PowerDistribution pd) {
         super(pd);
         setName("Vision");
-        setCamera(RobotConstants.VISION_CAMERA_NAME);
+        // setCamera(RobotConstants.VISION_CAMERA_NAME);
+        setCamera("Arducam_B");
         super.getCamera().setDriverMode(true);
     }
 

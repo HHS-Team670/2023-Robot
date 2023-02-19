@@ -1,6 +1,9 @@
 package frc.team670.robot.commands.vision;
 
 import java.util.Map;
+
+import javax.print.attribute.HashAttributeSet;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -21,61 +24,71 @@ public class IsLockedOn extends CommandBase implements MustangCommand {
     private VisionSubsystemBase vision;
     private Pose2d currentPose;
     private Pose2d goalPose;
-    private boolean isLockedOn = false;
 
     public IsLockedOn(SwerveDrive driveBase, VisionSubsystemBase vision) {
         this.driveBase = driveBase;
         this.vision = vision;
+        addRequirements(driveBase, vision);
     }
 
     @Override
     public Map<MustangSubsystemBase, HealthState> getHealthRequirements() {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public void initialize() {
+        
+    }
+    
+    @Override
+    public void execute() {
+        SmartDashboard.putBoolean("isLockedOn", false);
+
         // find pose of nearest target
         currentPose = driveBase.getPose();
         var result = vision.getCamera().getLatestResult();
-        if (!result.hasTargets())
-            return;
-
+        SmartDashboard.putBoolean("has targets", result.hasTargets());
+        if (!result.hasTargets()) return;
+        
+    
         var camToTarget = result.getBestTarget().getBestCameraToTarget();
         Transform2d transform = new Transform2d(camToTarget.getTranslation().toTranslation2d(),
                 camToTarget.getRotation().toRotation2d());
         Pose2d cameraPose = currentPose.transformBy(RobotConstants.CAMERA_OFFSET.inverse());
         Pose2d targetPose = cameraPose.transformBy(transform);
-
+    
         // transform by offset (to not crash)
         goalPose = targetPose.transformBy(RobotConstants.GRID_TO_TARGET_OFFSET);
         // SmartDashboard.putNumber("goal pose x", goalPose.getX());
         // SmartDashboard.putNumber("goal pose y", goalPose.getY());
-
     }
-
-    @Override
-    public void execute() {
-        SmartDashboard.putBoolean("isLockedOn", isLockedOn);
-    }
-
+    
     @Override
     public boolean isFinished() {
-        if (Math.abs(currentPose.getX() - goalPose.getX()) <= 0.3
-                && Math.abs(currentPose.getY() - goalPose.getY()) <= 0.3
-                && Math.abs(currentPose.getRotation().getDegrees()
-                        - goalPose.getRotation().getDegrees()) <= 4) {
-            return true;
+        
+        if (goalPose != null) {
+            // SmartDashboard.putString("Target Pose", goalPose.getX() + "," + goalPose.getY());
+            // SmartDashboard.putString("Current Pose", currentPose.getX() + "," + currentPose.getY());
+            // SmartDashboard.putNumber("Diff x", Math.abs(currentPose.getX() - goalPose.getX()));
+            // SmartDashboard.putNumber("Diff y", Math.abs(currentPose.getY() - goalPose.getY()));
+            // SmartDashboard.putNumber("Diff rot", Math.abs(currentPose.getRotation().getDegrees()
+            // - goalPose.getRotation().getDegrees()));
+
+            if (Math.abs(currentPose.getX() - goalPose.getX()) <= 0.3
+                    && Math.abs(currentPose.getY() - goalPose.getY()) <= 0.3
+                    && Math.abs(currentPose.getRotation().getDegrees()
+                            - goalPose.getRotation().getDegrees() - 180) <= 10) {   // TODO: change angles based on camera
+                return true;
+            }
         }
         return false;
     }
 
     @Override
     public void end(boolean interrupted) {
-        isLockedOn = true;
-        SmartDashboard.putBoolean("isLockedOn", isLockedOn);
-        vision.switchLEDS(true, true);
+        SmartDashboard.putBoolean("isLockedOn", true);
+        // vision.switchLEDS(true, true);
     }
 
 }

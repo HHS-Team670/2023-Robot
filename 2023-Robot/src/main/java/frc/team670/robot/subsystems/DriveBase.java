@@ -61,7 +61,7 @@ public class DriveBase extends SwerveDrive {
       /**
        * Makes the DriveBase's default command initialize teleop
        */
-      public void initDefaultCommand() {
+      public void initDefaultCommand() {  // TODO: switch to super class's init default command
             defaultCommand = new XboxSwerveDrive(this, mController, MAX_VELOCITY_METERS_PER_SECOND, MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND);
             MustangScheduler.getInstance().setDefaultCommand(this, defaultCommand);
       }
