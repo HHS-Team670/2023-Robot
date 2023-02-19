@@ -6,7 +6,6 @@ import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import frc.team670.mustanglib.subsystems.VisionSubsystemBase;
-import frc.team670.robot.commands.vision.IsLockedOn;
 import frc.team670.robot.constants.FieldConstants;
 import frc.team670.robot.constants.RobotConstants;
 
@@ -24,5 +23,25 @@ public class Vision extends VisionSubsystemBase {
     public void mustangPeriodic() {}
 
     @Override
-    public void debugSubsystem() {}
+    public void debugSubsystem() {
+        // TODO Auto-generated method stub
+
+    }
+
+    // public Transform2d getTransformationToBestTarget() {
+    //     PhotonPipelineResult result = camera.getLatestResult();
+    //     if (result.hasTargets()) {
+    //         PhotonTrackedTarget target = result.getBestTarget();
+    //         Transform3d cameraToTarget = target.getBestCameraToTarget();
+    //         cameraToTarget.getTranslation().toTranslation2d();
+    //         Rotation3d rotation = cameraToTarget.getRotation();
+    //         double x = cameraToTarget.getX();
+    //         double y = cameraToTarget.getY();
+
+            
+            
+    //         return new Transform2d(new Translation2d(x, y), rotation);
+    //     } else return new Transform2d();
+    // }
+
 }
