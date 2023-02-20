@@ -19,8 +19,7 @@
         "names": [
           "clawIntake1",
           "moveToHigh1",
-          "clawEject1",
-          "moveToBackward"
+          "clawEject1"
         ],
         "executionBehavior": "sequential",
         "waitBehavior": "none",
@@ -84,6 +83,14 @@
       "names": [
         "event",
         "moveToHigh2"
+      ]
+    },
+    {
+      "position": 0.13910466974431812,
+      "names": [
+        "event",
+        "moveToBackward",
+        "clawIntake2"
       ]
     }
   ]

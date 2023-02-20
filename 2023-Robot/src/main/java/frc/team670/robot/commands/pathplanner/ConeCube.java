@@ -50,13 +50,7 @@ public class ConeCube extends SequentialCommandGroup implements MustangCommand {
         eventMap.put("clawIntake1", new ClawIntake(claw));
         eventMap.put("moveToHigh1", new MoveToTarget(arm, ArmState.SCORE_HIGH));
         eventMap.put("clawEject1", new ClawEject(claw));
-        eventMap.put("moveToBackward", new InstantCommand() {
-            public void initialize(){
-                MustangScheduler.getInstance().schedule(new MoveToTarget(arm, ArmState.BACKWARD_GROUND));
-                MustangScheduler.getInstance().schedule(new ClawIntake(claw));
-
-            }
-        });
+        eventMap.put("moveToBackward", new MoveToTarget(arm, ArmState.BACKWARD_GROUND));
         eventMap.put("clawIntake2", new ClawIntake(claw));
         eventMap.put("moveToHigh2", new MoveToTarget(arm, ArmState.SCORE_HIGH));
         eventMap.put("clawEject2", new ClawEject(claw));
