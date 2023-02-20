@@ -59,7 +59,7 @@ public class OI extends OIBase {
         // move.onTrue(new MoveToPose(driveBase, new Pose2d(1, 1, new Rotation2d()), true));
 
         // Arm movement commands
-        backward.onTrue(new MoveToTarget(arm, ArmState.BACKWARD_GROUND));
+        backward.onTrue(new MoveToTarget(arm, ArmState.STOWED));
         scoreMid.onTrue(new MoveToTarget(arm, ArmState.SCORE_MID));
         scoreHigh.onTrue(new MoveToTarget(arm, ArmState.SCORE_HIGH));
 
