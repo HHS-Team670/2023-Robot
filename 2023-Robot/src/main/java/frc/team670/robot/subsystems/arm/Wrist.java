@@ -21,15 +21,15 @@ import frc.team670.robot.constants.RobotMap;
  */
 public class Wrist extends SparkMaxRotatingSubsystem {
 
-    DutyCycleEncoder absEncoder;
+    private DutyCycleEncoder absEncoder;
     private boolean hasSetAbsolutePosition = false;
-    int counter = 0;
-    double previousReading = 0.0;
-    double calculatedRelativePosition = 0.0;
-    boolean relativePositionIsSet = false;
+    private int counter = 0;
+    private double previousReading = 0.0;
+    private double calculatedRelativePosition = 0.0;
+    private boolean relativePositionIsSet = false;
 
     /*
-     * PID and SmartMotion constants for the Shoulder joint
+     * PID and SmartMotion constants for the Wrist joint
      */
     public static class Config extends SparkMaxRotatingSubsystem.Config {
 
@@ -118,7 +118,6 @@ public class Wrist extends SparkMaxRotatingSubsystem {
 
     }
 
-    // constructor that inits motors and stuff
     public static final Config WRIST_CONFIG = new Config();
 
     public Wrist() {
@@ -131,27 +130,21 @@ public class Wrist extends SparkMaxRotatingSubsystem {
     }
 
     /**
-     * @param mass   the mass in kg
-     * @param angle  the angle in radians
-     * @param length the length in meters
-     *
+     * Calculated voltage using VoltageCalculator
+     * @param voltage
      */
-    public double calculateFeedForward(double shoulderAngle, double elbowAngle) {
-        double ffValue = SmartDashboard.getNumber("elbow arbitary feed forward value", RobotConstants.ELBOW_ARBITRARY_FF) * Math.sin(Math.toRadians(shoulderAngle + elbowAngle - 180));
-        SmartDashboard.putNumber("elbow arbitary feed forward value sin", Math.sin(Math.toRadians(shoulderAngle + elbowAngle - 180)));
-        SmartDashboard.putNumber("elbow arbitary feed forward value calculated", ffValue);
-
-        return ffValue;
-    }
-
-    public void updateArbitraryFeedForward(double shoulderAngle) {
+    public void updateArbitraryFeedForward(double voltage) {
         if(setpoint != SparkMaxRotatingSubsystem.NO_SETPOINT){
             rotator_controller.setReference(setpoint,
                     SparkMAXLite.ControlType.kSmartMotion, super.SMARTMOTION_SLOT,
-                    calculateFeedForward(shoulderAngle, this.getCurrentAngleInDegrees()));
+                    voltage);
         }
     }
 
+    /**
+     * PRIVATE method to set position from absolute.
+     * DO NOT USE DIRECTLY. Instead, use resetPositionFromAbsolute()
+     */
     public void setEncoderPositionFromAbsolute() {
         clearSetpoint();
         double absEncoderPosition = absEncoder.getAbsolutePosition();
@@ -159,9 +152,9 @@ public class Wrist extends SparkMaxRotatingSubsystem {
                 * (absEncoderPosition - (RobotConstants.WRIST_ABSOLUTE_ENCODER_AT_VERTICAL - 0.5)) + 1)
                 * RobotConstants.WRIST_GEAR_RATIO) % RobotConstants.WRIST_GEAR_RATIO;
         REVLibError error = rotator_encoder.setPosition(relativePosition);
-        SmartDashboard.putNumber("wrist position at init", absEncoderPosition);
-        SmartDashboard.putNumber("wrist rotator encoder setPosition", relativePosition);
-        SmartDashboard.putString("wrist error", error.toString());
+        SmartDashboard.putNumber("Wrist absEncoder position when reset", absEncoderPosition);
+        SmartDashboard.putNumber("Wrist relEncoder position when reset", relativePosition);
+        SmartDashboard.putString("Wrist error", error.toString());
         calculatedRelativePosition = relativePosition;
     }
 
@@ -178,7 +171,28 @@ public class Wrist extends SparkMaxRotatingSubsystem {
             return HealthState.RED;
         }
 
+        if(!hasSetAbsolutePosition || !relativePositionIsSet) {
+            return HealthState.YELLOW;
+        }
+
         return HealthState.GREEN;
+    }
+
+    /**
+     * Returns whether or not the relative position has been properly set from the absEncoder.
+     * When resetPositionFromAbsolute() gets called, this will temporarily be false.
+     */
+    public boolean isRelativePositionSet() {
+        return relativePositionIsSet;
+    }
+
+    /**
+     * PUBLIC method to reset the wrist position from the absolute encoder.
+     */
+    public void resetPositionFromAbsolute() {
+        hasSetAbsolutePosition = false;
+        counter = 0;
+        relativePositionIsSet = false;
     }
 
     @Override
@@ -196,16 +210,19 @@ public class Wrist extends SparkMaxRotatingSubsystem {
 
     @Override
     public void mustangPeriodic() {
-        if (!hasSetAbsolutePosition) { //before it's set an absolute position...
+        if (!hasSetAbsolutePosition) { // before it's set an absolute position...
             double position = absEncoder.getAbsolutePosition();
-            if (Math.abs(previousReading - position) < 0.02 && position != 0.0) { // If the current reading is PRECISELY 0, then it's not valid.
-                counter++; // increases the counter if the current reading is close enough to the last reading.
-                           // We do this because when the absEncoder gets initialized, its reading fluctuates drastically at the start.
+            if (Math.abs(previousReading - position) < 0.02 && position != 0.0) { // If the current reading is PRECISELY
+                                                                                  // 0, then it's not valid.
+                counter++; // increases the counter if the current reading is close enough to the last
+                           // reading.
+                           // We do this because when the absEncoder gets initialized, its reading
+                           // fluctuates drastically at the start.
             } else {
                 counter = 0;
                 previousReading = position;
             }
-            if (counter > 200) { //Once it's maintained a constant value for long enough...
+            if (counter > 25) { // Once it's maintained a constant value for long enough...
                 setEncoderPositionFromAbsolute();
                 hasSetAbsolutePosition = true;
             }
@@ -216,6 +233,5 @@ public class Wrist extends SparkMaxRotatingSubsystem {
                 super.rotator_encoder.setPosition(calculatedRelativePosition);
             }
         }
-
     }
 }

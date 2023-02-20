@@ -21,13 +21,13 @@ import com.revrobotics.REVLibError;
  */
 public class Shoulder extends SparkMaxRotatingSubsystem {
 
-    DutyCycleEncoder absEncoder;
+    private DutyCycleEncoder absEncoder;
     private SparkMAXLite follower;
     private boolean hasSetAbsolutePosition = false;
-    int counter = 0;
-    double previousReading = 0.0;
-    double calculatedRelativePosition = 0.0;
-    boolean relativePositionIsSet = false;
+    private int counter = 0;
+    private double previousReading = 0.0;
+    private double calculatedRelativePosition = 0.0;
+    private boolean relativePositionIsSet = false;
 
     /*
      * PID and SmartMotion constants for the Shoulder joint
@@ -129,10 +129,18 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
         SmartDashboard.putNumber("shoulder arbitary feed forward value", RobotConstants.SHOULDER_ARBITRARY_FF);
     }
 
+    /**
+     * Returns whether or not the relative position has been properly set from the absEncoder.
+     * When resetPositionFromAbsolute() gets called, this will temporarily be false.
+     */
     public boolean isRelativePositionSet() {
         return relativePositionIsSet;
     }
 
+    /**
+     * The calculated voltage, returned from VoltageCalculator
+     * @param voltage
+     */
     public void updateArbitraryFeedForward(double voltage) {
         if (setpoint != SparkMaxRotatingSubsystem.NO_SETPOINT) {
             rotator_controller.setReference(setpoint,
@@ -158,7 +166,7 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
             return HealthState.RED;
         }
 
-        if ((leaderOK && !followerOK) || (!leaderOK && followerOK)) {
+        if ((leaderOK && !followerOK) || (!leaderOK && followerOK) || !hasSetAbsolutePosition || !relativePositionIsSet) {
             return HealthState.YELLOW;
         }
 
@@ -166,8 +174,13 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
 
     }
 
+    /**
+     * Public method to reset arm's relative position from absolute
+     */
     public void resetPositionFromAbsolute() {
         hasSetAbsolutePosition = false;
+        counter = 0;
+        relativePositionIsSet = false;
     }
 
     @Override
@@ -180,26 +193,23 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
         SmartDashboard.putNumber("Shoulder position (deg)", getCurrentAngleInDegrees());
         SmartDashboard.putNumber("Shoulder abs encoder position", absEncoder.getAbsolutePosition());
         SmartDashboard.putNumber("Shoulder current", super.rotator.getOutputCurrent());
-        SmartDashboard.putString("Shoulder health", checkHealth().toString());
         SmartDashboard.putNumber("Shoulder setpoint (rotations)", setpoint);
-
-
     }
 
     /**
-     * Sets the rotator encoder's reference position to the constant obtained from
-     * the absolute encoder corresponding to that position.
+     * PRIVATE method to set position from absolute.
+     * DO NOT USE DIRECTLY. Instead, use resetPositionFromAbsolute()
      */
-    public void setEncoderPositionFromAbsolute() {
+    private void setEncoderPositionFromAbsolute() {
         clearSetpoint();
         double absEncoderPosition = absEncoder.getAbsolutePosition();
         double relativePosition = ((
                 -1 * (absEncoderPosition - (RobotConstants.SHOULDER_ABSOLUTE_ENCODER_AT_VERTICAL - 0.5)) + 1)
                 * RobotConstants.SHOULDER_GEAR_RATIO) % RobotConstants.SHOULDER_GEAR_RATIO;
         REVLibError error = rotator_encoder.setPosition(relativePosition);
-        SmartDashboard.putNumber("shoulder position at init", absEncoderPosition);
-        SmartDashboard.putNumber("shoulder rotator encoder setPosition", relativePosition);
-        SmartDashboard.putString("shoulder error", error.toString());
+        SmartDashboard.putNumber("Shoulder absEncoder position when reset", absEncoderPosition);
+        SmartDashboard.putNumber("Shoulder relEncoder position when reset", relativePosition);
+        SmartDashboard.putString("Shoulder error", error.toString());
         calculatedRelativePosition = relativePosition;
     }
 

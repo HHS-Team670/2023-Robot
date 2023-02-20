@@ -4,7 +4,6 @@ package frc.team670.robot.subsystems.arm;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import com.revrobotics.REVLibError;
-
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team670.mustanglib.subsystems.SparkMaxRotatingSubsystem;
@@ -21,15 +20,15 @@ import frc.team670.robot.constants.RobotMap;
  */
 public class Elbow extends SparkMaxRotatingSubsystem {
 
-    DutyCycleEncoder absEncoder;
+    private DutyCycleEncoder absEncoder;
     private boolean hasSetAbsolutePosition = false;
-    int counter = 0;
-    double previousReading = 0.0;
-    double calculatedRelativePosition = 0.0;
-    boolean relativePositionIsSet = false;
+    private int counter = 0;
+    private double previousReading = 0.0;
+    private double calculatedRelativePosition = 0.0;
+    private boolean relativePositionIsSet = false;
 
     /*
-     * PID and SmartMotion constants for the Shoulder joint
+     * PID and SmartMotion constants for the Elbow joint
      */
     public static class Config extends SparkMaxRotatingSubsystem.Config {
 
@@ -130,6 +129,10 @@ public class Elbow extends SparkMaxRotatingSubsystem {
 
     }
 
+    /**
+     * The calculated voltage, returned from VoltageCalculator
+     * @param voltage
+     */
     public void updateArbitraryFeedForward(double voltage) {
         if (setpoint != SparkMaxRotatingSubsystem.NO_SETPOINT) {
             rotator_controller.setReference(setpoint,
@@ -138,15 +141,19 @@ public class Elbow extends SparkMaxRotatingSubsystem {
         }
     }
 
-    public void setEncoderPositionFromAbsolute() {
+    /**
+     * PRIVATE method to set position from absolute.
+     * Do not use directly. Instead, use resetPositionFromAbsolute()
+     */
+    private void setEncoderPositionFromAbsolute() {
         clearSetpoint();
         double absEncoderPosition = absEncoder.getAbsolutePosition();
         double relativePosition = ((-1
                 * (absEncoderPosition - (RobotConstants.ELBOW_ABSOLUTE_ENCODER_AT_VERTICAL - 0.5)) + 1)
                 * RobotConstants.ELBOW_GEAR_RATIO) % RobotConstants.ELBOW_GEAR_RATIO;
         REVLibError error = rotator_encoder.setPosition(relativePosition);
-        SmartDashboard.putNumber("elbow position at init", absEncoderPosition);
-        SmartDashboard.putNumber("elbow rotator encoder setPosition", relativePosition);
+        SmartDashboard.putNumber("Elbow absEncoder position when reset", absEncoderPosition);
+        SmartDashboard.putNumber("Elbow relEncoder position when reset", relativePosition);
         SmartDashboard.putString("Elbow error", error.toString());
         calculatedRelativePosition = relativePosition;
     }
@@ -164,22 +171,35 @@ public class Elbow extends SparkMaxRotatingSubsystem {
             return HealthState.RED;
         }
 
+        if(!hasSetAbsolutePosition || !relativePositionIsSet) {
+            return HealthState.YELLOW;
+        }
+
         return HealthState.GREEN;
     }
 
+    /**
+     * Returns whether or not the relative position has been properly set from the absEncoder.
+     * When resetPositionFromAbsolute() gets called, this will temporarily be false.
+     */
     public boolean isRelativePositionSet() {
         return relativePositionIsSet;
     }
 
+    /**
+     * Public method to reset the position from the absolute position.
+     */
     public void resetPositionFromAbsolute() {
         hasSetAbsolutePosition = false;
+        counter = 0;
+        relativePositionIsSet = false;
     }
 
     @Override
     public void debugSubsystem() {
         SmartDashboard.putNumber("Elbow Speed:", super.rotator.get());
-        SmartDashboard.putNumber("elbow forward soft limit", super.rotator.getSoftLimit(SoftLimitDirection.kForward));
-        SmartDashboard.putNumber("elbow backward soft limit", super.rotator.getSoftLimit(SoftLimitDirection.kReverse));
+        SmartDashboard.putNumber("Elbow forward soft limit", super.rotator.getSoftLimit(SoftLimitDirection.kForward));
+        SmartDashboard.putNumber("Elbow backward soft limit", super.rotator.getSoftLimit(SoftLimitDirection.kReverse));
         SmartDashboard.putNumber("Elbow position (deg)", getCurrentAngleInDegrees());
         SmartDashboard.putNumber("Elbow position (rotations)", super.rotator_encoder.getPosition());
         SmartDashboard.putNumber("Elbow current", super.rotator.getOutputCurrent());

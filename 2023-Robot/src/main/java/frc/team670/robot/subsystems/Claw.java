@@ -5,11 +5,7 @@ import frc.team670.mustanglib.utils.motorcontroller.SparkMAXFactory;
 import frc.team670.mustanglib.utils.motorcontroller.SparkMAXLite;
 import frc.team670.robot.constants.RobotConstants;
 import frc.team670.robot.constants.RobotMap;
-
-import java.util.List;
-
 import com.revrobotics.CANSparkMax.IdleMode;
-
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
@@ -20,33 +16,63 @@ public class Claw extends MustangSubsystemBase {
         EJECTING, INTAKING, IDLE;
     }
 
-    private SparkMAXLite leader;
+    private SparkMAXLite motor;
     private int count = 0;
     private Claw.Status status;
+    private double ejectingSpeed = RobotConstants.CLAW_EJECTING_SPEED;
 
     public Claw() {
-        leader = SparkMAXFactory.buildSparkMAX(RobotMap.CLAW_MOTOR, SparkMAXFactory.defaultConfig, Motor_Type.NEO_550);
+        motor = SparkMAXFactory.buildSparkMAX(RobotMap.CLAW_MOTOR, SparkMAXFactory.defaultConfig, Motor_Type.NEO_550);
         status = Status.IDLE;
-        leader.setIdleMode(IdleMode.kBrake);
+        motor.setIdleMode(IdleMode.kBrake);
     }
     
-    public void setStatus (Claw.Status status) {
-        this.status = status;   
+    /**
+     * Starts intaking. The claw will automatically stop itself when the current spikes
+     */
+    public void startIntake() {
+        setStatus(Status.INTAKING);
+    }
+
+    /**
+     * Ejects the held item at the given speed
+     * @param ejectingSpeed Should be <0. The more negative, the faster the claw will run backwards.
+     */
+    public void startEjecting(double ejectingSpeed) {
+        this.ejectingSpeed = ejectingSpeed;
+        setStatus(Status.EJECTING);
+    }
+
+    /**
+     * Sets the claw to an IDLE state
+     * Please note that "IDLE" does not mean "stopped"!
+     */
+    public void setIdle() {
+        setStatus(Status.IDLE);
+    }
+
+    /**
+     * Private method, only intended to be used by the public set() methods
+     * @param status
+     */
+    private void setStatus (Claw.Status status) {
+        this.status = status;
     }
 
     private void stopAll() {
-        leader.set(0);
+        motor.set(0);
     }
 
+    /**
+     * Checking for hardware breaks with the motor
+     */
     @Override
-    // Checking for hardware breaks within the motors.
     public HealthState checkHealth() {
-        if (leader == null || leader.isErrored()) {
+        if (motor == null || motor.isErrored()) {
             return HealthState.RED;
         }
         return HealthState.GREEN;
     }
-    
     
     @Override
     public void mustangPeriodic() {
@@ -54,23 +80,24 @@ public class Claw extends MustangSubsystemBase {
 
         switch(status) {
             case IDLE:
-                leader.set(RobotConstants.CLAW_IDLE_SPEED);
+                motor.set(RobotConstants.CLAW_IDLE_SPEED);
                 break;
             case INTAKING:
-                leader.set(RobotConstants.CLAW_ROLLING_SPEED);
+                motor.set(RobotConstants.CLAW_ROLLING_SPEED);
                 break;
             case EJECTING:
-                leader.set(RobotConstants.CLAW_EJECTING_SPEED);
+                motor.set(this.ejectingSpeed);
                 break;
             default:
-                leader.set(0);
+                motor.set(0);
         }
 
+        // If the current has spiked for more than 1/10th of a second, then set the status to idle
         if(this.status == Status.INTAKING) {
-            if(leader.getOutputCurrent() > RobotConstants.CLAW_CURRENT_MAX) {
+            if(motor.getOutputCurrent() > RobotConstants.CLAW_CURRENT_MAX) {
                 count++;
                 if(count > 5) {
-                    setStatus(Status.IDLE);
+                    setIdle();
                 }
             } else {
                 count = 0;
@@ -81,8 +108,7 @@ public class Claw extends MustangSubsystemBase {
 
     @Override
     public void debugSubsystem() {
-        SmartDashboard.putNumber("Claw leader current", leader.getOutputCurrent());
-        SmartDashboard.putNumber("Claw follower current", leader.getOutputCurrent());
+        SmartDashboard.putNumber("Claw motor current", motor.getOutputCurrent());
         SmartDashboard.putString("Claw state", status.toString());
     }
 

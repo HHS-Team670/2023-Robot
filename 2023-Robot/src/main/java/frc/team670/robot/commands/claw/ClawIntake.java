@@ -6,10 +6,6 @@ import frc.team670.mustanglib.commands.MustangCommand;
 import java.util.Map;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.team670.robot.subsystems.Claw;
-import frc.team670.robot.subsystems.Claw.Status;
-import frc.team670.robot.subsystems.arm.Arm;
-import frc.team670.robot.subsystems.arm.Elbow;
-import frc.team670.robot.subsystems.arm.Shoulder;
 
 /**
  * @author Tarini, Samanyu and Ishaan
@@ -27,7 +23,7 @@ public class ClawIntake extends InstantCommand implements MustangCommand
 
     @Override
     public void execute() {
-        claw.setStatus(Status.INTAKING);
+        claw.startIntake();
     }
 
     @Override

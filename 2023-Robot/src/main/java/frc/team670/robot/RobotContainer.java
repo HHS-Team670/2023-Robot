@@ -41,23 +41,23 @@ public class RobotContainer extends RobotContainerBase {
     private final Claw claw = new Claw();
     private static OI oi = new OI();
     
-    private Notifier updateArbitraryFeedForwards;
+    private Notifier updateArbitraryFeedForward;
 
     public RobotContainer() {
         super();
-        addSubsystem(driveBase, vision, arm, arm.getShoulder(), arm.getElbow(), claw);
+        addSubsystem(driveBase, vision, arm, arm.getShoulder(), arm.getElbow(), arm.getWrist(), claw);
         oi.configureButtonBindings(driveBase, vision, arm, claw);
     }
 
     @Override
     public void robotInit() {
-        updateArbitraryFeedForwards = new Notifier(new Runnable() {
+        updateArbitraryFeedForward = new Notifier(new Runnable() {
             public void run() {
-                arm.updateArbitraryFeedForwards();
+                arm.updateArbitraryFeedForward();
             }
         });
 
-        updateArbitraryFeedForwards.startPeriodic(0.01);
+        updateArbitraryFeedForward.startPeriodic(0.01);
     }
 
     /**
@@ -89,48 +89,40 @@ public class RobotContainer extends RobotContainerBase {
 
     @Override
     public void autonomousInit() {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void teleopInit() {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void testInit() {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void disabled() {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void disabledPeriodic() {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void periodic() {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void autonomousPeriodic() {
-        // TODO Auto-generated method stub
 
     }
 
     public MustangController getOperatorController() {
-        // TODO Auto-generated method stub
         return null;
     }
 
@@ -139,7 +131,6 @@ public class RobotContainer extends RobotContainerBase {
     }
 
     public MustangController getBackupController() {
-        // TODO Auto-generated method stub
         return null;
     }
 

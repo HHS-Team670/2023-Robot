@@ -20,15 +20,12 @@ import frc.team670.robot.subsystems.arm.ArmSegment;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
- * numerical or boolean
- * constants. This class should not be used for any other purpose. All constants
- * should be declared
- * globally (i.e. public static). Do not put anything functional in this class.
+ * numerical or boolean constants. This class should not be used for any other
+ * purpose. All constants should be declared globally (i.e. public static). Do
+ * not put anything functional in this class.
  *
- * <p>
  * It is advised to statically import this class (or one of its inner classes)
- * wherever the
- * constants are needed, to reduce verbosity.
+ * wherever the constants are needed, to reduce verbosity.
  */
 public final class RobotConstants extends RobotConstantsBase {
 
@@ -246,16 +243,6 @@ public final class RobotConstants extends RobotConstantsBase {
         }
 
         return "";
-    }
-
-    public static double armXCM(double shoulderAngleDegrees, double elbowAngleDegrees) {
-        double x1 = RobotConstants.SHOULDER_LENGTH_INCHES * Math.sin(Math.toRadians(shoulderAngleDegrees));
-        double x2 = RobotConstants.ELBOW_LENGTH_INCHES * Math.sin(Math.toRadians(shoulderAngleDegrees - (180 - elbowAngleDegrees)));
-        double xcm = (RobotConstants.SHOULDER_TO_ELBOW_MASS_LB * x1 / 4.0 // first segment CM
-                + RobotConstants.ELBOW_TO_CLAW_MASS_LB * (x1 + x2 / 2.0) // second segment CM
-                + RobotConstants.CLAW_MASS_LB * (x1 + x2)) // claw CM
-                /(RobotConstants.SHOULDER_TO_ELBOW_MASS_LB + RobotConstants.ELBOW_TO_CLAW_MASS_LB + RobotConstants.CLAW_MASS_LB); //divide by total mass
-        return xcm;
     }
 
 }
