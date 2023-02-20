@@ -10,6 +10,7 @@ package frc.team670.robot;
 import frc.team670.robot.commands.drivebase.NonPidAutoLevel;
 import frc.team670.robot.commands.pathplanner.ConeCube;
 import frc.team670.robot.commands.vision.IsLockedOn;
+import frc.team670.robot.commands.vision.IsLockedOn;
 import frc.team670.robot.commands.pathplanner.CubeEngage;
 
 import edu.wpi.first.wpilibj.PowerDistribution;
@@ -37,8 +38,6 @@ public class RobotContainer extends RobotContainerBase {
     private final PowerDistribution pd = new PowerDistribution(1, ModuleType.kCTRE);
     
     private final Vision vision = new Vision(pd);
-    private final Arm arm = new Arm();
-    private final Claw claw = new Claw();    private final DriveBase driveBase = new DriveBase(getDriverController(), vision);
 
     private static OI oi = new OI();
     

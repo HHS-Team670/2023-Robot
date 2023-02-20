@@ -12,13 +12,16 @@ import java.util.Map;
 import edu.wpi.first.apriltag.AprilTag;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.apriltag.AprilTag;
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
-import static java.util.Map.entry;
-import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.trajectory.constraint.DifferentialDriveKinematicsConstraint;
 import edu.wpi.first.wpilibj.SerialPort;
@@ -65,15 +68,14 @@ public final class RobotConstants extends RobotConstantsBase {
     // add 180 degrees to the offset of each wheel that is spinning in the incorrect
     // direction. i.e -Math.toRadians(<angle> + 180.0).
     public static Map<String, Map<String, Double>> hardwareSpecificConstants = Map.ofEntries(
-            entry("00:80:2F:34:0B:07", Map.ofEntries( // Mac address from 670_bench
-                    entry("BACK_RIGHT_MODULE_STEER_OFFSET", -Math.toRadians(228.85)),
-                    entry("BACK_LEFT_MODULE_STEER_OFFSET", -Math.toRadians(228.3)),
-                    entry("FRONT_RIGHT_MODULE_STEER_OFFSET", -Math.toRadians(2.37)),
-                    entry("FRONT_LEFT_MODULE_STEER_OFFSET", -Math.toRadians(30.2)),
-                    entry("SHOULDER_ABSOLUTE_ENCODER_AT_VERTICAL", 0.957),
-                    entry("ELBOW_ABSOLUTE_ENCODER_AT_VERTICAL", 0.944))),
-            entry("00:80:2F:24:4A:34", Map.ofEntries( // The mac address is from 670_MadMax
-                    entry("BACK_RIGHT_MODULE_STEER_OFFSET", -Math.toRadians(292.5)),
+        entry("00:80:2F:34:0B:07", Map.ofEntries( //Mac address from 670_bench
+            entry("BACK_RIGHT_MODULE_STEER_OFFSET", -Math.toRadians(228.85)),
+            entry("BACK_LEFT_MODULE_STEER_OFFSET",-Math.toRadians(228.3)),
+            entry("FRONT_RIGHT_MODULE_STEER_OFFSET", -Math.toRadians(2.37)),
+            entry("FRONT_LEFT_MODULE_STEER_OFFSET", -Math.toRadians(30.2))
+        )),
+        entry("00:80:2F:24:4A:34", Map.ofEntries( //The mac address is from 670_MadMax
+            entry("BACK_RIGHT_MODULE_STEER_OFFSET", -Math.toRadians(292.5)),
             entry("BACK_LEFT_MODULE_STEER_OFFSET",-Math.toRadians(232.91)),
             entry("FRONT_RIGHT_MODULE_STEER_OFFSET", -Math.toRadians(352.35)),
             entry("FRONT_LEFT_MODULE_STEER_OFFSET", -Math.toRadians(136.67))    
@@ -83,14 +85,8 @@ public final class RobotConstants extends RobotConstantsBase {
             entry("BACK_LEFT_MODULE_STEER_OFFSET",-Math.toRadians(232.91)),
             entry("FRONT_RIGHT_MODULE_STEER_OFFSET", -Math.toRadians(352.35)),
             entry("FRONT_LEFT_MODULE_STEER_OFFSET", -Math.toRadians(136.67))    
-        )),
-        entry("00:80:2F:33:D0:46", Map.ofEntries( //The mac address is from 670_2023 (rev2)
-            entry("BACK_RIGHT_MODULE_STEER_OFFSET", -Math.toRadians(292.5)),    // TODO: find actual offsets
-                    entry("BACK_LEFT_MODULE_STEER_OFFSET", -Math.toRadians(232.91)),
-                    entry("FRONT_RIGHT_MODULE_STEER_OFFSET", -Math.toRadians(352.35)),
-                    entry("FRONT_LEFT_MODULE_STEER_OFFSET", -Math.toRadians(136.67)),
-                    entry("SHOULDER_ABSOLUTE_ENCODER_AT_VERTICAL", 0.0),
-                    entry("ELBOW_ABSOLUTE_ENCODER_AT_VERTICAL", 0.0)))
+        ))
+
     );
 
     /**
@@ -149,7 +145,9 @@ public final class RobotConstants extends RobotConstantsBase {
         // new Transform2d(new Translation2d(0, 0), new Rotation2d(0));    // TODO: changed when camera actually mounted, may need to change based on robot
     public static final Transform2d GRID_TO_TARGET_OFFSET = 
         new Transform2d(new Translation2d(1, 0), new Rotation2d(0));    // TODO: check game manual for actual specs
-    
+    public static final double LOCKED_ON_ERROR_X = 0.3; // TODO: test what angles are appropriate for grabbing
+    public static final double LOCKED_ON_ERROR_Y = 0.3;
+    public static final double LOCKED_ON_ERROR_DEGREES = 10;    
     
         //Everything below is copied from 2022 robot
     public static final double kTrackwidthMeters = 0.702;
