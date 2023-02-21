@@ -7,6 +7,10 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import frc.team670.mustanglib.subsystems.drivebase.SwerveDrive;
 
+/*
+ * Credits: Hemlock 5712
+ */
+
 public class Node {
     double x, y;
     Rotation2d holonomicRotation;

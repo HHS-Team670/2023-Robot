@@ -10,6 +10,10 @@ import java.util.Map;
 import java.util.Set;
 import frc.team670.robot.subsystems.pathfinder.Obstacle.PolygonDouble;
 
+/*
+ * Credits: Hemlock 5712
+ */
+
 public class VisGraph {
 
     // A class representing the navigation mesh

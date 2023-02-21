@@ -1,5 +1,9 @@
 package frc.team670.robot.subsystems.pathfinder;
 
+/*
+ * Credits: Hemlock 5712
+ */
+
 public class Edge {
     Node start, end;
     double cost;

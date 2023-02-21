@@ -1,7 +1,6 @@
 package frc.team670.robot.subsystems.pathfinder;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -17,6 +16,10 @@ import java.awt.geom.PathIterator;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.io.Serializable;
+
+/*
+ * Credits: Hemlock 5712
+ */
 
 public class Obstacle {
     PolygonDouble polygon;
