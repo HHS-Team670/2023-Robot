@@ -5,7 +5,6 @@ import java.util.List;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import frc.team670.mustanglib.utils.math.sort.Edge;
 import frc.team670.mustanglib.utils.math.sort.Node;
 import frc.team670.robot.subsystems.PoseEstimatorSubsystem;
 
@@ -13,7 +12,7 @@ import frc.team670.robot.subsystems.PoseEstimatorSubsystem;
  * Credits: Hemlock 5712
  */
 
-public class PoseNode implements Node {
+public class PoseNode implements Node<PoseNode> {
 	private double x, y;
 	private Rotation2d holonomicRotation;
 	private List<PoseNode> neighbors;
@@ -62,14 +61,14 @@ public class PoseNode implements Node {
 	public void setHolRot(double degree) {
 		this.holonomicRotation = Rotation2d.fromDegrees(degree);
 	}
-	
+
 	@Override
-	public void addNeighbor(Node neighbor) {
+	public void addNeighbor(PoseNode neighbor) {
 		this.neighbors.add((PoseNode) neighbor);
 	}
 	
 	@Override
-	public double getHeuristicDistance(Node target) {
+	public double getHeuristicDistance(PoseNode target) {
 		PoseNode n1 = this;
 		PoseNode n2 = (PoseNode) target;
 
@@ -79,9 +78,7 @@ public class PoseNode implements Node {
 	}
 
 	@Override
-	public Node[] getNeighbors() {
-		Node[] neighbors = new Node[this.neighbors.size()];
-		for (int i = 0; i < neighbors.length; i++) neighbors[i] = this.neighbors.get(i);
+	public List<PoseNode> getNeighbors() {
 		return neighbors;
 	}
 }

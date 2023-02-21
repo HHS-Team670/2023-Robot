@@ -15,7 +15,6 @@ import frc.team670.mustanglib.commands.MustangCommand;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase.HealthState;
 import frc.team670.robot.subsystems.DriveBase;
-import frc.team670.mustanglib.subsystems.drivebase.SwerveDrive;
 import frc.team670.robot.subsystems.PoseEstimatorSubsystem;
 import frc.team670.robot.subsystems.pathfinder.Obstacle;
 import frc.team670.robot.subsystems.pathfinder.PoseEdge;
@@ -54,15 +53,15 @@ public class PathFindMoveToPose extends CommandBase implements MustangCommand {
 		List<PoseNode> fullPath = new ArrayList<PoseNode>();
 
 		AStarMap.addNode(startPoint);
-		if (AStarMap.addObstacleToEdge(new PoseEdge(startPoint, finalPosition), obstacles)) {
+		if (AStarMap.addObstacle(new PoseEdge(startPoint, finalPosition), obstacles)) {
 			fullPath.add(0, startPoint);
 			fullPath.add(1, finalPosition);
 		} else {
 			for (int i = 0; i < AStarMap.getNodeSize(); i++) {
-				PoseNode endNode = AStarMap.getNode(i);
-				AStarMap.addObstacleToEdge(new PoseEdge(startPoint, endNode), obstacles);
+				PoseNode endNode = (PoseNode) AStarMap.getNode(i);
+				AStarMap.addObstacle(new PoseEdge(startPoint, endNode), obstacles);
 			}
-			fullPath = AStarMap.findPath(startPoint, finalPosition);
+			fullPath = AStarMap.search(startPoint, finalPosition);
 		}
 
 		if (fullPath == null) {

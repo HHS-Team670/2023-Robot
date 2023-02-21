@@ -1,9 +1,8 @@
 package frc.team670.robot.subsystems.pathfinder;
 
 import frc.team670.mustanglib.utils.math.sort.Edge;
-import frc.team670.mustanglib.utils.math.sort.Node;
 
-public class PoseEdge implements Edge {
+public class PoseEdge implements Edge<PoseNode> {
     PoseNode start, end;
     private double cost;
 
@@ -25,12 +24,12 @@ public class PoseEdge implements Edge {
     }
 
     @Override
-    public Node getSource() {
+    public PoseNode getSource() {
         return start;
     }
 
     @Override
-    public Node getDest() {
+    public PoseNode getDest() {
         return end;
     }
 }
