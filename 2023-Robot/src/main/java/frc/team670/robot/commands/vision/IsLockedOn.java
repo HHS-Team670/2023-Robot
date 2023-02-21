@@ -1,9 +1,10 @@
 package frc.team670.robot.commands.vision;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 import javax.print.attribute.HashAttributeSet;
-
+import edu.wpi.first.apriltag.AprilTag;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -12,6 +13,7 @@ import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase.HealthState;
 import frc.team670.mustanglib.subsystems.VisionSubsystemBase;
 import frc.team670.mustanglib.subsystems.drivebase.SwerveDrive;
+import frc.team670.robot.constants.FieldConstants;
 import frc.team670.robot.constants.RobotConstants;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -22,10 +24,19 @@ public class IsLockedOn extends CommandBase implements MustangCommand {
 
     private SwerveDrive driveBase;
     private VisionSubsystemBase vision;
-    private Pose2d currentPose;
-    private Pose2d goalPose;
+    private ArrayList<Pose2d> scoringPoses = new ArrayList<>();
+    private Pose2d currentPose = null;
 
     public IsLockedOn(SwerveDrive driveBase, VisionSubsystemBase vision) {
+        this.driveBase = driveBase;
+        this.vision = vision;
+        addRequirements(vision);
+
+        for (AprilTag tag : FieldConstants.APRILTAGS) 
+            scoringPoses.add(tag.pose.toPose2d());
+    }
+
+    public IsLockedOn(SwerveDrive driveBase, VisionSubsystemBase vision, int bruh) {
         this.driveBase = driveBase;
         this.vision = vision;
         addRequirements(driveBase, vision);
@@ -38,50 +49,32 @@ public class IsLockedOn extends CommandBase implements MustangCommand {
 
     @Override
     public void initialize() {
-        
+        currentPose = driveBase.getPose();
     }
     
     @Override
     public void execute() {
-        SmartDashboard.putBoolean("isLockedOn", false);
-
-        // find pose of nearest target
-        currentPose = driveBase.getPose();
-        var result = vision.getCamera().getLatestResult();
-        SmartDashboard.putBoolean("has targets", result.hasTargets());
-        if (!result.hasTargets()) return;
-        
-    
-        var camToTarget = result.getBestTarget().getBestCameraToTarget();
-        Transform2d transform = new Transform2d(camToTarget.getTranslation().toTranslation2d(),
-                camToTarget.getRotation().toRotation2d());
-        Pose2d cameraPose = currentPose.transformBy(RobotConstants.CAMERA_OFFSET.inverse());
-        Pose2d targetPose = cameraPose.transformBy(transform);
-    
-        // transform by offset (to not crash)
-        goalPose = targetPose.transformBy(RobotConstants.GRID_TO_TARGET_OFFSET);
-        // SmartDashboard.putNumber("goal pose x", goalPose.getX());
-        // SmartDashboard.putNumber("goal pose y", goalPose.getY());
+        SmartDashboard.putBoolean("isLockedOn", false);        
     }
     
     @Override
     public boolean isFinished() {
         
-        if (goalPose != null) {
-            // SmartDashboard.putString("Target Pose", goalPose.getX() + "," + goalPose.getY());
-            // SmartDashboard.putString("Current Pose", currentPose.getX() + "," + currentPose.getY());
-            // SmartDashboard.putNumber("Diff x", Math.abs(currentPose.getX() - goalPose.getX()));
-            // SmartDashboard.putNumber("Diff y", Math.abs(currentPose.getY() - goalPose.getY()));
-            // SmartDashboard.putNumber("Diff rot", Math.abs(currentPose.getRotation().getDegrees()
-            // - goalPose.getRotation().getDegrees()));
+        // if (goalPose != null) {
+        //     // SmartDashboard.putString("Target Pose", goalPose.getX() + "," + goalPose.getY());
+        //     // SmartDashboard.putString("Current Pose", currentPose.getX() + "," + currentPose.getY());
+        //     // SmartDashboard.putNumber("Diff x", Math.abs(currentPose.getX() - goalPose.getX()));
+        //     // SmartDashboard.putNumber("Diff y", Math.abs(currentPose.getY() - goalPose.getY()));
+        //     // SmartDashboard.putNumber("Diff rot", Math.abs(currentPose.getRotation().getDegrees()
+        //     // - goalPose.getRotation().getDegrees()));
 
-            if (Math.abs(currentPose.getX() - goalPose.getX()) <= 0.3
-                    && Math.abs(currentPose.getY() - goalPose.getY()) <= 0.3
-                    && Math.abs(currentPose.getRotation().getDegrees()
-                            - goalPose.getRotation().getDegrees() - 180) <= 10) {   // TODO: change angles based on camera
-                return true;
-            }
-        }
+        //     if (Math.abs(currentPose.getX() - goalPose.getX()) <= 0.3
+        //             && Math.abs(currentPose.getY() - goalPose.getY()) <= 0.3
+        //             && Math.abs(currentPose.getRotation().getDegrees()
+        //                     - goalPose.getRotation().getDegrees() - 180) <= 10) {   // TODO: change angles based on camera
+        //         return true;
+        //     }
+        // }
         return false;
     }
 
