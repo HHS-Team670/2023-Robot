@@ -17,10 +17,10 @@ import frc.team670.mustanglib.subsystems.MustangSubsystemBase.HealthState;
 import frc.team670.robot.subsystems.DriveBase;
 import frc.team670.mustanglib.subsystems.drivebase.SwerveDrive;
 import frc.team670.robot.subsystems.PoseEstimatorSubsystem;
-import frc.team670.robot.subsystems.pathfinder.Edge;
-import frc.team670.robot.subsystems.pathfinder.Node;
 import frc.team670.robot.subsystems.pathfinder.Obstacle;
-import frc.team670.robot.subsystems.pathfinder.VisGraph;
+import frc.team670.robot.subsystems.pathfinder.PoseEdge;
+import frc.team670.robot.subsystems.pathfinder.PoseNode;
+import frc.team670.robot.subsystems.pathfinder.ObstacleAvoidanceAStarMap;
 
 public class PathFindMoveToPose extends CommandBase implements MustangCommand {
 
@@ -28,39 +28,39 @@ public class PathFindMoveToPose extends CommandBase implements MustangCommand {
 	private MustangPPSwerveControllerCommand pathDrivingCommand;
 	private final PoseEstimatorSubsystem poseEstimatorSubsystem;
 	private final PathConstraints constraints;
-	private final Node finalPosition;
-	private Node startPoint;
+	private final PoseNode finalPosition;
+	private PoseNode startPoint;
 	private final List<Obstacle> obstacles;
-	private VisGraph AStarMap;
+	private ObstacleAvoidanceAStarMap AStarMap;
 
 	public PathFindMoveToPose(DriveBase driveSystem, PoseEstimatorSubsystem p,
-			PathConstraints constraints, Node finalPosition, List<Obstacle> obstacles,
-			VisGraph AStarMap) {
+			PathConstraints constraints, PoseNode finalPosition, List<Obstacle> obstacles,
+			ObstacleAvoidanceAStarMap AStarMap) {
 		this.driveSystem = driveSystem;
 		this.poseEstimatorSubsystem = p;
 		this.constraints = constraints;
 		this.obstacles = obstacles;
 		this.finalPosition = finalPosition;
 		this.AStarMap = AStarMap;
-		this.startPoint = new Node(p);
+		this.startPoint = new PoseNode(p);
 
 		addRequirements(driveSystem);
 	}
 
 	@Override
 	public void initialize() {
-		startPoint = new Node(poseEstimatorSubsystem);
+		startPoint = new PoseNode(poseEstimatorSubsystem);
 		PathPlannerTrajectory trajectory;
-		List<Node> fullPath = new ArrayList<Node>();
+		List<PoseNode> fullPath = new ArrayList<PoseNode>();
 
 		AStarMap.addNode(startPoint);
-		if (AStarMap.addEdge(new Edge(startPoint, finalPosition), obstacles)) {
+		if (AStarMap.addEdge(new PoseEdge(startPoint, finalPosition), obstacles)) {
 			fullPath.add(0, startPoint);
 			fullPath.add(1, finalPosition);
 		} else {
 			for (int i = 0; i < AStarMap.getNodeSize(); i++) {
-				Node endNode = AStarMap.getNode(i);
-				AStarMap.addEdge(new Edge(startPoint, endNode), obstacles);
+				PoseNode endNode = AStarMap.getNode(i);
+				AStarMap.addEdge(new PoseEdge(startPoint, endNode), obstacles);
 			}
 			fullPath = AStarMap.findPath(startPoint, finalPosition);
 		}
