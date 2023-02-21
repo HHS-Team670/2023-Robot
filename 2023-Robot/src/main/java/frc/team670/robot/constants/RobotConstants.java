@@ -120,13 +120,29 @@ public final class RobotConstants extends RobotConstantsBase {
     public static final double kMaxAccelerationMetersPerSecondSquared = 2;
     public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI * 16;
     public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI * 16;
-    
+
     // vision
     public static final String VISION_CAMERA_NAME = "Arducam_OV9281_USB_Camera";
-    public static final Transform2d CAMERA_OFFSET = 
-        new Transform2d(new Translation2d(0, 0), new Rotation2d(0));    // TODO: changed when camera actually mounted, may need to change based on robot
-    public static final Transform2d GRID_TO_TARGET_OFFSET = 
-        new Transform2d(new Translation2d(1, 0), new Rotation2d(0));    // TODO: check game manual for actual specs
+    public static final Transform2d CAMERA_OFFSET = new Transform2d(new Translation2d(0, 0), new Rotation2d(0)); // TODO:
+                                                                                                                 // changed
+                                                                                                                 // when
+                                                                                                                 // camera
+                                                                                                                 // actually
+                                                                                                                 // mounted,
+                                                                                                                 // may
+                                                                                                                 // need
+                                                                                                                 // to
+                                                                                                                 // change
+                                                                                                                 // based
+                                                                                                                 // on
+                                                                                                                 // robot
+    public static final Transform2d GRID_TO_TARGET_OFFSET = new Transform2d(new Translation2d(1, 0), new Rotation2d(0)); // TODO:
+                                                                                                                         // check
+                                                                                                                         // game
+                                                                                                                         // manual
+                                                                                                                         // for
+                                                                                                                         // actual
+                                                                                                                         // specs
     public static final double kTrackwidthMeters = 0.702;
 
     // Arm
@@ -144,7 +160,8 @@ public final class RobotConstants extends RobotConstantsBase {
     public static final int SHOULDER_SOFT_LIMIT_MAX = 300;
     public static final double SHOULDER_ARBITRARY_FF = 0.5;
     public static final double ARM_MAX_XCM = armXCM(90, 180);
-
+    public static final double ELBOW_MAX_OVERRIDE_DEGREES = 15;
+    public static final double SHOULDER_MAX_OVERRIDE_DEGREES = 15;
     public static final double SHOULDER_LENGTH_INCHES = 25;
     public static final double ELBOW_LENGTH_INCHES = 35;
     public static final double SHOULDER_TO_ELBOW_MASS_LB = 6.5;
@@ -207,11 +224,13 @@ public final class RobotConstants extends RobotConstantsBase {
 
     public static double armXCM(double shoulderAngleDegrees, double elbowAngleDegrees) {
         double x1 = RobotConstants.SHOULDER_LENGTH_INCHES * Math.sin(Math.toRadians(shoulderAngleDegrees));
-        double x2 = RobotConstants.ELBOW_LENGTH_INCHES * Math.sin(Math.toRadians(shoulderAngleDegrees + elbowAngleDegrees - 180));
+        double x2 = RobotConstants.ELBOW_LENGTH_INCHES
+                * Math.sin(Math.toRadians(shoulderAngleDegrees + elbowAngleDegrees - 180));
         double xcm = (RobotConstants.SHOULDER_TO_ELBOW_MASS_LB * x1 / 4.0 // first segment CM
                 + RobotConstants.ELBOW_TO_CLAW_MASS_LB * (x1 + x2 / 2.0) // second segment CM
                 + RobotConstants.CLAW_MASS_LB * (x1 + x2)) // claw CM
-                /(RobotConstants.SHOULDER_TO_ELBOW_MASS_LB + RobotConstants.ELBOW_TO_CLAW_MASS_LB + RobotConstants.CLAW_MASS_LB); //divide by total mass
+                / (RobotConstants.SHOULDER_TO_ELBOW_MASS_LB + RobotConstants.ELBOW_TO_CLAW_MASS_LB
+                        + RobotConstants.CLAW_MASS_LB); // divide by total mass
         return xcm;
     }
 

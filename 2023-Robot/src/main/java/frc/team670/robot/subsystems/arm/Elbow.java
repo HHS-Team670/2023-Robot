@@ -46,7 +46,7 @@ public class Elbow extends SparkMaxRotatingSubsystem {
         }
 
         public double getP() {
-            return 0.0011; 
+            return 0.0011;
         }
 
         public double getI() {
@@ -127,7 +127,6 @@ public class Elbow extends SparkMaxRotatingSubsystem {
         super.getRotator().setInverted(true);
         SmartDashboard.putNumber("elbow arbitary feed forward value", RobotConstants.ELBOW_ARBITRARY_FF);
 
-
     }
 
     /**
@@ -137,8 +136,10 @@ public class Elbow extends SparkMaxRotatingSubsystem {
      *
      */
     public double calculateFeedForward(double shoulderAngle, double elbowAngle) {
-        double ffValue = SmartDashboard.getNumber("elbow arbitary feed forward value", RobotConstants.ELBOW_ARBITRARY_FF) * Math.sin(Math.toRadians(shoulderAngle + elbowAngle - 180));
-        SmartDashboard.putNumber("elbow arbitary feed forward value sin", Math.sin(Math.toRadians(shoulderAngle + elbowAngle - 180)));
+        double ffValue = SmartDashboard.getNumber("elbow arbitary feed forward value",
+                RobotConstants.ELBOW_ARBITRARY_FF) * Math.sin(Math.toRadians(shoulderAngle + elbowAngle - 180));
+        SmartDashboard.putNumber("elbow arbitary feed forward value sin",
+                Math.sin(Math.toRadians(shoulderAngle + elbowAngle - 180)));
         SmartDashboard.putNumber("elbow arbitary feed forward value calculated", ffValue);
 
         return ffValue;
@@ -150,6 +151,10 @@ public class Elbow extends SparkMaxRotatingSubsystem {
                     SparkMAXLite.ControlType.kSmartMotion, super.SMARTMOTION_SLOT,
                     calculateFeedForward(shoulderAngle, this.getCurrentAngleInDegrees()));
         }
+    }
+    //TODO: Move to mustang lib after testing
+    public double getSetpoint() {
+        return setpoint;
     }
 
     public void setEncoderPositionFromAbsolute() {
