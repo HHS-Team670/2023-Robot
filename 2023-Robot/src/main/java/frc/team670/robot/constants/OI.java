@@ -11,6 +11,7 @@ import frc.team670.robot.commands.vision.AutoAlign;
 import frc.team670.robot.subsystems.Claw;
 import frc.team670.robot.commands.vision.IsLockedOn;
 import frc.team670.robot.subsystems.DriveBase;
+import frc.team670.robot.subsystems.PoseEstimatorSubsystem;
 import frc.team670.robot.subsystems.Vision;
 import frc.team670.robot.commands.arm.MoveToTarget;
 import frc.team670.robot.commands.claw.ClawEject;
@@ -50,14 +51,15 @@ public class OI extends OIBase {
     public void configureButtonBindings(MustangSubsystemBase... subsystemBases) {
         DriveBase driveBase = (DriveBase) subsystemBases[0];
         Vision vision = (Vision) subsystemBases[1];
-        Arm arm = (Arm) subsystemBases[2];
-        Claw claw = (Claw) subsystemBases[3];
+        PoseEstimatorSubsystem poseEstimatorSubsystem = (PoseEstimatorSubsystem) subsystemBases[2];
+        Arm arm = (Arm) subsystemBases[3];
+        Claw claw = (Claw) subsystemBases[4];
 
         driveBase.initDefaultCommand();
         vision.initDefaultCommand(new IsLockedOn(driveBase, vision, null));
 
         zeroGyro.onTrue(new SetSwerveForwardDirection(driveBase, arm));
-        moveToTarget.onTrue(new AutoAlign(vision, driveBase));
+        moveToTarget.onTrue(new AutoAlign(vision, driveBase, poseEstimatorSubsystem));
         // move.onTrue(new MoveToPose(driveBase, new Pose2d(1, 1, new Rotation2d()), true));
 
         // Arm movement commands
