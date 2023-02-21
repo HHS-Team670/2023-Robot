@@ -21,7 +21,7 @@ body {
     z-index: 999;
 }
 
-@keyframes borderBlink {    
+@keyframes borderBlinkAlign {    
     from, to {    
         border-color: transparent    
     }    
@@ -30,9 +30,22 @@ body {
     }    
 }  
 
-/* .aligned {
-    animation: borderBlink 0.5s step-end infinite;    
-} */
+@keyframes borderBlinkLevel {    
+    from, to {    
+        border-color: transparent    
+    }    
+    50% {    
+        border-color: rgb(255, 140, 0)    
+    }    
+}  
+
+.aligned {
+    animation: borderBlinkAlign 0.5s step-end infinite;    
+}
+
+.leveled {
+    animation: borderBlinkLevel 0.5s step-end infinite;    
+}
 
 
 button, input[type="text"], input[type="number"], .select-container, select {

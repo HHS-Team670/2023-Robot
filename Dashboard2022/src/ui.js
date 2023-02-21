@@ -77,6 +77,11 @@ NetworkTables.addKeyListener('/SmartDashboard/pitch', (key, value) => {
     line.style.transform = `rotate(${angle}deg)`;
 })
 
+NetworkTables.addKeyListener('/SmartDashboard/yaw', (key, value) => {
+    var angle = 2*value;
+})
+
+
 
 // listens for robot-state and updates status lights and auton chooser accordingly
 NetworkTables.addKeyListener('/SmartDashboard/robot-state', (key, value) => {
@@ -129,28 +134,22 @@ NetworkTables.addKeyListener('/SmartDashboard/Conveyor Ball Count', (key, value)
 
 // updates status lights for driveBase
 NetworkTables.addKeyListener('/SmartDashboard/aligned', (key, value) => {
-
     var body = document.querySelector('body');
-    if (value && body.className !== "aligned") {
-        body.setAttribute('class', 'aligned');
-    } else if (!value && body.className === "aligned") {
-        body.removeAttribute('class')
+    if (value && !body.classList.contains("aligned")) {
+        body.classList.add("aligned");
+    } else if (!value && body.classList.contains("aligned")) {
+        body.classList.remove("aligned");
     }
 });
 
 
 NetworkTables.addKeyListener('/SmartDashboard/level', (key, value) => { // TODO change key listener
-
-    var level_indicator = document.querySelector('div#level-indicator');
-    // var login = document.querySelector("#login");
-    // if (value) {
-    //     var level_indicator = ` <div id="level-indicator"> <h1>LEVEL</h1> </div>`;
-    //     login.insertAdjacentHTML("afterend", level_indicator)
-    // } else {
-    //     body.removeChild(login.getElemen)
-    // }
-   
-    value ? level_indicator.style.display = "block" : level_indicator.style.display = "none"; 
+    var body = document.querySelector('body');
+    if (value && !body.classList.contains("leveled")) {
+        body.classList.add("leveled");
+    } else if (!value && body.classList.contains("leveled")) {
+        body.classList.remove("leveled");
+    }
 });
 
 
