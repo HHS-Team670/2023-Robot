@@ -54,13 +54,13 @@ public class PathFindMoveToPose extends CommandBase implements MustangCommand {
 		List<PoseNode> fullPath = new ArrayList<PoseNode>();
 
 		AStarMap.addNode(startPoint);
-		if (AStarMap.addEdge(new PoseEdge(startPoint, finalPosition), obstacles)) {
+		if (AStarMap.addObstacleToEdge(new PoseEdge(startPoint, finalPosition), obstacles)) {
 			fullPath.add(0, startPoint);
 			fullPath.add(1, finalPosition);
 		} else {
 			for (int i = 0; i < AStarMap.getNodeSize(); i++) {
 				PoseNode endNode = AStarMap.getNode(i);
-				AStarMap.addEdge(new PoseEdge(startPoint, endNode), obstacles);
+				AStarMap.addObstacleToEdge(new PoseEdge(startPoint, endNode), obstacles);
 			}
 			fullPath = AStarMap.findPath(startPoint, finalPosition);
 		}

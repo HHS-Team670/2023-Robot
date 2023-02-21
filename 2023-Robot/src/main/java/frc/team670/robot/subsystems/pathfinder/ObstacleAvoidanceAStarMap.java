@@ -12,7 +12,7 @@ import frc.team670.robot.subsystems.pathfinder.Obstacle.PolygonDouble;
 public class ObstacleAvoidanceAStarMap extends AStarMap {
 
     // Add an edge to the navigation mesh
-    public boolean addEdge(PoseEdge edge, List<Obstacle> obstacles) {
+    public boolean addObstacleToEdge(PoseEdge edge, List<Obstacle> obstacles) {
         for (Obstacle obstacle : obstacles) {
             PolygonDouble polygon = obstacle.polygon;
             for (int i = 0; i < polygon.npoints; i++) {
