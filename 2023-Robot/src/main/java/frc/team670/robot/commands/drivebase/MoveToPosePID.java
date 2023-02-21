@@ -21,7 +21,7 @@ import frc.team670.mustanglib.utils.MustangController;
 import frc.team670.robot.constants.RobotConstants;
 
 /**
- * MoveToPose
+ * MoveToPosePID - NOT USED
  */
 public class MoveToPosePID extends CommandBase implements MustangCommand {
     private SwerveDrive swerve;

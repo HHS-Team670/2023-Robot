@@ -21,6 +21,7 @@ import frc.team670.robot.commands.claw.ClawEject;
 import frc.team670.robot.commands.claw.ClawIntake;
 import frc.team670.robot.subsystems.Claw;
 import frc.team670.robot.subsystems.DriveBase;
+import frc.team670.robot.subsystems.PoseEstimatorSubsystem;
 import frc.team670.robot.subsystems.arm.Arm;
 import frc.team670.robot.subsystems.arm.ArmState;
 
@@ -33,7 +34,7 @@ public class ConeCube extends SequentialCommandGroup implements MustangCommand {
     }
 
 
-    public ConeCube(DriveBase driveBase, Claw claw, Arm arm, String pathName) {
+    public ConeCube(DriveBase driveBase, PoseEstimatorSubsystem poseEstimatorSubsystem, Claw claw, Arm arm, String pathName) {
         this.pathName = pathName;
         List<PathPlannerTrajectory> trajectoryGroup = PathPlanner.loadPathGroup(pathName, 1.0, 0.5);
 
@@ -55,7 +56,7 @@ public class ConeCube extends SequentialCommandGroup implements MustangCommand {
 
         SwerveDriveKinematics driveBaseKinematics = driveBase.getSwerveKinematics();
 
-        SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(driveBase::getOdometerPose,
+        SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(poseEstimatorSubsystem::getCurrentPose,
                 driveBase::resetOdometry, driveBaseKinematics, PID_translation, PID_theta,
                 driveBase::setModuleStates, eventMap, false, new Subsystem[] {driveBase});
 

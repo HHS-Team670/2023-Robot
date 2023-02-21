@@ -117,14 +117,11 @@ public class PoseEstimatorSubsystem extends MustangSubsystemBase {
 
     @Override
     public HealthState checkHealth() {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public void debugSubsystem() {
-        // TODO Auto-generated method stub
-        
     }
 
 }

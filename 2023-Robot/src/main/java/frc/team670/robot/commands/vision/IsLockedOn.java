@@ -15,6 +15,7 @@ import frc.team670.mustanglib.subsystems.VisionSubsystemBase;
 import frc.team670.mustanglib.subsystems.drivebase.SwerveDrive;
 import frc.team670.robot.constants.FieldConstants;
 import frc.team670.robot.constants.RobotConstants;
+import frc.team670.robot.subsystems.DriveBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -22,12 +23,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class IsLockedOn extends CommandBase implements MustangCommand {
 
-    private SwerveDrive driveBase;
+    private DriveBase driveBase;
     private VisionSubsystemBase vision;
     private ArrayList<Pose2d> scoringPoses = new ArrayList<>();
     private Pose2d currentPose = null;
 
-    public IsLockedOn(SwerveDrive driveBase, VisionSubsystemBase vision, Pose2d targetPose) {
+    public IsLockedOn(DriveBase driveBase, VisionSubsystemBase vision, Pose2d targetPose) {
         this.driveBase = driveBase;
         this.vision = vision;
         addRequirements(vision);
@@ -36,7 +37,7 @@ public class IsLockedOn extends CommandBase implements MustangCommand {
             scoringPoses.add(tag.pose.toPose2d());
     }
 
-    public IsLockedOn(SwerveDrive driveBase, VisionSubsystemBase vision, int bruh) {
+    public IsLockedOn(DriveBase driveBase, VisionSubsystemBase vision, int bruh) {
         this.driveBase = driveBase;
         this.vision = vision;
         addRequirements(driveBase, vision);

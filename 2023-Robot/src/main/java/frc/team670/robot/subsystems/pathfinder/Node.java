@@ -6,6 +6,7 @@ import java.util.List;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import frc.team670.mustanglib.subsystems.drivebase.SwerveDrive;
+import frc.team670.robot.subsystems.PoseEstimatorSubsystem;
 
 /*
  * Credits: Hemlock 5712
@@ -30,10 +31,10 @@ public class Node {
     this.neighbors = new ArrayList<>();
   }
 
-  public Node(SwerveDrive p) {
-    this.x = p.getOdometerPose().getX();
-    this.y = p.getOdometerPose().getY();
-    this.holonomicRotation = p.getOdometerPose().getRotation();
+  public Node(PoseEstimatorSubsystem p) {
+    this.x = p.getCurrentPose().getX();
+    this.y = p.getCurrentPose().getY();
+    this.holonomicRotation = p.getCurrentPose().getRotation();
     this.neighbors = new ArrayList<>();
   }
 

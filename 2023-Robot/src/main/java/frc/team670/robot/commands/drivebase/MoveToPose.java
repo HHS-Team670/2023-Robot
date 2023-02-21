@@ -17,14 +17,16 @@ import frc.team670.mustanglib.commands.MustangCommand;
 import frc.team670.mustanglib.commands.MustangScheduler;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase.HealthState;
-import frc.team670.mustanglib.subsystems.drivebase.SwerveDrive;
+import frc.team670.robot.subsystems.DriveBase;
+import frc.team670.robot.subsystems.PoseEstimatorSubsystem;
 import frc.team670.mustanglib.utils.MustangController;
 
 /**
  * MoveToPose - moves to specified pose. Cancels when button is released.
  */
 public class MoveToPose extends CommandBase implements MustangCommand {
-    private SwerveDrive swerve;
+    private DriveBase driveBase;
+    private PoseEstimatorSubsystem poseEstimatorSubsystem;
     private MustangController controller;
     private Pose2d goalPose;
     private PathPlannerTrajectory path;
@@ -33,24 +35,26 @@ public class MoveToPose extends CommandBase implements MustangCommand {
     private MustangScheduler scheduler = MustangScheduler.getInstance();
     private MustangPPSwerveControllerCommand moveCommand = null;
 
-    public MoveToPose(SwerveDrive swerve, Pose2d goalPose) {
-        this.swerve = swerve;
+    public MoveToPose(DriveBase driveBase, PoseEstimatorSubsystem poseEstimatorSubsystem, Pose2d goalPose) {
+        this.driveBase = driveBase;
+        this.poseEstimatorSubsystem = poseEstimatorSubsystem;
         this.controller = null;
         path = null;
         this.goalPose = goalPose;
         this.healthReqs = new HashMap<MustangSubsystemBase, HealthState>();
-        this.healthReqs.put(swerve, HealthState.GREEN);
-        addRequirements(swerve);
+        this.healthReqs.put(driveBase, HealthState.GREEN);
+        addRequirements(driveBase);
     }
 
-    public MoveToPose(SwerveDrive swerve, Pose2d goalPose, MustangController controller) {
-        this.swerve = swerve;
+    public MoveToPose(DriveBase driveBase, PoseEstimatorSubsystem poseEstimatorSubsystem, Pose2d goalPose, MustangController controller) {
+        this.driveBase = driveBase;
+        this.poseEstimatorSubsystem = poseEstimatorSubsystem;
         this.controller = controller;
         path = null;
         this.goalPose = goalPose;
         this.healthReqs = new HashMap<MustangSubsystemBase, HealthState>();
-        this.healthReqs.put(swerve, HealthState.GREEN);
-        addRequirements(swerve);
+        this.healthReqs.put(driveBase, HealthState.GREEN);
+        addRequirements(driveBase);
     }
 
     @Override
@@ -62,16 +66,9 @@ public class MoveToPose extends CommandBase implements MustangCommand {
     public void initialize() {
         path = PathPlanner.generatePath(new PathConstraints(1, 0.5), calcStartPoint(),
                 calcEndPoint(goalPose));
-
-        // TODO: TUNE PID CONTROLLERS
-        PIDController xController = new PIDController(3, 0, 0);
-        PIDController yController = new PIDController(3, 0, 0);
-        PIDController thetaController = new PIDController(0.2, 0, 0);
-
-        moveCommand = new MustangPPSwerveControllerCommand(path, swerve::getOdometerPose,
-                swerve.getSwerveKinematics(), xController, yController, thetaController,
-                swerve::setModuleStates, new Subsystem[] {swerve});
-        scheduler.schedule(moveCommand, swerve);
+        
+        moveCommand = driveBase.getFollowTrajectoryCommand(path, poseEstimatorSubsystem);
+        scheduler.schedule(moveCommand, driveBase);
     }
 
     @Override
@@ -88,12 +85,12 @@ public class MoveToPose extends CommandBase implements MustangCommand {
 
 
     private PathPoint calcStartPoint() {
-        return new PathPoint(swerve.getOdometerPose().getTranslation(), new Rotation2d(),
-                swerve.getGyroscopeRotation());
+        return new PathPoint(poseEstimatorSubsystem.getCurrentPose().getTranslation(), new Rotation2d(),
+                driveBase.getGyroscopeRotation());
     }
 
     private PathPoint calcEndPoint(Pose2d targetPose) {
         return new PathPoint(targetPose.getTranslation(), new Rotation2d(),
-                swerve.getGyroscopeRotation());
+                driveBase.getGyroscopeRotation());
     }
 }

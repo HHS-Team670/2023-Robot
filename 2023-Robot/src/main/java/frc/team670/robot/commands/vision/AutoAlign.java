@@ -17,6 +17,8 @@ import frc.team670.mustanglib.subsystems.drivebase.SwerveDrive;
 import frc.team670.robot.commands.drivebase.MoveToPose;
 import frc.team670.robot.constants.FieldConstants;
 import frc.team670.robot.constants.RobotConstants;
+import frc.team670.robot.subsystems.DriveBase;
+import frc.team670.robot.subsystems.PoseEstimatorSubsystem;
 import frc.team670.robot.subsystems.Vision;
 
 /**
@@ -26,25 +28,29 @@ import frc.team670.robot.subsystems.Vision;
 public class AutoAlign extends InstantCommand implements MustangCommand {
 
     private VisionSubsystemBase vision;
-    private SwerveDrive swerve;
+    private DriveBase driveBase;
+    private PoseEstimatorSubsystem poseEstimatorSubsystem;
     private MustangScheduler scheduler = MustangScheduler.getInstance();
     private Pose2d targetPose;
+    
 
-    public AutoAlign(VisionSubsystemBase vision, SwerveDrive swerve) {
+    public AutoAlign(VisionSubsystemBase vision, DriveBase driveBase, PoseEstimatorSubsystem poseEstimatorSubsystem) {
         this.vision = vision;
-        this.swerve = swerve;
+        this.driveBase = driveBase;
+        this.poseEstimatorSubsystem = poseEstimatorSubsystem;
         targetPose = null;
     }
 
-    public AutoAlign(VisionSubsystemBase vision, SwerveDrive swerve, Pose2d targetPose) {
+    public AutoAlign(VisionSubsystemBase vision, DriveBase driveBase, PoseEstimatorSubsystem poseEstimatorSubsystem, Pose2d targetPose) {
         this.vision = vision;
-        this.swerve = swerve;
+        this.driveBase = driveBase;
+        this.poseEstimatorSubsystem = poseEstimatorSubsystem;
         this.targetPose = targetPose;
     }
 
     @Override
     public void initialize() {
-        Pose2d robotPose = swerve.getOdometerPose();
+        Pose2d robotPose = ;
 
         // find pose of nearest target if none supplied
         if (targetPose == null)
@@ -53,18 +59,8 @@ public class AutoAlign extends InstantCommand implements MustangCommand {
         // transform by offset (to not crash)
         Pose2d goalPose = targetPose.transformBy(FieldConstants.GRID_TO_TARGET_OFFSET(targetPose));
 
-        scheduler.schedule(new IsLockedOn(swerve, vision, targetPose), swerve);
-        scheduler.schedule(new MoveToPose(swerve, goalPose), swerve);
-        // String command = "";
-        // if (distance < 1)
-        // // command = "PID";
-        // scheduler.schedule(new MoveToPosePID(swerve, goalPose, false), swerve);
-        // else
-        // scheduler.schedule(new MoveToPose(swerve, goalPose, false), swerve);
-        // // command = "path planner";
-        // SmartDashboard.putString("move to pose type: ", command);
-        // move to target pose, make sure dont crash into target
-
+        scheduler.schedule(new IsLockedOn(driveBase, vision, targetPose), driveBase);
+        scheduler.schedule(new MoveToPose(driveBase, poseEstimatorSubsystem, goalPose), driveBase);
     }
 
 

@@ -5,15 +5,18 @@
 package frc.team670.robot.subsystems;
 
 
-import frc.team670.mustanglib.swervelib.SdsModuleConfigurations;
-import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
+import com.pathplanner.lib.PathPlannerTrajectory;
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.team670.mustanglib.commands.MustangCommand;
 import frc.team670.mustanglib.commands.MustangScheduler;
 import frc.team670.mustanglib.commands.drive.teleop.XboxSwerveDrive;
-import frc.team670.mustanglib.constants.*;
+import frc.team670.mustanglib.constants.SwerveConfig;
 import frc.team670.mustanglib.subsystems.drivebase.SwerveDrive;
+import frc.team670.mustanglib.swervelib.SdsModuleConfigurations;
 // import frc.team670.mustanglib.utils.Logger;
 import frc.team670.mustanglib.utils.MustangController;
+import frc.team670.robot.commands.drivebase.MustangPPSwerveControllerCommand;
 import frc.team670.robot.constants.RobotConstants;
 
 public class DriveBase extends SwerveDrive {
@@ -68,8 +71,7 @@ public class DriveBase extends SwerveDrive {
                         RobotConstants.BACK_RIGHT_MODULE_DRIVE_MOTOR,
                         RobotConstants.BACK_RIGHT_MODULE_STEER_MOTOR,
                         RobotConstants.BACK_RIGHT_MODULE_STEER_ENCODER,
-                        RobotConstants.BACK_RIGHT_MODULE_STEER_OFFSET)
-                  );
+                        RobotConstants.BACK_RIGHT_MODULE_STEER_OFFSET));
             this.mController = mustangController;
       }
 
@@ -77,8 +79,9 @@ public class DriveBase extends SwerveDrive {
       /**
        * Makes the DriveBase's default command initialize teleop
        */
-      public void initDefaultCommand() {  // TODO: switch to super class's init default command
-            defaultCommand = new XboxSwerveDrive(this, mController, MAX_VELOCITY_METERS_PER_SECOND, MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND);
+      public void initDefaultCommand() { // TODO: switch to super class's init default command
+            defaultCommand = new XboxSwerveDrive(this, mController, MAX_VELOCITY_METERS_PER_SECOND,
+                        MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND);
             MustangScheduler.getInstance().setDefaultCommand(this, defaultCommand);
       }
 
@@ -94,4 +97,13 @@ public class DriveBase extends SwerveDrive {
       @Override
       public void debugSubsystem() {}
 
+      public MustangPPSwerveControllerCommand getFollowTrajectoryCommand(PathPlannerTrajectory traj,
+                  PoseEstimatorSubsystem p) {
+
+
+            return new MustangPPSwerveControllerCommand(traj, p::getCurrentPose,
+                        getSwerveKinematics(), RobotConstants.xController,
+                        RobotConstants.yController, RobotConstants.thetaController,
+                        this::setModuleStates, new Subsystem[] {this});
+      }
 }
