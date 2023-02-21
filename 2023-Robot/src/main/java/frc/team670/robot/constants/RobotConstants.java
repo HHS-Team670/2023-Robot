@@ -69,11 +69,11 @@ public final class RobotConstants extends RobotConstantsBase {
                         entry("WRIST_GEAR_RATIO",0.0)
                     )
                 ),
-            entry("00:80:2F:24:4A:34", Map.ofEntries( // The mac address is from 670_MadMax
-                        entry("BACK_RIGHT_MODULE_STEER_OFFSET", -Math.toRadians(292.5)),
-                        entry("BACK_LEFT_MODULE_STEER_OFFSET", -Math.toRadians(232.91)),
-                        entry("FRONT_RIGHT_MODULE_STEER_OFFSET", -Math.toRadians(352.35)),
-                        entry("FRONT_LEFT_MODULE_STEER_OFFSET", -Math.toRadians(136.67)),
+            entry("00:80:2F:33:D0:46", Map.ofEntries( // The mac address is from 670_2023
+                        entry("BACK_RIGHT_MODULE_STEER_OFFSET", -Math.toRadians(151.699)),
+                        entry("BACK_LEFT_MODULE_STEER_OFFSET", -Math.toRadians(0.879)),
+                        entry("FRONT_RIGHT_MODULE_STEER_OFFSET", -Math.toRadians(232.119)),
+                        entry("FRONT_LEFT_MODULE_STEER_OFFSET", -Math.toRadians(336.709)),
                         entry("SHOULDER_ABSOLUTE_ENCODER_AT_VERTICAL", 0.0),
                         entry("ELBOW_ABSOLUTE_ENCODER_AT_VERTICAL", 0.0),
                         entry("WRIST_ABSOLUTE_ENCODER_AT_VERTICAL", 0.0),
