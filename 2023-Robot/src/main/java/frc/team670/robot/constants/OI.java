@@ -10,7 +10,6 @@ import frc.team670.mustanglib.utils.MustangController.XboxButtons;
 import frc.team670.robot.commands.vision.AutoAlign;
 import frc.team670.robot.subsystems.Claw;
 import frc.team670.robot.commands.vision.IsLockedOn;
-import frc.team670.robot.commands.vision.IsLockedOn;
 import frc.team670.robot.subsystems.DriveBase;
 import frc.team670.robot.subsystems.Vision;
 import frc.team670.robot.commands.arm.MoveToTarget;

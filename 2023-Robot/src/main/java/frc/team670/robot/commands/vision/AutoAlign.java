@@ -15,54 +15,52 @@ import frc.team670.mustanglib.subsystems.VisionSubsystemBase;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase.HealthState;
 import frc.team670.mustanglib.subsystems.drivebase.SwerveDrive;
 import frc.team670.robot.commands.drivebase.MoveToPose;
-import frc.team670.robot.commands.drivebase.MoveToPosePID;
+import frc.team670.robot.constants.FieldConstants;
 import frc.team670.robot.constants.RobotConstants;
 import frc.team670.robot.subsystems.Vision;
 
 /**
- * AutoAlign
+ * AutoAlign - autonomously moves the robot to a given target. If no target is given, it moves to
+ * the closest one.`
  */
 public class AutoAlign extends InstantCommand implements MustangCommand {
 
     private VisionSubsystemBase vision;
     private SwerveDrive swerve;
     private MustangScheduler scheduler = MustangScheduler.getInstance();
+    private Pose2d targetPose;
 
     public AutoAlign(VisionSubsystemBase vision, SwerveDrive swerve) {
         this.vision = vision;
         this.swerve = swerve;
+        targetPose = null;
+    }
+
+    public AutoAlign(VisionSubsystemBase vision, SwerveDrive swerve, Pose2d targetPose) {
+        this.vision = vision;
+        this.swerve = swerve;
+        this.targetPose = targetPose;
     }
 
     @Override
     public void initialize() {
-        // find pose of nearest target
         Pose2d robotPose = swerve.getPose();
-        var result = vision.getCameras()[0].getLatestResult();
-        if (!result.hasTargets()) return;
 
-        var camToTarget = result.getBestTarget().getBestCameraToTarget();
-        Transform2d transform = new Transform2d(camToTarget.getTranslation().toTranslation2d(),
-                camToTarget.getRotation().toRotation2d());
-        Transform2d camOffset2d = new Transform2d(RobotConstants.CAMERA_OFFSET.getTranslation().toTranslation2d(), 
-        RobotConstants.CAMERA_OFFSET.getRotation().toRotation2d());
-        Pose2d cameraPose = robotPose.transformBy(camOffset2d.inverse());
-        Pose2d targetPose = cameraPose.transformBy(transform);
+        // find pose of nearest target if none supplied
+        if (targetPose == null)
+            targetPose = getClosestTargetPose(robotPose);
 
         // transform by offset (to not crash)
-        Pose2d goalPose = targetPose.transformBy(RobotConstants.GRID_TO_TARGET_OFFSET);
-        SmartDashboard.putNumber("goal pose x", goalPose.getX());
-        SmartDashboard.putNumber("goal pose y", goalPose.getY());
+        Pose2d goalPose = targetPose.transformBy(FieldConstants.GRID_TO_TARGET_OFFSET(targetPose));
 
-        double distance = getDistance(transform.getX(), transform.getY());
-        SmartDashboard.putNumber("goal pose distance", distance);
-
+        scheduler.schedule(new IsLockedOn(swerve, vision, targetPose), swerve);
         scheduler.schedule(new MoveToPose(swerve, goalPose, false), swerve);
         // String command = "";
         // if (distance < 1)
         // // command = "PID";
         // scheduler.schedule(new MoveToPosePID(swerve, goalPose, false), swerve);
         // else
-        //     scheduler.schedule(new MoveToPose(swerve, goalPose, false), swerve);
+        // scheduler.schedule(new MoveToPose(swerve, goalPose, false), swerve);
         // // command = "path planner";
         // SmartDashboard.putString("move to pose type: ", command);
         // move to target pose, make sure dont crash into target
@@ -76,7 +74,24 @@ public class AutoAlign extends InstantCommand implements MustangCommand {
         return null;
     }
 
-    private double getDistance(double x, double y) {
-        return Math.sqrt(x * x + y * y);
+    private Pose2d getClosestTargetPose(Pose2d robotPose) {
+        Pose2d targetPose = FieldConstants.CONE_POSES[0];
+        for (int i = 1; i < FieldConstants.CONE_POSES.length; i++) {
+            double distance = FieldConstants.CONE_POSES[i].getTranslation()
+                    .getDistance(robotPose.getTranslation());
+            double minDistance =
+                    targetPose.getTranslation().getDistance(robotPose.getTranslation());
+            if (distance < minDistance)
+                targetPose = FieldConstants.CONE_POSES[i];
+        }
+        for (int i = 0; i < FieldConstants.APRILTAGS.length; i++) {
+            double distance = FieldConstants.APRILTAGS[i].pose.toPose2d().getTranslation()
+                    .getDistance(robotPose.getTranslation());
+            double minDistance =
+                    targetPose.getTranslation().getDistance(robotPose.getTranslation());
+            if (distance < minDistance)
+                targetPose = FieldConstants.APRILTAGS[i].pose.toPose2d();
+        }
+        return targetPose;
     }
 }

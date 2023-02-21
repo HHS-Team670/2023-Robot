@@ -171,8 +171,6 @@ public final class RobotConstants extends RobotConstantsBase {
             new Transform3d(new Translation3d(0, 0, 0), new Rotation3d(0, 0, 0));
     // new Transform2d(new Translation2d(0, 0), new Rotation2d(0)); // TODO: changed when camera
     // actually mounted, may need to change based on robot
-    public static final Transform2d GRID_TO_TARGET_OFFSET =
-            new Transform2d(new Translation2d(1, 0), new Rotation2d(0)); // TODO: check game manual
                                                                          // for actual specs
     public static final double LOCKED_ON_ERROR_X = 0.3; // TODO: test what angles are appropriate
                                                         // for grabbing
