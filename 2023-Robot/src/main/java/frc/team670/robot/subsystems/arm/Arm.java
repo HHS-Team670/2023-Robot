@@ -6,6 +6,7 @@ import java.util.PriorityQueue;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
+import frc.team670.robot.constants.RobotConstants;
 
 /**
  * Represents the whole Arm system, containing multiple joints.
@@ -78,6 +79,8 @@ public class Arm extends MustangSubsystemBase {
      */
     public void moveToTarget(ArmState target) {
         this.targetState = target;
+        this.elbowOffset = 0;
+        this.shoulderOffset = 0;
         // elbow.setSystemTargetAngleInDegrees(target.getElbowAngle());
         // shoulder.setSystemTargetAngleInDegrees(target.getShoulderAngle());
 
@@ -98,16 +101,28 @@ public class Arm extends MustangSubsystemBase {
     }
 
     public void setArmOffsets(double elbowOffset, double shoulderOffset) {
+        if (Math.abs(elbowOffset) > RobotConstants.ELBOW_MAX_OVERRIDE_DEGREES) {
+            elbowOffset = RobotConstants.ELBOW_MAX_OVERRIDE_DEGREES * elbowOffset / Math.abs(elbowOffset);
+        }
+        if (Math.abs(shoulderOffset) > RobotConstants.SHOULDER_MAX_OVERRIDE_DEGREES) {
+            shoulderOffset = RobotConstants.SHOULDER_MAX_OVERRIDE_DEGREES * shoulderOffset / Math.abs(shoulderOffset);
+        }
         this.elbowOffset = elbowOffset;
         this.shoulderOffset = shoulderOffset;
 
     }
 
     public void setElbowOffset(double elbowOffset) {
+        if (Math.abs(elbowOffset) > RobotConstants.ELBOW_MAX_OVERRIDE_DEGREES) {
+            elbowOffset = RobotConstants.ELBOW_MAX_OVERRIDE_DEGREES * elbowOffset / Math.abs(elbowOffset);
+        }
         this.elbowOffset = elbowOffset;
     }
 
     public void setShoulderOffset(double shoulderOffset) {
+        if (Math.abs(shoulderOffset) > RobotConstants.SHOULDER_MAX_OVERRIDE_DEGREES) {
+            shoulderOffset = RobotConstants.SHOULDER_MAX_OVERRIDE_DEGREES * shoulderOffset / Math.abs(shoulderOffset);
+        }
         this.shoulderOffset = shoulderOffset;
     }
 
@@ -189,6 +204,8 @@ public class Arm extends MustangSubsystemBase {
         shoulder.debugSubsystem();
         elbow.debugSubsystem();
         SmartDashboard.putString("Arm target state", getTargetState().toString());
+        SmartDashboard.putNumber("Elbow offset", elbowOffset);
+        SmartDashboard.putNumber("Shoulder offset", shoulderOffset);
     }
 
     static class Pair implements Comparable<Pair> {

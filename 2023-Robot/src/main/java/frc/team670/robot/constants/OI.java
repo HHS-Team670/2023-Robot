@@ -17,6 +17,8 @@ import frc.team670.robot.subsystems.Claw;
 import frc.team670.robot.subsystems.DriveBase;
 import frc.team670.robot.subsystems.Vision;
 import frc.team670.robot.commands.arm.MoveToTarget;
+import frc.team670.robot.commands.arm.ManualMoveElbow;
+import frc.team670.robot.commands.arm.ManualMoveShoulder;
 import frc.team670.robot.commands.claw.ClawEject;
 import frc.team670.robot.commands.claw.ClawIntake;
 import frc.team670.robot.commands.claw.ClawIdle;
@@ -80,7 +82,9 @@ public class OI extends OIBase {
         scoreMidL.onTrue(scheduleMoveToTarget(arm, ArmState.SCORE_MID));
         scoreHigh.onTrue(scheduleMoveToTarget(arm, ArmState.SCORE_HIGH));
         stow.onTrue(scheduleMoveToTarget(arm, ArmState.STOWED));
+        manualShoulderControl.onTrue(new ManualMoveShoulder(arm, operatorController));
 
+        manualElbowControl.onTrue(new ManualMoveElbow(arm, operatorController));
         // Claw control commands
         clawSuck.onTrue(new ClawIntake(claw));
         clawEject.onTrue(new ClawEject(claw));
