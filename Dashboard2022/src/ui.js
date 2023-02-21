@@ -5,7 +5,7 @@ document.getElementById('big-warning').style.display = "none";
 // initial camera settings
 var driveReversed = false;
 var allKeysPressed = new Array();
-
+var angle = 0;
 var selectedPath = "";
 
 function updatePath(evt) {
@@ -71,18 +71,6 @@ function resetAndAddDropdownListeners() {
 }
 
 
-NetworkTables.addKeyListener('/SmartDashboard/pitch', (key, value) => {
-    var angle = 2*value;
-    var line = document.querySelector('#leveling-line');
-    line.style.transform = `rotate(${angle}deg)`;
-})
-
-NetworkTables.addKeyListener('/SmartDashboard/yaw', (key, value) => {
-    var angle = 2*value;
-})
-
-
-
 // listens for robot-state and updates status lights and auton chooser accordingly
 NetworkTables.addKeyListener('/SmartDashboard/robot-state', (key, value) => {
     if (value === "autonomousInit()" || value === "disabledPeriodic()") {
@@ -105,32 +93,13 @@ NetworkTables.addKeyListener('/SmartDashboard/warnings', (key, value) => {
     var timeSinceWarningFlashed = Date.getTime();
 });
 
-NetworkTables.addGlobalListener((key, value) => {
-    // console.log(key + ": " + value);
+
+
+
+
+NetworkTables.addKeyListener('/SmartDashboard/yaw', (key, value) => {
+    var angle = 2*value;
 })
-
-// updates status lights for driveBase
-NetworkTables.addKeyListener('/SmartDashboard/Conveyor Ball Count', (key, value) => {
-    var statusLights = document.getElementById('status-lights-subsystems');
-    var commands = statusLights.contentDocument;
-    document.getElementById('balls-in-robot').textContent = 'Balls in Robot: ' + value;
-
-    document.getElementById('indicator1').style.fill = "rgb(0,0,0)";
-    document.getElementById('indicator1').style.stroke = "rgb(255,255,255)";
-    document.getElementById('indicator2').style.fill = "rgb(0,0,0)";
-    document.getElementById('indicator2').style.stroke = "rgb(255,255,255)";
-
-    if (value > 0) {
-        document.getElementById('indicator1').style.fill = "rgb(0,255,0)";
-        document.getElementById('indicator1').style.stroke = "rgb(255,255,255)";
-    }
-    
-    if (value > 1) {
-        document.getElementById('indicator2').style.fill = "rgb(0,255,0)";
-        document.getElementById('indicator2').style.stroke = "rgb(255,255,255)";
-    }
-});
-
 
 // updates status lights for driveBase
 NetworkTables.addKeyListener('/SmartDashboard/aligned', (key, value) => {
@@ -142,13 +111,25 @@ NetworkTables.addKeyListener('/SmartDashboard/aligned', (key, value) => {
     }
 });
 
+NetworkTables.addKeyListener('/SmartDashboard/pitch', (key, value) => {
+    angle = 2*value;
+})
 
 NetworkTables.addKeyListener('/SmartDashboard/level', (key, value) => { // TODO change key listener
     var body = document.querySelector('body');
-    if (value && !body.classList.contains("leveled")) {
-        body.classList.add("leveled");
-    } else if (!value && body.classList.contains("leveled")) {
-        body.classList.remove("leveled");
+    var line = document.querySelector('#leveling-line');
+    if (value) {
+        line.style.transform = "rotate(0deg)";
+        line.style.borderColor = "rgb(8, 218, 8)";
+        if (!body.classList.contains("leveled")) {
+            body.classList.add("leveled");
+        }
+    } else {
+        line.style.transform = `rotate(${angle}deg)`;
+        line.style.borderColor = "#ff00ff";
+        if (body.classList.contains("leveled")) {
+            body.classList.remove("leveled");
+        }
     }
 });
 
@@ -161,10 +142,6 @@ NetworkTables.addKeyListener('/SmartDashboard/vision-frame-updated', (key, value
     }
 });
 
-// updates robot sped
-NetworkTables.addKeyListener('/SmartDashboard/expectedSpeed', (key, value) => {
-    document.getElementById('speed').textContent = 'Speed: ' + value;
-});
 
 // updates robot angle and direction
     NetworkTables.addKeyListener('/SmartDashboard/vision-values-', (key, value) => {
@@ -184,101 +161,76 @@ NetworkTables.addKeyListener('/SmartDashboard/DriveBase', (key, value) => {
     }
 });
 
-// NetworkTables.addKeyListener('/SmartDashboard/DriveBase', (key, value) => {
-//     var subsystem = document.getElementById('drivebase');
-//     if (value === 'GREEN') {
-//         subsystem.style.backgroundColor = "rgb(0,255,0)";
-//     } else if (value === 'YELLOW') {
-//         subsystem.style.backgroundColor = "rgb(255,255,0)";
-//     } else if (value === 'RED') {
-//         subsystem.style.backgroundColor = "rgb(255,0,0)";
-//     }
-// });
-
-
-// NetworkTables.addKeyListener('/SmartDashboard/DriveBase', (key, value) => {
-//     var subsystem = document.getElementById('drivebase');
-//     if (value === 'GREEN') {
-//         subsystem.style.backgroundColor = "rgb(0,255,0)";
-//     } else if (value === 'YELLOW') {
-//         subsystem.style.backgroundColor = "rgb(255,255,0)";
-//     } else if (value === 'RED') {
-//         subsystem.style.backgroundColor = "rgb(255,0,0)";
-//     }
-// });
-
-// NetworkTables.addKeyListener('/SmartDashboard/DriveBase', (key, value) => {
-//     var subsystem = document.getElementById('drivebase');
-//     if (value === 'GREEN') {
-//         subsystem.style.backgroundColor = "rgb(0,255,0)";
-//     } else if (value === 'YELLOW') {
-//         subsystem.style.backgroundColor = "rgb(255,255,0)";
-//     } else if (value === 'RED') {
-//         subsystem.style.backgroundColor = "rgb(255,0,0)";
-//     }
-// });
-
-
-// NetworkTables.addKeyListener('/SmartDashboard/DriveBase', (key, value) => {
-//     var subsystem = document.getElementById('drivebase');
-//     if (value === 'GREEN') {
-//         subsystem.style.backgroundColor = "rgb(0,255,0)";
-//     } else if (value === 'YELLOW') {
-//         subsystem.style.backgroundColor = "rgb(255,255,0)";
-//     } else if (value === 'RED') {
-//         subsystem.style.backgroundColor = "rgb(255,0,0)";
-//     }
-// });
-
-
-// NetworkTables.addKeyListener('/SmartDashboard/DriveBase', (key, value) => {
-//     var subsystem = document.getElementById('drivebase');
-//     if (value === 'GREEN') {
-//         subsystem.style.backgroundColor = "rgb(0,255,0)";
-//     } else if (value === 'YELLOW') {
-//         subsystem.style.backgroundColor = "rgb(255,255,0)";
-//     } else if (value === 'RED') {
-//         subsystem.style.backgroundColor = "rgb(255,0,0)";
-//     }
-// });
-
-
-// updates status lights for vision
-NetworkTables.addKeyListener('/SmartDashboard/overrided-rpm', (key, value) => {
-    var shooterSpeedIndicator = document.querySelector("#shooter-speed-indicator");
-    switch(value) {
-        case "NOT OVERRIDED":
-            shooterSpeedIndicator.textContent = "USING DYNAMIC SPEED";
-            shooterSpeedIndicator.style.stroke = "white";
-            shooterSpeedIndicator.x.baseVal[0].valueAsString = "20%"
-            document.querySelector("#shooter-speed-indicator-bg").style.fill = "none";
-            break;
-        case "LOW TOUCHING FENDER":
-            shooterSpeedIndicator.textContent = "OVERRIDED: LOW TOUCHING FENDER";
-            shooterSpeedIndicator.style.stroke = "black";
-            shooterSpeedIndicator.x.baseVal[0].valueAsString = "0%"
-            document.querySelector("#shooter-speed-indicator-bg").style.fill = "rgb(0, 255, 255)";
-            break;
-        case "LOW OUTSIDE TARMAC":
-            shooterSpeedIndicator.textContent = "OVERRIDED: LOW OUTSIDE TARMAC";
-            shooterSpeedIndicator.style.stroke = "black";
-            shooterSpeedIndicator.x.baseVal[0].valueAsString = "0%"
-            document.querySelector("#shooter-speed-indicator-bg").style.fill = "rgb(162, 0, 255)";
-            break;
-        case "HIGH JUST OUTSIDE TARMAC":
-            shooterSpeedIndicator.textContent = "OVERRIDED: HIGH JUST OUTSIDE TARMAC";
-            shooterSpeedIndicator.style.stroke = "black";
-            shooterSpeedIndicator.x.baseVal[0].valueAsString = "0%"
-            document.querySelector("#shooter-speed-indicator-bg").style.fill = "rgb(234, 0, 255)";
-            break;
-        default:
-            shooterSpeedIndicator.textContent = "USING DYNAMIC SPEED";
-            shooterSpeedIndicator.style.stroke = "white";
-            shooterSpeedIndicator.x.baseVal[0].valueAsString = "20%"
-            document.querySelector("#shooter-speed-indicator-bg").style.fill = "none";
-            break;
+NetworkTables.addKeyListener('/SmartDashboard/Claw', (key, value) => {
+    var subsystem = document.getElementById('claw');
+    if (value === 'GREEN') {
+        subsystem.style.backgroundColor = "rgb(0,255,0)";
+    } else if (value === 'YELLOW') {
+        subsystem.style.backgroundColor = "rgb(255,255,0)";
+    } else if (value === 'RED') {
+        subsystem.style.backgroundColor = "rgb(255,0,0)";
     }
 });
+
+
+NetworkTables.addKeyListener('/SmartDashboard/Vision', (key, value) => {
+    var subsystem = document.getElementById('vision');
+    if (value === 'GREEN') {
+        subsystem.style.backgroundColor = "rgb(0,255,0)";
+    } else if (value === 'YELLOW') {
+        subsystem.style.backgroundColor = "rgb(255,255,0)";
+    } else if (value === 'RED') {
+        subsystem.style.backgroundColor = "rgb(255,0,0)";
+    }
+});
+
+NetworkTables.addKeyListener('/SmartDashboard/arm', (key, value) => {
+    var subsystem = document.getElementById('arm');
+    if (value === 'GREEN') {
+        subsystem.style.backgroundColor = "rgb(0,255,0)";
+    } else if (value === 'YELLOW') {
+        subsystem.style.backgroundColor = "rgb(255,255,0)";
+    } else if (value === 'RED') {
+        subsystem.style.backgroundColor = "rgb(255,0,0)";
+    }
+});
+
+
+NetworkTables.addKeyListener('/SmartDashboard/elbow', (key, value) => {
+    var subsystem = document.getElementById('elbow');
+    if (value === 'GREEN') {
+        subsystem.style.backgroundColor = "rgb(0,255,0)";
+    } else if (value === 'YELLOW') {
+        subsystem.style.backgroundColor = "rgb(255,255,0)";
+    } else if (value === 'RED') {
+        subsystem.style.backgroundColor = "rgb(255,0,0)";
+    }
+});
+
+
+NetworkTables.addKeyListener('/SmartDashboard/shoulder', (key, value) => {
+    var subsystem = document.getElementById('shoulder');
+    if (value === 'GREEN') {
+        subsystem.style.backgroundColor = "rgb(0,255,0)";
+    } else if (value === 'YELLOW') {
+        subsystem.style.backgroundColor = "rgb(255,255,0)";
+    } else if (value === 'RED') {
+        subsystem.style.backgroundColor = "rgb(255,0,0)";
+    }
+});
+
+NetworkTables.addKeyListener('/SmartDashboard/wrist', (key, value) => {
+    var subsystem = document.getElementById('wrist');
+    if (value === 'GREEN') {
+        subsystem.style.backgroundColor = "rgb(0,255,0)";
+    } else if (value === 'YELLOW') {
+        subsystem.style.backgroundColor = "rgb(255,255,0)";
+    } else if (value === 'RED') {
+        subsystem.style.backgroundColor = "rgb(255,0,0)";
+    }
+});
+
+
 
 
 document.getElementById("confirm-button").onclick = function() {
