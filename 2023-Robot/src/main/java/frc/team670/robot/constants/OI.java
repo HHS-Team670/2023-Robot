@@ -24,6 +24,7 @@ import frc.team670.robot.subsystems.arm.Arm;
 import frc.team670.robot.subsystems.arm.ArmState;
 
 public class OI extends OIBase {
+    private static boolean driverArm = false;
     // Controllers
     private static MustangController driverController = new MustangController(0);
     private static MustangController operatorController = new MustangController(1);
@@ -37,10 +38,21 @@ public class OI extends OIBase {
     // XboxButtons.Y);
 
     // Operator buttons
+
     private static POVButton backward = new POVButton(operatorController, 180);
     private static POVButton scoreMidR = new POVButton(operatorController, 90);
     private static POVButton scoreMidL = new POVButton(operatorController, 270);
     private static POVButton scoreHigh = new POVButton(operatorController, 0);
+
+    // private static JoystickButton backward = new JoystickButton(driverController,
+    // XboxButtons.A);
+    // private static JoystickButton scoreMidR = new
+    // JoystickButton(driverController, XboxButtons.B);
+    // private static JoystickButton scoreMidL = new
+    // JoystickButton(driverController, XboxButtons.X);
+    // private static JoystickButton scoreHigh = new
+    // JoystickButton(driverController, XboxButtons.Y);
+
     private static JoystickButton stow = new JoystickButton(operatorController, XboxButtons.B);
     private static JoystickButton manualElbowControl = new JoystickButton(operatorController,
             XboxButtons.RIGHT_JOYSTICK_BUTTON);

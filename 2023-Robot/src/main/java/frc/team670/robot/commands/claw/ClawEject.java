@@ -12,11 +12,10 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
  * @author Tarini, Samanyu and Ishaan
  */
 
-public class ClawEject extends CommandBase implements MustangCommand 
-{
+public class ClawEject extends CommandBase implements MustangCommand {
     private Claw claw;
     private int timer;
-    
+
     public ClawEject(Claw claw) {
         this.claw = claw;
         addRequirements(claw);
@@ -35,9 +34,7 @@ public class ClawEject extends CommandBase implements MustangCommand
 
     @Override
     public boolean isFinished() {
-        // some arbitrary amount of time until ejection is finished
-        // TODO: adjust length of time or find a better way to check for finishing ejection
-        return timer > 25;
+        return !claw.isFull();
     }
 
     @Override
