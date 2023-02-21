@@ -21,13 +21,14 @@ public class Arm extends MustangSubsystemBase {
     private VoltageCalculator voltageCalculator;
 
     private static final ArmState[][] VALID_PATHS_GRAPH = new ArmState[][] {
-            { ArmState.TUNING, ArmState.SCORE_MID, ArmState.INTERMEDIATE_BACKWARD_GROUND }, // STOWED
+            { ArmState.TUNING, ArmState.INTERMEDIATE_SCORE, ArmState.INTERMEDIATE_BACKWARD_GROUND }, // STOWED
             { ArmState.SCORE_MID}, // HYBRID
-            { ArmState.STOWED, ArmState.SCORE_HIGH, ArmState.HYBRID}, // SCORE_MID
-            { ArmState.SCORE_MID }, // SCORE_HIGH
-            { ArmState.BACKWARD_GROUND, ArmState.STOWED}, // INTERMEDIATE_BACKWARD_GROUND
-            { ArmState.INTERMEDIATE_BACKWARD_GROUND }, // BACKWARD_GROUND
+            { ArmState.INTERMEDIATE_SCORE, ArmState.SCORE_HIGH, ArmState.HYBRID}, // SCORE_MID
+            { ArmState.SCORE_MID, ArmState.INTERMEDIATE_BACKWARD_GROUND, ArmState.INTERMEDIATE_SCORE }, // SCORE_HIGH
+            { ArmState.BACKWARD_GROUND, ArmState.STOWED, ArmState.INTERMEDIATE_SCORE}, // INTERMEDIATE_BACKWARD_GROUND
+            { ArmState.INTERMEDIATE_BACKWARD_GROUND, ArmState.INTERMEDIATE_SCORE }, // BACKWARD_GROUND
             { ArmState.STOWED }, // TUNING
+            { ArmState.STOWED, ArmState.SCORE_MID, ArmState.INTERMEDIATE_BACKWARD_GROUND, ArmState.SCORE_HIGH }, // INTERMEDIATE_SCORE
 
     };
 
@@ -58,14 +59,12 @@ public class Arm extends MustangSubsystemBase {
 
     @Override
     public HealthState checkHealth() {
-        if (elbow.checkHealth() == HealthState.RED) {
-            return HealthState.RED;
-        }
-
+        //If one or more joints are RED, then Arm is RED
         if (shoulder.checkHealth() == HealthState.RED || elbow.checkHealth() == HealthState.RED || wrist.checkHealth() == HealthState.RED) {
             return HealthState.RED;
         }
 
+        //If one or more joints are YELLOW, and none are RED, then Arm is YELLOW
         if(shoulder.checkHealth() == HealthState.YELLOW || elbow.checkHealth() == HealthState.YELLOW || wrist.checkHealth() == HealthState.YELLOW) {
             return HealthState.YELLOW;
         }
@@ -112,7 +111,7 @@ public class Arm extends MustangSubsystemBase {
      */
     public void updateArbitraryFeedForward() {
         //The -90 here is so that the first joint's position is relative to the GROUND.
-        ArrayList<Double> voltages = voltageCalculator.calculateVoltages(shoulder.getCurrentAngleInDegrees()-90, elbow.getCurrentAngleInDegrees(), wrist.getCurrentAngleInDegrees());
+        ArrayList<Double> voltages = voltageCalculator.calculateVoltages(shoulder.getCurrentAngleInDegrees() - 90, elbow.getCurrentAngleInDegrees(), wrist.getCurrentAngleInDegrees());
         
         elbow.updateArbitraryFeedForward(voltages.get(0));
         shoulder.updateArbitraryFeedForward(voltages.get(1));
@@ -200,7 +199,7 @@ public class Arm extends MustangSubsystemBase {
         double wristAngle = wrist.getCurrentAngleInDegrees();
 
         ArmState closestState = ArmState.STOWED;
-        double closestStateDistance = 10000; //high number so first one will be less
+        double closestStateDistance = 10000; //Intentionally high number. The first state checked will be less
 
         for (ArmState state : ArmState.values()) {
             double shoulderDistance = Math.abs(state.getShoulderAngle() - shoulderAngle);

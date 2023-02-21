@@ -1,7 +1,5 @@
 package frc.team670.robot.constants;
 
-import edu.wpi.first.wpilibj.DutyCycle;
-
 public class RobotMap {
 
     public static final int PDP_ID = 0;

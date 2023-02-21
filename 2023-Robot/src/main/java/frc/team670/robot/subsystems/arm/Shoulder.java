@@ -126,7 +126,6 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
         follower = SparkMAXFactory.setPermanentFollower(RobotMap.SHOULDER_FOLLOWER_MOTOR, rotator, true);
         follower.setIdleMode(IdleMode.kBrake);
         absEncoder = new DutyCycleEncoder(RobotMap.SHOULDER_ABSOLUTE_ENCODER);
-        SmartDashboard.putNumber("shoulder arbitary feed forward value", RobotConstants.SHOULDER_ARBITRARY_FF);
     }
 
     /**
@@ -138,8 +137,8 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
     }
 
     /**
-     * The calculated voltage, returned from VoltageCalculator
-     * @param voltage
+     * Updates the arbitraryFF value to counteract gravity
+     * @param voltage The calculated voltage, returned from VoltageCalculator
      */
     public void updateArbitraryFeedForward(double voltage) {
         if (setpoint != SparkMaxRotatingSubsystem.NO_SETPOINT) {
@@ -227,7 +226,7 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
                 counter = 0;
                 previousReading = position;
             }
-            if (counter > 200) { // Once it's maintained a constant value for long enough...
+            if (counter > 25) { // Once it's maintained a constant value for long enough...
                 setEncoderPositionFromAbsolute();
                 hasSetAbsolutePosition = true;
             }

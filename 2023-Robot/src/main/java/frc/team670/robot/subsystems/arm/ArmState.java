@@ -10,15 +10,17 @@ package frc.team670.robot.subsystems.arm;
 public enum ArmState {
   
     //Angle-based states. For the shoulder, straight up is 180. If the elbow joint is straight, that's 180.
-    //Wrist angles are temporarily set to 180. Awaiting actual arm for tuning.
+    
+    //Temporarily set all wrist angles to 180
     STOWED(0, 180, 40, 180),
-    HYBRID(1, 108,165, 180),
+    HYBRID(1, 108, 165, 180),
     SCORE_MID(2, 170, 115, 180),
     SCORE_HIGH(3,120, 203, 180),
     INTERMEDIATE_BACKWARD_GROUND(4, 217, 40, 180),
     BACKWARD_GROUND(5, 217, 310, 180),
-    TUNING(6, 90, 180, 180);
-
+    TUNING(6, 90, 180, 180),
+    INTERMEDIATE_SCORE(7, 210, 40, 180);
+  
     private int stateID;
     private double shoulderAngle;
     private double elbowAngle;
@@ -27,7 +29,6 @@ public enum ArmState {
     //private double lowerElbowSoftLimit;
     //private double upperElbowSoftLimit;
 
-    //private ArmState(int stateID, double xPos, double yPos) {
     private ArmState(int stateID, double shoulderAngle, double elbowAngle, double wristAngle) {
       this.shoulderAngle = shoulderAngle;
       this.elbowAngle = elbowAngle;

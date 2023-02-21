@@ -59,10 +59,6 @@ public class Claw extends MustangSubsystemBase {
         this.status = status;
     }
 
-    private void stopAll() {
-        motor.set(0);
-    }
-
     /**
      * Checking for hardware breaks with the motor
      */
