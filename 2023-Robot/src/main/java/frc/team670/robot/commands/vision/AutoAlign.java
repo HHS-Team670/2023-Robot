@@ -54,7 +54,7 @@ public class AutoAlign extends InstantCommand implements MustangCommand {
         Pose2d goalPose = targetPose.transformBy(FieldConstants.GRID_TO_TARGET_OFFSET(targetPose));
 
         scheduler.schedule(new IsLockedOn(swerve, vision, targetPose), swerve);
-        scheduler.schedule(new MoveToPose(swerve, goalPose, false), swerve);
+        scheduler.schedule(new MoveToPose(swerve, goalPose), swerve);
         // String command = "";
         // if (distance < 1)
         // // command = "PID";

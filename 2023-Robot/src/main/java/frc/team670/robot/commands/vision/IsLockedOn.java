@@ -27,7 +27,7 @@ public class IsLockedOn extends CommandBase implements MustangCommand {
     private ArrayList<Pose2d> scoringPoses = new ArrayList<>();
     private Pose2d currentPose = null;
 
-    public IsLockedOn(SwerveDrive driveBase, VisionSubsystemBase vision) {
+    public IsLockedOn(SwerveDrive driveBase, VisionSubsystemBase vision, Pose2d targetPose) {
         this.driveBase = driveBase;
         this.vision = vision;
         addRequirements(vision);

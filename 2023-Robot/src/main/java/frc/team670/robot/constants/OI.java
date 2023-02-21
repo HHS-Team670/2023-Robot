@@ -54,7 +54,7 @@ public class OI extends OIBase {
         Claw claw = (Claw) subsystemBases[3];
 
         driveBase.initDefaultCommand();
-        vision.initDefaultCommand(new IsLockedOn(driveBase, vision));
+        vision.initDefaultCommand(new IsLockedOn(driveBase, vision, null));
 
         zeroGyro.onTrue(new SetSwerveForwardDirection(driveBase, arm));
         moveToTarget.onTrue(new AutoAlign(vision, driveBase));
