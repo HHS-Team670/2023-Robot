@@ -32,7 +32,7 @@ public class IsLockedOn extends CommandBase implements MustangCommand {
         this.vision = vision;
         addRequirements(vision);
 
-        for (AprilTag tag : FieldConstants.APRILTAGS) 
+        for (AprilTag tag : FieldConstants.APRILTAGS)
             scoringPoses.add(tag.pose.toPose2d());
     }
 
@@ -49,31 +49,33 @@ public class IsLockedOn extends CommandBase implements MustangCommand {
 
     @Override
     public void initialize() {
-        currentPose = driveBase.getPose();
+        currentPose = driveBase.getOdometerPose();
     }
-    
+
     @Override
     public void execute() {
-        SmartDashboard.putBoolean("isLockedOn", false);        
+        SmartDashboard.putBoolean("isLockedOn", false);
     }
-    
+
     @Override
     public boolean isFinished() {
-        
-        // if (goalPose != null) {
-        //     // SmartDashboard.putString("Target Pose", goalPose.getX() + "," + goalPose.getY());
-        //     // SmartDashboard.putString("Current Pose", currentPose.getX() + "," + currentPose.getY());
-        //     // SmartDashboard.putNumber("Diff x", Math.abs(currentPose.getX() - goalPose.getX()));
-        //     // SmartDashboard.putNumber("Diff y", Math.abs(currentPose.getY() - goalPose.getY()));
-        //     // SmartDashboard.putNumber("Diff rot", Math.abs(currentPose.getRotation().getDegrees()
-        //     // - goalPose.getRotation().getDegrees()));
 
-        //     if (Math.abs(currentPose.getX() - goalPose.getX()) <= 0.3
-        //             && Math.abs(currentPose.getY() - goalPose.getY()) <= 0.3
-        //             && Math.abs(currentPose.getRotation().getDegrees()
-        //                     - goalPose.getRotation().getDegrees() - 180) <= 10) {   // TODO: change angles based on camera
-        //         return true;
-        //     }
+        // if (goalPose != null) {
+        // // SmartDashboard.putString("Target Pose", goalPose.getX() + "," + goalPose.getY());
+        // // SmartDashboard.putString("Current Pose", currentPose.getX() + "," +
+        // currentPose.getY());
+        // // SmartDashboard.putNumber("Diff x", Math.abs(currentPose.getX() - goalPose.getX()));
+        // // SmartDashboard.putNumber("Diff y", Math.abs(currentPose.getY() - goalPose.getY()));
+        // // SmartDashboard.putNumber("Diff rot", Math.abs(currentPose.getRotation().getDegrees()
+        // // - goalPose.getRotation().getDegrees()));
+
+        // if (Math.abs(currentPose.getX() - goalPose.getX()) <= 0.3
+        // && Math.abs(currentPose.getY() - goalPose.getY()) <= 0.3
+        // && Math.abs(currentPose.getRotation().getDegrees()
+        // - goalPose.getRotation().getDegrees() - 180) <= 10) { // TODO: change angles based on
+        // camera
+        // return true;
+        // }
         // }
         return false;
     }

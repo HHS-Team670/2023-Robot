@@ -68,8 +68,7 @@ public class DriveBase extends SwerveDrive {
                         RobotConstants.BACK_RIGHT_MODULE_DRIVE_MOTOR,
                         RobotConstants.BACK_RIGHT_MODULE_STEER_MOTOR,
                         RobotConstants.BACK_RIGHT_MODULE_STEER_ENCODER,
-                        RobotConstants.BACK_RIGHT_MODULE_STEER_OFFSET), 
-                        vision
+                        RobotConstants.BACK_RIGHT_MODULE_STEER_OFFSET)
                   );
             this.mController = mustangController;
       }

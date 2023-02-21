@@ -21,7 +21,7 @@ import frc.team670.mustanglib.subsystems.drivebase.SwerveDrive;
 import frc.team670.mustanglib.utils.MustangController;
 
 /**
- * MoveToPose - moves to specified pose. Cancels when button is released. 
+ * MoveToPose - moves to specified pose. Cancels when button is released.
  */
 public class MoveToPose extends CommandBase implements MustangCommand {
     private SwerveDrive swerve;
@@ -68,7 +68,7 @@ public class MoveToPose extends CommandBase implements MustangCommand {
         PIDController yController = new PIDController(3, 0, 0);
         PIDController thetaController = new PIDController(0.2, 0, 0);
 
-        moveCommand = new MustangPPSwerveControllerCommand(path, swerve::getPose,
+        moveCommand = new MustangPPSwerveControllerCommand(path, swerve::getOdometerPose,
                 swerve.getSwerveKinematics(), xController, yController, thetaController,
                 swerve::setModuleStates, new Subsystem[] {swerve});
         scheduler.schedule(moveCommand, swerve);
@@ -76,17 +76,19 @@ public class MoveToPose extends CommandBase implements MustangCommand {
 
     @Override
     public boolean isFinished() {
-        return controller == null || controller.getAButtonReleased(); // TODO: change based on oi file command button
+        return controller == null || controller.getAButtonReleased(); // TODO: change based on oi
+                                                                      // file command button
     }
 
     @Override
     public void end(boolean interrupted) {
-        if (controller != null) scheduler.cancel(moveCommand);
+        if (controller != null)
+            scheduler.cancel(moveCommand);
     }
 
 
     private PathPoint calcStartPoint() {
-        return new PathPoint(swerve.getPose().getTranslation(), new Rotation2d(),
+        return new PathPoint(swerve.getOdometerPose().getTranslation(), new Rotation2d(),
                 swerve.getGyroscopeRotation());
     }
 

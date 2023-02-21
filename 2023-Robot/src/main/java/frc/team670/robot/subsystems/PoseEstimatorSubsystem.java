@@ -1,18 +1,17 @@
 package frc.team670.robot.subsystems;
 
-import org.photonvision.PhotonCamera;
+import org.photonvision.EstimatedRobotPose;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.Vector;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Pose3d;
-import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 
 public class PoseEstimatorSubsystem extends MustangSubsystemBase {
@@ -62,30 +61,26 @@ public class PoseEstimatorSubsystem extends MustangSubsystemBase {
 
   @Override
   public void mustangPeriodic() {
+    update();
+    field2d.setRobotPose(getCurrentPose());
+  }
 
-    // Update pose estimator with the best visible target
-    var pipelineResult = photonCamera.getLatestResult();
-    var resultTimestamp = pipelineResult.getTimestampSeconds();
-    if (resultTimestamp != previousPipelineTimestamp && pipelineResult.hasTargets()) {
-      previousPipelineTimestamp = resultTimestamp;
-      var target = pipelineResult.getBestTarget();
-      var fiducialId = target.getFiducialId();
-      if (target.getPoseAmbiguity() <= .05 && fiducialId >= 0 && fiducialId < targetPoses.size()) {
-        var targetPose = targetPoses.get(fiducialId);
-        Transform3d camToTarget = target.getBestCameraToTarget();
-        Pose3d camPose = targetPose.transformBy(camToTarget.inverse());
-
-        var visionMeasurement = camPose.transformBy(CAMERA_TO_ROBOT);
-        poseEstimator.addVisionMeasurement(visionMeasurement.toPose2d(), resultTimestamp);
-      }
+  private void update() {
+    EstimatedRobotPose[] visionPoses =
+    vision.getEstimatedGlobalPose(poseEstimator.getEstimatedPosition());
+    
+    for (EstimatedRobotPose pose : visionPoses) {
+      if (pose != null) 
+      poseEstimator.addVisionMeasurement(pose.estimatedPose.toPose2d(),
+      pose.timestampSeconds);
     }
-    // Update pose estimator with drivetrain sensors
     poseEstimator.update(driveBase.getGyroscopeRotation(), driveBase.getModulePositions());
 
-    field2d.setRobotPose(getCurrentPose());
-
-    // System.out.println(getCurrentPose().getRotation());
-  }
+    Pose2d estPose = poseEstimator.getEstimatedPosition();
+    SmartDashboard.putNumber("est pose x: ", estPose.getX());
+    SmartDashboard.putNumber("est pose y: ", estPose.getY());
+    SmartDashboard.putNumber("est pose deg: ", estPose.getRotation().getDegrees());
+}
 
   private String getFormattedPose() {
     var pose = getCurrentPose();
@@ -118,10 +113,6 @@ public class PoseEstimatorSubsystem extends MustangSubsystemBase {
    */
   public void resetFieldPosition() {
     setCurrentPose(new Pose2d());
-  }
-
-  public void initializeGyro(double angleDegree){
-    driveBase.setGyroscopeRotation(angleDegree);
   }
 
     @Override

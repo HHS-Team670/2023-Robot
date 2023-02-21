@@ -44,7 +44,7 @@ public class AutoAlign extends InstantCommand implements MustangCommand {
 
     @Override
     public void initialize() {
-        Pose2d robotPose = swerve.getPose();
+        Pose2d robotPose = swerve.getOdometerPose();
 
         // find pose of nearest target if none supplied
         if (targetPose == null)
