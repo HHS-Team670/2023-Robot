@@ -61,10 +61,8 @@ public class MoveToPose extends CommandBase implements MustangCommand {
 
     @Override
     public void initialize() {
-        Pose2d targetPose;
-
         path = PathPlanner.generatePath(new PathConstraints(1, 0.5), calcStartPoint(),
-                calcEndPoint(targetPose));
+                calcEndPoint(goalPose));
 
         // TODO: TUNE PID CONTROLLERS
         PIDController xController = new PIDController(3, 0, 0);
