@@ -69,11 +69,11 @@ public final class RobotConstants extends RobotConstantsBase {
                         entry("WRIST_GEAR_RATIO",0.0)
                     )
                 ),
-            entry("00:80:2F:24:4A:34", Map.ofEntries( // The mac address is from 670_MadMax
-                        entry("BACK_RIGHT_MODULE_STEER_OFFSET", -Math.toRadians(292.5)),
-                        entry("BACK_LEFT_MODULE_STEER_OFFSET", -Math.toRadians(232.91)),
-                        entry("FRONT_RIGHT_MODULE_STEER_OFFSET", -Math.toRadians(352.35)),
-                        entry("FRONT_LEFT_MODULE_STEER_OFFSET", -Math.toRadians(136.67)),
+            entry("00:80:2F:33:D0:46", Map.ofEntries( // The mac address is from 670_2023
+                        entry("BACK_RIGHT_MODULE_STEER_OFFSET", -Math.toRadians(151.699)),
+                        entry("BACK_LEFT_MODULE_STEER_OFFSET", -Math.toRadians(0.879)),
+                        entry("FRONT_RIGHT_MODULE_STEER_OFFSET", -Math.toRadians(232.119)),
+                        entry("FRONT_LEFT_MODULE_STEER_OFFSET", -Math.toRadians(336.709)),
                         entry("SHOULDER_ABSOLUTE_ENCODER_AT_VERTICAL", 0.0),
                         entry("ELBOW_ABSOLUTE_ENCODER_AT_VERTICAL", 0.0),
                         entry("WRIST_ABSOLUTE_ENCODER_AT_VERTICAL", 0.0),
@@ -154,9 +154,9 @@ public final class RobotConstants extends RobotConstantsBase {
     public static final int SHOULDER_SOFT_LIMIT_MAX = 300;
     public static final double SHOULDER_ARBITRARY_FF = 0.5;
 
-    public static final double SHOULDER_LENGTH_INCHES = 25;
-    public static final double SHOULDER_TO_ELBOW_MASS_LB = 6.5;
-    public static final double SHOULDER_MASS_DISTRIBUTION = 0.33; //approximate mass distribution. See ArmSegment.CMDistribution
+    public static final double SHOULDER_LENGTH_INCHES = 26;
+    public static final double SHOULDER_TO_ELBOW_MASS_LB = 8.7;
+    public static final double SHOULDER_MASS_DISTRIBUTION = 0.356; 
 
     // Elbow
     public static final double ELBOW_ABSOLUTE_ENCODER_AT_VERTICAL = hardwareSpecificConstants.get(MAC_ADDRESS)
@@ -167,20 +167,19 @@ public final class RobotConstants extends RobotConstantsBase {
     public static final double ELBOW_ARBITRARY_FF = 0.8;
 
     public static final double ELBOW_LENGTH_INCHES = 35;
-    public static final double ELBOW_TO_CLAW_MASS_LB = 2;
-    public static final double ELBOW_MASS_DISTRIBUTION = 0.33; //approximate mass distribution. See ArmSegment.CMDistribution
+    public static final double ELBOW_TO_CLAW_MASS_LB = 2; //TODO: set
+    public static final double ELBOW_MASS_DISTRIBUTION = 0.33; //TODO: set 
 
     // Wrist
     public static final double WRIST_ABSOLUTE_ENCODER_AT_VERTICAL = hardwareSpecificConstants.get(MAC_ADDRESS).get("WRIST_ABSOLUTE_ENCODER_AT_VERTICAL");
     public static final double WRIST_GEAR_RATIO = (hardwareSpecificConstants.get(MAC_ADDRESS).get("WRIST_GEAR_RATIO")).intValue();;
-    public static final float WRIST_SOFT_LIMIT_MAX = 0;
-    public static final float WRIST_SOFT_LIMIT_MIN = 0;
     public static final double WRIST_ARBITRARY_FF = 0;
 
     public static final double CLAW_LENGTH_INCHES = 0;
-    public static final double CLAW_MASS_LB = 6;
+    public static final double CLAW_MASS_LB = 6.5;
     public static final double CLAW_MASS_DISTRIBUTION = 0.25; //approximate mass distribution. See ArmSegment.CMDistribution
 
+    public static final double CONE_MASS_LB = 1.4;
     // Gravity-cancelling constants
     public static final ArmSegment SHOULDER_SEGMENT = new ArmSegment(SHOULDER_LENGTH_INCHES, SHOULDER_TO_ELBOW_MASS_LB, SHOULDER_MASS_DISTRIBUTION, SHOULDER_ARBITRARY_FF);
     public static final ArmSegment ELBOW_SEGMENT = new ArmSegment(ELBOW_LENGTH_INCHES, ELBOW_TO_CLAW_MASS_LB, ELBOW_MASS_DISTRIBUTION, ELBOW_ARBITRARY_FF);
@@ -190,9 +189,9 @@ public final class RobotConstants extends RobotConstantsBase {
 
 
     // claw constants
-    public static final double CLAW_ROLLING_SPEED = 0.3;
+    public static final double CLAW_ROLLING_SPEED = 0.75;
     public static final double CLAW_EJECTING_SPEED = -0.6;
-    public static final double CLAW_CURRENT_MAX = 25.0;
+    public static final double CLAW_CURRENT_MAX = 70.0;
     public static final double CLAW_IDLE_SPEED = 0.05;
 
     public static final int kTimeoutMs = 0;
