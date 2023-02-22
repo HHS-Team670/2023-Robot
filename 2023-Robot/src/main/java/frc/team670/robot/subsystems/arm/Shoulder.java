@@ -55,7 +55,7 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
         }
 
         public double getD() {
-            return  0.00005;
+            return 0.00005;
         }
 
         public double getFF() {
@@ -165,7 +165,8 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
             return HealthState.RED;
         }
 
-        if ((leaderOK && !followerOK) || (!leaderOK && followerOK) || !hasSetAbsolutePosition || !relativePositionIsSet) {
+        if ((leaderOK && !followerOK) || (!leaderOK && followerOK) || !hasSetAbsolutePosition
+                || !relativePositionIsSet) {
             return HealthState.YELLOW;
         }
 
@@ -202,14 +203,19 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
     private void setEncoderPositionFromAbsolute() {
         clearSetpoint();
         double absEncoderPosition = absEncoder.getAbsolutePosition();
-        double relativePosition = ((
-                -1 * (absEncoderPosition - (RobotConstants.SHOULDER_ABSOLUTE_ENCODER_AT_VERTICAL - 0.5)) + 1)
+        double relativePosition = ((-1
+                * (absEncoderPosition - (RobotConstants.SHOULDER_ABSOLUTE_ENCODER_AT_VERTICAL - 0.5)) + 1)
                 * RobotConstants.SHOULDER_GEAR_RATIO) % RobotConstants.SHOULDER_GEAR_RATIO;
         REVLibError error = rotator_encoder.setPosition(relativePosition);
         SmartDashboard.putNumber("Shoulder absEncoder position when reset", absEncoderPosition);
         SmartDashboard.putNumber("Shoulder relEncoder position when reset", relativePosition);
         SmartDashboard.putString("Shoulder error", error.toString());
         calculatedRelativePosition = relativePosition;
+    }
+
+    // TODO: Move to mustang lib after testing;
+    public double getSetpoint() {
+        return setpoint;
     }
 
     @Override

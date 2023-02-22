@@ -45,7 +45,7 @@ public class Elbow extends SparkMaxRotatingSubsystem {
         }
 
         public double getP() {
-            return 0.0011; 
+            return 0.0011;
         }
 
         public double getI() {
@@ -136,6 +136,10 @@ public class Elbow extends SparkMaxRotatingSubsystem {
                     SparkMAXLite.ControlType.kSmartMotion, super.SMARTMOTION_SLOT,
                     voltage);
         }
+    }
+    //TODO: Move to mustang lib after testing
+    public double getSetpoint() {
+        return setpoint;
     }
 
     /**

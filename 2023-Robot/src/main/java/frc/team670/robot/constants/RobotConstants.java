@@ -133,15 +133,29 @@ public final class RobotConstants extends RobotConstantsBase {
     public static final double kMaxAccelerationMetersPerSecondSquared = 2;
     public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI * 16;
     public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI * 16;
-    
-
 
     // vision
     public static final String VISION_CAMERA_NAME = "Arducam_OV9281_USB_Camera";
-    public static final Transform2d CAMERA_OFFSET = 
-        new Transform2d(new Translation2d(0, 0), new Rotation2d(0));    // TODO: changed when camera actually mounted, may need to change based on robot
-    public static final Transform2d GRID_TO_TARGET_OFFSET = 
-        new Transform2d(new Translation2d(1, 0), new Rotation2d(0));    // TODO: check game manual for actual specs
+    public static final Transform2d CAMERA_OFFSET = new Transform2d(new Translation2d(0, 0), new Rotation2d(0)); // TODO:
+                                                                                                                 // changed
+                                                                                                                 // when
+                                                                                                                 // camera
+                                                                                                                 // actually
+                                                                                                                 // mounted,
+                                                                                                                 // may
+                                                                                                                 // need
+                                                                                                                 // to
+                                                                                                                 // change
+                                                                                                                 // based
+                                                                                                                 // on
+                                                                                                                 // robot
+    public static final Transform2d GRID_TO_TARGET_OFFSET = new Transform2d(new Translation2d(1, 0), new Rotation2d(0)); // TODO:
+                                                                                                                         // check
+                                                                                                                         // game
+                                                                                                                         // manual
+                                                                                                                         // for
+                                                                                                                         // actual
+                                                                                                                         // specs
     public static final double kTrackwidthMeters = 0.702;
 
 
@@ -153,6 +167,7 @@ public final class RobotConstants extends RobotConstantsBase {
     public static final int SHOULDER_SOFT_LIMIT_MIN = 60;
     public static final int SHOULDER_SOFT_LIMIT_MAX = 300;
     public static final double SHOULDER_ARBITRARY_FF = 0.5;
+    public static final double SHOULDER_MAX_OVERRIDE_DEGREES = 15;
 
     public static final double SHOULDER_LENGTH_INCHES = 26;
     public static final double SHOULDER_TO_ELBOW_MASS_LB = 8.7;
@@ -164,8 +179,8 @@ public final class RobotConstants extends RobotConstantsBase {
     public static final int ELBOW_GEAR_RATIO = (hardwareSpecificConstants.get(MAC_ADDRESS).get("ELBOW_GEAR_RATIO")).intValue();;
     public static final int ELBOW_SOFT_LIMIT_MIN = 20;
     public static final int ELBOW_SOFT_LIMIT_MAX = 340;
+    public static final int ELBOW_MAX_OVERRIDE_DEGREES  = 15;
     public static final double ELBOW_ARBITRARY_FF = 0.8;
-
     public static final double ELBOW_LENGTH_INCHES = 35;
     public static final double ELBOW_TO_CLAW_MASS_LB = 2; //TODO: set
     public static final double ELBOW_MASS_DISTRIBUTION = 0.33; //TODO: set 
@@ -174,12 +189,14 @@ public final class RobotConstants extends RobotConstantsBase {
     public static final double WRIST_ABSOLUTE_ENCODER_AT_VERTICAL = hardwareSpecificConstants.get(MAC_ADDRESS).get("WRIST_ABSOLUTE_ENCODER_AT_VERTICAL");
     public static final double WRIST_GEAR_RATIO = (hardwareSpecificConstants.get(MAC_ADDRESS).get("WRIST_GEAR_RATIO")).intValue();;
     public static final double WRIST_ARBITRARY_FF = 0;
+    public static final double WRIST_MAX_OVERRIDE_DEGREES = 90;
 
     public static final double CLAW_LENGTH_INCHES = 0;
     public static final double CLAW_MASS_LB = 6.5;
     public static final double CLAW_MASS_DISTRIBUTION = 0.25; //approximate mass distribution. See ArmSegment.CMDistribution
 
     public static final double CONE_MASS_LB = 1.4;
+
     // Gravity-cancelling constants
     public static final ArmSegment SHOULDER_SEGMENT = new ArmSegment(SHOULDER_LENGTH_INCHES, SHOULDER_TO_ELBOW_MASS_LB, SHOULDER_MASS_DISTRIBUTION, SHOULDER_ARBITRARY_FF);
     public static final ArmSegment ELBOW_SEGMENT = new ArmSegment(ELBOW_LENGTH_INCHES, ELBOW_TO_CLAW_MASS_LB, ELBOW_MASS_DISTRIBUTION, ELBOW_ARBITRARY_FF);

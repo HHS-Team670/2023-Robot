@@ -72,7 +72,7 @@ public enum ArmState {
           return state;
         }
       }
-      return ArmState.STOWED;
-      
-    }
+    return ArmState.STOWED;
+
   }
+}

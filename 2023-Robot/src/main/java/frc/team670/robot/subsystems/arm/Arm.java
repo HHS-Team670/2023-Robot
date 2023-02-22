@@ -20,12 +20,17 @@ public class Arm extends MustangSubsystemBase {
     private boolean initializedState;
     private VoltageCalculator voltageCalculator;
 
+    private double elbowOffset;
+    private double shoulderOffset;
+    private double wristOffset;  
+
+
     private static final ArmState[][] VALID_PATHS_GRAPH = new ArmState[][] {
             { ArmState.TUNING, ArmState.INTERMEDIATE_SCORE, ArmState.INTERMEDIATE_BACKWARD_GROUND }, // STOWED
-            { ArmState.SCORE_MID}, // HYBRID
-            { ArmState.INTERMEDIATE_SCORE, ArmState.SCORE_HIGH, ArmState.HYBRID}, // SCORE_MID
+            { ArmState.SCORE_MID }, // HYBRID
+            { ArmState.INTERMEDIATE_SCORE, ArmState.SCORE_HIGH, ArmState.HYBRID }, // SCORE_MID
             { ArmState.SCORE_MID, ArmState.INTERMEDIATE_BACKWARD_GROUND, ArmState.INTERMEDIATE_SCORE }, // SCORE_HIGH
-            { ArmState.BACKWARD_GROUND, ArmState.STOWED, ArmState.INTERMEDIATE_SCORE}, // INTERMEDIATE_BACKWARD_GROUND
+            { ArmState.BACKWARD_GROUND, ArmState.STOWED, ArmState.INTERMEDIATE_SCORE }, // INTERMEDIATE_BACKWARD_GROUND
             { ArmState.INTERMEDIATE_BACKWARD_GROUND, ArmState.INTERMEDIATE_SCORE }, // BACKWARD_GROUND
             { ArmState.STOWED }, // TUNING
             { ArmState.STOWED, ArmState.SCORE_MID, ArmState.INTERMEDIATE_BACKWARD_GROUND, ArmState.SCORE_HIGH }, // INTERMEDIATE_SCORE
@@ -74,6 +79,12 @@ public class Arm extends MustangSubsystemBase {
 
     @Override
     public void mustangPeriodic() {
+
+        elbow.setSystemTargetAngleInDegrees(targetState.getElbowAngle() + elbowOffset);
+        shoulder.setSystemTargetAngleInDegrees(targetState.getShoulderAngle() + shoulderOffset);
+        wrist.setSystemTargetAngleInDegrees(targetState.getWristAngle() + wristOffset);
+
+
         debugSubsystem();
         if (!initializedState) {
             if (elbow.isRelativePositionSet() && shoulder.isRelativePositionSet() && wrist.isRelativePositionSet()) {
@@ -104,6 +115,10 @@ public class Arm extends MustangSubsystemBase {
         elbow.setSystemTargetAngleInDegrees(target.getElbowAngle());
         shoulder.setSystemTargetAngleInDegrees(target.getShoulderAngle());
         wrist.setSystemTargetAngleInDegrees(target.getWristAngle());
+        this.elbowOffset = 0;
+        this.shoulderOffset = 0;
+        this.wristOffset = 0;
+
     }
 
     /**
@@ -124,6 +139,71 @@ public class Arm extends MustangSubsystemBase {
      */
     public ArmState getTargetState() {
         return targetState;
+    }
+
+    public void setArmOffsets(double elbowOffset, double shoulderOffset, double wristOffset) {
+        if (Math.abs(elbowOffset) > RobotConstants.ELBOW_MAX_OVERRIDE_DEGREES) {
+            elbowOffset = RobotConstants.ELBOW_MAX_OVERRIDE_DEGREES * elbowOffset / Math.abs(elbowOffset);
+        }
+        if (Math.abs(shoulderOffset) > RobotConstants.SHOULDER_MAX_OVERRIDE_DEGREES) {
+            shoulderOffset = RobotConstants.SHOULDER_MAX_OVERRIDE_DEGREES * shoulderOffset / Math.abs(shoulderOffset);
+        }
+        if (Math.abs(wristOffset) > RobotConstants.WRIST_MAX_OVERRIDE_DEGREES) {
+            wristOffset = RobotConstants.WRIST_MAX_OVERRIDE_DEGREES * wristOffset / Math.abs(wristOffset);
+        }
+        this.elbowOffset = elbowOffset;
+        this.shoulderOffset = shoulderOffset;
+        this.wristOffset = wristOffset;
+
+    }
+
+    public void setElbowOffset(double elbowOffset) {
+        if (Math.abs(elbowOffset) > RobotConstants.ELBOW_MAX_OVERRIDE_DEGREES) {
+            elbowOffset = RobotConstants.ELBOW_MAX_OVERRIDE_DEGREES * elbowOffset / Math.abs(elbowOffset);
+        }
+        this.elbowOffset = elbowOffset;
+    }
+
+    public void setShoulderOffset(double shoulderOffset) {
+        if (Math.abs(shoulderOffset) > RobotConstants.SHOULDER_MAX_OVERRIDE_DEGREES) {
+            shoulderOffset = RobotConstants.SHOULDER_MAX_OVERRIDE_DEGREES * shoulderOffset / Math.abs(shoulderOffset);
+        }
+        this.shoulderOffset = shoulderOffset;
+    }
+    
+    public void setWristOffset(double wristOffset) {
+        if (Math.abs(wristOffset) > RobotConstants.WRIST_MAX_OVERRIDE_DEGREES) {
+            wristOffset = RobotConstants.WRIST_MAX_OVERRIDE_DEGREES * wristOffset / Math.abs(wristOffset);
+        }
+        this.wristOffset = wristOffset;
+    }
+
+    public void resetElbowOffset() {
+
+        this.elbowOffset = 0;
+    }
+
+    public void resetShoulderOffset() {
+
+        this.shoulderOffset = 0;
+    }
+
+    public void resetWristOffset() {
+
+        this.wristOffset = 0;
+    }
+
+    public double getElbowOffset() {
+        return elbowOffset;
+
+    }
+
+    public double getShoulderOffset() {
+        return shoulderOffset;
+    }
+
+    public double getWristOffset() {
+        return wristOffset;
     }
 
     /**
@@ -184,6 +264,9 @@ public class Arm extends MustangSubsystemBase {
         elbow.debugSubsystem();
         wrist.debugSubsystem();
         SmartDashboard.putString("Arm target state", getTargetState().toString());
+        SmartDashboard.putNumber("Elbow offset", elbowOffset);
+        SmartDashboard.putNumber("Shoulder offset", shoulderOffset);
+        SmartDashboard.putNumber("Wrist offset", wristOffset);
     }
 
     /**
@@ -253,3 +336,4 @@ public class Arm extends MustangSubsystemBase {
         }
     }
 }
+  
