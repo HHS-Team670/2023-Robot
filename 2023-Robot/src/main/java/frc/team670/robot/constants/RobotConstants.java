@@ -9,12 +9,14 @@ import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.Enumeration;
 import java.util.Map;
+import com.pathplanner.lib.PathConstraints;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.trajectory.constraint.DifferentialDriveKinematicsConstraint;
+import edu.wpi.first.math.trajectory.constraint.SwerveDriveKinematicsConstraint;
 import edu.wpi.first.wpilibj.SerialPort;
 import frc.team670.mustanglib.constants.RobotConstantsBase;
 
@@ -62,7 +64,9 @@ public final class RobotConstants extends RobotConstantsBase {
                 entry("FRONT_RIGHT_MODULE_STEER_OFFSET", -Math.toRadians(2.37)),
                 entry("FRONT_LEFT_MODULE_STEER_OFFSET", -Math.toRadians(30.2)),
                 entry("SHOULDER_ABSOLUTE_ENCODER_AT_VERTICAL", 0.957),
-                entry("ELBOW_ABSOLUTE_ENCODER_AT_VERTICAL", 0.944))),
+                entry("ELBOW_ABSOLUTE_ENCODER_AT_VERTICAL", 0.944),
+                entry("ELBOW_ABSOLUTE_ENCODER_AT_VERTICAL", 0.944)
+                )),
             entry("00:80:2F:24:4A:34", Map.ofEntries( // The mac address is from 670_MadMax
                 entry("BACK_RIGHT_MODULE_STEER_OFFSET", -Math.toRadians(292.5)),
                 entry("BACK_LEFT_MODULE_STEER_OFFSET", -Math.toRadians(232.91)),
@@ -213,8 +217,9 @@ public final class RobotConstants extends RobotConstantsBase {
     public static final DifferentialDriveKinematics kDriveKinematics =
             new DifferentialDriveKinematics(kTrackwidthMeters);
 
-    public static final DifferentialDriveKinematicsConstraint kAutoPathConstraints =
-            new DifferentialDriveKinematicsConstraint(kDriveKinematics, kMaxSpeedMetersPerSecond);
+    public static final PathConstraints kAutoPathConstraints =
+            new PathConstraints(kMaxSpeedMetersPerSecond, kMaxAccelerationMetersPerSecondSquared);
+        
 
     /**
      * This is code from Poofs 2022

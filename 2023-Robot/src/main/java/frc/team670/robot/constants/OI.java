@@ -57,7 +57,7 @@ public class OI extends OIBase {
         // vision.initDefaultCommand(new IsLockedOn(driveBase, vision, null));
 
         zeroGyro.onTrue(new SetSwerveForwardDirection(driveBase, arm));
-        moveToTarget.onTrue(new AutoAlign(vision, driveBase));
+        moveToTarget.onTrue(new AutoAlign(vision, driveBase, getDriverController()));
         // move.onTrue(new MoveToPose(driveBase, new Pose2d(1, 1, new Rotation2d()), true));
 
         // Arm movement commands

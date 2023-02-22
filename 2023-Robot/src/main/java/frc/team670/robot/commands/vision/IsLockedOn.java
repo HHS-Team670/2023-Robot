@@ -15,7 +15,6 @@ import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase.HealthState;
 import frc.team670.mustanglib.subsystems.VisionSubsystemBase;
 import frc.team670.mustanglib.subsystems.drivebase.SwerveDrive;
-import frc.team670.mustanglib.utils.PoseEstimatorSubsystem;
 import frc.team670.robot.constants.RobotConstants;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
