@@ -115,7 +115,10 @@ NetworkTables.addKeyListener('/SmartDashboard/aligned', (key, value) => {
 });
 
 NetworkTables.addKeyListener('/SmartDashboard/pitch', (key, value) => {
+    var line = document.querySelector('#leveling-line');
     angle = 2*value;
+    line.style.transform = `rotate(${angle}deg)`;
+    line.style.borderColor = "#ff00ff";
 })
 
 NetworkTables.addKeyListener('/SmartDashboard/level', (key, value) => { // TODO change key listener
