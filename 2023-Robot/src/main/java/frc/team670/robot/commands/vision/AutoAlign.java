@@ -13,44 +13,38 @@ import frc.team670.mustanglib.commands.MustangScheduler;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 import frc.team670.mustanglib.subsystems.VisionSubsystemBase;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase.HealthState;
-import frc.team670.mustanglib.subsystems.drivebase.SwerveDrive;
 import frc.team670.robot.commands.drivebase.MoveToPose;
+import frc.team670.robot.commands.drivebase.PathFindMoveToPose;
 import frc.team670.robot.constants.FieldConstants;
-import frc.team670.robot.constants.RobotConstants;
 import frc.team670.robot.subsystems.DriveBase;
-import frc.team670.robot.subsystems.PoseEstimatorSubsystem;
-import frc.team670.robot.subsystems.Vision;
 
 /**
  * AutoAlign - autonomously moves the robot to a given target. If no target is given, it moves to
  * the closest one.`
  */
-public class AutoAlign extends InstantCommand implements MustangCommand {
+public class AutoAlign extends CommandBase implements MustangCommand {
 
     private VisionSubsystemBase vision;
     private DriveBase driveBase;
-    private PoseEstimatorSubsystem poseEstimatorSubsystem;
-    private MustangScheduler scheduler = MustangScheduler.getInstance();
+    private PathFindMoveToPose pathDrivingCommand;
     private Pose2d targetPose;
     
 
-    public AutoAlign(VisionSubsystemBase vision, DriveBase driveBase, PoseEstimatorSubsystem poseEstimatorSubsystem) {
+    public AutoAlign(VisionSubsystemBase vision, DriveBase driveBase) {
         this.vision = vision;
         this.driveBase = driveBase;
-        this.poseEstimatorSubsystem = poseEstimatorSubsystem;
         targetPose = null;
     }
 
-    public AutoAlign(VisionSubsystemBase vision, DriveBase driveBase, PoseEstimatorSubsystem poseEstimatorSubsystem, Pose2d targetPose) {
+    public AutoAlign(VisionSubsystemBase vision, DriveBase driveBase, Pose2d targetPose) {
         this.vision = vision;
         this.driveBase = driveBase;
-        this.poseEstimatorSubsystem = poseEstimatorSubsystem;
         this.targetPose = targetPose;
     }
 
     @Override
     public void initialize() {
-        Pose2d robotPose = poseEstimatorSubsystem.getCurrentPose();
+        Pose2d robotPose = driveBase.getPoseEstimator().getCurrentPose();
 
         // find pose of nearest target if none supplied
         if (targetPose == null)
@@ -59,8 +53,16 @@ public class AutoAlign extends InstantCommand implements MustangCommand {
         // transform by offset (to not crash)
         Pose2d goalPose = targetPose.transformBy(FieldConstants.GRID_TO_TARGET_OFFSET(targetPose));
 
-        scheduler.schedule(new IsLockedOn(driveBase, vision, poseEstimatorSubsystem, targetPose), driveBase);
-        scheduler.schedule(new MoveToPose(driveBase, poseEstimatorSubsystem, goalPose), driveBase);
+        pathDrivingCommand = new PathFindMoveToPose(driveBase, goalPose);
+        MustangScheduler.getInstance().schedule(new IsLockedOn(driveBase, vision, targetPose), driveBase);
+        MustangScheduler.getInstance().schedule(pathDrivingCommand, driveBase);
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        if (interrupted) {
+			pathDrivingCommand.cancel();
+		}
     }
 
 

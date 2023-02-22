@@ -6,7 +6,6 @@ package frc.team670.robot.subsystems;
 
 
 import com.pathplanner.lib.PathPlannerTrajectory;
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.team670.mustanglib.commands.MustangCommand;
 import frc.team670.mustanglib.commands.MustangScheduler;
@@ -14,7 +13,6 @@ import frc.team670.mustanglib.commands.drive.teleop.XboxSwerveDrive;
 import frc.team670.mustanglib.constants.SwerveConfig;
 import frc.team670.mustanglib.subsystems.drivebase.SwerveDrive;
 import frc.team670.mustanglib.swervelib.SdsModuleConfigurations;
-// import frc.team670.mustanglib.utils.Logger;
 import frc.team670.mustanglib.utils.MustangController;
 import frc.team670.robot.commands.drivebase.MustangPPSwerveControllerCommand;
 import frc.team670.robot.constants.RobotConstants;
@@ -52,7 +50,7 @@ public class DriveBase extends SwerveDrive {
       private MustangCommand defaultCommand;
       private MustangController mController;
 
-      public DriveBase(MustangController mustangController, Vision vision) {
+      public DriveBase(MustangController mustangController) {
             super(new SwerveConfig(RobotConstants.DRIVETRAIN_TRACKWIDTH_METERS,
                         RobotConstants.DRIVETRAIN_WHEELBASE_METERS, MAX_VELOCITY_METERS_PER_SECOND,
                         MAX_VOLTAGE, RobotConstants.NAVX_PORT,
@@ -97,11 +95,8 @@ public class DriveBase extends SwerveDrive {
       @Override
       public void debugSubsystem() {}
 
-      public MustangPPSwerveControllerCommand getFollowTrajectoryCommand(PathPlannerTrajectory traj,
-                  PoseEstimatorSubsystem p) {
-
-
-            return new MustangPPSwerveControllerCommand(traj, p::getCurrentPose,
+      public MustangPPSwerveControllerCommand getFollowTrajectoryCommand(PathPlannerTrajectory traj) {
+            return new MustangPPSwerveControllerCommand(traj, getPoseEstimator()::getCurrentPose,
                         getSwerveKinematics(), RobotConstants.xController,
                         RobotConstants.yController, RobotConstants.thetaController,
                         this::setModuleStates, new Subsystem[] {this});

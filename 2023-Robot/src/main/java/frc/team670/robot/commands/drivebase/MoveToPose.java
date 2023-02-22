@@ -18,7 +18,6 @@ import frc.team670.mustanglib.commands.MustangScheduler;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase.HealthState;
 import frc.team670.robot.subsystems.DriveBase;
-import frc.team670.robot.subsystems.PoseEstimatorSubsystem;
 import frc.team670.mustanglib.utils.MustangController;
 
 /**
@@ -26,7 +25,6 @@ import frc.team670.mustanglib.utils.MustangController;
  */
 public class MoveToPose extends CommandBase implements MustangCommand {
     private DriveBase driveBase;
-    private PoseEstimatorSubsystem poseEstimatorSubsystem;
     private MustangController controller;
     private Pose2d goalPose;
     private PathPlannerTrajectory path;
@@ -35,9 +33,8 @@ public class MoveToPose extends CommandBase implements MustangCommand {
     private MustangScheduler scheduler = MustangScheduler.getInstance();
     private MustangPPSwerveControllerCommand moveCommand = null;
 
-    public MoveToPose(DriveBase driveBase, PoseEstimatorSubsystem poseEstimatorSubsystem, Pose2d goalPose) {
+    public MoveToPose(DriveBase driveBase, Pose2d goalPose) {
         this.driveBase = driveBase;
-        this.poseEstimatorSubsystem = poseEstimatorSubsystem;
         this.controller = null;
         path = null;
         this.goalPose = goalPose;
@@ -46,9 +43,8 @@ public class MoveToPose extends CommandBase implements MustangCommand {
         addRequirements(driveBase);
     }
 
-    public MoveToPose(DriveBase driveBase, PoseEstimatorSubsystem poseEstimatorSubsystem, Pose2d goalPose, MustangController controller) {
+    public MoveToPose(DriveBase driveBase, Pose2d goalPose, MustangController controller) {
         this.driveBase = driveBase;
-        this.poseEstimatorSubsystem = poseEstimatorSubsystem;
         this.controller = controller;
         path = null;
         this.goalPose = goalPose;
@@ -67,7 +63,7 @@ public class MoveToPose extends CommandBase implements MustangCommand {
         path = PathPlanner.generatePath(new PathConstraints(1, 0.5), calcStartPoint(),
                 calcEndPoint(goalPose));
         
-        moveCommand = driveBase.getFollowTrajectoryCommand(path, poseEstimatorSubsystem);
+        moveCommand = driveBase.getFollowTrajectoryCommand(path);
         scheduler.schedule(moveCommand, driveBase);
     }
 
@@ -85,7 +81,7 @@ public class MoveToPose extends CommandBase implements MustangCommand {
 
 
     private PathPoint calcStartPoint() {
-        return new PathPoint(poseEstimatorSubsystem.getCurrentPose().getTranslation(), new Rotation2d(),
+        return new PathPoint(driveBase.getPoseEstimator().getCurrentPose().getTranslation(), new Rotation2d(),
                 driveBase.getGyroscopeRotation());
     }
 

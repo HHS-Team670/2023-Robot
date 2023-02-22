@@ -15,7 +15,6 @@ import frc.team670.mustanglib.commands.MustangCommand;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase.HealthState;
 import frc.team670.robot.subsystems.DriveBase;
-import frc.team670.robot.subsystems.PoseEstimatorSubsystem;
 import frc.team670.robot.subsystems.pathfinder.Obstacle;
 import frc.team670.robot.subsystems.pathfinder.PoseEdge;
 import frc.team670.robot.subsystems.pathfinder.PoseNode;
@@ -25,30 +24,27 @@ public class PathFindMoveToPose extends CommandBase implements MustangCommand {
 
 	private final DriveBase driveSystem;
 	private MustangPPSwerveControllerCommand pathDrivingCommand;
-	private final PoseEstimatorSubsystem poseEstimatorSubsystem;
 	private final PathConstraints constraints;
 	private final PoseNode finalPosition;
 	private PoseNode startPoint;
 	private final List<Obstacle> obstacles;
 	private ObstacleAvoidanceAStarMap AStarMap;
 
-	public PathFindMoveToPose(DriveBase driveSystem, PoseEstimatorSubsystem p,
-			PathConstraints constraints, PoseNode finalPosition, List<Obstacle> obstacles,
-			ObstacleAvoidanceAStarMap AStarMap) {
+	public PathFindMoveToPose(DriveBase driveSystem, PathConstraints constraints,
+			PoseNode finalPosition, List<Obstacle> obstacles, ObstacleAvoidanceAStarMap AStarMap) {
 		this.driveSystem = driveSystem;
-		this.poseEstimatorSubsystem = p;
 		this.constraints = constraints;
 		this.obstacles = obstacles;
 		this.finalPosition = finalPosition;
 		this.AStarMap = AStarMap;
-		this.startPoint = new PoseNode(p);
+		this.startPoint = new PoseNode(driveSystem.getPoseEstimator().getCurrentPose());
 
 		addRequirements(driveSystem);
 	}
 
 	@Override
 	public void initialize() {
-		startPoint = new PoseNode(poseEstimatorSubsystem);
+		startPoint = new PoseNode(driveSystem.getPoseEstimator().getCurrentPose());
 		PathPlannerTrajectory trajectory;
 		List<PoseNode> fullPath = new ArrayList<PoseNode>();
 
@@ -82,11 +78,11 @@ public class PathFindMoveToPose extends CommandBase implements MustangCommand {
 		for (int i = 0; i < fullPath.size(); i++) {
 			if (i == 0) {
 
-				fullPathPoints[i] =
-						new PathPoint(new Translation2d(startPoint.getX(), startPoint.getY()),
-								Heading, poseEstimatorSubsystem.getCurrentPose().getRotation(),
-								Math.hypot(driveSystem.getChassisSpeeds().vxMetersPerSecond,
-										driveSystem.getChassisSpeeds().vyMetersPerSecond));
+				fullPathPoints[i] = new PathPoint(
+						new Translation2d(startPoint.getX(), startPoint.getY()), Heading,
+						driveSystem.getPoseEstimator().getCurrentPose().getRotation(),
+						Math.hypot(driveSystem.getChassisSpeeds().vxMetersPerSecond,
+								driveSystem.getChassisSpeeds().vyMetersPerSecond));
 			} else if (i + 1 == fullPath.size()) {
 				fullPathPoints[i] =
 						new PathPoint(new Translation2d(finalPosition.getX(), finalPosition.getY()),
@@ -112,9 +108,8 @@ public class PathFindMoveToPose extends CommandBase implements MustangCommand {
 		// Declare an array to hold PathPoint objects made from all other points
 		// specified in constructor.
 		trajectory = PathPlanner.generatePath(constraints, Arrays.asList(fullPathPoints));
-		poseEstimatorSubsystem.addTrajectory(trajectory);
-		pathDrivingCommand =
-				driveSystem.getFollowTrajectoryCommand(trajectory, poseEstimatorSubsystem);
+		driveSystem.getPoseEstimator().addTrajectory(trajectory);
+		pathDrivingCommand = driveSystem.getFollowTrajectoryCommand(trajectory);
 		pathDrivingCommand.schedule();
 	}
 

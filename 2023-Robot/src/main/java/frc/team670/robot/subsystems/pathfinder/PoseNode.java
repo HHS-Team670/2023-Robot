@@ -2,11 +2,10 @@ package frc.team670.robot.subsystems.pathfinder;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import frc.team670.mustanglib.utils.math.sort.Node;
-import frc.team670.robot.subsystems.PoseEstimatorSubsystem;
 
 /*
  * Credits: Hemlock 5712
@@ -31,10 +30,10 @@ public class PoseNode implements Node<PoseNode> {
 		this.neighbors = new ArrayList<>();
 	}
 
-	public PoseNode(PoseEstimatorSubsystem p) {
-		this.x = p.getCurrentPose().getX();
-		this.y = p.getCurrentPose().getY();
-		this.holonomicRotation = p.getCurrentPose().getRotation();
+	public PoseNode(Pose2d currentPose) {
+		this.x = currentPose.getX();
+		this.y = currentPose.getY();
+		this.holonomicRotation = currentPose.getRotation();
 		this.neighbors = new ArrayList<>();
 	}
 
@@ -45,15 +44,15 @@ public class PoseNode implements Node<PoseNode> {
 		this.neighbors = new ArrayList<>();
 	}
 
-	
+
 	public double getX() {
 		return x;
 	}
-	
+
 	public double getY() {
 		return y;
 	}
-	
+
 	public Rotation2d getHolRot() {
 		return holonomicRotation;
 	}
@@ -66,15 +65,15 @@ public class PoseNode implements Node<PoseNode> {
 	public void addNeighbor(PoseNode neighbor) {
 		this.neighbors.add((PoseNode) neighbor);
 	}
-	
+
 	@Override
 	public double getHeuristicDistance(PoseNode target) {
 		PoseNode n1 = this;
 		PoseNode n2 = (PoseNode) target;
 
 		double dx = n1.x - n2.x;
-        double dy = n1.y - n2.y;
-        return Math.hypot(dx, dy);
+		double dy = n1.y - n2.y;
+		return Math.hypot(dx, dy);
 	}
 
 	@Override

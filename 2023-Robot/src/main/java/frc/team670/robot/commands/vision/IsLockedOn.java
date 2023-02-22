@@ -15,8 +15,8 @@ import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase.HealthState;
 import frc.team670.mustanglib.subsystems.VisionSubsystemBase;
 import frc.team670.mustanglib.subsystems.drivebase.SwerveDrive;
+import frc.team670.mustanglib.utils.PoseEstimatorSubsystem;
 import frc.team670.robot.constants.RobotConstants;
-import frc.team670.robot.subsystems.PoseEstimatorSubsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -26,23 +26,18 @@ public class IsLockedOn extends CommandBase implements MustangCommand {
 
     private SwerveDrive driveBase;
     private VisionSubsystemBase vision;
-    private PoseEstimatorSubsystem poseEstimatorSubsystem;
     private Pose2d currentPose;
     private Pose2d goalPose;
 
-    public IsLockedOn(SwerveDrive driveBase, VisionSubsystemBase vision,
-            PoseEstimatorSubsystem poseEstimatorSubsystem) {
+    public IsLockedOn(SwerveDrive driveBase, VisionSubsystemBase vision) {
         this.driveBase = driveBase;
         this.vision = vision;
-        this.poseEstimatorSubsystem = poseEstimatorSubsystem;
         addRequirements(driveBase, vision);
     }
 
-    public IsLockedOn(SwerveDrive driveBase, VisionSubsystemBase vision,
-            PoseEstimatorSubsystem poseEstimatorSubsystem, Pose2d goalPose) {
+    public IsLockedOn(SwerveDrive driveBase, VisionSubsystemBase vision, Pose2d goalPose) {
         this.driveBase = driveBase;
         this.vision = vision;
-        this.poseEstimatorSubsystem = poseEstimatorSubsystem;
         addRequirements(driveBase, vision);
         this.goalPose = goalPose;
     }
@@ -61,7 +56,7 @@ public class IsLockedOn extends CommandBase implements MustangCommand {
     public void execute() {
         SmartDashboard.putBoolean("isLockedOn", false);
         // find pose of nearest target
-        currentPose = poseEstimatorSubsystem.getCurrentPose();
+        currentPose = driveBase.getPoseEstimator().getCurrentPose();
         PhotonPipelineResult result = vision.getCameras()[0].getLatestResult();
         SmartDashboard.putBoolean("has targets", result.hasTargets());
         if (!result.hasTargets())
