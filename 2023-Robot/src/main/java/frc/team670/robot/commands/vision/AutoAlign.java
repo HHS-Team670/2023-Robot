@@ -67,8 +67,7 @@ public class AutoAlign extends CommandBase implements MustangCommand {
         // transform by offset (to not crash)
         Pose2d goalPose = new Pose2d(targets[goalPoseID], getRobotFacingRotation());
 
-        pathDrivingCommand = new PathFindMoveToPose(driveBase, RobotConstants.kAutoPathConstraints,
-                new PoseNode(goalPose), FieldConstants.obstacles, new ObstacleAvoidanceAStarMap());
+        pathDrivingCommand = new PathFindMoveToPose(driveBase, RobotConstants.kAutoPathConstraints, goalPose, new ObstacleAvoidanceAStarMap());
         // MustangScheduler.getInstance().schedule(new IsLockedOn(driveBase, vision, goalPose),
         // driveBase);
         MustangScheduler.getInstance().schedule(pathDrivingCommand, driveBase);

@@ -12,68 +12,50 @@ import frc.team670.mustanglib.utils.math.sort.Node;
  */
 
 public class PoseNode implements Node<PoseNode> {
-	private double x, y;
-	private Rotation2d holonomicRotation;
+	private Pose2d pose;
 	private List<PoseNode> neighbors;
 
 	public PoseNode(double x, double y) {
-		this.x = x;
-		this.y = y;
-		holonomicRotation = Rotation2d.fromDegrees(0);
+		this.pose = new Pose2d(x, y, Rotation2d.fromDegrees(0));
 		this.neighbors = new ArrayList<>();
 	}
 
 	public PoseNode(double x, double y, Rotation2d holonomicRotation) {
-		this.x = x;
-		this.y = y;
-		this.holonomicRotation = holonomicRotation;
+		this.pose = new Pose2d(x, y, Rotation2d.fromDegrees(0));
 		this.neighbors = new ArrayList<>();
 	}
 
 	public PoseNode(Pose2d currentPose) {
-		this.x = currentPose.getX();
-		this.y = currentPose.getY();
-		this.holonomicRotation = currentPose.getRotation();
+		this.pose = currentPose;
 		this.neighbors = new ArrayList<>();
 	}
 
 	public PoseNode(Translation2d coordinates, Rotation2d holonomicRotation) {
-		this.x = coordinates.getX();
-		this.y = coordinates.getY();
-		this.holonomicRotation = holonomicRotation;
+		this.pose = new Pose2d(coordinates, holonomicRotation);
 		this.neighbors = new ArrayList<>();
 	}
 
 
 	public double getX() {
-		return x;
+		return pose.getX();
 	}
 
 	public double getY() {
-		return y;
+		return pose.getY();
 	}
 
 	public Rotation2d getHolRot() {
-		return holonomicRotation;
-	}
-
-	public void setHolRot(double degree) {
-		this.holonomicRotation = Rotation2d.fromDegrees(degree);
+		return pose.getRotation();
 	}
 
 	@Override
 	public void addNeighbor(PoseNode neighbor) {
-		this.neighbors.add((PoseNode) neighbor);
+		this.neighbors.add(neighbor);
 	}
 
 	@Override
 	public double getHeuristicDistance(PoseNode target) {
-		PoseNode n1 = this;
-		PoseNode n2 = (PoseNode) target;
-
-		double dx = n1.x - n2.x;
-		double dy = n1.y - n2.y;
-		return Math.hypot(dx, dy);
+		return this.pose.getTranslation().getDistance(target.pose.getTranslation());
 	}
 
 	@Override
