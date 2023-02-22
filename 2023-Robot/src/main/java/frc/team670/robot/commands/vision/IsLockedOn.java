@@ -82,27 +82,27 @@ public class IsLockedOn extends CommandBase implements MustangCommand {
         }
 
         // transform by offset (to not crash)
-        goalPose = targetPose.transformBy(RobotConstants.GRID_TO_TARGET_OFFSET);
+        // goalPose = targetPose.transformBy(RobotConstants.GRID_TO_TARGET_OFFSET);
         // SmartDashboard.putNumber("goal pose x", goalPose.getX());
         // SmartDashboard.putNumber("goal pose y", goalPose.getY());
     }
 
     @Override
     public boolean isFinished() {
+        return false;
+        // if (goalPose != null) {
+        //     // SmartDashboard.putString("Target Pose", goalPose.getX() + "," + goalPose.getY());
+        //     // SmartDashboard.putString("Current Pose", currentPose.getX() + "," +
+        //     // currentPose.getY());
+        //     // SmartDashboard.putNumber("Diff x", Math.abs(currentPose.getX() - goalPose.getX()));
+        //     // SmartDashboard.putNumber("Diff y", Math.abs(currentPose.getY() - goalPose.getY()));
+        //     // SmartDashboard.putNumber("Diff rot", Math.abs(currentPose.getRotation().getDegrees()
+        //     // - goalPose.getRotation().getDegrees()));
 
-        if (goalPose != null) {
-            // SmartDashboard.putString("Target Pose", goalPose.getX() + "," + goalPose.getY());
-            // SmartDashboard.putString("Current Pose", currentPose.getX() + "," +
-            // currentPose.getY());
-            // SmartDashboard.putNumber("Diff x", Math.abs(currentPose.getX() - goalPose.getX()));
-            // SmartDashboard.putNumber("Diff y", Math.abs(currentPose.getY() - goalPose.getY()));
-            // SmartDashboard.putNumber("Diff rot", Math.abs(currentPose.getRotation().getDegrees()
-            // - goalPose.getRotation().getDegrees()));
-
-            return checkPoseAlignment(goalPose);
-        } else { // check all possible scoring poses
-            for()
-        }
+        //     return checkPoseAlignment(goalPose);
+        // } else { // check all possible scoring poses
+        //     // for()
+        // }
     }
 
     @Override
@@ -115,7 +115,7 @@ public class IsLockedOn extends CommandBase implements MustangCommand {
         return Math.abs(currentPose.getX() - other.getX()) <= 0.3
                     && Math.abs(currentPose.getY() - other.getY()) <= 0.3
                     && Math.abs(currentPose.getRotation().getDegrees()
-                            - other.getRotation().getDegrees() - 180) <= 10);    // TODO: change angles based on camera
+                            - other.getRotation().getDegrees() - 180) <= 10;    // TODO: change angles based on camera
                 
     }
 
