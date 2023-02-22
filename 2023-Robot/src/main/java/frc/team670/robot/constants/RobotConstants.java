@@ -191,9 +191,9 @@ public final class RobotConstants extends RobotConstantsBase {
     public static final double WRIST_ARBITRARY_FF = 0;
     public static final double WRIST_MAX_OVERRIDE_DEGREES = 90;
 
-    public static final double CLAW_LENGTH_INCHES = 0;
+    public static final double CLAW_LENGTH_INCHES = 4;
     public static final double CLAW_MASS_LB = 6.5;
-    public static final double CLAW_MASS_DISTRIBUTION = 0.25; //approximate mass distribution. See ArmSegment.CMDistribution
+    public static final double CLAW_MASS_DISTRIBUTION = 1;
 
     public static final double CONE_MASS_LB = 1.4;
 
