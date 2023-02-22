@@ -82,12 +82,11 @@ public class Wrist extends SparkMaxRotatingSubsystem {
         }
 
         public boolean enableSoftLimits() {
-            return true;
+            return false;
         }
 
         public float[] getSoftLimits() {
-            return new float[] { convertDegreesToRotations(RobotConstants.WRIST_SOFT_LIMIT_MAX),
-                    convertDegreesToRotations(RobotConstants.WRIST_SOFT_LIMIT_MIN) };
+            return null;
         }
 
         public int getContinuousCurrent() {

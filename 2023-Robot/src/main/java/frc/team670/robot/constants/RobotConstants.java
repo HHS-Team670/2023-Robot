@@ -154,9 +154,9 @@ public final class RobotConstants extends RobotConstantsBase {
     public static final int SHOULDER_SOFT_LIMIT_MAX = 300;
     public static final double SHOULDER_ARBITRARY_FF = 0.5;
 
-    public static final double SHOULDER_LENGTH_INCHES = 25;
-    public static final double SHOULDER_TO_ELBOW_MASS_LB = 6.5;
-    public static final double SHOULDER_MASS_DISTRIBUTION = 0.33; //approximate mass distribution. See ArmSegment.CMDistribution
+    public static final double SHOULDER_LENGTH_INCHES = 26;
+    public static final double SHOULDER_TO_ELBOW_MASS_LB = 8.7;
+    public static final double SHOULDER_MASS_DISTRIBUTION = 0.356; 
 
     // Elbow
     public static final double ELBOW_ABSOLUTE_ENCODER_AT_VERTICAL = hardwareSpecificConstants.get(MAC_ADDRESS)
@@ -167,20 +167,19 @@ public final class RobotConstants extends RobotConstantsBase {
     public static final double ELBOW_ARBITRARY_FF = 0.8;
 
     public static final double ELBOW_LENGTH_INCHES = 35;
-    public static final double ELBOW_TO_CLAW_MASS_LB = 2;
-    public static final double ELBOW_MASS_DISTRIBUTION = 0.33; //approximate mass distribution. See ArmSegment.CMDistribution
+    public static final double ELBOW_TO_CLAW_MASS_LB = 2; //TODO: set
+    public static final double ELBOW_MASS_DISTRIBUTION = 0.33; //TODO: set 
 
     // Wrist
     public static final double WRIST_ABSOLUTE_ENCODER_AT_VERTICAL = hardwareSpecificConstants.get(MAC_ADDRESS).get("WRIST_ABSOLUTE_ENCODER_AT_VERTICAL");
     public static final double WRIST_GEAR_RATIO = (hardwareSpecificConstants.get(MAC_ADDRESS).get("WRIST_GEAR_RATIO")).intValue();;
-    public static final float WRIST_SOFT_LIMIT_MAX = 0;
-    public static final float WRIST_SOFT_LIMIT_MIN = 0;
     public static final double WRIST_ARBITRARY_FF = 0;
 
     public static final double CLAW_LENGTH_INCHES = 0;
-    public static final double CLAW_MASS_LB = 6;
+    public static final double CLAW_MASS_LB = 6.5;
     public static final double CLAW_MASS_DISTRIBUTION = 0.25; //approximate mass distribution. See ArmSegment.CMDistribution
 
+    public static final double CONE_MASS_LB = 1.4;
     // Gravity-cancelling constants
     public static final ArmSegment SHOULDER_SEGMENT = new ArmSegment(SHOULDER_LENGTH_INCHES, SHOULDER_TO_ELBOW_MASS_LB, SHOULDER_MASS_DISTRIBUTION, SHOULDER_ARBITRARY_FF);
     public static final ArmSegment ELBOW_SEGMENT = new ArmSegment(ELBOW_LENGTH_INCHES, ELBOW_TO_CLAW_MASS_LB, ELBOW_MASS_DISTRIBUTION, ELBOW_ARBITRARY_FF);
