@@ -31,7 +31,7 @@ public class PoseEstimatorSubsystem extends MustangSubsystemBase {
    */
   private static final Vector<N3> visionMeasurementStdDevs = VecBuilder.fill(0.5, 0.5, Units.degreesToRadians(10));
 
-  private final SwerveDrivePoseEstimator poseEstimator;
+  private SwerveDrivePoseEstimator poseEstimator;
 
   private final Field2d field2d = new Field2d();
 
@@ -41,17 +41,6 @@ public class PoseEstimatorSubsystem extends MustangSubsystemBase {
     this.vision = vision;
     this.driveBase = driveBase;
 
-    ShuffleboardTab tab = Shuffleboard.getTab("Vision");
-
-    poseEstimator =  new SwerveDrivePoseEstimator(driveBase.getSwerveKinematics(),
-        driveBase.getGyroscopeRotation(),
-        driveBase.getModulePositions(),
-        new Pose2d(),
-        stateStdDevs,
-        visionMeasurementStdDevs);
-    
-    tab.addString("Pose", this::getFormattedPose).withPosition(0, 0).withSize(2, 0);
-    tab.add("Field", field2d).withPosition(2, 0).withSize(6, 4);
   }
 
   public void addTrajectory(Trajectory traj)
@@ -61,8 +50,25 @@ public class PoseEstimatorSubsystem extends MustangSubsystemBase {
 
   @Override
   public void mustangPeriodic() {
-    update();
-    field2d.setRobotPose(getCurrentPose());
+    if (driveBase.getGyroOffset() != null && poseEstimator == null) {  
+      poseEstimator =  new SwerveDrivePoseEstimator(driveBase.getSwerveKinematics(),
+      driveBase.getGyroscopeRotation(),
+      driveBase.getModulePositions(),
+      new Pose2d(),
+      stateStdDevs,
+      visionMeasurementStdDevs);
+
+      
+      ShuffleboardTab tab = Shuffleboard.getTab("Vision");
+
+      tab.addString("Pose", this::getFormattedPose).withPosition(0, 0).withSize(2, 0);
+      tab.add("Field", field2d).withPosition(2, 0).withSize(6, 4);
+    }
+
+    if (poseEstimator != null) {
+      update();
+      field2d.setRobotPose(getCurrentPose());
+    }
   }
 
   private void update() {
@@ -117,7 +123,7 @@ public class PoseEstimatorSubsystem extends MustangSubsystemBase {
 
     @Override
     public HealthState checkHealth() {
-        return null;
+        return HealthState.GREEN;
     }
 
     @Override

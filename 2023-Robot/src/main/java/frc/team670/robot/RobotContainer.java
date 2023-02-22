@@ -10,7 +10,6 @@ package frc.team670.robot;
 import frc.team670.robot.commands.drivebase.NonPidAutoLevel;
 import frc.team670.robot.commands.pathplanner.ConeCube;
 import frc.team670.robot.commands.vision.IsLockedOn;
-import frc.team670.robot.commands.vision.IsLockedOn;
 import frc.team670.robot.commands.pathplanner.CubeEngage;
 
 import edu.wpi.first.wpilibj.PowerDistribution;
@@ -49,7 +48,7 @@ public class RobotContainer extends RobotContainerBase {
 
     public RobotContainer() {
         super();
-        addSubsystem(driveBase, vision, arm, arm.getShoulder(), arm.getElbow(), claw);
+        addSubsystem(driveBase, vision, arm, arm.getShoulder(), arm.getElbow(), claw, poseEstimatorSubsystem);
         oi.configureButtonBindings(driveBase, vision, poseEstimatorSubsystem, arm, claw);
     }
 
