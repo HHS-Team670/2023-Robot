@@ -17,7 +17,7 @@ import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 import frc.team670.mustanglib.subsystems.VisionSubsystemBase;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase.HealthState;
 import frc.team670.mustanglib.utils.MustangController;
-import frc.team670.mustanglib.utils.math.sort.AStarMap;
+import frc.team670.mustanglib.utils.math.sort.AStarSearch;
 import frc.team670.robot.commands.drivebase.MoveToPose;
 import frc.team670.robot.commands.drivebase.PathFindMoveToPose;
 import frc.team670.robot.constants.FieldConstants;
@@ -48,10 +48,12 @@ public class AutoAlign extends CommandBase implements MustangCommand {
         this.vision = vision;
         this.driveBase = driveBase;
         this.driverController = driverController;
-        goalPoseID = getClosestTargetPose(driveBase.getPoseEstimator().getCurrentPose().getTranslation());
+        goalPoseID = getClosestTargetPose(
+                driveBase.getPoseEstimator().getCurrentPose().getTranslation());
     }
 
-    public AutoAlign(VisionSubsystemBase vision, DriveBase driveBase, MustangController driverController, int goalPose) {
+    public AutoAlign(VisionSubsystemBase vision, DriveBase driveBase,
+            MustangController driverController, int goalPose) {
         this.vision = vision;
         this.driveBase = driveBase;
         this.driverController = driverController;
@@ -65,8 +67,10 @@ public class AutoAlign extends CommandBase implements MustangCommand {
         // transform by offset (to not crash)
         Pose2d goalPose = new Pose2d(targets[goalPoseID], getRobotFacingRotation());
 
-        pathDrivingCommand = new PathFindMoveToPose(driveBase, RobotConstants.kAutoPathConstraints, new PoseNode(goalPose), FieldConstants.obstacles, new ObstacleAvoidanceAStarMap());
-        // MustangScheduler.getInstance().schedule(new IsLockedOn(driveBase, vision, goalPose), driveBase);
+        pathDrivingCommand = new PathFindMoveToPose(driveBase, RobotConstants.kAutoPathConstraints,
+                new PoseNode(goalPose), FieldConstants.obstacles, new ObstacleAvoidanceAStarMap());
+        // MustangScheduler.getInstance().schedule(new IsLockedOn(driveBase, vision, goalPose),
+        // driveBase);
         MustangScheduler.getInstance().schedule(pathDrivingCommand, driveBase);
     }
 
@@ -95,6 +99,7 @@ public class AutoAlign extends CommandBase implements MustangCommand {
     }
 
     private Rotation2d getRobotFacingRotation() {
-        return DriverStation.getAlliance() == Alliance.Red ? new Rotation2d() : new Rotation2d(Math.PI);
+        return DriverStation.getAlliance() == Alliance.Red ? new Rotation2d()
+                : new Rotation2d(Math.PI);
     }
 }

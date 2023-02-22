@@ -27,14 +27,12 @@ public class PathFindMoveToPose extends CommandBase implements MustangCommand {
 	private final PathConstraints constraints;
 	private final PoseNode finalPosition;
 	private PoseNode startPoint;
-	private final List<Obstacle> obstacles;
 	private ObstacleAvoidanceAStarMap AStarMap;
 
 	public PathFindMoveToPose(DriveBase driveSystem, PathConstraints constraints,
-			PoseNode finalPosition, List<Obstacle> obstacles, ObstacleAvoidanceAStarMap AStarMap) {
+			PoseNode finalPosition, ObstacleAvoidanceAStarMap AStarMap) {
 		this.driveSystem = driveSystem;
 		this.constraints = constraints;
-		this.obstacles = obstacles;
 		this.finalPosition = finalPosition;
 		this.AStarMap = AStarMap;
 		this.startPoint = new PoseNode(driveSystem.getPoseEstimator().getCurrentPose());
@@ -46,23 +44,25 @@ public class PathFindMoveToPose extends CommandBase implements MustangCommand {
 	public void initialize() {
 		startPoint = new PoseNode(driveSystem.getPoseEstimator().getCurrentPose());
 		PathPlannerTrajectory trajectory;
-		List<PoseNode> fullPath = new ArrayList<PoseNode>();
-
-		AStarMap.addNode(startPoint);
-		if (AStarMap.addObstacle(new PoseEdge(startPoint, finalPosition), obstacles)) {
-			fullPath.add(0, startPoint);
-			fullPath.add(1, finalPosition);
-		} else {
-			for (int i = 0; i < AStarMap.getNodeSize(); i++) {
-				PoseNode endNode = (PoseNode) AStarMap.getNode(i);
-				AStarMap.addObstacle(new PoseEdge(startPoint, endNode), obstacles);
-			}
-			fullPath = AStarMap.search(startPoint, finalPosition);
-		}
-
+		List<PoseNode> fullPath = AStarMap.findPath();
 		if (fullPath == null) {
 			return;
 		}
+
+
+		// Depending on if internal points are present, make a new array of the other
+		// points in the path.
+		PathPoint[] fullPathPoints = getPathPointsFromNodes(fullPath);
+
+		trajectory = PathPlanner.generatePath(constraints, Arrays.asList(fullPathPoints));
+		driveSystem.getPoseEstimator().addTrajectory(trajectory);
+		pathDrivingCommand = driveSystem.getFollowTrajectoryCommand(trajectory);
+		pathDrivingCommand.schedule();
+	}
+
+	private PathPoint[] getPathPointsFromNodes(List<PoseNode> fullPath) {
+		PathPoint[] fullPathPoints = new PathPoint[fullPath.size()];
+
 		Rotation2d Heading = new Rotation2d(fullPath.get(1).getX() - startPoint.getX(),
 				fullPath.get(1).getY() - startPoint.getY());
 		double totalDis = 0;
@@ -70,10 +70,6 @@ public class PathFindMoveToPose extends CommandBase implements MustangCommand {
 			totalDis += Math.hypot(fullPath.get(i + 1).getX() - fullPath.get(i).getX(),
 					fullPath.get(i + 1).getY() - fullPath.get(i).getY());
 		}
-
-		// Depending on if internal points are present, make a new array of the other
-		// points in the path.
-		PathPoint[] fullPathPoints = new PathPoint[fullPath.size()];
 
 		for (int i = 0; i < fullPath.size(); i++) {
 			if (i == 0) {
@@ -96,21 +92,9 @@ public class PathFindMoveToPose extends CommandBase implements MustangCommand {
 						new Rotation2d(fullPath.get(i + 1).getX() - fullPath.get(i).getX(),
 								fullPath.get(i + 1).getY() - fullPath.get(i).getY()),
 						finalPosition.getHolRot());
-				// fullPathPoints[i] = new PathPoint(new Translation2d(fullPath.get(i).getX(),
-				// fullPath.get(i).getY()),
-				// new Rotation2d(fullPath.get(i + 1).getX() - fullPath.get(i).getX(),
-				// fullPath.get(i + 1).getY() - fullPath.get(i).getY()),
-				// (Rotation2d)null);
 			}
-
 		}
-
-		// Declare an array to hold PathPoint objects made from all other points
-		// specified in constructor.
-		trajectory = PathPlanner.generatePath(constraints, Arrays.asList(fullPathPoints));
-		driveSystem.getPoseEstimator().addTrajectory(trajectory);
-		pathDrivingCommand = driveSystem.getFollowTrajectoryCommand(trajectory);
-		pathDrivingCommand.schedule();
+		return fullPathPoints;
 	}
 
 	@Override
@@ -142,6 +126,8 @@ public class PathFindMoveToPose extends CommandBase implements MustangCommand {
 		}
 		return angle;
 	}
+
+
 
 	@Override
 	public Map<MustangSubsystemBase, HealthState> getHealthRequirements() {
