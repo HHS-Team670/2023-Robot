@@ -1,0 +1,98 @@
+{
+  "waypoints": [
+    {
+      "anchorPoint": {
+        "x": 1.87122037467945,
+        "y": 1.0539825970188668
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 1.9614880235164962,
+        "y": 0.6809038985670836
+      },
+      "holonomicAngle": 0.0,
+      "isReversal": false,
+      "velOverride": null,
+      "isLocked": false,
+      "isStopPoint": false,
+      "stopEvent": {
+        "names": [
+          "clawIntake1",
+          "moveToHigh",
+          "clawEject"
+        ],
+        "executionBehavior": "sequential",
+        "waitBehavior": "none",
+        "waitTime": 0
+      }
+    },
+    {
+      "anchorPoint": {
+        "x": 6.578049612904761,
+        "y": 0.9281026639192494
+      },
+      "prevControl": {
+        "x": 5.926744600174876,
+        "y": 0.8868574318811365
+      },
+      "nextControl": {
+        "x": 6.640430940969191,
+        "y": 0.9320530900645647
+      },
+      "holonomicAngle": 0.0,
+      "isReversal": false,
+      "velOverride": null,
+      "isLocked": false,
+      "isStopPoint": true,
+      "stopEvent": {
+        "names": [],
+        "executionBehavior": "parallel",
+        "waitBehavior": "none",
+        "waitTime": 0
+      }
+    },
+    {
+      "anchorPoint": {
+        "x": 5.3954226254535405,
+        "y": 2.0941773029379385
+      },
+      "prevControl": {
+        "x": 6.8630054148881525,
+        "y": 2.1763021983282504
+      },
+      "nextControl": null,
+      "holonomicAngle": 0.0,
+      "isReversal": false,
+      "velOverride": 0.6,
+      "isLocked": false,
+      "isStopPoint": false,
+      "stopEvent": {
+        "names": [
+          "autoLevel"
+        ],
+        "executionBehavior": "sequential",
+        "waitBehavior": "none",
+        "waitTime": 0
+      }
+    }
+  ],
+  "maxVelocity": 2.0,
+  "maxAcceleration": 1.0,
+  "isReversed": null,
+  "markers": [
+    {
+      "position": 0.07719726562499997,
+      "names": [
+        "moveToGround",
+        "clawIntake2"
+      ]
+    },
+    {
+      "position": 1.262406782670455,
+      "names": [
+        "event",
+        "moveToStowed"
+      ]
+    }
+  ]
+}

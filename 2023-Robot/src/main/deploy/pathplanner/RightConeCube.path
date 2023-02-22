@@ -1,0 +1,97 @@
+{
+  "waypoints": [
+    {
+      "anchorPoint": {
+        "x": 1.8865975178984258,
+        "y": 0.5009529951969514
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 2.189029877706648,
+        "y": 0.49871714944701073
+      },
+      "holonomicAngle": 0.0,
+      "isReversal": false,
+      "velOverride": null,
+      "isLocked": false,
+      "isStopPoint": false,
+      "stopEvent": {
+        "names": [
+          "clawIntake1",
+          "moveToHigh1",
+          "clawEject1"
+        ],
+        "executionBehavior": "sequential",
+        "waitBehavior": "none",
+        "waitTime": 0
+      }
+    },
+    {
+      "anchorPoint": {
+        "x": 6.575214412440084,
+        "y": 0.9370826836988277
+      },
+      "prevControl": {
+        "x": 4.564065053165372,
+        "y": 0.8970810391707583
+      },
+      "nextControl": {
+        "x": 4.564065053165372,
+        "y": 0.8970810391707583
+      },
+      "holonomicAngle": 0.0,
+      "isReversal": true,
+      "velOverride": null,
+      "isLocked": false,
+      "isStopPoint": true,
+      "stopEvent": {
+        "names": [],
+        "executionBehavior": "sequential",
+        "waitBehavior": "none",
+        "waitTime": 0
+      }
+    },
+    {
+      "anchorPoint": {
+        "x": 1.893062452995023,
+        "y": 1.4
+      },
+      "prevControl": {
+        "x": 3.3692926377466477,
+        "y": 0.9240545360322814
+      },
+      "nextControl": null,
+      "holonomicAngle": 0.0,
+      "isReversal": false,
+      "velOverride": null,
+      "isLocked": false,
+      "isStopPoint": false,
+      "stopEvent": {
+        "names": [
+          "clawEject2",
+          "moveToStowed"
+        ],
+        "executionBehavior": "sequential",
+        "waitBehavior": "none",
+        "waitTime": 0
+      }
+    }
+  ],
+  "markers": [
+    {
+      "position": 1.0720725319602271,
+      "names": [
+        "event",
+        "moveToHigh2"
+      ]
+    },
+    {
+      "position": 0.13910466974431812,
+      "names": [
+        "event",
+        "moveToBackward",
+        "clawIntake2"
+      ]
+    }
+  ]
+}
