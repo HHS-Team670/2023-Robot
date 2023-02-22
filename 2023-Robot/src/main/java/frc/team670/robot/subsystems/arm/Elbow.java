@@ -127,8 +127,8 @@ public class Elbow extends SparkMaxRotatingSubsystem {
     }
 
     /**
-     * The calculated voltage, returned from VoltageCalculator
-     * @param voltage
+     * Updates the arbitraryFF value to counteract gravity
+     * @param voltage The calculated voltage, returned from VoltageCalculator
      */
     public void updateArbitraryFeedForward(double voltage) {
         if (setpoint != SparkMaxRotatingSubsystem.NO_SETPOINT) {

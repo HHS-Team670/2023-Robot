@@ -1,4 +1,4 @@
-package frc.team670.robot.subsystems.arm;
+
 import java.util.ArrayList;
 import frc.team670.mustanglib.utils.Logger;
 
@@ -40,7 +40,7 @@ public class VoltageCalculator {
     public ArrayList<Double> calculateVoltages(double... anglesRelativeToPrevious) {
         // First, ensure that the number of received angles is correct
         if(anglesRelativeToPrevious.length != armSegments.length) {
-            Logger.consoleError("VoltageCalculator received the wrong number of angles! Received " + anglesRelativeToPrevious.length + " but expected " + armSegments.length);
+            System.out.println("VoltageCalculator received the wrong number of angles! Received " + anglesRelativeToPrevious.length + " but expected " + armSegments.length);
             return null;
         }
 
@@ -49,7 +49,7 @@ public class VoltageCalculator {
         anglesRelativeToGround[0] = Math.toRadians(anglesRelativeToPrevious[0]); //Put the first joint in place
         for(int i = 1; i < anglesRelativeToPrevious.length; i++) {
             double previousAngle = anglesRelativeToGround[i - 1];
-            anglesRelativeToGround[i] = previousAngle - (Math.PI - Math.toRadians(anglesRelativeToPrevious[i])); //Calculate each joint relative to the previous one
+            anglesRelativeToGround[i] = Math.toRadians(previousAngle - (180 - anglesRelativeToPrevious[i])); //Calculate each joint relative to the previous one
         }
 
         // Third, get the x-displacements of the center of mass of the remaining segments, for each joint
