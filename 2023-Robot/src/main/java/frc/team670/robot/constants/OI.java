@@ -24,14 +24,15 @@ import frc.team670.robot.subsystems.arm.Arm;
 import frc.team670.robot.subsystems.arm.ArmState;
 
 public class OI extends OIBase {
-    private static boolean driverArm = false;
+
     // Controllers
     private static MustangController driverController = new MustangController(0);
     private static MustangController operatorController = new MustangController(1);
 
     // Driver buttons
-    private static JoystickButton zeroGyro = new JoystickButton(driverController, XboxButtons.X);
-    private static JoystickButton zeroArm = new JoystickButton(operatorController, XboxButtons.X);
+    private static JoystickButton zeroArm = new JoystickButton(driverController, XboxButtons.START);
+    // private static JoystickButton zeroGyro = new
+    // JoystickButton(operatorController, XboxButtons.START);
     private static JoystickButton moveToTarget = new JoystickButton(driverController, XboxButtons.Y);
 
     // private static JoystickButton move = new JoystickButton(driverController,
@@ -81,7 +82,8 @@ public class OI extends OIBase {
         driveBase.initDefaultCommand();
 
         zeroGyro.onTrue(new SetSwerveForwardDirection(driveBase));
-        // zeroArm.onTrue(new ResetArmFromAbsolute(arm)); DO NOT USE!!! Critial errors not yet fixed
+        // zeroArm.onTrue(new ResetArmFromAbsolute(arm)); DO NOT USE!!! Critial errors
+        // not yet fixed
         moveToTarget.onTrue(new AutoAlign(vision, driveBase));
         // move.onTrue(new MoveToPose(driveBase, new Pose2d(1, 1, new Rotation2d()),
         // true));

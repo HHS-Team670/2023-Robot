@@ -102,7 +102,7 @@ public class Claw extends MustangSubsystemBase {
                     isFull = false;
                     ticker = 0;
                     if (returnToStowed) {
-                        MustangScheduler.getInstance().schedule(new MoveToTarget(arm, ArmState.STOWED));
+                        MustangScheduler.getInstance().schedule(new MoveToTarget(arm, this, ArmState.STOWED));
                     }
                 }
                 break;
@@ -119,7 +119,7 @@ public class Claw extends MustangSubsystemBase {
                     isFull = true;
                     ticker = 0;
                     if (returnToStowed) {
-                        MustangScheduler.getInstance().schedule(new MoveToTarget(arm, ArmState.STOWED));
+                        MustangScheduler.getInstance().schedule(new MoveToTarget(arm, this, ArmState.STOWED));
                     }
                 }
             } else {
