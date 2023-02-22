@@ -6,7 +6,7 @@
     <link href="css/style.css" rel="stylesheet">
 </head>
 
-<body class="leveled">
+<body class="">
     <div id="v-crosshairs-large"> </div>
 
     <!-- <svg id="back-indicator" width="33vw" height="58vh">
@@ -113,10 +113,12 @@
       <div id="auton-chooser">
         <form id="auto-form">
             <fieldset id="position">
-                <input style="margin:5px;" type="radio" name="hub-type" value="Upper" id="Upper"/>
-                <label for="Upper">Upper Hub</label>
-                <input style="margin:5px;" type="radio" name="hub-type" value="Lower" id="Lower"/>
-                <label for="Lower">Lower Hub</label>
+                <input style="margin:5px;" type="radio" name="side" value="Left" id="Left"/>
+                <label for="Left">Left</label>
+                <input style="margin:5px;" type="radio" name="side" value="Middle" id="Middle"/>
+                <label for="Middle">Middle</label>
+                <input style="margin:5px;" type="radio" name="side" value="Right" id="Right"/>
+                <label for="Right">Right</label>
                 <div class="path-dropdown">
                   <button style="margin:2px;" type="button" class="dropbtn general-button">Choose Path</button>
                   <div class="dropup-content">

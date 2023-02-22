@@ -17,7 +17,7 @@ function updatePath(evt) {
     }
 }
 
-function setPaths(upper) {
+function setPaths(upper) { // Todo
     var content = document.querySelector(".dropup-content");
     content.innerHTML = "";
 
@@ -41,10 +41,12 @@ function setPaths(upper) {
 }
 
 
-var lower = document.querySelector('#Lower');
-lower.onclick = () => {setPaths(false)};
-var upper = document.querySelector('#Upper');
-upper.onclick = () => {setPaths(true)};
+var left = document.querySelector('#Left');
+left.onclick = () => {setPaths(false)};
+var middle = document.querySelector('#Middle');
+middle.onclick = () => {setPaths(true)};
+var right = document.querySelector('#Right');
+right.onclick = () => {setPaths(true)};
 var toggleCamera = document.querySelector('#toggle-camera');
 toggleCamera.onclick = () => {
     var cameraDiv = document.querySelector("#camera-streams")
@@ -86,11 +88,12 @@ NetworkTables.addKeyListener('/SmartDashboard/robot-state', (key, value) => {
 
 // listens for warnings
 NetworkTables.addKeyListener('/SmartDashboard/warnings', (key, value) => {
-    document.getElementById('big-warning').style.display = "inline";
-    document.getElementById('warnings').innerHTML += (value + "\n");
+    // document.getElementById('big-warning').style.display = "inline";
+    // document.getElementById('warnings').innerHTML += (value + "\n");
 
-    setTimeout(() => { document.getElementById('big-warning').style.display = "none"; }, 1000);
-    var timeSinceWarningFlashed = Date.getTime();
+    // setTimeout(() => { document.getElementById('big-warning').style.display = "none"; }, 1000);
+    // var timeSinceWarningFlashed = Date.getTime();
+    console.log(value);
 });
 
 
@@ -184,7 +187,7 @@ NetworkTables.addKeyListener('/SmartDashboard/Vision', (key, value) => {
     }
 });
 
-NetworkTables.addKeyListener('/SmartDashboard/arm', (key, value) => {
+NetworkTables.addKeyListener('/SmartDashboard/Arm', (key, value) => {
     var subsystem = document.getElementById('arm');
     if (value === 'GREEN') {
         subsystem.style.backgroundColor = "rgb(0,255,0)";
@@ -196,7 +199,7 @@ NetworkTables.addKeyListener('/SmartDashboard/arm', (key, value) => {
 });
 
 
-NetworkTables.addKeyListener('/SmartDashboard/elbow', (key, value) => {
+NetworkTables.addKeyListener('/SmartDashboard/Elbow', (key, value) => {
     var subsystem = document.getElementById('elbow');
     if (value === 'GREEN') {
         subsystem.style.backgroundColor = "rgb(0,255,0)";
@@ -208,7 +211,7 @@ NetworkTables.addKeyListener('/SmartDashboard/elbow', (key, value) => {
 });
 
 
-NetworkTables.addKeyListener('/SmartDashboard/shoulder', (key, value) => {
+NetworkTables.addKeyListener('/SmartDashboard/Shoulder', (key, value) => {
     var subsystem = document.getElementById('shoulder');
     if (value === 'GREEN') {
         subsystem.style.backgroundColor = "rgb(0,255,0)";
@@ -219,7 +222,7 @@ NetworkTables.addKeyListener('/SmartDashboard/shoulder', (key, value) => {
     }
 });
 
-NetworkTables.addKeyListener('/SmartDashboard/wrist', (key, value) => {
+NetworkTables.addKeyListener('/SmartDashboard/Wrist', (key, value) => {
     var subsystem = document.getElementById('wrist');
     if (value === 'GREEN') {
         subsystem.style.backgroundColor = "rgb(0,255,0)";
@@ -317,8 +320,8 @@ function getAutonFromMap() {
     // switch (document.querySelector('input[name="path"]:checked').value) {
     if (document.querySelector('input[name="hub-type"]:checked') != null) {
         switch (document.querySelector('input[name="hub-type"]:checked').value) {
-            case "Upper":
-                switch(selectedPath) {
+            case "Left":
+                switch(selectedPath) { // Todo
                     case "ATarmacEdge2Ball":
                         return 0.0;
                     case "BTarmacEdgeCenter2Ball":
@@ -328,7 +331,16 @@ function getAutonFromMap() {
                     case "BTarmacHighHubTerminal":
                         return 3.0;
                 }
-            case "Lower":
+            case "Middle": // Todo 
+                switch(selectedPath) {
+                    case "ATarmacEdge2Ball":
+                        return 4.0;
+                    case "BTarmacEdgeCenter2Ball":
+                        return 5.0;
+                    case "BTarmacEdgeLower2Ball":
+                        return 6.0;
+                }
+            case "Right": // Todo
                 switch(selectedPath) {
                     case "ATarmacEdge2Ball":
                         return 4.0;
