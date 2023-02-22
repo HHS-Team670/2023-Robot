@@ -4,7 +4,6 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.team670.robot.subsystems.DriveBase;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import java.util.function.DoubleSupplier;
 
@@ -35,6 +34,7 @@ public class DefaultDriveCommand extends CommandBase {
         double angle = m_rotationSupplier.getAsDouble();
         double xPos = m_translationXSupplier.getAsDouble();
         double yPos = m_translationYSupplier.getAsDouble();
+
         // if (Math.abs(xPos) <= 0.1 && Math.abs(yPos) <= 0.1) {
         // angle = prevAngle;
         // }
