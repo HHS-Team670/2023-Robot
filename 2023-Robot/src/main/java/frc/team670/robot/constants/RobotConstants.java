@@ -182,8 +182,8 @@ public final class RobotConstants extends RobotConstantsBase {
     public static final int ELBOW_MAX_OVERRIDE_DEGREES  = 15;
     public static final double ELBOW_ARBITRARY_FF = 0.8;
     public static final double ELBOW_LENGTH_INCHES = 35;
-    public static final double ELBOW_TO_CLAW_MASS_LB = 2; //TODO: set
-    public static final double ELBOW_MASS_DISTRIBUTION = 0.33; //TODO: set 
+    public static final double ELBOW_TO_CLAW_MASS_LB = 5.5; //TODO: set
+    public static final double ELBOW_MASS_DISTRIBUTION = 0.686; //TODO: set 
 
     // Wrist
     public static final double WRIST_ABSOLUTE_ENCODER_AT_VERTICAL = hardwareSpecificConstants.get(MAC_ADDRESS).get("WRIST_ABSOLUTE_ENCODER_AT_VERTICAL");
