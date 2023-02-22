@@ -59,7 +59,7 @@ public class AutoAlign extends InstantCommand implements MustangCommand {
         // transform by offset (to not crash)
         Pose2d goalPose = targetPose.transformBy(FieldConstants.GRID_TO_TARGET_OFFSET(targetPose));
 
-        scheduler.schedule(new IsLockedOn(driveBase, vision, targetPose), driveBase);
+        scheduler.schedule(new IsLockedOn(driveBase, vision, poseEstimatorSubsystem, targetPose), driveBase);
         scheduler.schedule(new MoveToPose(driveBase, poseEstimatorSubsystem, goalPose), driveBase);
     }
 
