@@ -10,16 +10,16 @@
         "x": 2.189029877706648,
         "y": 0.49871714944701073
       },
-      "holonomicAngle": 180.0,
+      "holonomicAngle": 0.0,
       "isReversal": false,
       "velOverride": null,
       "isLocked": false,
       "isStopPoint": false,
       "stopEvent": {
         "names": [
+          "clawIntake1",
           "moveToHigh1",
-          "clawEject1",
-          "moveToStowed1"
+          "clawEject1"
         ],
         "executionBehavior": "sequential",
         "waitBehavior": "none",
@@ -28,28 +28,24 @@
     },
     {
       "anchorPoint": {
-        "x": 6.375080675655703,
-        "y": 0.9273150908589963
+        "x": 6.575214412440084,
+        "y": 0.9370826836988277
       },
       "prevControl": {
-        "x": 4.380375104412141,
-        "y": 0.8949335069102363
+        "x": 4.564065053165372,
+        "y": 0.8970810391707583
       },
       "nextControl": {
-        "x": 4.380375104412141,
-        "y": 0.8949335069102363
+        "x": 4.564065053165372,
+        "y": 0.8970810391707583
       },
-      "holonomicAngle": 180.0,
+      "holonomicAngle": 0.0,
       "isReversal": true,
       "velOverride": null,
       "isLocked": false,
       "isStopPoint": true,
       "stopEvent": {
-        "names": [
-          "moveToBackwards",
-          "clawIntake",
-          "moveToStowed2"
-        ],
+        "names": [],
         "executionBehavior": "sequential",
         "waitBehavior": "none",
         "waitTime": 0
@@ -57,24 +53,23 @@
     },
     {
       "anchorPoint": {
-        "x": 1.9039823593418375,
-        "y": 1.0693141107327422
+        "x": 1.893062452995023,
+        "y": 1.4
       },
       "prevControl": {
-        "x": 1.8856392982913086,
-        "y": 0.4398094583618553
+        "x": 3.3692926377466477,
+        "y": 0.9240545360322814
       },
       "nextControl": null,
-      "holonomicAngle": 180.0,
+      "holonomicAngle": 0.0,
       "isReversal": false,
       "velOverride": null,
       "isLocked": false,
       "isStopPoint": false,
       "stopEvent": {
         "names": [
-          "moveToHigh2",
           "clawEject2",
-          "moveToStowed3"
+          "moveToStowed"
         ],
         "executionBehavior": "sequential",
         "waitBehavior": "none",
@@ -82,5 +77,21 @@
       }
     }
   ],
-  "markers": []
+  "markers": [
+    {
+      "position": 1.0720725319602271,
+      "names": [
+        "event",
+        "moveToHigh2"
+      ]
+    },
+    {
+      "position": 0.13910466974431812,
+      "names": [
+        "event",
+        "moveToBackward",
+        "clawIntake2"
+      ]
+    }
+  ]
 }

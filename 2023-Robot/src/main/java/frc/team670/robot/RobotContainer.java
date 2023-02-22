@@ -7,6 +7,8 @@
 
 package frc.team670.robot;
 
+import frc.team670.robot.commands.drivebase.NonPidAutoLevel;
+import frc.team670.robot.commands.pathplanner.ConeCube;
 import frc.team670.robot.commands.pathplanner.CubeEngage;
 
 import edu.wpi.first.wpilibj.PowerDistribution;
@@ -64,9 +66,9 @@ public class RobotContainer extends RobotContainerBase {
      */
     @Override
     public MustangCommand getAutonomousCommand() {
-        return new CubeEngage(driveBase, claw, arm, "RightCubeEngage");
-
-        //return new ConeCube(driveBase, "LeftConeCube");
+        //return new CubeEngage(driveBase, claw, arm, "RightCubeEngage");
+        return new ConeCube(driveBase, claw, arm, "RightConeCube");
+        //return new NonPidAutoLevel(driveBase, false);
 
     }
 

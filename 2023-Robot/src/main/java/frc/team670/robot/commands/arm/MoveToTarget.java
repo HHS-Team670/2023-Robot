@@ -7,12 +7,9 @@ import java.util.Map;
 
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandGroupBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.team670.mustanglib.commands.MustangCommand;
-import frc.team670.mustanglib.commands.MustangScheduler;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase.HealthState;
 import frc.team670.mustanglib.utils.Logger;
@@ -24,7 +21,13 @@ import frc.team670.robot.subsystems.arm.ArmState;
  * Gets a valid sequence of ArmStates between the current state and the given target state,
  * and queues them one by one
  * 
- * Copies all of SequentialCommandGroup from wpilib in order to avoid having to declare new instant commands
+ * Copies all of SequentialCommandGroup from wpilib in order to avoid having to declare new InstantCommands.
+ * As ugly as it is to copy an entire wpilib class, it ends up being cleaner. If we just try to
+ * extend SequentialCommandGroup, we don't have a way to re-run the pathfinding algorithm on
+ * initialize. Rather, we have to do some weird InstantCommand nonsense, which then removes our ability
+ * to clear the queue. For more info, ask Justin or Aditi
+ * 
+ * @author Aditi, Armaan, Alexander, Justin, Kedar
  */
 public class MoveToTarget extends CommandGroupBase implements MustangCommand {
     private Map<MustangSubsystemBase, HealthState> healthReqs;
@@ -53,7 +56,7 @@ public class MoveToTarget extends CommandGroupBase implements MustangCommand {
         // 3) then call move directly to target for each of those returned paths
         m_commands.clear();
         ArmState[] path = Arm.getValidPath(arm.getTargetState(), target);
-        for(int i = 0; i<path.length; i++){
+        for(int i = 1; i<path.length; i++){
             addCommands(new MoveDirectlyToTarget(arm, path[i]));
         }
 
