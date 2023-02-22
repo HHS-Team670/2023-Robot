@@ -34,7 +34,7 @@ public class AutoAlign extends CommandBase implements MustangCommand {
 
     private VisionSubsystemBase vision;
     private DriveBase driveBase;
-    private PathFindMoveToPose pathDrivingCommand;
+    private PathFindMoveToPose pathFindingCommand;
     private MustangController driverController;
     private int goalPoseID;
     private Translation2d[] targets = FieldConstants.Grids.complexLowTranslations;
@@ -62,24 +62,29 @@ public class AutoAlign extends CommandBase implements MustangCommand {
 
     @Override
     public void initialize() {
-        Pose2d robotPose = driveBase.getPoseEstimator().getCurrentPose();
-
-        // transform by offset (to not crash)
         Pose2d goalPose = new Pose2d(targets[goalPoseID], getRobotFacingRotation());
 
-        pathDrivingCommand = new PathFindMoveToPose(driveBase, RobotConstants.kAutoPathConstraints, goalPose, new ObstacleAvoidanceAStarMap());
-        // MustangScheduler.getInstance().schedule(new IsLockedOn(driveBase, vision, goalPose),
-        // driveBase);
-        MustangScheduler.getInstance().schedule(pathDrivingCommand, driveBase);
+        pathFindingCommand = new PathFindMoveToPose(driveBase, goalPose);
+        MustangScheduler.getInstance().schedule(pathFindingCommand, driveBase);
+    }
+
+    @Override
+    public void execute() {
+        // TODO Auto-generated method stub
+        super.execute();
+    }
+
+    @Override
+    public boolean isFinished() {
+        return (pathFindingCommand == null || !pathFindingCommand.isScheduled());
     }
 
     @Override
     public void end(boolean interrupted) {
         if (interrupted) {
-            pathDrivingCommand.cancel();
+            pathFindingCommand.cancel();
         }
     }
-
 
     @Override
     public Map<MustangSubsystemBase, HealthState> getHealthRequirements() {

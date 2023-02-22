@@ -8,15 +8,16 @@ import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.PathPoint;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.team670.mustanglib.commands.MustangCommand;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase.HealthState;
+import frc.team670.robot.constants.FieldConstants;
+import frc.team670.robot.constants.RobotConstants;
 import frc.team670.robot.subsystems.DriveBase;
-import frc.team670.robot.subsystems.pathfinder.Obstacle;
-import frc.team670.robot.subsystems.pathfinder.PoseEdge;
 import frc.team670.robot.subsystems.pathfinder.PoseNode;
 import frc.team670.robot.subsystems.pathfinder.ObstacleAvoidanceAStarMap;
 
@@ -24,37 +25,34 @@ public class PathFindMoveToPose extends CommandBase implements MustangCommand {
 
 	private final DriveBase driveSystem;
 	private MustangPPSwerveControllerCommand pathDrivingCommand;
-	private final PathConstraints constraints;
-	private final PoseNode finalPosition;
+	private final PoseNode endPoint;
 	private PoseNode startPoint;
 	private ObstacleAvoidanceAStarMap AStarMap;
 
-	public PathFindMoveToPose(DriveBase driveSystem, PathConstraints constraints,
-			PoseNode finalPosition, ObstacleAvoidanceAStarMap AStarMap) {
-		this.driveSystem = driveSystem;
-		this.constraints = constraints;
-		this.finalPosition = finalPosition;
-		this.AStarMap = AStarMap;
-		this.startPoint = new PoseNode(driveSystem.getPoseEstimator().getCurrentPose());
+	public PathFindMoveToPose(DriveBase driveBase, Pose2d finalPose) {
+		this.driveSystem = driveBase;
+		this.startPoint = new PoseNode(driveBase.getPoseEstimator().getCurrentPose());
+		this.endPoint = new PoseNode(finalPose);
+		this.AStarMap = new ObstacleAvoidanceAStarMap(startPoint, endPoint, FieldConstants.obstacles);
 
-		addRequirements(driveSystem);
+		addRequirements(driveBase);
 	}
 
 	@Override
 	public void initialize() {
 		startPoint = new PoseNode(driveSystem.getPoseEstimator().getCurrentPose());
+
 		PathPlannerTrajectory trajectory;
 		List<PoseNode> fullPath = AStarMap.findPath();
-		if (fullPath == null) {
+		if (fullPath == null)
 			return;
-		}
-
 
 		// Depending on if internal points are present, make a new array of the other
 		// points in the path.
 		PathPoint[] fullPathPoints = getPathPointsFromNodes(fullPath);
 
-		trajectory = PathPlanner.generatePath(constraints, Arrays.asList(fullPathPoints));
+		trajectory = PathPlanner.generatePath(RobotConstants.kAutoPathConstraints,
+				Arrays.asList(fullPathPoints));
 		driveSystem.getPoseEstimator().addTrajectory(trajectory);
 		pathDrivingCommand = driveSystem.getFollowTrajectoryCommand(trajectory);
 		pathDrivingCommand.schedule();
@@ -72,26 +70,24 @@ public class PathFindMoveToPose extends CommandBase implements MustangCommand {
 		}
 
 		for (int i = 0; i < fullPath.size(); i++) {
-			if (i == 0) {
-
+			if (i == 0) { // first node
 				fullPathPoints[i] = new PathPoint(
 						new Translation2d(startPoint.getX(), startPoint.getY()), Heading,
 						driveSystem.getPoseEstimator().getCurrentPose().getRotation(),
 						Math.hypot(driveSystem.getChassisSpeeds().vxMetersPerSecond,
 								driveSystem.getChassisSpeeds().vyMetersPerSecond));
-			} else if (i + 1 == fullPath.size()) {
+			} else if (i + 1 == fullPath.size()) { // last node
 				fullPathPoints[i] =
-						new PathPoint(new Translation2d(finalPosition.getX(), finalPosition.getY()),
+						new PathPoint(new Translation2d(endPoint.getX(), endPoint.getY()),
 								new Rotation2d(fullPath.get(i).getX() - fullPath.get(i - 1).getX(),
 										fullPath.get(i).getY() - fullPath.get(i - 1).getY()),
-								finalPosition.getHolRot());
+								endPoint.getHolRot());
 			} else {
-
 				fullPathPoints[i] = new PathPoint(
 						new Translation2d(fullPath.get(i).getX(), fullPath.get(i).getY()),
 						new Rotation2d(fullPath.get(i + 1).getX() - fullPath.get(i).getX(),
 								fullPath.get(i + 1).getY() - fullPath.get(i).getY()),
-						finalPosition.getHolRot());
+						endPoint.getHolRot());
 			}
 		}
 		return fullPathPoints;

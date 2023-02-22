@@ -3,8 +3,6 @@ package frc.team670.robot.subsystems.pathfinder;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
 import java.util.List;
-import com.pathplanner.lib.PathPoint;
-import frc.team670.mustanglib.subsystems.drivebase.SwerveDrive;
 import frc.team670.mustanglib.utils.math.sort.AStarSearch;
 import frc.team670.robot.subsystems.pathfinder.Obstacle.PolygonDouble;
 
@@ -20,12 +18,10 @@ public class ObstacleAvoidanceAStarMap {
     private final List<Obstacle> obstacles = new ArrayList<>();
     private PoseNode startNode, endNode;
 
-    public void addStartNode(PoseNode start) {
+    public ObstacleAvoidanceAStarMap(PoseNode start, PoseNode destination, List<Obstacle> obstacles) {
         this.startNode = start;
-    }
-
-    public void addEndNode(PoseNode endNode) {
-        this.endNode = endNode;
+        this.endNode = destination;
+        addObstacles(obstacles);
     }
 
     // Add a node to the navigation mesh
