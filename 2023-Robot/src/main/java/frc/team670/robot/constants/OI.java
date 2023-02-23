@@ -6,7 +6,6 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.team670.mustanglib.commands.MustangScheduler;
-import frc.team670.mustanglib.commands.drive.teleop.ResetArmFromAbsolute;
 import frc.team670.mustanglib.commands.drive.teleop.SetSwerveForwardDirection;
 import frc.team670.mustanglib.constants.OIBase;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
@@ -71,8 +70,7 @@ public class OI extends OIBase {
 
         driveBase.initDefaultCommand();
 
-        zeroGyro.onTrue(new SetSwerveForwardDirection(driveBase));
-        zeroArm.onTrue(new ResetArmFromAbsolute(arm));
+        zeroGyro.onTrue(new SetSwerveForwardDirection(driveBase, arm));
         moveToTarget.onTrue(new AutoAlign(vision, driveBase));
         // move.onTrue(new MoveToPose(driveBase, new Pose2d(1, 1, new Rotation2d()),
         // true));
