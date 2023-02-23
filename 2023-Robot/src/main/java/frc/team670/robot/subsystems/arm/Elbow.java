@@ -49,7 +49,7 @@ public class Elbow extends SparkMaxRotatingSubsystem {
         }
 
         public double getP() {
-            return 0.0011;
+            return 0.0;
         }
 
         public double getI() {
@@ -139,13 +139,14 @@ public class Elbow extends SparkMaxRotatingSubsystem {
      *
      */
     public double calculateFeedForward(double shoulderAngle, double elbowAngle) {
-        double ffValue = SmartDashboard.getNumber("elbow arbitary feed forward value",
-                RobotConstants.ELBOW_ARBITRARY_FF) * Math.sin(Math.toRadians(shoulderAngle + elbowAngle - 180));
-        SmartDashboard.putNumber("elbow arbitary feed forward value sin",
-                Math.sin(Math.toRadians(shoulderAngle + elbowAngle - 180)));
-        SmartDashboard.putNumber("elbow arbitary feed forward value calculated", ffValue);
+        // double ffValue = SmartDashboard.getNumber("elbow arbitary feed forward value",
+        //         RobotConstants.ELBOW_ARBITRARY_FF) * Math.sin(Math.toRadians(shoulderAngle + elbowAngle - 180));
+        // SmartDashboard.putNumber("elbow arbitary feed forward value sin",
+        //         Math.sin(Math.toRadians(shoulderAngle + elbowAngle - 180)));
+        // SmartDashboard.putNumber("elbow arbitary feed forward value calculated", ffValue);
 
-        return ffValue;
+        // return ffValue;
+        return 0;
     }
 
     public void updateArbitraryFeedForward(double shoulderAngle) {

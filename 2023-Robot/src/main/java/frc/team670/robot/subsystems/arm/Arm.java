@@ -63,7 +63,7 @@ public class Arm extends MustangSubsystemBase {
     @Override
     public void mustangPeriodic() {
 
-        //elbow.setSystemTargetAngleInDegrees(targetState.getElbowAngle() + elbowOffset);
+        elbow.setSystemTargetAngleInDegrees(targetState.getElbowAngle() + elbowOffset);
         //shoulder.setSystemTargetAngleInDegrees(targetState.getShoulderAngle() + shoulderOffset);
 
         debugSubsystem();
@@ -78,7 +78,7 @@ public class Arm extends MustangSubsystemBase {
     public void resetPositionFromAbsolute() {
         initializedState = false;
         elbow.resetPositionFromAbsolute();
-        shoulder.resetPositionFromAbsolute();
+        // shoulder.resetPositionFromAbsolute();
     }
 
     /**
@@ -88,18 +88,18 @@ public class Arm extends MustangSubsystemBase {
     public void moveToTarget(ArmState target) {
         this.targetState = target;
         elbow.setSystemTargetAngleInDegrees(target.getElbowAngle());
-        shoulder.setSystemTargetAngleInDegrees(target.getShoulderAngle());
+        // shoulder.setSystemTargetAngleInDegrees(target.getShoulderAngle());
         // elbow.updateSoftLimits(new float[] {,});
         this.elbowOffset = 0;
         this.shoulderOffset = 0;
-        // elbow.setSystemTargetAngleInDegrees(target.getElbowAngle());
+        elbow.setSystemTargetAngleInDegrees(target.getElbowAngle());
         // shoulder.setSystemTargetAngleInDegrees(target.getShoulderAngle());
 
     }
 
     public void updateArbitraryFeedForwards() {
         elbow.updateArbitraryFeedForward(shoulder.getCurrentAngleInDegrees());
-        shoulder.updateArbitraryFeedForward(elbow.getCurrentAngleInDegrees());
+        // shoulder.updateArbitraryFeedForward(elbow.getCurrentAngleInDegrees());
     }
 
     /**
@@ -162,7 +162,8 @@ public class Arm extends MustangSubsystemBase {
      * 
      */
     public boolean hasReachedTargetPosition() {
-        return shoulder.hasReachedTargetPosition() && elbow.hasReachedTargetPosition();
+        // return shoulder.hasReachedTargetPosition() && elbow.hasReachedTargetPosition();
+        return elbow.hasReachedTargetPosition();
     }
 
     /**
