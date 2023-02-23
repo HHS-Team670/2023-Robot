@@ -36,10 +36,10 @@ public class RobotContainer extends RobotContainerBase {
 
     private final PowerDistribution pd = new PowerDistribution(1, ModuleType.kCTRE);
     
-    private final DriveBase driveBase = new DriveBase(getDriverController());
-    private final Vision vision = new Vision(pd);
-    private final Arm arm = new Arm();
-    private final Claw claw = new Claw();
+    //private final DriveBase driveBase = new DriveBase(getDriverController());
+    // private final Vision vision = new Vision(pd);
+    // private final Arm arm = new Arm();
+    // private final Claw claw = new Claw();
     private final LED leds = new LED(RobotMap.LED_PORT, 0, 10);
     private static OI oi = new OI();
     
@@ -47,17 +47,17 @@ public class RobotContainer extends RobotContainerBase {
 
     public RobotContainer() {
         super();
-        addSubsystem(driveBase, vision, arm, leds, arm.getShoulder(), arm.getElbow(), claw);
-        oi.configureButtonBindings(driveBase, vision, arm, claw);
+        addSubsystem(/*driveBase, vision, arm, arm.getShoulder(), arm.getElbow(), claw*/ leds);
+        oi.configureButtonBindings(/*driveBase, vision, arm, claw*/ leds);
     }
 
     @Override
     public void robotInit() {
-        updateArbitraryFeedForwards = new Notifier(new Runnable() {
-            public void run() {
-                arm.updateArbitraryFeedForwards();
-            }
-        });
+        // updateArbitraryFeedForwards = new Notifier(new Runnable() {
+        //     public void run() {
+        //         arm.updateArbitraryFeedForwards();
+        //     }
+        // });
 
         updateArbitraryFeedForwards.startPeriodic(0.01);
     }
@@ -67,11 +67,13 @@ public class RobotContainer extends RobotContainerBase {
      *
      * @return the command to run in autonomous
      */
+     
     @Override
     public MustangCommand getAutonomousCommand() {
         //return new CubeEngage(driveBase, claw, arm, "RightCubeEngage");
-        return new ConeCube(driveBase, claw, arm, "RightConeCube");
+        // return new ConeCube(driveBase, claw, arm, "RightConeCube");
         //return new NonPidAutoLevel(driveBase, false);
+        return null;
 
     }
 

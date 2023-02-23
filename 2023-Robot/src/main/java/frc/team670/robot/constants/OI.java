@@ -17,6 +17,7 @@ import frc.team670.robot.subsystems.Claw;
 import frc.team670.robot.subsystems.DriveBase;
 import frc.team670.robot.subsystems.Vision;
 import frc.team670.robot.commands.arm.MoveToTarget;
+import frc.team670.robot.commands.SetLEDsYellow;
 import frc.team670.robot.commands.arm.ManualMoveElbow;
 import frc.team670.robot.commands.arm.ManualMoveShoulder;
 import frc.team670.robot.commands.claw.ClawEject;
@@ -49,10 +50,11 @@ public class OI extends OIBase {
     private static JoystickButton manualShoulderControl = new JoystickButton(operatorController,
             XboxButtons.LEFT_JOYSTICK_BUTTON);
 
-    private static JoystickButton clawSuck = new JoystickButton(operatorController, XboxButtons.RIGHT_BUMPER);
-    private static JoystickButton clawEject = new JoystickButton(operatorController, XboxButtons.LEFT_BUMPER);
-    private static JoystickButton clawIdle = new JoystickButton(operatorController, XboxButtons.Y);
+    // private static JoystickButton clawSuck = new JoystickButton(operatorController, XboxButtons.RIGHT_BUMPER);
+    // private static JoystickButton clawEject = new JoystickButton(operatorController, XboxButtons.LEFT_BUMPER);
+    // private static JoystickButton clawIdle = new JoystickButton(operatorController, XboxButtons.Y);
 
+    private static JoystickButton ledsYellow = new SetLEDsYellow(led);
 
     public static MustangController getDriverController() {
         return driverController;
@@ -64,10 +66,11 @@ public class OI extends OIBase {
 
     @Override
     public void configureButtonBindings(MustangSubsystemBase... subsystemBases) {
-        DriveBase driveBase = (DriveBase) subsystemBases[0];
-        Vision vision = (Vision) subsystemBases[1];
-        Arm arm = (Arm) subsystemBases[2];
-        Claw claw = (Claw) subsystemBases[3];
+        // DriveBase driveBase = (DriveBase) subsystemBases[0];
+        // Vision vision = (Vision) subsystemBases[1];
+        // Arm arm = (Arm) subsystemBases[2];
+        // Claw claw = (Claw) subsystemBases[3];
+        LED leds = (LED) subsystemBases[0];
 
         driveBase.initDefaultCommand();
 
