@@ -90,8 +90,12 @@ public class Claw extends MustangSubsystemBase {
                 leader.set(RobotConstants.CLAW_IDLE_SPEED);
                 break;
             case INTAKING:
+                if (isFull) {
+                    setStatus(Status.IDLE);
+                }
                 leader.set(RobotConstants.CLAW_ROLLING_SPEED);
                 break;
+
             case EJECTING:
                 leader.set(RobotConstants.CLAW_EJECTING_SPEED);
                 ticker++;
