@@ -221,7 +221,7 @@ public class Elbow extends SparkMaxRotatingSubsystem {
                 counter = 0;
                 previousReading = position;
             }
-            if (counter > 25) { // Once it's maintained a constant value for long enough...
+            if (counter > 100) { // Once it's maintained a constant value for long enough...
                 setEncoderPositionFromAbsolute();
                 hasSetAbsolutePosition = true;
             }

@@ -62,7 +62,6 @@ public final class RobotConstants extends RobotConstantsBase {
                 entry("FRONT_RIGHT_MODULE_STEER_OFFSET", -Math.toRadians(2.37)),
                 entry("FRONT_LEFT_MODULE_STEER_OFFSET", -Math.toRadians(30.2)),
                 entry("SHOULDER_ABSOLUTE_ENCODER_AT_VERTICAL", 0.957),
-                entry("ELBOW_ABSOLUTE_ENCODER_AT_VERTICAL", 0.944),
                 entry("ELBOW_ABSOLUTE_ENCODER_AT_VERTICAL", 0.944)
                 )),
             entry("00:80:2F:24:4A:34", Map.ofEntries( // The mac address is from 670_MadMax
@@ -163,7 +162,8 @@ public final class RobotConstants extends RobotConstantsBase {
     // vision
 
     // public static final String VISION_CAMERA_NAME = "Arducam_OV9281_USB_Camera";
-    public static final String VISION_CAMERA_NAME = "Arducam_A";
+    // public static final String VISION_CAMERA_NAME = "Arducam_A";
+    public static final String VISION_CAMERA_NAME = "Arducam_C";
     public static final Transform3d CAMERA_OFFSET =
             new Transform3d(new Translation3d(0, 0, 0), new Rotation3d(0, 0, 0));
     // new Transform2d(new Translation2d(0, 0), new Rotation2d(0)); // TODO: changed when camera

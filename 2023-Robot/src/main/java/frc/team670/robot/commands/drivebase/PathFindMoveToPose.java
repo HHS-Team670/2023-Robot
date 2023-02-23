@@ -23,24 +23,23 @@ import frc.team670.robot.subsystems.pathfinder.ObstacleAvoidanceAStarMap;
 
 public class PathFindMoveToPose extends CommandBase implements MustangCommand {
 
-	private final DriveBase driveSystem;
+	private final DriveBase driveBase;
 	private MustangPPSwerveControllerCommand pathDrivingCommand;
 	private final PoseNode endPoint;
 	private PoseNode startPoint;
 	private ObstacleAvoidanceAStarMap AStarMap;
 
 	public PathFindMoveToPose(DriveBase driveBase, Pose2d finalPose) {
-		this.driveSystem = driveBase;
-		this.startPoint = new PoseNode(driveBase.getPoseEstimator().getCurrentPose());
+		this.driveBase = driveBase;
 		this.endPoint = new PoseNode(finalPose);
-		this.AStarMap = new ObstacleAvoidanceAStarMap(startPoint, endPoint, FieldConstants.obstacles);
-
 		addRequirements(driveBase);
 	}
-
+	
 	@Override
 	public void initialize() {
-		startPoint = new PoseNode(driveSystem.getPoseEstimator().getCurrentPose());
+		this.startPoint = new PoseNode(driveBase.getPoseEstimator().getCurrentPose());
+		this.AStarMap = new ObstacleAvoidanceAStarMap(startPoint, endPoint, FieldConstants.obstacles);
+		startPoint = new PoseNode(driveBase.getPoseEstimator().getCurrentPose());
 
 		PathPlannerTrajectory trajectory;
 		List<PoseNode> fullPath = AStarMap.findPath();
@@ -53,8 +52,8 @@ public class PathFindMoveToPose extends CommandBase implements MustangCommand {
 
 		trajectory = PathPlanner.generatePath(RobotConstants.kAutoPathConstraints,
 				Arrays.asList(fullPathPoints));
-		driveSystem.getPoseEstimator().addTrajectory(trajectory);
-		pathDrivingCommand = driveSystem.getFollowTrajectoryCommand(trajectory);
+		driveBase.getPoseEstimator().addTrajectory(trajectory);
+		pathDrivingCommand = driveBase.getFollowTrajectoryCommand(trajectory);
 		pathDrivingCommand.schedule();
 	}
 
@@ -73,9 +72,9 @@ public class PathFindMoveToPose extends CommandBase implements MustangCommand {
 			if (i == 0) { // first node
 				fullPathPoints[i] = new PathPoint(
 						new Translation2d(startPoint.getX(), startPoint.getY()), Heading,
-						driveSystem.getPoseEstimator().getCurrentPose().getRotation(),
-						Math.hypot(driveSystem.getChassisSpeeds().vxMetersPerSecond,
-								driveSystem.getChassisSpeeds().vyMetersPerSecond));
+						driveBase.getPoseEstimator().getCurrentPose().getRotation(),
+						Math.hypot(driveBase.getChassisSpeeds().vxMetersPerSecond,
+								driveBase.getChassisSpeeds().vyMetersPerSecond));
 			} else if (i + 1 == fullPath.size()) { // last node
 				fullPathPoints[i] =
 						new PathPoint(new Translation2d(endPoint.getX(), endPoint.getY()),
@@ -104,7 +103,7 @@ public class PathFindMoveToPose extends CommandBase implements MustangCommand {
 			pathDrivingCommand.cancel();
 		}
 
-		driveSystem.stop();
+		driveBase.stop();
 	}
 
 	public static double angleAtPercent(double start, double end, double percent) {
