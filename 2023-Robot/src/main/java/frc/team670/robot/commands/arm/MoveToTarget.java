@@ -47,12 +47,17 @@ public class MoveToTarget extends CommandGroupBase implements MustangCommand {
   private InterruptionBehavior m_interruptBehavior = InterruptionBehavior.kCancelSelf;
 
   public MoveToTarget(Arm arm, Claw claw, ArmState target) {
+    this(arm, target);
+    this.claw = claw;
+  }
+
+  public MoveToTarget(Arm arm, ArmState target) {
     healthReqs = new HashMap<MustangSubsystemBase, HealthState>();
     healthReqs.put(arm, HealthState.GREEN);
     addRequirements(arm);
     this.arm = arm;
     this.target = target;
-    this.claw = claw;
+
   }
 
   @Override
@@ -67,7 +72,7 @@ public class MoveToTarget extends CommandGroupBase implements MustangCommand {
     for (int i = 1; i < path.length; i++) {
       addCommands(new MoveDirectlyToTarget(arm, path[i]));
     }
-    if (target != ArmState.STOWED) {
+    if (target != ArmState.STOWED && claw != null) {
       addCommands(new ClawIntake(claw));
     }
 
@@ -100,8 +105,6 @@ public class MoveToTarget extends CommandGroupBase implements MustangCommand {
         m_interruptBehavior = InterruptionBehavior.kCancelSelf;
       }
     }
-  }
-
   }
 
   @Override

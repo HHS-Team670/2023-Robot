@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.team670.mustanglib.commands.MustangScheduler;
-import frc.team670.mustanglib.commands.drive.teleop.ResetArmFromAbsolute;
+// import frc.team670.mustanglib.commands.drive.teleop.ResetArmFromAbsolute;
 import frc.team670.mustanglib.commands.drive.teleop.SetSwerveForwardDirection;
 import frc.team670.mustanglib.constants.OIBase;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
@@ -36,14 +36,13 @@ public class OI extends OIBase {
     private static MustangController driverController = new MustangController(0);
     private static MustangController operatorController = new MustangController(1);
 
-    <<<<<<<HEAD
     // Driver buttons
     private static JoystickButton zeroArm = new JoystickButton(driverController, XboxButtons.START);
     // private static JoystickButton zeroGyro = new
     // JoystickButton(operatorController, XboxButtons.START);
-    private static JoystickButton moveToTarget = new JoystickButton(driverController, XboxButtons.Y);=======
+    private static JoystickButton moveToTarget = new JoystickButton(driverController, XboxButtons.Y);
     private static JoystickButton zeroGyroOp = new JoystickButton(operatorController, XboxButtons.START);
-    private static JoystickButton zeroGyroDriver = new JoystickButton(driverController, XboxButtons.START);>>>>>>>0ae910c (moved gyro reset)
+    private static JoystickButton zeroGyroDriver = new JoystickButton(driverController, XboxButtons.START);
 
     // private static JoystickButton move = new JoystickButton(driverController,
     // XboxButtons.Y);
