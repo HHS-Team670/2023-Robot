@@ -63,8 +63,8 @@ public class Arm extends MustangSubsystemBase {
     @Override
     public void mustangPeriodic() {
 
-        elbow.setSystemTargetAngleInDegrees(targetState.getElbowAngle() + elbowOffset);
-        shoulder.setSystemTargetAngleInDegrees(targetState.getShoulderAngle() + shoulderOffset);
+        //elbow.setSystemTargetAngleInDegrees(targetState.getElbowAngle() + elbowOffset);
+        //shoulder.setSystemTargetAngleInDegrees(targetState.getShoulderAngle() + shoulderOffset);
 
         debugSubsystem();
         if (!initializedState) {
