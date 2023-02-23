@@ -26,7 +26,7 @@ public class ClawEject extends CommandBase implements MustangCommand
     public ClawEject(Claw claw, Arm arm) {
         this.claw = claw;
         this.arm = arm;
-        addRequirements(claw);
+        addRequirements(claw, arm);
     }
 
     @Override

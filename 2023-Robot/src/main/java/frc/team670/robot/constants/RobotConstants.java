@@ -62,7 +62,7 @@ public final class RobotConstants extends RobotConstantsBase {
                         entry("FRONT_RIGHT_MODULE_STEER_OFFSET", -Math.toRadians(2.37)),
                         entry("FRONT_LEFT_MODULE_STEER_OFFSET", -Math.toRadians(30.2)),
                         entry("SHOULDER_ABSOLUTE_ENCODER_AT_VERTICAL", 0.957),
-                        entry("ELBOW_ABSOLUTE_ENCODER_AT_VERTICAL", 0.944),
+                        entry("ELBOW_ABSOLUTE_ENCODER_AT_VERTICAL", 0.494),
                         entry("WRIST_ABSOLUTE_ENCODER_AT_VERTICAL", 0.0),
                         entry("SHOULDER_GEAR_RATIO",96.0),
                         entry("ELBOW_GEAR_RATIO",75.0),

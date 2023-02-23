@@ -80,11 +80,6 @@ public class Arm extends MustangSubsystemBase {
     @Override
     public void mustangPeriodic() {
 
-        elbow.setSystemTargetAngleInDegrees(targetState.getElbowAngle() + elbowOffset);
-        shoulder.setSystemTargetAngleInDegrees(targetState.getShoulderAngle() + shoulderOffset);
-        wrist.setSystemTargetAngleInDegrees(targetState.getWristAngle() + wristOffset);
-
-
         debugSubsystem();
         if (!initializedState) {
             if (elbow.isRelativePositionSet() && shoulder.isRelativePositionSet() && wrist.isRelativePositionSet()) {
@@ -111,14 +106,14 @@ public class Arm extends MustangSubsystemBase {
      * We must handle checking for valid paths ELSEWHERE.
      */
     public void moveToTarget(ArmState target) {
-        this.targetState = target;
-        elbow.setSystemTargetAngleInDegrees(target.getElbowAngle());
-        shoulder.setSystemTargetAngleInDegrees(target.getShoulderAngle());
-        wrist.setSystemTargetAngleInDegrees(target.getWristAngle());
-        this.elbowOffset = 0;
-        this.shoulderOffset = 0;
-        this.wristOffset = 0;
-
+        if(checkHealth() == HealthState.GREEN) {
+            this.targetState = target;
+            this.elbowOffset = 0;
+            this.shoulderOffset = 0;
+            elbow.setSystemTargetAngleInDegrees(target.getElbowAngle());
+            shoulder.setSystemTargetAngleInDegrees(target.getShoulderAngle());
+            wrist.setSystemTargetAngleInDegrees(target.getWristAngle());
+        }
     }
 
     /**

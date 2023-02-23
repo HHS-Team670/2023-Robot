@@ -2,20 +2,24 @@ package frc.team670.robot.constants;
 
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import frc.team670.mustanglib.commands.MustangScheduler;
+import frc.team670.mustanglib.commands.drive.teleop.ResetArmFromAbsolute;
 import frc.team670.mustanglib.commands.drive.teleop.SetSwerveForwardDirection;
 import frc.team670.mustanglib.constants.OIBase;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 import frc.team670.mustanglib.utils.MustangController;
 import frc.team670.mustanglib.utils.MustangController.XboxButtons;
+import frc.team670.robot.commands.arm.ManualMoveElbow;
+import frc.team670.robot.commands.arm.ManualMoveShoulder;
+import frc.team670.robot.commands.arm.MoveToTarget;
+import frc.team670.robot.commands.claw.ClawEject;
+import frc.team670.robot.commands.claw.ClawIntake;
+import frc.team670.robot.commands.claw.ClawIdle;
 import frc.team670.robot.commands.vision.AutoAlign;
 import frc.team670.robot.subsystems.Claw;
 import frc.team670.robot.subsystems.DriveBase;
 import frc.team670.robot.subsystems.Vision;
-import frc.team670.robot.commands.arm.MoveToTarget;
-import frc.team670.robot.commands.arm.ManualMoveElbow;
-import frc.team670.robot.commands.arm.ManualMoveShoulder;
-import frc.team670.robot.commands.claw.ClawEject;
-import frc.team670.robot.commands.claw.ClawIntake;
 import frc.team670.robot.subsystems.arm.Arm;
 import frc.team670.robot.subsystems.arm.ArmState;
 
@@ -26,6 +30,7 @@ public class OI extends OIBase {
 
     // Driver buttons
     private static JoystickButton zeroGyro = new JoystickButton(driverController, XboxButtons.X);
+    private static JoystickButton zeroArm = new JoystickButton(operatorController, XboxButtons.X);
     private static JoystickButton moveToTarget = new JoystickButton(driverController, XboxButtons.Y);
 
     // private static JoystickButton move = new JoystickButton(driverController,
@@ -63,7 +68,8 @@ public class OI extends OIBase {
 
         driveBase.initDefaultCommand();
 
-        zeroGyro.onTrue(new SetSwerveForwardDirection(driveBase, arm));
+        zeroGyro.onTrue(new SetSwerveForwardDirection(driveBase));
+        // zeroArm.onTrue(new ResetArmFromAbsolute(arm)); DO NOT USE!!! Critial errors not yet fixed
         moveToTarget.onTrue(new AutoAlign(vision, driveBase));
         // move.onTrue(new MoveToPose(driveBase, new Pose2d(1, 1, new Rotation2d()),
         // true));
@@ -80,7 +86,8 @@ public class OI extends OIBase {
         // Claw control commands
         clawSuck.onTrue(new ClawIntake(claw));
         clawEject.onTrue(new ClawEject(claw, arm));
-        
+        clawIdle.onTrue(new ClawIdle(claw));
+
     }
 
 }
