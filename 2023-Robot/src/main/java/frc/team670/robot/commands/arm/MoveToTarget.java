@@ -83,12 +83,12 @@ public class MoveToTarget extends CommandGroupBase implements MustangCommand {
         CommandScheduler.getInstance().registerComposedCommands(commands);
 
         for (Command command : commands) {
-        m_commands.add(command);
-        m_requirements.addAll(command.getRequirements());
-        m_runWhenDisabled &= command.runsWhenDisabled();
-        if (command.getInterruptionBehavior() == InterruptionBehavior.kCancelSelf) {
-            m_interruptBehavior = InterruptionBehavior.kCancelSelf;
-        }
+          m_commands.add(command);
+          m_requirements.addAll(command.getRequirements());
+          m_runWhenDisabled &= command.runsWhenDisabled();
+          if (command.getInterruptionBehavior() == InterruptionBehavior.kCancelSelf) {
+              m_interruptBehavior = InterruptionBehavior.kCancelSelf;
+          }
         }
     }
 
