@@ -36,11 +36,14 @@ public class OI extends OIBase {
     private static MustangController driverController = new MustangController(0);
     private static MustangController operatorController = new MustangController(1);
 
+    <<<<<<<HEAD
     // Driver buttons
     private static JoystickButton zeroArm = new JoystickButton(driverController, XboxButtons.START);
     // private static JoystickButton zeroGyro = new
     // JoystickButton(operatorController, XboxButtons.START);
-    private static JoystickButton moveToTarget = new JoystickButton(driverController, XboxButtons.Y);
+    private static JoystickButton moveToTarget = new JoystickButton(driverController, XboxButtons.Y);=======
+    private static JoystickButton zeroGyroOp = new JoystickButton(operatorController, XboxButtons.START);
+    private static JoystickButton zeroGyroDriver = new JoystickButton(driverController, XboxButtons.START);>>>>>>>0ae910c (moved gyro reset)
 
     // private static JoystickButton move = new JoystickButton(driverController,
     // XboxButtons.Y);
@@ -97,10 +100,11 @@ public class OI extends OIBase {
 
         driveBase.initDefaultCommand();
 
-        zeroGyro.onTrue(new SetSwerveForwardDirection(driveBase));
         // zeroArm.onTrue(new ResetArmFromAbsolute(arm)); DO NOT USE!!! Critial errors
         // not yet fixed
         moveToTarget.onTrue(new AutoAlign(vision, driveBase));
+        zeroGyroOp.onTrue(new SetSwerveForwardDirection(driveBase, arm));
+        zeroGyroDriver.onTrue(new SetSwerveForwardDirection(driveBase, arm));
         // move.onTrue(new MoveToPose(driveBase, new Pose2d(1, 1, new Rotation2d()),
         // true));
 
