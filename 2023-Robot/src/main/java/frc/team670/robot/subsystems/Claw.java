@@ -25,14 +25,12 @@ public class Claw extends MustangSubsystemBase {
 
     private SparkMAXLite leader, follower;
 
-    private int count = 0;
+    private int currentSpikeCount = 0;
     private boolean isFull = false;
-    private int ticker = 0;
+    private int ejectCounter = 0;
     private Claw.Status status;
-    private Arm arm;
-    private boolean returnToStowed = true;
 
-    public Claw(Arm arm) {
+    public Claw() {
         List<SparkMAXLite> motorControllers = SparkMAXFactory.buildSparkMAXPair(RobotMap.CLAW_LEADER_MOTOR,
                 RobotMap.CLAW_FOLLOWER_MOTOR, true, SparkMAXFactory.defaultConfig, Motor_Type.NEO_550);
         leader = motorControllers.get(0);
@@ -40,23 +38,7 @@ public class Claw extends MustangSubsystemBase {
         status = Status.IDLE;
         leader.setIdleMode(IdleMode.kBrake);
         follower.setIdleMode(IdleMode.kBrake);
-        this.arm = arm;
-    }
 
-    public void setArm(Arm arm) {
-        this.arm = arm;
-    }
-
-    public Arm getArm() {
-        return arm;
-    }
-
-    public boolean willReturnToStowed() {
-        return returnToStowed;
-    }
-
-    public void setReturnToStowed(boolean returnToStowed) {
-        this.returnToStowed = returnToStowed;
     }
 
     public void setStatus(Claw.Status status) {
@@ -98,16 +80,14 @@ public class Claw extends MustangSubsystemBase {
 
             case EJECTING:
                 leader.set(RobotConstants.CLAW_EJECTING_SPEED);
-                ticker++;
+                ejectCounter++;
                 // some arbitrary amount of time until ejection is finished
                 // TODO: adjust length of time or find a better way to check for finishing
                 // ejection
-                if (ticker > 25) {
+                if (ejectCounter > 25) {
                     isFull = false;
-                    ticker = 0;
-                    if (returnToStowed) {
-                        MustangScheduler.getInstance().schedule(new MoveToTarget(arm, this, ArmState.STOWED));
-                    }
+                    ejectCounter = 0;
+
                 }
                 break;
             default:
@@ -117,17 +97,15 @@ public class Claw extends MustangSubsystemBase {
         if (this.status == Status.INTAKING) {
             if (leader.getOutputCurrent() > RobotConstants.CLAW_CURRENT_MAX
                     || follower.getOutputCurrent() > RobotConstants.CLAW_CURRENT_MAX) {
-                count++;
-                if (count > 5) {
+                currentSpikeCounter++;
+                if (currentSpikeCounter > 5) {
                     setStatus(Status.IDLE);
                     isFull = true;
-                    ticker = 0;
-                    if (returnToStowed) {
-                        MustangScheduler.getInstance().schedule(new MoveToTarget(arm, this, ArmState.STOWED));
-                    }
+                    ejectCounter = 0;
+
                 }
             } else {
-                count = 0;
+                currentSpikeCounter = 0;
             }
 
         }

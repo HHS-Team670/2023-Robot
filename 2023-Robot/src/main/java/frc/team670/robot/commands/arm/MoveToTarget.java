@@ -49,6 +49,7 @@ public class MoveToTarget extends CommandGroupBase implements MustangCommand {
   public MoveToTarget(Arm arm, Claw claw, ArmState target) {
     this(arm, target);
     this.claw = claw;
+    addRequirements(claw);
   }
 
   public MoveToTarget(Arm arm, ArmState target) {
