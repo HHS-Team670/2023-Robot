@@ -34,6 +34,14 @@ public class Obstacle {
         }
     }
 
+    public double[] getXPoints() {
+        return this.polygon.xpoints;
+    }
+
+    public double[] getYPoints() {
+        return this.polygon.ypoints;
+    }
+
     /**
      * Creates a polygon that's offset by the distance passed in.
      *

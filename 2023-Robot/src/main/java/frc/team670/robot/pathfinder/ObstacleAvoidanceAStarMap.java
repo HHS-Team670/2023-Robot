@@ -3,6 +3,7 @@ package frc.team670.robot.pathfinder;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
 import java.util.List;
+import com.fasterxml.jackson.databind.ext.OptionalHandlerFactory;
 import frc.team670.mustanglib.utils.math.sort.AStarSearch;
 import frc.team670.robot.pathfinder.Obstacle.PolygonDouble;
 
@@ -40,9 +41,11 @@ public class ObstacleAvoidanceAStarMap {
     public List<PoseNode> findPath() {
         List<PoseNode> fullPath = new ArrayList<>();
         if (intersectsObstacles(new PoseEdge(startNode, endNode))) {
+            System.out.println("intersects obstacle!");
             loadMap();
             fullPath = searchAlg.search(startNode, endNode);
         } else {
+            System.out.println("no intersection");
             fullPath.add(startNode);
             fullPath.add(endNode);
         }
@@ -55,24 +58,35 @@ public class ObstacleAvoidanceAStarMap {
 
     // Add edges to nodes it doesn't intersect obstacles
     private void loadMap() {
-        PoseEdge startToContingencyNode;
-        int firstHalf = 0;
+        PoseEdge startToContingency;
         for (PoseNode node : contingencyNodes) {
-            startToContingencyNode = new PoseEdge(startNode, node);
-            if (!intersectsObstacles(startToContingencyNode)) {
-                this.edges.add(startToContingencyNode);
-                startToContingencyNode.start.addNeighbor(startToContingencyNode.end);
-                startToContingencyNode.end.addNeighbor(startToContingencyNode.start);
-                firstHalf++;
+            startToContingency = new PoseEdge(startNode, node);
+            if (!intersectsObstacles(startToContingency)) {
+                this.edges.add(startToContingency);
+                startToContingency.start.addNeighbor(startToContingency.end);
+                startToContingency.end.addNeighbor(startToContingency.start);
             }
         }
-        PoseEdge contingencyToEndNode;
-        for (int i = 0; i < firstHalf; i++) {
-            contingencyToEndNode = new PoseEdge(edges.get(i).end, endNode);
-            if (!intersectsObstacles(contingencyToEndNode)) {
-                this.edges.add(contingencyToEndNode);
-                contingencyToEndNode.start.addNeighbor(contingencyToEndNode.end);
-                contingencyToEndNode.end.addNeighbor(contingencyToEndNode.start);
+        PoseEdge contingencyToEnd;
+        for (PoseNode node : contingencyNodes) {
+            contingencyToEnd = new PoseEdge(node, endNode);
+            if (!intersectsObstacles(contingencyToEnd)) {
+                this.edges.add(contingencyToEnd);
+                contingencyToEnd.start.addNeighbor(contingencyToEnd.end);
+                contingencyToEnd.end.addNeighbor(contingencyToEnd.start);
+            }
+        }
+        PoseEdge contTocont;
+        for (PoseNode node : contingencyNodes) {
+            for (PoseNode other : contingencyNodes) {
+                if (node == other) continue;
+
+                contTocont = new PoseEdge(node, other);
+                if(!intersectsObstacles(contTocont)) {
+                    this.edges.add(contTocont);
+                    contTocont.start.addNeighbor(contTocont.end);
+                    contTocont.end.addNeighbor(contTocont.start);
+                }
             }
         }
     }
@@ -88,10 +102,14 @@ public class ObstacleAvoidanceAStarMap {
                 double y2 = polygon.ypoints[j];
                 if (Line2D.linesIntersect(x1, y1, x2, y2, edge.start.getX(), edge.start.getY(),
                         edge.end.getX(), edge.end.getY())) {
-                    return false; // if line from start to final interesects with any obstacle lines
+                    return true; // if line from start to final interesects with any obstacle lines
                 }
             }
         }
-        return true;
+        return false;
+    }
+
+    public List<PoseEdge> getEdges() {
+        return edges;
     }
 }

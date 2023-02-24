@@ -3,7 +3,7 @@ package frc.team670.robot.pathfinder;
 import frc.team670.mustanglib.utils.math.sort.Edge;
 
 public class PoseEdge implements Edge<PoseNode> {
-    PoseNode start, end;
+    public PoseNode start, end;
     private double cost;
 
     public PoseEdge(PoseNode start, PoseNode end, double cost) {
