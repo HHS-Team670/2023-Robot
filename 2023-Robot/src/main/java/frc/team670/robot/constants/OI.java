@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.team670.mustanglib.commands.MustangScheduler;
+import frc.team670.mustanglib.commands.drive.teleop.ResetArmFromAbsolute;
 import frc.team670.mustanglib.commands.drive.teleop.SetSwerveForwardDirection;
 import frc.team670.mustanglib.constants.OIBase;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
@@ -76,11 +77,11 @@ public class OI extends OIBase {
         moveToTarget.whileTrue(new MoveToPose(driveBase, new Pose2d((FieldConstants.Grids.complexLowTranslations[1]), new Rotation2d())));
 
         // //arm movement commands
-        backward.onTrue(scheduleMoveToTarget(arm, ArmState.BACKWARD_GROUND));
-        scoreMidR.onTrue(scheduleMoveToTarget(arm, ArmState.SCORE_MID));
-        scoreMidL.onTrue(scheduleMoveToTarget(arm, ArmState.SCORE_MID));
-        scoreHigh.onTrue(scheduleMoveToTarget(arm, ArmState.SCORE_HIGH));
-        stow.onTrue(scheduleMoveToTarget(arm, ArmState.STOWED));
+        backward.onTrue(new MoveToTarget(arm, ArmState.BACKWARD_GROUND));
+        scoreMidR.onTrue(new MoveToTarget(arm, ArmState.SCORE_MID));
+        scoreMidL.onTrue(new MoveToTarget(arm, ArmState.SCORE_MID));
+        scoreHigh.onTrue(new MoveToTarget(arm, ArmState.SCORE_HIGH));
+        stow.onTrue(new MoveToTarget(arm, ArmState.STOWED));
         manualShoulderControl.onTrue(new ManualMoveShoulder(arm, operatorController));
 
         manualElbowControl.onTrue(new ManualMoveElbow(arm, operatorController));
@@ -89,14 +90,6 @@ public class OI extends OIBase {
         clawEject.onTrue(new ClawEject(claw));
         clawIdle.onTrue(new ClawIdle(claw));
 
-    }
-
-    private InstantCommand scheduleMoveToTarget(Arm arm, ArmState target) {
-        return new InstantCommand() {
-            public void initialize() {
-                MustangScheduler.getInstance().schedule(new MoveToTarget(arm, target));
-            }
-        };
     }
 
 }

@@ -57,14 +57,16 @@ public class Arm extends MustangSubsystemBase {
         if (elbow.checkHealth() == HealthState.RED || shoulder.checkHealth() == HealthState.RED) {
             return HealthState.RED;
         }
+
+        if(elbow.checkHealth() == HealthState.YELLOW || shoulder.checkHealth() == HealthState.YELLOW) {
+            return HealthState.YELLOW;
+        }
+
         return HealthState.GREEN;
     }
 
     @Override
     public void mustangPeriodic() {
-
-        //elbow.setSystemTargetAngleInDegrees(targetState.getElbowAngle() + elbowOffset);
-        //shoulder.setSystemTargetAngleInDegrees(targetState.getShoulderAngle() + shoulderOffset);
 
         debugSubsystem();
         if (!initializedState) {
@@ -86,15 +88,14 @@ public class Arm extends MustangSubsystemBase {
      * We must handle checking for valid paths ELSEWHERE.
      */
     public void moveToTarget(ArmState target) {
-        this.targetState = target;
-        elbow.setSystemTargetAngleInDegrees(target.getElbowAngle());
-        shoulder.setSystemTargetAngleInDegrees(target.getShoulderAngle());
-        // elbow.updateSoftLimits(new float[] {,});
-        this.elbowOffset = 0;
-        this.shoulderOffset = 0;
-        // elbow.setSystemTargetAngleInDegrees(target.getElbowAngle());
-        // shoulder.setSystemTargetAngleInDegrees(target.getShoulderAngle());
-
+        if(checkHealth() == HealthState.GREEN) {
+            this.targetState = target;
+            elbow.setSystemTargetAngleInDegrees(target.getElbowAngle());
+            this.elbowOffset = 0;
+            this.shoulderOffset = 0;
+            elbow.setSystemTargetAngleInDegrees(target.getElbowAngle());
+            shoulder.setSystemTargetAngleInDegrees(target.getShoulderAngle());
+        }
     }
 
     public void updateArbitraryFeedForwards() {
