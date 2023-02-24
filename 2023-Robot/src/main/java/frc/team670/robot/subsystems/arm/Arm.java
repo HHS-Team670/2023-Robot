@@ -58,7 +58,7 @@ public class Arm extends MustangSubsystemBase {
             return HealthState.RED;
         }
 
-        if(elbow.checkHealth() == HealthState.YELLOW || shoulder.checkHealth() == HealthState.YELLOW) {
+        if (elbow.checkHealth() == HealthState.YELLOW || shoulder.checkHealth() == HealthState.YELLOW) {
             return HealthState.YELLOW;
         }
 
@@ -88,7 +88,7 @@ public class Arm extends MustangSubsystemBase {
      * We must handle checking for valid paths ELSEWHERE.
      */
     public void moveToTarget(ArmState target) {
-        if(checkHealth() == HealthState.GREEN) {
+        if (checkHealth() == HealthState.GREEN) {
             this.targetState = target;
             elbow.setSystemTargetAngleInDegrees(target.getElbowAngle());
             this.elbowOffset = 0;
@@ -112,37 +112,24 @@ public class Arm extends MustangSubsystemBase {
         return targetState;
     }
 
-    public void setArmOffsets(double elbowOffset, double shoulderOffset) {
-        elbow.setOffset(elbowOffset);
-        shoulder.setOffset(shoulderOffset);
-        elbow.setSystemTargetAngleInDegrees(targetState.getElbowAngle() + elbow.getOffset());
-        shoulder.setSystemTargetAngleInDegrees(targetState.getShoulderAngle() + shoulder.getOffset());
+    public void adjustElbowOffset(double elbowOffset) {
+        elbow.adjustOffset(elbowOffset);
 
     }
 
-    public void setElbowOffset(double elbowOffset) {
-        elbow.setOffset(elbowOffset);
-        elbow.setSystemTargetAngleInDegrees(targetState.getElbowAngle() + elbow.getOffset());
-
-    }
-
-    public void setShoulderOffset(double shoulderOffset) {
-        shoulder.setOffset(shoulderOffset);
-        shoulder.setSystemTargetAngleInDegrees(targetState.getShoulderAngle() + shoulder.getOffset());
+    public void adjustShoulderOffset(double shoulderOffset) {
+        shoulder.adjustOffset(shoulderOffset);
 
     }
 
     public void resetElbowOffset() {
 
-        elbow.setOffset(0);
-        elbow.setSystemTargetAngleInDegrees(targetState.getElbowAngle() + elbow.getOffset());
+        elbow.resetOffset();
 
     }
 
     public void resetShoulderOffset() {
-
-        shoulder.setOffset(0);
-        shoulder.setSystemTargetAngleInDegrees(targetState.getShoulderAngle() + shoulder.getOffset());
+        shoulder.resetOffset();
 
     }
 
