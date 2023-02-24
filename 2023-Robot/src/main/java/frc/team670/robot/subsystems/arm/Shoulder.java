@@ -126,6 +126,7 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
 
     public Shoulder() {
         super(SHOULDER_CONFIG);
+        super.getRotator().setInverted(true);
         follower = SparkMAXFactory.setPermanentFollower(RobotMap.SHOULDER_FOLLOWER_MOTOR, rotator, true);
         follower.setIdleMode(IdleMode.kBrake);
         absEncoder = new DutyCycleEncoder(RobotMap.SHOULDER_ABSOLUTE_ENCODER);

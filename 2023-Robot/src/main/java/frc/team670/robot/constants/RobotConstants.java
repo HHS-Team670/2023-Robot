@@ -75,9 +75,9 @@ public final class RobotConstants extends RobotConstantsBase {
                         entry("BACK_LEFT_MODULE_STEER_OFFSET", -Math.toRadians(233.29)),
                         entry("FRONT_RIGHT_MODULE_STEER_OFFSET", -Math.toRadians(225.77)),
                         entry("FRONT_LEFT_MODULE_STEER_OFFSET", -Math.toRadians(112.53)),
-                        entry("SHOULDER_ABSOLUTE_ENCODER_AT_VERTICAL", 0.0),
+                        entry("SHOULDER_ABSOLUTE_ENCODER_AT_VERTICAL", 0.895),
                         entry("ELBOW_ABSOLUTE_ENCODER_AT_VERTICAL", 0.922),
-                        entry("WRIST_ABSOLUTE_ENCODER_AT_VERTICAL", 0.016),
+                        entry("WRIST_ABSOLUTE_ENCODER_AT_VERTICAL", 0.0),
                         entry("SHOULDER_GEAR_RATIO",75.0),
                         entry("ELBOW_GEAR_RATIO",90.0),
                         entry("WRIST_GEAR_RATIO",125.0)
@@ -167,7 +167,7 @@ public final class RobotConstants extends RobotConstantsBase {
     public static final int SHOULDER_GEAR_RATIO = (hardwareSpecificConstants.get(MAC_ADDRESS).get("SHOULDER_GEAR_RATIO")).intValue();
     public static final int SHOULDER_SOFT_LIMIT_MIN = 60;
     public static final int SHOULDER_SOFT_LIMIT_MAX = 300;
-    public static final double SHOULDER_ARBITRARY_FF = 0.5;
+    public static final double SHOULDER_ARBITRARY_FF = 0.0;
     public static final double SHOULDER_MAX_OVERRIDE_DEGREES = 15;
 
     public static final double SHOULDER_LENGTH_INCHES = 26;
@@ -181,7 +181,7 @@ public final class RobotConstants extends RobotConstantsBase {
     public static final int ELBOW_SOFT_LIMIT_MIN = 20;
     public static final int ELBOW_SOFT_LIMIT_MAX = 340;
     public static final int ELBOW_MAX_OVERRIDE_DEGREES  = 15;
-    public static final double ELBOW_ARBITRARY_FF = 0.8;
+    public static final double ELBOW_ARBITRARY_FF = 0.0;
     public static final double ELBOW_LENGTH_INCHES = 35;
     public static final double ELBOW_TO_CLAW_MASS_LB = 5.5; //TODO: set
     public static final double ELBOW_MASS_DISTRIBUTION = 0.686; //TODO: set 
