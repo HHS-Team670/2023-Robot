@@ -33,6 +33,7 @@ public final class RobotConstants extends RobotConstantsBase {
 
     /**
      * Set your team number using the WPILib extension's "Set Team Number" action.
+     * 0) FACTORY RESET ALL MOTOR CONTROLLERS
      * 1) Set all of the *_ANGLE_OFFSET constants to -Math.toRadians(0.0).
      * 2) Deploy the code to your robot.
      *      NOTE: The robot isn't drivable quite yet, we still have to setup the module
@@ -75,8 +76,8 @@ public final class RobotConstants extends RobotConstantsBase {
                         entry("FRONT_RIGHT_MODULE_STEER_OFFSET", -Math.toRadians(225.77)),
                         entry("FRONT_LEFT_MODULE_STEER_OFFSET", -Math.toRadians(112.53)),
                         entry("SHOULDER_ABSOLUTE_ENCODER_AT_VERTICAL", 0.0),
-                        entry("ELBOW_ABSOLUTE_ENCODER_AT_VERTICAL", 0.0),
-                        entry("WRIST_ABSOLUTE_ENCODER_AT_VERTICAL", 0.0),
+                        entry("ELBOW_ABSOLUTE_ENCODER_AT_VERTICAL", 0.922),
+                        entry("WRIST_ABSOLUTE_ENCODER_AT_VERTICAL", 0.016),
                         entry("SHOULDER_GEAR_RATIO",75.0),
                         entry("ELBOW_GEAR_RATIO",90.0),
                         entry("WRIST_GEAR_RATIO",125.0)
