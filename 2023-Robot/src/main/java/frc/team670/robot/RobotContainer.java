@@ -7,9 +7,11 @@
 
 package frc.team670.robot;
 
+import edu.wpi.first.hal.DriverStationJNI;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team670.mustanglib.RobotContainerBase;
 import frc.team670.mustanglib.commands.MustangCommand;
 import frc.team670.mustanglib.utils.MustangController;
@@ -102,7 +104,7 @@ public class RobotContainer extends RobotContainerBase {
     @Override
     public void periodic() {
         // TODO Auto-generated method stub
-
+        SmartDashboard.putString("alliance", "" + DriverStationJNI.getAllianceStation());
     }
 
     @Override

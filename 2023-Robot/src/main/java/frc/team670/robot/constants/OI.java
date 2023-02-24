@@ -59,8 +59,8 @@ public class OI extends OIBase {
         // vision.initDefaultCommand(new IsLockedOn(driveBase, vision, null));
 
         zeroGyro.onTrue(new SetSwerveForwardDirection(driveBase, arm));
-        // moveToTarget.whileTrue(new PathFindMoveToPose(driveBase, new Pose2d(FieldConstants.allianceFlip(FieldConstants.Grids.complexLowTranslations[1]), new Rotation2d())));
-        moveToTarget.whileTrue(new MoveToPose(driveBase, new Pose2d(FieldConstants.allianceFlip(FieldConstants.Grids.complexLowTranslations[1]), new Rotation2d())));
+        // moveToTarget.whileTrue(new PathFindMoveToPose(driveBase, new Pose2d((FieldConstants.Grids.complexLowTranslations[1]), new Rotation2d())));
+        moveToTarget.whileTrue(new MoveToPose(driveBase, new Pose2d((FieldConstants.Grids.complexLowTranslations[1]), new Rotation2d())));
 
         // Arm movement commands
         backward.onTrue(new MoveToTarget(arm, ArmState.BACKWARD_GROUND));

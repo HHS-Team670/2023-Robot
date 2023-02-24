@@ -163,7 +163,7 @@ public final class RobotConstants extends RobotConstantsBase {
 
     // public static final String VISION_CAMERA_NAME = "Arducam_OV9281_USB_Camera";
     // public static final String VISION_CAMERA_NAME = "Arducam_A";
-    public static final String VISION_CAMERA_NAME = "Arducam_C";
+    public static final String VISION_CAMERA_NAME = "Arducam_B";
     public static final Transform3d CAMERA_OFFSET =
             new Transform3d(new Translation3d(0, 0, 0), new Rotation3d(0, 0, 0));
     // new Transform2d(new Translation2d(0, 0), new Rotation2d(0)); // TODO: changed when camera
