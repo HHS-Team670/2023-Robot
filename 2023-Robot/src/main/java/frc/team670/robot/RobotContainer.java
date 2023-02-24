@@ -32,13 +32,13 @@ import frc.team670.robot.subsystems.arm.Arm;
 public class RobotContainer extends RobotContainerBase {
 
     private final PowerDistribution pd = new PowerDistribution(1, ModuleType.kCTRE);
-    
+
     private final Vision vision = new Vision(pd);
     private final DriveBase driveBase = new DriveBase(getDriverController());
     private final Arm arm = new Arm();
-    private final Claw claw = new Claw();
+    private final Claw claw = new Claw(arm);
     private static OI oi = new OI();
-    
+
     private Notifier updateArbitraryFeedForwards;
 
     public RobotContainer() {
@@ -67,9 +67,9 @@ public class RobotContainer extends RobotContainerBase {
      */
     @Override
     public MustangCommand getAutonomousCommand() {
-        //return new CubeEngage(driveBase, claw, arm, "RightCubeEngage");
+        // return new CubeEngage(driveBase, claw, arm, "RightCubeEngage");
         return new ConeCube(driveBase, claw, arm, "RightConeCube");
-        //return new NonPidAutoLevel(driveBase, false);
+        // return new NonPidAutoLevel(driveBase, false);
 
     }
 

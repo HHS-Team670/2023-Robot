@@ -31,6 +31,7 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
     double calculatedRelativePosition = 0.0;
     boolean relativePositionIsSet = false;
     String relativePositionLog = "";
+    private double offset = 0;
 
     /*
      * PID and SmartMotion constants for the Shoulder joint
@@ -160,6 +161,19 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
         return false;
     }
 
+    protected void setOffset(double offset) {
+        if (Math.abs(offset) > RobotConstants.SHOULDER_MAX_OVERRIDE_DEGREES) {
+            this.offset = RobotConstants.SHOULDER_MAX_OVERRIDE_DEGREES * this.offset / Math.abs(this.offset);
+        } else {
+            this.offset = offset;
+        }
+
+    }
+
+    public double getOffset() {
+        return offset;
+    }
+
     @Override
     public HealthState checkHealth() {
         REVLibError leaderRotatorError = super.rotator.getLastError();
@@ -248,7 +262,8 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
             }
         } else if (!relativePositionIsSet) {
             double position = super.rotator_encoder.getPosition();
-            Logger.consoleLog("Shoulder relative position = " + position + ", calculatedRelativePosition = " + calculatedRelativePosition);
+            Logger.consoleLog("Shoulder relative position = " + position + ", calculatedRelativePosition = "
+                    + calculatedRelativePosition);
             Logger.consoleLog("Shoulder relativePositionIsSet = " + this.relativePositionIsSet);
             if (Math.abs(position - calculatedRelativePosition) < 0.01) {
                 relativePositionIsSet = true;

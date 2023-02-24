@@ -30,7 +30,7 @@ public class ManualMoveShoulder extends CommandBase implements MustangCommand {
     @Override
     public void execute() {
 
-        arm.setShoulderOffset(arm.getShoulderOffset() + controller.getRightY());
+        arm.setShoulderOffset(arm.getShoulder().getOffset() + controller.getRightY());
 
     }
 

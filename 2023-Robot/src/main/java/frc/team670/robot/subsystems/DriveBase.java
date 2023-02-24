@@ -16,6 +16,7 @@ import frc.team670.mustanglib.swervelib.SdsModuleConfigurations;
 import frc.team670.mustanglib.utils.MustangController;
 import frc.team670.robot.commands.drivebase.MustangPPSwerveControllerCommand;
 import frc.team670.robot.constants.RobotConstants;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveBase extends SwerveDrive {
       /**
@@ -86,14 +87,20 @@ public class DriveBase extends SwerveDrive {
       public void cancelDefaultCommand() {
             MustangScheduler.getInstance().cancel(defaultCommand);
       }
-
+      public void mustangPeriodic(){
+            debugSubsystem();
+      }
+  
       @Override
       public HealthState checkHealth() {
             return HealthState.GREEN;
       }
 
       @Override
-      public void debugSubsystem() {}
+      public void debugSubsystem() {
+            SmartDashboard.putNumber("pitch",getPitch());
+
+      }
 
       public MustangPPSwerveControllerCommand getFollowTrajectoryCommand(PathPlannerTrajectory traj) {
             return new MustangPPSwerveControllerCommand(traj, getPoseEstimator()::getCurrentPose,
