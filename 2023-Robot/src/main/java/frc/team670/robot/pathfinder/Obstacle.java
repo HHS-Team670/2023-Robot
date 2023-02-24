@@ -1,4 +1,4 @@
-package frc.team670.robot.subsystems.pathfinder;
+package frc.team670.robot.pathfinder;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package frc.team670.robot.subsystems.pathfinder;
+package frc.team670.robot.pathfinder;
 
 import frc.team670.mustanglib.utils.math.sort.Edge;
 

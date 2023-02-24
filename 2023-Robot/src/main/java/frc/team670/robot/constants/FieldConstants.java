@@ -14,7 +14,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.team670.robot.subsystems.pathfinder.Obstacle;
+import frc.team670.robot.pathfinder.Obstacle;
 
 /**
  * ORIGIN AT BOTTOM LEFT
@@ -131,8 +131,7 @@ public class FieldConstants {
                                 new Translation2d(complexLowXCones, nodeFirstY + nodeSeparationY * 6),
                                 new Translation2d(complexLowXCubes, nodeFirstY + nodeSeparationY * 7),
                                 new Translation2d(
-                                                complexLowXCones,
-                                                nodeFirstY + nodeSeparationY * 8 + complexLowOuterYOffset),
+                                                complexLowXCones, nodeFirstY + nodeSeparationY * 8 + complexLowOuterYOffset),
                 };
         }
 

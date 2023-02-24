@@ -22,9 +22,9 @@ import frc.team670.robot.commands.drivebase.MoveToPose;
 import frc.team670.robot.commands.drivebase.PathFindMoveToPose;
 import frc.team670.robot.constants.FieldConstants;
 import frc.team670.robot.constants.RobotConstants;
+import frc.team670.robot.pathfinder.ObstacleAvoidanceAStarMap;
+import frc.team670.robot.pathfinder.PoseNode;
 import frc.team670.robot.subsystems.DriveBase;
-import frc.team670.robot.subsystems.pathfinder.ObstacleAvoidanceAStarMap;
-import frc.team670.robot.subsystems.pathfinder.PoseNode;
 
 /**
  * AutoAlign - autonomously moves the robot to a given target. If no target is given, it moves to

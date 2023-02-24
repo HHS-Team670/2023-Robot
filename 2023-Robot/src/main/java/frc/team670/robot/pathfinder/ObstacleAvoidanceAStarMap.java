@@ -1,10 +1,10 @@
-package frc.team670.robot.subsystems.pathfinder;
+package frc.team670.robot.pathfinder;
 
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
 import java.util.List;
 import frc.team670.mustanglib.utils.math.sort.AStarSearch;
-import frc.team670.robot.subsystems.pathfinder.Obstacle.PolygonDouble;
+import frc.team670.robot.pathfinder.Obstacle.PolygonDouble;
 
 /*
  * Credits: Hemlock 5712
