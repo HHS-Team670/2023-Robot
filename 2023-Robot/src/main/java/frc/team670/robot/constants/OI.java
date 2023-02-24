@@ -102,17 +102,17 @@ public class OI extends OIBase {
         // zeroArm.onTrue(new ResetArmFromAbsolute(arm)); DO NOT USE!!! Critial errors
         // not yet fixed
         moveToTarget.onTrue(new AutoAlign(vision, driveBase));
-        zeroGyroOp.onTrue(new SetSwerveForwardDirection(driveBase, arm));
-        zeroGyroDriver.onTrue(new SetSwerveForwardDirection(driveBase, arm));
+        zeroGyroOp.onTrue(new SetSwerveForwardDirection(driveBase));
+        zeroGyroDriver.onTrue(new SetSwerveForwardDirection(driveBase));
         // move.onTrue(new MoveToPose(driveBase, new Pose2d(1, 1, new Rotation2d()),
         // true));
 
         // //arm movement commands
-        backward.onTrue(new MoveToTarget(arm, ArmState.BACKWARD_GROUND));
-        scoreMidR.onTrue(new MoveToTarget(arm, ArmState.SCORE_MID));
-        scoreMidL.onTrue(new MoveToTarget(arm, ArmState.SCORE_MID));
-        scoreHigh.onTrue(new MoveToTarget(arm, ArmState.SCORE_HIGH));
-        stow.onTrue(new MoveToTarget(arm, ArmState.STOWED));
+        backward.onTrue(new MoveToTarget(arm, claw, ArmState.BACKWARD_GROUND));
+        scoreMidR.onTrue(new MoveToTarget(arm, claw, ArmState.SCORE_MID));
+        scoreMidL.onTrue(new MoveToTarget(arm, claw, ArmState.SCORE_MID));
+        scoreHigh.onTrue(new MoveToTarget(arm, claw, ArmState.SCORE_HIGH));
+        stow.onTrue(new MoveToTarget(arm, claw, ArmState.STOWED));
         manualShoulderControl.onTrue(new ManualMoveShoulder(arm, operatorController));
         manualElbowControl.onTrue(new ManualMoveElbow(arm, operatorController));
         // Claw control commands
