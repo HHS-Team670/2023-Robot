@@ -192,7 +192,8 @@ public final class RobotConstants extends RobotConstantsBase {
     public static final int SHOULDER_SOFT_LIMIT_MAX = 300;
     public static final double SHOULDER_ARBITRARY_FF = 0.5;
     public static final double ARM_MAX_XCM = armXCM(90, 180);
-
+    public static final double ELBOW_MAX_OVERRIDE_DEGREES = 15;
+    public static final double SHOULDER_MAX_OVERRIDE_DEGREES = 15;
     public static final double SHOULDER_LENGTH_INCHES = 25;
     public static final double ELBOW_LENGTH_INCHES = 35;
     public static final double SHOULDER_TO_ELBOW_MASS_LB = 6.5;
@@ -256,8 +257,7 @@ public final class RobotConstants extends RobotConstantsBase {
     }
 
     public static double armXCM(double shoulderAngleDegrees, double elbowAngleDegrees) {
-        double x1 = RobotConstants.SHOULDER_LENGTH_INCHES
-                * Math.sin(Math.toRadians(shoulderAngleDegrees));
+        double x1 = RobotConstants.SHOULDER_LENGTH_INCHES * Math.sin(Math.toRadians(shoulderAngleDegrees));
         double x2 = RobotConstants.ELBOW_LENGTH_INCHES
                 * Math.sin(Math.toRadians(shoulderAngleDegrees + elbowAngleDegrees - 180));
         double xcm = (RobotConstants.SHOULDER_TO_ELBOW_MASS_LB * x1 / 4.0 // first segment CM

@@ -56,7 +56,7 @@ public class MoveToTarget extends CommandGroupBase implements MustangCommand {
         // 3) then call move directly to target for each of those returned paths
         m_commands.clear();
         ArmState[] path = Arm.getValidPath(arm.getTargetState(), target);
-        for(int i = 0; i<path.length; i++){
+        for(int i = 1; i<path.length; i++){
             addCommands(new MoveDirectlyToTarget(arm, path[i]));
         }
 

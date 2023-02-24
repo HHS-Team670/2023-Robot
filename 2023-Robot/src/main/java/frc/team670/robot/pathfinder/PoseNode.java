@@ -7,10 +7,10 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import frc.team670.mustanglib.utils.math.sort.Node;
 
-/*
- * Credits: Hemlock 5712
+/**
+ * Node representing Pose. Inspired by Hemlock 5712
+ * @author ethan c ;)
  */
-
 public class PoseNode implements Node<PoseNode> {
 	private Pose2d pose;
 	private List<PoseNode> neighbors;

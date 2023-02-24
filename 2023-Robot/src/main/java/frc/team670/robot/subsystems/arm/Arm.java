@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.PriorityQueue;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
+import frc.team670.robot.constants.RobotConstants;
 
 /**
  * Represents the whole Arm system, containing multiple joints.
@@ -17,12 +18,15 @@ public class Arm extends MustangSubsystemBase {
     private ArmState targetState;
     private boolean initializedState;
 
+    private double elbowOffset;
+    private double shoulderOffset;
+
     private static final ArmState[][] VALID_PATHS_GRAPH = new ArmState[][] {
             { ArmState.TUNING, ArmState.INTERMEDIATE_SCORE, ArmState.INTERMEDIATE_BACKWARD_GROUND }, // STOWED
-            { ArmState.SCORE_MID}, // HYBRID
-            { ArmState.INTERMEDIATE_SCORE, ArmState.SCORE_HIGH, ArmState.HYBRID}, // SCORE_MID
+            { ArmState.SCORE_MID }, // HYBRID
+            { ArmState.INTERMEDIATE_SCORE, ArmState.SCORE_HIGH, ArmState.HYBRID }, // SCORE_MID
             { ArmState.SCORE_MID, ArmState.INTERMEDIATE_BACKWARD_GROUND, ArmState.INTERMEDIATE_SCORE }, // SCORE_HIGH
-            { ArmState.BACKWARD_GROUND, ArmState.STOWED, ArmState.INTERMEDIATE_SCORE}, // INTERMEDIATE_BACKWARD_GROUND
+            { ArmState.BACKWARD_GROUND, ArmState.STOWED, ArmState.INTERMEDIATE_SCORE }, // INTERMEDIATE_BACKWARD_GROUND
             { ArmState.INTERMEDIATE_BACKWARD_GROUND, ArmState.INTERMEDIATE_SCORE }, // BACKWARD_GROUND
             { ArmState.STOWED }, // TUNING
             { ArmState.STOWED, ArmState.SCORE_MID, ArmState.INTERMEDIATE_BACKWARD_GROUND, ArmState.SCORE_HIGH }, // INTERMEDIATE_SCORE
@@ -58,6 +62,10 @@ public class Arm extends MustangSubsystemBase {
 
     @Override
     public void mustangPeriodic() {
+
+        //elbow.setSystemTargetAngleInDegrees(targetState.getElbowAngle() + elbowOffset);
+        //shoulder.setSystemTargetAngleInDegrees(targetState.getShoulderAngle() + shoulderOffset);
+
         debugSubsystem();
         if (!initializedState) {
             if (elbow.isRelativePositionSet() && shoulder.isRelativePositionSet()) {
@@ -79,11 +87,14 @@ public class Arm extends MustangSubsystemBase {
      */
     public void moveToTarget(ArmState target) {
         this.targetState = target;
-        elbow.setEncoderPositionFromAbsolute();
-        shoulder.setEncoderPositionFromAbsolute();
         elbow.setSystemTargetAngleInDegrees(target.getElbowAngle());
         shoulder.setSystemTargetAngleInDegrees(target.getShoulderAngle());
         // elbow.updateSoftLimits(new float[] {,});
+        this.elbowOffset = 0;
+        this.shoulderOffset = 0;
+        // elbow.setSystemTargetAngleInDegrees(target.getElbowAngle());
+        // shoulder.setSystemTargetAngleInDegrees(target.getShoulderAngle());
+
     }
 
     public void updateArbitraryFeedForwards() {
@@ -98,6 +109,51 @@ public class Arm extends MustangSubsystemBase {
     public ArmState getTargetState() {
 
         return targetState;
+    }
+
+    public void setArmOffsets(double elbowOffset, double shoulderOffset) {
+        if (Math.abs(elbowOffset) > RobotConstants.ELBOW_MAX_OVERRIDE_DEGREES) {
+            elbowOffset = RobotConstants.ELBOW_MAX_OVERRIDE_DEGREES * elbowOffset / Math.abs(elbowOffset);
+        }
+        if (Math.abs(shoulderOffset) > RobotConstants.SHOULDER_MAX_OVERRIDE_DEGREES) {
+            shoulderOffset = RobotConstants.SHOULDER_MAX_OVERRIDE_DEGREES * shoulderOffset / Math.abs(shoulderOffset);
+        }
+        this.elbowOffset = elbowOffset;
+        this.shoulderOffset = shoulderOffset;
+
+    }
+
+    public void setElbowOffset(double elbowOffset) {
+        if (Math.abs(elbowOffset) > RobotConstants.ELBOW_MAX_OVERRIDE_DEGREES) {
+            elbowOffset = RobotConstants.ELBOW_MAX_OVERRIDE_DEGREES * elbowOffset / Math.abs(elbowOffset);
+        }
+        this.elbowOffset = elbowOffset;
+    }
+
+    public void setShoulderOffset(double shoulderOffset) {
+        if (Math.abs(shoulderOffset) > RobotConstants.SHOULDER_MAX_OVERRIDE_DEGREES) {
+            shoulderOffset = RobotConstants.SHOULDER_MAX_OVERRIDE_DEGREES * shoulderOffset / Math.abs(shoulderOffset);
+        }
+        this.shoulderOffset = shoulderOffset;
+    }
+
+    public void resetElbowOffset() {
+
+        this.elbowOffset = 0;
+    }
+
+    public void resetShoulderOffset() {
+
+        this.shoulderOffset = 0;
+    }
+
+    public double getElbowOffset() {
+        return elbowOffset;
+
+    }
+
+    public double getShoulderOffset() {
+        return shoulderOffset;
     }
 
     /**
@@ -159,6 +215,8 @@ public class Arm extends MustangSubsystemBase {
         shoulder.debugSubsystem();
         elbow.debugSubsystem();
         SmartDashboard.putString("Arm target state", getTargetState().toString());
+        SmartDashboard.putNumber("Elbow offset", elbowOffset);
+        SmartDashboard.putNumber("Shoulder offset", shoulderOffset);
     }
 
     static class Pair implements Comparable<Pair> {
@@ -211,3 +269,4 @@ public class Arm extends MustangSubsystemBase {
         return elbow;
     }
 }
+  

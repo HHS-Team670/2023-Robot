@@ -20,7 +20,6 @@ import java.io.Serializable;
 /*
  * Credits: Hemlock 5712
  */
-
 public class Obstacle {
     PolygonDouble polygon;
 
@@ -40,6 +39,13 @@ public class Obstacle {
 
     public double[] getYPoints() {
         return this.polygon.ypoints;
+    }
+
+    public Translation2d[] getCorners() {
+        Translation2d[] corners = new Translation2d[polygon.npoints];
+        for (int i = 0; i < polygon.npoints; i++)
+            corners[i] = new Translation2d(this.polygon.xpoints[i], this.polygon.ypoints[i]);
+        return corners;
     }
 
     /**

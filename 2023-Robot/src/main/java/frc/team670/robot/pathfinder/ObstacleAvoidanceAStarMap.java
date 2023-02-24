@@ -7,10 +7,9 @@ import com.fasterxml.jackson.databind.ext.OptionalHandlerFactory;
 import frc.team670.mustanglib.utils.math.sort.AStarSearch;
 import frc.team670.robot.pathfinder.Obstacle.PolygonDouble;
 
-/*
- * Credits: Hemlock 5712
+/**
+ * @author ethan c :D
  */
-
 public class ObstacleAvoidanceAStarMap {
 
     private final AStarSearch<PoseNode, PoseEdge> searchAlg = new AStarSearch<>();

@@ -2,6 +2,10 @@ package frc.team670.robot.pathfinder;
 
 import frc.team670.mustanglib.utils.math.sort.Edge;
 
+/**
+ * Edge of two pose nodes. Inspired by Hemlock 5712
+ * @author ethan c :P
+ */
 public class PoseEdge implements Edge<PoseNode> {
     public PoseNode start, end;
     private double cost;

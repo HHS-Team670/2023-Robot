@@ -8,6 +8,7 @@ import com.revrobotics.REVLibError;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team670.mustanglib.subsystems.SparkMaxRotatingSubsystem;
+import frc.team670.mustanglib.utils.Logger;
 import frc.team670.mustanglib.utils.motorcontroller.MotorConfig;
 import frc.team670.mustanglib.utils.motorcontroller.MotorConfig.Motor_Type;
 import frc.team670.mustanglib.utils.motorcontroller.SparkMAXLite;
@@ -28,6 +29,8 @@ public class Elbow extends SparkMaxRotatingSubsystem {
     double calculatedRelativePosition = 0.0;
     boolean relativePositionIsSet = false;
 
+    String relativePositionLog = "";
+
     /*
      * PID and SmartMotion constants for the Shoulder joint
      */
@@ -46,7 +49,7 @@ public class Elbow extends SparkMaxRotatingSubsystem {
         }
 
         public double getP() {
-            return 0.0011; 
+            return 0.0011;
         }
 
         public double getI() {
@@ -127,7 +130,6 @@ public class Elbow extends SparkMaxRotatingSubsystem {
         super.getRotator().setInverted(true);
         SmartDashboard.putNumber("elbow arbitary feed forward value", RobotConstants.ELBOW_ARBITRARY_FF);
 
-
     }
 
     /**
@@ -137,8 +139,10 @@ public class Elbow extends SparkMaxRotatingSubsystem {
      *
      */
     public double calculateFeedForward(double shoulderAngle, double elbowAngle) {
-        double ffValue = SmartDashboard.getNumber("elbow arbitary feed forward value", RobotConstants.ELBOW_ARBITRARY_FF) * Math.sin(Math.toRadians(shoulderAngle + elbowAngle - 180));
-        SmartDashboard.putNumber("elbow arbitary feed forward value sin", Math.sin(Math.toRadians(shoulderAngle + elbowAngle - 180)));
+        double ffValue = SmartDashboard.getNumber("elbow arbitary feed forward value",
+                RobotConstants.ELBOW_ARBITRARY_FF) * Math.sin(Math.toRadians(shoulderAngle + elbowAngle - 180));
+        SmartDashboard.putNumber("elbow arbitary feed forward value sin",
+                Math.sin(Math.toRadians(shoulderAngle + elbowAngle - 180)));
         SmartDashboard.putNumber("elbow arbitary feed forward value calculated", ffValue);
 
         return ffValue;
@@ -150,6 +154,10 @@ public class Elbow extends SparkMaxRotatingSubsystem {
                     SparkMAXLite.ControlType.kSmartMotion, super.SMARTMOTION_SLOT,
                     calculateFeedForward(shoulderAngle, this.getCurrentAngleInDegrees()));
         }
+    }
+    //TODO: Move to mustang lib after testing
+    public double getSetpoint() {
+        return setpoint;
     }
 
     public void setEncoderPositionFromAbsolute() {
@@ -197,14 +205,18 @@ public class Elbow extends SparkMaxRotatingSubsystem {
 
     @Override
     public void debugSubsystem() {
+        double relativePosition = super.rotator_encoder.getPosition();
+
         SmartDashboard.putNumber("Elbow Speed:", super.rotator.get());
         SmartDashboard.putNumber("elbow forward soft limit", super.rotator.getSoftLimit(SoftLimitDirection.kForward));
         SmartDashboard.putNumber("elbow backward soft limit", super.rotator.getSoftLimit(SoftLimitDirection.kReverse));
         SmartDashboard.putNumber("Elbow position (deg)", getCurrentAngleInDegrees());
-        SmartDashboard.putNumber("Elbow position (rotations)", super.rotator_encoder.getPosition());
+        SmartDashboard.putNumber("Elbow position (rotations)", relativePosition);
         SmartDashboard.putNumber("Elbow current", super.rotator.getOutputCurrent());
         SmartDashboard.putNumber("Elbow abs encoder position", absEncoder.getAbsolutePosition());
-        SmartDashboard.putNumber("Elbow setpoint (rotations)", setpoint); 
+        SmartDashboard.putNumber("Elbow setpoint (rotations)", setpoint);
+
+        relativePositionLog += ("" + relativePosition + ", ");
     }
 
     @Override
@@ -226,11 +238,15 @@ public class Elbow extends SparkMaxRotatingSubsystem {
                 hasSetAbsolutePosition = true;
             }
         } else if (!relativePositionIsSet) {
-            if (Math.abs(super.rotator_encoder.getPosition() - calculatedRelativePosition) < 0.01) {
+            double position = super.rotator_encoder.getPosition();
+            Logger.consoleLog("Elbow relative position = " + position + ", calculatedRelativePosition = " + calculatedRelativePosition);
+            if (Math.abs(position - calculatedRelativePosition) < 0.01) {
+                Logger.consoleLog(relativePositionLog);
                 relativePositionIsSet = true;
             } else {
                 super.rotator_encoder.setPosition(calculatedRelativePosition);
             }
+            Logger.consoleLog("Elbow relativePositionIsSet = " + this.relativePositionIsSet);
         }
     }
 }
