@@ -12,7 +12,7 @@ import frc.team670.mustanglib.utils.math.sort.Node;
  * @author ethan c ;)
  */
 public class PoseNode implements Node<PoseNode> {
-	private Pose2d pose;
+	public Pose2d pose;
 	private List<PoseNode> neighbors;
 
 	public PoseNode(double x, double y) {

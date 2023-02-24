@@ -13,7 +13,7 @@ import frc.team670.robot.pathfinder.Obstacle.PolygonDouble;
 public class ObstacleAvoidanceAStarMap {
 
     private final AStarSearch<PoseNode, PoseEdge> searchAlg = new AStarSearch<>();
-    private final List<PoseNode> contingencyNodes = new ArrayList<>();
+    private List<PoseNode> contingencyNodes = new ArrayList<>();
     private final List<PoseEdge> edges = new ArrayList<>();
     private final List<Obstacle> obstacles = new ArrayList<>();
     private PoseNode startNode, endNode;
@@ -24,9 +24,20 @@ public class ObstacleAvoidanceAStarMap {
         addObstacles(obstacles);
     }
 
+    public ObstacleAvoidanceAStarMap(PoseNode start, PoseNode destination, List<Obstacle> obstacles, List<PoseNode> obstacleContingencyNodes) {
+        this.startNode = start;
+        this.endNode = destination;
+        this.contingencyNodes = obstacleContingencyNodes;
+        addObstacles(obstacles);
+    }
+
     // Add a node to the navigation mesh
     public void addNode(PoseNode node) {
         this.contingencyNodes.add(node);
+    }
+
+    public void addNodes(List<PoseNode> nodes) {
+        this.contingencyNodes.addAll(nodes);
     }
 
     public int getNodeSize() {

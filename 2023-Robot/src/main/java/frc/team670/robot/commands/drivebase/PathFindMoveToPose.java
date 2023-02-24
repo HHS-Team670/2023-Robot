@@ -32,15 +32,17 @@ public class PathFindMoveToPose extends CommandBase implements MustangCommand {
 		this.endPoint = new PoseNode(finalPose);
 		addRequirements(driveBase);
 	}
-	
+
 	@Override
 	public void initialize() {
-		this.endPoint = new PoseNode(FieldConstants.allianceFlip(new Pose2d(endPoint.getX(), endPoint.getY(), endPoint.getHolRot())));
+		this.endPoint = new PoseNode(FieldConstants
+				.allianceFlip(new Pose2d(endPoint.getX(), endPoint.getY(), endPoint.getHolRot())));
 		this.startPoint = new PoseNode(driveBase.getPoseEstimator().getCurrentPose());
-		this.AStarMap = new ObstacleAvoidanceAStarMap(startPoint, endPoint, FieldConstants.obstacles);
+		this.AStarMap = new ObstacleAvoidanceAStarMap(startPoint, endPoint,
+				FieldConstants.obstacles, FieldConstants.obstacleContingencyNodes);
 		startPoint = new PoseNode(driveBase.getPoseEstimator().getCurrentPose());
 
-		PathPlannerTrajectory trajectory;
+
 		List<PoseNode> fullPath = AStarMap.findPath();
 		if (fullPath == null)
 			return;
@@ -49,8 +51,8 @@ public class PathFindMoveToPose extends CommandBase implements MustangCommand {
 		// points in the path.
 		PathPoint[] fullPathPoints = getPathPointsFromNodes(fullPath);
 
-		trajectory = PathPlanner.generatePath(RobotConstants.kAutoPathConstraints,
-				Arrays.asList(fullPathPoints));
+		PathPlannerTrajectory trajectory = PathPlanner
+				.generatePath(RobotConstants.kAutoPathConstraints, Arrays.asList(fullPathPoints));
 		driveBase.getPoseEstimator().addTrajectory(trajectory);
 		pathDrivingCommand = driveBase.getFollowTrajectoryCommand(trajectory);
 		pathDrivingCommand.schedule();

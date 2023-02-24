@@ -15,6 +15,7 @@ import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.SerialPort;
 import frc.team670.mustanglib.constants.RobotConstantsBase;
 
@@ -64,18 +65,18 @@ public final class RobotConstants extends RobotConstantsBase {
                     entry("SHOULDER_ABSOLUTE_ENCODER_AT_VERTICAL", 0.957),
                     entry("ELBOW_ABSOLUTE_ENCODER_AT_VERTICAL", 0.494))),
             entry("00:80:2F:24:4A:34", Map.ofEntries( // The mac address is from 670_MadMax
-                entry("BACK_RIGHT_MODULE_STEER_OFFSET", -Math.toRadians(292.5)),
-                entry("BACK_LEFT_MODULE_STEER_OFFSET", -Math.toRadians(232.91)),
-                entry("FRONT_RIGHT_MODULE_STEER_OFFSET", -Math.toRadians(352.35)),
-                entry("FRONT_LEFT_MODULE_STEER_OFFSET", -Math.toRadians(136.67)),
-                entry("SHOULDER_ABSOLUTE_ENCODER_AT_VERTICAL", 0.0),
-                entry("ELBOW_ABSOLUTE_ENCODER_AT_VERTICAL", 0.0))),
-        entry("00:80:2F:22:B4:F6", Map.ofEntries( //The mac address is from 670_WCD (test bench)
-            entry("BACK_RIGHT_MODULE_STEER_OFFSET", -Math.toRadians(292.5)),
-            entry("BACK_LEFT_MODULE_STEER_OFFSET",-Math.toRadians(232.91)),
-            entry("FRONT_RIGHT_MODULE_STEER_OFFSET", -Math.toRadians(352.35)),
-            entry("FRONT_LEFT_MODULE_STEER_OFFSET", -Math.toRadians(136.67))    
-        ))
+                    entry("BACK_RIGHT_MODULE_STEER_OFFSET", -Math.toRadians(292.5)),
+                    entry("BACK_LEFT_MODULE_STEER_OFFSET", -Math.toRadians(232.91)),
+                    entry("FRONT_RIGHT_MODULE_STEER_OFFSET", -Math.toRadians(352.35)),
+                    entry("FRONT_LEFT_MODULE_STEER_OFFSET", -Math.toRadians(136.67)),
+                    entry("SHOULDER_ABSOLUTE_ENCODER_AT_VERTICAL", 0.0),
+                    entry("ELBOW_ABSOLUTE_ENCODER_AT_VERTICAL", 0.0))),
+            entry("00:80:2F:22:B4:F6", Map.ofEntries( // The mac address is from 670_WCD (test
+                                                      // bench)
+                    entry("BACK_RIGHT_MODULE_STEER_OFFSET", -Math.toRadians(292.5)),
+                    entry("BACK_LEFT_MODULE_STEER_OFFSET", -Math.toRadians(232.91)),
+                    entry("FRONT_RIGHT_MODULE_STEER_OFFSET", -Math.toRadians(352.35)),
+                    entry("FRONT_LEFT_MODULE_STEER_OFFSET", -Math.toRadians(136.67))))
 
     );
 
@@ -84,6 +85,9 @@ public final class RobotConstants extends RobotConstantsBase {
      *
      * Should be measured from center to center.
      */
+
+    public static final double DRIVEBASE_WIDTH = Units.inchesToMeters(36);
+
     public static final double DRIVETRAIN_TRACKWIDTH_METERS = 0.6096;
 
     /**
@@ -153,7 +157,7 @@ public final class RobotConstants extends RobotConstantsBase {
     public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI * 16;
     public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI * 16;
 
-    // TODO: TUNE PID CONTROLLERS AND 
+    // TODO: TUNE PID CONTROLLERS AND
     public static final PIDController xController = new PIDController(3, 0, 0);
     public static final PIDController yController = new PIDController(3, 0, 0);
     public static final PIDController thetaController = new PIDController(0.2, 0, 0);
@@ -167,7 +171,7 @@ public final class RobotConstants extends RobotConstantsBase {
             new Transform3d(new Translation3d(0, 0, 0), new Rotation3d(0, 0, 0));
     // new Transform2d(new Translation2d(0, 0), new Rotation2d(0)); // TODO: changed when camera
     // actually mounted, may need to change based on robot
-                                                                         // for actual specs
+    // for actual specs
     public static final double LOCKED_ON_ERROR_X = 0.3; // TODO: test what angles are appropriate
                                                         // for grabbing
     public static final double LOCKED_ON_ERROR_Y = 0.3;
@@ -217,7 +221,7 @@ public final class RobotConstants extends RobotConstantsBase {
 
     public static final PathConstraints kAutoPathConstraints =
             new PathConstraints(kMaxSpeedMetersPerSecond, kMaxAccelerationMetersPerSecondSquared);
-        
+
 
     /**
      * This is code from Poofs 2022
@@ -256,7 +260,8 @@ public final class RobotConstants extends RobotConstantsBase {
     }
 
     public static double armXCM(double shoulderAngleDegrees, double elbowAngleDegrees) {
-        double x1 = RobotConstants.SHOULDER_LENGTH_INCHES * Math.sin(Math.toRadians(shoulderAngleDegrees));
+        double x1 = RobotConstants.SHOULDER_LENGTH_INCHES
+                * Math.sin(Math.toRadians(shoulderAngleDegrees));
         double x2 = RobotConstants.ELBOW_LENGTH_INCHES
                 * Math.sin(Math.toRadians(shoulderAngleDegrees + elbowAngleDegrees - 180));
         double xcm = (RobotConstants.SHOULDER_TO_ELBOW_MASS_LB * x1 / 4.0 // first segment CM

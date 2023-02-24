@@ -17,8 +17,9 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.io.Serializable;
 
-/*
- * Credits: Hemlock 5712
+/**
+ * Polygon represnting an obstacle. Credits to Hemlock.
+ * @author ethan c Dx
  */
 public class Obstacle {
     PolygonDouble polygon;
