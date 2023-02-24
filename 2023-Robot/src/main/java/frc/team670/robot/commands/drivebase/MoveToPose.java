@@ -25,33 +25,27 @@ import frc.team670.mustanglib.utils.MustangController;
  */
 public class MoveToPose extends CommandBase implements MustangCommand {
     private DriveBase driveBase;
-    private MustangController controller;
     private Pose2d goalPose;
-    private PathPlannerTrajectory path;
     protected Map<MustangSubsystemBase, HealthState> healthReqs;
 
-    private MustangScheduler scheduler = MustangScheduler.getInstance();
-    private MustangPPSwerveControllerCommand moveCommand = null;
+    private MustangPPSwerveControllerCommand pathDrivingCommand;
 
     public MoveToPose(DriveBase driveBase, Pose2d goalPose) {
         this.driveBase = driveBase;
-        this.controller = null;
-        path = null;
         this.goalPose = goalPose;
         this.healthReqs = new HashMap<MustangSubsystemBase, HealthState>();
         this.healthReqs.put(driveBase, HealthState.GREEN);
         addRequirements(driveBase);
     }
 
-    public MoveToPose(DriveBase driveBase, Pose2d goalPose, MustangController controller) {
-        this.driveBase = driveBase;
-        this.controller = controller;
-        path = null;
-        this.goalPose = goalPose;
-        this.healthReqs = new HashMap<MustangSubsystemBase, HealthState>();
-        this.healthReqs.put(driveBase, HealthState.GREEN);
-        addRequirements(driveBase);
-    }
+    // public MoveToPose(DriveBase driveBase, Pose2d goalPose) {
+    //     this.driveBase = driveBase;
+    //     path = null;
+    //     this.goalPose = goalPose;
+    //     this.healthReqs = new HashMap<MustangSubsystemBase, HealthState>();
+    //     this.healthReqs.put(driveBase, HealthState.GREEN);
+    //     addRequirements(driveBase);
+    // }
 
     @Override
     public Map<MustangSubsystemBase, HealthState> getHealthRequirements() {
@@ -60,23 +54,26 @@ public class MoveToPose extends CommandBase implements MustangCommand {
 
     @Override
     public void initialize() {
-        path = PathPlanner.generatePath(new PathConstraints(1, 0.5), calcStartPoint(),
+        PathPlannerTrajectory traj = PathPlanner.generatePath(new PathConstraints(1, 0.5), calcStartPoint(),
                 calcEndPoint(goalPose));
+        driveBase.getPoseEstimator().addTrajectory(traj);
         
-        moveCommand = driveBase.getFollowTrajectoryCommand(path);
-        scheduler.schedule(moveCommand, driveBase);
+        pathDrivingCommand = driveBase.getFollowTrajectoryCommand(traj);
+        // Mustangscheduler.getInstance().schedule(pathDrivingCommand, driveBase);
     }
 
     @Override
     public boolean isFinished() {
-        return controller == null || controller.getAButtonReleased(); // TODO: change based on oi
-                                                                      // file command button
+        return (pathDrivingCommand == null || !pathDrivingCommand.isScheduled());
     }
 
     @Override
     public void end(boolean interrupted) {
-        if (controller != null)
-            scheduler.cancel(moveCommand);
+        if (interrupted) {
+			pathDrivingCommand.cancel();
+		}
+
+		driveBase.stop();
     }
 
 

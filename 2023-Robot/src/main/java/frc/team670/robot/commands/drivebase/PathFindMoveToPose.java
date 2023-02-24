@@ -1,10 +1,8 @@
 package frc.team670.robot.commands.drivebase;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.PathPoint;
@@ -18,8 +16,8 @@ import frc.team670.mustanglib.subsystems.MustangSubsystemBase.HealthState;
 import frc.team670.robot.constants.FieldConstants;
 import frc.team670.robot.constants.RobotConstants;
 import frc.team670.robot.subsystems.DriveBase;
-import frc.team670.robot.subsystems.pathfinder.PoseNode;
 import frc.team670.robot.subsystems.pathfinder.ObstacleAvoidanceAStarMap;
+import frc.team670.robot.subsystems.pathfinder.PoseNode;
 
 public class PathFindMoveToPose extends CommandBase implements MustangCommand {
 

@@ -12,6 +12,7 @@ import frc.team670.mustanglib.utils.MustangController.XboxButtons;
 import frc.team670.robot.commands.arm.MoveToTarget;
 import frc.team670.robot.commands.claw.ClawEject;
 import frc.team670.robot.commands.claw.ClawIntake;
+import frc.team670.robot.commands.drivebase.MoveToPose;
 import frc.team670.robot.commands.drivebase.PathFindMoveToPose;
 import frc.team670.robot.subsystems.Claw;
 import frc.team670.robot.subsystems.DriveBase;
@@ -58,8 +59,8 @@ public class OI extends OIBase {
         // vision.initDefaultCommand(new IsLockedOn(driveBase, vision, null));
 
         zeroGyro.onTrue(new SetSwerveForwardDirection(driveBase, arm));
-        moveToTarget.whileTrue(new PathFindMoveToPose(driveBase, new Pose2d(FieldConstants.allianceFlip(FieldConstants.Grids.complexLowTranslations[1]), new Rotation2d())));
-        // move.onTrue(new MoveToPose(driveBase, new Pose2d(1, 1, new Rotation2d()), true));
+        // moveToTarget.whileTrue(new PathFindMoveToPose(driveBase, new Pose2d(FieldConstants.allianceFlip(FieldConstants.Grids.complexLowTranslations[1]), new Rotation2d())));
+        moveToTarget.whileTrue(new MoveToPose(driveBase, new Pose2d(FieldConstants.allianceFlip(FieldConstants.Grids.complexLowTranslations[1]), new Rotation2d())));
 
         // Arm movement commands
         backward.onTrue(new MoveToTarget(arm, ArmState.BACKWARD_GROUND));
