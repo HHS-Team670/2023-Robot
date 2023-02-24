@@ -105,7 +105,7 @@ public class RobotContainer extends RobotContainerBase {
     @Override
     public void periodic() {
         // TODO Auto-generated method stub
-        SmartDashboard.putString("alliance", "" + DriverStationJNI.getAllianceStation());
+        // SmartDashboard.putString("alliance", "" + DriverStationJNI.getAllianceStation());
     }
 
     @Override

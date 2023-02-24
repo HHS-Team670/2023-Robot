@@ -34,37 +34,32 @@ public class AutoAlign extends CommandBase implements MustangCommand {
 
     private VisionSubsystemBase vision;
     private DriveBase driveBase;
-    private PathFindMoveToPose pathFindingCommand;
-    private MustangController driverController;
-    private int goalPoseID;
+    private MoveToPose pathFindingCommand;
+    private Translation2d goal;
     private Translation2d[] targets = FieldConstants.Grids.complexLowTranslations;
 
     /**
      * AutoAligns to the closest scoring position. Stops when driver lets go of button. While
      * holding button, driver can switch to adjacent scoring locations
      */
-    public AutoAlign(VisionSubsystemBase vision, DriveBase driveBase,
-            MustangController driverController) {
+    public AutoAlign(VisionSubsystemBase vision, DriveBase driveBase) {
         this.vision = vision;
         this.driveBase = driveBase;
-        this.driverController = driverController;
-        goalPoseID = getClosestTargetPose(
-                driveBase.getPoseEstimator().getCurrentPose().getTranslation());
     }
 
-    public AutoAlign(VisionSubsystemBase vision, DriveBase driveBase,
-            MustangController driverController, int goalPose) {
+    public AutoAlign(VisionSubsystemBase vision, DriveBase driveBase, Translation2d goal) {
         this.vision = vision;
         this.driveBase = driveBase;
-        this.driverController = driverController;
-        this.goalPoseID = goalPose;
+        this.goal = goal;
     }
 
     @Override
     public void initialize() {
-        Pose2d goalPose = new Pose2d(targets[goalPoseID], getRobotFacingRotation());
-
-        pathFindingCommand = new PathFindMoveToPose(driveBase, goalPose);
+        if (goal == null) {
+            goal = getClosestTargetPose(goal);
+        }
+        Pose2d goalPose = new Pose2d(goal, FieldConstants.getRobotFacingRotation());
+        pathFindingCommand = new MoveToPose(driveBase, goalPose);
         MustangScheduler.getInstance().schedule(pathFindingCommand, driveBase);
     }
 
@@ -92,18 +87,13 @@ public class AutoAlign extends CommandBase implements MustangCommand {
         return null;
     }
 
-    private int getClosestTargetPose(Translation2d robotTrans) {
+    private Translation2d getClosestTargetPose(Translation2d robotTrans) {
         int closest = 0;
 
         for (int i = 0; i < targets.length; i++) {
             closest = robotTrans.getDistance(targets[closest]) < robotTrans
                     .getDistance(FieldConstants.allianceFlip(targets[i])) ? i : closest;
         }
-        return closest;
-    }
-
-    private Rotation2d getRobotFacingRotation() {
-        return DriverStation.getAlliance() == Alliance.Red ? new Rotation2d()
-                : new Rotation2d(Math.PI);
+        return targets[closest];
     }
 }

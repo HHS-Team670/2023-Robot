@@ -28,6 +28,17 @@ public class Obstacle {
         this.polygon = new PolygonDouble(xPoints, yPoints);
     }
 
+    public Obstacle(Translation2d[] corners) {
+        double[] xPoints = new double[corners.length];
+        double[] yPoints = new double[corners.length];
+
+        for (int i = 0; i < corners.length; i++) {
+            xPoints[i] = corners[i].getX();
+            yPoints[i] = corners[i].getY();
+        }
+        this.polygon = new PolygonDouble(xPoints, yPoints);
+    }
+
     public void addNodes(ObstacleAvoidanceAStarMap nodes) {
         for (int i = 0; i < polygon.npoints; i++) {
             nodes.addNode(new PoseNode(polygon.xpoints[i], polygon.ypoints[i]));

@@ -10,6 +10,9 @@ import com.pathplanner.lib.commands.PPSwerveControllerCommand;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform2d;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.Subsystem;
@@ -17,7 +20,9 @@ import frc.team670.mustanglib.commands.MustangCommand;
 import frc.team670.mustanglib.commands.MustangScheduler;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase.HealthState;
+import frc.team670.robot.RobotContainer;
 import frc.team670.robot.constants.FieldConstants;
+import frc.team670.robot.constants.RobotConstants;
 import frc.team670.robot.subsystems.DriveBase;
 import frc.team670.mustanglib.utils.MustangController;
 
@@ -55,11 +60,12 @@ public class MoveToPose extends CommandBase implements MustangCommand {
 
     @Override
     public void initialize() {
-        goalPose = FieldConstants.allianceFlip(goalPose);
+        goalPose = FieldConstants.allianceFlip(goalPose).transformBy(new Transform2d(new Translation2d(RobotConstants.DRIVEBASE_WIDTH, 0), new Rotation2d()));
+        SmartDashboard.putString("GOAL POSE", String.format("%f, %f, %f degrees", goalPose.getX(), goalPose.getY(), goalPose.getRotation().getDegrees()));
         PathPlannerTrajectory traj = PathPlanner.generatePath(new PathConstraints(1, 0.5), calcStartPoint(),
                 calcEndPoint(goalPose));
         driveBase.getPoseEstimator().addTrajectory(traj);
-        
+
         pathDrivingCommand = driveBase.getFollowTrajectoryCommand(traj);
         MustangScheduler.getInstance().schedule(pathDrivingCommand, driveBase);
     }

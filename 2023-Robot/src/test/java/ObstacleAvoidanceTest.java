@@ -1,5 +1,4 @@
 import java.util.List;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,31 +16,35 @@ class ObstacleAvoidanceTest {
 
     @BeforeEach
     void setup() {
+       
         astar = new ObstacleAvoidanceAStarMap(
                 new PoseNode(Units.inchesToMeters(220), Units.inchesToMeters(100)),
-                new PoseNode(Units.inchesToMeters(46.25), Units.inchesToMeters(86.19)),
-                FieldConstants.obstacles);
+                new PoseNode(Units.inchesToMeters(600), Units.inchesToMeters(100)),
+                FieldConstants.obstacles, FieldConstants.obstacleContingencyNodes);
+        assert astar != null;
+        checkObstacles();
+        checkContingencyNode();
+    }
 
-        astar.addNode(new PoseNode(2.92 - 0.42, 1.51 - 0.42));
-        astar.addNode(new PoseNode(2.92 - 0.42, 3.98 + 0.42));
-        astar.addNode(new PoseNode(4.86 + 0.42, 3.98 + 0.42));
-        astar.addNode(new PoseNode(4.86 + 0.42, 1.51 - 0.42));
+    void checkObstacles() {
+        System.out.println("\t\t-----OBSTACLE CHECK-----\n");
+        for (Obstacle o : FieldConstants.obstacles) {
+            double[] xPoints = o.getXPoints();
+            double[] yPoints = o.getYPoints();
+            
+            for (int i = 0; i < xPoints.length; i++) {
+                System.out.println(String.format("%f, %f", Units.metersToInches(xPoints[i]), Units.metersToInches(yPoints[i])));
+            }
+        }
+        System.out.println("\t\t-----OBSTACLE CHECK DONE-----\n");
+    }
 
-        // for (Obstacle o : FieldConstants.obstacles) {
-        //     // List<Pair<Double, Double>> points = new ArrayList<>();
-        //     for (int i = 0; i < o.getXPoints().length; i++) {
-        //         double x = o.getXPoints()[i];
-        //         double y = o.getYPoints()[i];
-        //         System.out.println(String.format("(%f, %f)", Units.metersToInches(x), Units.metersToInches(y)));
-        //         // points.add(new Pair<Double,Double>(x, y));
-        //     }
-        //     System.out.println();
-        // }
-
-        // astar.addNode(new PoseNode(11.68 - 0.42, 1.51 - 0.42));
-        // astar.addNode(new PoseNode(11.65, 5));
-        // astar.addNode(new PoseNode(14.37, 4.55));
-        // astar.addNode(new PoseNode(14.23, 1.51 - 0.42));
+    void checkContingencyNode() {
+        System.out.println("\t\t-----CONTINGENCY NODES CHECK-----\n");
+        for (PoseNode p : FieldConstants.obstacleContingencyNodes) {
+            System.out.println(String.format("%f, %f", p.getX(), p.getY()));
+        }
+        System.out.println("\t\t-----CONTINGENCY NODES DONE-----\n");
     }
 
     @Test
@@ -49,8 +52,8 @@ class ObstacleAvoidanceTest {
         trajectory = astar.findPath();
         graph = astar.getEdges();
         for (PoseEdge e : graph) {
-            System.out.println(String.format("%f, %f", e.start.getX(), e.start.getY()));
-            System.out.println(String.format("%f, %f", e.end.getX(), e.end.getY()));
+            System.out.println(String.format("%f, %f", Units.metersToInches(e.start.getX()), Units.metersToInches(e.start.getY())));
+            System.out.println(String.format("%f, %f", Units.metersToInches(e.end.getX()), Units.metersToInches(e.end.getY())));
             System.out.println();
         }
     }

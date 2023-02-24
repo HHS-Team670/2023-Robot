@@ -38,8 +38,10 @@ public class PathFindMoveToPose extends CommandBase implements MustangCommand {
 		this.endPoint = new PoseNode(FieldConstants
 				.allianceFlip(new Pose2d(endPoint.getX(), endPoint.getY(), endPoint.getHolRot())));
 		this.startPoint = new PoseNode(driveBase.getPoseEstimator().getCurrentPose());
+		// this.AStarMap = new ObstacleAvoidanceAStarMap(startPoint, endPoint,
+		// 		FieldConstants.obstacles, FieldConstants.obstacleContingencyNodes);
 		this.AStarMap = new ObstacleAvoidanceAStarMap(startPoint, endPoint,
-				FieldConstants.obstacles, FieldConstants.obstacleContingencyNodes);
+				FieldConstants.obstacles);
 		startPoint = new PoseNode(driveBase.getPoseEstimator().getCurrentPose());
 
 

@@ -168,7 +168,7 @@ public final class RobotConstants extends RobotConstantsBase {
     // public static final String VISION_CAMERA_NAME = "Arducam_A";
     public static final String VISION_CAMERA_NAME = "Arducam_B";
     public static final Transform3d CAMERA_OFFSET =
-            new Transform3d(new Translation3d(0, 0, 0), new Rotation3d(0, 0, 0));
+            new Transform3d(new Translation3d(0, 0, 0), new Rotation3d(Math.PI / 2.0, 0, Math.PI));
     // new Transform2d(new Translation2d(0, 0), new Rotation2d(0)); // TODO: changed when camera
     // actually mounted, may need to change based on robot
     // for actual specs
@@ -255,7 +255,7 @@ public final class RobotConstants extends RobotConstantsBase {
         } catch (SocketException | NullPointerException e) {
             e.printStackTrace();
         }
-
+        System.out.println("\n\nMAC ADDRESS NOTHING");
         return "";
     }
 

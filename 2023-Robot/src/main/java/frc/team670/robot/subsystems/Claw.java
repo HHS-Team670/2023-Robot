@@ -55,7 +55,7 @@ public class Claw extends MustangSubsystemBase {
     
     @Override
     public void mustangPeriodic() {
-        debugSubsystem();
+        // debugSubsystem();
 
         switch(status) {
             case IDLE:
