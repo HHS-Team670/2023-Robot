@@ -37,7 +37,7 @@ public class RobotContainer extends RobotContainerBase {
     private final DriveBase driveBase = new DriveBase(getDriverController());
     private final Vision vision = new Vision(pd);
     private final Arm arm = new Arm();
-    private final Claw claw = new Claw(arm);
+    private final Claw claw = new Claw();
     private static OI oi = new OI();
 
     private Notifier updateArbitraryFeedForwards;

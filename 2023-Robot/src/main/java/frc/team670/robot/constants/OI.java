@@ -26,6 +26,7 @@ import frc.team670.robot.commands.arm.ManualMoveShoulder;
 import frc.team670.robot.commands.claw.ClawEject;
 import frc.team670.robot.commands.claw.ClawIntake;
 import frc.team670.robot.commands.drivebase.TurnToAngle;
+import frc.team670.robot.commands.routines.Eject;
 import frc.team670.robot.commands.claw.ClawIdle;
 import frc.team670.robot.subsystems.arm.Arm;
 import frc.team670.robot.subsystems.arm.ArmState;
@@ -117,15 +118,15 @@ public class OI extends OIBase {
         manualElbowControl.onTrue(new ManualMoveElbow(arm, operatorController));
         // Claw control commands
         clawSuckOp.onTrue(new ClawIntake(claw));
-        clawEjectOp.onTrue(new ClawEject(claw));
+        clawEjectOp.onTrue(new Eject(claw, arm));
         clawSuckDriver.onTrue(new ClawIntake(claw));
-        clawEjectDriver.onTrue(new ClawEject(claw));
+        clawEjectDriver.onTrue(new Eject(claw, arm));
         clawIdle.onTrue(new ClawIdle(claw));
         // Rotate to angle TODO: temporary until vision is finished
-        rotateTo0.onTrue(new TurnToAngle(driveBase, 0, false, driverController));
-        rotateTo90.onTrue(new TurnToAngle(driveBase, 90, false, driverController));
-        rotateTo180.onTrue(new TurnToAngle(driveBase, 180, false, driverController));
-        rotateTo270.onTrue(new TurnToAngle(driveBase, 270, false, driverController));
+        // rotateTo0.onTrue(new TurnToAngle(driveBase, 0, false, driverController));
+        // rotateTo90.onTrue(new TurnToAngle(driveBase, 90, false, driverController));
+        // rotateTo180.onTrue(new TurnToAngle(driveBase, 180, false, driverController));
+        // rotateTo270.onTrue(new TurnToAngle(driveBase, 270, false, driverController));
 
     }
 

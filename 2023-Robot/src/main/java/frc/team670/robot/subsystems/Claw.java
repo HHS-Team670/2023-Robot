@@ -25,7 +25,7 @@ public class Claw extends MustangSubsystemBase {
 
     private SparkMAXLite leader, follower;
 
-    private int currentSpikeCount = 0;
+    private int currentSpikeCounter = 0;
     private boolean isFull = false;
     private int ejectCounter = 0;
     private Claw.Status status;
