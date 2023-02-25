@@ -84,7 +84,7 @@ public class Claw extends MustangSubsystemBase {
                 // some arbitrary amount of time until ejection is finished
                 // TODO: adjust length of time or find a better way to check for finishing
                 // ejection
-                if (ejectCounter > 25) {
+                if (ejectCounter > RobotConstants.CLAW_EJECT_PERIODICS) {
                     isFull = false;
                     ejectCounter = 0;
 
