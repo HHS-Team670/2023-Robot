@@ -21,26 +21,26 @@ import frc.team670.mustanglib.subsystems.MustangSubsystemBase.HealthState;
 import frc.team670.robot.commands.arm.MoveToTarget;
 import frc.team670.robot.commands.claw.ClawEject;
 import frc.team670.robot.commands.claw.ClawIntake;
+import frc.team670.robot.commands.routines.Eject;
 import frc.team670.robot.subsystems.Claw;
 import frc.team670.robot.subsystems.DriveBase;
 import frc.team670.robot.subsystems.arm.Arm;
 import frc.team670.robot.subsystems.arm.ArmState;
 
 public class ConeCube extends SequentialCommandGroup implements MustangCommand {
-    
+
     String pathName;
 
     public Map<MustangSubsystemBase, HealthState> getHealthRequirements() {
         return new HashMap<MustangSubsystemBase, HealthState>();
     }
 
-
     public ConeCube(DriveBase driveBase, Claw claw, Arm arm, String pathName) {
         this.pathName = pathName;
         List<PathPlannerTrajectory> trajectoryGroup = PathPlanner.loadPathGroup(pathName, 2.0, 1.0);
 
         PIDConstants PID_translation = new PIDConstants(1.0, 0, 0);
-        PIDConstants PID_theta = new PIDConstants(1.0, 0, 0); 
+        PIDConstants PID_theta = new PIDConstants(1.0, 0, 0);
 
         driveBase.resetOdometry(trajectoryGroup.get(0).getInitialHolonomicPose());
 
@@ -48,47 +48,46 @@ public class ConeCube extends SequentialCommandGroup implements MustangCommand {
 
         // eventMap stuff
         eventMap.put("clawIntake1", new ClawIntake(claw));
-        eventMap.put("moveToHigh1", new MoveToTarget(arm, ArmState.SCORE_HIGH));
+        eventMap.put("moveToHigh1", new MoveToTarget(arm, claw, ArmState.SCORE_HIGH));
         eventMap.put("clawEject1", new ClawEject(claw));
-        eventMap.put("moveToBackward", new MoveToTarget(arm, ArmState.BACKWARD_GROUND));
+        eventMap.put("moveToBackward", new MoveToTarget(arm, claw, ArmState.BACKWARD_GROUND));
         eventMap.put("clawIntake2", new ClawIntake(claw));
-        eventMap.put("moveToHigh2", new MoveToTarget(arm, ArmState.SCORE_HIGH));
-        eventMap.put("clawEject2", new ClawEject(claw));
-        eventMap.put("moveToStowed", new MoveToTarget(arm, ArmState.STOWED));
-        
+        eventMap.put("moveToHigh2", new MoveToTarget(arm, claw, ArmState.SCORE_HIGH));
+        eventMap.put("clawEject2", new Eject(claw, arm));
+
         SwerveDriveKinematics driveBaseKinematics = driveBase.getSwerveKinematics();
 
         SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(
-            driveBase::getPose, 
-            driveBase::resetOdometry,
-            driveBaseKinematics, 
-            PID_translation, 
-            PID_theta,
-            driveBase::setModuleStates, 
-            eventMap,
-            false,
-            new Subsystem[] {driveBase}
-        );
+                driveBase::getPose,
+                driveBase::resetOdometry,
+                driveBaseKinematics,
+                PID_translation,
+                PID_theta,
+                driveBase::setModuleStates,
+                eventMap,
+                false,
+                new Subsystem[] { driveBase });
 
         CommandBase fullAuto = autoBuilder.fullAuto(trajectoryGroup);
 
         addCommands(fullAuto);
     }
 
-    // not exactly needed right now bc markers and events are the same for both sides (maybe utilized later)
+    // not exactly needed right now bc markers and events are the same for both
+    // sides (maybe utilized later)
 
     // public HashMap<String, Command> initialzeEventMap() {
-    //     HashMap<String, Command> eventMap = new HashMap<>();
-    //     if (pathName.equals("LeftConeCube")) {
-    //         eventMap.put("dropOff1", new PrintCommand("Drop Off 1 Occured"));
-    //         eventMap.put("pickup", new PrintCommand("Pickup Occured"));
-    //         eventMap.put("dropOff2", new PrintCommand("Drop Off 2 Occured"));
-    //     }
-    //     else if (pathName.equals("RightConeCube")) {
-    //         eventMap.put("dropOff1", new PrintCommand("Drop Off 1 Occured"));
-    //         eventMap.put("pickup", new PrintCommand("Pickup Occured"));
-    //         eventMap.put("dropOff2", new PrintCommand("Drop Off 2 Occured"));
-    //     }
-    //     return eventMap;
+    // HashMap<String, Command> eventMap = new HashMap<>();
+    // if (pathName.equals("LeftConeCube")) {
+    // eventMap.put("dropOff1", new PrintCommand("Drop Off 1 Occured"));
+    // eventMap.put("pickup", new PrintCommand("Pickup Occured"));
+    // eventMap.put("dropOff2", new PrintCommand("Drop Off 2 Occured"));
+    // }
+    // else if (pathName.equals("RightConeCube")) {
+    // eventMap.put("dropOff1", new PrintCommand("Drop Off 1 Occured"));
+    // eventMap.put("pickup", new PrintCommand("Pickup Occured"));
+    // eventMap.put("dropOff2", new PrintCommand("Drop Off 2 Occured"));
+    // }
+    // return eventMap;
     // }
 }

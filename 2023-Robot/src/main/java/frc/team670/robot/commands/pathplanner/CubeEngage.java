@@ -27,14 +27,14 @@ import frc.team670.robot.subsystems.arm.ArmState;
 import frc.team670.robot.commands.drivebase.NonPidAutoLevel;
 
 public class CubeEngage extends SequentialCommandGroup implements MustangCommand {
-    
+
     public Map<MustangSubsystemBase, HealthState> getHealthRequirements() {
         return new HashMap();
     }
 
     public CubeEngage(DriveBase driveBase, Claw claw, Arm arm, String pathName) {
         List<PathPlannerTrajectory> trajectoryGroup = PathPlanner.loadPathGroup(pathName, 2, 1);
-        
+
         PIDConstants PID_translation = new PIDConstants(1.0, 0, 0);
         PIDConstants PID_theta = new PIDConstants(1.0, 0, 0);
 
@@ -42,26 +42,25 @@ public class CubeEngage extends SequentialCommandGroup implements MustangCommand
 
         Map<String, Command> eventMap = new HashMap<>();
 
-        eventMap.put("clawIntake1", new ClawIntake(claw));
-        eventMap.put("moveToHigh", new MoveToTarget(arm, ArmState.SCORE_HIGH));
+        eventMap.put("moveToHigh", new MoveToTarget(arm, claw, ArmState.SCORE_HIGH));
         eventMap.put("clawEject", new ClawEject(claw));
-        eventMap.put("moveToGround", new MoveToTarget(arm, ArmState.BACKWARD_GROUND));
+        eventMap.put("moveToGround", new MoveToTarget(arm, claw, ArmState.BACKWARD_GROUND));
         eventMap.put("clawIntake2", new ClawIntake(claw));
-        eventMap.put("autoLevel", new NonPidAutoLevel(driveBase, false)); // regardless of what side (right/left) you are on, markers are the same
+        eventMap.put("autoLevel", new NonPidAutoLevel(driveBase, false)); // regardless of what side (right/left) you
+                                                                          // are on, markers are the same
 
         SwerveDriveKinematics driveBaseKinematics = driveBase.getSwerveKinematics();
 
         SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(
-            driveBase::getPose, 
-            driveBase::resetOdometry,
-            driveBaseKinematics, 
-            PID_translation, 
-            PID_theta,
-            driveBase::setModuleStates, 
-            eventMap,
-            false,
-            new Subsystem[] {driveBase}
-        );
+                driveBase::getPose,
+                driveBase::resetOdometry,
+                driveBaseKinematics,
+                PID_translation,
+                PID_theta,
+                driveBase::setModuleStates,
+                eventMap,
+                false,
+                new Subsystem[] { driveBase });
 
         CommandBase fullAuto = autoBuilder.fullAuto(trajectoryGroup);
 

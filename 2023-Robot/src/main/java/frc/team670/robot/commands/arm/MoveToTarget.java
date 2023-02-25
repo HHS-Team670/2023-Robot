@@ -47,18 +47,13 @@ public class MoveToTarget extends CommandGroupBase implements MustangCommand {
   private InterruptionBehavior m_interruptBehavior = InterruptionBehavior.kCancelSelf;
 
   public MoveToTarget(Arm arm, Claw claw, ArmState target) {
-    this(arm, target);
-    this.claw = claw;
-    addRequirements(claw);
-  }
-
-  public MoveToTarget(Arm arm, ArmState target) {
     healthReqs = new HashMap<MustangSubsystemBase, HealthState>();
     healthReqs.put(arm, HealthState.GREEN);
     addRequirements(arm);
     this.arm = arm;
     this.target = target;
-
+    this.claw = claw;
+    addRequirements(claw);
   }
 
   @Override
@@ -70,11 +65,11 @@ public class MoveToTarget extends CommandGroupBase implements MustangCommand {
     // 3) then call move directly to target for each of those returned paths
     m_commands.clear();
     ArmState[] path = Arm.getValidPath(arm.getTargetState(), target);
-    for (int i = 1; i < path.length; i++) {
-      addCommands(new MoveDirectlyToTarget(arm, path[i]));
-    }
     if (target != ArmState.STOWED && claw != null && !claw.isFull()) {
       addCommands(new ClawIntake(claw));
+    }
+    for (int i = 1; i < path.length; i++) {
+      addCommands(new MoveDirectlyToTarget(arm, path[i]));
     }
 
     m_currentCommandIndex = 0;
