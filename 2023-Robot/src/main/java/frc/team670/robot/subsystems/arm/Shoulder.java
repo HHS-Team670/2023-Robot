@@ -162,13 +162,14 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
     }
 
     public void adjustOffset(double offsetDiff) {
+        double orgSetpoint=getSetpoint()-offset;
         if (Math.abs(this.offset + offsetDiff) > RobotConstants.SHOULDER_MAX_OVERRIDE_DEGREES) {
             this.offset = RobotConstants.SHOULDER_MAX_OVERRIDE_DEGREES * (this.offset + offsetDiff)
                     / Math.abs(this.offset + offsetDiff);
         } else {
             this.offset += offsetDiff;
         }
-        setTemporaryTargetAngleInDegrees(getSetpoint() + offset);
+        setSystemTargetAngleInDegrees(orgSetpoint+offset);
 
     }
 

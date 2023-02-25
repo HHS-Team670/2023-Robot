@@ -206,19 +206,23 @@ public class Elbow extends SparkMaxRotatingSubsystem {
     }
 
     public void adjustOffset(double offsetDiff) {
+        double orgSetpoint=getSetpoint()-offset;
         if (Math.abs(this.offset + offsetDiff) > RobotConstants.ELBOW_MAX_OVERRIDE_DEGREES) {
             this.offset = RobotConstants.ELBOW_MAX_OVERRIDE_DEGREES * (this.offset + offsetDiff)
                     / Math.abs(this.offset + offsetDiff);
         } else {
             this.offset += offsetDiff;
+            
         }
-        setTemporaryTargetAngleInDegrees(getSetpoint() + offset);
+        setSystemTargetAngleInDegrees(orgSetpoint+offset);
+        
 
     }
 
     public void resetOffset() {
+        super.setSystemTargetAngleInDegrees(getSetpoint()-offset);
         offset = 0;
-        super.setSystemTargetAngleInDegrees(getSetpoint());
+        
     }
 
     @Override
