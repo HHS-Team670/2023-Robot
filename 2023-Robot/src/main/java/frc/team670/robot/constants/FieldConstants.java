@@ -159,18 +159,23 @@ public class FieldConstants {
         public static final double doubleSubstationLength = Units.inchesToMeters(14.0);
         public static final double doubleSubstationX = innerX - doubleSubstationLength;
         public static final double doubleSubstationShelfZ = Units.inchesToMeters(37.375);
-
+        
         // Single substation dimensions
         public static final double singleSubstationWidth = Units.inchesToMeters(22.75);
         public static final double singleSubstationLeftX =
-                FieldConstants.fieldLength - doubleSubstationLength - Units.inchesToMeters(88.77);
+        FieldConstants.fieldLength - doubleSubstationLength - Units.inchesToMeters(88.77);
         public static final double singleSubstationCenterX =
-                singleSubstationLeftX + (singleSubstationWidth / 2.0);
+        singleSubstationLeftX + (singleSubstationWidth / 2.0);
         public static final double singleSubstationRightX =
-                singleSubstationLeftX + singleSubstationWidth;
+        singleSubstationLeftX + singleSubstationWidth;
         public static final Translation2d singleSubstationTranslation =
-                new Translation2d(singleSubstationCenterX, leftY);
-
+        new Translation2d(singleSubstationCenterX, leftY);
+        
+        public static final Pose2d[] loadingZoneIntakeTranslations = {
+                new Pose2d(6.01, 0.31, new Rotation2d()),
+                new Pose2d(6.01 + 1.31, 0.31, new Rotation2d()),
+                new Pose2d(singleSubstationTranslation, new Rotation2d(-Math.PI / 2))
+        };
         public static final double singleSubstationHeight = Units.inchesToMeters(18.0);
         public static final double singleSubstationLowZ = Units.inchesToMeters(27.125);
         public static final double singleSubstationCenterZ =
