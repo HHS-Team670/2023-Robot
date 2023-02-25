@@ -68,6 +68,7 @@
       "isStopPoint": false,
       "stopEvent": {
         "names": [
+          "moveToHigh2",
           "clawEject2",
           "moveToStowed"
         ],
@@ -81,16 +82,16 @@
     {
       "position": 1.0720725319602271,
       "names": [
-        "event",
-        "moveToHigh2"
+        "clawIntake2"
       ]
     },
     {
       "position": 0.13910466974431812,
       "names": [
-        "event",
-        "moveToBackward",
-        "clawIntake2"
+        "clawIntake1",
+        "moveToHigh1",
+        "clawEject1",
+        "moveToBackward"
       ]
     }
   ]
