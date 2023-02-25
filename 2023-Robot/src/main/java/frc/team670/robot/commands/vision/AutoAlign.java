@@ -35,8 +35,8 @@ public class AutoAlign extends InstantCommand implements MustangCommand {
     @Override
     public void initialize() {
         // find pose of nearest target
-        Pose2d robotPose = swerve.getPose();
-        var result = vision.getCamera().getLatestResult();
+        Pose2d robotPose = swerve.getOdometerPose();
+        var result = vision.getCameras()[0].getLatestResult();
         if (!result.hasTargets()) return;
 
         var camToTarget = result.getBestTarget().getBestCameraToTarget();
