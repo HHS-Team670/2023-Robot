@@ -1,5 +1,7 @@
 package frc.team670.robot.subsystems.arm;
 import java.util.ArrayList;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team670.mustanglib.utils.Logger;
 
 
@@ -60,6 +62,8 @@ public class VoltageCalculator {
         for(int i = 0; i < xCMDisplacements.size(); i++) {
             voltages.add(armSegments[i].getArbitraryFF() * xCMDisplacements.get(i) / maxXCMDisplacements.get(i));
         }
+
+        SmartDashboard.putString("VoltageCalculator output ", voltages.toString());
 
         return voltages;
 

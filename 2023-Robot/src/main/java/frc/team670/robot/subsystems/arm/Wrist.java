@@ -46,7 +46,7 @@ public class Wrist extends SparkMaxRotatingSubsystem {
         }
 
         public double getP() {
-            return 0.0011; 
+            return 0.00011; 
         }
 
         public double getI() {
@@ -74,7 +74,7 @@ public class Wrist extends SparkMaxRotatingSubsystem {
         }
 
         public double getMaxAcceleration() {
-            return 2500;
+            return 15000;
         }
 
         public double getAllowedError() {
@@ -107,7 +107,7 @@ public class Wrist extends SparkMaxRotatingSubsystem {
 
         @Override
         public double getMaxRotatorRPM() {
-            return 1500;
+            return 6000;
         }
 
         @Override

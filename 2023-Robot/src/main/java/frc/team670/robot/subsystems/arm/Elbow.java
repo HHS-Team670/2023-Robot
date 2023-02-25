@@ -56,6 +56,7 @@ public class Elbow extends SparkMaxRotatingSubsystem {
         }
 
         public double getD() {
+            //return 0.00015;
             return 0.00015;
         }
 
@@ -76,7 +77,7 @@ public class Elbow extends SparkMaxRotatingSubsystem {
         }
 
         public double getMaxAcceleration() {
-            return 3500;
+            return 4000;
         }
 
         public double getAllowedError() {
@@ -110,7 +111,7 @@ public class Elbow extends SparkMaxRotatingSubsystem {
 
         @Override
         public double getMaxRotatorRPM() {
-            return 2400;
+            return 3000;
         }
 
         @Override
@@ -127,6 +128,7 @@ public class Elbow extends SparkMaxRotatingSubsystem {
         super(ELBOW_CONFIG);
         absEncoder = new DutyCycleEncoder(RobotMap.ELBOW_ABSOLUTE_ENCODER);
         super.getRotator().setInverted(false);
+        SmartDashboard.putNumber("Elbow arbitrary FF", RobotConstants.ELBOW_ARBITRARY_FF);
     }
 
     /**
@@ -160,6 +162,8 @@ public class Elbow extends SparkMaxRotatingSubsystem {
         SmartDashboard.putNumber("Elbow relEncoder position when reset", relativePosition);
         SmartDashboard.putString("Elbow error", error.toString());
         calculatedRelativePosition = relativePosition;
+
+
     }
 
     @Override
@@ -211,6 +215,8 @@ public class Elbow extends SparkMaxRotatingSubsystem {
         SmartDashboard.putNumber("Elbow current", super.rotator.getOutputCurrent());
         SmartDashboard.putNumber("Elbow abs encoder position", absEncoder.getAbsolutePosition());
         SmartDashboard.putNumber("Elbow setpoint (rotations)", setpoint);
+
+        RobotConstants.ELBOW_SEGMENT.setArbitraryFF(SmartDashboard.getNumber("Elbow arbitrary FF", RobotConstants.ELBOW_ARBITRARY_FF));
 
         relativePositionLog += ("" + relativePosition + ", ");
     }

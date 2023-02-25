@@ -167,7 +167,7 @@ public final class RobotConstants extends RobotConstantsBase {
     public static final int SHOULDER_GEAR_RATIO = (hardwareSpecificConstants.get(MAC_ADDRESS).get("SHOULDER_GEAR_RATIO")).intValue();
     public static final int SHOULDER_SOFT_LIMIT_MIN = 60;
     public static final int SHOULDER_SOFT_LIMIT_MAX = 300;
-    public static final double SHOULDER_ARBITRARY_FF = 0.0;
+    public static final double SHOULDER_ARBITRARY_FF = 0.5;
     public static final double SHOULDER_MAX_OVERRIDE_DEGREES = 15;
 
     public static final double SHOULDER_LENGTH_INCHES = 26;
@@ -209,7 +209,7 @@ public final class RobotConstants extends RobotConstantsBase {
     // claw constants
     public static final double CLAW_ROLLING_SPEED = 0.75;
     public static final double CLAW_EJECTING_SPEED = -0.6;
-    public static final double CLAW_CURRENT_MAX = 70.0;
+    public static final double CLAW_CURRENT_MAX = 23.0;
     public static final double CLAW_IDLE_SPEED = 0.05;
 
     public static final int kTimeoutMs = 0;

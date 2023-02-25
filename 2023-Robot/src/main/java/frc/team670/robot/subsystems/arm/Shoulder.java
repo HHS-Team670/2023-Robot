@@ -130,6 +130,8 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
         follower = SparkMAXFactory.setPermanentFollower(RobotMap.SHOULDER_FOLLOWER_MOTOR, rotator, true);
         follower.setIdleMode(IdleMode.kBrake);
         absEncoder = new DutyCycleEncoder(RobotMap.SHOULDER_ABSOLUTE_ENCODER);
+
+        SmartDashboard.putNumber("Shoulder arbitrary FF", RobotConstants.SHOULDER_ARBITRARY_FF);
     }
 
     /**
@@ -200,6 +202,8 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
         SmartDashboard.putNumber("Shoulder abs encoder position", absEncoder.getAbsolutePosition());
         SmartDashboard.putNumber("Shoulder current", super.rotator.getOutputCurrent());
         SmartDashboard.putNumber("Shoulder setpoint (rotations)", setpoint);
+
+        RobotConstants.SHOULDER_SEGMENT.setArbitraryFF(SmartDashboard.getNumber("Shoulder arbitrary FF", RobotConstants.SHOULDER_ARBITRARY_FF));
 
         relativePositionLog += ("" + relativePosition + ", ");
 

@@ -48,13 +48,15 @@ public class ConeCube extends SequentialCommandGroup implements MustangCommand {
 
         // eventMap stuff
         eventMap.put("clawIntake1", new ClawIntake(claw));
-        eventMap.put("moveToHigh1", new MoveToTarget(arm, ArmState.SCORE_HIGH));
+        eventMap.put("moveToMid1", new MoveToTarget(arm, ArmState.SCORE_MID));
         eventMap.put("clawEject1", new ClawEject(claw, arm));
-        eventMap.put("moveToBackward", new MoveToTarget(arm, ArmState.BACKWARD_GROUND));
-        eventMap.put("clawIntake2", new ClawIntake(claw));
-        eventMap.put("moveToHigh2", new MoveToTarget(arm, ArmState.SCORE_HIGH));
-        eventMap.put("clawEject2", new ClawEject(claw, arm));
         eventMap.put("moveToStowed", new MoveToTarget(arm, ArmState.STOWED));
+        eventMap.put("moveToGround", new MoveToTarget(arm, ArmState.HYBRID));
+        eventMap.put("clawIntake2", new ClawIntake(claw));
+        eventMap.put("moveToStowed2", new MoveToTarget(arm, ArmState.STOWED));
+        eventMap.put("moveToMid2", new MoveToTarget(arm, ArmState.SCORE_MID));
+        eventMap.put("clawEject2", new ClawEject(claw, arm));
+        eventMap.put("moveToStowed3", new MoveToTarget(arm, ArmState.STOWED));
         
         SwerveDriveKinematics driveBaseKinematics = driveBase.getSwerveKinematics();
 

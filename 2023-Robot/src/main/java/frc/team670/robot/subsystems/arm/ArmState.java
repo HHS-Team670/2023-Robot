@@ -12,14 +12,19 @@ public enum ArmState {
     //Angle-based states. For the shoulder, straight up is 180. If the elbow joint is straight, that's 180.
     
     //Temporarily set all wrist angles to 180
-    STOWED(0, 180, 40, 180),
-    HYBRID(1, 108, 165, 180),
-    SCORE_MID(2, 170, 115, 180),
-    SCORE_HIGH(3,120, 203, 180),
-    INTERMEDIATE_BACKWARD_GROUND(4, 217, 40, 180),
-    BACKWARD_GROUND(5, 217, 310, 180),
+    // STOWED(0, 205, 38, 58), //normal stowed state
+    STOWED(0, 205, 38, 245),
+    // STOWED(0, 205, 11, 278), //potential dual-state for stowed and single station
+    HYBRID(1, 148, 38, 239),
+    SCORE_MID(2, 188, 83, 152),
+    SCORE_HIGH(3,135, 180, 117),
+    INTERMEDIATE_SCORE(4, 205, 70, 180),
+    STARTING(5, 205,25,235),
     TUNING(6, 90, 180, 180),
-    INTERMEDIATE_SCORE(7, 210, 40, 180);
+    INTERMEDIATE_HYBRID(7, 205, 38, 245),
+    SINGLE_STATION(8, 244, 10, 221);
+
+
   
     private int stateID;
     private double shoulderAngle;

@@ -48,7 +48,7 @@ public class ClawEject extends CommandBase implements MustangCommand
     @Override
     public void end(boolean interrupted) {
         claw.setIdle();
-        MustangScheduler.getInstance().schedule(new MoveToTarget(arm, ArmState.STOWED));
+        // MustangScheduler.getInstance().schedule(new MoveToTarget(arm, ArmState.STOWED));
     }
 
     @Override

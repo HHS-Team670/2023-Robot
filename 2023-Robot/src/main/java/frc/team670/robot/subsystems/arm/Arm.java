@@ -26,14 +26,15 @@ public class Arm extends MustangSubsystemBase {
 
 
     private static final ArmState[][] VALID_PATHS_GRAPH = new ArmState[][] {
-            { ArmState.TUNING, ArmState.INTERMEDIATE_SCORE, ArmState.INTERMEDIATE_BACKWARD_GROUND }, // STOWED
-            { ArmState.SCORE_MID }, // HYBRID
-            { ArmState.INTERMEDIATE_SCORE, ArmState.SCORE_HIGH, ArmState.HYBRID }, // SCORE_MID
-            { ArmState.SCORE_MID, ArmState.INTERMEDIATE_BACKWARD_GROUND, ArmState.INTERMEDIATE_SCORE }, // SCORE_HIGH
-            { ArmState.BACKWARD_GROUND, ArmState.STOWED, ArmState.INTERMEDIATE_SCORE }, // INTERMEDIATE_BACKWARD_GROUND
-            { ArmState.INTERMEDIATE_BACKWARD_GROUND, ArmState.INTERMEDIATE_SCORE }, // BACKWARD_GROUND
+            { ArmState.TUNING, ArmState.INTERMEDIATE_SCORE, ArmState.INTERMEDIATE_HYBRID, ArmState.SCORE_MID, ArmState.STARTING, ArmState.SINGLE_STATION }, // STOWED
+            { ArmState.INTERMEDIATE_HYBRID, ArmState.INTERMEDIATE_SCORE}, // HYBRID
+            { ArmState.INTERMEDIATE_SCORE, ArmState.SCORE_HIGH, ArmState.STOWED}, // SCORE_MID
+            { ArmState.SCORE_MID,  ArmState.INTERMEDIATE_SCORE}, // SCORE_HIGH
+            { ArmState.SCORE_HIGH, ArmState.SCORE_MID, ArmState.STOWED, ArmState.STARTING}, // INTERMEDIATE_SCORE
+            { ArmState.INTERMEDIATE_SCORE}, // STARTING
             { ArmState.STOWED }, // TUNING
-            { ArmState.STOWED, ArmState.SCORE_MID, ArmState.INTERMEDIATE_BACKWARD_GROUND, ArmState.SCORE_HIGH }, // INTERMEDIATE_SCORE
+            { ArmState.STOWED, ArmState.HYBRID }, //INTERMEDIATE_HYBRID
+            { ArmState.STOWED} // SINGLE_STATION
 
     };
 
@@ -75,6 +76,10 @@ public class Arm extends MustangSubsystemBase {
         }
 
         return HealthState.GREEN;
+    }
+
+    public void setStateToStarting() {
+        this.targetState = ArmState.STARTING;
     }
 
     @Override

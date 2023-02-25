@@ -37,7 +37,7 @@ public class OI extends OIBase {
     // XboxButtons.Y);
 
     // Operator buttons
-    private static POVButton backward = new POVButton(operatorController, 180);
+    private static POVButton hybrid = new POVButton(operatorController, 180);
     private static POVButton scoreMidR = new POVButton(operatorController, 90);
     private static POVButton scoreMidL = new POVButton(operatorController, 270);
     private static POVButton scoreHigh = new POVButton(operatorController, 0);
@@ -75,9 +75,9 @@ public class OI extends OIBase {
         // true));
 
         // //arm movement commands
-        backward.onTrue(new MoveToTarget(arm, ArmState.BACKWARD_GROUND));
+        hybrid.onTrue(new MoveToTarget(arm, ArmState.HYBRID));
         scoreMidR.onTrue(new MoveToTarget(arm, ArmState.SCORE_MID));
-        scoreMidL.onTrue(new MoveToTarget(arm, ArmState.SCORE_MID));
+        scoreMidL.onTrue(new MoveToTarget(arm, ArmState.SINGLE_STATION));
         scoreHigh.onTrue(new MoveToTarget(arm, ArmState.SCORE_HIGH));
         stow.onTrue(new MoveToTarget(arm, ArmState.STOWED));
         manualShoulderControl.onTrue(new ManualMoveShoulder(arm, operatorController));

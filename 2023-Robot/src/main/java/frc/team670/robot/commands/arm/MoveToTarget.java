@@ -61,7 +61,7 @@ public class MoveToTarget extends CommandGroupBase implements MustangCommand {
           for(int i = 1; i<path.length; i++){
             addCommands(new MoveDirectlyToTarget(arm, path[i]));
           }
-        } else if(path.length == 0) {
+        } else if(path.length == 1) {
           addCommands(new MoveDirectlyToTarget(arm, path[0]));
         }
         
