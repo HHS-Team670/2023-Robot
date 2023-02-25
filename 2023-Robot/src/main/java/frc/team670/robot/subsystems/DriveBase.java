@@ -88,6 +88,7 @@ public class DriveBase extends SwerveDrive {
             MustangScheduler.getInstance().cancel(defaultCommand);
       }
       public void mustangPeriodic(){
+            super.mustangPeriodic();
             debugSubsystem();
       }
   

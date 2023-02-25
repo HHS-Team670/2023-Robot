@@ -41,7 +41,6 @@ public class MoveToPose extends CommandBase implements MustangCommand {
         this.goalPose = goalPose;
         this.healthReqs = new HashMap<MustangSubsystemBase, HealthState>();
         this.healthReqs.put(driveBase, HealthState.GREEN);
-        addRequirements(driveBase);
     }
 
     // public MoveToPose(DriveBase driveBase, Pose2d goalPose) {
@@ -60,7 +59,7 @@ public class MoveToPose extends CommandBase implements MustangCommand {
 
     @Override
     public void initialize() {
-        goalPose = FieldConstants.allianceFlip(goalPose).transformBy(new Transform2d(new Translation2d(RobotConstants.DRIVEBASE_WIDTH, 0), new Rotation2d()));
+        goalPose = FieldConstants.allianceFlip(goalPose).transformBy(new Transform2d(FieldConstants.allianceFlip(new Translation2d(RobotConstants.DRIVEBASE_WIDTH + 0.1, 0)), FieldConstants.getRobotFacingRotation()));
         SmartDashboard.putString("GOAL POSE", String.format("%f, %f, %f degrees", goalPose.getX(), goalPose.getY(), goalPose.getRotation().getDegrees()));
         PathPlannerTrajectory traj = PathPlanner.generatePath(new PathConstraints(1, 0.5), calcStartPoint(),
                 calcEndPoint(goalPose));
@@ -78,10 +77,12 @@ public class MoveToPose extends CommandBase implements MustangCommand {
     @Override
     public void end(boolean interrupted) {
         if (interrupted) {
+            SmartDashboard.putBoolean("LET GO", interrupted);
 			pathDrivingCommand.cancel();
 		}
 
 		driveBase.stop();
+        // driveBase.getPoseEstimator().removeTrajectory();
     }
 
 

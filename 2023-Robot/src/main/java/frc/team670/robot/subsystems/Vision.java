@@ -21,7 +21,6 @@ public class Vision extends VisionSubsystemBase {
                 new PhotonCamera[] {new PhotonCamera(RobotConstants.VISION_CAMERA_NAME)},
                 new Transform3d[] {RobotConstants.CAMERA_OFFSET});
         setName("Vision");
-        getCameras()[0].setDriverMode(true);
     }
 
     @Override
