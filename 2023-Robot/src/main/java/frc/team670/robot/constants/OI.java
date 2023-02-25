@@ -68,7 +68,7 @@ public class OI extends OIBase {
 
         driveBase.initDefaultCommand();
 
-        zeroGyro.onTrue(new SetSwerveForwardDirection(driveBase, arm));
+        zeroGyro.onTrue(new SetSwerveForwardDirection(driveBase));
         // zeroArm.onTrue(new ResetArmFromAbsolute(arm)); DO NOT USE!!! Critial errors not yet fixed
         moveToTarget.onTrue(new AutoAlign(vision, driveBase));
         // move.onTrue(new MoveToPose(driveBase, new Pose2d(1, 1, new Rotation2d()),
