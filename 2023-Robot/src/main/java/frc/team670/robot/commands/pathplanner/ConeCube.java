@@ -3,7 +3,6 @@ package frc.team670.robot.commands.pathplanner;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.auto.PIDConstants;
@@ -27,7 +26,7 @@ import frc.team670.robot.subsystems.arm.Arm;
 import frc.team670.robot.subsystems.arm.ArmState;
 
 public class ConeCube extends SequentialCommandGroup implements MustangCommand {
-    
+
     String pathName;
 
     public Map<MustangSubsystemBase, HealthState> getHealthRequirements() {
@@ -58,37 +57,30 @@ public class ConeCube extends SequentialCommandGroup implements MustangCommand {
         
         SwerveDriveKinematics driveBaseKinematics = driveBase.getSwerveKinematics();
 
-        SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(
-            driveBase::getPose, 
-            driveBase::resetOdometry,
-            driveBaseKinematics, 
-            PID_translation, 
-            PID_theta,
-            driveBase::setModuleStates, 
-            eventMap,
-            false,
-            new Subsystem[] {driveBase}
-        );
+        SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(driveBase.getPoseEstimator()::getCurrentPose,
+                driveBase::resetOdometry, driveBaseKinematics, PID_translation, PID_theta,
+                driveBase::setModuleStates, eventMap, false, new Subsystem[] {driveBase});
 
         CommandBase fullAuto = autoBuilder.fullAuto(trajectoryGroup);
 
         addCommands(fullAuto);
     }
 
-    // not exactly needed right now bc markers and events are the same for both sides (maybe utilized later)
+    // not exactly needed right now bc markers and events are the same for both sides (maybe
+    // utilized later)
 
     // public HashMap<String, Command> initialzeEventMap() {
-    //     HashMap<String, Command> eventMap = new HashMap<>();
-    //     if (pathName.equals("LeftConeCube")) {
-    //         eventMap.put("dropOff1", new PrintCommand("Drop Off 1 Occured"));
-    //         eventMap.put("pickup", new PrintCommand("Pickup Occured"));
-    //         eventMap.put("dropOff2", new PrintCommand("Drop Off 2 Occured"));
-    //     }
-    //     else if (pathName.equals("RightConeCube")) {
-    //         eventMap.put("dropOff1", new PrintCommand("Drop Off 1 Occured"));
-    //         eventMap.put("pickup", new PrintCommand("Pickup Occured"));
-    //         eventMap.put("dropOff2", new PrintCommand("Drop Off 2 Occured"));
-    //     }
-    //     return eventMap;
+    // HashMap<String, Command> eventMap = new HashMap<>();
+    // if (pathName.equals("LeftConeCube")) {
+    // eventMap.put("dropOff1", new PrintCommand("Drop Off 1 Occured"));
+    // eventMap.put("pickup", new PrintCommand("Pickup Occured"));
+    // eventMap.put("dropOff2", new PrintCommand("Drop Off 2 Occured"));
+    // }
+    // else if (pathName.equals("RightConeCube")) {
+    // eventMap.put("dropOff1", new PrintCommand("Drop Off 1 Occured"));
+    // eventMap.put("pickup", new PrintCommand("Pickup Occured"));
+    // eventMap.put("dropOff2", new PrintCommand("Drop Off 2 Occured"));
+    // }
+    // return eventMap;
     // }
 }

@@ -12,12 +12,10 @@ import frc.team670.robot.subsystems.Claw.Status;
  * @author Tarini, Samanyu and Ishaan
  */
 
-public class ClawIntake extends InstantCommand implements MustangCommand 
-{
+public class ClawIntake extends InstantCommand implements MustangCommand {
     private Claw claw;
 
-    public ClawIntake(Claw claw)
-    {
+    public ClawIntake(Claw claw) {
         this.claw = claw;
         addRequirements(claw);
     }

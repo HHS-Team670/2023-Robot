@@ -68,7 +68,7 @@ public class Arm extends MustangSubsystemBase {
     @Override
     public void mustangPeriodic() {
 
-        debugSubsystem();
+        // debugSubsystem();
         if (!initializedState) {
             if (elbow.isRelativePositionSet() && shoulder.isRelativePositionSet()) {
                 initializedState = true;
@@ -113,48 +113,37 @@ public class Arm extends MustangSubsystemBase {
     }
 
     public void setArmOffsets(double elbowOffset, double shoulderOffset) {
-        if (Math.abs(elbowOffset) > RobotConstants.ELBOW_MAX_OVERRIDE_DEGREES) {
-            elbowOffset = RobotConstants.ELBOW_MAX_OVERRIDE_DEGREES * elbowOffset / Math.abs(elbowOffset);
-        }
-        if (Math.abs(shoulderOffset) > RobotConstants.SHOULDER_MAX_OVERRIDE_DEGREES) {
-            shoulderOffset = RobotConstants.SHOULDER_MAX_OVERRIDE_DEGREES * shoulderOffset / Math.abs(shoulderOffset);
-        }
-        this.elbowOffset = elbowOffset;
-        this.shoulderOffset = shoulderOffset;
+        elbow.setOffset(elbowOffset);
+        shoulder.setOffset(shoulderOffset);
+        elbow.setSystemTargetAngleInDegrees(targetState.getElbowAngle() + elbow.getOffset());
+        shoulder.setSystemTargetAngleInDegrees(targetState.getShoulderAngle() + shoulder.getOffset());
 
     }
 
     public void setElbowOffset(double elbowOffset) {
-        if (Math.abs(elbowOffset) > RobotConstants.ELBOW_MAX_OVERRIDE_DEGREES) {
-            elbowOffset = RobotConstants.ELBOW_MAX_OVERRIDE_DEGREES * elbowOffset / Math.abs(elbowOffset);
-        }
-        this.elbowOffset = elbowOffset;
+        elbow.setOffset(elbowOffset);
+        elbow.setSystemTargetAngleInDegrees(targetState.getElbowAngle() + elbow.getOffset());
+
     }
 
     public void setShoulderOffset(double shoulderOffset) {
-        if (Math.abs(shoulderOffset) > RobotConstants.SHOULDER_MAX_OVERRIDE_DEGREES) {
-            shoulderOffset = RobotConstants.SHOULDER_MAX_OVERRIDE_DEGREES * shoulderOffset / Math.abs(shoulderOffset);
-        }
-        this.shoulderOffset = shoulderOffset;
+        shoulder.setOffset(shoulderOffset);
+        shoulder.setSystemTargetAngleInDegrees(targetState.getShoulderAngle() + shoulder.getOffset());
+
     }
 
     public void resetElbowOffset() {
 
-        this.elbowOffset = 0;
+        elbow.setOffset(0);
+        elbow.setSystemTargetAngleInDegrees(targetState.getElbowAngle() + elbow.getOffset());
+
     }
 
     public void resetShoulderOffset() {
 
-        this.shoulderOffset = 0;
-    }
+        shoulder.setOffset(0);
+        shoulder.setSystemTargetAngleInDegrees(targetState.getShoulderAngle() + shoulder.getOffset());
 
-    public double getElbowOffset() {
-        return elbowOffset;
-
-    }
-
-    public double getShoulderOffset() {
-        return shoulderOffset;
     }
 
     /**
@@ -248,13 +237,13 @@ public class Arm extends MustangSubsystemBase {
         double shoulderAngle = shoulder.getCurrentAngleInDegrees();
         double elbowAngle = elbow.getCurrentAngleInDegrees();
         ArmState closestState = ArmState.STOWED;
-        double closestStateDistance = 10000; //Intentionally high number. The first state checked will be less
+        double closestStateDistance = 10000; // Intentionally high number. The first state checked will be less
 
         for (ArmState state : ArmState.values()) {
             double shoulderDistance = Math.abs(state.getShoulderAngle() - shoulderAngle);
             double elbowDistance = Math.abs(state.getElbowAngle() - elbowAngle);
             double stateDistance = shoulderDistance * 1.5 + elbowDistance;
-            if(stateDistance < closestStateDistance) {
+            if (stateDistance < closestStateDistance) {
                 closestStateDistance = stateDistance;
                 closestState = state;
             }
@@ -270,4 +259,3 @@ public class Arm extends MustangSubsystemBase {
         return elbow;
     }
 }
-  

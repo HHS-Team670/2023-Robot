@@ -9,30 +9,30 @@ import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.Enumeration;
 import java.util.Map;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Transform2d;
-import edu.wpi.first.math.geometry.Translation2d;
-import static java.util.Map.entry;
+import com.pathplanner.lib.PathConstraints;
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
-import edu.wpi.first.math.trajectory.constraint.DifferentialDriveKinematicsConstraint;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.SerialPort;
 import frc.team670.mustanglib.constants.RobotConstantsBase;
 
 /**
- * The Constants class provides a convenient place for teams to hold robot-wide
- * numerical or boolean
- * constants. This class should not be used for any other purpose. All constants
- * should be declared
+ * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
+ * constants. This class should not be used for any other purpose. All constants should be declared
  * globally (i.e. public static). Do not put anything functional in this class.
  *
  * <p>
- * It is advised to statically import this class (or one of its inner classes)
- * wherever the
+ * It is advised to statically import this class (or one of its inner classes) wherever the
  * constants are needed, to reduce verbosity.
  */
 public final class RobotConstants extends RobotConstantsBase {
 
     public static final String MAC_ADDRESS = getMACAddress();
+
+
 
     // Set your team number using the WPILib extension's "Set Team Number" action.
     // 1) Set all of the *_ANGLE_OFFSET constants to -Math.toRadians(0.0).
@@ -70,7 +70,13 @@ public final class RobotConstants extends RobotConstantsBase {
                     entry("FRONT_RIGHT_MODULE_STEER_OFFSET", -Math.toRadians(352.35)),
                     entry("FRONT_LEFT_MODULE_STEER_OFFSET", -Math.toRadians(136.67)),
                     entry("SHOULDER_ABSOLUTE_ENCODER_AT_VERTICAL", 0.0),
-                    entry("ELBOW_ABSOLUTE_ENCODER_AT_VERTICAL", 0.0)))
+                    entry("ELBOW_ABSOLUTE_ENCODER_AT_VERTICAL", 0.0))),
+            entry("00:80:2F:22:B4:F6", Map.ofEntries( // The mac address is from 670_WCD (test
+                                                      // bench)
+                    entry("BACK_RIGHT_MODULE_STEER_OFFSET", -Math.toRadians(292.5)),
+                    entry("BACK_LEFT_MODULE_STEER_OFFSET", -Math.toRadians(232.91)),
+                    entry("FRONT_RIGHT_MODULE_STEER_OFFSET", -Math.toRadians(352.35)),
+                    entry("FRONT_LEFT_MODULE_STEER_OFFSET", -Math.toRadians(136.67))))
 
     );
 
@@ -79,6 +85,9 @@ public final class RobotConstants extends RobotConstantsBase {
      *
      * Should be measured from center to center.
      */
+
+    public static final double DRIVEBASE_WIDTH = Units.inchesToMeters(36);
+
     public static final double DRIVETRAIN_TRACKWIDTH_METERS = 0.6096;
 
     /**
@@ -90,30 +99,57 @@ public final class RobotConstants extends RobotConstantsBase {
 
     public static final double LIMIT = 1.0;
 
-    public static final int BACK_RIGHT_MODULE_DRIVE_MOTOR = 25; // Set back right module drive motor ID
-    public static final int BACK_RIGHT_MODULE_STEER_MOTOR = 24; // Set back right module steer motor ID
+    public static final int BACK_RIGHT_MODULE_DRIVE_MOTOR = 25; // Set back right module drive motor
+                                                                // ID
+    public static final int BACK_RIGHT_MODULE_STEER_MOTOR = 24; // Set back right module steer motor
+                                                                // ID
     public static final int BACK_RIGHT_MODULE_STEER_ENCODER = 34; // Set back right steer encoder ID
-    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = hardwareSpecificConstants.get(MAC_ADDRESS)
-            .get("BACK_RIGHT_MODULE_STEER_OFFSET"); // Measure and set back right steer offset
+    public static final double BACK_RIGHT_MODULE_STEER_OFFSET =
+            hardwareSpecificConstants.get(MAC_ADDRESS).get("BACK_RIGHT_MODULE_STEER_OFFSET"); // Measure
+                                                                                              // and
+                                                                                              // set
+                                                                                              // back
+                                                                                              // right
+                                                                                              // steer
+                                                                                              // offset
 
     public static final int BACK_LEFT_MODULE_DRIVE_MOTOR = 27; // Set back left drive motor ID
     public static final int BACK_LEFT_MODULE_STEER_MOTOR = 26; // Set back left steer motor ID
     public static final int BACK_LEFT_MODULE_STEER_ENCODER = 36; // Set back left steer encoder ID
-    public static final double BACK_LEFT_MODULE_STEER_OFFSET = hardwareSpecificConstants.get(MAC_ADDRESS)
-            .get("BACK_LEFT_MODULE_STEER_OFFSET"); // Measure and set back left steer offset
+    public static final double BACK_LEFT_MODULE_STEER_OFFSET =
+            hardwareSpecificConstants.get(MAC_ADDRESS).get("BACK_LEFT_MODULE_STEER_OFFSET"); // Measure
+                                                                                             // and
+                                                                                             // set
+                                                                                             // back
+                                                                                             // left
+                                                                                             // steer
+                                                                                             // offset
 
     public static final int FRONT_RIGHT_MODULE_DRIVE_MOTOR = 23; // Set front right drive motor ID
     public static final int FRONT_RIGHT_MODULE_STEER_MOTOR = 22; // Set front right steer motor ID
-    public static final int FRONT_RIGHT_MODULE_STEER_ENCODER = 32; // Set front right steer encoder ID
-    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = hardwareSpecificConstants.get(MAC_ADDRESS)
-            .get("FRONT_RIGHT_MODULE_STEER_OFFSET"); // Measure and set back left steer offset
+    public static final int FRONT_RIGHT_MODULE_STEER_ENCODER = 32; // Set front right steer encoder
+                                                                   // ID
+    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET =
+            hardwareSpecificConstants.get(MAC_ADDRESS).get("FRONT_RIGHT_MODULE_STEER_OFFSET"); // Measure
+                                                                                               // and
+                                                                                               // set
+                                                                                               // back
+                                                                                               // left
+                                                                                               // steer
+                                                                                               // offset
     // Measure and set front right steer offset
 
     public static final int FRONT_LEFT_MODULE_DRIVE_MOTOR = 21; // Set front left drive motor ID
     public static final int FRONT_LEFT_MODULE_STEER_MOTOR = 20; // Set front left steer motor ID
     public static final int FRONT_LEFT_MODULE_STEER_ENCODER = 30; // Set front left steer encoder ID
-    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = hardwareSpecificConstants.get(MAC_ADDRESS)
-            .get("FRONT_LEFT_MODULE_STEER_OFFSET"); // Measure and set front left steer offset
+    public static final double FRONT_LEFT_MODULE_STEER_OFFSET =
+            hardwareSpecificConstants.get(MAC_ADDRESS).get("FRONT_LEFT_MODULE_STEER_OFFSET"); // Measure
+                                                                                              // and
+                                                                                              // set
+                                                                                              // front
+                                                                                              // left
+                                                                                              // steer
+                                                                                              // offset
 
     public final static SerialPort.Port NAVX_PORT = SerialPort.Port.kMXP;
     public static final double kMaxSpeedMetersPerSecond = 2;
@@ -121,35 +157,34 @@ public final class RobotConstants extends RobotConstantsBase {
     public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI * 16;
     public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI * 16;
 
+    // TODO: TUNE PID CONTROLLERS AND
+    public static final PIDController xController = new PIDController(3, 0, 0);
+    public static final PIDController yController = new PIDController(3, 0, 0);
+    public static final PIDController thetaController = new PIDController(0.2, 0, 0);
+
     // vision
-    public static final String VISION_CAMERA_NAME = "Arducam_OV9281_USB_Camera";
-    public static final Transform2d CAMERA_OFFSET = new Transform2d(new Translation2d(0, 0), new Rotation2d(0)); // TODO:
-                                                                                                                 // changed
-                                                                                                                 // when
-                                                                                                                 // camera
-                                                                                                                 // actually
-                                                                                                                 // mounted,
-                                                                                                                 // may
-                                                                                                                 // need
-                                                                                                                 // to
-                                                                                                                 // change
-                                                                                                                 // based
-                                                                                                                 // on
-                                                                                                                 // robot
-    public static final Transform2d GRID_TO_TARGET_OFFSET = new Transform2d(new Translation2d(1, 0), new Rotation2d(0)); // TODO:
-                                                                                                                         // check
-                                                                                                                         // game
-                                                                                                                         // manual
-                                                                                                                         // for
-                                                                                                                         // actual
-                                                                                                                         // specs
+
+    // public static final String VISION_CAMERA_NAME = "Arducam_OV9281_USB_Camera";
+    // public static final String VISION_CAMERA_NAME = "Arducam_A";
+    public static final String VISION_CAMERA_NAME = "Arducam_B";
+    public static final Transform3d CAMERA_OFFSET =
+            new Transform3d(new Translation3d(0, 0, 0), new Rotation3d(Math.PI / 2.0, 0, Math.PI));
+    // new Transform2d(new Translation2d(0, 0), new Rotation2d(0)); // TODO: changed when camera
+    // actually mounted, may need to change based on robot
+    // for actual specs
+    public static final double LOCKED_ON_ERROR_X = 0.3; // TODO: test what angles are appropriate
+                                                        // for grabbing
+    public static final double LOCKED_ON_ERROR_Y = 0.3;
+    public static final double LOCKED_ON_ERROR_DEGREES = 10;
+
+    // Everything below is copied from 2022 robot
     public static final double kTrackwidthMeters = 0.702;
 
     // Arm
-    public static final double ELBOW_ABSOLUTE_ENCODER_AT_VERTICAL = hardwareSpecificConstants.get(MAC_ADDRESS)
-            .get("ELBOW_ABSOLUTE_ENCODER_AT_VERTICAL");
-    public static final double SHOULDER_ABSOLUTE_ENCODER_AT_VERTICAL = hardwareSpecificConstants.get(MAC_ADDRESS)
-            .get("SHOULDER_ABSOLUTE_ENCODER_AT_VERTICAL");
+    public static final double ELBOW_ABSOLUTE_ENCODER_AT_VERTICAL =
+            hardwareSpecificConstants.get(MAC_ADDRESS).get("ELBOW_ABSOLUTE_ENCODER_AT_VERTICAL");
+    public static final double SHOULDER_ABSOLUTE_ENCODER_AT_VERTICAL =
+            hardwareSpecificConstants.get(MAC_ADDRESS).get("SHOULDER_ABSOLUTE_ENCODER_AT_VERTICAL");
 
     public static final int ELBOW_GEAR_RATIO = 75;
     public static final int ELBOW_SOFT_LIMIT_MIN = 20;
@@ -181,11 +216,12 @@ public final class RobotConstants extends RobotConstantsBase {
     public static final double rightKsVolts = leftKsVolts;
     public static final double rightKvVoltSecondsPerMeter = leftKvVoltSecondsPerMeter;
     public static final double rightKaVoltSecondsSquaredPerMeter = leftKaVoltSecondsSquaredPerMeter;
-    public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(
-            kTrackwidthMeters);
+    public static final DifferentialDriveKinematics kDriveKinematics =
+            new DifferentialDriveKinematics(kTrackwidthMeters);
 
-    public static final DifferentialDriveKinematicsConstraint kAutoPathConstraints = new DifferentialDriveKinematicsConstraint(
-            kDriveKinematics, kMaxSpeedMetersPerSecond);
+    public static final PathConstraints kAutoPathConstraints =
+            new PathConstraints(kMaxSpeedMetersPerSecond, kMaxAccelerationMetersPerSecondSquared);
+
 
     /**
      * This is code from Poofs 2022
@@ -203,7 +239,8 @@ public final class RobotConstants extends RobotConstantsBase {
                     byte[] mac = nis.getHardwareAddress();
                     if (mac != null) {
                         for (int i = 0; i < mac.length; i++) {
-                            ret.append(String.format("%02X%s", mac[i], (i < mac.length - 1) ? ":" : ""));
+                            ret.append(String.format("%02X%s", mac[i],
+                                    (i < mac.length - 1) ? ":" : ""));
                         }
                         String addr = ret.toString();
                         System.out.println("NIS " + nis.getDisplayName() + " addr: " + addr);
@@ -218,12 +255,13 @@ public final class RobotConstants extends RobotConstantsBase {
         } catch (SocketException | NullPointerException e) {
             e.printStackTrace();
         }
-
+        System.out.println("\n\nMAC ADDRESS NOTHING");
         return "";
     }
 
     public static double armXCM(double shoulderAngleDegrees, double elbowAngleDegrees) {
-        double x1 = RobotConstants.SHOULDER_LENGTH_INCHES * Math.sin(Math.toRadians(shoulderAngleDegrees));
+        double x1 = RobotConstants.SHOULDER_LENGTH_INCHES
+                * Math.sin(Math.toRadians(shoulderAngleDegrees));
         double x2 = RobotConstants.ELBOW_LENGTH_INCHES
                 * Math.sin(Math.toRadians(shoulderAngleDegrees + elbowAngleDegrees - 180));
         double xcm = (RobotConstants.SHOULDER_TO_ELBOW_MASS_LB * x1 / 4.0 // first segment CM
