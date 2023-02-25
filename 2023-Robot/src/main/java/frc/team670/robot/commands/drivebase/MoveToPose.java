@@ -77,8 +77,8 @@ public class MoveToPose extends CommandBase implements MustangCommand {
     @Override
     public void end(boolean interrupted) {
         if (interrupted) {
-            SmartDashboard.putBoolean("LET GO", interrupted);
 			pathDrivingCommand.cancel();
+            driveBase.getPoseEstimator().removeTrajectory();
 		}
 
 		driveBase.stop();

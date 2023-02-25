@@ -253,50 +253,6 @@ public class FieldConstants {
             Math.hypot(Units.inchesToMeters(36), Units.inchesToMeters(36)) / 2 + 0.1;
 
     public static List<PoseNode> obstacleContingencyNodes = new ArrayList<>();
-    // public static List<PoseNode> obstacleContingencyNodes = List.of(
-    // // from inner right clockwise
-    // new PoseNode(obstacleCorners[0].getX() - driveBaseClearance, obstacleCorners[0].getY() -
-    // driveBaseClearance),
-    // new PoseNode(obstacleCorners[1].getX() - driveBaseClearance, obstacleCorners[1].getY() +
-    // driveBaseClearance),
-    // new PoseNode(obstacleCorners[2].getX() + driveBaseClearance, obstacleCorners[2].getY() +
-    // driveBaseClearance),
-    // new PoseNode(obstacleCorners[3].getX() + driveBaseClearance, obstacleCorners[3].getY() -
-    // driveBaseClearance),
-
-    // new PoseNode(new Pose2d(allianceFlip(new Translation2d(obstacleCorners[0].getX() -
-    // driveBaseClearance, obstacleCorners[0].getY() - driveBaseClearance)),
-    // getRobotFacingRotation())),
-    // new PoseNode(new Pose2d(allianceFlip(new Translation2d(obstacleCorners[1].getX() -
-    // driveBaseClearance, obstacleCorners[1].getY() + driveBaseClearance)),
-    // getRobotFacingRotation())),
-    // new PoseNode(new Pose2d(allianceFlip(new Translation2d(obstacleCorners[2].getX() +
-    // driveBaseClearance, obstacleCorners[2].getY() + driveBaseClearance)),
-    // getRobotFacingRotation())),
-    // new PoseNode(new Pose2d(allianceFlip(new Translation2d(obstacleCorners[3].getX() +
-    // driveBaseClearance, obstacleCorners[3].getY() - driveBaseClearance)),
-    // getRobotFacingRotation()))
-    // );
-    // static {
-    //     obstacleContingencyNodes = new ArrayList<>();
-    //     System.out.println("instantiating cont nodes");
-    //     List<Pose2d> poses = new ArrayList<>();
-
-    //     for (Obstacle o : obstacles) {
-    //         // clockwise from inner right
-    //         poses.add(new Pose2d(o.getCorners()[0].getX() - driveBaseClearance,
-    //                 o.getCorners()[0].getY() - driveBaseClearance, new Rotation2d()));
-    //         poses.add(new Pose2d(o.getCorners()[1].getX() - driveBaseClearance,
-    //                 o.getCorners()[1].getY() + driveBaseClearance, new Rotation2d()));
-    //         poses.add(new Pose2d(o.getCorners()[2].getX() + driveBaseClearance,
-    //                 o.getCorners()[2].getY() + driveBaseClearance, new Rotation2d()));
-    //         poses.add(new Pose2d(o.getCorners()[3].getX() + driveBaseClearance,
-    //                 o.getCorners()[3].getY() - driveBaseClearance, new Rotation2d()));
-    //     }
-    //     for (Pose2d p : poses) {
-    //         obstacleContingencyNodes.add(new PoseNode(allianceFlip(p)));
-    //     }
-    // }
 
     /**
      * Flips a translation to the correct side of the field based on the current alliance color. By
