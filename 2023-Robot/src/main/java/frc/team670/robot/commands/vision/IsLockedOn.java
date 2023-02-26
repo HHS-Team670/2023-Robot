@@ -53,27 +53,27 @@ public class IsLockedOn extends CommandBase implements MustangCommand {
 
     @Override
     public void execute() {
-        SmartDashboard.putBoolean("isLockedOn", false);
-        // find pose of nearest target
-        currentPose = driveBase.getPoseEstimator().getCurrentPose();
-        PhotonPipelineResult result = vision.getCameras()[0].getLatestResult();
-        SmartDashboard.putBoolean("has targets", result.hasTargets());
-        if (!result.hasTargets())
-            return;
+        // SmartDashboard.putBoolean("isLockedOn", false);
+        // // find pose of nearest target
+        // currentPose = driveBase.getPoseEstimator().getCurrentPose();
+        // PhotonPipelineResult result = vision.getCameras()[0].getLatestResult();
+        // SmartDashboard.putBoolean("has targets", result.hasTargets());
+        // if (!result.hasTargets())
+        //     return;
 
-        Pose2d targetPose;
+        // Pose2d targetPose;
 
-        if (goalPose == null) {
-            Transform3d camToTarget = result.getBestTarget().getBestCameraToTarget();
-            Transform2d transform = new Transform2d(camToTarget.getTranslation().toTranslation2d(),
-                    camToTarget.getRotation().toRotation2d());
-            Pose2d cameraPose = currentPose.transformBy(new Transform2d(
-                    RobotConstants.CAMERA_OFFSET.inverse().getTranslation().toTranslation2d(),
-                    RobotConstants.CAMERA_OFFSET.inverse().getRotation().toRotation2d()));
-            targetPose = cameraPose.transformBy(transform);
-        } else {
-            targetPose = goalPose;
-        }
+        // if (goalPose == null) {
+        // //     Transform3d camToTarget = result.getBestTarget().getBestCameraToTarget();
+        // //     Transform2d transform = new Transform2d(camToTarget.getTranslation().toTranslation2d(),
+        // //             camToTarget.getRotation().toRotation2d());
+        // //     Pose2d cameraPose = currentPose.transformBy(new Transform2d(
+        // //             RobotConstants.CAMERA_OFFSET.inverse().getTranslation().toTranslation2d(),
+        // //             RobotConstants.CAMERA_OFFSET.inverse().getRotation().toRotation2d()));
+        // //     targetPose = cameraPose.transformBy(transform);
+        // } else {
+        //     targetPose = goalPose;
+        // }
 
         // transform by offset (to not crash)
         // goalPose = targetPose.transformBy(RobotConstants.GRID_TO_TARGET_OFFSET);
