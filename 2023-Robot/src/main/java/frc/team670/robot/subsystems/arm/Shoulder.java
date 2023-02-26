@@ -136,7 +136,8 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
     }
 
     /**
-     * Returns whether or not the relative position has been properly set from the absEncoder.
+     * Returns whether or not the relative position has been properly set from the
+     * absEncoder.
      * When resetPositionFromAbsolute() gets called, this will temporarily be false.
      */
     public boolean isRelativePositionSet() {
@@ -145,6 +146,7 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
 
     /**
      * Updates the arbitraryFF value to counteract gravity
+     * 
      * @param voltage The calculated voltage, returned from VoltageCalculator
      */
     public void updateArbitraryFeedForward(double voltage) {
@@ -160,17 +162,23 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
         return false;
     }
 
-    public void setOffset(double offset) {
-        if (Math.abs(offset) > RobotConstants.SHOULDER_MAX_OVERRIDE_DEGREES) {
-            this.offset = RobotConstants.SHOULDER_MAX_OVERRIDE_DEGREES * this.offset / Math.abs(this.offset);
+    public void adjustOffset(double offsetDiff) {
+        double orgSetpoint = getSetpoint() - super.getMotorRotationsFromAngle(offset);
+        if (Math.abs(this.offset + offsetDiff) > RobotConstants.SHOULDER_MAX_OVERRIDE_DEGREES) {
+            this.offset = RobotConstants.SHOULDER_MAX_OVERRIDE_DEGREES * (this.offset + offsetDiff)
+                    / Math.abs(this.offset + offsetDiff);
         } else {
-            this.offset = offset;
+            this.offset += offsetDiff;
+
         }
+        setSystemMotionTarget(orgSetpoint + super.getMotorRotationsFromAngle(offset));
 
     }
 
-    public double getOffset() {
-        return offset;
+    public void resetOffset() {
+        super.setSystemTargetAngleInDegrees(getSetpoint() - super.getMotorRotationsFromAngle(offset));
+        offset = 0;
+
     }
 
     @Override
@@ -217,7 +225,8 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
         SmartDashboard.putNumber("Shoulder current", super.rotator.getOutputCurrent());
         SmartDashboard.putNumber("Shoulder setpoint (rotations)", setpoint);
 
-        RobotConstants.SHOULDER_SEGMENT.setArbitraryFF(SmartDashboard.getNumber("Shoulder arbitrary FF", RobotConstants.SHOULDER_ARBITRARY_FF));
+        RobotConstants.SHOULDER_SEGMENT.setArbitraryFF(
+                SmartDashboard.getNumber("Shoulder arbitrary FF", RobotConstants.SHOULDER_ARBITRARY_FF));
 
         relativePositionLog += ("" + relativePosition + ", ");
 

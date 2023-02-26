@@ -22,19 +22,19 @@ public class Arm extends MustangSubsystemBase {
 
     private double elbowOffset;
     private double shoulderOffset;
-    private double wristOffset;  
-
+    private double wristOffset;
 
     private static final ArmState[][] VALID_PATHS_GRAPH = new ArmState[][] {
-            { ArmState.TUNING, ArmState.INTERMEDIATE_SCORE, ArmState.INTERMEDIATE_HYBRID, ArmState.SCORE_MID, ArmState.SINGLE_STATION }, // STOWED
-            { ArmState.INTERMEDIATE_HYBRID, ArmState.INTERMEDIATE_SCORE}, // HYBRID
-            { ArmState.INTERMEDIATE_SCORE, ArmState.SCORE_HIGH, ArmState.STOWED}, // SCORE_MID
-            { ArmState.SCORE_MID,  ArmState.INTERMEDIATE_SCORE}, // SCORE_HIGH
-            { ArmState.SCORE_HIGH, ArmState.SCORE_MID, ArmState.STOWED, ArmState.STARTING}, // INTERMEDIATE_SCORE
-            { ArmState.INTERMEDIATE_SCORE}, // STARTING
+            { ArmState.TUNING, ArmState.INTERMEDIATE_SCORE, ArmState.INTERMEDIATE_HYBRID, ArmState.SCORE_MID,
+                    ArmState.SINGLE_STATION }, // STOWED
+            { ArmState.INTERMEDIATE_HYBRID, ArmState.INTERMEDIATE_SCORE }, // HYBRID
+            { ArmState.INTERMEDIATE_SCORE, ArmState.SCORE_HIGH, ArmState.STOWED }, // SCORE_MID
+            { ArmState.SCORE_MID, ArmState.INTERMEDIATE_SCORE }, // SCORE_HIGH
+            { ArmState.SCORE_HIGH, ArmState.SCORE_MID, ArmState.STOWED, ArmState.STARTING }, // INTERMEDIATE_SCORE
+            { ArmState.INTERMEDIATE_SCORE }, // STARTING
             { ArmState.STOWED }, // TUNING
-            { ArmState.STOWED, ArmState.HYBRID }, //INTERMEDIATE_HYBRID
-            { ArmState.STOWED} // SINGLE_STATION
+            { ArmState.STOWED, ArmState.HYBRID }, // INTERMEDIATE_HYBRID
+            { ArmState.STOWED } // SINGLE_STATION
 
     };
 
@@ -46,13 +46,15 @@ public class Arm extends MustangSubsystemBase {
         this.wrist = new Wrist();
         this.targetState = ArmState.STOWED;
         this.initializedState = false;
-        this.voltageCalculator = new VoltageCalculator(RobotConstants.SHOULDER_SEGMENT, RobotConstants.ELBOW_SEGMENT, RobotConstants.WRIST_SEGMENT);
+        this.voltageCalculator = new VoltageCalculator(RobotConstants.SHOULDER_SEGMENT, RobotConstants.ELBOW_SEGMENT,
+                RobotConstants.WRIST_SEGMENT);
 
         init();
     }
 
     /**
-     * Private initialization method that populates the grpah of valid paths with every possible state transition
+     * Private initialization method that populates the grpah of valid paths with
+     * every possible state transition
      */
     private static void init() {
         for (int i = 0; i < VALID_PATHS_GRAPH.length; i++) {
@@ -65,13 +67,15 @@ public class Arm extends MustangSubsystemBase {
 
     @Override
     public HealthState checkHealth() {
-        //If one or more joints are RED, then Arm is RED
-        if (shoulder.checkHealth() == HealthState.RED || elbow.checkHealth() == HealthState.RED || wrist.checkHealth() == HealthState.RED) {
+        // If one or more joints are RED, then Arm is RED
+        if (shoulder.checkHealth() == HealthState.RED || elbow.checkHealth() == HealthState.RED
+                || wrist.checkHealth() == HealthState.RED) {
             return HealthState.RED;
         }
 
-        //If one or more joints are YELLOW, and none are RED, then Arm is YELLOW
-        if(shoulder.checkHealth() == HealthState.YELLOW || elbow.checkHealth() == HealthState.YELLOW || wrist.checkHealth() == HealthState.YELLOW) {
+        // If one or more joints are YELLOW, and none are RED, then Arm is YELLOW
+        if (shoulder.checkHealth() == HealthState.YELLOW || elbow.checkHealth() == HealthState.YELLOW
+                || wrist.checkHealth() == HealthState.YELLOW) {
             return HealthState.YELLOW;
         }
 
@@ -111,7 +115,7 @@ public class Arm extends MustangSubsystemBase {
      * We must handle checking for valid paths ELSEWHERE.
      */
     public void moveToTarget(ArmState target) {
-        if(checkHealth() == HealthState.GREEN) {
+        if (checkHealth() == HealthState.GREEN) {
             this.targetState = target;
             this.elbowOffset = 0;
             this.shoulderOffset = 0;
@@ -125,9 +129,10 @@ public class Arm extends MustangSubsystemBase {
      * Updates the arbitraryFeedForward of each joint the Arm contains.
      */
     public void updateArbitraryFeedForward() {
-        //The -90 here is so that the first joint's position is relative to the GROUND.
-        ArrayList<Double> voltages = voltageCalculator.calculateVoltages(shoulder.getCurrentAngleInDegrees() - 90, elbow.getCurrentAngleInDegrees(), wrist.getCurrentAngleInDegrees());
-        
+        // The -90 here is so that the first joint's position is relative to the GROUND.
+        ArrayList<Double> voltages = voltageCalculator.calculateVoltages(shoulder.getCurrentAngleInDegrees() - 90,
+                elbow.getCurrentAngleInDegrees(), wrist.getCurrentAngleInDegrees());
+
         elbow.updateArbitraryFeedForward(voltages.get(0));
         shoulder.updateArbitraryFeedForward(voltages.get(1));
         wrist.updateArbitraryFeedForward(voltages.get(2));
@@ -141,19 +146,12 @@ public class Arm extends MustangSubsystemBase {
         return targetState;
     }
 
-    public void setArmOffsets(double elbowOffset, double shoulderOffset) {
-        elbow.setOffset(elbowOffset);
-        shoulder.setOffset(shoulderOffset);
-        elbow.setSystemTargetAngleInDegrees(targetState.getElbowAngle() + elbow.getOffset());
-        shoulder.setSystemTargetAngleInDegrees(targetState.getShoulderAngle() + shoulder.getOffset());
-
-    }
-
     /**
      * Returns whether or not the arm is physically at the targetState
      */
     public boolean hasReachedTargetPosition() {
-        return shoulder.hasReachedTargetPosition() && elbow.hasReachedTargetPosition() && wrist.hasReachedTargetPosition();
+        return shoulder.hasReachedTargetPosition() && elbow.hasReachedTargetPosition()
+                && wrist.hasReachedTargetPosition();
     }
 
     /**
@@ -217,6 +215,7 @@ public class Arm extends MustangSubsystemBase {
      * It prefers prefers to move smaller joints than larger ones
      * (i.e. it would rather choose to have the elbow be off by 20
      * degrees than the shoulder)
+     * 
      * @return
      */
     public ArmState getClosestState() {
@@ -233,7 +232,7 @@ public class Arm extends MustangSubsystemBase {
             double wristDistance = Math.abs(state.getWristAngle() - wristAngle);
 
             double stateDistance = (shoulderDistance * 1.5) + elbowDistance * (wristDistance * 0.5);
-            if(stateDistance < closestStateDistance) {
+            if (stateDistance < closestStateDistance) {
                 closestStateDistance = stateDistance;
                 closestState = state;
             }

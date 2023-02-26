@@ -27,6 +27,7 @@ public class Wrist extends SparkMaxRotatingSubsystem {
     private double previousReading = 0.0;
     private double calculatedRelativePosition = 0.0;
     private boolean relativePositionIsSet = false;
+    private double offset = 0;
 
     /*
      * PID and SmartMotion constants for the Wrist joint
@@ -46,7 +47,7 @@ public class Wrist extends SparkMaxRotatingSubsystem {
         }
 
         public double getP() {
-            return 0.00011; 
+            return 0.00011;
         }
 
         public double getI() {
@@ -125,15 +126,15 @@ public class Wrist extends SparkMaxRotatingSubsystem {
         super.getRotator().setInverted(false);
         SmartDashboard.putNumber("wrist arbitary feed forward value", RobotConstants.WRIST_ARBITRARY_FF);
 
-
     }
 
     /**
      * Calculated voltage using VoltageCalculator
+     * 
      * @param voltage
      */
     public void updateArbitraryFeedForward(double voltage) {
-        if(setpoint != SparkMaxRotatingSubsystem.NO_SETPOINT){
+        if (setpoint != SparkMaxRotatingSubsystem.NO_SETPOINT) {
             rotator_controller.setReference(setpoint,
                     SparkMAXLite.ControlType.kSmartMotion, super.SMARTMOTION_SLOT,
                     voltage);
@@ -170,7 +171,7 @@ public class Wrist extends SparkMaxRotatingSubsystem {
             return HealthState.RED;
         }
 
-        if(!hasSetAbsolutePosition || !relativePositionIsSet) {
+        if (!hasSetAbsolutePosition || !relativePositionIsSet) {
             return HealthState.YELLOW;
         }
 
@@ -178,7 +179,8 @@ public class Wrist extends SparkMaxRotatingSubsystem {
     }
 
     /**
-     * Returns whether or not the relative position has been properly set from the absEncoder.
+     * Returns whether or not the relative position has been properly set from the
+     * absEncoder.
      * When resetPositionFromAbsolute() gets called, this will temporarily be false.
      */
     public boolean isRelativePositionSet() {
@@ -192,6 +194,25 @@ public class Wrist extends SparkMaxRotatingSubsystem {
         hasSetAbsolutePosition = false;
         counter = 0;
         relativePositionIsSet = false;
+    }
+
+    public void adjustOffset(double offsetDiff) {
+        double orgSetpoint = setpoint - super.getMotorRotationsFromAngle(offset);
+        if (Math.abs(this.offset + offsetDiff) > RobotConstants.SHOULDER_MAX_OVERRIDE_DEGREES) {
+            this.offset = RobotConstants.SHOULDER_MAX_OVERRIDE_DEGREES * (this.offset + offsetDiff)
+                    / Math.abs(this.offset + offsetDiff);
+        } else {
+            this.offset += offsetDiff;
+
+        }
+        setSystemMotionTarget(orgSetpoint + super.getMotorRotationsFromAngle(offset));
+
+    }
+
+    public void resetOffset() {
+        super.setSystemTargetAngleInDegrees(setpoint - super.getMotorRotationsFromAngle(offset));
+        offset = 0;
+
     }
 
     @Override

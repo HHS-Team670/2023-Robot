@@ -57,7 +57,7 @@ public class Elbow extends SparkMaxRotatingSubsystem {
         }
 
         public double getD() {
-            //return 0.00015;
+            // return 0.00015;
             return 0.00015;
         }
 
@@ -134,6 +134,7 @@ public class Elbow extends SparkMaxRotatingSubsystem {
 
     /**
      * Updates the arbitraryFF value to counteract gravity
+     * 
      * @param voltage The calculated voltage, returned from VoltageCalculator
      */
     public void updateArbitraryFeedForward(double voltage) {
@@ -165,7 +166,6 @@ public class Elbow extends SparkMaxRotatingSubsystem {
         SmartDashboard.putString("Elbow error", error.toString());
         calculatedRelativePosition = relativePosition;
 
-
     }
 
     @Override
@@ -189,7 +189,8 @@ public class Elbow extends SparkMaxRotatingSubsystem {
     }
 
     /**
-     * Returns whether or not the relative position has been properly set from the absEncoder.
+     * Returns whether or not the relative position has been properly set from the
+     * absEncoder.
      * When resetPositionFromAbsolute() gets called, this will temporarily be false.
      */
     public boolean isRelativePositionSet() {
@@ -205,17 +206,23 @@ public class Elbow extends SparkMaxRotatingSubsystem {
         relativePositionIsSet = false;
     }
 
-    public void setOffset(double offset) {
-        if (Math.abs(offset) > RobotConstants.ELBOW_MAX_OVERRIDE_DEGREES) {
-            this.offset = RobotConstants.ELBOW_MAX_OVERRIDE_DEGREES * this.offset / Math.abs(this.offset);
+    public void adjustOffset(double offsetDiff) {
+        double orgSetpoint = getSetpoint() - super.getMotorRotationsFromAngle(offset);
+        if (Math.abs(this.offset + offsetDiff) > RobotConstants.ELBOW_MAX_OVERRIDE_DEGREES) {
+            this.offset = RobotConstants.ELBOW_MAX_OVERRIDE_DEGREES * (this.offset + offsetDiff)
+                    / Math.abs(this.offset + offsetDiff);
         } else {
-            this.offset = offset;
+            this.offset += offsetDiff;
+
         }
+        setSystemMotionTarget(orgSetpoint + super.getMotorRotationsFromAngle(offset));
 
     }
 
-    public double getOffset() {
-        return offset;
+    public void resetOffset() {
+        super.setSystemTargetAngleInDegrees(getSetpoint() - super.getMotorRotationsFromAngle(offset));
+        offset = 0;
+
     }
 
     @Override
@@ -231,7 +238,8 @@ public class Elbow extends SparkMaxRotatingSubsystem {
         SmartDashboard.putNumber("Elbow abs encoder position", absEncoder.getAbsolutePosition());
         SmartDashboard.putNumber("Elbow setpoint (rotations)", setpoint);
 
-        RobotConstants.ELBOW_SEGMENT.setArbitraryFF(SmartDashboard.getNumber("Elbow arbitrary FF", RobotConstants.ELBOW_ARBITRARY_FF));
+        RobotConstants.ELBOW_SEGMENT
+                .setArbitraryFF(SmartDashboard.getNumber("Elbow arbitrary FF", RobotConstants.ELBOW_ARBITRARY_FF));
 
         relativePositionLog += ("" + relativePosition + ", ");
     }
