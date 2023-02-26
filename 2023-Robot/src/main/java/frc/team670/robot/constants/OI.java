@@ -14,6 +14,7 @@ import frc.team670.mustanglib.utils.MustangController.XboxButtons;
 import frc.team670.robot.commands.vision.AutoAlign;
 import frc.team670.robot.subsystems.Claw;
 import frc.team670.robot.subsystems.DriveBase;
+import frc.team670.robot.subsystems.LED;
 import frc.team670.robot.subsystems.Vision;
 import frc.team670.robot.commands.arm.MoveToTarget;
 import frc.team670.robot.commands.SetLEDsYellow;
@@ -53,7 +54,7 @@ public class OI extends OIBase {
     // private static JoystickButton clawEject = new JoystickButton(operatorController, XboxButtons.LEFT_BUMPER);
     // private static JoystickButton clawIdle = new JoystickButton(operatorController, XboxButtons.Y);
 
-    private static JoystickButton ledsYellow = new SetLEDsYellow(led);
+    //private static JoystickButton ledsYellow = new SetLEDsYellow(led);
 
     public static MustangController getDriverController() {
         return driverController;
@@ -70,27 +71,28 @@ public class OI extends OIBase {
         // Arm arm = (Arm) subsystemBases[2];
         // Claw claw = (Claw) subsystemBases[3];
         LED leds = (LED) subsystemBases[0];
+        
 
-        driveBase.initDefaultCommand();
+        // driveBase.initDefaultCommand();
 
-        zeroGyro.onTrue(new SetSwerveForwardDirection(driveBase, arm));
-        moveToTarget.onTrue(new AutoAlign(vision, driveBase));
-        // move.onTrue(new MoveToPose(driveBase, new Pose2d(1, 1, new Rotation2d()),
-        // true));
+        // zeroGyro.onTrue(new SetSwerveForwardDirection(driveBase, arm));
+        // moveToTarget.onTrue(new AutoAlign(vision, driveBase));
+        // // move.onTrue(new MoveToPose(driveBase, new Pose2d(1, 1, new Rotation2d()),
+        // // true));
 
-        // //arm movement commands
-        backward.onTrue(scheduleMoveToTarget(arm, ArmState.BACKWARD_GROUND));
-        scoreMidR.onTrue(scheduleMoveToTarget(arm, ArmState.SCORE_MID));
-        scoreMidL.onTrue(scheduleMoveToTarget(arm, ArmState.SCORE_MID));
-        scoreHigh.onTrue(scheduleMoveToTarget(arm, ArmState.SCORE_HIGH));
-        stow.onTrue(scheduleMoveToTarget(arm, ArmState.STOWED));
-        manualShoulderControl.onTrue(new ManualMoveShoulder(arm, operatorController));
+        // // //arm movement commands
+        // backward.onTrue(scheduleMoveToTarget(arm, ArmState.BACKWARD_GROUND));
+        // scoreMidR.onTrue(scheduleMoveToTarget(arm, ArmState.SCORE_MID));
+        // scoreMidL.onTrue(scheduleMoveToTarget(arm, ArmState.SCORE_MID));
+        // scoreHigh.onTrue(scheduleMoveToTarget(arm, ArmState.SCORE_HIGH));
+        // stow.onTrue(scheduleMoveToTarget(arm, ArmState.STOWED));
+        // manualShoulderControl.onTrue(new ManualMoveShoulder(arm, operatorController));
 
-        manualElbowControl.onTrue(new ManualMoveElbow(arm, operatorController));
-        // Claw control commands
-        clawSuck.onTrue(new ClawIntake(claw));
-        clawEject.onTrue(new ClawEject(claw));
-        clawIdle.onTrue(new ClawIdle(claw));
+        // manualElbowControl.onTrue(new ManualMoveElbow(arm, operatorController));
+        // // Claw control commands
+        // clawSuck.onTrue(new ClawIntake(claw));
+        // clawEject.onTrue(new ClawEject(claw));
+        // clawIdle.onTrue(new ClawIdle(claw));
 
     }
 

@@ -24,6 +24,6 @@ public class RobotMap {
     public static final int OPERATOR_CONTROLLER_PORT = 1;
 
     //LEDs
-    public static final int LED_PORT = 9;
+    public static final int LED_PORT = 3;
 
 }

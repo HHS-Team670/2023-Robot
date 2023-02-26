@@ -19,16 +19,15 @@ import frc.team670.mustanglib.utils.LEDColor;
     }
 
     public void setColorPurple(){     
-        solid(LEDColor.PURPLE.brighter());
+        solid(LEDColor.PURPLE.dimmer());
     }
     public void setColorYellow(){
-        solid(LEDColor.YELLOW.brighter());
+        solid(LEDColor.YELLOW.dimmer());
     }
 
     @Override
     public void mustangPeriodic() {
-        super.mustangPeriodic(); 
-        setColorPurple();
+        
     }
 
 

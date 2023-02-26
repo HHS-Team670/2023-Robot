@@ -49,6 +49,7 @@ public class RobotContainer extends RobotContainerBase {
         super();
         addSubsystem(/*driveBase, vision, arm, arm.getShoulder(), arm.getElbow(), claw*/ leds);
         oi.configureButtonBindings(/*driveBase, vision, arm, claw*/ leds);
+
     }
 
     @Override
@@ -58,6 +59,7 @@ public class RobotContainer extends RobotContainerBase {
         //         arm.updateArbitraryFeedForwards();
         //     }
         // });
+        leds.setColorPurple();  
 
         updateArbitraryFeedForwards.startPeriodic(0.01);
     }
