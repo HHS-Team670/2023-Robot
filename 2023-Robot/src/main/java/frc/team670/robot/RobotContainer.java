@@ -7,21 +7,20 @@
 
 package frc.team670.robot;
 
-import frc.team670.robot.commands.drivebase.NonPidAutoLevel;
-import frc.team670.robot.commands.pathplanner.ConeCube;
-import frc.team670.robot.commands.pathplanner.CubeEngage;
-
+import edu.wpi.first.hal.DriverStationJNI;
+import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
-import edu.wpi.first.wpilibj.Notifier;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team670.mustanglib.RobotContainerBase;
 import frc.team670.mustanglib.commands.MustangCommand;
 import frc.team670.mustanglib.utils.MustangController;
+import frc.team670.robot.commands.drivebase.NonPidAutoLevel;
+import frc.team670.robot.commands.pathplanner.ConeCube;
 import frc.team670.robot.constants.OI;
 import frc.team670.robot.subsystems.Claw;
 import frc.team670.robot.subsystems.DriveBase;
 import frc.team670.robot.subsystems.Vision;
-
 import frc.team670.robot.subsystems.arm.Arm;
 
 /**
@@ -34,8 +33,8 @@ public class RobotContainer extends RobotContainerBase {
 
     private final PowerDistribution pd = new PowerDistribution(1, ModuleType.kCTRE);
 
-    private final DriveBase driveBase = new DriveBase(getDriverController());
     private final Vision vision = new Vision(pd);
+    private final DriveBase driveBase = new DriveBase(getDriverController());
     private final Arm arm = new Arm();
     private final Claw claw = new Claw();
     private static OI oi = new OI();
@@ -50,6 +49,8 @@ public class RobotContainer extends RobotContainerBase {
 
     @Override
     public void robotInit() {
+        driveBase.initPoseEstimator(vision);
+        
         updateArbitraryFeedForwards = new Notifier(new Runnable() {
             public void run() {
                 arm.updateArbitraryFeedForwards();
@@ -81,7 +82,6 @@ public class RobotContainer extends RobotContainerBase {
     @Override
     public void teleopInit() {
         // TODO Auto-generated method stub
-
     }
 
     @Override
@@ -105,7 +105,7 @@ public class RobotContainer extends RobotContainerBase {
     @Override
     public void periodic() {
         // TODO Auto-generated method stub
-
+        // SmartDashboard.putString("alliance", "" + DriverStationJNI.getAllianceStation());
     }
 
     @Override
@@ -122,6 +122,8 @@ public class RobotContainer extends RobotContainerBase {
     public MustangController getDriverController() {
         return OI.getDriverController();
     }
+
+    
 
     public MustangController getBackupController() {
         // TODO Auto-generated method stub

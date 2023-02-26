@@ -19,7 +19,8 @@
         "names": [
           "clawIntake1",
           "moveToHigh1",
-          "clawEject1"
+          "clawEject1",
+          "moveToBackward"
         ],
         "executionBehavior": "sequential",
         "waitBehavior": "none",
@@ -45,7 +46,9 @@
       "isLocked": false,
       "isStopPoint": true,
       "stopEvent": {
-        "names": [],
+        "names": [
+          "clawIntake2"
+        ],
         "executionBehavior": "sequential",
         "waitBehavior": "none",
         "waitTime": 0
@@ -68,6 +71,7 @@
       "isStopPoint": false,
       "stopEvent": {
         "names": [
+          "moveToHigh2",
           "clawEject2",
           "moveToStowed"
         ],
@@ -77,21 +81,5 @@
       }
     }
   ],
-  "markers": [
-    {
-      "position": 1.0720725319602271,
-      "names": [
-        "event",
-        "moveToHigh2"
-      ]
-    },
-    {
-      "position": 0.13910466974431812,
-      "names": [
-        "event",
-        "moveToBackward",
-        "clawIntake2"
-      ]
-    }
-  ]
+  "markers": []
 }

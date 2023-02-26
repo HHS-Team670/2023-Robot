@@ -46,21 +46,16 @@ public class CubeEngage extends SequentialCommandGroup implements MustangCommand
         eventMap.put("clawEject", new ClawEject(claw));
         eventMap.put("moveToGround", new MoveToTarget(arm, ArmState.BACKWARD_GROUND));
         eventMap.put("clawIntake2", new ClawIntake(claw, false));
-        eventMap.put("autoLevel", new NonPidAutoLevel(driveBase, false)); // regardless of what side (right/left) you
-                                                                          // are on, markers are the same
+        eventMap.put("autoLevel", new NonPidAutoLevel(driveBase, false)); // regardless of what side
+                                                                          // (right/left) you are
+                                                                          // on, markers are the
+                                                                          // same
 
         SwerveDriveKinematics driveBaseKinematics = driveBase.getSwerveKinematics();
 
-        SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(
-                driveBase::getPose,
-                driveBase::resetOdometry,
-                driveBaseKinematics,
-                PID_translation,
-                PID_theta,
-                driveBase::setModuleStates,
-                eventMap,
-                false,
-                new Subsystem[] { driveBase });
+        SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(driveBase::getOdometerPose,
+                driveBase::resetOdometry, driveBaseKinematics, PID_translation, PID_theta,
+                driveBase::setModuleStates, eventMap, false, new Subsystem[] { driveBase });
 
         CommandBase fullAuto = autoBuilder.fullAuto(trajectoryGroup);
 

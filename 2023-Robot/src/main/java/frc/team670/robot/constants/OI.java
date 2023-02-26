@@ -1,6 +1,7 @@
 package frc.team670.robot.constants;
 
-import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.team670.mustanglib.commands.MustangScheduler;
@@ -16,7 +17,7 @@ import frc.team670.robot.commands.arm.MoveToTarget;
 import frc.team670.robot.commands.claw.ClawEject;
 import frc.team670.robot.commands.claw.ClawIdle;
 import frc.team670.robot.commands.claw.ClawIntake;
-import frc.team670.robot.commands.vision.AutoAlign;
+import frc.team670.robot.commands.drivebase.MoveToPose;
 import frc.team670.robot.subsystems.Claw;
 import frc.team670.robot.subsystems.DriveBase;
 import frc.team670.robot.subsystems.Vision;
@@ -96,15 +97,19 @@ public class OI extends OIBase {
     @Override
     public void configureButtonBindings(MustangSubsystemBase... subsystemBases) {
         DriveBase driveBase = (DriveBase) subsystemBases[0];
-        Vision vision = (Vision) subsystemBases[1];
+        // Vision vision = (Vision) subsystemBases[1];
         Arm arm = (Arm) subsystemBases[2];
         Claw claw = (Claw) subsystemBases[3];
 
         driveBase.initDefaultCommand();
+        // vision.initDefaultCommand(new IsLockedOn(driveBase, vision, null));
 
+        // zeroGyro.onTrue(new SetSwerveForwardDirection(driveBase, arm));
+        // moveToTarget.whileTrue(new PathFindMoveToPose(driveBase, new Pose2d((FieldConstants.Grids.complexLowTranslations[1]), new Rotation2d())));
+        moveToTarget.whileTrue(new MoveToPose(driveBase, new Pose2d((FieldConstants.Grids.complexLowTranslations[1]), new Rotation2d())));
         // zeroArm.onTrue(new ResetArmFromAbsolute(arm)); DO NOT USE!!! Critial errors
         // not yet fixed
-        moveToTarget.onTrue(new AutoAlign(vision, driveBase));
+        // moveToTarget.onTrue(new AutoAlign(vision, driveBase));
         zeroGyroOp.onTrue(new SetSwerveForwardDirection(driveBase, arm));
         zeroGyroDriver.onTrue(new SetSwerveForwardDirection(driveBase, arm));
         // move.onTrue(new MoveToPose(driveBase, new Pose2d(1, 1, new Rotation2d()),

@@ -83,15 +83,16 @@
     {
       "position": 0.07719726562499997,
       "names": [
-        "moveToGround",
-        "clawIntake2"
+        "clawIntake1",
+        "moveToHigh",
+        "clawEject",
+        "moveToGround"
       ]
     },
     {
       "position": 1.262406782670455,
       "names": [
-        "event",
-        "moveToStowed"
+        "clawIntake2"
       ]
     }
   ]
