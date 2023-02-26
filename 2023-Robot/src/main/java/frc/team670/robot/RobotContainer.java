@@ -8,11 +8,9 @@
 package frc.team670.robot;
 
 import frc.team670.robot.commands.drivebase.NonPidAutoLevel;
-import frc.team670.robot.commands.pathplanner.ConeCube;
-import frc.team670.robot.commands.pathplanner.CubeEngage;
+import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
-import edu.wpi.first.wpilibj.Notifier;
 import frc.team670.mustanglib.RobotContainerBase;
 import frc.team670.mustanglib.commands.MustangCommand;
 import frc.team670.mustanglib.utils.MustangController;
@@ -20,7 +18,6 @@ import frc.team670.robot.constants.OI;
 import frc.team670.robot.subsystems.Claw;
 import frc.team670.robot.subsystems.DriveBase;
 import frc.team670.robot.subsystems.Vision;
-
 import frc.team670.robot.subsystems.arm.Arm;
 
 /**
@@ -32,11 +29,11 @@ import frc.team670.robot.subsystems.arm.Arm;
 public class RobotContainer extends RobotContainerBase {
 
     private final PowerDistribution pd = new PowerDistribution(1, ModuleType.kCTRE);
-    
-    private final DriveBase driveBase = new DriveBase(getDriverController());
+
     private final Vision vision = new Vision(pd);
+    private final DriveBase driveBase = new DriveBase(getDriverController());
     private final Arm arm = new Arm();
-    private final Claw claw = new Claw();
+    private final Claw claw = new Claw(arm);
     private static OI oi = new OI();
     
     private Notifier updateArbitraryFeedForward;
@@ -50,6 +47,7 @@ public class RobotContainer extends RobotContainerBase {
 
     @Override
     public void robotInit() {
+        driveBase.initPoseEstimator(vision);
         updateArbitraryFeedForward = new Notifier(new Runnable() {
             public void run() {
                 arm.updateArbitraryFeedForward();
@@ -81,7 +79,6 @@ public class RobotContainer extends RobotContainerBase {
 
     @Override
     public void teleopInit() {
-
     }
 
     @Override
@@ -100,9 +97,7 @@ public class RobotContainer extends RobotContainerBase {
     }
 
     @Override
-    public void periodic() {
-
-    }
+    public void periodic() {}
 
     @Override
     public void autonomousPeriodic() {
@@ -110,12 +105,14 @@ public class RobotContainer extends RobotContainerBase {
     }
 
     public MustangController getOperatorController() {
-        return null;
+        return OI.getOperatorController();
     }
 
     public MustangController getDriverController() {
         return OI.getDriverController();
     }
+
+    
 
     public MustangController getBackupController() {
         return null;

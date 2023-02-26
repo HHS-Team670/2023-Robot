@@ -85,7 +85,7 @@ public class Arm extends MustangSubsystemBase {
     @Override
     public void mustangPeriodic() {
 
-        debugSubsystem();
+        // debugSubsystem();
         if (!initializedState) {
             if (elbow.isRelativePositionSet() && shoulder.isRelativePositionSet() && wrist.isRelativePositionSet()) {
                 initializedState = true;
@@ -141,69 +141,12 @@ public class Arm extends MustangSubsystemBase {
         return targetState;
     }
 
-    public void setArmOffsets(double elbowOffset, double shoulderOffset, double wristOffset) {
-        if (Math.abs(elbowOffset) > RobotConstants.ELBOW_MAX_OVERRIDE_DEGREES) {
-            elbowOffset = RobotConstants.ELBOW_MAX_OVERRIDE_DEGREES * elbowOffset / Math.abs(elbowOffset);
-        }
-        if (Math.abs(shoulderOffset) > RobotConstants.SHOULDER_MAX_OVERRIDE_DEGREES) {
-            shoulderOffset = RobotConstants.SHOULDER_MAX_OVERRIDE_DEGREES * shoulderOffset / Math.abs(shoulderOffset);
-        }
-        if (Math.abs(wristOffset) > RobotConstants.WRIST_MAX_OVERRIDE_DEGREES) {
-            wristOffset = RobotConstants.WRIST_MAX_OVERRIDE_DEGREES * wristOffset / Math.abs(wristOffset);
-        }
-        this.elbowOffset = elbowOffset;
-        this.shoulderOffset = shoulderOffset;
-        this.wristOffset = wristOffset;
+    public void setArmOffsets(double elbowOffset, double shoulderOffset) {
+        elbow.setOffset(elbowOffset);
+        shoulder.setOffset(shoulderOffset);
+        elbow.setSystemTargetAngleInDegrees(targetState.getElbowAngle() + elbow.getOffset());
+        shoulder.setSystemTargetAngleInDegrees(targetState.getShoulderAngle() + shoulder.getOffset());
 
-    }
-
-    public void setElbowOffset(double elbowOffset) {
-        if (Math.abs(elbowOffset) > RobotConstants.ELBOW_MAX_OVERRIDE_DEGREES) {
-            elbowOffset = RobotConstants.ELBOW_MAX_OVERRIDE_DEGREES * elbowOffset / Math.abs(elbowOffset);
-        }
-        this.elbowOffset = elbowOffset;
-    }
-
-    public void setShoulderOffset(double shoulderOffset) {
-        if (Math.abs(shoulderOffset) > RobotConstants.SHOULDER_MAX_OVERRIDE_DEGREES) {
-            shoulderOffset = RobotConstants.SHOULDER_MAX_OVERRIDE_DEGREES * shoulderOffset / Math.abs(shoulderOffset);
-        }
-        this.shoulderOffset = shoulderOffset;
-    }
-    
-    public void setWristOffset(double wristOffset) {
-        if (Math.abs(wristOffset) > RobotConstants.WRIST_MAX_OVERRIDE_DEGREES) {
-            wristOffset = RobotConstants.WRIST_MAX_OVERRIDE_DEGREES * wristOffset / Math.abs(wristOffset);
-        }
-        this.wristOffset = wristOffset;
-    }
-
-    public void resetElbowOffset() {
-
-        this.elbowOffset = 0;
-    }
-
-    public void resetShoulderOffset() {
-
-        this.shoulderOffset = 0;
-    }
-
-    public void resetWristOffset() {
-
-        this.wristOffset = 0;
-    }
-
-    public double getElbowOffset() {
-        return elbowOffset;
-
-    }
-
-    public double getShoulderOffset() {
-        return shoulderOffset;
-    }
-
-    public double getWristOffset() {
-        return wristOffset;
     }
 
     /**
@@ -282,14 +225,14 @@ public class Arm extends MustangSubsystemBase {
         double wristAngle = wrist.getCurrentAngleInDegrees();
 
         ArmState closestState = ArmState.STOWED;
-        double closestStateDistance = 10000; //Intentionally high number. The first state checked will be less
+        double closestStateDistance = 10000; // Intentionally high number. The first state checked will be less
 
         for (ArmState state : ArmState.values()) {
             double shoulderDistance = Math.abs(state.getShoulderAngle() - shoulderAngle);
             double elbowDistance = Math.abs(state.getElbowAngle() - elbowAngle);
             double wristDistance = Math.abs(state.getWristAngle() - wristAngle);
 
-            double stateDistance = (shoulderDistance * 1.5) + elbowDistance * (wristDistance * 0.2);
+            double stateDistance = (shoulderDistance * 1.5) + elbowDistance * (wristDistance * 0.5);
             if(stateDistance < closestStateDistance) {
                 closestStateDistance = stateDistance;
                 closestState = state;
@@ -336,4 +279,3 @@ public class Arm extends MustangSubsystemBase {
         }
     }
 }
-  

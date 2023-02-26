@@ -1,14 +1,18 @@
 package frc.team670.robot.subsystems;
+
+import frc.team670.mustanglib.commands.MustangScheduler;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 import frc.team670.mustanglib.utils.motorcontroller.MotorConfig.Motor_Type;
 import frc.team670.mustanglib.utils.motorcontroller.SparkMAXFactory;
 import frc.team670.mustanglib.utils.motorcontroller.SparkMAXLite;
+import frc.team670.robot.commands.arm.MoveToTarget;
 import frc.team670.robot.constants.RobotConstants;
 import frc.team670.robot.constants.RobotMap;
+import frc.team670.robot.subsystems.arm.Arm;
+import frc.team670.robot.subsystems.arm.ArmState;
+
 import com.revrobotics.CANSparkMax.IdleMode;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
-
 
 public class Claw extends MustangSubsystemBase {
 
@@ -18,20 +22,26 @@ public class Claw extends MustangSubsystemBase {
 
     private SparkMAXLite motor;
     private int count = 0;
+    private int ejectingCount = 0;
     private Claw.Status status;
+    private Arm arm;
+    private boolean returnToStowedAfterIntake = true;
+    private boolean returnToStowedAfterEject = true;
     private double ejectingSpeed = RobotConstants.CLAW_EJECTING_SPEED;
 
-    public Claw() {
-        motor = SparkMAXFactory.buildSparkMAX(RobotMap.CLAW_MOTOR, SparkMAXFactory.defaultConfig, Motor_Type.NEO_550);
+    public Claw(Arm arm) {
+        this.arm = arm;
+        motor = SparkMAXFactory.buildSparkMAX(RobotMap.CLAW_MOTOR, SparkMAXFactory.defaultConfig, Motor_Type.NEO);
         status = Status.IDLE;
         motor.setIdleMode(IdleMode.kBrake);
     }
-    
-    /**
-     * Starts intaking. The claw will automatically stop itself when the current spikes
-     */
-    public void startIntake() {
-        setStatus(Status.INTAKING);
+
+    public Arm getArm() {
+        return arm;
+    }
+
+    public void startEjecting() {
+        this.startEjecting(RobotConstants.CLAW_EJECTING_SPEED);
     }
 
     /**
@@ -41,6 +51,11 @@ public class Claw extends MustangSubsystemBase {
     public void startEjecting(double ejectingSpeed) {
         this.ejectingSpeed = ejectingSpeed;
         setStatus(Status.EJECTING);
+    }
+
+    public void startIntaking(boolean returnToStowed) {
+        this.returnToStowedAfterIntake = returnToStowed;
+        setStatus(Status.INTAKING);
     }
 
     /**
@@ -69,20 +84,31 @@ public class Claw extends MustangSubsystemBase {
         }
         return HealthState.GREEN;
     }
-    
+
     @Override
     public void mustangPeriodic() {
-        debugSubsystem();
+        // debugSubsystem();
 
-        switch(status) {
+        switch (status) {
             case IDLE:
                 motor.set(RobotConstants.CLAW_IDLE_SPEED);
                 break;
             case INTAKING:
                 motor.set(RobotConstants.CLAW_ROLLING_SPEED);
                 break;
+
             case EJECTING:
-                motor.set(this.ejectingSpeed);
+                motor.set(ejectingSpeed);
+                ejectingCount++;
+                // some arbitrary amount of time until ejection is finished
+                // TODO: adjust length of time or find a better way to check for finishing
+                // ejection
+                if (ejectingCount > 25) {
+                    ejectingCount = 0;
+                    if (returnToStowedAfterEject) { //Always true for now, but can change
+                        MustangScheduler.getInstance().schedule(new MoveToTarget(arm, this, ArmState.STOWED));
+                    }
+                }
                 break;
             default:
                 motor.set(0);
@@ -94,11 +120,14 @@ public class Claw extends MustangSubsystemBase {
                 count++;
                 if(count > 5) {
                     setIdle();
+                    if (returnToStowedAfterIntake) {
+                        MustangScheduler.getInstance().schedule(new MoveToTarget(arm, this, ArmState.STOWED));
+                    }
                 }
             } else {
                 count = 0;
             }
-            
+
         }
     }
 

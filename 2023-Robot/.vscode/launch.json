@@ -6,9 +6,9 @@
   "configurations": [
     {
       "type": "java",
-      "name": "Launch VoltageCalculatorTest",
+      "name": "Launch test",
       "request": "launch",
-      "mainClass": "VoltageCalculatorTest",
+      "mainClass": "frc.team670.robot.subsystems.pathfinder.test",
       "projectName": "2023-Robot"
     },
     {

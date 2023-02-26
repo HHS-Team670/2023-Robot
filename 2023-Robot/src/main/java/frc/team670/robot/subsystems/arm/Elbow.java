@@ -27,6 +27,7 @@ public class Elbow extends SparkMaxRotatingSubsystem {
     private double previousReading = 0.0;
     private double calculatedRelativePosition = 0.0;
     private boolean relativePositionIsSet = false;
+    private double offset = 0;
 
     String relativePositionLog = "";
 
@@ -142,7 +143,8 @@ public class Elbow extends SparkMaxRotatingSubsystem {
                     voltage);
         }
     }
-    //TODO: Move to mustang lib after testing
+
+    // TODO: Move to mustang lib after testing
     public double getSetpoint() {
         return setpoint;
     }
@@ -179,7 +181,7 @@ public class Elbow extends SparkMaxRotatingSubsystem {
             return HealthState.RED;
         }
 
-        if(!hasSetAbsolutePosition || !relativePositionIsSet) {
+        if (!hasSetAbsolutePosition || !relativePositionIsSet) {
             return HealthState.YELLOW;
         }
 
@@ -201,6 +203,19 @@ public class Elbow extends SparkMaxRotatingSubsystem {
         hasSetAbsolutePosition = false;
         counter = 0;
         relativePositionIsSet = false;
+    }
+
+    public void setOffset(double offset) {
+        if (Math.abs(offset) > RobotConstants.ELBOW_MAX_OVERRIDE_DEGREES) {
+            this.offset = RobotConstants.ELBOW_MAX_OVERRIDE_DEGREES * this.offset / Math.abs(this.offset);
+        } else {
+            this.offset = offset;
+        }
+
+    }
+
+    public double getOffset() {
+        return offset;
     }
 
     @Override
@@ -241,7 +256,8 @@ public class Elbow extends SparkMaxRotatingSubsystem {
             }
         } else if (!relativePositionIsSet) {
             double position = super.rotator_encoder.getPosition();
-            Logger.consoleLog("Elbow relative position = " + position + ", calculatedRelativePosition = " + calculatedRelativePosition);
+            Logger.consoleLog("Elbow relative position = " + position + ", calculatedRelativePosition = "
+                    + calculatedRelativePosition);
             if (Math.abs(position - calculatedRelativePosition) < 0.01) {
                 Logger.consoleLog(relativePositionLog);
                 relativePositionIsSet = true;

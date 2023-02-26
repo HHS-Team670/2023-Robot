@@ -30,7 +30,7 @@ public class ManualMoveElbow extends CommandBase implements MustangCommand {
     @Override
     public void execute() {
 
-        arm.setElbowOffset(arm.getElbowOffset() + controller.getLeftY());
+        arm.getElbow().setOffset(arm.getElbow().getOffset() + controller.getLeftY());
 
     }
 

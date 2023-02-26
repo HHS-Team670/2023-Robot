@@ -11,19 +11,19 @@ import frc.team670.robot.subsystems.Claw;
  * @author Tarini, Samanyu and Ishaan
  */
 
-public class ClawIntake extends InstantCommand implements MustangCommand 
-{
+public class ClawIntake extends InstantCommand implements MustangCommand {
     private Claw claw;
+    private boolean returnToStowed;
 
-    public ClawIntake(Claw claw)
-    {
+    public ClawIntake(Claw claw, boolean returnToStowed) {
         this.claw = claw;
+        this.returnToStowed = returnToStowed;
         addRequirements(claw);
     }
 
     @Override
     public void execute() {
-        claw.startIntake();
+        claw.startIntaking(returnToStowed);
     }
 
     @Override
