@@ -4,14 +4,15 @@ import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase.HealthState;
 import frc.team670.mustanglib.commands.MustangCommand;
 import java.util.Map;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
+
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.team670.robot.subsystems.Claw;
 
 /**
  * @author Tarini, Samanyu and Ishaan
  */
 
-public class ClawEject extends InstantCommand implements MustangCommand {
+public class ClawEject extends CommandBase implements MustangCommand {
     private Claw claw;
 
     public ClawEject(Claw claw) {
@@ -22,6 +23,15 @@ public class ClawEject extends InstantCommand implements MustangCommand {
     @Override
     public void execute() {
         claw.startEjecting(); //Ejects at default speed. Call startEjecting(double) to set a speed
+    }
+
+    @Override
+    public boolean isFinished() {
+        return !claw.isFull();
+    }
+
+    public void end(boolean interrupted) {
+        claw.setIdle();
     }
 
     @Override

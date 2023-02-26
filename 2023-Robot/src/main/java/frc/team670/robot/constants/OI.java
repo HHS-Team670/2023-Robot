@@ -10,8 +10,8 @@ import frc.team670.mustanglib.utils.MustangController.XboxButtons;
 import frc.team670.robot.commands.arm.ManualMoveElbow;
 import frc.team670.robot.commands.arm.ManualMoveShoulder;
 import frc.team670.robot.commands.arm.MoveToTarget;
-import frc.team670.robot.commands.claw.ClawEject;
 import frc.team670.robot.commands.claw.ClawIntake;
+import frc.team670.robot.commands.routines.EjectAndStow;
 import frc.team670.robot.commands.claw.ClawIdle;
 import frc.team670.robot.subsystems.Claw;
 import frc.team670.robot.subsystems.DriveBase;
@@ -80,8 +80,8 @@ public class OI extends OIBase {
         manualElbowControl.onTrue(new ManualMoveElbow(arm, operatorController));
         
         // Claw control commands
-        clawSuck.onTrue(new ClawIntake(claw, false));
-        clawEject.onTrue(new ClawEject(claw));
+        clawSuck.onTrue(new ClawIntake(claw));
+        clawEject.onTrue(new EjectAndStow(claw, arm));
         clawIdle.onTrue(new ClawIdle(claw));
 
     }

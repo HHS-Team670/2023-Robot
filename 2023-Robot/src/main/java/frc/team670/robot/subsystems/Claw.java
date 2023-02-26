@@ -1,16 +1,12 @@
 package frc.team670.robot.subsystems;
 
-import frc.team670.mustanglib.commands.MustangScheduler;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 import frc.team670.mustanglib.utils.motorcontroller.MotorConfig.Motor_Type;
 import frc.team670.mustanglib.utils.motorcontroller.SparkMAXFactory;
 import frc.team670.mustanglib.utils.motorcontroller.SparkMAXLite;
-import frc.team670.robot.commands.arm.MoveToTarget;
 import frc.team670.robot.constants.RobotConstants;
 import frc.team670.robot.constants.RobotMap;
 import frc.team670.robot.subsystems.arm.Arm;
-import frc.team670.robot.subsystems.arm.ArmState;
-
 import com.revrobotics.CANSparkMax.IdleMode;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -21,12 +17,11 @@ public class Claw extends MustangSubsystemBase {
     }
 
     private SparkMAXLite motor;
-    private int count = 0;
-    private int ejectingCount = 0;
+    private int currentSpikeCounter = 0;
+    private int ejectCounter = 0;
     private Claw.Status status;
     private Arm arm;
-    private boolean returnToStowedAfterIntake = true;
-    private boolean returnToStowedAfterEject = true;
+    private boolean isFull = false;
     private double ejectingSpeed = RobotConstants.CLAW_EJECTING_SPEED;
 
     public Claw(Arm arm) {
@@ -38,6 +33,10 @@ public class Claw extends MustangSubsystemBase {
 
     public Arm getArm() {
         return arm;
+    }
+
+    public boolean isFull() {
+        return this.isFull;
     }
 
     public void startEjecting() {
@@ -53,8 +52,7 @@ public class Claw extends MustangSubsystemBase {
         setStatus(Status.EJECTING);
     }
 
-    public void startIntaking(boolean returnToStowed) {
-        this.returnToStowedAfterIntake = returnToStowed;
+    public void startIntaking() {
         setStatus(Status.INTAKING);
     }
 
@@ -94,20 +92,18 @@ public class Claw extends MustangSubsystemBase {
                 motor.set(RobotConstants.CLAW_IDLE_SPEED);
                 break;
             case INTAKING:
+                if(isFull) {
+                    setStatus(Status.IDLE);
+                }
                 motor.set(RobotConstants.CLAW_ROLLING_SPEED);
                 break;
 
             case EJECTING:
                 motor.set(ejectingSpeed);
-                ejectingCount++;
-                // some arbitrary amount of time until ejection is finished
-                // TODO: adjust length of time or find a better way to check for finishing
-                // ejection
-                if (ejectingCount > 25) {
-                    ejectingCount = 0;
-                    if (returnToStowedAfterEject) { //Always true for now, but can change
-                        MustangScheduler.getInstance().schedule(new MoveToTarget(arm, this, ArmState.STOWED));
-                    }
+                ejectCounter++;
+                if (ejectCounter > RobotConstants.CLAW_EJECT_ITERATIONS) {
+                    ejectCounter = 0;
+                    isFull = false;
                 }
                 break;
             default:
@@ -117,15 +113,13 @@ public class Claw extends MustangSubsystemBase {
         // If the current has spiked for more than 1/10th of a second, then set the status to idle
         if(this.status == Status.INTAKING) {
             if(motor.getOutputCurrent() > RobotConstants.CLAW_CURRENT_MAX) {
-                count++;
-                if(count > 5) {
+                currentSpikeCounter++;
+                if(currentSpikeCounter > RobotConstants.CLAW_CURRENT_SPIKE_ITERATIONS) {
+                    isFull = true;
                     setIdle();
-                    if (returnToStowedAfterIntake) {
-                        MustangScheduler.getInstance().schedule(new MoveToTarget(arm, this, ArmState.STOWED));
-                    }
                 }
             } else {
-                count = 0;
+                currentSpikeCounter = 0;
             }
 
         }

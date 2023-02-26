@@ -44,12 +44,12 @@ public class ConeCube extends SequentialCommandGroup implements MustangCommand {
         HashMap<String, Command> eventMap = new HashMap<>();
 
         // eventMap stuff
-        eventMap.put("clawIntake1", new ClawIntake(claw, false));
+        eventMap.put("clawIntake1", new ClawIntake(claw));
         eventMap.put("moveToMid1", new MoveToTarget(arm, ArmState.SCORE_MID));
         eventMap.put("clawEject1", new ClawEject(claw));
         eventMap.put("moveToStowed", new MoveToTarget(arm, ArmState.STOWED));
         eventMap.put("moveToGround", new MoveToTarget(arm, ArmState.HYBRID));
-        eventMap.put("clawIntake2", new ClawIntake(claw, false)); //May want to set to true after testing.
+        eventMap.put("clawIntake2", new ClawIntake(claw)); //May want to use IntakeAndStow after testing.
         eventMap.put("moveToStowed2", new MoveToTarget(arm, ArmState.STOWED));
         eventMap.put("moveToMid2", new MoveToTarget(arm, ArmState.SCORE_MID));
         eventMap.put("clawEject2", new ClawEject(claw));
