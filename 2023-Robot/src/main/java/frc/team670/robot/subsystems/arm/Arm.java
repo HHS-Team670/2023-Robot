@@ -1,10 +1,12 @@
 package frc.team670.robot.subsystems.arm;
 
 import java.util.ArrayList;
+import java.util.Map;
+import static java.util.Map.entry;
 import java.util.PriorityQueue;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
-import frc.team670.robot.constants.RobotConstants;
+import frc.team670.robot.constants.RobotConstants; 
 
 /**
  * Represents the whole Arm system, containing multiple joints.
@@ -22,21 +24,53 @@ public class Arm extends MustangSubsystemBase {
 
     private double elbowOffset;
     private double shoulderOffset;
-    private double wristOffset;  
+    private double wristOffset;
+
+    private boolean hasSetShoulderTarget = true;
+    private boolean hasSetElbowTarget = true;
+    private boolean hasSetWristTarget = true;
+    
+    private long startingTime = 0;
+
+    private double[] currentTimeDelays = new double[] {0, 0, 0};
 
 
     private static final ArmState[][] VALID_PATHS_GRAPH = new ArmState[][] {
-            { ArmState.TUNING, ArmState.INTERMEDIATE_SCORE, ArmState.INTERMEDIATE_HYBRID, ArmState.SCORE_MID, ArmState.SINGLE_STATION }, // STOWED
-            { ArmState.INTERMEDIATE_HYBRID, ArmState.INTERMEDIATE_SCORE}, // HYBRID
-            { ArmState.INTERMEDIATE_SCORE, ArmState.SCORE_HIGH, ArmState.STOWED}, // SCORE_MID
-            { ArmState.SCORE_MID,  ArmState.INTERMEDIATE_SCORE}, // SCORE_HIGH
-            { ArmState.SCORE_HIGH, ArmState.SCORE_MID, ArmState.STOWED, ArmState.STARTING}, // INTERMEDIATE_SCORE
-            { ArmState.INTERMEDIATE_SCORE}, // STARTING
-            { ArmState.STOWED }, // TUNING
-            { ArmState.STOWED, ArmState.HYBRID }, //INTERMEDIATE_HYBRID
+            { ArmState.TUNING, ArmState.SCORE_MID, ArmState.SINGLE_STATION, ArmState.SCORE_HIGH }, // STOWED
+            { ArmState.STOWED}, // HYBRID
+            { ArmState.SCORE_HIGH, ArmState.STOWED}, // SCORE_MID
+            { ArmState.SCORE_MID,  ArmState.STOWED}, // SCORE_HIGH
+            { ArmState.SCORE_MID, ArmState.SCORE_HIGH}, // STARTING
+            { ArmState.STOWED}, // TUNING
             { ArmState.STOWED} // SINGLE_STATION
 
     };
+
+    private static final Map<ArmState, Map<ArmState, double[]>> timeDelays = Map.ofEntries(
+        entry(ArmState.STOWED, Map.ofEntries( //From STOWED
+                entry(ArmState.SCORE_HIGH, new double[]{500, 0, 500}),
+                entry(ArmState.SCORE_MID, new double[]{300, 0, 300}),
+                entry(ArmState.HYBRID, new double[]{500, 500, 0})
+            )    
+        ),
+        entry(ArmState.HYBRID, Map.ofEntries( //From HYBRID
+                entry(ArmState.STOWED, new double[]{0, 0, 500})
+            )
+        ),
+        entry(ArmState.SCORE_MID, Map.ofEntries(
+                entry(ArmState.STOWED, new double[]{0, 500, 0})
+            )
+        ),
+        entry(ArmState.SCORE_HIGH, Map.ofEntries( //From SCORE_HIGH
+                entry(ArmState.STOWED, new double[]{0, 500, 0})
+            )
+        ),
+        entry(ArmState.STARTING, Map.ofEntries( //From STARTING
+                entry(ArmState.SCORE_MID, new double[]{500, 0, 500}),
+                entry(ArmState.SCORE_HIGH, new double[]{500, 0, 500})
+            )
+        )
+    );
 
     private static ArmState VALID_PATHS[][][] = new ArmState[VALID_PATHS_GRAPH.length][VALID_PATHS_GRAPH.length][];
 
@@ -84,13 +118,26 @@ public class Arm extends MustangSubsystemBase {
 
     @Override
     public void mustangPeriodic() {
-
-        // debugSubsystem();
         if (!initializedState) {
             if (elbow.isRelativePositionSet() && shoulder.isRelativePositionSet() && wrist.isRelativePositionSet()) {
                 initializedState = true;
                 this.targetState = getClosestState();
             }
+        }
+
+        //set target positions for each joint
+        double elapsedTime = System.currentTimeMillis() - startingTime;
+        if(!hasSetShoulderTarget && elapsedTime > currentTimeDelays[0]) {
+            hasSetShoulderTarget = true;
+            shoulder.setSystemTargetAngleInDegrees(targetState.getShoulderAngle());
+        }
+        if(!hasSetElbowTarget && elapsedTime > currentTimeDelays[1]) {
+            hasSetWristTarget = true;
+            shoulder.setSystemTargetAngleInDegrees(targetState.getElbowAngle());
+        }
+        if(!hasSetWristTarget && elapsedTime > currentTimeDelays[2]) {
+            hasSetWristTarget = true;
+            wrist.setSystemTargetAngleInDegrees(targetState.getWristAngle());
         }
     }
 
@@ -112,12 +159,20 @@ public class Arm extends MustangSubsystemBase {
      */
     public void moveToTarget(ArmState target) {
         if(checkHealth() == HealthState.GREEN) {
-            this.targetState = target;
             this.elbowOffset = 0;
             this.shoulderOffset = 0;
-            elbow.setSystemTargetAngleInDegrees(target.getElbowAngle());
-            shoulder.setSystemTargetAngleInDegrees(target.getShoulderAngle());
-            wrist.setSystemTargetAngleInDegrees(target.getWristAngle());
+            
+            hasSetShoulderTarget = false;
+            hasSetElbowTarget = false;
+            hasSetWristTarget = false;
+            
+            currentTimeDelays = timeDelays.get(this.targetState).get(target);
+            if(currentTimeDelays == null) {
+                currentTimeDelays = new double[] {0, 0, 0};
+            }
+            this.targetState = target;
+
+            startingTime = System.currentTimeMillis();
         }
     }
 
