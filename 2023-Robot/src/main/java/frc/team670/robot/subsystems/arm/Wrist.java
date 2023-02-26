@@ -191,7 +191,6 @@ public class Wrist extends SparkMaxRotatingSubsystem {
     public void resetPositionFromAbsolute() {
         hasSetAbsolutePosition = false;
         counter = 0;
-        relativePositionIsSet = false;
     }
 
     @Override
@@ -226,7 +225,7 @@ public class Wrist extends SparkMaxRotatingSubsystem {
                 hasSetAbsolutePosition = true;
             }
         } else if (!relativePositionIsSet) {
-            if (Math.abs(super.rotator_encoder.getPosition() - calculatedRelativePosition) < 0.01) {
+            if (Math.abs(super.rotator_encoder.getPosition() - calculatedRelativePosition) < 0.5) {
                 relativePositionIsSet = true;
             } else {
                 super.rotator_encoder.setPosition(calculatedRelativePosition);

@@ -100,7 +100,7 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
         }
 
         public int getPeakCurrent() {
-            return 80;
+            return 60;
         }
 
         public double getRotatorGearRatio() {
@@ -200,7 +200,6 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
     public void resetPositionFromAbsolute() {
         hasSetAbsolutePosition = false;
         counter = 0;
-        relativePositionIsSet = false;
     }
 
     @Override
@@ -268,7 +267,7 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
             Logger.consoleLog("Shoulder relative position = " + position + ", calculatedRelativePosition = "
                     + calculatedRelativePosition);
             Logger.consoleLog("Shoulder relativePositionIsSet = " + this.relativePositionIsSet);
-            if (Math.abs(position - calculatedRelativePosition) < 0.01) {
+            if (Math.abs(position - calculatedRelativePosition) < 0.5) {
                 relativePositionIsSet = true;
                 Logger.consoleLog(relativePositionLog);
             } else {

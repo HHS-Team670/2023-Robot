@@ -99,7 +99,7 @@ public class Elbow extends SparkMaxRotatingSubsystem {
         }
 
         public int getPeakCurrent() {
-            return 80;
+            return 60;
         }
 
         public double getRotatorGearRatio() {
@@ -202,7 +202,6 @@ public class Elbow extends SparkMaxRotatingSubsystem {
     public void resetPositionFromAbsolute() {
         hasSetAbsolutePosition = false;
         counter = 0;
-        relativePositionIsSet = false;
     }
 
     public void setOffset(double offset) {
@@ -258,7 +257,7 @@ public class Elbow extends SparkMaxRotatingSubsystem {
             double position = super.rotator_encoder.getPosition();
             Logger.consoleLog("Elbow relative position = " + position + ", calculatedRelativePosition = "
                     + calculatedRelativePosition);
-            if (Math.abs(position - calculatedRelativePosition) < 0.01) {
+            if (Math.abs(position - calculatedRelativePosition) < 0.5) {
                 Logger.consoleLog(relativePositionLog);
                 relativePositionIsSet = true;
             } else {
