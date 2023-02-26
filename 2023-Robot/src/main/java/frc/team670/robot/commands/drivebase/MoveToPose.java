@@ -29,7 +29,6 @@ public class MoveToPose extends InstantCommand implements MustangCommand {
     private Rotation2d rotation;
     protected Map<MustangSubsystemBase, HealthState> healthReqs;
 
-
     public MoveToPose(SwerveDrive swerve, double x, double y, Rotation2d rotation,
             boolean isRelative) {
         this.swerve = swerve;
@@ -87,6 +86,6 @@ public class MoveToPose extends InstantCommand implements MustangCommand {
 
         scheduler.schedule(new MustangPPSwerveControllerCommand(path, swerve::getPose,
                 swerve.getSwerveKinematics(), xController, yController, thetaController,
-                swerve::setModuleStates, new Subsystem[] {swerve}), swerve);
+                swerve::setModuleStates, new Subsystem[] { swerve }), swerve);
     }
 }

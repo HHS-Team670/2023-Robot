@@ -42,10 +42,10 @@ public class CubeEngage extends SequentialCommandGroup implements MustangCommand
 
         Map<String, Command> eventMap = new HashMap<>();
 
-        eventMap.put("moveToHigh", new MoveToTarget(arm, claw, ArmState.SCORE_HIGH));
+        eventMap.put("moveToHigh", new MoveToTarget(arm, ArmState.SCORE_HIGH));
         eventMap.put("clawEject", new ClawEject(claw));
-        eventMap.put("moveToGround", new MoveToTarget(arm, claw, ArmState.BACKWARD_GROUND));
-        eventMap.put("clawIntake2", new ClawIntake(claw));
+        eventMap.put("moveToGround", new MoveToTarget(arm, ArmState.BACKWARD_GROUND));
+        eventMap.put("clawIntake2", new ClawIntake(claw, false));
         eventMap.put("autoLevel", new NonPidAutoLevel(driveBase, false)); // regardless of what side (right/left) you
                                                                           // are on, markers are the same
 

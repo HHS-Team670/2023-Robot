@@ -21,9 +21,10 @@ import frc.team670.mustanglib.subsystems.MustangSubsystemBase.HealthState;
 import frc.team670.robot.commands.arm.MoveToTarget;
 import frc.team670.robot.commands.claw.ClawEject;
 import frc.team670.robot.commands.claw.ClawIntake;
-import frc.team670.robot.commands.routines.Eject;
+import frc.team670.robot.commands.routines.ClawToggle;
 import frc.team670.robot.subsystems.Claw;
 import frc.team670.robot.subsystems.DriveBase;
+import frc.team670.robot.subsystems.Claw.Status;
 import frc.team670.robot.subsystems.arm.Arm;
 import frc.team670.robot.subsystems.arm.ArmState;
 
@@ -47,13 +48,13 @@ public class ConeCube extends SequentialCommandGroup implements MustangCommand {
         HashMap<String, Command> eventMap = new HashMap<>();
 
         // eventMap stuff
-        eventMap.put("clawIntake1", new ClawIntake(claw));
-        eventMap.put("moveToHigh1", new MoveToTarget(arm, claw, ArmState.SCORE_HIGH));
+        eventMap.put("clawIntake1", new ClawIntake(claw, false));
+        eventMap.put("moveToHigh1", new MoveToTarget(arm, ArmState.SCORE_HIGH));
         eventMap.put("clawEject1", new ClawEject(claw));
-        eventMap.put("moveToBackward", new MoveToTarget(arm, claw, ArmState.BACKWARD_GROUND));
-        eventMap.put("clawIntake2", new ClawIntake(claw));
-        eventMap.put("moveToHigh2", new MoveToTarget(arm, claw, ArmState.SCORE_HIGH));
-        eventMap.put("clawEject2", new Eject(claw, arm));
+        eventMap.put("moveToBackward", new MoveToTarget(arm, ArmState.BACKWARD_GROUND));
+        eventMap.put("clawIntake2", new ClawIntake(claw, false));
+        eventMap.put("moveToHigh2", new MoveToTarget(arm, ArmState.SCORE_HIGH));
+        eventMap.put("clawEject2", new ClawToggle(claw, arm, Status.EJECTING));
 
         SwerveDriveKinematics driveBaseKinematics = driveBase.getSwerveKinematics();
 

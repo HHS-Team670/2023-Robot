@@ -20,13 +20,15 @@ import frc.team670.robot.commands.vision.AutoAlign;
 import frc.team670.robot.subsystems.Claw;
 import frc.team670.robot.subsystems.DriveBase;
 import frc.team670.robot.subsystems.Vision;
+import frc.team670.robot.subsystems.Claw.Status;
 import frc.team670.robot.commands.arm.MoveToTarget;
 import frc.team670.robot.commands.arm.ManualMoveElbow;
 import frc.team670.robot.commands.arm.ManualMoveShoulder;
 import frc.team670.robot.commands.claw.ClawEject;
 import frc.team670.robot.commands.claw.ClawIntake;
 import frc.team670.robot.commands.drivebase.TurnToAngle;
-import frc.team670.robot.commands.routines.Eject;
+import frc.team670.robot.commands.routines.ClawToggle;
+import frc.team670.robot.commands.routines.MoveArm;
 import frc.team670.robot.commands.claw.ClawIdle;
 import frc.team670.robot.subsystems.arm.Arm;
 import frc.team670.robot.subsystems.arm.ArmState;
@@ -103,25 +105,25 @@ public class OI extends OIBase {
         // zeroArm.onTrue(new ResetArmFromAbsolute(arm)); DO NOT USE!!! Critial errors
         // not yet fixed
         moveToTarget.onTrue(new AutoAlign(vision, driveBase));
-        zeroGyroOp.onTrue(new SetSwerveForwardDirection(driveBase));
-        zeroGyroDriver.onTrue(new SetSwerveForwardDirection(driveBase));
+        zeroGyroOp.onTrue(new SetSwerveForwardDirection(driveBase, arm));
+        zeroGyroDriver.onTrue(new SetSwerveForwardDirection(driveBase, arm));
         // move.onTrue(new MoveToPose(driveBase, new Pose2d(1, 1, new Rotation2d()),
         // true));
 
         // //arm movement commands
-        backward.onTrue(new MoveToTarget(arm, claw, ArmState.BACKWARD_GROUND));
-        scoreMidR.onTrue(new MoveToTarget(arm, claw, ArmState.SCORE_MID));
-        scoreMidL.onTrue(new MoveToTarget(arm, claw, ArmState.SCORE_MID));
-        scoreHigh.onTrue(new MoveToTarget(arm, claw, ArmState.SCORE_HIGH));
-        stow.onTrue(new MoveToTarget(arm, claw, ArmState.STOWED));
+        backward.onTrue(new MoveArm(arm, claw, ArmState.BACKWARD_GROUND));
+        scoreMidR.onTrue(new MoveArm(arm, claw, ArmState.SCORE_MID));
+        scoreMidL.onTrue(new MoveArm(arm, claw, ArmState.SCORE_MID));
+        scoreHigh.onTrue(new MoveArm(arm, claw, ArmState.SCORE_HIGH));
+        stow.onTrue(new MoveArm(arm, claw, ArmState.STOWED));
         manualShoulderControl.onTrue(new ManualMoveShoulder(arm, operatorController));
         manualElbowControl.onTrue(new ManualMoveElbow(arm, operatorController));
         // Claw control commands
-        clawSuckOp.onTrue(new ClawIntake(claw));
-        clawEjectOp.onTrue(new Eject(claw, arm));
-        clawSuckDriver.onTrue(new ClawIntake(claw));
-        clawEjectDriver.onTrue(new Eject(claw, arm));
-        clawIdle.onTrue(new ClawIdle(claw));
+        clawSuckOp.onTrue(new ClawToggle(claw, arm, Status.INTAKING));
+        clawEjectOp.onTrue(new ClawToggle(claw, arm, Status.EJECTING));
+        clawSuckDriver.onTrue(new ClawToggle(claw, arm, Status.INTAKING));
+        clawEjectDriver.onTrue(new ClawToggle(claw, arm, Status.EJECTING));
+        clawIdle.onTrue(new ClawToggle(claw, arm, Status.IDLE));
         // Rotate to angle TODO: temporary until vision is finished
         // rotateTo0.onTrue(new TurnToAngle(driveBase, 0, false, driverController));
         // rotateTo90.onTrue(new TurnToAngle(driveBase, 90, false, driverController));

@@ -41,7 +41,6 @@ public class MoveToTarget extends CommandGroupBase implements MustangCommand {
   private Map<MustangSubsystemBase, HealthState> healthReqs;
   private ArmState target;
   private Arm arm;
-  private Claw claw;
 
   private final List<Command> m_commands = new ArrayList<>();
   private int m_currentCommandIndex = -1;
@@ -54,8 +53,7 @@ public class MoveToTarget extends CommandGroupBase implements MustangCommand {
     addRequirements(arm);
     this.arm = arm;
     this.target = target;
-    this.claw = claw;
-    addRequirements(claw);
+
   }
 
   @Override
@@ -67,9 +65,7 @@ public class MoveToTarget extends CommandGroupBase implements MustangCommand {
     // 3) then call move directly to target for each of those returned paths
     m_commands.clear();
     ArmState[] path = Arm.getValidPath(arm.getTargetState(), target);
-    if (target != ArmState.STOWED && claw != null && !claw.isFull()) {
-      addCommands(new ClawToggle(claw, arm, Status.INTAKING));
-    }
+
     for (int i = 1; i < path.length; i++) {
       addCommands(new MoveDirectlyToTarget(arm, path[i]));
     }
