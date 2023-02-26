@@ -57,22 +57,20 @@ public class MoveToPose extends CommandBase implements MustangCommand {
     public void end(boolean interrupted) {
         if (interrupted) {
             pathDrivingCommand.cancel();
-            driveBase.getPoseEstimator().removeTrajectory();
         }
-
         driveBase.stop();
-        // driveBase.getPoseEstimator().removeTrajectory();
+        driveBase.getPoseEstimator().removeTrajectory();
     }
 
     // calcs start point and points directly towards end point
     private PathPoint calcStartPoint(Pose2d nextPose) {
         double dx, dy;
-        dx = nextPose.getX() - nextPose.getX();
-        dy = nextPose.getY() - nextPose.getY();
+        dx = nextPose.getX() - startPose.getX();
+        dy = nextPose.getY() - startPose.getY();
         // System.out.println("dy: " + dy);
         // System.out.println("dx: " + dx);
         // System.out.println("angle: " + Math.toDegrees(Math.atan(dy/dx)));
-        return new PathPoint(nextPose.getTranslation(), new Rotation2d(dx, dy));
+        return new PathPoint(startPose.getTranslation(), new Rotation2d(dx, dy));
     }
 
     // end point where robot faces end Pose

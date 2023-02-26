@@ -208,16 +208,16 @@ public final class RobotConstants extends RobotConstantsBase {
         // public static final String VISION_CAMERA_NAME = "Arducam_A";
         public static final String[] VISION_CAMERA_NAMES = {"Arducam_B", "Arducam_C"};
         public static final Transform3d[] CAMERA_OFFSET = {
-                        // new Transform3d(new Translation3d(Units.inchesToMeters(5.25),
-                        // Units.inchesToMeters(0.56), Units.inchesToMeters(19 + 5)), new
-                        // Rotation3d(-Math.PI / 2.0, 0, Math.PI)),
-                        // new Transform3d(new Translation3d(Units.inchesToMeters(-5.25),
-                        // Units.inchesToMeters(0.56), Units.inchesToMeters(19 + 5)), new
-                        // Rotation3d(0, 0, Math.PI))
-                        new Transform3d(new Translation3d(0, 0, Units.inchesToMeters(19 + 5)),
-                                        new Rotation3d(-Math.PI / 2.0, 0, Math.PI)),
-                        new Transform3d(new Translation3d(0, 0, Units.inchesToMeters(19 + 5)),
-                                        new Rotation3d(0, 0, Math.PI))};
+                        new Transform3d(new Translation3d(Units.inchesToMeters(5.25),
+                        Units.inchesToMeters(0.56), Units.inchesToMeters(19 + 5)), new
+                        Rotation3d(-Math.PI / 2.0, 0, Math.PI)),
+                        new Transform3d(new Translation3d(Units.inchesToMeters(-5.25),
+                        Units.inchesToMeters(0.56), Units.inchesToMeters(19 + 5)), new
+                        Rotation3d(0, 0, Math.PI))};
+                        // new Transform3d(new Translation3d(0, 0, Units.inchesToMeters(19 + 5)),
+                        //                 new Rotation3d(-Math.PI / 2.0, 0, Math.PI)),
+                        // new Transform3d(new Translation3d(0, 0, Units.inchesToMeters(19 + 5)),
+                        //                 new Rotation3d(0, 0, Math.PI))};
         // new Transform2d(new Translation2d(0, 0), new Rotation2d(0)); // TODO: changed when camera
         // actually mounted, may need to change based on robot
         // for actual specs
