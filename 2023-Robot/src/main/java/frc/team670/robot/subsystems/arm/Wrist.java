@@ -42,7 +42,7 @@ public class Wrist extends SparkMaxRotatingSubsystem {
         }
 
         public Motor_Type getMotorType() {
-            return MotorConfig.Motor_Type.NEO;
+            return MotorConfig.Motor_Type.NEO_550;
         }
 
         public double getP() {
@@ -94,7 +94,7 @@ public class Wrist extends SparkMaxRotatingSubsystem {
         }
 
         public int getPeakCurrent() {
-            return 80;
+            return 20;
         }
 
         public double getRotatorGearRatio() {

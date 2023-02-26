@@ -30,7 +30,7 @@ public class OI extends OIBase {
 
     // Driver buttons
     private static JoystickButton zeroGyro = new JoystickButton(driverController, XboxButtons.X);
-    private static JoystickButton zeroArm = new JoystickButton(operatorController, XboxButtons.X);
+    // private static JoystickButton zeroArm = new JoystickButton(operatorController, XboxButtons.X);
     private static JoystickButton moveToTarget = new JoystickButton(driverController, XboxButtons.Y);
 
     // private static JoystickButton move = new JoystickButton(driverController,
@@ -39,7 +39,7 @@ public class OI extends OIBase {
     // Operator buttons
     private static POVButton hybrid = new POVButton(operatorController, 180);
     private static POVButton scoreMidR = new POVButton(operatorController, 90);
-    private static POVButton scoreMidL = new POVButton(operatorController, 270);
+    private static POVButton singleStation = new POVButton(operatorController, 270);
     private static POVButton scoreHigh = new POVButton(operatorController, 0);
     private static JoystickButton stow = new JoystickButton(operatorController, XboxButtons.B);
     private static JoystickButton manualElbowControl = new JoystickButton(operatorController,
@@ -48,7 +48,7 @@ public class OI extends OIBase {
             XboxButtons.LEFT_JOYSTICK_BUTTON);
 
     private static JoystickButton clawSuck = new JoystickButton(operatorController, XboxButtons.RIGHT_BUMPER);
-    private static JoystickButton clawEject = new JoystickButton(operatorController, XboxButtons.LEFT_BUMPER);
+    private static JoystickButton clawEject = new JoystickButton(driverController, XboxButtons.LEFT_BUMPER);
     private static JoystickButton clawIdle = new JoystickButton(operatorController, XboxButtons.Y);
 
     public static MustangController getDriverController() {
@@ -77,7 +77,7 @@ public class OI extends OIBase {
         // //arm movement commands
         hybrid.onTrue(new MoveToTarget(arm, ArmState.HYBRID));
         scoreMidR.onTrue(new MoveToTarget(arm, ArmState.SCORE_MID));
-        scoreMidL.onTrue(new MoveToTarget(arm, ArmState.SINGLE_STATION));
+        singleStation.onTrue(new MoveToTarget(arm, ArmState.SINGLE_STATION));
         scoreHigh.onTrue(new MoveToTarget(arm, ArmState.SCORE_HIGH));
         stow.onTrue(new MoveToTarget(arm, ArmState.STOWED));
         manualShoulderControl.onTrue(new ManualMoveShoulder(arm, operatorController));

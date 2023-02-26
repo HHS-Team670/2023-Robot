@@ -13,16 +13,19 @@ public enum ArmState {
     
     //Temporarily set all wrist angles to 180
     // STOWED(0, 205, 38, 58), //normal stowed state
-    STOWED(0, 205, 38, 245),
+    // STOWED(0, 205, 38, 245), //Before Paly...
+    STOWED(0, 200, 11, 259),
     // STOWED(0, 205, 11, 278), //potential dual-state for stowed and single station
     HYBRID(1, 148, 38, 239),
-    SCORE_MID(2, 188, 83, 152),
+    SCORE_MID(2, 188, 83, 152), //Before paly...
+    // SCORE_MID(2, 188, 88, 152),
     SCORE_HIGH(3,135, 180, 117),
-    INTERMEDIATE_SCORE(4, 205, 70, 180),
+    INTERMEDIATE_SCORE(4, 205, 70, 110),
     STARTING(5, 205,25,235),
     TUNING(6, 90, 180, 180),
-    INTERMEDIATE_HYBRID(7, 205, 38, 245),
-    SINGLE_STATION(8, 244, 10, 221);
+    INTERMEDIATE_HYBRID(7, 200, 38, 230),
+    // SINGLE_STATION(8, 244, 10, 221); //Before paly...
+    SINGLE_STATION(8, 231, 11, 259);
 
 
   
