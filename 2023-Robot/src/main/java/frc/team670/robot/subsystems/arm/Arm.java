@@ -36,10 +36,10 @@ public class Arm extends MustangSubsystemBase {
 
 
     private static final ArmState[][] VALID_PATHS_GRAPH = new ArmState[][] {
-            { ArmState.TUNING, ArmState.SCORE_MID, ArmState.SINGLE_STATION, ArmState.SCORE_HIGH }, // STOWED
+            { ArmState.TUNING, ArmState.SCORE_MID, ArmState.SINGLE_STATION, ArmState.SCORE_HIGH, ArmState.HYBRID }, // STOWED
             { ArmState.STOWED}, // HYBRID
-            { ArmState.SCORE_HIGH, ArmState.STOWED}, // SCORE_MID
-            { ArmState.SCORE_MID,  ArmState.STOWED}, // SCORE_HIGH
+            { ArmState.SCORE_HIGH, ArmState.STOWED, ArmState.STARTING}, // SCORE_MID
+            { ArmState.SCORE_MID,  ArmState.STOWED, ArmState.STARTING}, // SCORE_HIGH
             { ArmState.SCORE_MID, ArmState.SCORE_HIGH}, // STARTING
             { ArmState.STOWED}, // TUNING
             { ArmState.STOWED} // SINGLE_STATION
