@@ -122,7 +122,7 @@ public class Wrist extends SparkMaxRotatingSubsystem {
     public Wrist() {
         super(WRIST_CONFIG);
         absEncoder = new DutyCycleEncoder(RobotMap.WRIST_ABSOLUTE_ENCODER);
-        super.getRotator().setInverted(false);
+        super.getRotator().setInverted(true);
         SmartDashboard.putNumber("wrist arbitary feed forward value", RobotConstants.WRIST_ARBITRARY_FF);
 
 
