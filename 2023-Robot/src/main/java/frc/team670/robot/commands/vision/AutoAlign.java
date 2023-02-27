@@ -34,7 +34,7 @@ public class AutoAlign extends CommandBase implements MustangCommand {
 
     private VisionSubsystemBase vision;
     private DriveBase driveBase;
-    private MoveToPose pathFindingCommand;
+    private MoveToPose moveComand;
     private Translation2d goal;
     private Translation2d[] targets = FieldConstants.Grids.complexLowTranslations;
 
@@ -47,20 +47,14 @@ public class AutoAlign extends CommandBase implements MustangCommand {
         this.driveBase = driveBase;
     }
 
-    public AutoAlign(VisionSubsystemBase vision, DriveBase driveBase, Translation2d goal) {
-        this.vision = vision;
-        this.driveBase = driveBase;
-        this.goal = goal;
-    }
-
     @Override
     public void initialize() {
         if (goal == null) {
             goal = getClosestTargetPose(goal);
         }
         Pose2d goalPose = new Pose2d(goal, FieldConstants.getRobotFacingRotation());
-        pathFindingCommand = new MoveToPose(driveBase, goalPose);
-        MustangScheduler.getInstance().schedule(pathFindingCommand, driveBase);
+        moveComand = new MoveToPose(driveBase, goalPose);
+        MustangScheduler.getInstance().schedule(moveComand, driveBase);
     }
 
     @Override
@@ -71,13 +65,13 @@ public class AutoAlign extends CommandBase implements MustangCommand {
 
     @Override
     public boolean isFinished() {
-        return (pathFindingCommand == null || !pathFindingCommand.isScheduled());
+        return (moveComand == null || !moveComand.isScheduled());
     }
 
     @Override
     public void end(boolean interrupted) {
         if (interrupted) {
-            pathFindingCommand.cancel();
+            moveComand.cancel();
         }
     }
 

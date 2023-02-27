@@ -7,15 +7,13 @@ import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.PathPoint;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory.State;
-import frc.team670.mustanglib.commands.MustangScheduler;
+import edu.wpi.first.wpilibj.DriverStation;
 import frc.team670.robot.constants.FieldConstants;
-import frc.team670.robot.constants.RobotConstants;
 
 public class MoveToPoseTest {
-    @BeforeEach
+    @Test
     void printConstants() {
         System.out.println("------FIELD VALUES------");
         System.out.println("0, 0");
@@ -24,13 +22,14 @@ public class MoveToPoseTest {
         System.out.println(FieldConstants.fieldLength + ", 0");
 
         System.out.println("------COMPLEX LOW TRANSLATIONS------");
-        for (Translation2d t : FieldConstants.Grids.complexLowTranslations) {
-            t = FieldConstants.allianceFlip(t);
-            System.out.println(String.format("%f, %f", t.getX(), t.getY()));
+        System.out.println("ALLIANCE: " + DriverStation.getAlliance());
+        for (Pose2d p : FieldConstants.Grids.scoringPoses) {
+            p = FieldConstants.allianceFlip(p);
+            System.out.println(String.format("%f, %f", p.getX(), p.getY()));
         }
 
         System.out.println("------LOADING ZONE SUBSTATIONS------");
-        for (Pose2d p : FieldConstants.LoadingZone.loadingZoneIntakeTranslations) {
+        for (Pose2d p : FieldConstants.LoadingZone.IntakePoses) {
             p = FieldConstants.allianceFlip(p);
             System.out.println(String.format("%f, %f", p.getX(), p.getY()));
         }
@@ -44,19 +43,20 @@ public class MoveToPoseTest {
 
     @Test
     void moveToFirstCone() {
-        MoveToPoseSkeleton m = new MoveToPoseSkeleton(new Pose2d(13, 1, new Rotation2d()), new Pose2d(0, 0, new Rotation2d()));
+        MoveToPoseSkeleton m = new MoveToPoseSkeleton(new Pose2d(13, 1, new Rotation2d()),
+                new Pose2d(0, 0, new Rotation2d()));
         List<State> trajStates = m.traj.getStates();
         System.out.println("------MOVE TO FIRST CONE------");
         System.out.println("------MOVE TO FIRST CONE: Start Pose------");
         System.out.println(String.format("%f, %f", m.startPose.getX(), m.startPose.getY()));
         System.out.println("------MOVE TO FIRST CONE: End Pose------");
-        System.out.println(String.format("%f, %f, %f degreees", m.endPose.getX(), m.endPose.getY(), m.endPose.getRotation().getDegrees()));
+        System.out.println(String.format("%f, %f, %f degreees", m.endPose.getX(), m.endPose.getY(),
+                m.endPose.getRotation().getDegrees()));
         System.out.println("------MOVE TO FIRST CONE: Trajectory------");
         trajStates.forEach(
-            (state) -> {
-                System.out.println(String.format("%f, %f", state.poseMeters.getX(), state.poseMeters.getY()));
-            }
-        );
+                (state) -> {
+                    System.out.println(String.format("%f, %f", state.poseMeters.getX(), state.poseMeters.getY()));
+                });
     }
 
     class MoveToPoseSkeleton {
@@ -78,13 +78,14 @@ public class MoveToPoseTest {
             dy = endPose.getY() - startPose.getY();
             System.out.println("dy: " + dy);
             System.out.println("dx: " + dx);
-            System.out.println("angle: " +  Math.toDegrees(Math.atan(dy/dx)));
+            System.out.println("angle: " + Math.toDegrees(Math.atan(dy / dx)));
             return new PathPoint(startPose.getTranslation(), new Rotation2d(dx, dy));
         }
 
         // end point where robot faces end Pose
         private PathPoint calcEndPoint() {
-            return new PathPoint(endPose.getTranslation(), endPose.getRotation().rotateBy(new Rotation2d(Math.PI)), endPose.getRotation().rotateBy(new Rotation2d(Math.PI)));
+            return new PathPoint(endPose.getTranslation(), endPose.getRotation().rotateBy(new Rotation2d(Math.PI)),
+                    endPose.getRotation().rotateBy(new Rotation2d(Math.PI)));
         }
     }
 }

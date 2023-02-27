@@ -103,7 +103,11 @@ public class OI extends OIBase {
 
         // zeroGyro.onTrue(new SetSwerveForwardDirection(driveBase, arm));
         // moveToTarget.whileTrue(new PathFindMoveToPose(driveBase, new Pose2d((FieldConstants.Grids.complexLowTranslations[1]), new Rotation2d())));
-        moveToTarget.whileTrue(new MoveToPose(driveBase, new Pose2d((FieldConstants.Grids.complexLowTranslations[1]), new Rotation2d())));
+        // moveToTarget.whileTrue(new MoveToPose(driveBase, (FieldConstants.allianceFlip(FieldConstants.Grids.scoringPoses[0]))));
+        // moveToTarget.whileTrue(new MoveToPose(driveBase, ((FieldConstants.Grids.scoringPoses[0]))));
+        moveToTarget.whileTrue(new MoveToPose(driveBase, (FieldConstants.Grids.scoringPoses[1])));
+        // moveToTarget.whileTrue(new MoveToPose(driveBase, new Pose2d(3, 3, new Rotation2d())));
+
         // zeroArm.onTrue(new ResetArmFromAbsolute(arm)); DO NOT USE!!! Critial errors
         // not yet fixed
         // moveToTarget.onTrue(new AutoAlign(vision, driveBase));

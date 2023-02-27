@@ -20,19 +20,20 @@ import edu.wpi.first.wpilibj.SerialPort;
 import frc.team670.mustanglib.constants.RobotConstantsBase;
 
 /**
- * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
- * constants. This class should not be used for any other purpose. All constants should be declared
+ * The Constants class provides a convenient place for teams to hold robot-wide
+ * numerical or boolean
+ * constants. This class should not be used for any other purpose. All constants
+ * should be declared
  * globally (i.e. public static). Do not put anything functional in this class.
  *
  * <p>
- * It is advised to statically import this class (or one of its inner classes) wherever the
+ * It is advised to statically import this class (or one of its inner classes)
+ * wherever the
  * constants are needed, to reduce verbosity.
  */
 public final class RobotConstants extends RobotConstantsBase {
 
         public static final String MAC_ADDRESS = getMACAddress();
-
-
 
         // Set your team number using the WPILib extension's "Set Team Number" action.
         // 1) Set all of the *_ANGLE_OFFSET constants to -Math.toRadians(0.0).
@@ -101,8 +102,7 @@ public final class RobotConstants extends RobotConstantsBase {
          */
 
         public static final double DRIVEBASE_WIDTH = Units.inchesToMeters(36);
-        public static double DRIVEBASE_CLEARANCE =
-                        Math.hypot(DRIVEBASE_WIDTH, DRIVEBASE_WIDTH) / 2 + 0.05;
+        public static double DRIVEBASE_CLEARANCE = Math.hypot(DRIVEBASE_WIDTH, DRIVEBASE_WIDTH) / 2 + 0.05;
 
         public static final double DRIVETRAIN_TRACKWIDTH_METERS = 0.6096;
 
@@ -123,12 +123,11 @@ public final class RobotConstants extends RobotConstantsBase {
                                                                     // ID
         public static final int BACK_RIGHT_MODULE_STEER_ENCODER = 34; // Set back right steer
                                                                       // encoder ID
-        public static final double BACK_RIGHT_MODULE_STEER_OFFSET =
-                        hardwareSpecificConstants
-                                        .getOrDefault(MAC_ADDRESS,
-                                                        hardwareSpecificConstants
-                                                                        .get("00:80:2F:34:0B:07"))
-                                        .get("BACK_RIGHT_MODULE_STEER_OFFSET"); // Measure
+        public static final double BACK_RIGHT_MODULE_STEER_OFFSET = hardwareSpecificConstants
+                        .getOrDefault(MAC_ADDRESS,
+                                        hardwareSpecificConstants
+                                                        .get("00:80:2F:34:0B:07"))
+                        .get("BACK_RIGHT_MODULE_STEER_OFFSET"); // Measure
         // and
         // set
         // back
@@ -140,12 +139,11 @@ public final class RobotConstants extends RobotConstantsBase {
         public static final int BACK_LEFT_MODULE_STEER_MOTOR = 26; // Set back left steer motor ID
         public static final int BACK_LEFT_MODULE_STEER_ENCODER = 36; // Set back left steer encoder
                                                                      // ID
-        public static final double BACK_LEFT_MODULE_STEER_OFFSET =
-                        hardwareSpecificConstants
-                                        .getOrDefault(MAC_ADDRESS,
-                                                        hardwareSpecificConstants
-                                                                        .get("00:80:2F:34:0B:07"))
-                                        .get("BACK_LEFT_MODULE_STEER_OFFSET"); // Measure
+        public static final double BACK_LEFT_MODULE_STEER_OFFSET = hardwareSpecificConstants
+                        .getOrDefault(MAC_ADDRESS,
+                                        hardwareSpecificConstants
+                                                        .get("00:80:2F:34:0B:07"))
+                        .get("BACK_LEFT_MODULE_STEER_OFFSET"); // Measure
         // and
         // set
         // back
@@ -160,12 +158,11 @@ public final class RobotConstants extends RobotConstantsBase {
         public static final int FRONT_RIGHT_MODULE_STEER_ENCODER = 32; // Set front right steer
                                                                        // encoder
                                                                        // ID
-        public static final double FRONT_RIGHT_MODULE_STEER_OFFSET =
-                        hardwareSpecificConstants
-                                        .getOrDefault(MAC_ADDRESS,
-                                                        hardwareSpecificConstants
-                                                                        .get("00:80:2F:34:0B:07"))
-                                        .get("FRONT_RIGHT_MODULE_STEER_OFFSET"); // Measure
+        public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = hardwareSpecificConstants
+                        .getOrDefault(MAC_ADDRESS,
+                                        hardwareSpecificConstants
+                                                        .get("00:80:2F:34:0B:07"))
+                        .get("FRONT_RIGHT_MODULE_STEER_OFFSET"); // Measure
         // and
         // set
         // back
@@ -178,12 +175,11 @@ public final class RobotConstants extends RobotConstantsBase {
         public static final int FRONT_LEFT_MODULE_STEER_MOTOR = 20; // Set front left steer motor ID
         public static final int FRONT_LEFT_MODULE_STEER_ENCODER = 30; // Set front left steer
                                                                       // encoder ID
-        public static final double FRONT_LEFT_MODULE_STEER_OFFSET =
-                        hardwareSpecificConstants
-                                        .getOrDefault(MAC_ADDRESS,
-                                                        hardwareSpecificConstants
-                                                                        .get("00:80:2F:34:0B:07"))
-                                        .get("FRONT_LEFT_MODULE_STEER_OFFSET"); // Measure
+        public static final double FRONT_LEFT_MODULE_STEER_OFFSET = hardwareSpecificConstants
+                        .getOrDefault(MAC_ADDRESS,
+                                        hardwareSpecificConstants
+                                                        .get("00:80:2F:34:0B:07"))
+                        .get("FRONT_LEFT_MODULE_STEER_OFFSET"); // Measure
         // and
         // set
         // front
@@ -193,7 +189,7 @@ public final class RobotConstants extends RobotConstantsBase {
 
         public final static SerialPort.Port NAVX_PORT = SerialPort.Port.kMXP;
         public static final double kMaxSpeedMetersPerSecond = 2;
-        public static final double kMaxAccelerationMetersPerSecondSquared = 2;
+        public static final double kMaxAccelerationMetersPerSecondSquared = 1;
         public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI * 16;
         public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI * 16;
 
@@ -206,19 +202,22 @@ public final class RobotConstants extends RobotConstantsBase {
 
         // public static final String VISION_CAMERA_NAME = "Arducam_OV9281_USB_Camera";
         // public static final String VISION_CAMERA_NAME = "Arducam_A";
-        public static final String[] VISION_CAMERA_NAMES = {"Arducam_B", "Arducam_C"};
+        public static final String[] VISION_CAMERA_NAMES = { "Arducam_B", "Arducam_C" };
         public static final Transform3d[] CAMERA_OFFSET = {
-                        new Transform3d(new Translation3d(Units.inchesToMeters(5.25),
-                        Units.inchesToMeters(0.56), Units.inchesToMeters(19 + 5)), new
-                        Rotation3d(-Math.PI / 2.0, 0, Math.PI)),
-                        new Transform3d(new Translation3d(Units.inchesToMeters(-5.25),
-                        Units.inchesToMeters(0.56), Units.inchesToMeters(19 + 5)), new
-                        Rotation3d(0, 0, Math.PI))};
-                        // new Transform3d(new Translation3d(0, 0, Units.inchesToMeters(19 + 5)),
-                        //                 new Rotation3d(-Math.PI / 2.0, 0, Math.PI)),
-                        // new Transform3d(new Translation3d(0, 0, Units.inchesToMeters(19 + 5)),
-                        //                 new Rotation3d(0, 0, Math.PI))};
-        // new Transform2d(new Translation2d(0, 0), new Rotation2d(0)); // TODO: changed when camera
+                        new Transform3d(new Translation3d(Units.inchesToMeters(0.56), Units.inchesToMeters(-5.25), Units.inchesToMeters(19 + 5)),
+                                        new Rotation3d(0, 0, Math.PI)),
+                        new Transform3d(new Translation3d(Units.inchesToMeters(0.56),
+                                        Units.inchesToMeters(5.25), Units.inchesToMeters(19 + 5)), new // Y IS CORRECT
+                        Rotation3d(0, 0, Math.PI)) };
+        // new Transform3d(new Translation3d(Units.inchesToMeters(-5.25),
+        // Units.inchesToMeters(0.56), Units.inchesToMeters(19 + 5)), new
+        // Rotation3d(0, 0, Math.PI))};
+        // new Transform3d(new Translation3d(0, 0, Units.inchesToMeters(19 + 5)),
+        // new Rotation3d(-Math.PI / 2.0, 0, Math.PI)),
+        // new Transform3d(new Translation3d(0, 0, Units.inchesToMeters(19 + 5)),
+        // new Rotation3d(0, 0, Math.PI))};
+        // new Transform2d(new Translation2d(0, 0), new Rotation2d(0)); // TODO: changed
+        // when camera
         // actually mounted, may need to change based on robot
         // for actual specs
         public static final double LOCKED_ON_ERROR_X = 0.3; // TODO: test what angles are
@@ -231,18 +230,16 @@ public final class RobotConstants extends RobotConstantsBase {
         public static final double kTrackwidthMeters = 0.702;
 
         // Arm
-        public static final double ELBOW_ABSOLUTE_ENCODER_AT_VERTICAL =
-                        hardwareSpecificConstants
-                                        .getOrDefault(MAC_ADDRESS,
-                                                        hardwareSpecificConstants
-                                                                        .get("00:80:2F:34:0B:07"))
-                                        .get("ELBOW_ABSOLUTE_ENCODER_AT_VERTICAL");
-        public static final double SHOULDER_ABSOLUTE_ENCODER_AT_VERTICAL =
-                        hardwareSpecificConstants
-                                        .getOrDefault(MAC_ADDRESS,
-                                                        hardwareSpecificConstants
-                                                                        .get("00:80:2F:34:0B:07"))
-                                        .get("SHOULDER_ABSOLUTE_ENCODER_AT_VERTICAL");
+        public static final double ELBOW_ABSOLUTE_ENCODER_AT_VERTICAL = hardwareSpecificConstants
+                        .getOrDefault(MAC_ADDRESS,
+                                        hardwareSpecificConstants
+                                                        .get("00:80:2F:34:0B:07"))
+                        .get("ELBOW_ABSOLUTE_ENCODER_AT_VERTICAL");
+        public static final double SHOULDER_ABSOLUTE_ENCODER_AT_VERTICAL = hardwareSpecificConstants
+                        .getOrDefault(MAC_ADDRESS,
+                                        hardwareSpecificConstants
+                                                        .get("00:80:2F:34:0B:07"))
+                        .get("SHOULDER_ABSOLUTE_ENCODER_AT_VERTICAL");
 
         public static final int ELBOW_GEAR_RATIO = 75;
         public static final int ELBOW_SOFT_LIMIT_MIN = 20;
@@ -273,14 +270,12 @@ public final class RobotConstants extends RobotConstantsBase {
         public static final double leftKaVoltSecondsSquaredPerMeter = 0.15;
         public static final double rightKsVolts = leftKsVolts;
         public static final double rightKvVoltSecondsPerMeter = leftKvVoltSecondsPerMeter;
-        public static final double rightKaVoltSecondsSquaredPerMeter =
-                        leftKaVoltSecondsSquaredPerMeter;
-        public static final DifferentialDriveKinematics kDriveKinematics =
-                        new DifferentialDriveKinematics(kTrackwidthMeters);
+        public static final double rightKaVoltSecondsSquaredPerMeter = leftKaVoltSecondsSquaredPerMeter;
+        public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(
+                        kTrackwidthMeters);
 
         public static final PathConstraints kAutoPathConstraints = new PathConstraints(
                         kMaxSpeedMetersPerSecond, kMaxAccelerationMetersPerSecondSquared);
-
 
         /**
          * This is code from Poofs 2022
@@ -289,8 +284,7 @@ public final class RobotConstants extends RobotConstantsBase {
          */
         public static String getMACAddress() {
                 try {
-                        Enumeration<NetworkInterface> nwInterface =
-                                        NetworkInterface.getNetworkInterfaces();
+                        Enumeration<NetworkInterface> nwInterface = NetworkInterface.getNetworkInterfaces();
                         StringBuilder ret = new StringBuilder();
                         while (nwInterface.hasMoreElements()) {
                                 NetworkInterface nis = nwInterface.nextElement();

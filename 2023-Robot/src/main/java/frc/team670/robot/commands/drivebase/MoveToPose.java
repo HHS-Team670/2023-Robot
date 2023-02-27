@@ -12,6 +12,7 @@ import frc.team670.mustanglib.commands.MustangCommand;
 import frc.team670.mustanglib.commands.MustangScheduler;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase.HealthState;
+import frc.team670.robot.constants.FieldConstants;
 import frc.team670.robot.constants.RobotConstants;
 import frc.team670.robot.subsystems.DriveBase;
 
@@ -40,6 +41,8 @@ public class MoveToPose extends CommandBase implements MustangCommand {
 
     @Override
     public void initialize() {
+        this.endPose = FieldConstants.allianceFlip(endPose);
+        this.startPose = driveBase.getPoseEstimator().getCurrentPose();
         PathPlannerTrajectory traj = PathPlanner.generatePath(RobotConstants.kAutoPathConstraints,
                 calcStartPoint(endPose), calcEndPoint(startPose));
         driveBase.getPoseEstimator().addTrajectory(traj);
@@ -64,13 +67,14 @@ public class MoveToPose extends CommandBase implements MustangCommand {
 
     // calcs start point and points directly towards end point
     private PathPoint calcStartPoint(Pose2d nextPose) {
-        double dx, dy;
-        dx = nextPose.getX() - startPose.getX();
-        dy = nextPose.getY() - startPose.getY();
+        // double dx, dy;
+        // dx = nextPose.getX() - startPose.getX();
+        // dy = nextPose.getY() - startPose.getY();
         // System.out.println("dy: " + dy);
         // System.out.println("dx: " + dx);
         // System.out.println("angle: " + Math.toDegrees(Math.atan(dy/dx)));
-        return new PathPoint(startPose.getTranslation(), new Rotation2d(dx, dy));
+        // return new PathPoint(startPose.getTranslation(), new Rotation2d(dx, dy));
+        return new PathPoint(startPose.getTranslation(), startPose.getRotation());
     }
 
     // end point where robot faces end Pose
@@ -78,6 +82,6 @@ public class MoveToPose extends CommandBase implements MustangCommand {
         double dx, dy;
         dx = endPose.getX() - prevPose.getX();
         dy = endPose.getY() - prevPose.getY();
-        return new PathPoint(endPose.getTranslation(), new Rotation2d(dx, dy), endPose.getRotation().rotateBy(new Rotation2d(Math.PI)));
+        return new PathPoint(endPose.getTranslation(), new Rotation2d(dx, dy), endPose.getRotation());
     }
 }
