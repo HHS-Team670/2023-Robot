@@ -32,8 +32,6 @@ import frc.team670.robot.subsystems.DriveBase;
  * the closest one.`
  */
 public class AutoAlign extends CommandBase implements MustangCommand {
-
-    private VisionSubsystemBase vision;
     private DriveBase driveBase;
     private MoveToPose moveComand;
     private int goal;
@@ -48,8 +46,7 @@ public class AutoAlign extends CommandBase implements MustangCommand {
      * button. While
      * holding button, driver can switch to adjacent scoring locations
      */
-    public AutoAlign(VisionSubsystemBase vision, DriveBase driveBase, MustangController controller) {
-        this.vision = vision;
+    public AutoAlign(DriveBase driveBase, MustangController controller) {
         this.driveBase = driveBase;
         this.controller = controller;
     }
