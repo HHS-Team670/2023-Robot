@@ -3,84 +3,83 @@ package frc.team670.robot.subsystems.arm;
 /**
  * 
  * In order to add an ArmState
- * 1) Add ArmState to enum
- * 2) Add to VALID_PATHS_GRAPH in Arm.java, along with all valid connections
- * 3) Add the state to the valid connections (i.e. if you can go from NEW_STATE
- * to STOWED, then add NEW_STATE to STOWED's neighbor list)
+*  1) Add ArmState to enum
+ * 2) Add the state to the valid connections (i.e. if you can go from NEW_STATE to STOWED, then add NEW_STATE to STOWED's neighbor list)
  */
 
 public enum ArmState {
+  
+    //Angle-based states. For the shoulder, straight up is 180. If the elbow joint is straight, that's 180.
+    
+    //Temporarily set all wrist angles to 180
+    // STOWED(0, 205, 38, 58), //normal stowed state
+    // STOWED(0, 205, 38, 245), //Before Paly...
+    STOWED(0, 200, 11, 259),
+    // STOWED(0, 205, 11, 278), //potential dual-state for stowed and single station
+    HYBRID(1, 148, 38, 239),
+    SCORE_MID(2, 188, 83, 152), //Before paly...
+    // SCORE_MID(2, 188, 88, 152),
+    SCORE_HIGH(3,135, 180, 117),
+    INTERMEDIATE_SCORE(4, 205, 70, 110),
+    STARTING(5, 205,25,235),
+    TUNING(6, 90, 180, 180),
+    INTERMEDIATE_HYBRID(7, 200, 38, 230),
+    // SINGLE_STATION(8, 244, 10, 221); //Before paly...
+    SINGLE_STATION(8, 231, 11, 259);
 
-  // Angle-based states. For the shoulder, straight up is 180. If the elbow joint
-  // is straight, that's 180.
 
-  // shoulder second, elbow third\][]
-  STOWED(0, 180, 40),
-  HYBRID(1, 108, 165),
-  SCORE_MID(2, 170, 115), // 163, 113 (FAIL)
-  SCORE_HIGH(3, 120, 203), // 120, 197
-  INTERMEDIATE_BACKWARD_GROUND(4, 217, 40),
-  BACKWARD_GROUND(5, 217, 310),
-  TUNING(6, 90, 180),
-  INTERMEDIATE_SCORE(7, 210, 40);
+  
+    private int stateID;
+    private double shoulderAngle;
+    private double elbowAngle;
+    private double wristAngle;
 
-  private int stateID;
-  private double shoulderAngle;
-  private double elbowAngle;
-  // private double lowerElbowSoftLimit;
-  // private double upperElbowSoftLimit;
-  // private double wristAngle;
+    //private double lowerElbowSoftLimit;
+    //private double upperElbowSoftLimit;
 
-  // private ArmState(int stateID, double xPos, double yPos) {
-  private ArmState(int stateID, double shoulderPos, double elbowPos) {
-    this.shoulderAngle = shoulderPos;
-    this.elbowAngle = elbowPos;
-    this.stateID = stateID;
-    // this.lowerElbowSoftLimit = lowerSoftLimit;
-    // this.upperElbowSoftLimit = upperSoftLimit;
-  }
-
-  // private ArmState(int stateID, double xPos, double yPos) {
-
-  public double getElbowAngle() {
-    return elbowAngle;
-  }
-
-  // public double getLowerElbowSoftLimit() {
-  // return lowerElbowSoftLimit;
-  // }
-
-  // public double getUpperElbowSoftLimit() {
-  // return upperElbowSoftLimit;
-  // }
-
-  // public double getWristAngle() {
-  // return wristAngle;
-  // }
-
-  /*
-   * 
-   * @return the corresponding integer code for each color on the wheel
-   */
-  public int getStateID() {
-    return stateID;
-  }
-
-  public double getShoulderAngle() {
-    return shoulderAngle;
-  }
-
-  // return wristAngle;
-  // }
-
-  public static ArmState getVal(int stateID) {
-
-    ArmState[] values = ArmState.values();
-    for (ArmState state : values) {
-      if (state.stateID == stateID) {
-        return state;
-      }
+    private ArmState(int stateID, double shoulderAngle, double elbowAngle, double wristAngle) {
+      this.shoulderAngle = shoulderAngle;
+      this.elbowAngle = elbowAngle;
+      this.wristAngle = wristAngle;
+      this.stateID = stateID;
     }
+    
+    /*
+     * 
+     * @return the corresponding integer code for each color on the wheel
+     */
+    public int getStateID() {
+      return stateID;
+    }
+
+    public double getShoulderAngle() {
+      return shoulderAngle;
+    }
+
+    public double getElbowAngle() {
+      return elbowAngle;
+    }
+
+    public double getWristAngle() {
+      return wristAngle;
+    }
+
+    // public double getLowerElbowSoftLimit() {
+    //   return lowerElbowSoftLimit;
+    // }
+
+    // public double getUpperElbowSoftLimit() {
+    //   return upperElbowSoftLimit;
+    // }
+
+    public static ArmState getVal(int stateID){
+
+      ArmState[] values=ArmState.values();
+      for(ArmState state: values){
+        if(state.stateID==stateID){
+          return state;
+        }
+      }
     return ArmState.STOWED;
 
   }

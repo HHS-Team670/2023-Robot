@@ -1,8 +1,6 @@
 package frc.team670.robot.commands.drivebase;
 
 import java.util.Map;
-
-import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -11,7 +9,6 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.team670.mustanglib.commands.MustangCommand;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase.HealthState;
-import frc.team670.mustanglib.utils.PIDConstantSet;
 import frc.team670.robot.subsystems.DriveBase;
 
 public class AutoLevel extends CommandBase implements MustangCommand {
