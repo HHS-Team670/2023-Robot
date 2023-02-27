@@ -75,7 +75,7 @@ public class PathFindMoveToPose extends CommandBase implements MustangCommand {
 						new PathPoint(new Translation2d(endPoint.getX(), endPoint.getY()),
 								new Rotation2d(fullPath.get(i).getX() - fullPath.get(i - 1).getX(),
 										fullPath.get(i).getY() - fullPath.get(i - 1).getY()),
-								endPoint.getHolRot().rotateBy(new Rotation2d(Math.PI)));
+								endPoint.getHolRot());
 			} else {
 				fullPathPoints[i] = new PathPoint(
 						new Translation2d(fullPath.get(i).getX(), fullPath.get(i).getY()),

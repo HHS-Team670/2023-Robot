@@ -27,7 +27,8 @@ import frc.team670.robot.pathfinder.PoseNode;
 import frc.team670.robot.subsystems.DriveBase;
 
 /**
- * AutoAlign - autonomously moves the robot to a given target. If no target is given, it moves to
+ * AutoAlign - autonomously moves the robot to a given target. If no target is
+ * given, it moves to
  * the closest one.`
  */
 public class AutoAlign extends CommandBase implements MustangCommand {
@@ -35,39 +36,51 @@ public class AutoAlign extends CommandBase implements MustangCommand {
     private VisionSubsystemBase vision;
     private DriveBase driveBase;
     private MoveToPose moveComand;
-    private Translation2d goal;
-    private Translation2d[] targets = FieldConstants.Grids.complexLowTranslations;
+    private int goal;
+    private Pose2d[] targets = new Pose2d[12];
+
+    MustangController controller;
+    private final int CONTROLLER_RIGHT = 90;
+    private final int CONTROLLER_LEFT = 90 + 180;
 
     /**
-     * AutoAligns to the closest scoring position. Stops when driver lets go of button. While
+     * AutoAligns to the closest scoring position. Stops when driver lets go of
+     * button. While
      * holding button, driver can switch to adjacent scoring locations
      */
-    public AutoAlign(VisionSubsystemBase vision, DriveBase driveBase) {
+    public AutoAlign(VisionSubsystemBase vision, DriveBase driveBase, MustangController controller) {
         this.vision = vision;
         this.driveBase = driveBase;
+        this.controller = controller;
     }
 
     @Override
     public void initialize() {
-        if (goal == null) {
-            goal = getClosestTargetPose(goal);
-        }
-        Pose2d goalPose = new Pose2d(goal, FieldConstants.getRobotFacingRotation());
+        loadTargets();
+        goal = getClosestTargetIndex();
+        Pose2d goalPose = targets[goal];
         moveComand = new MoveToPose(driveBase, goalPose);
         MustangScheduler.getInstance().schedule(moveComand, driveBase);
     }
 
     @Override
     public void execute() {
-        // TODO Auto-generated method stub
-        super.execute();
+        SmartDashboard.putNumber("Goal index", goal);
+
+        if (controller.getPOV() == CONTROLLER_RIGHT) {
+            scheduleNewMove(--goal);
+        } else if (controller.getPOV() == CONTROLLER_LEFT) {
+            scheduleNewMove(++goal);
+        }
     }
 
+    // only ends when auto align mapped button let go
     @Override
     public boolean isFinished() {
-        return (moveComand == null || !moveComand.isScheduled());
+        return false;
     }
 
+    // only ends when auto align mapped button let go
     @Override
     public void end(boolean interrupted) {
         if (interrupted) {
@@ -81,13 +94,39 @@ public class AutoAlign extends CommandBase implements MustangCommand {
         return null;
     }
 
-    private Translation2d getClosestTargetPose(Translation2d robotTrans) {
+    private void loadTargets() {
+        for (int i = 0; i < FieldConstants.Grids.scoringPoses.length; i++) {
+            targets[i] = FieldConstants.allianceFlip(FieldConstants.Grids.scoringPoses[i]);
+        }
+        for (int i = 0; i < FieldConstants.LoadingZone.IntakePoses.length; i++) {
+            targets[i + FieldConstants.Grids.scoringPoses.length] = FieldConstants
+                    .allianceFlip(FieldConstants.LoadingZone.IntakePoses[i]);
+        }
+    }
+
+    private int getClosestTargetIndex() {
+        Pose2d robotPose = driveBase.getPoseEstimator().getCurrentPose();
         int closest = 0;
 
         for (int i = 0; i < targets.length; i++) {
-            closest = robotTrans.getDistance(targets[closest]) < robotTrans
-                    .getDistance(FieldConstants.allianceFlip(targets[i])) ? i : closest;
+            closest = robotPose.getTranslation().getDistance(targets[closest].getTranslation()) > robotPose
+                    .getTranslation()
+                    .getDistance(targets[i].getTranslation()) ? i : closest;
         }
-        return targets[closest];
+        return closest;
+    }
+
+    private void scheduleNewMove(int goal) {
+        // if tries to go over/under, stays and doesn't do anything
+        if (goal < 0)
+            goal = 0;
+        else if (goal > 11)
+            goal = 11;
+        else {
+            moveComand.cancel();
+            Pose2d goalPose = targets[goal];
+            moveComand = new MoveToPose(driveBase, goalPose);
+            MustangScheduler.getInstance().schedule(moveComand, driveBase);
+        }
     }
 }
