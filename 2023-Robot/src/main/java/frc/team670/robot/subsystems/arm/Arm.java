@@ -20,9 +20,7 @@ public class Arm extends MustangSubsystemBase {
     private boolean initializedState;
     private VoltageCalculator voltageCalculator;
 
-    private double elbowOffset;
-    private double shoulderOffset;
-    private double wristOffset;
+
 
     private static final ArmState[][] VALID_PATHS_GRAPH = new ArmState[][] {
             { ArmState.TUNING, ArmState.INTERMEDIATE_SCORE, ArmState.INTERMEDIATE_HYBRID, ArmState.SCORE_MID,
@@ -117,8 +115,9 @@ public class Arm extends MustangSubsystemBase {
     public void moveToTarget(ArmState target) {
         if (checkHealth() == HealthState.GREEN) {
             this.targetState = target;
-            this.elbowOffset = 0;
-            this.shoulderOffset = 0;
+            elbow.resetOffset();
+            shoulder.resetOffset();
+            wrist.resetOffset();
             elbow.setSystemTargetAngleInDegrees(target.getElbowAngle());
             shoulder.setSystemTargetAngleInDegrees(target.getShoulderAngle());
             wrist.setSystemTargetAngleInDegrees(target.getWristAngle());
@@ -205,9 +204,7 @@ public class Arm extends MustangSubsystemBase {
         elbow.debugSubsystem();
         wrist.debugSubsystem();
         SmartDashboard.putString("Arm target state", getTargetState().toString());
-        SmartDashboard.putNumber("Elbow offset", elbowOffset);
-        SmartDashboard.putNumber("Shoulder offset", shoulderOffset);
-        SmartDashboard.putNumber("Wrist offset", wristOffset);
+
     }
 
     /**
