@@ -2,13 +2,13 @@
   "waypoints": [
     {
       "anchorPoint": {
-        "x": 1.8865975178984258,
-        "y": 0.5009529951969514
+        "x": 1.8673360638485448,
+        "y": 4.9538057680575305
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.189029877706648,
-        "y": 0.49871714944701073
+        "x": 3.1401931515744854,
+        "y": 4.904217141664356
       },
       "holonomicAngle": 180.0,
       "isReversal": false,
@@ -18,7 +18,7 @@
       "stopEvent": {
         "names": [
           "clawIntake1",
-          "moveToMid",
+          "moveToMid1",
           "clawEject1"
         ],
         "executionBehavior": "sequential",
@@ -28,68 +28,68 @@
     },
     {
       "anchorPoint": {
-        "x": 4.554608937885411,
-        "y": 0.6483425770942253
+        "x": 4.162336789685464,
+        "y": 4.9534998068904414
       },
       "prevControl": {
-        "x": 3.788931341507432,
-        "y": 0.5607227647018229
+        "x": 3.4463665996811668,
+        "y": 4.958042871826217
       },
       "nextControl": {
-        "x": 5.178270806496294,
-        "y": 0.719710913039378
+        "x": 5.32117185309695,
+        "y": 4.9461466195420964
       },
-      "holonomicAngle": 180.0,
+      "holonomicAngle": 200.0,
       "isReversal": false,
       "velOverride": null,
       "isLocked": false,
       "isStopPoint": false,
       "stopEvent": {
         "names": [],
-        "executionBehavior": "sequential",
+        "executionBehavior": "parallel",
         "waitBehavior": "none",
         "waitTime": 0
       }
     },
     {
       "anchorPoint": {
-        "x": 6.69,
-        "y": 1.8243112888949302
+        "x": 6.570074383884028,
+        "y": 4.602812355418804
       },
       "prevControl": {
-        "x": 6.48031461901357,
-        "y": 1.297279530811232
+        "x": 6.1942713302276005,
+        "y": 4.723813151567792
       },
       "nextControl": {
-        "x": 6.48031461901357,
-        "y": 1.297279530811232
+        "x": 6.1942713302276005,
+        "y": 4.723813151567792
       },
-      "holonomicAngle": 41.602736009809355,
+      "holonomicAngle": 0.0,
       "isReversal": true,
       "velOverride": null,
       "isLocked": false,
       "isStopPoint": true,
       "stopEvent": {
         "names": [],
-        "executionBehavior": "parallel",
+        "executionBehavior": "sequential",
         "waitBehavior": "none",
-        "waitTime": 0
+        "waitTime": 5.0
       }
     },
     {
       "anchorPoint": {
-        "x": 4.6428865512353426,
-        "y": 0.7563949919566507
+        "x": 4.201408745028944,
+        "y": 4.758570697302205
       },
       "prevControl": {
-        "x": 5.23433721286855,
-        "y": 0.8112985350042025
+        "x": 4.889413918802182,
+        "y": 4.735648610488472
       },
       "nextControl": {
-        "x": 4.276337387364445,
-        "y": 0.7223687424262873
+        "x": 3.646178878707423,
+        "y": 4.77706914423626
       },
-      "holonomicAngle": 180.0,
+      "holonomicAngle": -168.7562831623798,
       "isReversal": false,
       "velOverride": null,
       "isLocked": false,
@@ -103,12 +103,12 @@
     },
     {
       "anchorPoint": {
-        "x": 1.8786728305335951,
-        "y": 1.0734613959191024
+        "x": 1.9072949494234686,
+        "y": 4.065861221771179
       },
       "prevControl": {
-        "x": 3.354903015285221,
-        "y": 0.5975159319513839
+        "x": 2.506802343754212,
+        "y": 4.914077841495896
       },
       "nextControl": null,
       "holonomicAngle": 180.0,
@@ -118,7 +118,6 @@
       "isStopPoint": false,
       "stopEvent": {
         "names": [
-          "moveToHigh2",
           "clawEject2",
           "moveToStowed3"
         ],
@@ -128,28 +127,31 @@
       }
     }
   ],
+  "maxVelocity": 2.0,
+  "maxAcceleration": 1.0,
+  "isReversed": null,
   "markers": [
     {
-      "position": 1.1210094105113633,
+      "position": 0.016219815340909098,
+      "names": [
+        "moveToStowed1"
+      ]
+    },
+    {
+      "position": 0.935986328125,
       "names": [
         "moveToGround",
         "clawIntake2"
       ]
     },
     {
-      "position": 0.5858442826704545,
-      "names": [
-        "moveToStowed"
-      ]
-    },
-    {
-      "position": 2.1774369673295446,
+      "position": 2.2760875355113637,
       "names": [
         "moveToStowed2"
       ]
     },
     {
-      "position": 2.926309481534089,
+      "position": 3.369540127840912,
       "names": [
         "moveToMid2"
       ]
