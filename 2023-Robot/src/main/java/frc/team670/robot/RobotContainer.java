@@ -11,6 +11,7 @@ import frc.team670.robot.commands.drivebase.NonPidAutoLevel;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team670.mustanglib.RobotContainerBase;
 import frc.team670.mustanglib.commands.MustangCommand;
 import frc.team670.mustanglib.utils.MustangController;
@@ -64,6 +65,7 @@ public class RobotContainer extends RobotContainerBase {
      */
     @Override
     public MustangCommand getAutonomousCommand() {
+        SmartDashboard.putBoolean("match-started", true);
         arm.setStateToStarting();
         
         // return new CubeEngage(driveBase, claw, arm, "RightCubeEngage");

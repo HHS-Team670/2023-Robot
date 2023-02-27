@@ -92,6 +92,7 @@ public class Arm extends MustangSubsystemBase {
                 this.targetState = getClosestState();
             }
         }
+        SmartDashboard.putString("target-arm-state", getTargetState().toString());
     }
 
     /**

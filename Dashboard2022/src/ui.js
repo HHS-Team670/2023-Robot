@@ -17,36 +17,38 @@ function updatePath(evt) {
     }
 }
 
-function setPaths(upper) { // Todo
+function resetAndAddDropdownListeners() {
+    document.querySelector(".dropbtn").innerHTML = "Choose Path";
+    var paths = document.querySelectorAll(".path-dropdown .dropup-content p");
+    for (let i = 0; i < paths.length; i+=1) {
+        let path = paths[i];
+        path.onclick = updatePath;
+    }
+}
+
+function setPaths(side) { // Todo
     var content = document.querySelector(".dropup-content");
     content.innerHTML = "";
 
-    var p1 = document.createElement("p");
-    p1.appendChild(document.createTextNode("ATarmacEdge2Ball"));
-    
-    var p2 = document.createElement("p");
-    p2.appendChild(document.createTextNode("BTarmacEdgeCenter2Ball"));
-
-    var p3 = document.createElement("p");
-    p3.appendChild(document.createTextNode("BTarmacEdgeLower2Ball"));
-
-    if (upper) {
-        var p4 = document.createElement("p");
-        p4.appendChild(document.createTextNode("BTarmacHighHubTerminal"));
-        content.append(p1, p2, p3, p4);
-    } else {
-        content.append(p1, p2, p3);
+    switch(side) {
+        case 'left':
+            var option1 = document.createElement("p");
+            option1.appendChild(document.createTextNode(""));
+            content.append(option1);
+        case 'middle':
+        case 'right': 
     }
     resetAndAddDropdownListeners();
 }
 
-
 var left = document.querySelector('#Left');
-left.onclick = () => {setPaths(false)};
+left.onclick = () => {setPaths('left')};
 var middle = document.querySelector('#Middle');
-middle.onclick = () => {setPaths(true)};
+middle.onclick = () => {setPaths('middle')};
 var right = document.querySelector('#Right');
-right.onclick = () => {setPaths(true)};
+right.onclick = () => {setPaths('right')};
+
+
 var toggleCamera = document.querySelector('#toggle-camera');
 toggleCamera.onclick = () => {
     var cameraDiv = document.querySelector("#camera-streams")
@@ -59,16 +61,6 @@ toggleCamera.onclick = () => {
         while (cameraDiv.firstChild) {
             cameraDiv.removeChild(cameraDiv.firstChild);
         }
-    }
-}
-
-
-function resetAndAddDropdownListeners() {
-    document.querySelector(".dropbtn").innerHTML = "Choose Path";
-    var paths = document.querySelectorAll(".path-dropdown .dropup-content p");
-    for (let i = 0; i < paths.length; i+=1) {
-        let path = paths[i];
-        path.onclick = updatePath;
     }
 }
 
@@ -97,12 +89,18 @@ NetworkTables.addKeyListener('/SmartDashboard/warnings', (key, value) => {
 });
 
 
-
-
-
-NetworkTables.addKeyListener('/SmartDashboard/yaw', (key, value) => {
-    var angle = 2*value;
+NetworkTables.addKeyListener('/SmartDashboard/match-started', (key, value) => {
+    var autoSelector = document.querySelector('#auton-chooser');
+    var armStates = document.querySelector('div#arm-state');
+    if (value) {
+        autoSelector.style.display = 'none';
+        armStates.style.display = 'block';
+    } else {
+        autoSelector.style.display = 'block';
+        armStates.style.display = 'none';
+    }
 })
+
 
 // updates status lights for driveBase
 NetworkTables.addKeyListener('/SmartDashboard/aligned', (key, value) => {
@@ -139,6 +137,10 @@ NetworkTables.addKeyListener('/SmartDashboard/level', (key, value) => { // TODO 
     }
 });
 
+NetworkTables.addKeyListener('/SmartDashboard/target-arm-state', (key, value) => {
+    var armState = document.querySelector('div#arm-state h1#arm-state-text')
+    armState.append(document.createTextNode(value));
+})
 
 // updates vision frame
 NetworkTables.addKeyListener('/SmartDashboard/vision-frame-updated', (key, value) => {
