@@ -35,16 +35,16 @@ public class RobotContainer extends RobotContainerBase {
 
     private final Vision vision = new Vision(pd);
     private final DriveBase driveBase = new DriveBase(getDriverController());
-    private final Arm arm = new Arm();
-    private final Claw claw = new Claw(arm);
+    //private final Arm arm = new Arm();
+    //private final Claw claw = new Claw(arm);
     private static OI oi = new OI();
 
     private Notifier updateArbitraryFeedForwards;
 
     public RobotContainer() {
         super();
-        addSubsystem(driveBase, vision, arm, arm.getShoulder(), arm.getElbow(), claw);
-        oi.configureButtonBindings(driveBase, vision, arm, claw);
+        addSubsystem(driveBase, vision);
+        oi.configureButtonBindings(driveBase, vision);
     }
 
     @Override
@@ -53,7 +53,7 @@ public class RobotContainer extends RobotContainerBase {
 
         updateArbitraryFeedForwards = new Notifier(new Runnable() {
             public void run() {
-                arm.updateArbitraryFeedForwards();
+                //arm.updateArbitraryFeedForwards();
             }
         });
 
@@ -68,9 +68,9 @@ public class RobotContainer extends RobotContainerBase {
     @Override
     public MustangCommand getAutonomousCommand() {
         // return new CubeEngage(driveBase, claw, arm, "RightCubeEngage");
-        return new ConeCube(driveBase, claw, arm, "RightConeCube");
+        //return new ConeCube(driveBase, claw, arm, "RightConeCube");
         // return new NonPidAutoLevel(driveBase, false);
-
+        return null;
     }
 
     @Override

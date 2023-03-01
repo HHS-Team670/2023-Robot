@@ -39,7 +39,7 @@ public class OI extends OIBase {
     private static MustangController operatorController = new MustangController(1);
 
     // Driver buttons
-    private static JoystickButton zeroArm = new JoystickButton(driverController, XboxButtons.START);
+    //private static JoystickButton zeroArm = new JoystickButton(driverController, XboxButtons.START);
     // private static JoystickButton zeroGyro = new
     // JoystickButton(operatorController, XboxButtons.START);
     private static JoystickButton moveToTarget = new JoystickButton(driverController, XboxButtons.Y);
@@ -80,9 +80,9 @@ public class OI extends OIBase {
     @Override
     public void configureButtonBindings(MustangSubsystemBase... subsystemBases) {
         DriveBase driveBase = (DriveBase) subsystemBases[0];
-        // Vision vision = (Vision) subsystemBases[1];
-        Arm arm = (Arm) subsystemBases[2];
-        Claw claw = (Claw) subsystemBases[3];
+        //Vision vision = (Vision) subsystemBases[1];
+        //Arm arm = (Arm) subsystemBases[2];
+        //Claw claw = (Claw) subsystemBases[3];
 
         driveBase.initDefaultCommand();
 
@@ -92,24 +92,24 @@ public class OI extends OIBase {
         // moveToTarget.whileTrue(new MoveToPose(driveBase, new Pose2d(3, 3, new Rotation2d())));  // TODO: TEST movement rotation + holomnic rotation
         // autoAlign.whileTrue(new AutoAlign(driveBase, driverController)); // TODO: TEST AUTO ALIGN
 
-        zeroGyroOp.onTrue(new SetSwerveForwardDirection(driveBase, arm));
-        zeroGyroDriver.onTrue(new SetSwerveForwardDirection(driveBase, arm));
+        // zeroGyroOp.onTrue(new SetSwerveForwardDirection(driveBase, arm));
+        zeroGyroDriver.onTrue(new SetSwerveForwardDirection(driveBase));
 
 
         // //arm movement commands
-        backward.onTrue(new MoveToTarget(arm, ArmState.BACKWARD_GROUND));
-        scoreMidR.onTrue(new MoveToTarget(arm, ArmState.SCORE_MID));
-        scoreMidL.onTrue(new MoveToTarget(arm, ArmState.SCORE_MID));
-        scoreHigh.onTrue(new MoveToTarget(arm, ArmState.SCORE_HIGH));
-        stow.onTrue(new MoveToTarget(arm, ArmState.STOWED));
-        manualShoulderControl.onTrue(new ManualMoveShoulder(arm, operatorController));
-        manualElbowControl.onTrue(new ManualMoveElbow(arm, operatorController));
+        // backward.onTrue(new MoveToTarget(arm, ArmState.BACKWARD_GROUND));
+        // scoreMidR.onTrue(new MoveToTarget(arm, ArmState.SCORE_MID));
+        // scoreMidL.onTrue(new MoveToTarget(arm, ArmState.SCORE_MID));
+        // scoreHigh.onTrue(new MoveToTarget(arm, ArmState.SCORE_HIGH));
+        // stow.onTrue(new MoveToTarget(arm, ArmState.STOWED));
+        // manualShoulderControl.onTrue(new ManualMoveShoulder(arm, operatorController));
+        // manualElbowControl.onTrue(new ManualMoveElbow(arm, operatorController));
         // Claw control commands
-        clawSuckOp.onTrue(new ClawIntake(claw));
-        clawEjectOp.onTrue(new ClawEject(claw));
-        clawSuckDriver.onTrue(new ClawIntake(claw));
-        clawEjectDriver.onTrue(new ClawEject(claw));
-        clawIdle.onTrue(new ClawIdle(claw));
+        // clawSuckOp.onTrue(new ClawIntake(claw));
+        // clawEjectOp.onTrue(new ClawEject(claw));
+        // clawSuckDriver.onTrue(new ClawIntake(claw));
+        // clawEjectDriver.onTrue(new ClawEject(claw));
+        // clawIdle.onTrue(new ClawIdle(claw));
 
     }
 

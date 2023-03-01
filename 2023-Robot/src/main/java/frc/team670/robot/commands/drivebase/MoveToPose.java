@@ -7,6 +7,8 @@ import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.PathPoint;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.team670.mustanglib.commands.MustangCommand;
 import frc.team670.mustanglib.commands.MustangScheduler;
@@ -41,6 +43,7 @@ public class MoveToPose extends CommandBase implements MustangCommand {
 
     @Override
     public void initialize() {
+        SmartDashboard.putString("alliance", "" + DriverStation.getAlliance());
         this.endPose = FieldConstants.allianceFlip(endPose);
         this.startPose = driveBase.getPoseEstimator().getCurrentPose();
         PathPlannerTrajectory traj = PathPlanner.generatePath(RobotConstants.kAutoPathConstraints,
@@ -67,11 +70,11 @@ public class MoveToPose extends CommandBase implements MustangCommand {
 
     // calcs start point and points directly towards end point
     private PathPoint calcStartPoint(Pose2d nextPose) {
-        // double dx, dy;
-        // dx = nextPose.getX() - startPose.getX();
-        // dy = nextPose.getY() - startPose.getY();
-        // return new PathPoint(startPose.getTranslation(), new Rotation2d(dx, dy), startPose.getRotation());  // TODO: TEST movement angle + holomnic rotation
-        return new PathPoint(startPose.getTranslation(), startPose.getRotation());
+        double dx, dy;
+        dx = nextPose.getX() - startPose.getX();
+        dy = nextPose.getY() - startPose.getY();
+        return new PathPoint(startPose.getTranslation(), new Rotation2d(dx, dy), startPose.getRotation());  // TODO: TEST movement angle + holomnic rotation
+        // return new PathPoint(startPose.getTranslation(), startPose.getRotation());
     }
 
     // end point where robot faces end Pose
