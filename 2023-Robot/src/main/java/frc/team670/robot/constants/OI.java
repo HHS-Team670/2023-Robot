@@ -73,7 +73,7 @@ public class OI extends OIBase {
         //arm movement commands
         hybrid.onTrue(new MoveToTarget(arm, ArmState.HYBRID));
         scoreMidR.onTrue(new MoveToTarget(arm, ArmState.SCORE_MID));
-        singleStation.onTrue(new MoveToTarget(arm, ArmState.SINGLE_STATION));
+        singleStation.onTrue(new MoveToTarget(arm, claw, ArmState.SINGLE_STATION));
         scoreHigh.onTrue(new MoveToTarget(arm, ArmState.SCORE_HIGH));
         stow.onTrue(new MoveToTarget(arm, ArmState.STOWED));
         manualShoulderControl.onTrue(new ManualMoveShoulder(arm, operatorController));

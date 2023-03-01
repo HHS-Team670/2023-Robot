@@ -50,10 +50,12 @@ public class Claw extends MustangSubsystemBase {
      */
     public void startEjecting(double ejectingSpeed) {
         this.ejectingSpeed = ejectingSpeed;
+        this.isFull = true;
         setStatus(Status.EJECTING);
     }
 
     public void startIntaking() {
+        this.isFull = false;
         setStatus(Status.INTAKING);
     }
 
