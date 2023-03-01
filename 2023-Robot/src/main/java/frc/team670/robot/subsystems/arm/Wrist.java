@@ -145,16 +145,19 @@ public class Wrist extends SparkMaxRotatingSubsystem {
      * DO NOT USE DIRECTLY. Instead, use resetPositionFromAbsolute()
      */
     public void setEncoderPositionFromAbsolute() {
-        clearSetpoint();
         double absEncoderPosition = absEncoder.getAbsolutePosition();
-        double relativePosition = ((-1
-                * (absEncoderPosition - (RobotConstants.WRIST_ABSOLUTE_ENCODER_AT_VERTICAL - 0.5)) + 1)
-                * RobotConstants.WRIST_GEAR_RATIO) % RobotConstants.WRIST_GEAR_RATIO;
-        REVLibError error = rotator_encoder.setPosition(relativePosition);
-        SmartDashboard.putNumber("Wrist absEncoder position when reset", absEncoderPosition);
-        SmartDashboard.putNumber("Wrist relEncoder position when reset", relativePosition);
-        SmartDashboard.putString("Wrist error", error.toString());
-        calculatedRelativePosition = relativePosition;
+        if(absEncoderPosition != 0.0) {
+            clearSetpoint();
+            double relativePosition = ((-1
+                    * (absEncoderPosition - (RobotConstants.WRIST_ABSOLUTE_ENCODER_AT_VERTICAL - 0.5)) + 1)
+                    * RobotConstants.WRIST_GEAR_RATIO) % RobotConstants.WRIST_GEAR_RATIO;
+            REVLibError error = rotator_encoder.setPosition(relativePosition);
+            SmartDashboard.putNumber("Wrist absEncoder position when reset", absEncoderPosition);
+            SmartDashboard.putNumber("Wrist relEncoder position when reset", relativePosition);
+            SmartDashboard.putString("Wrist error", error.toString());
+            calculatedRelativePosition = relativePosition;
+
+        }
     }
 
     @Override
@@ -189,8 +192,7 @@ public class Wrist extends SparkMaxRotatingSubsystem {
      * PUBLIC method to reset the wrist position from the absolute encoder.
      */
     public void resetPositionFromAbsolute() {
-        hasSetAbsolutePosition = false;
-        counter = 0;
+        setEncoderPositionFromAbsolute();
     }
 
     @Override

@@ -83,6 +83,7 @@ public class RobotContainer extends RobotContainerBase {
 
     @Override
     public void teleopInit() {
+        arm.clearSetpoint();
     }
 
     @Override

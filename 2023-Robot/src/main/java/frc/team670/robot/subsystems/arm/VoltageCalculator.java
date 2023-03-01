@@ -60,7 +60,12 @@ public class VoltageCalculator {
         // Finally, use proportionality to convert the XCM offsets into voltages
         ArrayList<Double> voltages = new ArrayList<Double>();
         for(int i = 0; i < xCMDisplacements.size(); i++) {
-            voltages.add(armSegments[i].getArbitraryFF() * xCMDisplacements.get(i) / maxXCMDisplacements.get(i));
+            double ratio = xCMDisplacements.get(i) / maxXCMDisplacements.get(i);
+            if(ratio > 0.2)
+                voltages.add(armSegments[i].getArbitraryFF() * xCMDisplacements.get(i) / maxXCMDisplacements.get(i));
+            else
+                voltages.add(0.0);
+            
         }
 
         SmartDashboard.putString("VoltageCalculator output ", voltages.toString());

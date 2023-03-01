@@ -1,6 +1,7 @@
 package frc.team670.robot.subsystems.arm;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Map;
 import static java.util.Map.entry;
 import java.util.PriorityQueue;
@@ -48,26 +49,26 @@ public class Arm extends MustangSubsystemBase {
 
     private static final Map<ArmState, Map<ArmState, double[]>> timeDelays = Map.ofEntries(
         entry(ArmState.STOWED, Map.ofEntries( //From STOWED
-                entry(ArmState.SCORE_HIGH, new double[]{500, 0, 500}),
-                entry(ArmState.SCORE_MID, new double[]{300, 0, 300}),
-                entry(ArmState.HYBRID, new double[]{500, 500, 0})
+                entry(ArmState.SCORE_HIGH, new double[]{400, 0, 250}),
+                entry(ArmState.SCORE_MID, new double[]{400, 0, 250}),
+                entry(ArmState.HYBRID, new double[]{0, 0, 0})
             )    
         ),
         entry(ArmState.HYBRID, Map.ofEntries( //From HYBRID
-                entry(ArmState.STOWED, new double[]{0, 0, 500})
+                entry(ArmState.STOWED, new double[]{0, 0, 0})
             )
         ),
         entry(ArmState.SCORE_MID, Map.ofEntries(
-                entry(ArmState.STOWED, new double[]{0, 500, 0})
+                entry(ArmState.STOWED, new double[]{0, 250, 0})
             )
         ),
         entry(ArmState.SCORE_HIGH, Map.ofEntries( //From SCORE_HIGH
-                entry(ArmState.STOWED, new double[]{0, 500, 0})
+                entry(ArmState.STOWED, new double[]{0, 0, 0})
             )
         ),
         entry(ArmState.STARTING, Map.ofEntries( //From STARTING
-                entry(ArmState.SCORE_MID, new double[]{500, 0, 500}),
-                entry(ArmState.SCORE_HIGH, new double[]{500, 0, 500})
+                entry(ArmState.SCORE_MID, new double[]{250, 0, 250}),
+                entry(ArmState.SCORE_HIGH, new double[]{250, 0, 250})
             )
         )
     );
@@ -127,13 +128,15 @@ public class Arm extends MustangSubsystemBase {
 
         //set target positions for each joint
         double elapsedTime = System.currentTimeMillis() - startingTime;
+        
         if(!hasSetShoulderTarget && elapsedTime > currentTimeDelays[0]) {
             hasSetShoulderTarget = true;
             shoulder.setSystemTargetAngleInDegrees(targetState.getShoulderAngle());
         }
         if(!hasSetElbowTarget && elapsedTime > currentTimeDelays[1]) {
-            hasSetWristTarget = true;
-            shoulder.setSystemTargetAngleInDegrees(targetState.getElbowAngle());
+            hasSetElbowTarget = true;
+            elbow.setSystemTargetAngleInDegrees(targetState.getElbowAngle());
+            SmartDashboard.putNumber("ElapsedTime", elapsedTime);
         }
         if(!hasSetWristTarget && elapsedTime > currentTimeDelays[2]) {
             hasSetWristTarget = true;
@@ -165,11 +168,19 @@ public class Arm extends MustangSubsystemBase {
             hasSetShoulderTarget = false;
             hasSetElbowTarget = false;
             hasSetWristTarget = false;
-            
-            currentTimeDelays = timeDelays.get(this.targetState).get(target);
+
+            currentTimeDelays = null;
+            Map<ArmState, double[]> fromStartingState = timeDelays.get(this.targetState);
+            if(fromStartingState != null) {
+                currentTimeDelays = timeDelays.get(this.targetState).get(target);
+                
+            }
             if(currentTimeDelays == null) {
                 currentTimeDelays = new double[] {0, 0, 0};
             }
+            
+            SmartDashboard.putString("Arm moveToTarget()", "from " + this.targetState + " to " + target + " is " + Arrays.toString(currentTimeDelays));
+
             this.targetState = target;
 
             startingTime = System.currentTimeMillis();
@@ -294,6 +305,13 @@ public class Arm extends MustangSubsystemBase {
             }
         }
         return closestState;
+    }
+
+    public void clearSetpoint() {
+        shoulder.clearSetpoint();
+        elbow.clearSetpoint();
+        wrist.clearSetpoint();
+
     }
 
     public Shoulder getShoulder() {

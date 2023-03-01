@@ -27,6 +27,7 @@ public class Claw extends MustangSubsystemBase {
     public Claw(Arm arm) {
         this.arm = arm;
         motor = SparkMAXFactory.buildSparkMAX(RobotMap.CLAW_MOTOR, SparkMAXFactory.defaultConfig, Motor_Type.NEO);
+        motor.setInverted(true);
         status = Status.IDLE;
         motor.setIdleMode(IdleMode.kBrake);
     }
