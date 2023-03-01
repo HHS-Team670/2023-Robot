@@ -1,49 +1,36 @@
 package frc.team670.robot.commands.vision;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Transform2d;
-import edu.wpi.first.math.geometry.Transform3d;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.team670.mustanglib.commands.MustangCommand;
 import frc.team670.mustanglib.commands.MustangScheduler;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
-import frc.team670.mustanglib.subsystems.VisionSubsystemBase;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase.HealthState;
 import frc.team670.mustanglib.utils.MustangController;
-import frc.team670.mustanglib.utils.math.sort.AStarSearch;
 import frc.team670.robot.commands.drivebase.MoveToPose;
-import frc.team670.robot.commands.drivebase.PathFindMoveToPose;
 import frc.team670.robot.constants.FieldConstants;
-import frc.team670.robot.constants.RobotConstants;
-import frc.team670.robot.pathfinder.ObstacleAvoidanceAStarMap;
-import frc.team670.robot.pathfinder.PoseNode;
 import frc.team670.robot.subsystems.DriveBase;
 
 /**
- * AutoAlign - autonomously moves the robot to a given target. If no target is
- * given, it moves to
+ * AutoAlign - autonomously moves the robot to a given target. If no target is given, it moves to
  * the closest one.`
  */
 public class AutoAlign extends CommandBase implements MustangCommand {
     private DriveBase driveBase;
     private MoveToPose moveComand;
     private int goal;
-    private Pose2d[] targets = new Pose2d[12];
+    private List<Pose2d> targets = new ArrayList<>(12);
 
     MustangController controller;
     private final int CONTROLLER_RIGHT = 90;
     private final int CONTROLLER_LEFT = 90 + 180;
 
     /**
-     * AutoAligns to the closest scoring position. Stops when driver lets go of
-     * button. While
+     * AutoAligns to the closest scoring position. Stops when driver lets go of button. While
      * holding button, driver can switch to adjacent scoring locations
      */
     public AutoAlign(DriveBase driveBase, MustangController controller) {
@@ -53,9 +40,10 @@ public class AutoAlign extends CommandBase implements MustangCommand {
 
     @Override
     public void initialize() {
-        loadTargets();
+        if (targets.isEmpty())
+            loadTargets();
         goal = getClosestTargetIndex();
-        Pose2d goalPose = targets[goal];
+        Pose2d goalPose = targets.get(goal);
         moveComand = new MoveToPose(driveBase, goalPose);
         MustangScheduler.getInstance().schedule(moveComand, driveBase);
     }
@@ -92,23 +80,21 @@ public class AutoAlign extends CommandBase implements MustangCommand {
     }
 
     private void loadTargets() {
-        for (int i = 0; i < FieldConstants.Grids.scoringPoses.length; i++) {
-            targets[i] = FieldConstants.allianceFlip(FieldConstants.Grids.scoringPoses[i]);
-        }
-        for (int i = 0; i < FieldConstants.LoadingZone.IntakePoses.length; i++) {
-            targets[i + FieldConstants.Grids.scoringPoses.length] = FieldConstants
-                    .allianceFlip(FieldConstants.LoadingZone.IntakePoses[i]);
-        }
+        for (Pose2d p : FieldConstants.Grids.scoringPoses)
+            targets.add(p);
+        for (Pose2d p : FieldConstants.LoadingZone.IntakePoses)
+            targets.add(p);
+
     }
 
     private int getClosestTargetIndex() {
         Pose2d robotPose = driveBase.getPoseEstimator().getCurrentPose();
         int closest = 0;
 
-        for (int i = 0; i < targets.length; i++) {
-            closest = robotPose.getTranslation().getDistance(targets[closest].getTranslation()) > robotPose
-                    .getTranslation()
-                    .getDistance(targets[i].getTranslation()) ? i : closest;
+        for (int i = 0; i < targets.size(); i++) {
+            closest = robotPose.getTranslation()
+                    .getDistance(targets.get(i).getTranslation()) > robotPose.getTranslation()
+                            .getDistance(targets.get(i).getTranslation()) ? i : closest;
         }
         return closest;
     }
@@ -121,7 +107,7 @@ public class AutoAlign extends CommandBase implements MustangCommand {
             goal = 11;
         else {
             moveComand.cancel();
-            Pose2d goalPose = targets[goal];
+            Pose2d goalPose = targets.get(goal);
             moveComand = new MoveToPose(driveBase, goalPose);
             MustangScheduler.getInstance().schedule(moveComand, driveBase);
         }

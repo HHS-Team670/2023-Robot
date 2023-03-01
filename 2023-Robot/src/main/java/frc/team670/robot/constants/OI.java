@@ -92,7 +92,7 @@ public class OI extends OIBase {
         // moveToTarget.whileTrue(new MoveToPose(driveBase, new Pose2d(3, 3, new Rotation2d())));  // TODO: TEST movement rotation + holomnic rotation
         // autoAlign.whileTrue(new AutoAlign(driveBase, driverController)); // TODO: TEST AUTO ALIGN
 
-        // zeroGyroOp.onTrue(new SetSwerveForwardDirection(driveBase, arm));
+        zeroGyroOp.onTrue(new SetSwerveForwardDirection(driveBase));
         zeroGyroDriver.onTrue(new SetSwerveForwardDirection(driveBase));
 
 
