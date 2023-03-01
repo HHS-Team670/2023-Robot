@@ -21,15 +21,16 @@ import frc.team670.robot.subsystems.DriveBase;
  */
 public class MoveToPose extends CommandBase implements MustangCommand {
     private DriveBase driveBase;
+    private final Pose2d BLUE_RELATIVE_END_POSE;
     Pose2d endPose;
     Pose2d startPose;
     protected Map<MustangSubsystemBase, HealthState> healthReqs;
 
     private MustangPPSwerveControllerCommand pathDrivingCommand;
 
-    public MoveToPose(DriveBase driveBase, Pose2d endPose) {
+    public MoveToPose(DriveBase driveBase, Pose2d blueRelativeEndPose) {
         this.driveBase = driveBase;
-        this.endPose = endPose;
+        this.BLUE_RELATIVE_END_POSE = blueRelativeEndPose;
         this.healthReqs = new HashMap<MustangSubsystemBase, HealthState>();
         this.healthReqs.put(driveBase, HealthState.GREEN);
     }
@@ -41,7 +42,7 @@ public class MoveToPose extends CommandBase implements MustangCommand {
 
     @Override
     public void initialize() {
-        this.endPose = FieldConstants.allianceFlip(endPose);
+        this.endPose = FieldConstants.allianceFlip(BLUE_RELATIVE_END_POSE);
         this.startPose = driveBase.getPoseEstimator().getCurrentPose();
         PathPlannerTrajectory traj = PathPlanner.generatePath(RobotConstants.kAutoPathConstraints,
                 calcStartPoint(endPose), calcEndPoint(startPose));
