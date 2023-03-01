@@ -117,7 +117,19 @@ NetworkTables.addKeyListener('/SmartDashboard/pitch', (key, value) => {
     var line = document.querySelector('#leveling-line');
     angle = 2*value;
     line.style.transform = `rotate(${angle}deg)`;
-    line.style.borderColor = "#ff00ff";
+    if (value == null){
+        line.style.backgroundColor = "#ff00ff"; //pink
+        line.style.borderColor = "#ff00ff"; //pink
+    }else if (value >2){
+        line.style.backgroundColor = "#FF0000"; //red
+        line.style.borderColor = "#FF0000"; //red
+    }else if (value < -2){
+        line.style.backgroundColor = "#0000FF"; //blue
+        line.style.borderColor = "#0000FF"; //blue
+    }else if (value <=2 && value >= -2){
+        line.style.backgroundColor = "#00FF00"; //green
+        line.style.borderColor = "#00FF00"; //green
+    }
 })
 
 NetworkTables.addKeyListener('/SmartDashboard/level', (key, value) => { // TODO change key listener
