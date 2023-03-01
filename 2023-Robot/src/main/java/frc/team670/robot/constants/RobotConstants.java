@@ -80,7 +80,7 @@ public final class RobotConstants extends RobotConstantsBase {
                         entry("FRONT_LEFT_MODULE_STEER_OFFSET", -Math.toRadians(112.53)),
                         entry("SHOULDER_ABSOLUTE_ENCODER_AT_VERTICAL", 0.895),
                         entry("ELBOW_ABSOLUTE_ENCODER_AT_VERTICAL", 0.922),
-                        entry("WRIST_ABSOLUTE_ENCODER_AT_VERTICAL", 0.149),
+                        entry("WRIST_ABSOLUTE_ENCODER_AT_VERTICAL", 0.918),
                         entry("SHOULDER_GEAR_RATIO",75.0),
                         entry("ELBOW_GEAR_RATIO",90.0),
                         entry("WRIST_GEAR_RATIO",125.0)
@@ -188,7 +188,8 @@ public final class RobotConstants extends RobotConstantsBase {
     public static final int ELBOW_SOFT_LIMIT_MIN = 20;
     public static final int ELBOW_SOFT_LIMIT_MAX = 340;
     public static final int ELBOW_MAX_OVERRIDE_DEGREES  = 15;
-    public static final double ELBOW_ARBITRARY_FF = 0.0;
+    // public static final double ELBOW_ARBITRARY_FF = 0.0;
+    public static final double ELBOW_ARBITRARY_FF = 0.5;
     public static final double ELBOW_LENGTH_INCHES = 35;
     public static final double ELBOW_TO_CLAW_MASS_LB = 5.5; //TODO: set
     public static final double ELBOW_MASS_DISTRIBUTION = 0.686; //TODO: set 
