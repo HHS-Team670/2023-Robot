@@ -17,16 +17,25 @@ body {
     background: #222;
     width: 100vw;
     height: 100vh;
-    border: 40px solid transparent;
+    border: 50px solid transparent;
     z-index: 999;
 }
 
-@keyframes borderBlinkAlign {    
+@keyframes borderBlinkAlignLeft {    
     from, to {    
-        border-color: transparent    
+        border-right-color: transparent    
     }    
     50% {    
-        border-color: rgb(81, 255, 0)    
+        border-right-color: rgb(81, 255, 0)    
+    }    
+}  
+
+@keyframes borderBlinkAlignRight {    
+    from, to {    
+        border-left-color: transparent    
+    }    
+    50% {    
+        border-left-color: rgb(81, 255, 0)    
     }    
 }  
 
@@ -39,9 +48,15 @@ body {
     }    
 }  
 
-.aligned {
-    animation: borderBlinkAlign 0.5s step-end infinite;    
+
+.aligned-left {
+    animation: borderBlinkAlignLeft 0.5s step-end infinite;    
 }
+
+.aligned-right {
+    animation: borderBlinkAlignRight 0.5s step-end infinite;    
+}
+
 
 .leveled {
     animation: borderBlinkLevel 0.5s step-end infinite;    
@@ -322,11 +337,20 @@ fieldset#position {
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content: space-around;
 }
+
 
 .camera-stream {
     width: 45vw;
+    border: 1px solid rgb(8, 218, 8);
+}
+
+#mini-map {
+    width: 35vw;
+    height: 35vw;
+    margin-left: 5vw;
+    border-radius: 50%;
     border: 1px solid rgb(8, 218, 8);
 }
 

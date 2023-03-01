@@ -8,6 +8,11 @@ var allKeysPressed = new Array();
 var angle = 0;
 var selectedPath = "";
 
+
+var targets = []
+
+
+
 function updatePath(evt) {
     if (document.querySelector(".path-dropdown:hover") != null) {
         evt.preventDefault();
@@ -64,6 +69,13 @@ toggleCamera.onclick = () => {
     }
 }
 
+NetworkTables.addKeyListener('/SmartDashboard/Estimated pose'), (key, value) => {
+    // (4.25, -1.14) -16.36 degrees
+    var pose = value.split(" ")
+}
+
+
+
 
 // listens for robot-state and updates status lights and auton chooser accordingly
 NetworkTables.addKeyListener('/SmartDashboard/robot-state', (key, value) => {
@@ -106,10 +118,12 @@ NetworkTables.addKeyListener('/SmartDashboard/match-started', (key, value) => {
 // updates status lights for driveBase
 NetworkTables.addKeyListener('/SmartDashboard/aligned', (key, value) => {
     var body = document.querySelector('body');
-    if (value && !body.classList.contains("aligned")) {
-        body.classList.add("aligned");
-    } else if (!value && body.classList.contains("aligned")) {
-        body.classList.remove("aligned");
+    if (value == -1)  {
+        body.classList.add("aligned-left");
+    } else if (value === 1) {
+        body.classList.add("aligned-right");
+    } else if (value == 0) {
+        body.className = "";
     }
 });
 
