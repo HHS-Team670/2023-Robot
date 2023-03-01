@@ -89,12 +89,13 @@ NetworkTables.addKeyListener('/SmartDashboard/warnings', (key, value) => {
 });
 
 
+
 NetworkTables.addKeyListener('/SmartDashboard/match-started', (key, value) => {
     var autoSelector = document.querySelector('#auton-chooser');
     var armStates = document.querySelector('div#arm-state');
     if (value) {
         autoSelector.style.display = 'none';
-        armStates.style.display = 'block';
+        armStates.style.display = 'flex';
     } else {
         autoSelector.style.display = 'block';
         armStates.style.display = 'none';

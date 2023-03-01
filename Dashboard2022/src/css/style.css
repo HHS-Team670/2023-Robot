@@ -206,6 +206,12 @@ body.login #login {
 
 #arm-state {
     display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+#arm-state-text {
+    margin: 30px;
 }
 
 #auto-form {
