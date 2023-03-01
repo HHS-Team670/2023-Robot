@@ -71,8 +71,8 @@ public class MoveToPose extends CommandBase implements MustangCommand {
         // double dx, dy;
         // dx = nextPose.getX() - startPose.getX();
         // dy = nextPose.getY() - startPose.getY();
-        // return new PathPoint(startPose.getTranslation(), new Rotation2d(dx, dy), startPose.getRotation());  // TODO: TEST movement angle + holomnic rotation
-        return new PathPoint(startPose.getTranslation(), startPose.getRotation());
+        // return new PathPoint(startPose.getTranslation(), new Rotation2d(dx, dy), startPose.getRotation());
+        return PathPoint.fromCurrentHolonomicState(startPose, driveBase.getChassisSpeeds());
     }
 
     // end point where robot faces end Pose
