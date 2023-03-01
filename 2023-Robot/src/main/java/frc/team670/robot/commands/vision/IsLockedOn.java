@@ -1,43 +1,38 @@
 package frc.team670.robot.commands.vision;
 
 import java.util.Map;
-
-import javax.print.attribute.HashAttributeSet;
-
-import org.photonvision.targeting.PhotonPipelineResult;
-
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Transform2d;
-import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.team670.mustanglib.commands.MustangCommand;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase.HealthState;
-import frc.team670.mustanglib.subsystems.VisionSubsystemBase;
-import frc.team670.mustanglib.subsystems.drivebase.SwerveDrive;
 import frc.team670.robot.constants.RobotConstants;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.team670.robot.subsystems.DriveBase;
 
 /**
  * IsLockedOn
  */
 public class IsLockedOn extends CommandBase implements MustangCommand {
 
-    private SwerveDrive driveBase;
-    private VisionSubsystemBase vision;
-    private Pose2d currentPose;
+    private DriveBase driveBase;
     private Pose2d goalPose;
+    private STATUS turnStatus, strafeStatus, moveStatus;
 
-    public IsLockedOn(SwerveDrive driveBase, VisionSubsystemBase vision) {
-        this.driveBase = driveBase;
-        this.vision = vision;
-        addRequirements(driveBase, vision);
+    private enum STATUS {
+        MOVE_UP,
+        MOVE_DOWN,
+        MOVE_LEFT,
+        MOVE_RIGHT,
+        TURN_CLOCK,
+        TURN_COUNTERCLOCK,
+        OKAY
     }
 
-    public IsLockedOn(SwerveDrive driveBase, VisionSubsystemBase vision, Pose2d goalPose) {
+    public IsLockedOn(DriveBase driveBase, Pose2d goalPose) {
         this.driveBase = driveBase;
-        this.vision = vision;
-        addRequirements(driveBase, vision);
         this.goalPose = goalPose;
     }
 
@@ -47,70 +42,54 @@ public class IsLockedOn extends CommandBase implements MustangCommand {
     }
 
     @Override
-    public void initialize() {
-
-    }
-
-    @Override
     public void execute() {
-        // SmartDashboard.putBoolean("isLockedOn", false);
-        // // find pose of nearest target
-        // currentPose = driveBase.getPoseEstimator().getCurrentPose();
-        // PhotonPipelineResult result = vision.getCameras()[0].getLatestResult();
-        // SmartDashboard.putBoolean("has targets", result.hasTargets());
-        // if (!result.hasTargets())
-        //     return;
-
-        // Pose2d targetPose;
-
-        // if (goalPose == null) {
-        // //     Transform3d camToTarget = result.getBestTarget().getBestCameraToTarget();
-        // //     Transform2d transform = new Transform2d(camToTarget.getTranslation().toTranslation2d(),
-        // //             camToTarget.getRotation().toRotation2d());
-        // //     Pose2d cameraPose = currentPose.transformBy(new Transform2d(
-        // //             RobotConstants.CAMERA_OFFSET.inverse().getTranslation().toTranslation2d(),
-        // //             RobotConstants.CAMERA_OFFSET.inverse().getRotation().toRotation2d()));
-        // //     targetPose = cameraPose.transformBy(transform);
-        // } else {
-        //     targetPose = goalPose;
-        // }
-
-        // transform by offset (to not crash)
-        // goalPose = targetPose.transformBy(RobotConstants.GRID_TO_TARGET_OFFSET);
-        // SmartDashboard.putNumber("goal pose x", goalPose.getX());
-        // SmartDashboard.putNumber("goal pose y", goalPose.getY());
+        updatePoseAlignment();
+        SmartDashboard.putStringArray("align", new String[] {moveStatus.name(), strafeStatus.name(), turnStatus.name()});
     }
 
     @Override
     public boolean isFinished() {
         return false;
-        // if (goalPose != null) {
-        //     // SmartDashboard.putString("Target Pose", goalPose.getX() + "," + goalPose.getY());
-        //     // SmartDashboard.putString("Current Pose", currentPose.getX() + "," +
-        //     // currentPose.getY());
-        //     // SmartDashboard.putNumber("Diff x", Math.abs(currentPose.getX() - goalPose.getX()));
-        //     // SmartDashboard.putNumber("Diff y", Math.abs(currentPose.getY() - goalPose.getY()));
-        //     // SmartDashboard.putNumber("Diff rot", Math.abs(currentPose.getRotation().getDegrees()
-        //     // - goalPose.getRotation().getDegrees()));
-
-        //     return checkPoseAlignment(goalPose);
-        // } else { // check all possible scoring poses
-        //     // for()
-        // }
     }
 
     @Override
     public void end(boolean interrupted) {
         SmartDashboard.putBoolean("isLockedOn", true);
-        // vision.switchLEDS(true, true);
     }
 
-    private boolean checkPoseAlignment(Pose2d other) {
-        return Math.abs(currentPose.getX() - other.getX()) <= 0.3
-                    && Math.abs(currentPose.getY() - other.getY()) <= 0.3
-                    && Math.abs(currentPose.getRotation().getDegrees()
-                            - other.getRotation().getDegrees() - 180) <= 10;    // TODO: change angles based on camera
-                
+    private void updatePoseAlignment() {
+        Pose2d currentPose = driveBase.getPoseEstimator().getCurrentPose();
+        double driverDX = allianceAdjustment(goalPose.getX() - currentPose.getX());
+        double driverDY = allianceAdjustment(goalPose.getY() - currentPose.getY());
+        double dRot = goalPose.getRotation().getDegrees() - currentPose.getRotation().getDegrees();
+        
+        if (driverDX > RobotConstants.LOCKED_ON_ERROR_X) {
+            moveStatus = STATUS.MOVE_UP;
+        } else if (driverDX < RobotConstants.LOCKED_ON_ERROR_X) {
+            moveStatus = STATUS.MOVE_DOWN;
+        } else {
+            moveStatus = STATUS.OKAY;
+        }
+        
+        if (driverDY > RobotConstants.LOCKED_ON_ERROR_Y) {
+            moveStatus = STATUS.MOVE_RIGHT;
+        } else if (driverDY < RobotConstants.LOCKED_ON_ERROR_Y) {
+            moveStatus = STATUS.MOVE_LEFT;
+        } else {
+            moveStatus = STATUS.OKAY;
+        }
+        
+        if (dRot > RobotConstants.LOCKED_ON_ERROR_DEGREES) {
+            moveStatus = STATUS.TURN_CLOCK;
+        } else if (dRot < RobotConstants.LOCKED_ON_ERROR_DEGREES) {
+            moveStatus = STATUS.TURN_COUNTERCLOCK;
+        } else {
+            moveStatus = STATUS.OKAY;
+        }
+    }
+
+    private double allianceAdjustment(double n) {
+        return DriverStation.getAlliance() == Alliance.Blue ? n : -1 * n;
     }
 
 }
