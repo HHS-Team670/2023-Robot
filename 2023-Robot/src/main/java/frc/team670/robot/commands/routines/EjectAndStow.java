@@ -28,6 +28,8 @@ public class EjectAndStow extends SequentialCommandGroup implements MustangComma
         addCommands(new ClawEject(claw), new MoveToTarget(arm, claw, ArmState.STOWED));
     }
 
+    
+
     @Override
     public Map<MustangSubsystemBase, HealthState> getHealthRequirements() {
         return healthReqs;

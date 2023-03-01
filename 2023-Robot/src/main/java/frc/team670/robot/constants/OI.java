@@ -10,6 +10,7 @@ import frc.team670.mustanglib.utils.MustangController.XboxButtons;
 import frc.team670.robot.commands.arm.ManualMoveElbow;
 import frc.team670.robot.commands.arm.ManualMoveShoulder;
 import frc.team670.robot.commands.arm.MoveToTarget;
+import frc.team670.robot.commands.arm.ResetArmFromAbsolute;
 import frc.team670.robot.commands.claw.ClawIntake;
 import frc.team670.robot.commands.routines.EjectAndStow;
 import frc.team670.robot.commands.claw.ClawIdle;
@@ -26,8 +27,7 @@ public class OI extends OIBase {
 
     // Driver buttons
     // private static JoystickButton zeroArm = new JoystickButton(driverController, XboxButtons.START);
-    private static JoystickButton moveToTarget = new JoystickButton(driverController, XboxButtons.Y);
-    private static JoystickButton zeroGyroOp = new JoystickButton(operatorController, XboxButtons.START);
+    private static JoystickButton zeroArm = new JoystickButton(operatorController, XboxButtons.START);
     private static JoystickButton zeroGyroDriver = new JoystickButton(driverController, XboxButtons.START);
 
     // Operator buttons
@@ -67,13 +67,13 @@ public class OI extends OIBase {
         // zeroGyro.onTrue(new SetSwerveForwardDirection(driveBase, arm));
         // moveToTarget.whileTrue(new PathFindMoveToPose(driveBase, new Pose2d((FieldConstants.Grids.complexLowTranslations[1]), new Rotation2d())));
         // moveToTarget.whileTrue(new MoveToPose(driveBase, new Pose2d((FieldConstants.Grids.complexLowTranslations[1]), new Rotation2d())));
-        zeroGyroOp.onTrue(new SetSwerveForwardDirection(driveBase, arm));
-        zeroGyroDriver.onTrue(new SetSwerveForwardDirection(driveBase, arm));
+        zeroGyroDriver.onTrue(new SetSwerveForwardDirection(driveBase));
+        zeroArm.onTrue(new ResetArmFromAbsolute(arm));
 
         //arm movement commands
         hybrid.onTrue(new MoveToTarget(arm, ArmState.HYBRID));
         scoreMidR.onTrue(new MoveToTarget(arm, ArmState.SCORE_MID));
-        singleStation.onTrue(new MoveToTarget(arm, ArmState.SINGLE_STATION));
+        singleStation.onTrue(new MoveToTarget(arm, claw, ArmState.SINGLE_STATION));
         scoreHigh.onTrue(new MoveToTarget(arm, ArmState.SCORE_HIGH));
         stow.onTrue(new MoveToTarget(arm, ArmState.STOWED));
         manualShoulderControl.onTrue(new ManualMoveShoulder(arm, operatorController));

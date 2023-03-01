@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import frc.team670.mustanglib.RobotContainerBase;
 import frc.team670.mustanglib.commands.MustangCommand;
+import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 import frc.team670.mustanglib.utils.MustangController;
 import frc.team670.robot.constants.OI;
 import frc.team670.robot.subsystems.Claw;
@@ -40,9 +41,12 @@ public class RobotContainer extends RobotContainerBase {
 
     public RobotContainer() {
         super();
-        //addSubsystem(driveBase, vision, arm, arm.getShoulder(), arm.getElbow(), arm.getWrist(), claw);
-        addSubsystem(arm, driveBase);
+        addSubsystem(driveBase, vision, arm, arm.getShoulder(), arm.getElbow(), arm.getWrist(), claw);
         oi.configureButtonBindings(driveBase, vision, arm, claw);
+
+        for(MustangSubsystemBase subsystem : this.getSubsystems()) {
+            subsystem.setDebugSubsystem(true);
+        }
     }
 
     @Override
@@ -79,6 +83,7 @@ public class RobotContainer extends RobotContainerBase {
 
     @Override
     public void teleopInit() {
+        arm.clearSetpoint();
     }
 
     @Override

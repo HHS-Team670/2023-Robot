@@ -27,6 +27,7 @@ public class Claw extends MustangSubsystemBase {
     public Claw(Arm arm) {
         this.arm = arm;
         motor = SparkMAXFactory.buildSparkMAX(RobotMap.CLAW_MOTOR, SparkMAXFactory.defaultConfig, Motor_Type.NEO);
+        motor.setInverted(true);
         status = Status.IDLE;
         motor.setIdleMode(IdleMode.kBrake);
     }
@@ -49,10 +50,12 @@ public class Claw extends MustangSubsystemBase {
      */
     public void startEjecting(double ejectingSpeed) {
         this.ejectingSpeed = ejectingSpeed;
+        this.isFull = true;
         setStatus(Status.EJECTING);
     }
 
     public void startIntaking() {
+        this.isFull = false;
         setStatus(Status.INTAKING);
     }
 
