@@ -72,19 +72,19 @@ public class IsLockedOn extends CommandBase implements MustangCommand {
         }
         
         if (driverDY > RobotConstants.LOCKED_ON_ERROR_Y) {
-            moveStatus = STATUS.MOVE_RIGHT;
+            strafeStatus = STATUS.MOVE_RIGHT;
         } else if (driverDY < RobotConstants.LOCKED_ON_ERROR_Y) {
-            moveStatus = STATUS.MOVE_LEFT;
+            strafeStatus = STATUS.MOVE_LEFT;
         } else {
-            moveStatus = STATUS.OKAY;
+            strafeStatus = STATUS.OKAY;
         }
         
         if (dRot > RobotConstants.LOCKED_ON_ERROR_DEGREES) {
-            moveStatus = STATUS.TURN_CLOCK;
+            turnStatus = STATUS.TURN_CLOCK;
         } else if (dRot < RobotConstants.LOCKED_ON_ERROR_DEGREES) {
-            moveStatus = STATUS.TURN_COUNTERCLOCK;
+            turnStatus = STATUS.TURN_COUNTERCLOCK;
         } else {
-            moveStatus = STATUS.OKAY;
+            turnStatus = STATUS.OKAY;
         }
     }
 
