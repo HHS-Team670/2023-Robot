@@ -49,8 +49,8 @@ public class RobotContainer extends RobotContainerBase {
 
     @Override
     public void robotInit() {
-        driveBase.initPoseEstimator(vision);
-        
+        driveBase.initVision(vision);
+
         updateArbitraryFeedForwards = new Notifier(new Runnable() {
             public void run() {
                 arm.updateArbitraryFeedForwards();
@@ -105,7 +105,8 @@ public class RobotContainer extends RobotContainerBase {
     @Override
     public void periodic() {
         // TODO Auto-generated method stub
-        // SmartDashboard.putString("alliance", "" + DriverStationJNI.getAllianceStation());
+        // SmartDashboard.putString("alliance", "" +
+        // DriverStationJNI.getAllianceStation());
     }
 
     @Override
@@ -115,15 +116,12 @@ public class RobotContainer extends RobotContainerBase {
     }
 
     public MustangController getOperatorController() {
-        // TODO Auto-generated method stub
-        return null;
+        return OI.getOperatorController();
     }
 
     public MustangController getDriverController() {
         return OI.getDriverController();
     }
-
-    
 
     public MustangController getBackupController() {
         // TODO Auto-generated method stub
