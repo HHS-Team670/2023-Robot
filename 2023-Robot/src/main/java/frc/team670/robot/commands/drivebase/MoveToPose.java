@@ -14,6 +14,7 @@ import frc.team670.mustanglib.commands.MustangCommand;
 import frc.team670.mustanglib.commands.MustangScheduler;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase.HealthState;
+import frc.team670.robot.commands.vision.IsLockedOn;
 import frc.team670.robot.constants.FieldConstants;
 import frc.team670.robot.constants.RobotConstants;
 import frc.team670.robot.subsystems.DriveBase;
@@ -45,6 +46,7 @@ public class MoveToPose extends CommandBase implements MustangCommand {
     @Override
     public void initialize() {
         this.endPose = FieldConstants.allianceFlip(BLUE_RELATIVE_END_POSE);
+        SmartDashboard.putString("MOVETOPOSE: END POSE", String.format("(%.2f, %.2f)", endPose.getX(), endPose.getY()));
         this.startPose = driveBase.getPoseEstimator().getCurrentPose();
         PathPlannerTrajectory traj = PathPlanner.generatePath(RobotConstants.kAutoPathConstraints,
                 calcStartPoint(endPose), calcEndPoint(startPose));
@@ -52,6 +54,7 @@ public class MoveToPose extends CommandBase implements MustangCommand {
 
         pathDrivingCommand = driveBase.getFollowTrajectoryCommand(traj);
         MustangScheduler.getInstance().schedule(pathDrivingCommand, driveBase);
+        MustangScheduler.getInstance().schedule(new IsLockedOn(driveBase, endPose));
     }
 
     @Override

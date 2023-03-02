@@ -42,8 +42,8 @@ public class OI extends OIBase {
     //private static JoystickButton zeroArm = new JoystickButton(driverController, XboxButtons.START);
     // private static JoystickButton zeroGyro = new
     // JoystickButton(operatorController, XboxButtons.START);
-    // private static JoystickButton moveToTarget = new JoystickButton(driverController, XboxButtons.Y);
-    private static JoystickButton autoAlign = new JoystickButton(driverController, XboxButtons.Y);   // TODO: TEST AUTO ALIGN
+    private static JoystickButton moveToTarget = new JoystickButton(driverController, XboxButtons.Y);
+    // private static JoystickButton autoAlign = new JoystickButton(driverController, XboxButtons.Y);   // TODO: TEST AUTO ALIGN
     private static JoystickButton zeroGyroOp = new JoystickButton(operatorController, XboxButtons.START);
     private static JoystickButton zeroGyroDriver = new JoystickButton(driverController, XboxButtons.START);
 
@@ -87,10 +87,9 @@ public class OI extends OIBase {
         driveBase.initDefaultCommand();
 
         // zeroGyro.onTrue(new SetSwerveForwardDirection(driveBase, arm));
-        // moveToTarget.whileTrue(new MoveToPose(driveBase, (FieldConstants.Grids.scoringPoses[1])));
+        moveToTarget.whileTrue(new MoveToPose(driveBase, (FieldConstants.Grids.scoringPoses[1])));
         // moveToTarget.whileTrue(new MoveToPose(driveBase, (FieldConstants.LoadingZone.IntakePoses[0]))); // @tarini TODO: TEST SINGLE SUBSTATION MOVE TO POSE
-        // moveToTarget.whileTrue(new MoveToPose(driveBase, new Pose2d(3, 3, new Rotation2d())));  // TODO: TEST movement rotation + holomnic rotation
-        autoAlign.whileTrue(new AutoAlign(driveBase, driverController)); // TODO: TEST AUTO ALIGN
+        // autoAlign.whileTrue(new AutoAlign(driveBase, driverController)); // TODO: TEST AUTO ALIGN
 
         zeroGyroOp.onTrue(new SetSwerveForwardDirection(driveBase));
         zeroGyroDriver.onTrue(new SetSwerveForwardDirection(driveBase));

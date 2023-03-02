@@ -44,6 +44,8 @@ public class AutoAlign extends CommandBase implements MustangCommand {
             loadTargets();
         goal = getClosestTargetIndex();
         Pose2d goalPose = targets.get(goal);
+        SmartDashboard.putString("AUTOALIGN: END POSE", String.format("(%.2f, %.2f)", goalPose.getX(), goalPose.getY()));
+
         moveComand = new MoveToPose(driveBase, goalPose);
         MustangScheduler.getInstance().schedule(moveComand, driveBase);
     }
@@ -85,6 +87,11 @@ public class AutoAlign extends CommandBase implements MustangCommand {
         for (Pose2d p : FieldConstants.LoadingZone.IntakePoses)
             targets.add(p);
 
+        targets.forEach(
+            p -> {
+                SmartDashboard.putString(p.toString(), String.format("(%.2f, %.2f)", p.getX(), p.getY()));
+            }
+        );
     }
 
     private int getClosestTargetIndex() {
@@ -93,8 +100,8 @@ public class AutoAlign extends CommandBase implements MustangCommand {
 
         for (int i = 0; i < targets.size(); i++) {
             closest = robotPose.getTranslation()
-                    .getDistance(targets.get(i).getTranslation()) > robotPose.getTranslation()
-                            .getDistance(targets.get(i).getTranslation()) ? i : closest;
+                    .getDistance(targets.get(i).getTranslation()) < robotPose.getTranslation()
+                            .getDistance(targets.get(closest).getTranslation()) ? i : closest;
         }
         return closest;
     }
