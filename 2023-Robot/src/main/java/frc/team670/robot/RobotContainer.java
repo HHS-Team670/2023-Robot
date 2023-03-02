@@ -52,7 +52,8 @@ public class RobotContainer extends RobotContainerBase {
 
     @Override
     public void robotInit() {
-        driveBase.initPoseEstimator(vision);
+        driveBase.initVision(vision);
+
         updateArbitraryFeedForward = new Notifier(new Runnable() {
             public void run() {
                 arm.updateArbitraryFeedForward();
@@ -118,8 +119,6 @@ public class RobotContainer extends RobotContainerBase {
     public MustangController getDriverController() {
         return OI.getDriverController();
     }
-
-    
 
     public MustangController getBackupController() {
         return null;
