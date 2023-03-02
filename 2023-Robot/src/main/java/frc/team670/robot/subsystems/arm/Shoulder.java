@@ -4,6 +4,7 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMax.SoftLimitDirection;
 
 import frc.team670.mustanglib.utils.Logger;
+import frc.team670.mustanglib.utils.functions.MathUtils;
 import frc.team670.mustanglib.utils.motorcontroller.MotorConfig;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -244,6 +245,11 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
     // TODO: Move to mustang lib after testing;
     public double getSetpoint() {
         return setpoint;
+    }
+
+    @Override
+    public boolean hasReachedTargetPosition() {
+        return (MathUtils.doublesEqual(rotator_encoder.getPosition(), setpoint, RobotConstants.SHOULDER_ALLOWED_ERR_DEG));
     }
 
     @Override
