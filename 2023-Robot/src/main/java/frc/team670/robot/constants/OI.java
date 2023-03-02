@@ -42,31 +42,31 @@ public class OI extends OIBase {
     //private static JoystickButton zeroArm = new JoystickButton(driverController, XboxButtons.START);
     // private static JoystickButton zeroGyro = new
     // JoystickButton(operatorController, XboxButtons.START);
-    private static JoystickButton moveToTarget = new JoystickButton(driverController, XboxButtons.Y);
-    // private static JoystickButton autoAlign = new JoystickButton(driverController, XboxButtons.Y);   // TODO: TEST AUTO ALIGN
+    // private static JoystickButton moveToTarget = new JoystickButton(driverController, XboxButtons.Y);
+    private static JoystickButton autoAlign = new JoystickButton(driverController, XboxButtons.Y);   // TODO: TEST AUTO ALIGN
     private static JoystickButton zeroGyroOp = new JoystickButton(operatorController, XboxButtons.START);
     private static JoystickButton zeroGyroDriver = new JoystickButton(driverController, XboxButtons.START);
 
 
     // Operator buttons
 
-    private static POVButton backward = new POVButton(operatorController, 180);
-    private static POVButton scoreMidR = new POVButton(operatorController, 90);
-    private static POVButton scoreMidL = new POVButton(operatorController, 270);
-    private static POVButton scoreHigh = new POVButton(operatorController, 0);
+    // private static POVButton backward = new POVButton(operatorController, 180);
+    // private static POVButton scoreMidR = new POVButton(operatorController, 90);
+    // private static POVButton scoreMidL = new POVButton(operatorController, 270);
+    // private static POVButton scoreHigh = new POVButton(operatorController, 0);
 
-    private static JoystickButton stow = new JoystickButton(operatorController, XboxButtons.B);
-    private static JoystickButton manualElbowControl = new JoystickButton(operatorController,
-            XboxButtons.RIGHT_JOYSTICK_BUTTON);
-    private static JoystickButton manualShoulderControl = new JoystickButton(operatorController,
-            XboxButtons.LEFT_JOYSTICK_BUTTON);
+    // private static JoystickButton stow = new JoystickButton(operatorController, XboxButtons.B);
+    // private static JoystickButton manualElbowControl = new JoystickButton(operatorController,
+    //         XboxButtons.RIGHT_JOYSTICK_BUTTON);
+    // private static JoystickButton manualShoulderControl = new JoystickButton(operatorController,
+    //         XboxButtons.LEFT_JOYSTICK_BUTTON);
 
     // TODO Operator Bumpers should be used for leds
-    private static JoystickButton clawSuckOp = new JoystickButton(operatorController, XboxButtons.RIGHT_BUMPER);
-    private static JoystickButton clawEjectOp = new JoystickButton(operatorController, XboxButtons.LEFT_BUMPER);
-    private static JoystickButton clawIdle = new JoystickButton(operatorController, XboxButtons.Y);
-    private static JoystickButton clawSuckDriver = new JoystickButton(driverController, XboxButtons.RIGHT_BUMPER);
-    private static JoystickButton clawEjectDriver = new JoystickButton(driverController, XboxButtons.LEFT_BUMPER);
+    // private static JoystickButton clawSuckOp = new JoystickButton(operatorController, XboxButtons.RIGHT_BUMPER);
+    // private static JoystickButton clawEjectOp = new JoystickButton(operatorController, XboxButtons.LEFT_BUMPER);
+    // private static JoystickButton clawIdle = new JoystickButton(operatorController, XboxButtons.Y);
+    // private static JoystickButton clawSuckDriver = new JoystickButton(driverController, XboxButtons.RIGHT_BUMPER);
+    // private static JoystickButton clawEjectDriver = new JoystickButton(driverController, XboxButtons.LEFT_BUMPER);
 
 
     public static MustangController getDriverController() {
@@ -88,9 +88,9 @@ public class OI extends OIBase {
 
         // zeroGyro.onTrue(new SetSwerveForwardDirection(driveBase, arm));
         // moveToTarget.whileTrue(new MoveToPose(driveBase, (FieldConstants.Grids.scoringPoses[1])));
-        moveToTarget.whileTrue(new MoveToPose(driveBase, (FieldConstants.LoadingZone.IntakePoses[0]))); // @tarini TODO: TEST SINGLE SUBSTATION MOVE TO POSE
+        // moveToTarget.whileTrue(new MoveToPose(driveBase, (FieldConstants.LoadingZone.IntakePoses[0]))); // @tarini TODO: TEST SINGLE SUBSTATION MOVE TO POSE
         // moveToTarget.whileTrue(new MoveToPose(driveBase, new Pose2d(3, 3, new Rotation2d())));  // TODO: TEST movement rotation + holomnic rotation
-        // autoAlign.whileTrue(new AutoAlign(driveBase, driverController)); // TODO: TEST AUTO ALIGN
+        autoAlign.whileTrue(new AutoAlign(driveBase, driverController)); // TODO: TEST AUTO ALIGN
 
         zeroGyroOp.onTrue(new SetSwerveForwardDirection(driveBase));
         zeroGyroDriver.onTrue(new SetSwerveForwardDirection(driveBase));
