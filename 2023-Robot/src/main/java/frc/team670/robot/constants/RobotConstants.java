@@ -216,7 +216,7 @@ public final class RobotConstants extends RobotConstantsBase {
 
     // claw constants
     public static final double CLAW_ROLLING_SPEED = 0.75;
-    public static final double CLAW_EJECTING_SPEED = -0.6;
+    public static final double CLAW_EJECTING_SPEED = -0.7;
     public static final double CLAW_CURRENT_MAX = 23.0;
     public static final double CLAW_IDLE_SPEED = 0.05;
     public static final int CLAW_EJECT_ITERATIONS = 25;

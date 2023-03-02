@@ -33,16 +33,17 @@ public class CubeEngage extends SequentialCommandGroup implements MustangCommand
     }
 
     public CubeEngage(DriveBase driveBase, Claw claw, Arm arm, String pathName) {
-        List<PathPlannerTrajectory> trajectoryGroup = PathPlanner.loadPathGroup(pathName, 2, 1);
+        List<PathPlannerTrajectory> trajectoryGroup = PathPlanner.loadPathGroup(pathName, 1.5, 0.75);
 
         PIDConstants PID_translation = new PIDConstants(1.0, 0, 0);
         PIDConstants PID_theta = new PIDConstants(1.0, 0, 0);
 
-        driveBase.resetOdometry(trajectoryGroup.get(0).getInitialHolonomicPose());
-
         Map<String, Command> eventMap = new HashMap<>();
 
-        eventMap.put("clawIntake1", new ClawIntake(claw));
+        // driveBase.resetOdometry(trajectoryGroup.get(0).getInitialHolonomicPose());
+        // driveBase.zeroGyroscope();
+
+        // eventMap.put("clawIntake1", new ClawIntake(claw));
         eventMap.put("moveToMid", new MoveToTarget(arm, ArmState.SCORE_MID));
         eventMap.put("clawEject", new ClawEject(claw));
         eventMap.put("moveToStowed", new MoveToTarget(arm, ArmState.STOWED));

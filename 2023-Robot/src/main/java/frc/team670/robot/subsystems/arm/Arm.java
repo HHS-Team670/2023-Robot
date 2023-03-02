@@ -60,17 +60,17 @@ public class Arm extends MustangSubsystemBase {
             )
         ),
         entry(ArmState.SCORE_MID, Map.ofEntries(
-                entry(ArmState.STOWED, new double[]{0, 250, 0})
+                entry(ArmState.STOWED, new double[]{0, 250, 0}),
                 entry(ArmState.HYBRID, new double[]{0, 250, 0})
             )
         ),
         entry(ArmState.SCORE_HIGH, Map.ofEntries( //From SCORE_HIGH
-                entry(ArmState.STOWED, new double[]{0, 0, 0})
+                entry(ArmState.STOWED, new double[]{0, 0, 0}),
                 entry(ArmState.HYBRID, new double[]{250, 500, 0})
             )
         ),
         entry(ArmState.STARTING, Map.ofEntries( //From STARTING
-                entry(ArmState.SCORE_MID, new double[]{250, 0, 250}),
+                entry(ArmState.SCORE_MID, new double[]{500, 0, 500}),
                 entry(ArmState.SCORE_HIGH, new double[]{250, 0, 250})
             )
         )

@@ -49,8 +49,8 @@ public class Elbow extends SparkMaxRotatingSubsystem {
         }
 
         public double getP() {
-            // return 0.0011;
-            return 0;
+            return 0.0011;
+            // return 0;
         }
 
         public double getI() {
