@@ -9,7 +9,7 @@ import frc.team670.mustanglib.utils.LEDColor;
  * Represents the LED light strips on the robot.
  * These LEDs change color depending on the selected autonomous path, the number of cargo in the conveyor, and the shooting status.
  * 
- * @author AkshatAdsule, LakshBhambhani, Anomalous-0
+ * @author AkshatAdsule, LakshBhambhani, Anomalous-0, Aayush Gaywala
  */
 
  public class LED extends LEDSubsystem {
