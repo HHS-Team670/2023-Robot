@@ -31,27 +31,44 @@ function resetAndAddDropdownListeners() {
     }
 }
 
-function setPaths(side) { // Todo
+//function setPaths(side) { // Todo
+function setPaths() { // Todo
+
     var content = document.querySelector(".dropup-content");
     content.innerHTML = "";
 
-    switch(side) {
-        case 'left':
-            var option1 = document.createElement("p");
-            option1.appendChild(document.createTextNode(""));
-            content.append(option1);
-        case 'middle':
-        case 'right': 
-    }
+    var p1 = document.createElement("p");
+    p1.appendChild(document.createTextNode("cableScore"));
+    
+    var p2 = document.createElement("p");
+    p2.appendChild(document.createTextNode("stationScore"));
+
+    var p3 = document.createElement("p");
+    p3.appendChild(document.createTextNode("cableEngage"));
+
+    var p4 = document.createElement("p");
+    p4.appendChild(document.createTextNode("stationEngage"));
+
+    content.append(p1, p2, p3, p4);
+    // switch(side) {
+    //     case 'left':
+    //         var option1 = document.createElement("p");
+    //         option1.appendChild(document.createTextNode(""));
+    //         content.append(option1);
+    //     case 'middle':
+    //     case 'right': 
+    // }
     resetAndAddDropdownListeners();
 }
 
-var left = document.querySelector('#Left');
-left.onclick = () => {setPaths('left')};
-var middle = document.querySelector('#Middle');
-middle.onclick = () => {setPaths('middle')};
-var right = document.querySelector('#Right');
-right.onclick = () => {setPaths('right')};
+setPaths();
+
+// var left = document.querySelector('#Left');
+// left.onclick = () => {setPaths('left')};
+// var middle = document.querySelector('#Middle');
+// middle.onclick = () => {setPaths('middle')};
+// var right = document.querySelector('#Right');
+// right.onclick = () => {setPaths('right')};
 
 
 var toggleCamera = document.querySelector('#toggle-camera');
@@ -350,39 +367,38 @@ function getAutonFromMap() {
     // console.log("SELECTED VALUE", document.querySelector('input[name="path"]:checked').value);
     console.log("SELECTED VALUE", selectedPath);
     // switch (document.querySelector('input[name="path"]:checked').value) {
-    if (document.querySelector('input[name="hub-type"]:checked') != null) {
-        switch (document.querySelector('input[name="hub-type"]:checked').value) {
-            case "Left":
+    // if (document.querySelector('input[name="hub-type"]:checked') != null) {
+    //     switch (document.querySelector('input[name="hub-type"]:checked').value) {
+    //         case "Left":
                 switch(selectedPath) { // Todo
-                    case "ATarmacEdge2Ball":
+                    case "cableScore":
                         return 0.0;
-                    case "BTarmacEdgeCenter2Ball":
+                    case "stationScore":
                         return 1.0;
-                    case "BTarmacEdgeLower2Ball":
+                    case "cableEngage":
                         return 2.0;
-                    case "BTarmacHighHubTerminal":
+                    case "stationEngage":
                         return 3.0;
                 }
-            case "Middle": // Todo 
-                switch(selectedPath) {
-                    case "ATarmacEdge2Ball":
-                        return 4.0;
-                    case "BTarmacEdgeCenter2Ball":
-                        return 5.0;
-                    case "BTarmacEdgeLower2Ball":
-                        return 6.0;
-                }
-            case "Right": // Todo
-                switch(selectedPath) {
-                    case "ATarmacEdge2Ball":
-                        return 4.0;
-                    case "BTarmacEdgeCenter2Ball":
-                        return 5.0;
-                    case "BTarmacEdgeLower2Ball":
-                        return 6.0;
-                }
-        }
-    }
+            // case "Middle": // Todo 
+            //     switch(selectedPath) {
+            //         case "ATarmacEdge2Ball":
+            //             return 4.0;
+            //         case "BTarmacEdgeCenter2Ball":
+            //             return 5.0;
+            //         case "BTarmacEdgeLower2Ball":
+            //             return 6.0;
+            //     }
+            // case "Right": // Todo
+            //     switch(selectedPath) {
+            //         case "ATarmacEdge2Ball":
+            //             return 4.0;
+            //         case "BTarmacEdgeCenter2Ball":
+            //             return 5.0;
+            //         case "BTarmacEdgeLower2Ball":
+            //             return 6.0;
+            //     }
+        
     return -1;
 }
 
