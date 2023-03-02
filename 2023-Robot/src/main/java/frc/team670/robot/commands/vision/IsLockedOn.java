@@ -7,21 +7,15 @@ import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import javax.print.attribute.HashAttributeSet;
 
-import org.photonvision.targeting.PhotonPipelineResult;
-
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.team670.mustanglib.commands.MustangCommand;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 import frc.team670.mustanglib.subsystems.VisionSubsystemBase;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase.HealthState;
 import frc.team670.mustanglib.subsystems.drivebase.SwerveDrive;
-import frc.team670.robot.constants.RobotConstants;
-import frc.team670.mustanglib.subsystems.VisionSubsystemBase;
-import frc.team670.mustanglib.subsystems.drivebase.SwerveDrive;
+import frc.team670.mustanglib.utils.Logger;
 import frc.team670.robot.constants.RobotConstants;
 import frc.team670.robot.subsystems.DriveBase;
 
@@ -85,19 +79,19 @@ public class IsLockedOn extends CommandBase implements MustangCommand {
         }
         
         if (driverDY > RobotConstants.LOCKED_ON_ERROR_Y) {
-            moveStatus = STATUS.MOVE_RIGHT;
+            strafeStatus = STATUS.MOVE_RIGHT;
         } else if (driverDY < RobotConstants.LOCKED_ON_ERROR_Y) {
-            moveStatus = STATUS.MOVE_LEFT;
+            strafeStatus = STATUS.MOVE_LEFT;
         } else {
-            moveStatus = STATUS.OKAY;
+            strafeStatus = STATUS.OKAY;
         }
         
         if (dRot > RobotConstants.LOCKED_ON_ERROR_DEGREES) {
-            moveStatus = STATUS.TURN_CLOCK;
+            turnStatus = STATUS.TURN_CLOCK;
         } else if (dRot < RobotConstants.LOCKED_ON_ERROR_DEGREES) {
-            moveStatus = STATUS.TURN_COUNTERCLOCK;
+            turnStatus = STATUS.TURN_COUNTERCLOCK;
         } else {
-            moveStatus = STATUS.OKAY;
+            turnStatus = STATUS.OKAY;
         }
     }
 

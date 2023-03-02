@@ -134,13 +134,45 @@ NetworkTables.addKeyListener('/SmartDashboard/match-started', (key, value) => {
 
 // updates status lights for driveBase
 NetworkTables.addKeyListener('/SmartDashboard/aligned', (key, value) => {
+    // MOVE_UP,
+    //    MOVE_DOWN,
+    //    MOVE_LEFT,
+    //    MOVE_RIGHT,
+    //    TURN_CLOCK,
+    //    TURN_COUNTERCLOCK,
+    //    OKAY
+
+    var moveStatus = value[0];
+    var strafeStatus = value[1];
+    var turnStatus = value[2];
+
     var body = document.querySelector('body');
-    if (value == -1)  {
-        body.classList.add("aligned-left");
-    } else if (value === 1) {
-        body.classList.add("aligned-right");
-    } else if (value == 0) {
-        body.className = "";
+
+    body.classList.remove(string.match(/aligned.*/))
+
+    switch (moveStatus) {
+        case "MOVE_UP":
+            body.classList.add("aligned-up")
+        case "MOVE_DOWN":
+            body.classList.add("aligned-down")
+    }
+
+    switch (strafeStatus) {
+        case "MOVE_RIGHT":
+            body.classList.add("aligned-right")
+        case "MOVE_LEFT":
+            body.classList.add("aligned-left")
+    }
+
+    var clockwiseArrow = document.querySelector("#clockwise");
+    var counterClockwiseArrow = document.querySelector("#counter-clockwise");
+    clockwiseArrow.style.display = "none";
+    counterClockwiseArrow.style.display = "none";
+    switch (turnStatus) {
+        case "TURN_CLOCK":
+            clockwiseArrow.style.display = "block";
+        case "TURN_COUNTERCLOCK":
+            counterClockwiseArrow.style.display = "block";
     }
 });
 
