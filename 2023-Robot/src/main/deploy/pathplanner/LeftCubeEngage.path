@@ -17,9 +17,10 @@
       "isStopPoint": false,
       "stopEvent": {
         "names": [
+          "clawIntake1",
           "moveToHigh",
           "clawEject",
-          "moveToStowed1"
+          "moveToGround"
         ],
         "executionBehavior": "sequential",
         "waitBehavior": "none",
@@ -46,9 +47,7 @@
       "isStopPoint": true,
       "stopEvent": {
         "names": [
-          "moveToBackwards",
-          "clawIntake",
-          "moveToStowed2"
+          "clawIntake2"
         ],
         "executionBehavior": "sequential",
         "waitBehavior": "none",
