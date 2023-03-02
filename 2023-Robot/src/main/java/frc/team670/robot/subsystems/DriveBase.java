@@ -7,6 +7,7 @@ package frc.team670.robot.subsystems;
 
 import com.pathplanner.lib.PathPlannerTrajectory;
 import edu.wpi.first.wpilibj2.command.Subsystem;
+import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import frc.team670.mustanglib.commands.MustangCommand;
 import frc.team670.mustanglib.commands.MustangScheduler;
 import frc.team670.mustanglib.commands.drive.teleop.XboxSwerveDrive;
@@ -87,11 +88,12 @@ public class DriveBase extends SwerveDrive {
       public void cancelDefaultCommand() {
             MustangScheduler.getInstance().cancel(defaultCommand);
       }
-      public void mustangPeriodic(){
+
+      public void mustangPeriodic() {
             super.mustangPeriodic();
             debugSubsystem();
       }
-  
+
       @Override
       public HealthState checkHealth() {
             return HealthState.GREEN;
@@ -99,14 +101,18 @@ public class DriveBase extends SwerveDrive {
 
       @Override
       public void debugSubsystem() {
-            SmartDashboard.putNumber("pitch",getPitch());
+            SmartDashboard.putNumber("pitch", getPitch());
 
       }
 
-      public MustangPPSwerveControllerCommand getFollowTrajectoryCommand(PathPlannerTrajectory traj) {
-            return new MustangPPSwerveControllerCommand(traj, getPoseEstimator()::getCurrentPose,
-                        getSwerveKinematics(), RobotConstants.xController,
-                        RobotConstants.yController, RobotConstants.thetaController,
-                        this::setModuleStates, new Subsystem[] {this});
+      public MustangPPSwerveControllerCommand getFollowTrajectoryCommand(
+                  PathPlannerTrajectory traj) {
+            setSwerveControllerCommand(new MustangPPSwerveControllerCommand(traj,   // TODO: TEST
+                        getPoseEstimator()::getCurrentPose, getSwerveKinematics(),
+                        RobotConstants.xController, RobotConstants.yController,
+                        RobotConstants.thetaController, this::setModuleStates,
+                        new Subsystem[] {this}));
+            return getSwerveControllerCommand();
+
       }
 }

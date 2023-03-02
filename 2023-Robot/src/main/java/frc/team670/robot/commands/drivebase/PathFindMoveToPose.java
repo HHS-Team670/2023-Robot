@@ -30,20 +30,13 @@ public class PathFindMoveToPose extends CommandBase implements MustangCommand {
 	public PathFindMoveToPose(DriveBase driveBase, Pose2d finalPose) {
 		this.driveBase = driveBase;
 		this.endPoint = new PoseNode(finalPose);
-		addRequirements(driveBase);
 	}
 
 	@Override
 	public void initialize() {
-		this.endPoint = new PoseNode(FieldConstants
-				.allianceFlip(new Pose2d(endPoint.getX(), endPoint.getY(), endPoint.getHolRot())));
 		this.startPoint = new PoseNode(driveBase.getPoseEstimator().getCurrentPose());
-		// this.AStarMap = new ObstacleAvoidanceAStarMap(startPoint, endPoint,
-		// 		FieldConstants.obstacles, FieldConstants.obstacleContingencyNodes);
 		this.AStarMap = new ObstacleAvoidanceAStarMap(startPoint, endPoint,
-				FieldConstants.obstacles);
-		startPoint = new PoseNode(driveBase.getPoseEstimator().getCurrentPose());
-
+				FieldConstants.obstacles, FieldConstants.obstacleContingencyNodes);
 
 		List<PoseNode> fullPath = AStarMap.findPath();
 		if (fullPath == null)
@@ -73,11 +66,10 @@ public class PathFindMoveToPose extends CommandBase implements MustangCommand {
 
 		for (int i = 0; i < fullPath.size(); i++) {
 			if (i == 0) { // first node
-				fullPathPoints[i] = new PathPoint(
-						new Translation2d(startPoint.getX(), startPoint.getY()), Heading,
-						driveBase.getPoseEstimator().getCurrentPose().getRotation(),
-						Math.hypot(driveBase.getChassisSpeeds().vxMetersPerSecond,
-								driveBase.getChassisSpeeds().vyMetersPerSecond));
+				fullPathPoints[i] =
+						new PathPoint(new Translation2d(startPoint.getX(), startPoint.getY()),
+								Heading, startPoint.pose.getRotation() // driveBase.getPoseEstimator().getCurrentPose().getRotation(),
+						);
 			} else if (i + 1 == fullPath.size()) { // last node
 				fullPathPoints[i] =
 						new PathPoint(new Translation2d(endPoint.getX(), endPoint.getY()),
@@ -108,24 +100,6 @@ public class PathFindMoveToPose extends CommandBase implements MustangCommand {
 
 		driveBase.stop();
 	}
-
-	public static double angleAtPercent(double start, double end, double percent) {
-		double angleDiff = end - start;
-		if (angleDiff > 180) {
-			angleDiff -= 360;
-		} else if (angleDiff < -180) {
-			angleDiff += 360;
-		}
-		double angle = start + (angleDiff * percent);
-		if (angle > 180) {
-			angle -= 360;
-		} else if (angle < -180) {
-			angle += 360;
-		}
-		return angle;
-	}
-
-
 
 	@Override
 	public Map<MustangSubsystemBase, HealthState> getHealthRequirements() {

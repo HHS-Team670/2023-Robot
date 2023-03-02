@@ -15,6 +15,15 @@ import frc.team670.robot.commands.routines.EjectAndStow;
 import frc.team670.robot.commands.claw.ClawIdle;
 import frc.team670.robot.subsystems.Claw;
 import frc.team670.robot.subsystems.DriveBase;
+import frc.team670.robot.subsystems.Vision;
+import frc.team670.robot.commands.arm.MoveToTarget;
+import frc.team670.robot.commands.arm.ManualMoveElbow;
+import frc.team670.robot.commands.arm.ManualMoveShoulder;
+import frc.team670.robot.commands.claw.ClawEject;
+import frc.team670.robot.commands.claw.ClawIntake;
+import frc.team670.robot.commands.drivebase.TurnToAngle;
+import frc.team670.robot.commands.vision.AutoAlign;
+import frc.team670.robot.commands.claw.ClawIdle;
 import frc.team670.robot.subsystems.arm.Arm;
 import frc.team670.robot.subsystems.arm.ArmState;
 
@@ -27,6 +36,7 @@ public class OI extends OIBase {
     // Driver buttons
     // private static JoystickButton zeroArm = new JoystickButton(driverController, XboxButtons.START);
     private static JoystickButton moveToTarget = new JoystickButton(driverController, XboxButtons.Y);
+    // private static JoystickButton autoAlign = new JoystickButton(driverController, XboxButtons.Y);   // TODO: TEST AUTO ALIGN
     private static JoystickButton zeroGyroOp = new JoystickButton(operatorController, XboxButtons.START);
     private static JoystickButton zeroGyroDriver = new JoystickButton(driverController, XboxButtons.START);
 
@@ -45,6 +55,9 @@ public class OI extends OIBase {
     private static JoystickButton clawSuck = new JoystickButton(operatorController, XboxButtons.RIGHT_BUMPER);
     private static JoystickButton clawEject = new JoystickButton(driverController, XboxButtons.LEFT_BUMPER);
     private static JoystickButton clawIdle = new JoystickButton(operatorController, XboxButtons.Y);
+    private static JoystickButton clawSuckDriver = new JoystickButton(driverController, XboxButtons.RIGHT_BUMPER);
+    private static JoystickButton clawEjectDriver = new JoystickButton(driverController, XboxButtons.LEFT_BUMPER);
+
 
     public static MustangController getDriverController() {
         return driverController;
@@ -62,13 +75,16 @@ public class OI extends OIBase {
         Claw claw = (Claw) subsystemBases[3];
 
         driveBase.initDefaultCommand();
-        // vision.initDefaultCommand(new IsLockedOn(driveBase, vision, null));
 
         // zeroGyro.onTrue(new SetSwerveForwardDirection(driveBase, arm));
-        // moveToTarget.whileTrue(new PathFindMoveToPose(driveBase, new Pose2d((FieldConstants.Grids.complexLowTranslations[1]), new Rotation2d())));
-        // moveToTarget.whileTrue(new MoveToPose(driveBase, new Pose2d((FieldConstants.Grids.complexLowTranslations[1]), new Rotation2d())));
-        zeroGyroOp.onTrue(new SetSwerveForwardDirection(driveBase, arm));
-        zeroGyroDriver.onTrue(new SetSwerveForwardDirection(driveBase, arm));
+        // moveToTarget.whileTrue(new MoveToPose(driveBase, (FieldConstants.Grids.scoringPoses[1])));
+        moveToTarget.whileTrue(new MoveToPose(driveBase, (FieldConstants.LoadingZone.IntakePoses[0]))); // @tarini TODO: TEST SINGLE SUBSTATION MOVE TO POSE
+        // moveToTarget.whileTrue(new MoveToPose(driveBase, new Pose2d(3, 3, new Rotation2d())));  // TODO: TEST movement rotation + holomnic rotation
+        // autoAlign.whileTrue(new AutoAlign(driveBase, driverController)); // TODO: TEST AUTO ALIGN
+
+        zeroGyroOp.onTrue(new SetSwerveForwardDirection(driveBase));
+        zeroGyroDriver.onTrue(new SetSwerveForwardDirection(driveBase));
+
 
         //arm movement commands
         hybrid.onTrue(new MoveToTarget(arm, ArmState.HYBRID));

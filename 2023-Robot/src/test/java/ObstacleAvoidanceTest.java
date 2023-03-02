@@ -33,8 +33,8 @@ class ObstacleAvoidanceTest {
             double[] yPoints = o.getYPoints();
             
             for (int i = 0; i < xPoints.length; i++) {
-                System.out.println(String.format("%f, %f", Units.metersToInches(xPoints[i]), Units.metersToInches(yPoints[i])));
-            }
+                System.out.println(String.format("%f, %f", xPoints[i], yPoints[i]));
+          }
         }
         System.out.println("\t\t-----OBSTACLE CHECK DONE-----\n");
     }
@@ -52,8 +52,8 @@ class ObstacleAvoidanceTest {
         trajectory = astar.findPath();
         graph = astar.getEdges();
         for (PoseEdge e : graph) {
-            System.out.println(String.format("%f, %f", Units.metersToInches(e.start.getX()), Units.metersToInches(e.start.getY())));
-            System.out.println(String.format("%f, %f", Units.metersToInches(e.end.getX()), Units.metersToInches(e.end.getY())));
+            System.out.println(String.format("%f, %f", e.start.getX(), e.start.getY()));
+            System.out.println(String.format("%f, %f", e.end.getX(), e.end.getY()));
             System.out.println();
         }
     }
@@ -62,8 +62,8 @@ class ObstacleAvoidanceTest {
     void getPath() {
         System.out.println("path:\n");
         for (PoseNode node : trajectory) {
-            System.out.println(String.format("%f, %f", Units.metersToInches(node.getX()),
-                    Units.metersToInches(node.getY())));
-        }
+            System.out.println(String.format("%f, %f", node.getX(),
+                  node.getY()));
+      }
     }
 }

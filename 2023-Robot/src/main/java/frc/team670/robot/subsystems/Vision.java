@@ -18,8 +18,8 @@ public class Vision extends VisionSubsystemBase {
     public Vision(PowerDistribution pd) {
 
         super(pd, Vision.getFieldLayout(FieldConstants.aprilTags),
-                new PhotonCamera[] {new PhotonCamera(RobotConstants.VISION_CAMERA_NAME)},
-                new Transform3d[] {RobotConstants.CAMERA_OFFSET});
+                new PhotonCamera[] {new PhotonCamera(RobotConstants.VISION_CAMERA_NAMES[0]), new PhotonCamera(RobotConstants.VISION_CAMERA_NAMES[1])},
+                new Transform3d[] {RobotConstants.CAMERA_OFFSET[0], RobotConstants.CAMERA_OFFSET[1]});
         setName("Vision");
     }
 
