@@ -37,63 +37,60 @@ public final class RobotConstants extends RobotConstantsBase {
 
         public static final String MAC_ADDRESS = getMACAddress();
 
-        // Set your team number using the WPILib extension's "Set Team Number" action.
-        // 1) Set all of the *_ANGLE_OFFSET constants to -Math.toRadians(0.0).
-        // 2) Deploy the code to your robot.
-        // NOTE: The robot isn't drivable quite yet, we still have to setup the module
-        // offsets
-        // 3) Turn the robot on its side and align all the wheels so they are facing in
-        // the forwards direction.
-        // NOTE: The wheels will be pointed forwards (not backwards) when modules are
-        // turned so the large bevel gears are towards the LEFT side of the robot. When
-        // aligning the wheels they must be as straight as possible. It is recommended
-        // to use a long strait edge such as a piece of 2x1 in order to make the wheels
-        // straight.
-        // 4) Record the angles of each module using the angle put onto Shuffleboard.
-        // The values are named Front Left Module Angle, Front Right Module Angle, etc.
-        // 5) Set the values of the *_ANGLE_OFFSET to -Math.toRadians(<the angle you
-        // recorded>)
-        // NOTE: All angles must be in degrees.
-        // 6) Re-deploy and try to drive the robot forwards. All the wheels should stay
-        // parallel to each other. If not go back to step 3.
-        // 7) Make sure all the wheels are spinning in the correct direction. If not,
-        // add 180 degrees to the offset of each wheel that is spinning in the incorrect
-        // direction. i.e -Math.toRadians(<angle> + 180.0).
-        public static Map<String, Map<String, Double>> hardwareSpecificConstants = Map.ofEntries(
-                        entry("00:80:2F:34:0B:07", Map.ofEntries( // Mac address from 670_bench
-                                        entry("BACK_RIGHT_MODULE_STEER_OFFSET",
-                                                        -Math.toRadians(228.85)),
-                                        entry("BACK_LEFT_MODULE_STEER_OFFSET",
-                                                        -Math.toRadians(228.3)),
-                                        entry("FRONT_RIGHT_MODULE_STEER_OFFSET",
-                                                        -Math.toRadians(2.37)),
-                                        entry("FRONT_LEFT_MODULE_STEER_OFFSET",
-                                                        -Math.toRadians(30.2)),
-                                        entry("SHOULDER_ABSOLUTE_ENCODER_AT_VERTICAL", 0.957),
-                                        entry("ELBOW_ABSOLUTE_ENCODER_AT_VERTICAL", 0.494))),
-                        entry("00:80:2F:24:4A:34", Map.ofEntries( // The mac address is from
-                                                                  // 670_MadMax
-                                        entry("BACK_RIGHT_MODULE_STEER_OFFSET",
-                                                        -Math.toRadians(292.5)),
-                                        entry("BACK_LEFT_MODULE_STEER_OFFSET",
-                                                        -Math.toRadians(232.91)),
-                                        entry("FRONT_RIGHT_MODULE_STEER_OFFSET",
-                                                        -Math.toRadians(352.35)),
-                                        entry("FRONT_LEFT_MODULE_STEER_OFFSET",
-                                                        -Math.toRadians(136.67)),
-                                        entry("SHOULDER_ABSOLUTE_ENCODER_AT_VERTICAL", 0.0),
-                                        entry("ELBOW_ABSOLUTE_ENCODER_AT_VERTICAL", 0.0))),
-                        entry("00:80:2F:22:B4:F6", Map.ofEntries( // The mac address is from 670_WCD
-                                                                  // (test
-                                                                  // bench)
-                                        entry("BACK_RIGHT_MODULE_STEER_OFFSET",
-                                                        -Math.toRadians(292.5)),
-                                        entry("BACK_LEFT_MODULE_STEER_OFFSET",
-                                                        -Math.toRadians(232.91)),
-                                        entry("FRONT_RIGHT_MODULE_STEER_OFFSET",
-                                                        -Math.toRadians(352.35)),
-                                        entry("FRONT_LEFT_MODULE_STEER_OFFSET",
-                                                        -Math.toRadians(136.67))))
+    /**
+     * Set your team number using the WPILib extension's "Set Team Number" action.
+     * 0) FACTORY RESET ALL MOTOR CONTROLLERS
+     * 1) Set all of the *_ANGLE_OFFSET constants to -Math.toRadians(0.0).
+     * 2) Deploy the code to your robot.
+     *      NOTE: The robot isn't drivable quite yet, we still have to setup the module
+     *      offsets
+     * 3) Turn the robot on its side and align all the wheels so they are facing in
+     *      the forwards direction.
+     *      NOTE: The wheels will be pointed forwards (not backwards) when modules are
+     *      turned so the large bevel gears are towards the LEFT side of the robot. When
+     *      aligning the wheels they must be as straight as possible. It is recommended
+     *      to use a long strait edge such as a piece of 2x1 in order to make the wheels
+     *      straight.
+     * 4) Record the angles of each module using the angle put onto Shuffleboard.
+     *      The values are named Front Left Module Angle, Front Right Module Angle, etc.
+     * 5) Set the values of the *_ANGLE_OFFSET to -Math.toRadians(<the angle you
+     *       recorded>)
+     *       NOTE: All angles must be in degrees.
+     *  6) Re-deploy and try to drive the robot forwards. All the wheels should stay
+     *      parallel to each other. If not go back to step 3.
+     *  7) Make sure all the wheels are spinning in the correct direction. If not,
+     *      add 180 degrees to the offset of each wheel that is spinning in the incorrect
+     *      direction. i.e -Math.toRadians(<angle> + 180.0).
+     * */
+    public static Map<String, Map<String, Double>> hardwareSpecificConstants = Map.ofEntries(
+            entry("00:80:2F:34:0B:07", Map.ofEntries( // Mac address from 670_bench
+                        entry("BACK_RIGHT_MODULE_STEER_OFFSET", -Math.toRadians(228.85)),
+                        entry("BACK_LEFT_MODULE_STEER_OFFSET", -Math.toRadians(228.3)),
+                        entry("FRONT_RIGHT_MODULE_STEER_OFFSET", -Math.toRadians(2.37)),
+                        entry("FRONT_LEFT_MODULE_STEER_OFFSET", -Math.toRadians(30.2)),
+                        entry("SHOULDER_ABSOLUTE_ENCODER_AT_VERTICAL", 0.957),
+                        entry("ELBOW_ABSOLUTE_ENCODER_AT_VERTICAL", 0.494),
+                        entry("WRIST_ABSOLUTE_ENCODER_AT_VERTICAL", 0.0),
+                        entry("SHOULDER_GEAR_RATIO",96.0),
+                        entry("ELBOW_GEAR_RATIO",75.0),
+                        entry("WRIST_GEAR_RATIO",0.0)
+                    )
+                ),
+            entry("00:80:2F:33:D0:46", Map.ofEntries( // The mac address is from 670_2023
+                        entry("BACK_RIGHT_MODULE_STEER_OFFSET", -Math.toRadians(82.694)),
+                        entry("BACK_LEFT_MODULE_STEER_OFFSET", -Math.toRadians(233.29)),
+                        entry("FRONT_RIGHT_MODULE_STEER_OFFSET", -Math.toRadians(225.77)),
+                        entry("FRONT_LEFT_MODULE_STEER_OFFSET", -Math.toRadians(112.53)),
+                        entry("SHOULDER_ABSOLUTE_ENCODER_AT_VERTICAL", 0.895),
+                        entry("ELBOW_ABSOLUTE_ENCODER_AT_VERTICAL", 0.922),
+                        entry("WRIST_ABSOLUTE_ENCODER_AT_VERTICAL", 0.918),
+                        entry("SHOULDER_GEAR_RATIO",75.0),
+                        entry("ELBOW_GEAR_RATIO",90.0),
+                        entry("WRIST_GEAR_RATIO",125.0)
+                    )
+                ),
+            entry("00:80:2F:22:B4:F6", Map.ofEntries()) // The mac address is from 670_WCD (test
+                                                           // bench)   
 
         );
 
@@ -279,38 +276,82 @@ public final class RobotConstants extends RobotConstantsBase {
         public static final PathConstraints kAutoPathConstraints = new PathConstraints(
                         kMaxSpeedMetersPerSecond, kMaxAccelerationMetersPerSecondSquared);
 
-        /**
-         * This is code from Poofs 2022
-         * 
-         * @return the MAC address of the robot
-         */
-        public static String getMACAddress() {
-                try {
-                        Enumeration<NetworkInterface> nwInterface = NetworkInterface.getNetworkInterfaces();
-                        StringBuilder ret = new StringBuilder();
-                        while (nwInterface.hasMoreElements()) {
-                                NetworkInterface nis = nwInterface.nextElement();
-                                System.out.println("NIS: " + nis.getDisplayName());
-                                if (nis != null && "eth0".equals(nis.getDisplayName())) {
-                                        byte[] mac = nis.getHardwareAddress();
-                                        if (mac != null) {
-                                                for (int i = 0; i < mac.length; i++) {
-                                                        ret.append(String.format("%02X%s", mac[i],
-                                                                        (i < mac.length - 1) ? ":"
-                                                                                        : ""));
-                                                }
-                                                String addr = ret.toString();
-                                                System.out.println("NIS " + nis.getDisplayName()
-                                                                + " addr: " + addr);
-                                                return addr;
-                                        } else {
-                                                System.out.println(
-                                                                "Address doesn't exist or is not accessible");
-                                        }
-                                } else {
-                                        System.out.println("Skipping adaptor: "
-                                                        + nis.getDisplayName());
-                                }
+    public static final double SHOULDER_LENGTH_INCHES = 26;
+    public static final double SHOULDER_TO_ELBOW_MASS_LB = 8.7;
+    public static final double SHOULDER_MASS_DISTRIBUTION = 0.356; 
+
+    // Elbow
+    public static final double ELBOW_ABSOLUTE_ENCODER_AT_VERTICAL = hardwareSpecificConstants.get(MAC_ADDRESS)
+    .get("ELBOW_ABSOLUTE_ENCODER_AT_VERTICAL");
+    public static final int ELBOW_GEAR_RATIO = (hardwareSpecificConstants.get(MAC_ADDRESS).get("ELBOW_GEAR_RATIO")).intValue();;
+    public static final int ELBOW_SOFT_LIMIT_MIN = 20;
+    public static final int ELBOW_SOFT_LIMIT_MAX = 340;
+    public static final int ELBOW_MAX_OVERRIDE_DEGREES  = 15;
+    // public static final double ELBOW_ARBITRARY_FF = 0.0;
+    public static final double ELBOW_ARBITRARY_FF = 0.5;
+    public static final double ELBOW_LENGTH_INCHES = 35;
+    public static final double ELBOW_TO_CLAW_MASS_LB = 5.5; //TODO: set
+    public static final double ELBOW_MASS_DISTRIBUTION = 0.686; //TODO: set 
+
+    // Wrist
+    public static final double WRIST_ABSOLUTE_ENCODER_AT_VERTICAL = hardwareSpecificConstants.get(MAC_ADDRESS).get("WRIST_ABSOLUTE_ENCODER_AT_VERTICAL");
+    public static final double WRIST_GEAR_RATIO = (hardwareSpecificConstants.get(MAC_ADDRESS).get("WRIST_GEAR_RATIO")).intValue();;
+    public static final double WRIST_ARBITRARY_FF = 0;
+    public static final double WRIST_MAX_OVERRIDE_DEGREES = 90;
+
+    public static final double CLAW_LENGTH_INCHES = 4;
+    public static final double CLAW_MASS_LB = 6.5;
+    public static final double CLAW_MASS_DISTRIBUTION = 1;
+
+    public static final double CONE_MASS_LB = 1.4;
+
+    // Gravity-cancelling constants
+    public static final ArmSegment SHOULDER_SEGMENT = new ArmSegment(SHOULDER_LENGTH_INCHES, SHOULDER_TO_ELBOW_MASS_LB, SHOULDER_MASS_DISTRIBUTION, SHOULDER_ARBITRARY_FF);
+    public static final ArmSegment ELBOW_SEGMENT = new ArmSegment(ELBOW_LENGTH_INCHES, ELBOW_TO_CLAW_MASS_LB, ELBOW_MASS_DISTRIBUTION, ELBOW_ARBITRARY_FF);
+    public static final ArmSegment WRIST_SEGMENT = new ArmSegment(CLAW_LENGTH_INCHES, CLAW_MASS_LB, CLAW_MASS_DISTRIBUTION, WRIST_ARBITRARY_FF);
+
+
+
+
+    // claw constants
+    public static final double CLAW_ROLLING_SPEED = 0.75;
+    public static final double CLAW_EJECTING_SPEED = -0.6;
+    public static final double CLAW_CURRENT_MAX = 23.0;
+    public static final double CLAW_IDLE_SPEED = 0.05;
+    public static final int CLAW_EJECT_ITERATIONS = 25;
+    public static final int CLAW_CURRENT_SPIKE_ITERATIONS = 5;
+
+    public static final int kTimeoutMs = 0;
+    public static final double leftKsVolts = 0.4;
+    public static final double leftKvVoltSecondsPerMeter = 2.1;
+    public static final double leftKaVoltSecondsSquaredPerMeter = 0.15;
+    public static final double rightKsVolts = leftKsVolts;
+    public static final double rightKvVoltSecondsPerMeter = leftKvVoltSecondsPerMeter;
+    public static final double rightKaVoltSecondsSquaredPerMeter = leftKaVoltSecondsSquaredPerMeter;
+
+    //Auto contraints for vision
+    public static final PathConstraints kAutoPathConstraints =
+            new PathConstraints(kMaxSpeedMetersPerSecond, kMaxAccelerationMetersPerSecondSquared);
+
+
+    /**
+     * This is code from Poofs 2022
+     * 
+     * @return the MAC address of the robot
+     */
+    public static String getMACAddress() {
+        try {
+            Enumeration<NetworkInterface> nwInterface = NetworkInterface.getNetworkInterfaces();
+            StringBuilder ret = new StringBuilder();
+            while (nwInterface.hasMoreElements()) {
+                NetworkInterface nis = nwInterface.nextElement();
+                System.out.println("NIS: " + nis.getDisplayName());
+                if (nis != null && "eth0".equals(nis.getDisplayName())) {
+                    byte[] mac = nis.getHardwareAddress();
+                    if (mac != null) {
+                        for (int i = 0; i < mac.length; i++) {
+                            ret.append(String.format("%02X%s", mac[i],
+                                    (i < mac.length - 1) ? ":" : ""));
                         }
                 } catch (SocketException | NullPointerException e) {
                         e.printStackTrace();
