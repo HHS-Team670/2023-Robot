@@ -69,7 +69,6 @@ public class RobotContainer extends RobotContainerBase {
      */
     @Override
     public MustangCommand getAutonomousCommand() {
-        arm.setStateToStarting();
         
         return new CubeEngage(driveBase, claw, arm, "CableEngage");
         // return new ConeCube(driveBase, claw, arm, "RightConeCube");
@@ -80,6 +79,7 @@ public class RobotContainer extends RobotContainerBase {
     @Override
     public void autonomousInit() {
 
+        arm.setStateToStarting();
     }
 
     @Override
