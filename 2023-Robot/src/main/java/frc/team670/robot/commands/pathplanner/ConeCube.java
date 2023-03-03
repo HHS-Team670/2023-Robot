@@ -18,6 +18,7 @@ import frc.team670.mustanglib.subsystems.MustangSubsystemBase.HealthState;
 import frc.team670.robot.commands.arm.MoveToTarget;
 import frc.team670.robot.commands.claw.ClawEject;
 import frc.team670.robot.commands.claw.ClawIntake;
+import frc.team670.robot.constants.RobotConstants;
 import frc.team670.robot.subsystems.Claw;
 import frc.team670.robot.subsystems.DriveBase;
 import frc.team670.robot.subsystems.arm.Arm;
@@ -34,17 +35,13 @@ public class ConeCube extends SequentialCommandGroup implements MustangCommand {
 
     public ConeCube(DriveBase driveBase, Claw claw, Arm arm, String pathName) {
         this.pathName = pathName;
-        List<PathPlannerTrajectory> trajectoryGroup = PathPlanner.loadPathGroup(pathName, 2.0, 1.0);
+        List<PathPlannerTrajectory> trajectoryGroup = PathPlanner.loadPathGroup(pathName, 1.0, 0.5);
 
-        PIDConstants PID_translation = new PIDConstants(1.0, 0, 0);
-        PIDConstants PID_theta = new PIDConstants(1.0, 0, 0); 
-
-        driveBase.resetOdometry(trajectoryGroup.get(0).getInitialHolonomicPose());
 
         HashMap<String, Command> eventMap = new HashMap<>();
 
         // eventMap stuff
-        eventMap.put("clawIntake1", new ClawIntake(claw));
+        //eventMap.put("clawIntake1", new ClawIntake(claw));
         eventMap.put("moveToMid1", new MoveToTarget(arm, ArmState.SCORE_MID));
         eventMap.put("clawEject1", new ClawEject(claw));
         eventMap.put("moveToStowed", new MoveToTarget(arm, ArmState.STOWED));
@@ -57,8 +54,8 @@ public class ConeCube extends SequentialCommandGroup implements MustangCommand {
         
         SwerveDriveKinematics driveBaseKinematics = driveBase.getSwerveKinematics();
 
-        SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(driveBase.getPoseEstimator()::getCurrentPose,
-                driveBase::resetOdometry, driveBaseKinematics, PID_translation, PID_theta,
+        SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(driveBase::getOdometerPose,
+                driveBase::resetOdometry, driveBaseKinematics, RobotConstants.AUTON_TRANSLATION_CONTROLLER, RobotConstants.AUTON_THETA_CONTROLLER,
                 driveBase::setModuleStates, eventMap, false, new Subsystem[] {driveBase});
 
         CommandBase fullAuto = autoBuilder.fullAuto(trajectoryGroup);

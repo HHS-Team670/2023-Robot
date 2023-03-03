@@ -29,11 +29,14 @@ import frc.team670.robot.constants.RobotConstants;
 
 public class CubeEngage extends SequentialCommandGroup implements MustangCommand {
 
+    String pathName;
+
     public Map<MustangSubsystemBase, HealthState> getHealthRequirements() {
         return new HashMap();
     }
 
     public CubeEngage(DriveBase driveBase, Claw claw, Arm arm, String pathName) {
+        this.pathName = pathName;
         List<PathPlannerTrajectory> trajectoryGroup = PathPlanner.loadPathGroup(pathName, 2, 1.25);
 
         PIDConstants PID_translation = RobotConstants.AUTON_TRANSLATION_CONTROLLER;
