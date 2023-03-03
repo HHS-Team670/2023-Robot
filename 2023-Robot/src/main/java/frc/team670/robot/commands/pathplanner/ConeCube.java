@@ -57,7 +57,7 @@ public class ConeCube extends SequentialCommandGroup implements MustangCommand {
         
         SwerveDriveKinematics driveBaseKinematics = driveBase.getSwerveKinematics();
 
-        SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(driveBase.getPoseEstimator()::getCurrentPose,
+        SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(driveBase::getPose,
                 driveBase::resetOdometry, driveBaseKinematics, PID_translation, PID_theta,
                 driveBase::setModuleStates, eventMap, false, new Subsystem[] {driveBase});
 

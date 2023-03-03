@@ -108,7 +108,7 @@ public class DriveBase extends SwerveDrive {
       public MustangPPSwerveControllerCommand getFollowTrajectoryCommand(
                   PathPlannerTrajectory traj) {
             setSwerveControllerCommand(new MustangPPSwerveControllerCommand(traj,   // TODO: TEST
-                        getPoseEstimator()::getCurrentPose, getSwerveKinematics(),
+                        this::getPose, getSwerveKinematics(),
                         RobotConstants.xController, RobotConstants.yController,
                         RobotConstants.thetaController, this::setModuleStates,
                         new Subsystem[] {this}));

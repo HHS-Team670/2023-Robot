@@ -61,7 +61,7 @@ public class TurnToAngle extends CommandBase implements MustangCommand {
 
     @Override
     public void initialize() {
-        startPos = swerve.getOdometerPose();
+        startPos = swerve.getPose();
         if (isRelative) {
             targetPose2d = new Pose2d(startPos.getTranslation(),
                     startPos.getRotation().rotateBy(Rotation2d.fromDegrees(goal)));
@@ -72,7 +72,7 @@ public class TurnToAngle extends CommandBase implements MustangCommand {
 
     @Override
     public void execute() {
-        Pose2d currPose2d = swerve.getOdometerPose();
+        Pose2d currPose2d = swerve.getPose();
         ChassisSpeeds chassisSpeeds = this.holonomicDriveController.calculate(currPose2d,
                 targetPose2d, 0, targetPose2d.getRotation());
         SwerveModuleState[] swerveModuleStates =
