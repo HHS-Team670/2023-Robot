@@ -80,6 +80,6 @@ public class MoveToPose extends CommandBase implements MustangCommand {
         double dx, dy;
         dx = endPose.getX() - prevPose.getX();
         dy = endPose.getY() - prevPose.getY();
-        return new PathPoint(endPose.getTranslation(), new Rotation2d(dx, dy), endPose.getRotation());
+        return new PathPoint(endPose.getTranslation(), new Rotation2d(dx, dy), endPose.getRotation().rotateBy(new Rotation2d(Math.PI)));
     }
 }

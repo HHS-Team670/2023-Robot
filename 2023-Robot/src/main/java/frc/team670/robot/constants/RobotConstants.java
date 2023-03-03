@@ -155,11 +155,16 @@ public final class RobotConstants extends RobotConstantsBase {
         // public static final String VISION_CAMERA_NAME = "Arducam_A";
         public static final String[] VISION_CAMERA_NAMES = { "Arducam_B", "Arducam_C" };
         public static final Transform3d[] CAMERA_OFFSET = {
+                        // new Transform3d(new Translation3d(Units.inchesToMeters(0.56), Units.inchesToMeters(-5.25), Units.inchesToMeters(19 + 5)),
+                        //                 new Rotation3d(0, 0, Math.PI)),
+                        // new Transform3d(new Translation3d(Units.inchesToMeters(0.56),
+                        //                 Units.inchesToMeters(5.25), Units.inchesToMeters(19 + 5)), new // Y IS CORRECT
+                        // Rotation3d(0, 0, Math.PI)) };
                         new Transform3d(new Translation3d(Units.inchesToMeters(0.56), Units.inchesToMeters(-5.25), Units.inchesToMeters(19 + 5)),
-                                        new Rotation3d(0, 0, Math.PI)),
+                                        new Rotation3d(0, 0, 0)),
                         new Transform3d(new Translation3d(Units.inchesToMeters(0.56),
                                         Units.inchesToMeters(5.25), Units.inchesToMeters(19 + 5)), new // Y IS CORRECT
-                        Rotation3d(0, 0, Math.PI)) };
+                        Rotation3d(0, 0, 0)) };
         // new Transform3d(new Translation3d(Units.inchesToMeters(-5.25),
         // Units.inchesToMeters(0.56), Units.inchesToMeters(19 + 5)), new
         // Rotation3d(0, 0, Math.PI))};
@@ -255,27 +260,34 @@ public final class RobotConstants extends RobotConstantsBase {
          * @return the MAC address of the robot
          */
         public static String getMACAddress() {
-                try {
-                        Enumeration<NetworkInterface> nwInterface = NetworkInterface.getNetworkInterfaces();
-                        StringBuilder ret = new StringBuilder();
-                        while (nwInterface.hasMoreElements()) {
-                                NetworkInterface nis = nwInterface.nextElement();
-                                System.out.println("NIS: " + nis.getDisplayName());
-                                if (nis != null && "eth0".equals(nis.getDisplayName())) {
-                                        byte[] mac = nis.getHardwareAddress();
-                                        if (mac != null) {
-                                                for (int i = 0; i < mac.length; i++) {
-                                                        ret.append(String.format("%02X%s", mac[i],
-                                                        (i < mac.length - 1) ? ":" : ""));
-                                                }
-                                        }
-                                }
+            try {
+                Enumeration<NetworkInterface> nwInterface = NetworkInterface.getNetworkInterfaces();
+                StringBuilder ret = new StringBuilder();
+                while (nwInterface.hasMoreElements()) {
+                    NetworkInterface nis = nwInterface.nextElement();
+                    System.out.println("NIS: " + nis.getDisplayName());
+                    if (nis != null && "eth0".equals(nis.getDisplayName())) {
+                        byte[] mac = nis.getHardwareAddress();
+                        if (mac != null) {
+                            for (int i = 0; i < mac.length; i++) {
+                                ret.append(String.format("%02X%s", mac[i],
+                                        (i < mac.length - 1) ? ":" : ""));
+                            }
+                            String addr = ret.toString();
+                            System.out.println("NIS " + nis.getDisplayName() + " addr: " + addr);
+                            return addr;
+                        } else {
+                            System.out.println("Address doesn't exist or is not accessible");
                         }
-                } catch (SocketException | NullPointerException e) {
-                        e.printStackTrace();
+                    } else {
+                        System.out.println("Skipping adaptor: " + nis.getDisplayName());
+                    }
                 }
-                System.out.println("\n\nMAC ADDRESS NOTHING");
-                return "";
+            } catch (SocketException | NullPointerException e) {
+                e.printStackTrace();
+            }
+            System.out.println("\n\nMAC ADDRESS NOTHING");
+            return "";
         }
 
 }
