@@ -16,15 +16,7 @@ import frc.team670.robot.commands.routines.EjectAndStow;
 import frc.team670.robot.commands.claw.ClawIdle;
 import frc.team670.robot.subsystems.Claw;
 import frc.team670.robot.subsystems.DriveBase;
-import frc.team670.robot.subsystems.Vision;
-import frc.team670.robot.commands.arm.MoveToTarget;
-import frc.team670.robot.commands.arm.ManualMoveElbow;
-import frc.team670.robot.commands.arm.ManualMoveShoulder;
-import frc.team670.robot.commands.claw.ClawEject;
-import frc.team670.robot.commands.claw.ClawIntake;
-import frc.team670.robot.commands.drivebase.TurnToAngle;
-import frc.team670.robot.commands.vision.AutoAlign;
-import frc.team670.robot.commands.claw.ClawIdle;
+import frc.team670.robot.commands.drivebase.MoveToPose;
 import frc.team670.robot.subsystems.arm.Arm;
 import frc.team670.robot.subsystems.arm.ArmState;
 
@@ -38,6 +30,7 @@ public class OI extends OIBase {
     // private static JoystickButton zeroArm = new JoystickButton(driverController, XboxButtons.START);
     private static JoystickButton zeroArm = new JoystickButton(operatorController, XboxButtons.START);
     private static JoystickButton zeroGyroDriver = new JoystickButton(driverController, XboxButtons.START);
+    private static JoystickButton moveToTarget = new JoystickButton(driverController, XboxButtons.Y);
 
     // Operator buttons
     private static POVButton hybrid = new POVButton(operatorController, 180);
@@ -54,8 +47,6 @@ public class OI extends OIBase {
     private static JoystickButton clawSuck = new JoystickButton(operatorController, XboxButtons.RIGHT_BUMPER);
     private static JoystickButton clawEject = new JoystickButton(driverController, XboxButtons.LEFT_BUMPER);
     private static JoystickButton clawIdle = new JoystickButton(operatorController, XboxButtons.Y);
-    private static JoystickButton clawSuckDriver = new JoystickButton(driverController, XboxButtons.RIGHT_BUMPER);
-    private static JoystickButton clawEjectDriver = new JoystickButton(driverController, XboxButtons.LEFT_BUMPER);
 
 
     public static MustangController getDriverController() {
@@ -80,6 +71,7 @@ public class OI extends OIBase {
         // moveToTarget.whileTrue(new MoveToPose(driveBase, new Pose2d((FieldConstants.Grids.complexLowTranslations[1]), new Rotation2d())));
         zeroGyroDriver.onTrue(new SetSwerveForwardDirection(driveBase));
         zeroArm.onTrue(new ResetArmFromAbsolute(arm));
+        moveToTarget.whileTrue(new MoveToPose(driveBase, (FieldConstants.LoadingZone.IntakePoses[0]))); // moves to substation
 
         //arm movement commands
         hybrid.onTrue(new MoveToTarget(arm, ArmState.HYBRID));
@@ -92,9 +84,6 @@ public class OI extends OIBase {
         
         // Claw control commands
         clawSuck.onTrue(new ClawIntake(claw));
-        clawEject.onTrue(new EjectAndStow(claw, arm));
-        clawIdle.onTrue(new ClawIdle(claw));
 
     }
-
 }

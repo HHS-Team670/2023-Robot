@@ -23,15 +23,13 @@ import frc.team670.robot.subsystems.arm.ArmSegment;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
- * numerical or boolean
- * constants. This class should not be used for any other purpose. All constants
- * should be declared
- * globally (i.e. public static). Do not put anything functional in this class.
+
+ * numerical or boolean constants. This class should not be used for any other
+ * purpose. All constants should be declared globally (i.e. public static). Do
+ * not put anything functional in this class.
  *
- * <p>
  * It is advised to statically import this class (or one of its inner classes)
- * wherever the
- * constants are needed, to reduce verbosity.
+ * wherever the constants are needed, to reduce verbosity.
  */
 public final class RobotConstants extends RobotConstantsBase {
 
@@ -91,8 +89,7 @@ public final class RobotConstants extends RobotConstantsBase {
                 ),
             entry("00:80:2F:22:B4:F6", Map.ofEntries()) // The mac address is from 670_WCD (test
                                                            // bench)   
-
-        );
+            );
 
         /**
          * The left-to-right distance between the drivetrain wheels
@@ -114,77 +111,34 @@ public final class RobotConstants extends RobotConstantsBase {
 
         public static final double LIMIT = 1.0;
 
-        public static final int BACK_RIGHT_MODULE_DRIVE_MOTOR = 25; // Set back right module drive
-                                                                    // motor
-                                                                    // ID
-        public static final int BACK_RIGHT_MODULE_STEER_MOTOR = 24; // Set back right module steer
-                                                                    // motor
-                                                                    // ID
-        public static final int BACK_RIGHT_MODULE_STEER_ENCODER = 34; // Set back right steer
-                                                                      // encoder ID
-        public static final double BACK_RIGHT_MODULE_STEER_OFFSET = hardwareSpecificConstants
-                        .getOrDefault(MAC_ADDRESS,
-                                        hardwareSpecificConstants
-                                                        .get("00:80:2F:34:0B:07"))
-                        .get("BACK_RIGHT_MODULE_STEER_OFFSET"); // Measure
-        // and
-        // set
-        // back
-        // right
-        // steer
-        // offset
 
-        public static final int BACK_LEFT_MODULE_DRIVE_MOTOR = 27; // Set back left drive motor ID
-        public static final int BACK_LEFT_MODULE_STEER_MOTOR = 26; // Set back left steer motor ID
-        public static final int BACK_LEFT_MODULE_STEER_ENCODER = 36; // Set back left steer encoder
-                                                                     // ID
-        public static final double BACK_LEFT_MODULE_STEER_OFFSET = hardwareSpecificConstants
-                        .getOrDefault(MAC_ADDRESS,
-                                        hardwareSpecificConstants
-                                                        .get("00:80:2F:34:0B:07"))
-                        .get("BACK_LEFT_MODULE_STEER_OFFSET"); // Measure
-        // and
-        // set
-        // back
-        // left
-        // steer
-        // offset
 
-        public static final int FRONT_RIGHT_MODULE_DRIVE_MOTOR = 23; // Set front right drive motor
-                                                                     // ID
-        public static final int FRONT_RIGHT_MODULE_STEER_MOTOR = 22; // Set front right steer motor
-                                                                     // ID
-        public static final int FRONT_RIGHT_MODULE_STEER_ENCODER = 32; // Set front right steer
-                                                                       // encoder
-                                                                       // ID
-        public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = hardwareSpecificConstants
-                        .getOrDefault(MAC_ADDRESS,
-                                        hardwareSpecificConstants
-                                                        .get("00:80:2F:34:0B:07"))
-                        .get("FRONT_RIGHT_MODULE_STEER_OFFSET"); // Measure
-        // and
-        // set
-        // back
-        // left
-        // steer
-        // offset
-        // Measure and set front right steer offset
 
-        public static final int FRONT_LEFT_MODULE_DRIVE_MOTOR = 21; // Set front left drive motor ID
-        public static final int FRONT_LEFT_MODULE_STEER_MOTOR = 20; // Set front left steer motor ID
-        public static final int FRONT_LEFT_MODULE_STEER_ENCODER = 30; // Set front left steer
-                                                                      // encoder ID
-        public static final double FRONT_LEFT_MODULE_STEER_OFFSET = hardwareSpecificConstants
-                        .getOrDefault(MAC_ADDRESS,
-                                        hardwareSpecificConstants
-                                                        .get("00:80:2F:34:0B:07"))
-                        .get("FRONT_LEFT_MODULE_STEER_OFFSET"); // Measure
-        // and
-        // set
-        // front
-        // left
-        // steer
-        // offset
+        // Swerve Drivebase constants
+
+        public static final int BACK_RIGHT_MODULE_DRIVE_MOTOR = 25;
+        public static final int BACK_RIGHT_MODULE_STEER_MOTOR = 24;
+        public static final int BACK_RIGHT_MODULE_STEER_ENCODER = 34;
+        public static final double BACK_RIGHT_MODULE_STEER_OFFSET = hardwareSpecificConstants.get(MAC_ADDRESS)
+                .get("BACK_RIGHT_MODULE_STEER_OFFSET");
+
+        public static final int BACK_LEFT_MODULE_DRIVE_MOTOR = 27;
+        public static final int BACK_LEFT_MODULE_STEER_MOTOR = 26;
+        public static final int BACK_LEFT_MODULE_STEER_ENCODER = 36;
+        public static final double BACK_LEFT_MODULE_STEER_OFFSET = hardwareSpecificConstants.get(MAC_ADDRESS)
+                .get("BACK_LEFT_MODULE_STEER_OFFSET");
+
+        public static final int FRONT_RIGHT_MODULE_DRIVE_MOTOR = 23;
+        public static final int FRONT_RIGHT_MODULE_STEER_MOTOR = 22;
+        public static final int FRONT_RIGHT_MODULE_STEER_ENCODER = 32;
+        public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = hardwareSpecificConstants.get(MAC_ADDRESS)
+                .get("FRONT_RIGHT_MODULE_STEER_OFFSET");
+
+        public static final int FRONT_LEFT_MODULE_DRIVE_MOTOR = 21;
+        public static final int FRONT_LEFT_MODULE_STEER_MOTOR = 20;
+        public static final int FRONT_LEFT_MODULE_STEER_ENCODER = 30;
+        public static final double FRONT_LEFT_MODULE_STEER_OFFSET = hardwareSpecificConstants.get(MAC_ADDRESS)
+                .get("FRONT_LEFT_MODULE_STEER_OFFSET");
 
         public final static SerialPort.Port NAVX_PORT = SerialPort.Port.kMXP;
         public static final double kMaxSpeedMetersPerSecond = 2;
@@ -195,8 +149,7 @@ public final class RobotConstants extends RobotConstantsBase {
         // TODO: TUNE PID CONTROLLERS AND
         public static final PIDController xController = new PIDController(3, 0, 0);
         public static final PIDController yController = new PIDController(3, 0, 0);
-        public static final PIDController thetaController = new PIDController(0.2, 0, 0);
-
+        public static final PIDController thetaController = new PIDController(0.2, 0, 0);   
         // vision
 
         // public static final String VISION_CAMERA_NAME = "Arducam_OV9281_USB_Camera";
@@ -224,44 +177,64 @@ public final class RobotConstants extends RobotConstantsBase {
                                                             // for grabbing
         public static final double LOCKED_ON_ERROR_Y = 0.3;
         public static final double LOCKED_ON_ERROR_DEGREES = 10;
-
-        // Everything below is copied from 2022 robot
         public static final double kTrackwidthMeters = 0.702;
 
-        // Arm
-        public static final double ELBOW_ABSOLUTE_ENCODER_AT_VERTICAL = hardwareSpecificConstants
-                        .getOrDefault(MAC_ADDRESS,
-                                        hardwareSpecificConstants
-                                                        .get("00:80:2F:34:0B:07"))
-                        .get("ELBOW_ABSOLUTE_ENCODER_AT_VERTICAL");
-        public static final double SHOULDER_ABSOLUTE_ENCODER_AT_VERTICAL = hardwareSpecificConstants
-                        .getOrDefault(MAC_ADDRESS,
-                                        hardwareSpecificConstants
-                                                        .get("00:80:2F:34:0B:07"))
-                        .get("SHOULDER_ABSOLUTE_ENCODER_AT_VERTICAL");
-
-        public static final int ELBOW_GEAR_RATIO = 75;
-        public static final int ELBOW_SOFT_LIMIT_MIN = 20;
-        public static final int ELBOW_SOFT_LIMIT_MAX = 340;
-        public static final double ELBOW_ARBITRARY_FF = 0.8;
-        public static final int SHOULDER_GEAR_RATIO = 96;
+        
+        // Shoulder
+        public static final double SHOULDER_ABSOLUTE_ENCODER_AT_VERTICAL = hardwareSpecificConstants.get(MAC_ADDRESS)
+        .get("SHOULDER_ABSOLUTE_ENCODER_AT_VERTICAL");
+        public static final int SHOULDER_GEAR_RATIO = (hardwareSpecificConstants.get(MAC_ADDRESS).get("SHOULDER_GEAR_RATIO")).intValue();
         public static final int SHOULDER_SOFT_LIMIT_MIN = 60;
         public static final int SHOULDER_SOFT_LIMIT_MAX = 300;
         public static final double SHOULDER_ARBITRARY_FF = 0.5;
-        public static final double ARM_MAX_XCM = armXCM(90, 180);
-        public static final double ELBOW_MAX_OVERRIDE_DEGREES = 15;
         public static final double SHOULDER_MAX_OVERRIDE_DEGREES = 15;
-        public static final double SHOULDER_LENGTH_INCHES = 25;
+
+        public static final double SHOULDER_LENGTH_INCHES = 26;
+        public static final double SHOULDER_TO_ELBOW_MASS_LB = 8.7;
+        public static final double SHOULDER_MASS_DISTRIBUTION = 0.356; 
+        public static final double SHOULDER_ALLOWED_ERR_DEG = 3;
+
+        // Elbow
+        public static final double ELBOW_ABSOLUTE_ENCODER_AT_VERTICAL = hardwareSpecificConstants.get(MAC_ADDRESS)
+        .get("ELBOW_ABSOLUTE_ENCODER_AT_VERTICAL");
+        public static final int ELBOW_GEAR_RATIO = (hardwareSpecificConstants.get(MAC_ADDRESS).get("ELBOW_GEAR_RATIO")).intValue();;
+        public static final int ELBOW_SOFT_LIMIT_MIN = 20;
+        public static final int ELBOW_SOFT_LIMIT_MAX = 340;
+        public static final int ELBOW_MAX_OVERRIDE_DEGREES  = 15;
+        public static final double ELBOW_ALLOWED_ERR_DEG = 3;
+        // public static final double ELBOW_ARBITRARY_FF = 0.0;
+        public static final double ELBOW_ARBITRARY_FF = 0.5;
         public static final double ELBOW_LENGTH_INCHES = 35;
-        public static final double SHOULDER_TO_ELBOW_MASS_LB = 6.5;
-        public static final double ELBOW_TO_CLAW_MASS_LB = 2;
-        public static final double CLAW_MASS_LB = 6;
+        public static final double ELBOW_TO_CLAW_MASS_LB = 5.5; //TODO: set
+        public static final double ELBOW_MASS_DISTRIBUTION = 0.686; //TODO: set 
+
+        // Wrist
+        public static final double WRIST_ABSOLUTE_ENCODER_AT_VERTICAL = hardwareSpecificConstants.get(MAC_ADDRESS).get("WRIST_ABSOLUTE_ENCODER_AT_VERTICAL");
+        public static final double WRIST_GEAR_RATIO = (hardwareSpecificConstants.get(MAC_ADDRESS).get("WRIST_GEAR_RATIO")).intValue();;
+        public static final double WRIST_ARBITRARY_FF = 0;
+        public static final double WRIST_MAX_OVERRIDE_DEGREES = 90;
+        public static final double WRIST_ALLOWED_ERR_DEG = 3;
+
+        public static final double CLAW_LENGTH_INCHES = 4;
+        public static final double CLAW_MASS_LB = 6.5;
+        public static final double CLAW_MASS_DISTRIBUTION = 1;
+
+        public static final double CONE_MASS_LB = 1.4;
+
+        // Gravity-cancelling constants
+        public static final ArmSegment SHOULDER_SEGMENT = new ArmSegment(SHOULDER_LENGTH_INCHES, SHOULDER_TO_ELBOW_MASS_LB, SHOULDER_MASS_DISTRIBUTION, SHOULDER_ARBITRARY_FF);
+        public static final ArmSegment ELBOW_SEGMENT = new ArmSegment(ELBOW_LENGTH_INCHES, ELBOW_TO_CLAW_MASS_LB, ELBOW_MASS_DISTRIBUTION, ELBOW_ARBITRARY_FF);
+        public static final ArmSegment WRIST_SEGMENT = new ArmSegment(CLAW_LENGTH_INCHES, CLAW_MASS_LB, CLAW_MASS_DISTRIBUTION, WRIST_ARBITRARY_FF);
+
+
 
         // claw constants
-        public static final double CLAW_ROLLING_SPEED = 0.3;
-        public static final double CLAW_EJECTING_SPEED = -0.6;
-        public static final double CLAW_CURRENT_MAX = 25.0;
+        public static final double CLAW_ROLLING_SPEED = 0.75;
+        public static final double CLAW_EJECTING_SPEED = -0.7;
+        public static final double CLAW_CURRENT_MAX = 23.0;
         public static final double CLAW_IDLE_SPEED = 0.05;
+        public static final int CLAW_EJECT_ITERATIONS = 25;
+        public static final int CLAW_CURRENT_SPIKE_ITERATIONS = 5;
 
         public static final int kTimeoutMs = 0;
         public static final double leftKsVolts = 0.4;
@@ -270,88 +243,33 @@ public final class RobotConstants extends RobotConstantsBase {
         public static final double rightKsVolts = leftKsVolts;
         public static final double rightKvVoltSecondsPerMeter = leftKvVoltSecondsPerMeter;
         public static final double rightKaVoltSecondsSquaredPerMeter = leftKaVoltSecondsSquaredPerMeter;
-        public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(
-                        kTrackwidthMeters);
 
-        public static final PathConstraints kAutoPathConstraints = new PathConstraints(
-                        kMaxSpeedMetersPerSecond, kMaxAccelerationMetersPerSecondSquared);
-
-    public static final double SHOULDER_LENGTH_INCHES = 26;
-    public static final double SHOULDER_TO_ELBOW_MASS_LB = 8.7;
-    public static final double SHOULDER_MASS_DISTRIBUTION = 0.356; 
-
-    // Elbow
-    public static final double ELBOW_ABSOLUTE_ENCODER_AT_VERTICAL = hardwareSpecificConstants.get(MAC_ADDRESS)
-    .get("ELBOW_ABSOLUTE_ENCODER_AT_VERTICAL");
-    public static final int ELBOW_GEAR_RATIO = (hardwareSpecificConstants.get(MAC_ADDRESS).get("ELBOW_GEAR_RATIO")).intValue();;
-    public static final int ELBOW_SOFT_LIMIT_MIN = 20;
-    public static final int ELBOW_SOFT_LIMIT_MAX = 340;
-    public static final int ELBOW_MAX_OVERRIDE_DEGREES  = 15;
-    // public static final double ELBOW_ARBITRARY_FF = 0.0;
-    public static final double ELBOW_ARBITRARY_FF = 0.5;
-    public static final double ELBOW_LENGTH_INCHES = 35;
-    public static final double ELBOW_TO_CLAW_MASS_LB = 5.5; //TODO: set
-    public static final double ELBOW_MASS_DISTRIBUTION = 0.686; //TODO: set 
-
-    // Wrist
-    public static final double WRIST_ABSOLUTE_ENCODER_AT_VERTICAL = hardwareSpecificConstants.get(MAC_ADDRESS).get("WRIST_ABSOLUTE_ENCODER_AT_VERTICAL");
-    public static final double WRIST_GEAR_RATIO = (hardwareSpecificConstants.get(MAC_ADDRESS).get("WRIST_GEAR_RATIO")).intValue();;
-    public static final double WRIST_ARBITRARY_FF = 0;
-    public static final double WRIST_MAX_OVERRIDE_DEGREES = 90;
-
-    public static final double CLAW_LENGTH_INCHES = 4;
-    public static final double CLAW_MASS_LB = 6.5;
-    public static final double CLAW_MASS_DISTRIBUTION = 1;
-
-    public static final double CONE_MASS_LB = 1.4;
-
-    // Gravity-cancelling constants
-    public static final ArmSegment SHOULDER_SEGMENT = new ArmSegment(SHOULDER_LENGTH_INCHES, SHOULDER_TO_ELBOW_MASS_LB, SHOULDER_MASS_DISTRIBUTION, SHOULDER_ARBITRARY_FF);
-    public static final ArmSegment ELBOW_SEGMENT = new ArmSegment(ELBOW_LENGTH_INCHES, ELBOW_TO_CLAW_MASS_LB, ELBOW_MASS_DISTRIBUTION, ELBOW_ARBITRARY_FF);
-    public static final ArmSegment WRIST_SEGMENT = new ArmSegment(CLAW_LENGTH_INCHES, CLAW_MASS_LB, CLAW_MASS_DISTRIBUTION, WRIST_ARBITRARY_FF);
+        //Auto contraints for vision
+        public static final PathConstraints kAutoPathConstraints =
+                new PathConstraints(kMaxSpeedMetersPerSecond, kMaxAccelerationMetersPerSecondSquared);
 
 
-
-
-    // claw constants
-    public static final double CLAW_ROLLING_SPEED = 0.75;
-    public static final double CLAW_EJECTING_SPEED = -0.6;
-    public static final double CLAW_CURRENT_MAX = 23.0;
-    public static final double CLAW_IDLE_SPEED = 0.05;
-    public static final int CLAW_EJECT_ITERATIONS = 25;
-    public static final int CLAW_CURRENT_SPIKE_ITERATIONS = 5;
-
-    public static final int kTimeoutMs = 0;
-    public static final double leftKsVolts = 0.4;
-    public static final double leftKvVoltSecondsPerMeter = 2.1;
-    public static final double leftKaVoltSecondsSquaredPerMeter = 0.15;
-    public static final double rightKsVolts = leftKsVolts;
-    public static final double rightKvVoltSecondsPerMeter = leftKvVoltSecondsPerMeter;
-    public static final double rightKaVoltSecondsSquaredPerMeter = leftKaVoltSecondsSquaredPerMeter;
-
-    //Auto contraints for vision
-    public static final PathConstraints kAutoPathConstraints =
-            new PathConstraints(kMaxSpeedMetersPerSecond, kMaxAccelerationMetersPerSecondSquared);
-
-
-    /**
-     * This is code from Poofs 2022
-     * 
-     * @return the MAC address of the robot
-     */
-    public static String getMACAddress() {
-        try {
-            Enumeration<NetworkInterface> nwInterface = NetworkInterface.getNetworkInterfaces();
-            StringBuilder ret = new StringBuilder();
-            while (nwInterface.hasMoreElements()) {
-                NetworkInterface nis = nwInterface.nextElement();
-                System.out.println("NIS: " + nis.getDisplayName());
-                if (nis != null && "eth0".equals(nis.getDisplayName())) {
-                    byte[] mac = nis.getHardwareAddress();
-                    if (mac != null) {
-                        for (int i = 0; i < mac.length; i++) {
-                            ret.append(String.format("%02X%s", mac[i],
-                                    (i < mac.length - 1) ? ":" : ""));
+        /**
+         * This is code from Poofs 2022
+         * 
+         * @return the MAC address of the robot
+         */
+        public static String getMACAddress() {
+                try {
+                        Enumeration<NetworkInterface> nwInterface = NetworkInterface.getNetworkInterfaces();
+                        StringBuilder ret = new StringBuilder();
+                        while (nwInterface.hasMoreElements()) {
+                                NetworkInterface nis = nwInterface.nextElement();
+                                System.out.println("NIS: " + nis.getDisplayName());
+                                if (nis != null && "eth0".equals(nis.getDisplayName())) {
+                                        byte[] mac = nis.getHardwareAddress();
+                                        if (mac != null) {
+                                                for (int i = 0; i < mac.length; i++) {
+                                                        ret.append(String.format("%02X%s", mac[i],
+                                                        (i < mac.length - 1) ? ":" : ""));
+                                                }
+                                        }
+                                }
                         }
                 } catch (SocketException | NullPointerException e) {
                         e.printStackTrace();
@@ -359,23 +277,4 @@ public final class RobotConstants extends RobotConstantsBase {
                 System.out.println("\n\nMAC ADDRESS NOTHING");
                 return "";
         }
-
-        public static double armXCM(double shoulderAngleDegrees, double elbowAngleDegrees) {
-                double x1 = RobotConstants.SHOULDER_LENGTH_INCHES
-                                * Math.sin(Math.toRadians(shoulderAngleDegrees));
-                double x2 = RobotConstants.ELBOW_LENGTH_INCHES * Math.sin(
-                                Math.toRadians(shoulderAngleDegrees + elbowAngleDegrees - 180));
-                double xcm = (RobotConstants.SHOULDER_TO_ELBOW_MASS_LB * x1 / 4.0 // first segment
-                                                                                  // CM
-                                + RobotConstants.ELBOW_TO_CLAW_MASS_LB * (x1 + x2 / 2.0) // second
-                                                                                         // segment
-                                                                                         // CM
-                                + RobotConstants.CLAW_MASS_LB * (x1 + x2)) // claw CM
-                                / (RobotConstants.SHOULDER_TO_ELBOW_MASS_LB
-                                                + RobotConstants.ELBOW_TO_CLAW_MASS_LB
-                                                + RobotConstants.CLAW_MASS_LB); // divide by total
-                                                                                // mass
-                return xcm;
-        }
-
 }

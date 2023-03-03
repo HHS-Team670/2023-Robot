@@ -8,6 +8,7 @@
 package frc.team670.robot;
 
 import frc.team670.robot.commands.drivebase.NonPidAutoLevel;
+import frc.team670.robot.commands.pathplanner.CubeEngage;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
@@ -54,7 +55,7 @@ public class RobotContainer extends RobotContainerBase {
     public void robotInit() {
         driveBase.initVision(vision);
 
-        updateArbitraryFeedForwards = new Notifier(new Runnable() {
+        updateArbitraryFeedForward = new Notifier(new Runnable() {
             public void run() {
                 arm.updateArbitraryFeedForward();
             }
@@ -73,19 +74,21 @@ public class RobotContainer extends RobotContainerBase {
         SmartDashboard.putBoolean("match-started", true);
         arm.setStateToStarting();
         
-        // return new CubeEngage(driveBase, claw, arm, "RightCubeEngage");
+        return new CubeEngage(driveBase, claw, arm, "CableEngage");
         // return new ConeCube(driveBase, claw, arm, "RightConeCube");
-        return new NonPidAutoLevel(driveBase, true);
+        // return new NonPidAutoLevel(driveBase, true);
 
     }
 
     @Override
     public void autonomousInit() {
 
+        arm.setStateToStarting();
     }
 
     @Override
     public void teleopInit() {
+        // arm.setStateToStarting();
         arm.clearSetpoint();
     }
 
