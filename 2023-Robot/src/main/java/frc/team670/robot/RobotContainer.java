@@ -8,12 +8,14 @@
 package frc.team670.robot;
 
 import frc.team670.robot.commands.drivebase.NonPidAutoLevel;
+import frc.team670.robot.commands.drivebase.SwerveDriveParkCommand;
 import frc.team670.robot.commands.pathplanner.CubeEngage;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import frc.team670.mustanglib.RobotContainerBase;
 import frc.team670.mustanglib.commands.MustangCommand;
+import frc.team670.mustanglib.commands.MustangScheduler;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 import frc.team670.mustanglib.utils.MustangController;
 import frc.team670.robot.constants.OI;
@@ -52,7 +54,7 @@ public class RobotContainer extends RobotContainerBase {
 
     @Override
     public void robotInit() {
-        driveBase.initPoseEstimator(vision);
+        // driveBase.initPoseEstimator(vision);
         updateArbitraryFeedForward = new Notifier(new Runnable() {
             public void run() {
                 arm.updateArbitraryFeedForward();
@@ -95,8 +97,10 @@ public class RobotContainer extends RobotContainerBase {
 
     @Override
     public void disabled() {
+        MustangScheduler.getInstance().schedule(new SwerveDriveParkCommand(driveBase));
 
     }
+    
 
     @Override
     public void disabledPeriodic() {

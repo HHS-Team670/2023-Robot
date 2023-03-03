@@ -11,6 +11,7 @@ import java.util.Enumeration;
 import java.util.Map;
 
 import com.pathplanner.lib.PathConstraints;
+import com.pathplanner.lib.auto.PIDConstants;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation3d;
@@ -148,6 +149,10 @@ public final class RobotConstants extends RobotConstantsBase {
     public static final PIDController yController = new PIDController(3, 0, 0);
     public static final PIDController thetaController = new PIDController(0.2, 0, 0);
 
+    //Auton PID controllers
+    public static final PIDConstants AUTON_TRANSLATION_CONTROLLER = new PIDConstants(1, 0, 0);
+    public static final PIDConstants AUTON_THETA_CONTROLLER = new PIDConstants(1, 0, 0);
+
     // vision
 
     // public static final String VISION_CAMERA_NAME = "Arducam_OV9281_USB_Camera";
@@ -180,7 +185,7 @@ public final class RobotConstants extends RobotConstantsBase {
     public static final double SHOULDER_LENGTH_INCHES = 26;
     public static final double SHOULDER_TO_ELBOW_MASS_LB = 8.7;
     public static final double SHOULDER_MASS_DISTRIBUTION = 0.356; 
-    public static final double SHOULDER_ALLOWED_ERR_DEG = 3;
+    public static final double SHOULDER_ALLOWED_ERR_DEG = 2;
 
     // Elbow
     public static final double ELBOW_ABSOLUTE_ENCODER_AT_VERTICAL = hardwareSpecificConstants.get(MAC_ADDRESS)
@@ -189,7 +194,7 @@ public final class RobotConstants extends RobotConstantsBase {
     public static final int ELBOW_SOFT_LIMIT_MIN = 20;
     public static final int ELBOW_SOFT_LIMIT_MAX = 340;
     public static final int ELBOW_MAX_OVERRIDE_DEGREES  = 15;
-    public static final double ELBOW_ALLOWED_ERR_DEG = 3;
+    public static final double ELBOW_ALLOWED_ERR_DEG = 2;
     // public static final double ELBOW_ARBITRARY_FF = 0.0;
     public static final double ELBOW_ARBITRARY_FF = 0.5;
     public static final double ELBOW_LENGTH_INCHES = 35;
@@ -201,7 +206,7 @@ public final class RobotConstants extends RobotConstantsBase {
     public static final double WRIST_GEAR_RATIO = (hardwareSpecificConstants.get(MAC_ADDRESS).get("WRIST_GEAR_RATIO")).intValue();;
     public static final double WRIST_ARBITRARY_FF = 0;
     public static final double WRIST_MAX_OVERRIDE_DEGREES = 90;
-    public static final double WRIST_ALLOWED_ERR_DEG = 3;
+    public static final double WRIST_ALLOWED_ERR_DEG = 2;
 
     public static final double CLAW_LENGTH_INCHES = 4;
     public static final double CLAW_MASS_LB = 6.5;
@@ -218,8 +223,8 @@ public final class RobotConstants extends RobotConstantsBase {
 
 
     // claw constants
-    public static final double CLAW_ROLLING_SPEED = 0.75;
-    public static final double CLAW_EJECTING_SPEED = -0.7;
+    public static final double CLAW_ROLLING_SPEED = 1.0;
+    public static final double CLAW_EJECTING_SPEED = -0.75;
     public static final double CLAW_CURRENT_MAX = 23.0;
     public static final double CLAW_IDLE_SPEED = 0.05;
     public static final int CLAW_EJECT_ITERATIONS = 25;
@@ -232,6 +237,9 @@ public final class RobotConstants extends RobotConstantsBase {
     public static final double rightKsVolts = leftKsVolts;
     public static final double rightKvVoltSecondsPerMeter = leftKvVoltSecondsPerMeter;
     public static final double rightKaVoltSecondsSquaredPerMeter = leftKaVoltSecondsSquaredPerMeter;
+
+
+    public static double DRIVEBASE_CLEARANCE = Math.hypot(DRIVEBASE_WIDTH, DRIVEBASE_WIDTH) / 2 + 0.05;
 
     //Auto contraints for vision
     public static final PathConstraints kAutoPathConstraints =

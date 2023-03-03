@@ -25,6 +25,7 @@ import frc.team670.robot.subsystems.DriveBase;
 import frc.team670.robot.subsystems.arm.Arm;
 import frc.team670.robot.subsystems.arm.ArmState;
 import frc.team670.robot.commands.drivebase.NonPidAutoLevel;
+import frc.team670.robot.constants.RobotConstants;
 
 public class CubeEngage extends SequentialCommandGroup implements MustangCommand {
 
@@ -33,10 +34,10 @@ public class CubeEngage extends SequentialCommandGroup implements MustangCommand
     }
 
     public CubeEngage(DriveBase driveBase, Claw claw, Arm arm, String pathName) {
-        List<PathPlannerTrajectory> trajectoryGroup = PathPlanner.loadPathGroup(pathName, 1.5, 0.75);
+        List<PathPlannerTrajectory> trajectoryGroup = PathPlanner.loadPathGroup(pathName, 2, 1.25);
 
-        PIDConstants PID_translation = new PIDConstants(1.0, 0, 0);
-        PIDConstants PID_theta = new PIDConstants(1.0, 0, 0);
+        PIDConstants PID_translation = RobotConstants.AUTON_TRANSLATION_CONTROLLER;
+        PIDConstants PID_theta = RobotConstants.AUTON_THETA_CONTROLLER;
 
         Map<String, Command> eventMap = new HashMap<>();
 
