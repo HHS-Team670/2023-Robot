@@ -19,6 +19,7 @@ import frc.team670.robot.subsystems.Claw;
 import frc.team670.robot.subsystems.DriveBase;
 import frc.team670.robot.commands.drivebase.Creep;
 import frc.team670.robot.commands.drivebase.MoveToPose;
+import frc.team670.robot.commands.drivebase.SetDesiredHeading;
 import frc.team670.robot.subsystems.arm.Arm;
 import frc.team670.robot.subsystems.arm.ArmState;
 
@@ -98,10 +99,14 @@ public class OI extends OIBase {
         clawIdle.onTrue(new ClawIdle(claw));
 
         //Rotate to cardinal direction
-        rotateTo0.onTrue(new TurnToAngle(driveBase, 0, false, driverController));
-        rotateTo90.onTrue(new TurnToAngle(driveBase, 90, false, driverController));
-        rotateTo180.onTrue(new TurnToAngle(driveBase, 180, false, driverController));
-        rotateTo270.onTrue(new TurnToAngle(driveBase, 270, false, driverController));
+        rotateTo0.onTrue(new SetDesiredHeading(driveBase, XboxButtons.Y));
+        rotateTo90.onTrue(new SetDesiredHeading(driveBase, XboxButtons.X));
+        rotateTo180.onTrue(new SetDesiredHeading(driveBase, XboxButtons.A));
+        rotateTo270.onTrue(new SetDesiredHeading(driveBase, XboxButtons.B));
+        // rotateTo0.onTrue(new TurnToAngle(driveBase, 0, false, driverController));
+        // rotateTo90.onTrue(new TurnToAngle(driveBase, 90, false, driverController));
+        // rotateTo180.onTrue(new TurnToAngle(driveBase, 180, false, driverController));
+        // rotateTo270.onTrue(new TurnToAngle(driveBase, 270, false, driverController));
 
     }
 
