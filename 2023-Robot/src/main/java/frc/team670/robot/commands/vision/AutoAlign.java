@@ -81,9 +81,9 @@ public class AutoAlign extends CommandBase implements MustangCommand {
 
     private void loadTargets() {
         for (Pose2d p : FieldConstants.Grids.scoringPoses)
-            targets.add(FieldConstants.allianceFlip(p));
+            targets.add(p);
         for (Pose2d p : FieldConstants.LoadingZone.IntakePoses)
-            targets.add(FieldConstants.allianceFlip(p));
+            targets.add(p);
 
     }
 

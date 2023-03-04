@@ -2,6 +2,7 @@ package frc.team670.robot.commands.drivebase;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Supplier;
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.PathPoint;
@@ -62,7 +63,7 @@ public class MoveToPose extends CommandBase implements MustangCommand {
         if (interrupted) {
             pathDrivingCommand.cancel();
         }
-        driveBase.stop();
+        // driveBase.stop();
         driveBase.getPoseEstimator().removeTrajectory();
     }
 

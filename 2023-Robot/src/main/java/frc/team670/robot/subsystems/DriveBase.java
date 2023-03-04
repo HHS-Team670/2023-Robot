@@ -81,10 +81,11 @@ public class DriveBase extends SwerveDrive {
        * Makes the DriveBase's default command initialize teleop
        */
       public void initDefaultCommand() { // TODO: switch to super class's init default command
-            // defaultCommand = new XboxSwerveDrive(this, mController, MAX_VELOCITY_METERS_PER_SECOND,
-            //             MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND);
-            defaultCommand = new XboxSwerveDriveAndTurnToAngle(this, mController, MAX_VELOCITY_METERS_PER_SECOND,
-                        MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND);
+            // defaultCommand = new XboxSwerveDrive(this, mController,
+            // MAX_VELOCITY_METERS_PER_SECOND,
+            // MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND);
+            defaultCommand = new XboxSwerveDriveAndTurnToAngle(this, mController,
+                        MAX_VELOCITY_METERS_PER_SECOND, MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND);
             MustangScheduler.getInstance().setDefaultCommand(this, defaultCommand);
       }
 
@@ -110,11 +111,10 @@ public class DriveBase extends SwerveDrive {
 
       public MustangPPSwerveControllerCommand getFollowTrajectoryCommand(
                   PathPlannerTrajectory traj) {
-            setSwerveControllerCommand(new MustangPPSwerveControllerCommand(traj,   // TODO: TEST
-                        this::getPose, getSwerveKinematics(),
-                        RobotConstants.xController, RobotConstants.yController,
-                        RobotConstants.thetaController, this::setModuleStates,
-                        new Subsystem[] {this}));
+            setSwerveControllerCommand(new MustangPPSwerveControllerCommand(traj, this::getPose,
+                        getSwerveKinematics(), RobotConstants.xController,
+                        RobotConstants.yController, RobotConstants.thetaController,
+                        this::setModuleStates, new Subsystem[] {this}));
             return getSwerveControllerCommand();
 
       }
