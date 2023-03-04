@@ -3,6 +3,7 @@ package frc.team670.robot.commands.leds;
 import frc.team670.mustanglib.commands.MustangCommand;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase.HealthState;
+import frc.team670.mustanglib.utils.Logger;
 import frc.team670.robot.subsystems.LED;
 
 import java.util.HashMap;
@@ -21,6 +22,7 @@ public class SetColorPurple extends InstantCommand implements MustangCommand {
     }
 
     public void initialize() {
+        Logger.consoleLog("LED COLOR BEING SET TO PURPLE");
         led.setColorPurple();
     }
 

@@ -34,19 +34,19 @@ public class RobotContainer extends RobotContainerBase {
 
     private final PowerDistribution pd = new PowerDistribution(1, ModuleType.kCTRE);
 
-    private final Vision vision = new Vision(pd);
-    private final DriveBase driveBase = new DriveBase(getDriverController());
-    private final Arm arm = new Arm();
-    private final Claw claw = new Claw(arm);
-    private final LED led = new LED(0, 0, 100);
+    // private final Vision vision = new Vision(pd);
+    // private final DriveBase driveBase = new DriveBase(getDriverController());
+    // private final Arm arm = new Arm();
+    // private final Claw claw = new Claw(arm);
+    private final LED led = new LED(9, 0, 58);
     private static OI oi = new OI();
 
     private Notifier updateArbitraryFeedForward;
 
     public RobotContainer() {
         super();
-        addSubsystem(driveBase, vision, arm, arm.getShoulder(), arm.getElbow(), arm.getWrist(), claw);
-        oi.configureButtonBindings(driveBase, vision, arm, claw);
+        addSubsystem(led);
+        oi.configureButtonBindings(led);
 
         for (MustangSubsystemBase subsystem : getSubsystems()) {
             subsystem.setDebugSubsystem(true);
@@ -55,15 +55,15 @@ public class RobotContainer extends RobotContainerBase {
 
     @Override
     public void robotInit() {
-        driveBase.initVision(vision);
+        // driveBase.initVision(vision);
 
-        updateArbitraryFeedForward = new Notifier(new Runnable() {
-            public void run() {
-                arm.updateArbitraryFeedForward();
-            }
-        });
-
-        updateArbitraryFeedForward.startPeriodic(0.01);
+        // updateArbitraryFeedForward = new Notifier(new Runnable() {
+        //     public void run() {
+        //         arm.updateArbitraryFeedForward();
+        //     // }
+        // });
+        led.setColorPurple();
+        // updateArbitraryFeedForward.startPeriodic(0.01);
     }
 
     /**
@@ -75,21 +75,21 @@ public class RobotContainer extends RobotContainerBase {
     public MustangCommand getAutonomousCommand() {
         // return new AutonCalibration(driveBase, "StraightLine"); TODO: use curve path
         // after straight path
-        return new ConeCube(driveBase, claw, arm, "CableScore");
+        // return new ConeCube(driveBase, claw, arm, "CableScore");
         // return new ConeCube(driveBase, claw, arm, "RightConeCube");
         // return new NonPidAutoLevel(driveBase, true);
-
+        return null;
     }
 
     @Override
     public void autonomousInit() {
-        arm.setStateToStarting();
+        // arm.setStateToStarting();
     }
 
     @Override
     public void teleopInit() {
         // arm.setStateToStarting();
-        arm.clearSetpoint();
+        // arm.clearSetpoint();
     }
 
     @Override

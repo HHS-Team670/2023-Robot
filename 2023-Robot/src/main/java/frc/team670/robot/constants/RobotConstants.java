@@ -73,7 +73,16 @@ public final class RobotConstants extends RobotConstantsBase {
                     entry("WRIST_ABSOLUTE_ENCODER_AT_VERTICAL", 0.918),
                     entry("SHOULDER_GEAR_RATIO", 75.0), entry("ELBOW_GEAR_RATIO", 90.0),
                     entry("WRIST_GEAR_RATIO", 125.0))),
-            entry("00:80:2F:22:B4:F6", Map.ofEntries()) // The mac address is from 670_WCD (test
+            entry("00:80:2F:22:B4:F6", Map.ofEntries( 
+                entry("BACK_RIGHT_MODULE_STEER_OFFSET", -Math.toRadians(82.694)),
+            entry("BACK_LEFT_MODULE_STEER_OFFSET", -Math.toRadians(233.29)),
+            entry("FRONT_RIGHT_MODULE_STEER_OFFSET", -Math.toRadians(225.77)),
+            entry("FRONT_LEFT_MODULE_STEER_OFFSET", -Math.toRadians(112.53)),
+            entry("SHOULDER_ABSOLUTE_ENCODER_AT_VERTICAL", 0.895),
+            entry("ELBOW_ABSOLUTE_ENCODER_AT_VERTICAL", 0.922),
+            entry("WRIST_ABSOLUTE_ENCODER_AT_VERTICAL", 0.918),
+            entry("SHOULDER_GEAR_RATIO", 75.0), entry("ELBOW_GEAR_RATIO", 90.0),
+            entry("WRIST_GEAR_RATIO", 125.0))) // The mac address is from 670_WCD (test
                                                         // bench)
 
     );
@@ -106,26 +115,26 @@ public final class RobotConstants extends RobotConstantsBase {
     public static final int BACK_RIGHT_MODULE_DRIVE_MOTOR = 25;
     public static final int BACK_RIGHT_MODULE_STEER_MOTOR = 24;
     public static final int BACK_RIGHT_MODULE_STEER_ENCODER = 34;
-    public static final double BACK_RIGHT_MODULE_STEER_OFFSET =
-            hardwareSpecificConstants.get(MAC_ADDRESS).get("BACK_RIGHT_MODULE_STEER_OFFSET");
+    public static final double BACK_RIGHT_MODULE_STEER_OFFSET =0;
+        //     hardwareSpecificConstants.get(MAC_ADDRESS).get("BACK_RIGHT_MODULE_STEER_OFFSET");
 
     public static final int BACK_LEFT_MODULE_DRIVE_MOTOR = 27;
     public static final int BACK_LEFT_MODULE_STEER_MOTOR = 26;
     public static final int BACK_LEFT_MODULE_STEER_ENCODER = 36;
-    public static final double BACK_LEFT_MODULE_STEER_OFFSET =
-            hardwareSpecificConstants.get(MAC_ADDRESS).get("BACK_LEFT_MODULE_STEER_OFFSET");
+    public static final double BACK_LEFT_MODULE_STEER_OFFSET =0;
+        //     hardwareSpecificConstants.get(MAC_ADDRESS).get("BACK_LEFT_MODULE_STEER_OFFSET");
 
     public static final int FRONT_RIGHT_MODULE_DRIVE_MOTOR = 23;
     public static final int FRONT_RIGHT_MODULE_STEER_MOTOR = 22;
     public static final int FRONT_RIGHT_MODULE_STEER_ENCODER = 32;
-    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET =
-            hardwareSpecificConstants.get(MAC_ADDRESS).get("FRONT_RIGHT_MODULE_STEER_OFFSET");
+    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET =0;
+        //     hardwareSpecificConstants.get(MAC_ADDRESS).get("FRONT_RIGHT_MODULE_STEER_OFFSET");
 
     public static final int FRONT_LEFT_MODULE_DRIVE_MOTOR = 21;
     public static final int FRONT_LEFT_MODULE_STEER_MOTOR = 20;
     public static final int FRONT_LEFT_MODULE_STEER_ENCODER = 30;
-    public static final double FRONT_LEFT_MODULE_STEER_OFFSET =
-            hardwareSpecificConstants.get(MAC_ADDRESS).get("FRONT_LEFT_MODULE_STEER_OFFSET");
+    public static final double FRONT_LEFT_MODULE_STEER_OFFSET =0;
+        //     hardwareSpecificConstants.get(MAC_ADDRESS).get("FRONT_LEFT_MODULE_STEER_OFFSET");
 
     public final static SerialPort.Port NAVX_PORT = SerialPort.Port.kMXP;
     public static final double kMaxSpeedMetersPerSecond = 2;
@@ -165,9 +174,9 @@ public final class RobotConstants extends RobotConstantsBase {
 
     // Shoulder
     public static final double SHOULDER_ABSOLUTE_ENCODER_AT_VERTICAL =
-            hardwareSpecificConstants.get(MAC_ADDRESS).get("SHOULDER_ABSOLUTE_ENCODER_AT_VERTICAL");
+            0;
     public static final int SHOULDER_GEAR_RATIO =
-            (hardwareSpecificConstants.get(MAC_ADDRESS).get("SHOULDER_GEAR_RATIO")).intValue();
+            0;
     public static final int SHOULDER_SOFT_LIMIT_MIN = 60;
     public static final int SHOULDER_SOFT_LIMIT_MAX = 300;
     public static final double SHOULDER_ARBITRARY_FF = 0.5;
@@ -180,9 +189,9 @@ public final class RobotConstants extends RobotConstantsBase {
 
     // Elbow
     public static final double ELBOW_ABSOLUTE_ENCODER_AT_VERTICAL =
-            hardwareSpecificConstants.get(MAC_ADDRESS).get("ELBOW_ABSOLUTE_ENCODER_AT_VERTICAL");
+            0;
     public static final int ELBOW_GEAR_RATIO =
-            (hardwareSpecificConstants.get(MAC_ADDRESS).get("ELBOW_GEAR_RATIO")).intValue();;
+            0;
     public static final int ELBOW_SOFT_LIMIT_MIN = 20;
     public static final int ELBOW_SOFT_LIMIT_MAX = 340;
     public static final int ELBOW_MAX_OVERRIDE_DEGREES  = 15;
@@ -195,9 +204,9 @@ public final class RobotConstants extends RobotConstantsBase {
 
     // Wrist
     public static final double WRIST_ABSOLUTE_ENCODER_AT_VERTICAL =
-            hardwareSpecificConstants.get(MAC_ADDRESS).get("WRIST_ABSOLUTE_ENCODER_AT_VERTICAL");
+            0;
     public static final double WRIST_GEAR_RATIO =
-            (hardwareSpecificConstants.get(MAC_ADDRESS).get("WRIST_GEAR_RATIO")).intValue();;
+            0;
     public static final double WRIST_ARBITRARY_FF = 0;
     public static final double WRIST_MAX_OVERRIDE_DEGREES = 90;
     public static final double WRIST_ALLOWED_ERR_DEG = 2;

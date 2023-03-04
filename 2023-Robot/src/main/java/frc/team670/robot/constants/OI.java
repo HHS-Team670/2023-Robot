@@ -79,38 +79,38 @@ public class OI extends OIBase {
 
     @Override
     public void configureButtonBindings(MustangSubsystemBase... subsystemBases) {
-        DriveBase driveBase = (DriveBase) subsystemBases[0];
+        //DriveBase driveBase = (DriveBase) subsystemBases[0];
         // Vision vision = (Vision) subsystemBases[1];
-        Arm arm = (Arm) subsystemBases[2];
-        Claw claw = (Claw) subsystemBases[3];
-        LED led = (LED) subsystemBases[4];
-        driveBase.initDefaultCommand();
+        // Arm arm = (Arm) subsystemBases[2];
+        // Claw claw = (Claw) subsystemBases[3];
+        LED led = (LED) subsystemBases[0];
+        //driveBase.initDefaultCommand();
 
-        zeroGyroDriver.onTrue(new SetSwerveForwardDirection(driveBase));
-        zeroArm.onTrue(new ResetArmFromAbsolute(arm));
-        moveToTarget.whileTrue(new MoveToPose(driveBase, (FieldConstants.LoadingZone.IntakePoses[0]))); // moves to
-                                                                                                        // substation
-        creep.whileTrue(new Creep(driveBase));
+        // zeroGyroDriver.onTrue(new SetSwerveForwardDirection(driveBase));
+        // zeroArm.onTrue(new ResetArmFromAbsolute(arm));
+        // moveToTarget.whileTrue(new MoveToPose(driveBase, (FieldConstants.LoadingZone.IntakePoses[0]))); // moves to
+        //                                                                                                 // substation
+        // creep.whileTrue(new Creep(driveBase));
 
-        // arm movement commands
-        hybrid.onTrue(new MoveToTarget(arm, ArmState.HYBRID));
-        scoreMidR.onTrue(new MoveToTarget(arm, ArmState.SCORE_MID));
-        singleStation.onTrue(new MoveToTarget(arm, claw, ArmState.SINGLE_STATION));
-        scoreHigh.onTrue(new MoveToTarget(arm, ArmState.SCORE_HIGH));
-        stow.onTrue(new MoveToTarget(arm, ArmState.STOWED));
-        manualShoulderControl.onTrue(new ManualMoveShoulder(arm, operatorController));
-        manualElbowControl.onTrue(new ManualMoveElbow(arm, operatorController));
+        // // arm movement commands
+        // hybrid.onTrue(new MoveToTarget(arm, ArmState.HYBRID));
+        // scoreMidR.onTrue(new MoveToTarget(arm, ArmState.SCORE_MID));
+        // singleStation.onTrue(new MoveToTarget(arm, claw, ArmState.SINGLE_STATION));
+        // scoreHigh.onTrue(new MoveToTarget(arm, ArmState.SCORE_HIGH));
+        // stow.onTrue(new MoveToTarget(arm, ArmState.STOWED));
+        // manualShoulderControl.onTrue(new ManualMoveShoulder(arm, operatorController));
+        // manualElbowControl.onTrue(new ManualMoveElbow(arm, operatorController));
 
-        // Claw control commands
-        clawSuck.onTrue(new ClawIntake(claw));
-        clawEject.onTrue(new EjectAndStow(claw, arm));
-        clawIdle.onTrue(new ClawIdle(claw));
+        // // Claw control commands
+        // clawSuck.onTrue(new ClawIntake(claw));
+        // clawEject.onTrue(new EjectAndStow(claw, arm));
+        // clawIdle.onTrue(new ClawIdle(claw));
 
-        // Rotate to cardinal direction
-        rotateTo0.onTrue(new SetDesiredHeading(driveBase, new Rotation2d(0)));
-        rotateTo90.onTrue(new SetDesiredHeading(driveBase, new Rotation2d(Math.PI / 2)));
-        rotateTo180.onTrue(new SetDesiredHeading(driveBase, new Rotation2d(Math.PI)));
-        rotateTo270.onTrue(new SetDesiredHeading(driveBase, new Rotation2d(3 * Math.PI / 2)));
+        // // Rotate to cardinal direction
+        // rotateTo0.onTrue(new SetDesiredHeading(driveBase, new Rotation2d(0)));
+        // rotateTo90.onTrue(new SetDesiredHeading(driveBase, new Rotation2d(Math.PI / 2)));
+        // rotateTo180.onTrue(new SetDesiredHeading(driveBase, new Rotation2d(Math.PI)));
+        // rotateTo270.onTrue(new SetDesiredHeading(driveBase, new Rotation2d(3 * Math.PI / 2)));
 
         purple.onTrue(new SetColorPurple(led));
         yellow.onTrue(new SetColorYellow(led));
