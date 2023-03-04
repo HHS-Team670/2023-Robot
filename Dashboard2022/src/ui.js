@@ -121,13 +121,10 @@ NetworkTables.addKeyListener('/SmartDashboard/warnings', (key, value) => {
 
 NetworkTables.addKeyListener('/SmartDashboard/match-started', (key, value) => {
     var autoSelector = document.querySelector('#auton-chooser');
-    var armStates = document.querySelector('div#arm-state');
     if (value) {
         autoSelector.style.display = 'none';
-        armStates.style.display = 'flex';
     } else {
         autoSelector.style.display = 'block';
-        armStates.style.display = 'none';
     }
 })
 
@@ -445,8 +442,7 @@ function sendAuton() {
     console.log("SELECTED AUTON COMMAND", autonCommand);
     NetworkTables.putValue('/SmartDashboard/auton-chooser', autonCommand);
     NetworkTables.putValue('/SmartDashboard/delayTime', delayTime);
-    if (autonCommand !== -1 && NetworkTables.getValue('/SmartDashboard/auton-chooser') === autonCommand
-    && NetworkTables.getKeys().length > 5) {
+    if (autonCommand !== -1 && NetworkTables.getValue('/SmartDashboard/auton-chooser') === autonCommand) {
         document.getElementById('auton-status').style.fill = "rgb(0,255,0)";
         document.getElementById('auton-status').style.stroke = "rgb(0,255,0)";
     } else {

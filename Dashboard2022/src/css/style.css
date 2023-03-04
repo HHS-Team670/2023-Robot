@@ -89,7 +89,7 @@ body {
     position: absolute;
     top: 0vh;
     right: 35vw;
-    scale: 75%;
+    scale: 100%;
 }
 
 
@@ -245,6 +245,7 @@ body.login #login {
 }
 
 
+
 #auton-chooser {
     /* position: absolute;
     transform: translate(0vw, 72vh); */
@@ -255,7 +256,7 @@ body.login #login {
 }
 
 #arm-state {
-    display: none;
+    display: flex;
     align-items: center;
     justify-content: center;
 }
