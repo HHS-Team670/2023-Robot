@@ -47,7 +47,7 @@ public class XboxSwerveDriveAndTurnToAngle extends CommandBase implements Mustan
         double yVel = MAX_VELOCITY * modifyAxis(-controller.getLeftX());
         double thetaVel;
         if (desiredHeading == null) {
-            thetaVel = MAX_VELOCITY * modifyAxis(-controller.getRightX());
+            thetaVel = MAX_ANGULAR_VELOCITY * modifyAxis(-controller.getRightX());
         } else {
             thetaVel = rotPIDController.calculateRotationSpeed(driveBase.getGyroscopeRotation(), desiredHeading);
         }
