@@ -20,17 +20,19 @@ public class XboxSwerveDriveAndTurnToAngle extends CommandBase implements Mustan
     private final SwerveDrive driveBase;
     private RotationController rotPIDController;
     private MustangController controller;
-    
-    private Rotation2d desiredHeading = null;
+
+    // private Rotation2d desiredHeading = null;
     private double MAX_VELOCITY, MAX_ANGULAR_VELOCITY;
 
     public XboxSwerveDriveAndTurnToAngle(SwerveDrive swerveDriveBase, MustangController controller,
             double maxVelocity, double maxAngularVelocity) {
         this.driveBase = swerveDriveBase;
         this.controller = controller;
-        this.rotPIDController = new RotationController(new ProfiledPIDController(4, 0, 1, // not tuned yet
-        new Constraints(RobotConstants.kMaxAngularSpeedRadiansPerSecond,
-                RobotConstants.kMaxAngularSpeedRadiansPerSecondSquared)));
+        this.rotPIDController = new RotationController(new ProfiledPIDController(4, 0, 1, // not
+                                                                                          // tuned
+                                                                                          // yet
+                new Constraints(RobotConstants.kMaxAngularSpeedRadiansPerSecond,
+                        RobotConstants.kMaxAngularSpeedRadiansPerSecondSquared)));
         this.rotPIDController.setTolerance(new Rotation2d(Units.degreesToRadians(5)));
 
         MAX_VELOCITY = maxVelocity;
@@ -43,33 +45,38 @@ public class XboxSwerveDriveAndTurnToAngle extends CommandBase implements Mustan
     public void execute() {
         updateSnapRotation();
 
-        double xVel = MAX_VELOCITY * modifyAxis(-controller.getLeftY()); 
+        double xVel = MAX_VELOCITY * modifyAxis(-controller.getLeftY());
         double yVel = MAX_VELOCITY * modifyAxis(-controller.getLeftX());
         double thetaVel;
+
+        Rotation2d desiredHeading = driveBase.getDesiredHeading();
         if (desiredHeading == null) {
             thetaVel = MAX_ANGULAR_VELOCITY * modifyAxis(-controller.getRightX());
         } else {
-            thetaVel = rotPIDController.calculateRotationSpeed(driveBase.getGyroscopeRotation(), desiredHeading);
+            thetaVel = rotPIDController.calculateRotationSpeed(driveBase.getGyroscopeRotation(),
+                    desiredHeading);
         }
 
-        driveBase.drive(
-                ChassisSpeeds.fromFieldRelativeSpeeds(xVel, yVel, thetaVel, driveBase.getGyroscopeRotation()));
+        driveBase.drive(ChassisSpeeds.fromFieldRelativeSpeeds(xVel, yVel, thetaVel,
+                driveBase.getGyroscopeRotation()));
 
     }
 
     private void updateSnapRotation() {
+        Rotation2d desiredHeading = driveBase.getDesiredHeading();
         if (desiredHeading == null) {
             if (controller.getYButtonPressed()) {
-                desiredHeading = new Rotation2d(0);
+                driveBase.setDesiredHeading(new Rotation2d(0));
             } else if (controller.getXButtonPressed()) {
-                desiredHeading = new Rotation2d(Math.PI/2);
+                driveBase.setDesiredHeading(new Rotation2d(Math.PI / 2));
             } else if (controller.getAButtonPressed()) {
-                desiredHeading = new Rotation2d(Math.PI);
+                driveBase.setDesiredHeading(new Rotation2d(Math.PI));
             } else if (controller.getBButtonPressed()) {
-                desiredHeading = new Rotation2d(3*Math.PI/2);
+                driveBase.setDesiredHeading(new Rotation2d(3 * Math.PI / 2));
             }
         } else {
-            if (rotPIDController.atReference() || modifyAxis(-controller.getRightX()) != 0) desiredHeading = null;
+            if (rotPIDController.atReference() || modifyAxis(-controller.getRightX()) != 0)
+                driveBase.setDesiredHeading(null);;
         }
     }
 
