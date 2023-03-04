@@ -139,26 +139,37 @@ NetworkTables.addKeyListener('/SmartDashboard/aligned', (key, value) => {
     //    TURN_COUNTERCLOCK,
     //    OKAY
 
+    
     var moveStatus = value[0];
     var strafeStatus = value[1];
     var turnStatus = value[2];
+    var okay = true;
 
     var body = document.querySelector('body');
 
     body.classList.remove(string.match(/aligned.*/))
 
+    var addCorrection = (className) => {
+        body.classList.add(className);
+        okay = false;
+    }
+
     switch (moveStatus) {
         case "MOVE_UP":
-            body.classList.add("aligned-up")
+            addCorrection("aligned-up");
+            break;
         case "MOVE_DOWN":
-            body.classList.add("aligned-down")
+            addCorrection("aligned-down")
+            break;
     }
 
     switch (strafeStatus) {
         case "MOVE_RIGHT":
-            body.classList.add("aligned-right")
+            addCorrection("aligned-right")
+            break;
         case "MOVE_LEFT":
-            body.classList.add("aligned-left")
+            addCorrection("aligned-left")
+            break;
     }
 
     var clockwiseArrow = document.querySelector("#clockwise");
@@ -168,8 +179,15 @@ NetworkTables.addKeyListener('/SmartDashboard/aligned', (key, value) => {
     switch (turnStatus) {
         case "TURN_CLOCK":
             clockwiseArrow.style.display = "block";
+            okay = false;
+            break;
         case "TURN_COUNTERCLOCK":
             counterClockwiseArrow.style.display = "block";
+            okay = false;
+            break;
+    }
+    if (okay) {
+        body.classList.add("aligned-complete")
     }
 });
 
@@ -402,12 +420,16 @@ function getAutonFromMap() {
                 switch(selectedPath) { // Todo
                     case "cableScore":
                         return 0.0;
+                        break;
                     case "stationScore":
                         return 1.0;
+                        break;
                     case "cableEngage":
                         return 2.0;
+                        break;
                     case "stationEngage":
                         return 3.0;
+                        break;
                 }
             // case "Middle": // Todo 
             //     switch(selectedPath) {
