@@ -10,7 +10,7 @@ public class LED extends LEDSubsystem {
     }
 
     public void setColorPurple() {
-        solidrgb(LEDColor.SEXY_PUPRLE); // does not need to be changed
+        solidrgb(LEDColor.SEXY_PURPLE); // does not need to be changed
     }
 
     public void setColorYellow() {
