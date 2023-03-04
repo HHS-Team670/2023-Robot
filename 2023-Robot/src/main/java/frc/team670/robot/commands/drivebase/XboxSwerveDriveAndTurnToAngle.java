@@ -21,7 +21,7 @@ public class XboxSwerveDriveAndTurnToAngle extends CommandBase implements Mustan
     private RotationController rotPIDController;
     private MustangController controller;
     
-    private Rotation2d snapRotation = null;
+    private Rotation2d desiredHeading = null;
     private double MAX_VELOCITY, MAX_ANGULAR_VELOCITY;
 
     public XboxSwerveDriveAndTurnToAngle(SwerveDrive swerveDriveBase, MustangController controller,
@@ -43,34 +43,33 @@ public class XboxSwerveDriveAndTurnToAngle extends CommandBase implements Mustan
     public void execute() {
         updateSnapRotation();
 
-        double xPos = modifyAxis(-controller.getLeftY()); 
-        double yPos = modifyAxis(-controller.getLeftX());
-        double angle;
-        if (snapRotation == null) {
-            angle = modifyAxis(-controller.getRightX());
+        double xVel = MAX_VELOCITY * modifyAxis(-controller.getLeftY()); 
+        double yVel = MAX_VELOCITY * modifyAxis(-controller.getLeftX());
+        double thetaVel;
+        if (desiredHeading == null) {
+            thetaVel = MAX_VELOCITY * modifyAxis(-controller.getRightX());
         } else {
-            angle = rotPIDController.calculateRotationSpeed(driveBase.getGyroscopeRotation(), snapRotation);
+            thetaVel = rotPIDController.calculateRotationSpeed(driveBase.getGyroscopeRotation(), desiredHeading);
         }
 
         driveBase.drive(
-                ChassisSpeeds.fromFieldRelativeSpeeds(xPos * MAX_VELOCITY, yPos * MAX_VELOCITY,
-                        angle * MAX_ANGULAR_VELOCITY, driveBase.getGyroscopeRotation()));
+                ChassisSpeeds.fromFieldRelativeSpeeds(xVel, yVel, thetaVel, driveBase.getGyroscopeRotation()));
 
     }
 
     private void updateSnapRotation() {
-        if (snapRotation == null) {
+        if (desiredHeading == null) {
             if (controller.getYButtonPressed()) {
-                snapRotation = new Rotation2d(0);
+                desiredHeading = new Rotation2d(0);
             } else if (controller.getXButtonPressed()) {
-                snapRotation = new Rotation2d(Math.PI/2);
+                desiredHeading = new Rotation2d(Math.PI/2);
             } else if (controller.getAButtonPressed()) {
-                snapRotation = new Rotation2d(Math.PI);
+                desiredHeading = new Rotation2d(Math.PI);
             } else if (controller.getBButtonPressed()) {
-                snapRotation = new Rotation2d(3*Math.PI/2);
+                desiredHeading = new Rotation2d(3*Math.PI/2);
             }
         } else {
-            if (rotPIDController.atReference() || controller.getBackButtonPressed()) snapRotation = null;
+            if (rotPIDController.atReference() || modifyAxis(-controller.getRightX()) != 0) desiredHeading = null;
         }
     }
 
