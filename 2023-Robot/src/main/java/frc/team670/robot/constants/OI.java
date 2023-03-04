@@ -1,5 +1,6 @@
 package frc.team670.robot.constants;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.team670.mustanglib.commands.drive.teleop.SetSwerveForwardDirection;
@@ -99,10 +100,10 @@ public class OI extends OIBase {
         clawIdle.onTrue(new ClawIdle(claw));
 
         //Rotate to cardinal direction
-        rotateTo0.onTrue(new SetDesiredHeading(driveBase, XboxButtons.Y));
-        rotateTo90.onTrue(new SetDesiredHeading(driveBase, XboxButtons.X));
-        rotateTo180.onTrue(new SetDesiredHeading(driveBase, XboxButtons.A));
-        rotateTo270.onTrue(new SetDesiredHeading(driveBase, XboxButtons.B));
+        rotateTo0.onTrue(new SetDesiredHeading(driveBase, new Rotation2d(0)));
+        rotateTo90.onTrue(new SetDesiredHeading(driveBase, new Rotation2d(Math.PI/2)));
+        rotateTo180.onTrue(new SetDesiredHeading(driveBase, new Rotation2d(Math.PI)));
+        rotateTo270.onTrue(new SetDesiredHeading(driveBase, new Rotation2d(3*Math.PI/2)));
         // rotateTo0.onTrue(new TurnToAngle(driveBase, 0, false, driverController));
         // rotateTo90.onTrue(new TurnToAngle(driveBase, 90, false, driverController));
         // rotateTo180.onTrue(new TurnToAngle(driveBase, 180, false, driverController));
