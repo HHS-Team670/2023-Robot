@@ -92,7 +92,8 @@ public class TurnToAngle extends CommandBase implements MustangCommand {
 
     @Override
     public boolean isFinished() {
-        return controller.getBButtonPressed() || holonomicDriveController.atReference();
+        return controller.getBackButtonPressed() || holonomicDriveController.atReference();
+        // return holonomicDriveController.atReference();
         // return false;
     }
 

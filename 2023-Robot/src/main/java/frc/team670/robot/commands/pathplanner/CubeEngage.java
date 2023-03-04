@@ -25,26 +25,25 @@ import frc.team670.robot.subsystems.DriveBase;
 import frc.team670.robot.subsystems.arm.Arm;
 import frc.team670.robot.subsystems.arm.ArmState;
 import frc.team670.robot.commands.drivebase.NonPidAutoLevel;
+import frc.team670.robot.constants.RobotConstants;
 
 public class CubeEngage extends SequentialCommandGroup implements MustangCommand {
 
+    String pathName;
+
     public Map<MustangSubsystemBase, HealthState> getHealthRequirements() {
-        return new HashMap();
+        return new HashMap<>();
     }
 
     public CubeEngage(DriveBase driveBase, Claw claw, Arm arm, String pathName) {
-        List<PathPlannerTrajectory> trajectoryGroup =
-                PathPlanner.loadPathGroup(pathName, 1.5, 0.75);
+        this.pathName = pathName;
+        List<PathPlannerTrajectory> trajectoryGroup = PathPlanner.loadPathGroup(pathName, 2, 1.25);
 
-        PIDConstants PID_translation = new PIDConstants(1.0, 0, 0);
-        PIDConstants PID_theta = new PIDConstants(1.0, 0, 0);
+        PIDConstants PID_translation = RobotConstants.AUTON_TRANSLATION_CONTROLLER;
+        PIDConstants PID_theta = RobotConstants.AUTON_THETA_CONTROLLER;
 
         Map<String, Command> eventMap = new HashMap<>();
 
-        // driveBase.resetOdometry(trajectoryGroup.get(0).getInitialHolonomicPose());
-        // driveBase.zeroGyroscope();
-
-        // eventMap.put("clawIntake1", new ClawIntake(claw));
         eventMap.put("moveToMid", new MoveToTarget(arm, ArmState.SCORE_MID));
         eventMap.put("clawEject", new ClawEject(claw));
         eventMap.put("moveToStowed", new MoveToTarget(arm, ArmState.STOWED));
@@ -60,7 +59,7 @@ public class CubeEngage extends SequentialCommandGroup implements MustangCommand
 
         SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(driveBase::getPose,
                 driveBase::resetOdometry, driveBaseKinematics, PID_translation, PID_theta,
-                driveBase::setModuleStates, eventMap, false, new Subsystem[] {driveBase});
+                driveBase::setModuleStates, eventMap, true, new Subsystem[] {driveBase});
 
         CommandBase fullAuto = autoBuilder.fullAuto(trajectoryGroup);
 

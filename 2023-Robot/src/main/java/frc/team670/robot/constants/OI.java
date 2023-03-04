@@ -12,6 +12,7 @@ import frc.team670.robot.commands.arm.ManualMoveShoulder;
 import frc.team670.robot.commands.arm.MoveToTarget;
 import frc.team670.robot.commands.arm.ResetArmFromAbsolute;
 import frc.team670.robot.commands.claw.ClawIntake;
+import frc.team670.robot.commands.drivebase.TurnToAngle;
 import frc.team670.robot.commands.routines.EjectAndStow;
 import frc.team670.robot.commands.claw.ClawIdle;
 import frc.team670.robot.subsystems.Claw;
@@ -50,7 +51,13 @@ public class OI extends OIBase {
 
     private static JoystickButton clawSuck = new JoystickButton(operatorController, XboxButtons.RIGHT_BUMPER);
     private static JoystickButton clawEject = new JoystickButton(driverController, XboxButtons.LEFT_BUMPER);
-    private static JoystickButton clawIdle = new JoystickButton(operatorController, XboxButtons.Y);
+    private static JoystickButton clawIdle = new JoystickButton(operatorController, XboxButtons.LEFT_BUMPER);
+
+    //Align to cardinal directions
+    private static JoystickButton rotateTo0 = new JoystickButton(driverController, XboxButtons.Y);
+    private static JoystickButton rotateTo90 = new JoystickButton(driverController, XboxButtons.X);
+    private static JoystickButton rotateTo180 = new JoystickButton(driverController, XboxButtons.A);
+    private static JoystickButton rotateTo270 = new JoystickButton(driverController, XboxButtons.B);
 
 
     public static MustangController getDriverController() {
@@ -89,6 +96,12 @@ public class OI extends OIBase {
         clawSuck.onTrue(new ClawIntake(claw));
         clawEject.onTrue(new EjectAndStow(claw, arm));
         clawIdle.onTrue(new ClawIdle(claw));
+
+        //Rotate to cardinal direction
+        rotateTo0.onTrue(new TurnToAngle(driveBase, 0, false, driverController));
+        rotateTo90.onTrue(new TurnToAngle(driveBase, 90, false, driverController));
+        rotateTo180.onTrue(new TurnToAngle(driveBase, 180, false, driverController));
+        rotateTo270.onTrue(new TurnToAngle(driveBase, 270, false, driverController));
 
     }
 

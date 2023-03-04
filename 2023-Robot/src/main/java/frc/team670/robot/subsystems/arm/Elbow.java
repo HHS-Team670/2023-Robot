@@ -50,8 +50,8 @@ public class Elbow extends SparkMaxRotatingSubsystem {
         }
 
         public double getP() {
-            return 0.0011;
-            // return 0;
+            // return 0.0011; //Value when chain popped on 3/1 and 3/2
+            return 0.0007;
         }
 
         public double getI() {

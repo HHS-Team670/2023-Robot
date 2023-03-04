@@ -60,11 +60,11 @@ public class NonPidAutoLevel extends CommandBase implements MustangCommand {
             driveBase.setModuleStates(states);
         } else {
             SwerveModuleState[] states = new SwerveModuleState[4];
-            states[0] = new SwerveModuleState(0.01, new Rotation2d(Math.PI/4)); 
-            states[1] = new SwerveModuleState(0.01, new Rotation2d(-Math.PI/4));
-            states[2] = new SwerveModuleState(0.01, new Rotation2d(-Math.PI/4));
-            states[3] = new SwerveModuleState(0.01, new Rotation2d(Math.PI/4));
-            driveBase.setModuleStates(states);
+                states[0] = new SwerveModuleState(0.01, new Rotation2d(Math.PI/4)); 
+                states[1] = new SwerveModuleState(0.01, new Rotation2d(-Math.PI/4));
+                states[2] = new SwerveModuleState(0.01, new Rotation2d(-Math.PI/4));
+                states[3] = new SwerveModuleState(0.01, new Rotation2d(Math.PI/4));
+                driveBase.setModuleStates(states);
         }
     }
 

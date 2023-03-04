@@ -69,6 +69,7 @@ public class Claw extends MustangSubsystemBase {
      */
     public void setIdle() {
         setStatus(Status.IDLE);
+        this.isFull = false;
     }
 
     /**
