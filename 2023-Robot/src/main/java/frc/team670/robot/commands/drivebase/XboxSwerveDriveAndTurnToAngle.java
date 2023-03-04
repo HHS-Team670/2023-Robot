@@ -28,9 +28,7 @@ public class XboxSwerveDriveAndTurnToAngle extends CommandBase implements Mustan
             double maxVelocity, double maxAngularVelocity) {
         this.driveBase = swerveDriveBase;
         this.controller = controller;
-        this.rotPIDController = new RotationController(new ProfiledPIDController(4, 0, 1, // not
-                                                                                          // tuned
-                                                                                          // yet
+        this.rotPIDController = new RotationController(new ProfiledPIDController(1.75, 0, 0, 
                 new Constraints(RobotConstants.kMaxAngularSpeedRadiansPerSecond,
                         RobotConstants.kMaxAngularSpeedRadiansPerSecondSquared)));
         this.rotPIDController.setTolerance(new Rotation2d(Units.degreesToRadians(5)));
@@ -48,7 +46,7 @@ public class XboxSwerveDriveAndTurnToAngle extends CommandBase implements Mustan
             if (rotPIDController.atReference() || modifyAxis(-controller.getRightX()) != 0)
                 driveBase.setDesiredHeading(null);
         }
-        
+
         double xVel = MAX_VELOCITY * modifyAxis(-controller.getLeftY());
         double yVel = MAX_VELOCITY * modifyAxis(-controller.getLeftX());
         double thetaVel;
