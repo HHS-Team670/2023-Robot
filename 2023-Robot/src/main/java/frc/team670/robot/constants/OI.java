@@ -34,8 +34,9 @@ public class OI extends OIBase {
     // private static JoystickButton zeroArm = new JoystickButton(driverController, XboxButtons.START);
     private static JoystickButton zeroArm = new JoystickButton(operatorController, XboxButtons.START);
     private static JoystickButton zeroGyroDriver = new JoystickButton(driverController, XboxButtons.START);
-    private static JoystickButton moveToTarget = new JoystickButton(driverController, XboxButtons.Y);
-    private static JoystickButton creep = new JoystickButton(driverController, XboxButtons.B);
+    private static JoystickButton moveToTarget = new JoystickButton(driverController, XboxButtons.RIGHT_BUMPER);
+    // private static JoystickButton creep = new JoystickButton(driverController, XboxButtons.RIGHT_TRIGGER);
+    private static POVButton creep = new POVButton(driverController, 0);
     
     // private static JoystickButton singleSubstation = new JoystickButton(driverController, 0)
 
