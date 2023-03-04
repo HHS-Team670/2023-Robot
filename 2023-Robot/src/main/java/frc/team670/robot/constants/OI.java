@@ -12,11 +12,14 @@ import frc.team670.robot.commands.arm.ManualMoveShoulder;
 import frc.team670.robot.commands.arm.MoveToTarget;
 import frc.team670.robot.commands.arm.ResetArmFromAbsolute;
 import frc.team670.robot.commands.claw.ClawIntake;
+import frc.team670.robot.commands.drivebase.TurnToAngle;
 import frc.team670.robot.commands.routines.EjectAndStow;
 import frc.team670.robot.commands.claw.ClawIdle;
 import frc.team670.robot.subsystems.Claw;
 import frc.team670.robot.subsystems.DriveBase;
+import frc.team670.robot.commands.drivebase.Creep;
 import frc.team670.robot.commands.drivebase.MoveToPose;
+import frc.team670.robot.commands.drivebase.SetDesiredHeading;
 import frc.team670.robot.subsystems.arm.Arm;
 import frc.team670.robot.subsystems.arm.ArmState;
 
@@ -31,6 +34,9 @@ public class OI extends OIBase {
     private static JoystickButton zeroArm = new JoystickButton(operatorController, XboxButtons.START);
     private static JoystickButton zeroGyroDriver = new JoystickButton(driverController, XboxButtons.START);
     private static JoystickButton moveToTarget = new JoystickButton(driverController, XboxButtons.Y);
+    private static JoystickButton creep = new JoystickButton(driverController, XboxButtons.B);
+    
+    // private static JoystickButton singleSubstation = new JoystickButton(driverController, 0)
 
     // Operator buttons
     private static POVButton hybrid = new POVButton(operatorController, 180);
@@ -46,7 +52,13 @@ public class OI extends OIBase {
 
     private static JoystickButton clawSuck = new JoystickButton(operatorController, XboxButtons.RIGHT_BUMPER);
     private static JoystickButton clawEject = new JoystickButton(driverController, XboxButtons.LEFT_BUMPER);
-    private static JoystickButton clawIdle = new JoystickButton(operatorController, XboxButtons.Y);
+    private static JoystickButton clawIdle = new JoystickButton(operatorController, XboxButtons.LEFT_BUMPER);
+
+    //Align to cardinal directions
+    private static JoystickButton rotateTo0 = new JoystickButton(driverController, XboxButtons.Y);
+    private static JoystickButton rotateTo90 = new JoystickButton(driverController, XboxButtons.X);
+    private static JoystickButton rotateTo180 = new JoystickButton(driverController, XboxButtons.A);
+    private static JoystickButton rotateTo270 = new JoystickButton(driverController, XboxButtons.B);
 
 
     public static MustangController getDriverController() {
@@ -66,12 +78,11 @@ public class OI extends OIBase {
 
         driveBase.initDefaultCommand();
 
-        // zeroGyro.onTrue(new SetSwerveForwardDirection(driveBase, arm));
-        // moveToTarget.whileTrue(new PathFindMoveToPose(driveBase, new Pose2d((FieldConstants.Grids.complexLowTranslations[1]), new Rotation2d())));
-        // moveToTarget.whileTrue(new MoveToPose(driveBase, new Pose2d((FieldConstants.Grids.complexLowTranslations[1]), new Rotation2d())));
         zeroGyroDriver.onTrue(new SetSwerveForwardDirection(driveBase));
         zeroArm.onTrue(new ResetArmFromAbsolute(arm));
         moveToTarget.whileTrue(new MoveToPose(driveBase, (FieldConstants.LoadingZone.IntakePoses[0]))); // moves to substation
+        creep.whileTrue(new Creep(driveBase));
+        
 
         //arm movement commands
         hybrid.onTrue(new MoveToTarget(arm, ArmState.HYBRID));
@@ -84,6 +95,16 @@ public class OI extends OIBase {
         
         // Claw control commands
         clawSuck.onTrue(new ClawIntake(claw));
+
+        //Rotate to cardinal direction
+        rotateTo0.onTrue(new SetDesiredHeading(driveBase, XboxButtons.Y));
+        rotateTo90.onTrue(new SetDesiredHeading(driveBase, XboxButtons.X));
+        rotateTo180.onTrue(new SetDesiredHeading(driveBase, XboxButtons.A));
+        rotateTo270.onTrue(new SetDesiredHeading(driveBase, XboxButtons.B));
+        // rotateTo0.onTrue(new TurnToAngle(driveBase, 0, false, driverController));
+        // rotateTo90.onTrue(new TurnToAngle(driveBase, 90, false, driverController));
+        // rotateTo180.onTrue(new TurnToAngle(driveBase, 180, false, driverController));
+        // rotateTo270.onTrue(new TurnToAngle(driveBase, 270, false, driverController));
 
     }
 }

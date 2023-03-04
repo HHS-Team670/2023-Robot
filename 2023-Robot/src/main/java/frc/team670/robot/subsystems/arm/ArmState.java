@@ -15,8 +15,8 @@ public enum ArmState {
 
     HYBRID(1, 140, 50, 254),
 
-    SCORE_MID(2, 188, 88, 147), 
-    SCORE_HIGH(3,135, 185, 112),
+    SCORE_MID(2, 188, 80, 138), 
+    SCORE_HIGH(3,137, 171, 101),
     STARTING(4, 205,25,270),
     TUNING(5, 90, 180, 180),
     SINGLE_STATION(6, 231, 11, 250);

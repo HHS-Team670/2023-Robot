@@ -17,7 +17,6 @@
       "isStopPoint": false,
       "stopEvent": {
         "names": [
-          "clawIntake1",
           "moveToMid1",
           "clawEject1"
         ],
@@ -127,6 +126,9 @@
       }
     }
   ],
+  "maxVelocity": 2.0,
+  "maxAcceleration": 1.0,
+  "isReversed": null,
   "markers": [
     {
       "position": 0.7405273437500004,
@@ -136,7 +138,7 @@
       ]
     },
     {
-      "position": 0.11097301136363638,
+      "position": 0.1445578835227263,
       "names": [
         "moveToStowed1"
       ]

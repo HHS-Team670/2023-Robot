@@ -7,16 +7,17 @@
 
 package frc.team670.robot;
 
-import frc.team670.robot.commands.drivebase.NonPidAutoLevel;
-import frc.team670.robot.commands.pathplanner.CubeEngage;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team670.mustanglib.RobotContainerBase;
 import frc.team670.mustanglib.commands.MustangCommand;
+import frc.team670.mustanglib.commands.MustangScheduler;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 import frc.team670.mustanglib.utils.MustangController;
+import frc.team670.robot.commands.drivebase.SwerveDriveParkCommand;
+import frc.team670.robot.commands.pathplanner.ConeCube;
 import frc.team670.robot.constants.OI;
 import frc.team670.robot.subsystems.Claw;
 import frc.team670.robot.subsystems.DriveBase;
@@ -46,7 +47,7 @@ public class RobotContainer extends RobotContainerBase {
         addSubsystem(driveBase, vision, arm, arm.getShoulder(), arm.getElbow(), arm.getWrist(), claw);
         oi.configureButtonBindings(driveBase, vision, arm, claw);
 
-        for(MustangSubsystemBase subsystem : this.getSubsystems()) {
+        for(MustangSubsystemBase subsystem : getSubsystems()) {
             subsystem.setDebugSubsystem(true);
         }
     }
@@ -71,10 +72,9 @@ public class RobotContainer extends RobotContainerBase {
      */
     @Override
     public MustangCommand getAutonomousCommand() {
-        SmartDashboard.putBoolean("match-started", true);
-        arm.setStateToStarting();
-        
-        return new CubeEngage(driveBase, claw, arm, "CableEngage");
+        SmartDashboard.putBoolean("match-started", true);     
+        //return new AutonCalibration(driveBase, "CenterEngage"); TODO: use curve path after straight path
+        return new ConeCube(driveBase, claw, arm, "CableScore");
         // return new ConeCube(driveBase, claw, arm, "RightConeCube");
         // return new NonPidAutoLevel(driveBase, true);
 
@@ -82,7 +82,6 @@ public class RobotContainer extends RobotContainerBase {
 
     @Override
     public void autonomousInit() {
-
         arm.setStateToStarting();
     }
 
@@ -93,19 +92,14 @@ public class RobotContainer extends RobotContainerBase {
     }
 
     @Override
-    public void testInit() {
-
-    }
+    public void testInit() {}
 
     @Override
-    public void disabled() {
-
-    }
+    public void disabled() {}
+    
 
     @Override
-    public void disabledPeriodic() {
-
-    }
+    public void disabledPeriodic() {}
 
     @Override
     public void periodic() {

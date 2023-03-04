@@ -3,12 +3,9 @@ package frc.team670.robot.commands.pathplanner;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
-import com.pathplanner.lib.auto.PIDConstants;
 import com.pathplanner.lib.auto.SwerveAutoBuilder;
-
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -19,46 +16,38 @@ import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase.HealthState;
 import frc.team670.robot.commands.arm.MoveToTarget;
 import frc.team670.robot.commands.claw.ClawEject;
-import frc.team670.robot.commands.claw.ClawIntake;
+import frc.team670.robot.commands.drivebase.NonPidAutoLevel;
+import frc.team670.robot.constants.RobotConstants;
 import frc.team670.robot.subsystems.Claw;
 import frc.team670.robot.subsystems.DriveBase;
 import frc.team670.robot.subsystems.arm.Arm;
 import frc.team670.robot.subsystems.arm.ArmState;
-import frc.team670.robot.commands.drivebase.NonPidAutoLevel;
-import frc.team670.robot.constants.RobotConstants;
 
-public class CubeEngage extends SequentialCommandGroup implements MustangCommand {
+public class CenterEngage extends SequentialCommandGroup implements MustangCommand {
 
     String pathName;
 
     public Map<MustangSubsystemBase, HealthState> getHealthRequirements() {
-        return new HashMap<>();
+        return new HashMap<MustangSubsystemBase, HealthState>();
     }
 
-    public CubeEngage(DriveBase driveBase, Claw claw, Arm arm, String pathName) {
+
+    public CenterEngage(DriveBase driveBase, Claw claw, Arm arm, String pathName) {
         this.pathName = pathName;
-        List<PathPlannerTrajectory> trajectoryGroup = PathPlanner.loadPathGroup(pathName, 2, 1.25);
+        List<PathPlannerTrajectory> trajectoryGroup = PathPlanner.loadPathGroup(pathName, 2.0, 1.75);
 
-        PIDConstants PID_translation = RobotConstants.AUTON_TRANSLATION_CONTROLLER;
-        PIDConstants PID_theta = RobotConstants.AUTON_THETA_CONTROLLER;
+        HashMap<String, Command> eventMap = new HashMap<>();
 
-        Map<String, Command> eventMap = new HashMap<>();
-
+        // eventMap stuff
         eventMap.put("moveToMid", new MoveToTarget(arm, ArmState.SCORE_MID));
         eventMap.put("clawEject", new ClawEject(claw));
-        eventMap.put("moveToStowed", new MoveToTarget(arm, ArmState.STOWED));
-        eventMap.put("clawIntake2", new ClawIntake(claw));
-        eventMap.put("moveToGround", new MoveToTarget(arm, ArmState.HYBRID));
-        eventMap.put("moveToStowed2", new MoveToTarget(arm, ArmState.STOWED));
-        eventMap.put("autoLevel", new NonPidAutoLevel(driveBase, false)); // regardless of what side
-                                                                          // (right/left) you are
-                                                                          // on, markers are the
-                                                                          // same
-
+        eventMap.put("stow", new MoveToTarget(arm, ArmState.STOWED));
+        eventMap.put("autoLevel", new NonPidAutoLevel(driveBase, false));
+        
         SwerveDriveKinematics driveBaseKinematics = driveBase.getSwerveKinematics();
 
         SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(driveBase::getPose,
-                driveBase::resetOdometry, driveBaseKinematics, PID_translation, PID_theta,
+                driveBase::resetOdometry, driveBaseKinematics, RobotConstants.AUTON_TRANSLATION_CONTROLLER, RobotConstants.AUTON_THETA_CONTROLLER,
                 driveBase::setModuleStates, eventMap, true, new Subsystem[] {driveBase});
 
         CommandBase fullAuto = autoBuilder.fullAuto(trajectoryGroup);

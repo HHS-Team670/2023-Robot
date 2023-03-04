@@ -7,7 +7,6 @@ import org.photonvision.PhotonCamera;
 import edu.wpi.first.apriltag.AprilTag;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.math.geometry.Pose3d;
-import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import frc.team670.mustanglib.subsystems.VisionSubsystemBase;
 import frc.team670.robot.constants.FieldConstants;
@@ -18,8 +17,9 @@ public class Vision extends VisionSubsystemBase {
     public Vision(PowerDistribution pd) {
 
         super(pd, Vision.getFieldLayout(FieldConstants.aprilTags),
-                new PhotonCamera[] {new PhotonCamera(RobotConstants.VISION_CAMERA_NAMES[0]), new PhotonCamera(RobotConstants.VISION_CAMERA_NAMES[1])},
-                new Transform3d[] {RobotConstants.CAMERA_OFFSET[0], RobotConstants.CAMERA_OFFSET[1]});
+                new PhotonCamera[] {new PhotonCamera(RobotConstants.VISION_CAMERA_NAMES[0]),
+                        new PhotonCamera(RobotConstants.VISION_CAMERA_NAMES[1])},
+                RobotConstants.CAMERA_OFFSETS);
         setName("Vision");
     }
 

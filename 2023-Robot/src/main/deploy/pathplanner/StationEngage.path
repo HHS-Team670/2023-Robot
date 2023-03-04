@@ -7,17 +7,16 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.2636474445277623,
-        "y": 4.965178713696442
+        "x": 2.403716688753907,
+        "y": 4.659227739787945
       },
-      "holonomicAngle": 180.0,
+      "holonomicAngle": 179.0,
       "isReversal": false,
       "velOverride": null,
       "isLocked": false,
       "isStopPoint": false,
       "stopEvent": {
         "names": [
-          "clawIntake1",
           "moveToMid",
           "clawEject"
         ],
@@ -28,18 +27,18 @@
     },
     {
       "anchorPoint": {
-        "x": 4.471793295243523,
-        "y": 4.93199889184018
+        "x": 5.32420162784119,
+        "y": 4.652474860261136
       },
       "prevControl": {
-        "x": 3.789075475685592,
-        "y": 4.9678067653553875
+        "x": 4.807400805011795,
+        "y": 4.68399917757358
       },
       "nextControl": {
-        "x": 5.359483225734283,
-        "y": 4.885440434097977
+        "x": 5.818043431551274,
+        "y": 4.622351019441623
       },
-      "holonomicAngle": -177.9815321149825,
+      "holonomicAngle": 0,
       "isReversal": false,
       "velOverride": null,
       "isLocked": false,
@@ -53,18 +52,18 @@
     },
     {
       "anchorPoint": {
-        "x": 6.578525817055873,
-        "y": 3.8391261393026364
+        "x": 6.678033013699491,
+        "y": 4.596523724270322
       },
       "prevControl": {
-        "x": 6.536497899608237,
-        "y": 4.622735749972601
+        "x": 6.670147828106889,
+        "y": 4.651123655194754
       },
       "nextControl": {
-        "x": 6.6149465057880406,
-        "y": 3.1600631866044826
+        "x": 6.802468840289243,
+        "y": 3.734884203356731
       },
-      "holonomicAngle": -49.4079169684121,
+      "holonomicAngle": 0.0,
       "isReversal": false,
       "velOverride": null,
       "isLocked": false,
@@ -80,12 +79,12 @@
     },
     {
       "anchorPoint": {
-        "x": 5.336826469309539,
-        "y": 3.313275919672601
+        "x": 5.351979674336953,
+        "y": 3.3962517134561176
       },
       "prevControl": {
-        "x": 5.932230566313479,
-        "y": 3.298563286134921
+        "x": 5.947383771340894,
+        "y": 3.3815390799184373
       },
       "nextControl": null,
       "holonomicAngle": 0.0,
@@ -104,11 +103,11 @@
     }
   ],
   "maxVelocity": 2.0,
-  "maxAcceleration": 1.0,
+  "maxAcceleration": 2.0,
   "isReversed": null,
   "markers": [
     {
-      "position": 0.8565840287642041,
+      "position": 0.4234397194602273,
       "names": [
         "moveToGround",
         "clawIntake2"

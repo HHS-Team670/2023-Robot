@@ -90,7 +90,7 @@ public class MoveToPosePID extends CommandBase implements MustangCommand {
 
     @Override
     public void initialize() {
-        startPose = swerve.getOdometerPose();
+        startPose = swerve.getPose();
         if (isRelative) {
             targetPose = startPose.plus(new Transform2d(new Translation2d(x, y), new Rotation2d()));
         } else {
@@ -100,7 +100,7 @@ public class MoveToPosePID extends CommandBase implements MustangCommand {
 
     @Override
     public void execute() {
-        Pose2d currPose2d = swerve.getOdometerPose();
+        Pose2d currPose2d = swerve.getPose();
         ChassisSpeeds chassisSpeeds = this.holonomicDriveController.calculate(currPose2d,
                 targetPose, 0, targetPose.getRotation());
         SwerveModuleState[] swerveModuleStates =

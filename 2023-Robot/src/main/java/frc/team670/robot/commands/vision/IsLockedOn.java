@@ -65,7 +65,7 @@ public class IsLockedOn extends CommandBase implements MustangCommand {
     }
 
     private void updatePoseAlignment() {
-        Pose2d currentPose = driveBase.getPoseEstimator().getCurrentPose();
+        Pose2d currentPose = driveBase.getPose();
         double driverDX = allianceAdjustment(goalPose.getX() - currentPose.getX());
         double driverDY = allianceAdjustment(goalPose.getY() - currentPose.getY());
         double dRot = goalPose.getRotation().getDegrees() - currentPose.getRotation().getDegrees();
