@@ -86,7 +86,6 @@ public class AutoAlign extends CommandBase implements MustangCommand {
 
     @Override
     public Map<MustangSubsystemBase, HealthState> getHealthRequirements() {
-        // TODO Auto-generated method stub
         return null;
     }
 
@@ -123,7 +122,7 @@ public class AutoAlign extends CommandBase implements MustangCommand {
         else {
             moveCommand.cancel();
             Pose2d goalPose = targets.get(goal);
-            moveCommand = new MoveToPose(driveBase, goalPose);
+            moveCommand = new MoveToPose(driveBase, goalPose, true);
             MustangScheduler.getInstance().schedule(moveCommand, driveBase);
         }
     }
