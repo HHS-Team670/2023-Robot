@@ -46,11 +46,11 @@ public class TurnToAngle extends CommandBase implements MustangCommand {
         ProfiledPIDController thetacontroller = new ProfiledPIDController(4, 0, 1, // not tuned yet
                 new Constraints(RobotConstants.kMaxAngularSpeedRadiansPerSecond,
                         RobotConstants.kMaxAngularSpeedRadiansPerSecondSquared));
-    
+
         holonomicDriveController =
                 new HolonomicDriveController(xcontroller, ycontroller, thetacontroller);
         holonomicDriveController.setTolerance(new Pose2d(1, 1, Rotation2d.fromDegrees(0.5)));
-        
+
         this.healthReqs = new HashMap<MustangSubsystemBase, HealthState>();
         this.healthReqs.put(swerve, HealthState.GREEN);
     }

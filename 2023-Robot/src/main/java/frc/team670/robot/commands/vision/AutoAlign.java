@@ -6,6 +6,7 @@ import java.util.Map;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.team670.mustanglib.commands.MustangCommand;
 import frc.team670.mustanglib.commands.MustangScheduler;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
@@ -21,13 +22,13 @@ import frc.team670.robot.subsystems.DriveBase;
  */
 public class AutoAlign extends CommandBase implements MustangCommand {
     private DriveBase driveBase;
-    private MoveToPose moveComand;
+    private MoveToPose moveCommand;
     private int goal;
     private List<Pose2d> targets = new ArrayList<>(12);
 
     MustangController controller;
-    private final int CONTROLLER_RIGHT = 90;
-    private final int CONTROLLER_LEFT = 90 + 180;
+    // private final int CONTROLLER_RIGHT = 90;
+    // private final int CONTROLLER_LEFT = 90 + 180;
 
     /**
      * AutoAligns to the closest scoring position. Stops when driver lets go of button. While
@@ -42,21 +43,31 @@ public class AutoAlign extends CommandBase implements MustangCommand {
     public void initialize() {
         if (targets.isEmpty())
             loadTargets();
-        goal = getClosestTargetIndex();
+        goal = getClosestTargetIndex(driveBase.getPose());
         Pose2d goalPose = targets.get(goal);
-        moveComand = new MoveToPose(driveBase, goalPose);
-        MustangScheduler.getInstance().schedule(moveComand, driveBase);
+        SmartDashboard.putString("AUTOALIGN: END POSE", String.format("(%.2f, %.2f)", goalPose.getX(), goalPose.getY()));
+
+        this.moveCommand = new MoveToPose(driveBase, goalPose);
+        MustangScheduler.getInstance().schedule(moveCommand, driveBase);
     }
 
     @Override
     public void execute() {
         SmartDashboard.putNumber("Goal index", goal);
+        // controller.getRawButtonPressed(MustangController.XboxButtons.)
+        // if (controller.getPOV() == CONTROLLER_RIGHT) {
+        //     scheduleNewMove(--goal);
+        // } else if (controller.getPOV() == CONTROLLER_LEFT) {
+        //     scheduleNewMove(++goal);
+        // }
 
-        if (controller.getPOV() == CONTROLLER_RIGHT) {
+        if (controller.getRightBumperPressed()) {
             scheduleNewMove(--goal);
-        } else if (controller.getPOV() == CONTROLLER_LEFT) {
+        } else if (controller.getLeftBumperPressed()) {
             scheduleNewMove(++goal);
         }
+
+        SmartDashboard.putNumber("Goal Index", goal);
     }
 
     // only ends when auto align mapped button let go
@@ -69,7 +80,7 @@ public class AutoAlign extends CommandBase implements MustangCommand {
     @Override
     public void end(boolean interrupted) {
         if (interrupted) {
-            moveComand.cancel();
+            moveCommand.cancel();
         }
     }
 
@@ -85,16 +96,20 @@ public class AutoAlign extends CommandBase implements MustangCommand {
         for (Pose2d p : FieldConstants.LoadingZone.IntakePoses)
             targets.add(p);
 
+        targets.forEach(
+            p -> {
+                SmartDashboard.putString(p.toString(), String.format("(%.2f, %.2f)", p.getX(), p.getY()));
+            }
+        );
     }
 
-    private int getClosestTargetIndex() {
-        Pose2d robotPose = driveBase.getPoseEstimator().getCurrentPose();
+    private int getClosestTargetIndex(Pose2d robotPose) {
         int closest = 0;
 
         for (int i = 0; i < targets.size(); i++) {
             closest = robotPose.getTranslation()
-                    .getDistance(targets.get(i).getTranslation()) > robotPose.getTranslation()
-                            .getDistance(targets.get(i).getTranslation()) ? i : closest;
+                    .getDistance(FieldConstants.allianceFlip(targets.get(i).getTranslation())) < robotPose.getTranslation()
+                            .getDistance(FieldConstants.allianceFlip(targets.get(closest).getTranslation())) ? i : closest;
         }
         return closest;
     }
@@ -106,10 +121,10 @@ public class AutoAlign extends CommandBase implements MustangCommand {
         else if (goal > 11)
             goal = 11;
         else {
-            moveComand.cancel();
+            moveCommand.cancel();
             Pose2d goalPose = targets.get(goal);
-            moveComand = new MoveToPose(driveBase, goalPose);
-            MustangScheduler.getInstance().schedule(moveComand, driveBase);
+            moveCommand = new MoveToPose(driveBase, goalPose);
+            MustangScheduler.getInstance().schedule(moveCommand, driveBase);
         }
     }
 }
