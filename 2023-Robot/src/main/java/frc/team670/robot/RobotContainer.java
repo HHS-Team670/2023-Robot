@@ -9,6 +9,7 @@ package frc.team670.robot;
 
 import frc.team670.robot.commands.drivebase.NonPidAutoLevel;
 import frc.team670.robot.commands.drivebase.SwerveDriveParkCommand;
+import frc.team670.robot.commands.pathplanner.AutonCalibration;
 import frc.team670.robot.commands.pathplanner.ConeCube;
 import frc.team670.robot.commands.pathplanner.CubeEngage;
 import edu.wpi.first.wpilibj.Notifier;
@@ -72,7 +73,7 @@ public class RobotContainer extends RobotContainerBase {
      */
     @Override
     public MustangCommand getAutonomousCommand() {
-        
+        //return new AutonCalibration(driveBase, "CenterEngage"); TODO: use curve path after straight path
         return new ConeCube(driveBase, claw, arm, "CableScore");
         // return new ConeCube(driveBase, claw, arm, "RightConeCube");
         // return new NonPidAutoLevel(driveBase, true);
