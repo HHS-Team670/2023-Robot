@@ -23,6 +23,9 @@ import frc.team670.robot.commands.drivebase.MoveToPose;
 import frc.team670.robot.commands.drivebase.SetDesiredHeading;
 import frc.team670.robot.subsystems.arm.Arm;
 import frc.team670.robot.subsystems.arm.ArmState;
+import frc.team670.robot.commands.leds.SetColorPurple;
+import frc.team670.robot.commands.leds.SetColorYellow;
+
 
 public class OI extends OIBase {
 
@@ -50,6 +53,9 @@ public class OI extends OIBase {
             XboxButtons.RIGHT_JOYSTICK_BUTTON);
     private static JoystickButton manualShoulderControl = new JoystickButton(operatorController,
             XboxButtons.LEFT_JOYSTICK_BUTTON);
+
+    private static JoystickButton purple = new JoystickButton(operatorController, XboxButtons.RIGHT_JOYSTICK_BUTTON);
+    private static JoystickButton yellow = new JoystickButton(operatorController, XboxButtons.LEFT_JOYSTICK_BUTTON);
 
     private static JoystickButton clawSuck = new JoystickButton(operatorController, XboxButtons.RIGHT_BUMPER);
     private static JoystickButton clawEject = new JoystickButton(driverController, XboxButtons.LEFT_BUMPER);
@@ -104,6 +110,9 @@ public class OI extends OIBase {
         rotateTo90.onTrue(new SetDesiredHeading(driveBase, new Rotation2d(Math.PI/2)));
         rotateTo180.onTrue(new SetDesiredHeading(driveBase, new Rotation2d(Math.PI)));
         rotateTo270.onTrue(new SetDesiredHeading(driveBase, new Rotation2d(3*Math.PI/2)));
+
+        purple.onTrue(new SetColorPurple());
+        yellow.onTrue(new SetColorYellow());
         // rotateTo0.onTrue(new TurnToAngle(driveBase, 0, false, driverController));
         // rotateTo90.onTrue(new TurnToAngle(driveBase, 90, false, driverController));
         // rotateTo180.onTrue(new TurnToAngle(driveBase, 180, false, driverController));

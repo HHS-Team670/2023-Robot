@@ -22,6 +22,7 @@ import frc.team670.robot.subsystems.Claw;
 import frc.team670.robot.subsystems.DriveBase;
 import frc.team670.robot.subsystems.Vision;
 import frc.team670.robot.subsystems.arm.Arm;
+import frc.team670.robot.subsystems.LED;
 
 /**
  * RobotContainer is where we put the high-level code for the robot.
@@ -37,8 +38,8 @@ public class RobotContainer extends RobotContainerBase {
     private final DriveBase driveBase = new DriveBase(getDriverController());
     private final Arm arm = new Arm();
     private final Claw claw = new Claw(arm);
-    private static OI oi = new OI();
-    
+    private static OI oi = new OI();private static LE
+
     private Notifier updateArbitraryFeedForward;
 
     public RobotContainer() {
@@ -46,7 +47,7 @@ public class RobotContainer extends RobotContainerBase {
         addSubsystem(driveBase, vision, arm, arm.getShoulder(), arm.getElbow(), arm.getWrist(), claw);
         oi.configureButtonBindings(driveBase, vision, arm, claw);
 
-        for(MustangSubsystemBase subsystem : getSubsystems()) {
+        for (MustangSubsystemBase subsystem : getSubsystems()) {
             subsystem.setDebugSubsystem(true);
         }
     }
@@ -71,7 +72,8 @@ public class RobotContainer extends RobotContainerBase {
      */
     @Override
     public MustangCommand getAutonomousCommand() {
-        //return new AutonCalibration(driveBase, "StraightLine"); TODO: use curve path after straight path
+        // return new AutonCalibration(driveBase, "StraightLine"); TODO: use curve path
+        // after straight path
         return new ConeCube(driveBase, claw, arm, "CableScore");
         // return new ConeCube(driveBase, claw, arm, "RightConeCube");
         // return new NonPidAutoLevel(driveBase, true);
@@ -90,17 +92,20 @@ public class RobotContainer extends RobotContainerBase {
     }
 
     @Override
-    public void testInit() {}
+    public void testInit() {
+    }
 
     @Override
-    public void disabled() {}
-    
+    public void disabled() {
+    }
 
     @Override
-    public void disabledPeriodic() {}
+    public void disabledPeriodic() {
+    }
 
     @Override
-    public void periodic() {}
+    public void periodic() {
+    }
 
     @Override
     public void autonomousPeriodic() {
