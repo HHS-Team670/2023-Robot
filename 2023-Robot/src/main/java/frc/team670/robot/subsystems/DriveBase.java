@@ -16,6 +16,7 @@ import frc.team670.mustanglib.subsystems.drivebase.SwerveDrive;
 import frc.team670.mustanglib.swervelib.SdsModuleConfigurations;
 import frc.team670.mustanglib.utils.MustangController;
 import frc.team670.robot.commands.drivebase.MustangPPSwerveControllerCommand;
+import frc.team670.robot.commands.drivebase.XboxSwerveDriveAndTurnToAngle;
 import frc.team670.robot.constants.RobotConstants;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -80,7 +81,9 @@ public class DriveBase extends SwerveDrive {
        * Makes the DriveBase's default command initialize teleop
        */
       public void initDefaultCommand() { // TODO: switch to super class's init default command
-            defaultCommand = new XboxSwerveDrive(this, mController, MAX_VELOCITY_METERS_PER_SECOND,
+            // defaultCommand = new XboxSwerveDrive(this, mController, MAX_VELOCITY_METERS_PER_SECOND,
+            //             MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND);
+            defaultCommand = new XboxSwerveDriveAndTurnToAngle(this, mController, MAX_VELOCITY_METERS_PER_SECOND,
                         MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND);
             MustangScheduler.getInstance().setDefaultCommand(this, defaultCommand);
       }
