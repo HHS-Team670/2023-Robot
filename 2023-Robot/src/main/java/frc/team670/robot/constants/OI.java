@@ -16,6 +16,7 @@ import frc.team670.robot.commands.routines.EjectAndStow;
 import frc.team670.robot.commands.claw.ClawIdle;
 import frc.team670.robot.subsystems.Claw;
 import frc.team670.robot.subsystems.DriveBase;
+import frc.team670.robot.commands.drivebase.Creep;
 import frc.team670.robot.commands.drivebase.MoveToPose;
 import frc.team670.robot.subsystems.arm.Arm;
 import frc.team670.robot.subsystems.arm.ArmState;
@@ -31,6 +32,8 @@ public class OI extends OIBase {
     private static JoystickButton zeroArm = new JoystickButton(operatorController, XboxButtons.START);
     private static JoystickButton zeroGyroDriver = new JoystickButton(driverController, XboxButtons.START);
     private static JoystickButton moveToTarget = new JoystickButton(driverController, XboxButtons.Y);
+    private static JoystickButton creep = new JoystickButton(driverController, XboxButtons.B);
+    
     // private static JoystickButton singleSubstation = new JoystickButton(driverController, 0)
 
     // Operator buttons
@@ -67,12 +70,10 @@ public class OI extends OIBase {
 
         driveBase.initDefaultCommand();
 
-        // zeroGyro.onTrue(new SetSwerveForwardDirection(driveBase, arm));
-        // moveToTarget.whileTrue(new PathFindMoveToPose(driveBase, new Pose2d((FieldConstants.Grids.complexLowTranslations[1]), new Rotation2d())));
-        // moveToTarget.whileTrue(new MoveToPose(driveBase, new Pose2d((FieldConstants.Grids.complexLowTranslations[1]), new Rotation2d())));
         zeroGyroDriver.onTrue(new SetSwerveForwardDirection(driveBase));
         zeroArm.onTrue(new ResetArmFromAbsolute(arm));
         moveToTarget.whileTrue(new MoveToPose(driveBase, (FieldConstants.LoadingZone.IntakePoses[0]))); // moves to substation
+        creep.whileTrue(new Creep(driveBase));
         
 
         //arm movement commands
