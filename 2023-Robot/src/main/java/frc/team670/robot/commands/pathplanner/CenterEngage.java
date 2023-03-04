@@ -46,9 +46,9 @@ public class CenterEngage extends SequentialCommandGroup implements MustangComma
         
         SwerveDriveKinematics driveBaseKinematics = driveBase.getSwerveKinematics();
 
-        SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(driveBase::getOdometerPose,
+        SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(driveBase::getPose,
                 driveBase::resetOdometry, driveBaseKinematics, RobotConstants.AUTON_TRANSLATION_CONTROLLER, RobotConstants.AUTON_THETA_CONTROLLER,
-                driveBase::setModuleStates, eventMap, false, new Subsystem[] {driveBase});
+                driveBase::setModuleStates, eventMap, true, new Subsystem[] {driveBase});
 
         CommandBase fullAuto = autoBuilder.fullAuto(trajectoryGroup);
 
