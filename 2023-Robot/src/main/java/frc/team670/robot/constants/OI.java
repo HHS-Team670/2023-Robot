@@ -56,8 +56,8 @@ public class OI extends OIBase {
     private static JoystickButton manualShoulderControl = new JoystickButton(operatorController,
             XboxButtons.LEFT_JOYSTICK_BUTTON);
 
-    private static JoystickButton purple = new JoystickButton(operatorController, XboxButtons.RIGHT_JOYSTICK_BUTTON);
-    private static JoystickButton yellow = new JoystickButton(operatorController, XboxButtons.LEFT_JOYSTICK_BUTTON);
+    private static JoystickButton purple = new JoystickButton(driverController, XboxButtons.RIGHT_JOYSTICK_BUTTON);
+    private static JoystickButton yellow = new JoystickButton(driverController, XboxButtons.LEFT_JOYSTICK_BUTTON);
 
     private static JoystickButton clawSuck = new JoystickButton(operatorController, XboxButtons.RIGHT_BUMPER);
     private static JoystickButton clawEject = new JoystickButton(driverController, XboxButtons.LEFT_BUMPER);
