@@ -31,5 +31,6 @@ public class LED extends LEDSubsystem {
         if(claw.isFull()){
             solidhsv(allianceColor);
         }
+        super.mustangPeriodic();
     }
 }
