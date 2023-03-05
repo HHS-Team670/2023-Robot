@@ -52,8 +52,8 @@ public class RobotContainer extends RobotContainerBase {
     private final Claw claw = new Claw(arm);
     private final LED led = new LED(RobotMap.LED_PORT, 0,35, claw);
     private static OI oi = new OI();
-    
     private Notifier updateArbitraryFeedForward;
+
 
     public RobotContainer() {
         super();
@@ -82,11 +82,16 @@ public class RobotContainer extends RobotContainerBase {
         updateArbitraryFeedForward.startPeriodic(0.01);
 
         Alliance alliance = DriverStation.getAlliance();
+
 		if (alliance == Alliance.Red) {
+            SmartDashboard.putString("Alliance Color", "red");
 			led.setAllianceColors(LEDColor.RED);
-		} else {
+		}  else if(alliance == Alliance.Blue) {
+            SmartDashboard.putString("Alliance Color", "blue");
 			led.setAllianceColors(LEDColor.BLUE);
-		}
+		}else{
+            led.setAllianceColors(LEDColor.WHITE);
+        }
     }
 
     /**
@@ -104,23 +109,30 @@ public class RobotContainer extends RobotContainerBase {
         switch (selectedPath) {
             case 0:
                 autonCommand = new ConeCube(driveBase, claw, arm, "CableScore");
+                led.solidhsv(LEDColor.RED);
                 break;
             case 1:
                 autonCommand = new ConeCube(driveBase, claw, arm, "StationScore");
+                led.solidhsv(LEDColor.SEXY_YELLOW);
                 break;
             case 2:
                 autonCommand = new CubeEngage(driveBase, claw, arm, "CableEngage");
+                led.solidhsv(LEDColor.SEXY_PURPLE);
                 break;
             case 3:
                 autonCommand = new CubeEngage(driveBase, claw, arm, "StationEngage");
+                led.solidhsv(LEDColor.BLUE);
                 break;
             case 4:
-                autonCommand = new CenterEngage(driveBase, claw, arm, "CenterEngage");
+                autonCommand = new CenterEngage(driveBase, claw, arm, "CenterEngage");        
+                led.solidhsv(LEDColor.GREEN);
                 break;
             default:
                 autonCommand = new CenterEngage(driveBase, claw, arm, "CenterEngage");
+                led.solidhsv(LEDColor.GREEN);
         }
         return autonCommand;
+        
         //return new AutonCalibration(driveBase, "Curve"); // TODO: use curve path after straight path
 
         // return new ConeCube(driveBase, claw, arm, "CableScore");

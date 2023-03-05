@@ -1,12 +1,13 @@
 package frc.team670.robot.subsystems;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import frc.team670.mustanglib.subsystems.LEDSubsystem;
 import frc.team670.mustanglib.utils.LEDColor;
 import frc.team670.mustanglib.utils.Logger;
 
 public class LED extends LEDSubsystem {
 
-    private LEDColor allianceColor;
+    private LEDColor allianceColor, oppositeAllianceColor;
     private Claw claw;
 
     public LED(int port, int startIndex, int endIndex, Claw claw) {
@@ -26,11 +27,21 @@ public class LED extends LEDSubsystem {
     public void setAllianceColors(LEDColor alliance){
         this.allianceColor = alliance;
     }
+
     @Override
     public void mustangPeriodic(){
-        if(claw.isFull()){
-            solidhsv(allianceColor);
+        if(allianceColor == LEDColor.WHITE){
+            blink(LEDColor.WHITE);
         }
+        
+        if(DriverStation.isEnabled()){
+
+            if(claw.isFull()){
+
+                solidhsv(allianceColor);
+            }
+        }
+        
         super.mustangPeriodic();
     }
 }

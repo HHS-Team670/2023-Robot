@@ -21,9 +21,15 @@ public class ClawIntake extends CommandBase implements MustangCommand {
         addRequirements(claw);
     }
 
+    // @Override
+    // public void execute() {
+    //     claw.startIntaking();
+    // }
+
     @Override
-    public void execute() {
+    public void initialize() {
         claw.startIntaking();
+
     }
 
     @Override

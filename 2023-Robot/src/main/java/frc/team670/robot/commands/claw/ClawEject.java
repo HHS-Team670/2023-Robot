@@ -20,9 +20,14 @@ public class ClawEject extends CommandBase implements MustangCommand {
         addRequirements(claw);
     }
 
+    // @Override
+    // public void execute() {
+    //     claw.startEjecting(); //Ejects at default speed. Call startEjecting(double) to set a speed
+    // }
     @Override
-    public void execute() {
-        claw.startEjecting(); //Ejects at default speed. Call startEjecting(double) to set a speed
+    public void initialize() {
+        claw.startEjecting();
+
     }
 
     @Override
