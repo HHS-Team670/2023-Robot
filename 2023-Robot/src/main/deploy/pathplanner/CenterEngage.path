@@ -27,17 +27,17 @@
     },
     {
       "anchorPoint": {
-        "x": 5.629749266551485,
+        "x": 3.329740063994017,
         "y": 3.3
       },
       "prevControl": {
-        "x": 6.629749266551485,
+        "x": 4.329740063994015,
         "y": 3.3
       },
       "nextControl": null,
       "holonomicAngle": 180.0,
       "isReversal": false,
-      "velOverride": null,
+      "velOverride": 0.6,
       "isLocked": false,
       "isStopPoint": false,
       "stopEvent": {
@@ -57,7 +57,8 @@
     {
       "position": 0.31296164772727264,
       "names": [
-        "stow"
+        "stow",
+        "autoLevel"
       ]
     }
   ]
