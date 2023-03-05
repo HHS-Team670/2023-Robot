@@ -20,8 +20,10 @@ import frc.team670.robot.commands.drivebase.SwerveDriveParkCommand;
 import frc.team670.robot.commands.pathplanner.AutonCalibration;
 import frc.team670.robot.commands.pathplanner.ConeCube;
 import frc.team670.robot.constants.OI;
+import frc.team670.robot.constants.RobotMap;
 import frc.team670.robot.subsystems.Claw;
 import frc.team670.robot.subsystems.DriveBase;
+import frc.team670.robot.subsystems.LED;
 import frc.team670.robot.subsystems.Vision;
 import frc.team670.robot.subsystems.arm.Arm;
 
@@ -39,14 +41,15 @@ public class RobotContainer extends RobotContainerBase {
     private final DriveBase driveBase = new DriveBase(getDriverController());
     private final Arm arm = new Arm();
     private final Claw claw = new Claw(arm);
+    private final LED led = new LED(RobotMap.LED_PORT,0,225);
     private static OI oi = new OI();
     
     private Notifier updateArbitraryFeedForward;
 
     public RobotContainer() {
         super();
-        addSubsystem(driveBase, vision, arm, arm.getShoulder(), arm.getElbow(), arm.getWrist(), claw);
-        oi.configureButtonBindings(driveBase, vision, arm, claw);
+        addSubsystem(driveBase, vision, arm, arm.getShoulder(), arm.getElbow(), arm.getWrist(), claw,led);
+        oi.configureButtonBindings(driveBase, vision, arm, claw,led);
 
         for(MustangSubsystemBase subsystem : getSubsystems()) {
             subsystem.setDebugSubsystem(true);
@@ -62,6 +65,7 @@ public class RobotContainer extends RobotContainerBase {
                 arm.updateArbitraryFeedForward();
             }
         });
+        led.rainbow(false);
 
         updateArbitraryFeedForward.startPeriodic(0.01);
     }
@@ -75,7 +79,7 @@ public class RobotContainer extends RobotContainerBase {
     public MustangCommand getAutonomousCommand() {
         SmartDashboard.putBoolean("match-started", true);     
 
-        return new AutonCalibration(driveBase, "StraightLine"); // TODO: use curve path after straight path
+        return new AutonCalibration(driveBase, "Curve"); // TODO: use curve path after straight path
 
         // return new ConeCube(driveBase, claw, arm, "CableScore");
         // return new ConeCube(driveBase, claw, arm, "RightConeCube");

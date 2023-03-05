@@ -17,6 +17,8 @@ import frc.team670.robot.commands.arm.MoveToTarget;
 import frc.team670.robot.commands.arm.ResetArmFromAbsolute;
 import frc.team670.robot.commands.claw.ClawIntake;
 import frc.team670.robot.commands.drivebase.TurnToAngle;
+import frc.team670.robot.commands.leds.SetColorPurple;
+import frc.team670.robot.commands.leds.SetColorYellow;
 import frc.team670.robot.commands.routines.EjectAndStow;
 import frc.team670.robot.commands.vision.AutoAlign;
 import frc.team670.robot.commands.claw.ClawIdle;
@@ -27,6 +29,7 @@ import frc.team670.robot.commands.drivebase.MoveToPose;
 import frc.team670.robot.commands.drivebase.SetDesiredHeading;
 import frc.team670.robot.subsystems.arm.Arm;
 import frc.team670.robot.subsystems.arm.ArmState;
+import frc.team670.robot.subsystems.LED;
 
 public class OI extends OIBase {
 
@@ -71,6 +74,9 @@ public class OI extends OIBase {
     private static JoystickButton rotateTo180 = new JoystickButton(driverController, XboxButtons.A);
     private static JoystickButton rotateTo270 = new JoystickButton(driverController, XboxButtons.B);
 
+    //LED commands
+    private static JoystickButton ledYellow = new JoystickButton(operatorController, XboxButtons.Y);
+    private static JoystickButton ledPurple = new JoystickButton(operatorController, XboxButtons.A);
 
     public static MustangController getDriverController() {
         return driverController;
@@ -86,7 +92,7 @@ public class OI extends OIBase {
         // Vision vision = (Vision) subsystemBases[1];
         Arm arm = (Arm) subsystemBases[2];
         Claw claw = (Claw) subsystemBases[3];
-
+        LED led = (LED) subsystemBases[4];
         driveBase.initDefaultCommand();
 
         zeroGyroDriver.onTrue(new SetSwerveForwardDirection(driveBase));
@@ -100,6 +106,7 @@ public class OI extends OIBase {
         
         // creep.whileTrue(new Creep(driveBase));
         
+
         
 
         //arm movement commands
@@ -113,6 +120,9 @@ public class OI extends OIBase {
         
         // Claw control commands
         clawSuck.onTrue(new ClawIntake(claw));
+        clawEject.onTrue(new EjectAndStow(claw, arm));
+        clawIdle.onTrue(new ClawIdle(claw));
+
 
         //Rotate to cardinal direction while driving
         rotateTo0.onTrue(new SetDesiredHeading(driveBase, new Rotation2d(0)));
@@ -123,6 +133,8 @@ public class OI extends OIBase {
         // rotateTo90.onTrue(new TurnToAngle(driveBase, 90, false, driverController));
         // rotateTo180.onTrue(new TurnToAngle(driveBase, 180, false, driverController));
         // rotateTo270.onTrue(new TurnToAngle(driveBase, 270, false, driverController));
+        ledPurple.onTrue(new SetColorPurple(led));
+        ledYellow.onTrue(new SetColorYellow(led));
 
     }
 }

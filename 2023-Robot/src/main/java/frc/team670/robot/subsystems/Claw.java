@@ -4,6 +4,7 @@ import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 import frc.team670.mustanglib.utils.motorcontroller.MotorConfig.Motor_Type;
 import frc.team670.mustanglib.utils.motorcontroller.SparkMAXFactory;
 import frc.team670.mustanglib.utils.motorcontroller.SparkMAXLite;
+import frc.team670.robot.constants.OI;
 import frc.team670.robot.constants.RobotConstants;
 import frc.team670.robot.constants.RobotMap;
 import frc.team670.robot.subsystems.arm.Arm;
@@ -125,6 +126,8 @@ public class Claw extends MustangSubsystemBase {
                 if(currentSpikeCounter > RobotConstants.CLAW_CURRENT_SPIKE_ITERATIONS) {
                     isFull = true;
                     setIdle();
+                    OI.getDriverController().rumble(0.5, 0.5);
+                    currentSpikeCounter = 0;
                 }
             } else {
                 currentSpikeCounter = 0;
