@@ -1,6 +1,9 @@
 package frc.team670.robot.constants;
 
+import com.ctre.phoenix.led.ColorFlowAnimation.Direction;
+
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.team670.mustanglib.commands.drive.teleop.SetSwerveForwardDirection;
@@ -15,6 +18,7 @@ import frc.team670.robot.commands.arm.ResetArmFromAbsolute;
 import frc.team670.robot.commands.claw.ClawIntake;
 import frc.team670.robot.commands.drivebase.TurnToAngle;
 import frc.team670.robot.commands.routines.EjectAndStow;
+import frc.team670.robot.commands.vision.AutoAlign;
 import frc.team670.robot.commands.claw.ClawIdle;
 import frc.team670.robot.subsystems.Claw;
 import frc.team670.robot.subsystems.DriveBase;
@@ -36,7 +40,12 @@ public class OI extends OIBase {
     private static JoystickButton zeroGyroDriver = new JoystickButton(driverController, XboxButtons.START);
     private static JoystickButton moveToTarget = new JoystickButton(driverController, XboxButtons.RIGHT_BUMPER);
     // private static JoystickButton creep = new JoystickButton(driverController, XboxButtons.RIGHT_TRIGGER);
-    private static POVButton creep = new POVButton(driverController, 0);
+    // private static POVButton creep = new POVButton(driverController, 0);
+    private static POVButton alignToClosest = new POVButton(driverController, 0);
+    private static POVButton alignToLeft = new POVButton(driverController, 90);
+    private static POVButton alignToRight = new POVButton(driverController, 180);
+
+    // private static POVButton alignToClosest = new POVButton(driverController, 0);
     
     // private static JoystickButton singleSubstation = new JoystickButton(driverController, 0)
 
@@ -83,7 +92,14 @@ public class OI extends OIBase {
         zeroGyroDriver.onTrue(new SetSwerveForwardDirection(driveBase));
         zeroArm.onTrue(new ResetArmFromAbsolute(arm));
         moveToTarget.whileTrue(new MoveToPose(driveBase, (FieldConstants.LoadingZone.IntakePoses[0]))); // moves to substation
-        creep.whileTrue(new Creep(driveBase));
+        
+        alignToClosest.onTrue(new AutoAlign(driveBase, driverController, AutoAlign.DIRECTION.CLOSEST));
+        alignToLeft.onTrue(new AutoAlign(driveBase, driverController, AutoAlign.DIRECTION.LEFT));
+        alignToRight.onTrue(new AutoAlign(driveBase, driverController, AutoAlign.DIRECTION.RIGHT));
+
+        
+        // creep.whileTrue(new Creep(driveBase));
+        
         
 
         //arm movement commands
@@ -98,7 +114,7 @@ public class OI extends OIBase {
         // Claw control commands
         clawSuck.onTrue(new ClawIntake(claw));
 
-        //Rotate to cardinal direction
+        //Rotate to cardinal direction while driving
         rotateTo0.onTrue(new SetDesiredHeading(driveBase, new Rotation2d(0)));
         rotateTo90.onTrue(new SetDesiredHeading(driveBase, new Rotation2d(Math.PI/2)));
         rotateTo180.onTrue(new SetDesiredHeading(driveBase, new Rotation2d(Math.PI)));

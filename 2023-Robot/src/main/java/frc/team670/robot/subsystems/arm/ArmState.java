@@ -19,7 +19,7 @@ public enum ArmState {
     SCORE_HIGH(3,137, 171, 101),
     STARTING(4, 205,25,270),
     TUNING(5, 90, 180, 180),
-    SINGLE_STATION(6, 231, 11, 250);
+    SINGLE_STATION(6, 231, 11, 245);
 
 
   

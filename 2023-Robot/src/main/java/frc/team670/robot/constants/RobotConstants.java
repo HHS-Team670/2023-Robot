@@ -139,8 +139,8 @@ public final class RobotConstants extends RobotConstantsBase {
     public static final PIDController thetaController = new PIDController(0.2, 0, 0);
 
     //Auton PID controllers
-    public static final PIDConstants AUTON_TRANSLATION_CONTROLLER = new PIDConstants(3.75, 0, 0);
-    public static final PIDConstants AUTON_THETA_CONTROLLER = new PIDConstants(0.2, 0, 0);
+    public static final PIDConstants AUTON_TRANSLATION_CONTROLLER = new PIDConstants(4.25, 0, 0);
+    public static final PIDConstants AUTON_THETA_CONTROLLER = new PIDConstants(0.3, 0, 0);
 
     // vision
 
