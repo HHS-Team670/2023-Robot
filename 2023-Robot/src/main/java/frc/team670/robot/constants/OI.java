@@ -113,8 +113,6 @@ public class OI extends OIBase {
         
         // Claw control commands
         clawSuck.onTrue(new ClawIntake(claw));
-        clawEject.onTrue(new EjectAndStow(claw, arm));
-        clawIdle.onTrue(new ClawIdle(claw));
 
         //Rotate to cardinal direction while driving
         rotateTo0.onTrue(new SetDesiredHeading(driveBase, new Rotation2d(0)));
@@ -127,5 +125,4 @@ public class OI extends OIBase {
         // rotateTo270.onTrue(new TurnToAngle(driveBase, 270, false, driverController));
 
     }
-
 }

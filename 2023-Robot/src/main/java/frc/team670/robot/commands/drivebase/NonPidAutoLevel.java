@@ -70,9 +70,11 @@ public class NonPidAutoLevel extends CommandBase implements MustangCommand {
 
     @Override
     public boolean isFinished() {
+        boolean level = false;
         if (driveBase.getPitch() > (target - error) && driveBase.getPitch() < (target + error) && hasGoneUp) {
-            return true;
+            level = true;
         }
-        return false;
+        SmartDashboard.putBoolean("level", level);
+        return level;
     }
 }

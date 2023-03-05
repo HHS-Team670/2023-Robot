@@ -10,6 +10,7 @@ package frc.team670.robot;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team670.mustanglib.RobotContainerBase;
 import frc.team670.mustanglib.commands.MustangCommand;
 import frc.team670.mustanglib.commands.MustangScheduler;
@@ -72,7 +73,10 @@ public class RobotContainer extends RobotContainerBase {
      */
     @Override
     public MustangCommand getAutonomousCommand() {
-        return new AutonCalibration(driveBase, "Curve"); // TODO: use curve path after straight path
+        SmartDashboard.putBoolean("match-started", true);     
+
+        return new AutonCalibration(driveBase, "StraightLine"); // TODO: use curve path after straight path
+
         // return new ConeCube(driveBase, claw, arm, "CableScore");
         // return new ConeCube(driveBase, claw, arm, "RightConeCube");
         // return new NonPidAutoLevel(driveBase, true);
@@ -101,7 +105,11 @@ public class RobotContainer extends RobotContainerBase {
     public void disabledPeriodic() {}
 
     @Override
-    public void periodic() {}
+    public void periodic() {
+        // TODO Auto-generated method stub
+        // SmartDashboard.putString("alliance", "" +
+        // DriverStationJNI.getAllianceStation());
+    }
 
     @Override
     public void autonomousPeriodic() {
