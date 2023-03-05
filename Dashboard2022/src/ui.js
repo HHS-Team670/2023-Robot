@@ -285,16 +285,16 @@ NetworkTables.addKeyListener('/SmartDashboard/Vision', (key, value) => {
     }
 });
 
-NetworkTables.addKeyListener('/SmartDashboard/Arm', (key, value) => {
-    var subsystem = document.getElementById('arm');
-    if (value === 'GREEN') {
-        subsystem.style.backgroundColor = "rgb(0,255,0)";
-    } else if (value === 'YELLOW') {
-        subsystem.style.backgroundColor = "rgb(255,255,0)";
-    } else if (value === 'RED') {
-        subsystem.style.backgroundColor = "rgb(255,0,0)";
-    }
-});
+// NetworkTables.addKeyListener('/SmartDashboard/Arm', (key, value) => {
+//     var subsystem = document.getElementById('arm');
+//     if (value === 'GREEN') {
+//         subsystem.style.backgroundColor = "rgb(0,255,0)";
+//     } else if (value === 'YELLOW') {
+//         subsystem.style.backgroundColor = "rgb(255,255,0)";
+//     } else if (value === 'RED') {
+//         subsystem.style.backgroundColor = "rgb(255,0,0)";
+//     }
+// });
 
 
 NetworkTables.addKeyListener('/SmartDashboard/Elbow', (key, value) => {
@@ -448,11 +448,9 @@ function sendAuton() {
     console.log("SELECTED AUTON COMMAND", autonCommand);
     NetworkTables.putValue('/SmartDashboard/auton-chooser', autonCommand);
     NetworkTables.putValue('/SmartDashboard/delayTime', delayTime);
-    if (autonCommand !== -1 && NetworkTables.getValue('/SmartDashboard/auton-chooser') === autonCommand) {
-        document.getElementById('auton-status').style.fill = "rgb(0,255,0)";
-        document.getElementById('auton-status').style.stroke = "rgb(0,255,0)";
+    if (autonCommand !== -1 && NetworkTables.getValue('/SmartDashboard/auton-chooser') == autonCommand) {
+        document.getElementById('auton-status').style.backgroundColor = "rgb(0,255,0)";
     } else {
-        document.getElementById('auton-status').style.fill = "rgb(255,0,0)";
-        document.getElementById('auton-status').style.stroke = "rgb(255,0,0)";
+        document.getElementById('auton-status').style.backgroundColor = "rgb(255,0,0)";
     }
 }
