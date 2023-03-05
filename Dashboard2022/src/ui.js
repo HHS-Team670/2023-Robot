@@ -231,6 +231,7 @@ NetworkTables.addKeyListener('/SmartDashboard/level', (key, value) => { // TODO 
 
 NetworkTables.addKeyListener('/SmartDashboard/target-arm-state', (key, value) => {
     var armState = document.querySelector('div#arm-state h1#arm-state-text')
+    armState.innerHTML = "";
     armState.append(document.createTextNode(value));
 })
 
