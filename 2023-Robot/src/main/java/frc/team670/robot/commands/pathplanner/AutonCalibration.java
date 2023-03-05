@@ -34,7 +34,7 @@ public class AutonCalibration extends SequentialCommandGroup implements MustangC
 
     public AutonCalibration(DriveBase driveBase, String pathName) {
         this.pathName = pathName;
-        List<PathPlannerTrajectory> trajectoryGroup = PathPlanner.loadPathGroup(pathName, 2.0, 1.75);
+        List<PathPlannerTrajectory> trajectoryGroup = PathPlanner.loadPathGroup(pathName, 1.5, 0.75);
 
         HashMap<String, Command> eventMap = new HashMap<>();
         

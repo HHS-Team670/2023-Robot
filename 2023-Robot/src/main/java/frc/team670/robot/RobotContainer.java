@@ -72,7 +72,7 @@ public class RobotContainer extends RobotContainerBase {
      */
     @Override
     public MustangCommand getAutonomousCommand() {
-        return new AutonCalibration(driveBase, "StraightLine"); // TODO: use curve path after straight path
+        return new AutonCalibration(driveBase, "Curve"); // TODO: use curve path after straight path
         // return new ConeCube(driveBase, claw, arm, "CableScore");
         // return new ConeCube(driveBase, claw, arm, "RightConeCube");
         // return new NonPidAutoLevel(driveBase, true);
