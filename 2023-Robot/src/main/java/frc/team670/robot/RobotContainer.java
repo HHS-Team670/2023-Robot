@@ -7,6 +7,9 @@
 
 package frc.team670.robot;
 
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.CvSink;
+import edu.wpi.first.cscore.CvSource;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
@@ -44,7 +47,7 @@ public class RobotContainer extends RobotContainerBase {
     private final DriveBase driveBase = new DriveBase(getDriverController());
     private final Arm arm = new Arm();
     private final Claw claw = new Claw(arm);
-    private final LED led = new LED(RobotMap.LED_PORT,0,225);
+    private final LED led = new LED(RobotMap.LED_PORT,0,35);
     private static OI oi = new OI();
     
     private Notifier updateArbitraryFeedForward;
@@ -61,6 +64,9 @@ public class RobotContainer extends RobotContainerBase {
 
     @Override
     public void robotInit() {
+        CameraServer.startAutomaticCapture();
+        CvSink cvsink = CameraServer.getVideo();
+        CvSource outputStream = CameraServer.putVideo("Sebby Cam", 640, 480);
         driveBase.initVision(vision);
 
         updateArbitraryFeedForward = new Notifier(new Runnable() {
@@ -105,7 +111,7 @@ public class RobotContainer extends RobotContainerBase {
         //         autonCommand = new CenterEngage(driveBase, claw, arm, "CenterEngage");
         // }
         // return autonCommand;
-        return new AutonCalibration(driveBase, "StraightLine"); // TODO: use curve path after straight path
+        return new AutonCalibration(driveBase, "Curve"); // TODO: use curve path after straight path
 
         // return new ConeCube(driveBase, claw, arm, "CableScore");
         // return new ConeCube(driveBase, claw, arm, "RightConeCube");
