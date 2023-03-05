@@ -377,8 +377,8 @@ fieldset#position {
 
 #toggle-camera {
     position: absolute;
-    right: 0vw;
-    top: 0vh;
+    left: 3.5vw;
+    bottom: 30vh;
 }
 
 /* #shooter-values  {
