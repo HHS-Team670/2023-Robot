@@ -63,8 +63,9 @@ public class RobotContainer extends RobotContainerBase {
         //         arm.updateArbitraryFeedForward();
         //     // }
         // });
-        led.rainbow(false);
+        
         // updateArbitraryFeedForward.startPeriodic(0.01);
+        
     }
 
     /**
@@ -91,6 +92,8 @@ public class RobotContainer extends RobotContainerBase {
     public void teleopInit() {
         // arm.setStateToStarting();
         // arm.clearSetpoint();
+        led.solidrgb(LEDColor.GREEN);
+        
     }
 
     @Override
@@ -99,6 +102,7 @@ public class RobotContainer extends RobotContainerBase {
 
     @Override
     public void disabled() {
+        led.rainbow(false);
     }
 
     @Override
