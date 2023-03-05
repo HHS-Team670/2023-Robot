@@ -87,36 +87,35 @@ toggleCamera.onclick = () => {
     }
 }
 
-NetworkTables.addKeyListener('/SmartDashboard/Estimated pose'), (key, value) => {
-    // (4.25, -1.14) -16.36 degrees
-    var pose = value.split(" ")
-}
+// NetworkTables.addKeyListener('/SmartDashboard/Estimated pose'), (key, value) => {
+//     // (4.25, -1.14) -16.36 degrees
+// }
 
 
 
 
-// listens for robot-state and updates status lights and auton chooser accordingly
-NetworkTables.addKeyListener('/SmartDashboard/robot-state', (key, value) => {
-    if (value === "autonomousInit()" || value === "disabledPeriodic()") {
-        document.getElementById('auton-chooser').style.display = "none";
-    } else if (value === "autonomousPeriodic()") {
-        document.getElementById('auton-status').style.fill = "rgb(0,255,0)";
-        document.getElementById('auton-status').style.stroke = "rgb(0,255,0)";
-    } else if (value === "teleopInit()" || value === "teleopPeriodic()") {
-        document.getElementById('auton-status').style.fill = "none";
-        document.getElementById('auton-status').style.stroke = "rgb(255,255,255)";
-    }
-});
+// // listens for robot-state and updates status lights and auton chooser accordingly
+// NetworkTables.addKeyListener('/SmartDashboard/robot-state', (key, value) => {
+//     if (value === "autonomousInit()" || value === "disabledPeriodic()") {
+//         document.getElementById('auton-chooser').style.display = "none";
+//     } else if (value === "autonomousPeriodic()") {
+//         document.getElementById('auton-status').style.fill = "rgb(0,255,0)";
+//         document.getElementById('auton-status').style.stroke = "rgb(0,255,0)";
+//     } else if (value === "teleopInit()" || value === "teleopPeriodic()") {
+//         document.getElementById('auton-status').style.fill = "none";
+//         document.getElementById('auton-status').style.stroke = "rgb(255,255,255)";
+//     }
+// });
 
-// listens for warnings
-NetworkTables.addKeyListener('/SmartDashboard/warnings', (key, value) => {
-    // document.getElementById('big-warning').style.display = "inline";
-    // document.getElementById('warnings').innerHTML += (value + "\n");
+// // listens for warnings
+// NetworkTables.addKeyListener('/SmartDashboard/warnings', (key, value) => {
+//     // document.getElementById('big-warning').style.display = "inline";
+//     // document.getElementById('warnings').innerHTML += (value + "\n");
 
-    // setTimeout(() => { document.getElementById('big-warning').style.display = "none"; }, 1000);
-    // var timeSinceWarningFlashed = Date.getTime();
-    console.log(value);
-});
+//     // setTimeout(() => { document.getElementById('big-warning').style.display = "none"; }, 1000);
+//     // var timeSinceWarningFlashed = Date.getTime();
+//     console.log(value);
+// });
 
 
 
@@ -193,41 +192,44 @@ NetworkTables.addKeyListener('/SmartDashboard/aligned', (key, value) => {
 });
 
 NetworkTables.addKeyListener('/SmartDashboard/pitch', (key, value) => {
-    var line = document.querySelector('#leveling-line');
+    var line = document.querySelector("#leveling-line");
+    var pitchValue = document.querySelector("h3#pitch-value");
+    pitchValue.innerHTML = "Pitch: " + value;
     angle = 2*value;
     line.style.transform = `rotate(${angle}deg)`;
     if (value == null){
         line.style.backgroundColor = "#ff00ff"; //pink
         line.style.borderColor = "#ff00ff"; //pink
-    }else if (value >2){
+    }else if (value > 2){
         line.style.backgroundColor = "#FF0000"; //red
         line.style.borderColor = "#FF0000"; //red
     }else if (value < -2){
         line.style.backgroundColor = "#0000FF"; //blue
         line.style.borderColor = "#0000FF"; //blue
-    }else if (value <=2 && value >= -2){
+    }else if (value <= 2 && value >= -2){
         line.style.backgroundColor = "#00FF00"; //green
         line.style.borderColor = "#00FF00"; //green
     }
 })
 
-NetworkTables.addKeyListener('/SmartDashboard/level', (key, value) => { // TODO change key listener
-    var body = document.querySelector('body');
-    var line = document.querySelector('#leveling-line');
-    if (value) {
-        line.style.transform = "rotate(0deg)";
-        line.style.borderColor = "rgb(8, 218, 8)";
-        if (!body.classList.contains("leveled")) {
-            body.classList.add("leveled");
-        }
-    } else {
-        line.style.transform = `rotate(${angle}deg)`;
-        line.style.borderColor = "#ff00ff";
-        if (body.classList.contains("leveled")) {
-            body.classList.remove("leveled");
-        }
-    }
-});
+
+// NetworkTables.addKeyListener('/SmartDashboard/level', (key, value) => { // TODO change key listener
+//     var body = document.querySelector('body');
+//     var line = document.querySelector('#leveling-line');
+//     if (value) {
+//         line.style.transform = "rotate(0deg)";
+//         line.style.borderColor = "rgb(8, 218, 8)";
+//         if (!body.classList.contains("leveled")) {
+//             body.classList.add("leveled");
+//         }
+//     } else {
+//         line.style.transform = `rotate(${angle}deg)`;
+//         line.style.borderColor = "#ff00ff";
+//         if (body.classList.contains("leveled")) {
+//             body.classList.remove("leveled");
+//         }
+//     }
+// });
 
 NetworkTables.addKeyListener('/SmartDashboard/target-arm-state', (key, value) => {
     var armState = document.querySelector('div#arm-state h1#arm-state-text')
@@ -235,20 +237,20 @@ NetworkTables.addKeyListener('/SmartDashboard/target-arm-state', (key, value) =>
     armState.append(document.createTextNode(value));
 })
 
-// updates vision frame
-NetworkTables.addKeyListener('/SmartDashboard/vision-frame-updated', (key, value) => {
-    if (value == true) {
-        document.getElementById('vision-frame').src = document.getElementById('vision-frame').src;
-        NetworkTables.putValue('vision-frame-updated', false);
-    }
-});
+// // updates vision frame
+// NetworkTables.addKeyListener('/SmartDashboard/vision-frame-updated', (key, value) => {
+//     if (value == true) {
+//         document.getElementById('vision-frame').src = document.getElementById('vision-frame').src;
+//         NetworkTables.putValue('vision-frame-updated', false);
+//     }
+// });
 
 
-// updates robot angle and direction
-    NetworkTables.addKeyListener('/SmartDashboard/vision-values-', (key, value) => {
-        document.getElementById('distance').textContent = 'Distance: ' + value[0];
-        document.getElementById('angle').textContent = 'Angle: ' + value[2];
-    });
+// // updates robot angle and direction
+//     NetworkTables.addKeyListener('/SmartDashboard/vision-values-', (key, value) => {
+//         document.getElementById('distance').textContent = 'Distance: ' + value[0];
+//         document.getElementById('angle').textContent = 'Angle: ' + value[2];
+//     });
 
 // updates status lights for driveBase
 NetworkTables.addKeyListener('/SmartDashboard/DriveBase', (key, value) => {
@@ -330,6 +332,32 @@ NetworkTables.addKeyListener('/SmartDashboard/Wrist', (key, value) => {
         subsystem.style.backgroundColor = "rgb(255,0,0)";
     }
 });
+
+NetworkTables.addKeyListener('/SmartDashboard/auton-chooser', (key, value) => {
+    var currentPath = document.querySelector("#auto-form h3#current-path");
+    var pathText = "Not Sent";
+    switch(Number(value)) { // Todo
+        case 0: // ConeCube(driveBase, claw, arm, "CableScore")
+            pathText = "cableScore";
+            break;
+        case 1: // ConeCube(driveBase, claw, arm, "StationScore")
+            pathText = "stationScore";
+            break;
+        case 2: // CubeEngage(driveBase, claw, arm, "CableEngage")
+            pathText = "cableEngage";
+            break;
+        case 3: // CubeEngage(driveBase, claw, arm, "StationEngage")
+            pathText = "stationEngage";
+            break;
+        case 4: // CenterEngage(driveBase, claw, arm, "CenterEngage")
+            pathText = "centerEngage";
+            break;
+        default:
+            pathText = "Not Sent";
+    }
+    currentPath.innerHTML = "";
+    currentPath.append("Current Path: " + pathText);
+})
 
 
 
