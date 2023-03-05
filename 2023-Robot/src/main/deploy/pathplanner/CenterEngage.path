@@ -2,13 +2,13 @@
   "waypoints": [
     {
       "anchorPoint": {
-        "x": 1.8600967489478382,
-        "y": 3.2617368540129874
+        "x": 1.86,
+        "y": 3.3
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.8600967489478393,
-        "y": 3.2617368540129874
+        "x": 2.860000000000001,
+        "y": 3.3
       },
       "holonomicAngle": -180.0,
       "isReversal": false,
@@ -17,7 +17,7 @@
       "isStopPoint": false,
       "stopEvent": {
         "names": [
-          "moveToHigh",
+          "moveToMid",
           "clawEject"
         ],
         "executionBehavior": "sequential",
@@ -28,14 +28,14 @@
     {
       "anchorPoint": {
         "x": 5.629749266551485,
-        "y": 3.2563140733920357
+        "y": 3.3
       },
       "prevControl": {
         "x": 6.629749266551485,
-        "y": 3.2563140733920357
+        "y": 3.3
       },
       "nextControl": null,
-      "holonomicAngle": 0,
+      "holonomicAngle": 180.0,
       "isReversal": false,
       "velOverride": null,
       "isLocked": false,
@@ -55,7 +55,7 @@
   "isReversed": null,
   "markers": [
     {
-      "position": 0.05535444779829533,
+      "position": 0.31296164772727264,
       "names": [
         "stow"
       ]
