@@ -1,6 +1,4 @@
-
-
-document.getElementById('big-warning').style.display = "none";
+// document.getElementById('big-warning').style.display = "none";
 
 // initial camera settings
 var driveReversed = false;
@@ -435,13 +433,13 @@ function getDelayTime() {
 
 function sendAuton() {
     var autonCommand = getAutonFromMap();
-    // var autoSelectWarning = document.querySelector(""); // TODO
-    // if (autonCommand === -1) {
-    //     autoSelectWarning.style.display = "block";
-    //     return;
-    // } else {
-    //     autoSelectWarning.style.display = "none";
-    // }
+    var autoSelectWarning = document.querySelector("div#auto-warning"); // TODO
+    if (autonCommand === -1) {
+        autoSelectWarning.style.display = "block";
+        return;
+    } else {
+        autoSelectWarning.style.display = "none";
+    }
     var delayTime = getDelayTime();
     console.log("SELECTED AUTON COMMAND", autonCommand);
     NetworkTables.putValue('/SmartDashboard/auton-chooser', autonCommand);

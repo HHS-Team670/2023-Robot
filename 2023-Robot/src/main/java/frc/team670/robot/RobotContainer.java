@@ -134,7 +134,9 @@ public class RobotContainer extends RobotContainerBase {
     public void testInit() {}
 
     @Override
-    public void disabled() {}
+    public void disabled() {
+        SmartDashboard.putBoolean("match-started", false);
+    }
     
 
     @Override

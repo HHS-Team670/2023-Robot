@@ -191,6 +191,14 @@ body.login #login {
     z-index: 1;
 }
 
+#auto-warning {
+    display: none;
+    background-color: red;
+    color: white;
+    font-size: 4rem;
+    margin-top: 10vh;
+}
+
 #delay {
     margin-top: 10px;
     margin-bottom: 10px;
@@ -240,12 +248,14 @@ body.login #login {
     right: 5vw; */
     width: 300px;
     height: 200px;
+
 }
 
 #subsystems div {
     border: 1px solid rgb(8, 218, 8);
     padding: 20%;
     font: bold;
+    color: black;
 }
 
 
@@ -363,6 +373,12 @@ fieldset#position {
 
 .general-button:active {
     background-color:rgb(8, 218, 8);
+}
+
+#toggle-camera {
+    position: absolute;
+    right: 0vw;
+    top: 0vh;
 }
 
 /* #shooter-values  {

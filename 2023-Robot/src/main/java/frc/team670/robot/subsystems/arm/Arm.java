@@ -145,6 +145,7 @@ public class Arm extends MustangSubsystemBase {
             hasSetWristTarget = true;
             wrist.setSystemTargetAngleInDegrees(targetState.getWristAngle());
         }
+        SmartDashboard.putString("target-arm-state", this.getTargetState().toString());
     }
 
     /**
