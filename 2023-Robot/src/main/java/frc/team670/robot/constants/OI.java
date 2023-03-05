@@ -99,9 +99,9 @@ public class OI extends OIBase {
         zeroArm.onTrue(new ResetArmFromAbsolute(arm));
         moveToTarget.whileTrue(new MoveToPose(driveBase, (FieldConstants.LoadingZone.IntakePoses[0]))); // moves to substation
         
-        alignToClosest.onTrue(new AutoAlign(driveBase, driverController, AutoAlign.DIRECTION.CLOSEST));
-        alignToLeft.onTrue(new AutoAlign(driveBase, driverController, AutoAlign.DIRECTION.LEFT));
-        alignToRight.onTrue(new AutoAlign(driveBase, driverController, AutoAlign.DIRECTION.RIGHT));
+        alignToClosest.whileTrue(new AutoAlign(driveBase, driverController, AutoAlign.DIRECTION.CLOSEST));
+        alignToLeft.whileTrue(new AutoAlign(driveBase, driverController, AutoAlign.DIRECTION.LEFT));
+        alignToRight.whileTrue(new AutoAlign(driveBase, driverController, AutoAlign.DIRECTION.RIGHT));
 
         
         // creep.whileTrue(new Creep(driveBase));

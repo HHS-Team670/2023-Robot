@@ -33,6 +33,9 @@ public class NonPidAutoLevel extends CommandBase implements MustangCommand {
 
     @Override
     public void initialize() {
+        SmartDashboard.putNumber("init non pid pose x", driveBase.getPose().getX());
+        SmartDashboard.putNumber("init non pid pose y", driveBase.getPose().getY());
+
         pitch = Math.abs(driveBase.getPitch());
         previousPitch = Math.abs(driveBase.getPitch()); // just to ensure we are going forward
         this.hasGoneUp = false;
@@ -44,6 +47,10 @@ public class NonPidAutoLevel extends CommandBase implements MustangCommand {
         SmartDashboard.putNumber("previousPitch", previousPitch);
         pitch = Math.abs(driveBase.getPitch());
         SmartDashboard.putNumber("pitch", pitch);
+
+        SmartDashboard.putNumber("non pid pose x", driveBase.getPose().getX());
+        SmartDashboard.putNumber("non pid pose y", driveBase.getPose().getY());
+
 
         if (pitch > 5) {
             hasGoneUp = true;
@@ -70,11 +77,10 @@ public class NonPidAutoLevel extends CommandBase implements MustangCommand {
 
     @Override
     public boolean isFinished() {
-        boolean level = false;
         if (driveBase.getPitch() > (target - error) && driveBase.getPitch() < (target + error) && hasGoneUp) {
-            level = true;
+            return true;
         }
-        SmartDashboard.putBoolean("level", level);
-        return level;
+        // SmartDashboard.putBoolean("level", level);
+        return false;
     }
 }

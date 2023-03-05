@@ -110,7 +110,7 @@ public class RobotContainer extends RobotContainerBase {
             default:
                 autonCommand = new CenterEngage(driveBase, claw, arm, "CenterEngage");
         }
-        return autonCommand;
+        return new CenterEngage(driveBase, claw, arm, "CenterEngage");
         //return new AutonCalibration(driveBase, "Curve"); // TODO: use curve path after straight path
 
         // return new ConeCube(driveBase, claw, arm, "CableScore");
