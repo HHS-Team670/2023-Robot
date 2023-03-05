@@ -42,7 +42,7 @@ public class CenterEngage extends SequentialCommandGroup implements MustangComma
         eventMap.put("moveToMid", new MoveToTarget(arm, ArmState.SCORE_MID));
         eventMap.put("clawEject", new ClawEject(claw));
         eventMap.put("stow", new MoveToTarget(arm, ArmState.STOWED));
-        eventMap.put("autoLevel", new NonPidAutoLevel(driveBase, true));
+        eventMap.put("autoLevel", new NonPidAutoLevel(driveBase, false));
         
         SwerveDriveKinematics driveBaseKinematics = driveBase.getSwerveKinematics();
 
