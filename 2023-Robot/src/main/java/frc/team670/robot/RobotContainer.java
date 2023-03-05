@@ -14,6 +14,7 @@ import frc.team670.mustanglib.RobotContainerBase;
 import frc.team670.mustanglib.commands.MustangCommand;
 import frc.team670.mustanglib.commands.MustangScheduler;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
+import frc.team670.mustanglib.utils.LEDColor;
 import frc.team670.mustanglib.utils.MustangController;
 import frc.team670.robot.commands.drivebase.SwerveDriveParkCommand;
 import frc.team670.robot.commands.pathplanner.ConeCube;
@@ -62,7 +63,7 @@ public class RobotContainer extends RobotContainerBase {
         //         arm.updateArbitraryFeedForward();
         //     // }
         // });
-        led.setColorPurple();
+        led.solidrgb(LEDColor.GREEN);
         // updateArbitraryFeedForward.startPeriodic(0.01);
     }
 
