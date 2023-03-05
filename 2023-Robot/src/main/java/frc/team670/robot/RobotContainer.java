@@ -15,10 +15,13 @@ import frc.team670.mustanglib.RobotContainerBase;
 import frc.team670.mustanglib.commands.MustangCommand;
 import frc.team670.mustanglib.commands.MustangScheduler;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
+import frc.team670.mustanglib.utils.Logger;
 import frc.team670.mustanglib.utils.MustangController;
 import frc.team670.robot.commands.drivebase.SwerveDriveParkCommand;
 import frc.team670.robot.commands.pathplanner.AutonCalibration;
+import frc.team670.robot.commands.pathplanner.CenterEngage;
 import frc.team670.robot.commands.pathplanner.ConeCube;
+import frc.team670.robot.commands.pathplanner.CubeEngage;
 import frc.team670.robot.constants.OI;
 import frc.team670.robot.constants.RobotMap;
 import frc.team670.robot.subsystems.Claw;
@@ -79,7 +82,30 @@ public class RobotContainer extends RobotContainerBase {
     public MustangCommand getAutonomousCommand() {
         SmartDashboard.putBoolean("match-started", true);     
 
-        return new AutonCalibration(driveBase, "Curve"); // TODO: use curve path after straight path
+        int selectedPath = (int) (SmartDashboard.getEntry("auton-chooser").getInteger(-1));
+        System.out.println(selectedPath);
+        // MustangCommand autonCommand;
+        // switch (selectedPath) {
+        //     case 0:
+        //         autonCommand = new ConeCube(driveBase, claw, arm, "CableScore");
+        //         break;
+        //     case 1:
+        //         autonCommand = new ConeCube(driveBase, claw, arm, "StationScore");
+        //         break;
+        //     case 2:
+        //         autonCommand = new CubeEngage(driveBase, claw, arm, "CableEngage");
+        //         break;
+        //     case 3:
+        //         autonCommand = new CubeEngage(driveBase, claw, arm, "StationEngage");
+        //         break;
+        //     case 4:
+        //         autonCommand = new CenterEngage(driveBase, claw, arm, "CenterEngage");
+        //         break;
+        //     default:
+        //         autonCommand = new CenterEngage(driveBase, claw, arm, "CenterEngage");
+        // }
+        // return autonCommand;
+        return new AutonCalibration(driveBase, "StraightLine"); // TODO: use curve path after straight path
 
         // return new ConeCube(driveBase, claw, arm, "CableScore");
         // return new ConeCube(driveBase, claw, arm, "RightConeCube");

@@ -411,46 +411,21 @@ function getFromMap(key) {
 
 
 function getAutonFromMap() {
-    // console.log("SELECTED VALUE", document.querySelector('input[name="path"]:checked').value);
     console.log("SELECTED VALUE", selectedPath);
-    // switch (document.querySelector('input[name="path"]:checked').value) {
-    // if (document.querySelector('input[name="hub-type"]:checked') != null) {
-    //     switch (document.querySelector('input[name="hub-type"]:checked').value) {
-    //         case "Left":
-                switch(selectedPath) { // Todo
-                    case "cableScore":
-                        return 0.0;
-                        break;
-                    case "stationScore":
-                        return 1.0;
-                        break;
-                    case "cableEngage":
-                        return 2.0;
-                        break;
-                    case "stationEngage":
-                        return 3.0;
-                        break;
-                }
-            // case "Middle": // Todo 
-            //     switch(selectedPath) {
-            //         case "ATarmacEdge2Ball":
-            //             return 4.0;
-            //         case "BTarmacEdgeCenter2Ball":
-            //             return 5.0;
-            //         case "BTarmacEdgeLower2Ball":
-            //             return 6.0;
-            //     }
-            // case "Right": // Todo
-            //     switch(selectedPath) {
-            //         case "ATarmacEdge2Ball":
-            //             return 4.0;
-            //         case "BTarmacEdgeCenter2Ball":
-            //             return 5.0;
-            //         case "BTarmacEdgeLower2Ball":
-            //             return 6.0;
-            //     }
-        
-    return -1;
+    switch(selectedPath) { // Todo
+        case "cableScore": // ConeCube(driveBase, claw, arm, "CableScore")
+            return 0.0;
+        case "stationScore": // ConeCube(driveBase, claw, arm, "StationScore")
+            return 1.0;
+        case "cableEngage": // CubeEngage(driveBase, claw, arm, "CableEngage")
+            return 2.0;
+        case "stationEngage": // CubeEngage(driveBase, claw, arm, "StationEngage")
+            return 3.0;
+        case "centerEngage": // CenterEngage(driveBase, claw, arm, "CenterEngage")
+            return 4.0;
+        default:
+            return -1;
+    }
 }
 
 function getDelayTime() {
@@ -460,6 +435,13 @@ function getDelayTime() {
 
 function sendAuton() {
     var autonCommand = getAutonFromMap();
+    // var autoSelectWarning = document.querySelector(""); // TODO
+    // if (autonCommand === -1) {
+    //     autoSelectWarning.style.display = "block";
+    //     return;
+    // } else {
+    //     autoSelectWarning.style.display = "none";
+    // }
     var delayTime = getDelayTime();
     console.log("SELECTED AUTON COMMAND", autonCommand);
     NetworkTables.putValue('/SmartDashboard/auton-chooser', autonCommand);
