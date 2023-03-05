@@ -10,14 +10,17 @@ package frc.team670.robot;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.CvSink;
 import edu.wpi.first.cscore.CvSource;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.PowerDistribution;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team670.mustanglib.RobotContainerBase;
 import frc.team670.mustanglib.commands.MustangCommand;
 import frc.team670.mustanglib.commands.MustangScheduler;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
+import frc.team670.mustanglib.utils.LEDColor;
 import frc.team670.mustanglib.utils.Logger;
 import frc.team670.mustanglib.utils.MustangController;
 import frc.team670.robot.commands.drivebase.SwerveDriveParkCommand;
@@ -77,6 +80,13 @@ public class RobotContainer extends RobotContainerBase {
         led.rainbow(false);
 
         updateArbitraryFeedForward.startPeriodic(0.01);
+
+        Alliance alliance = DriverStation.getAlliance();
+		if (alliance == Alliance.Red) {
+			led.setAllianceColors(LEDColor.RED);
+		} else {
+			led.setAllianceColors(LEDColor.BLUE);
+		}
     }
 
     /**
@@ -110,7 +120,7 @@ public class RobotContainer extends RobotContainerBase {
             default:
                 autonCommand = new CenterEngage(driveBase, claw, arm, "CenterEngage");
         }
-        return new CenterEngage(driveBase, claw, arm, "CenterEngage");
+        return autonCommand;
         //return new AutonCalibration(driveBase, "Curve"); // TODO: use curve path after straight path
 
         // return new ConeCube(driveBase, claw, arm, "CableScore");
