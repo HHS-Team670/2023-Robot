@@ -34,7 +34,7 @@ public class CenterEngage extends SequentialCommandGroup implements MustangComma
 
     public CenterEngage(DriveBase driveBase, Claw claw, Arm arm, String pathName) {
         this.pathName = pathName;
-        List<PathPlannerTrajectory> trajectoryGroup = PathPlanner.loadPathGroup(pathName, 2.0, 1.75);
+        List<PathPlannerTrajectory> trajectoryGroup = PathPlanner.loadPathGroup(pathName, 1, 0.5);
 
         HashMap<String, Command> eventMap = new HashMap<>();
 
