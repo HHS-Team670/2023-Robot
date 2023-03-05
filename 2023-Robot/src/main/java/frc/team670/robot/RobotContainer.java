@@ -63,7 +63,7 @@ public class RobotContainer extends RobotContainerBase {
         //         arm.updateArbitraryFeedForward();
         //     // }
         // });
-        led.solidrgb(LEDColor.GREEN);
+        led.rainbow(false);
         // updateArbitraryFeedForward.startPeriodic(0.01);
     }
 
