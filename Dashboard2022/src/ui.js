@@ -47,7 +47,10 @@ function setPaths() { // Todo
     var p4 = document.createElement("p");
     p4.appendChild(document.createTextNode("stationEngage"));
 
-    content.append(p1, p2, p3, p4);
+    var p5 = document.createElement("p");
+    p5.appendChild(document.createTextNode("centerEngage"));
+
+    content.append(p1, p2, p3, p4, p5);
     // switch(side) {
     //     case 'left':
     //         var option1 = document.createElement("p");
