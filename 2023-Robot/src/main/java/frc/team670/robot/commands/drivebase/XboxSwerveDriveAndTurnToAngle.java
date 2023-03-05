@@ -28,9 +28,7 @@ public class XboxSwerveDriveAndTurnToAngle extends CommandBase implements Mustan
             double maxVelocity, double maxAngularVelocity) {
         this.driveBase = swerveDriveBase;
         this.controller = controller;
-        this.rotPIDController = new RotationController(new ProfiledPIDController(4, 0, 1, // not
-                                                                                          // tuned
-                                                                                          // yet
+        this.rotPIDController = new RotationController(new ProfiledPIDController(1.75, 0, 0, 
                 new Constraints(RobotConstants.kMaxAngularSpeedRadiansPerSecond,
                         RobotConstants.kMaxAngularSpeedRadiansPerSecondSquared)));
         this.rotPIDController.setTolerance(new Rotation2d(Units.degreesToRadians(5)));
@@ -43,7 +41,11 @@ public class XboxSwerveDriveAndTurnToAngle extends CommandBase implements Mustan
 
     @Override
     public void execute() {
-        updateSnapRotation();
+        // clear desired heading if at the heading or joystick touched
+        if (driveBase.getDesiredHeading() != null) {
+            if (rotPIDController.atReference() || modifyAxis(-controller.getRightX()) != 0)
+                driveBase.setDesiredHeading(null);
+        }
 
         double xVel = MAX_VELOCITY * modifyAxis(-controller.getLeftY());
         double yVel = MAX_VELOCITY * modifyAxis(-controller.getLeftX());
@@ -62,23 +64,6 @@ public class XboxSwerveDriveAndTurnToAngle extends CommandBase implements Mustan
 
     }
 
-    private void updateSnapRotation() {
-        Rotation2d desiredHeading = driveBase.getDesiredHeading();
-        if (desiredHeading == null) {
-            if (controller.getYButtonPressed()) {
-                driveBase.setDesiredHeading(new Rotation2d(0));
-            } else if (controller.getXButtonPressed()) {
-                driveBase.setDesiredHeading(new Rotation2d(Math.PI / 2));
-            } else if (controller.getAButtonPressed()) {
-                driveBase.setDesiredHeading(new Rotation2d(Math.PI));
-            } else if (controller.getBButtonPressed()) {
-                driveBase.setDesiredHeading(new Rotation2d(3 * Math.PI / 2));
-            }
-        } else {
-            if (rotPIDController.atReference() || modifyAxis(-controller.getRightX()) != 0)
-                driveBase.setDesiredHeading(null);;
-        }
-    }
 
     @Override
     public void end(boolean interrupted) {

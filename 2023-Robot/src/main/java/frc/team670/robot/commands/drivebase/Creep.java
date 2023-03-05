@@ -10,7 +10,7 @@ import frc.team670.mustanglib.subsystems.MustangSubsystemBase.HealthState;
 import frc.team670.robot.subsystems.DriveBase;
 
 public class Creep extends CommandBase implements MustangCommand {
-    public static final double CREEP_SPEED = 0.1;
+    public static final double CREEP_SPEED = 0.3;
     private DriveBase driveBase;
     
 

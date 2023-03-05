@@ -145,6 +145,7 @@ public final class RobotConstants extends RobotConstantsBase {
     // vision
 
     public static final String[] VISION_CAMERA_NAMES = {"Arducam_B", "Arducam_C"};
+//    public static final String[] VISION_CAMERA_NAMES = {"Arducam_OV9281_USB_Camera", "Arducam_C"};
     public static final Transform3d[] CAMERA_OFFSETS = {
             // Cam B - LEFT
             new Transform3d(new Translation3d(Units.inchesToMeters(0.56),
