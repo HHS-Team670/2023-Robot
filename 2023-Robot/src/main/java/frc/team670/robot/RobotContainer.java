@@ -7,8 +7,10 @@
 
 package frc.team670.robot;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.PowerDistribution;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import frc.team670.mustanglib.RobotContainerBase;
 import frc.team670.mustanglib.commands.MustangCommand;
@@ -65,6 +67,13 @@ public class RobotContainer extends RobotContainerBase {
         // });
         
         // updateArbitraryFeedForward.startPeriodic(0.01);
+
+        Alliance alliance = DriverStation.getAlliance();
+		if (alliance == Alliance.Red) {
+			led.setAllianceColors(LEDColor.RED);
+		} else {
+			led.setAllianceColors(LEDColor.BLUE);
+		}
         
     }
 
