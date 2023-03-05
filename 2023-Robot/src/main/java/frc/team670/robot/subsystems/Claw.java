@@ -70,7 +70,6 @@ public class Claw extends MustangSubsystemBase {
      */
     public void setIdle() {
         setStatus(Status.IDLE);
-        this.isFull = false;
     }
 
     /**
@@ -102,7 +101,7 @@ public class Claw extends MustangSubsystemBase {
                 break;
             case INTAKING:
                 if(isFull) {
-                    setStatus(Status.IDLE);
+                    setIdle();
                 }
                 motor.set(RobotConstants.CLAW_ROLLING_SPEED);
                 break;
@@ -125,7 +124,7 @@ public class Claw extends MustangSubsystemBase {
                 currentSpikeCounter++;
                 if(currentSpikeCounter > RobotConstants.CLAW_CURRENT_SPIKE_ITERATIONS) {
                     isFull = true;
-                    setIdle();
+                    setStatus(Status.IDLE);
                     OI.getDriverController().rumble(0.5, 0.5);
                     currentSpikeCounter = 0;
                 }

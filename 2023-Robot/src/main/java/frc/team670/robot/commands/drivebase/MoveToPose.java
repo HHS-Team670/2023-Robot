@@ -13,6 +13,7 @@ import frc.team670.mustanglib.commands.MustangCommand;
 import frc.team670.mustanglib.commands.MustangScheduler;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase.HealthState;
+import frc.team670.robot.commands.vision.IsLockedOn;
 import frc.team670.robot.constants.FieldConstants;
 import frc.team670.robot.constants.RobotConstants;
 import frc.team670.robot.subsystems.DriveBase;
@@ -61,6 +62,7 @@ public class MoveToPose extends CommandBase implements MustangCommand {
 
         pathDrivingCommand = driveBase.getFollowTrajectoryCommand(traj);
         MustangScheduler.getInstance().schedule(pathDrivingCommand, driveBase);
+        MustangScheduler.getInstance().schedule(new IsLockedOn(driveBase, endPose), driveBase);
     }
 
     @Override
@@ -72,9 +74,9 @@ public class MoveToPose extends CommandBase implements MustangCommand {
     public void end(boolean interrupted) {
         if (interrupted) {
             pathDrivingCommand.cancel();
+            driveBase.getPoseEstimator().removeTrajectory();
         }
         // driveBase.stop();
-        driveBase.getPoseEstimator().removeTrajectory();
     }
 
     // calcs start point and points directly towards end point

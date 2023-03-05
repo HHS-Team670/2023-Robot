@@ -50,7 +50,7 @@ public class RobotContainer extends RobotContainerBase {
     private final DriveBase driveBase = new DriveBase(getDriverController());
     private final Arm arm = new Arm();
     private final Claw claw = new Claw(arm);
-    private final LED led = new LED(RobotMap.LED_PORT,0,35);
+    private final LED led = new LED(RobotMap.LED_PORT, 0,35, claw);
     private static OI oi = new OI();
     
     private Notifier updateArbitraryFeedForward;

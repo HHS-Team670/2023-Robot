@@ -69,13 +69,13 @@ public class AutoAlign extends CommandBase implements MustangCommand {
     // only ends when auto align mapped button let go
     @Override
     public boolean isFinished() {
-        return controller.getLeftX() != 0 || controller.getLeftY() != 0 || controller.getRightX() != 0;
+        return moveCommand == null || !moveCommand.isScheduled();
     }
 
     // only ends when auto align mapped button let go
     @Override
     public void end(boolean interrupted) {
-        moveCommand.cancel();
+        if (interrupted) moveCommand.cancel();
     }
 
     @Override

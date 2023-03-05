@@ -5,12 +5,13 @@ import frc.team670.mustanglib.utils.LEDColor;
 import frc.team670.mustanglib.utils.Logger;
 
 public class LED extends LEDSubsystem {
-    
+
     private LEDColor allianceColor;
     private Claw claw;
 
-    public LED(int port, int startIndex, int endIndex) {
+    public LED(int port, int startIndex, int endIndex, Claw claw) {
         super(port, startIndex, endIndex);
+        this.claw = claw;
     }
 
     public void setColorPurple() {

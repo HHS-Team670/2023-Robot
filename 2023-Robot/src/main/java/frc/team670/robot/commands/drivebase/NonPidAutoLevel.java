@@ -33,8 +33,8 @@ public class NonPidAutoLevel extends CommandBase implements MustangCommand {
 
     @Override
     public void initialize() {
-        SmartDashboard.putNumber("init non pid pose x", driveBase.getPose().getX());
-        SmartDashboard.putNumber("init non pid pose y", driveBase.getPose().getY());
+        // SmartDashboard.putNumber("init non pid pose x", driveBase.getPose().getX());
+        // SmartDashboard.putNumber("init non pid pose y", driveBase.getPose().getY());
 
         pitch = Math.abs(driveBase.getPitch());
         previousPitch = Math.abs(driveBase.getPitch()); // just to ensure we are going forward
@@ -44,12 +44,12 @@ public class NonPidAutoLevel extends CommandBase implements MustangCommand {
     @Override
     public void execute() {
         previousPitch = pitch;
-        SmartDashboard.putNumber("previousPitch", previousPitch);
+        //SmartDashboard.putNumber("previousPitch", previousPitch);
         pitch = Math.abs(driveBase.getPitch());
-        SmartDashboard.putNumber("pitch", pitch);
+        // SmartDashboard.putNumber("pitch", pitch);
 
-        SmartDashboard.putNumber("non pid pose x", driveBase.getPose().getX());
-        SmartDashboard.putNumber("non pid pose y", driveBase.getPose().getY());
+        // SmartDashboard.putNumber("non pid pose x", driveBase.getPose().getX());
+        // SmartDashboard.putNumber("non pid pose y", driveBase.getPose().getY());
 
 
         if (pitch > 5) {
@@ -59,9 +59,9 @@ public class NonPidAutoLevel extends CommandBase implements MustangCommand {
         if ((previousPitch - pitch) < 0.5) { //While going up the ramp...
             ChassisSpeeds chassisSpeeds;
             if(fromDriverSide) {
-                chassisSpeeds = new ChassisSpeeds(0.6, 0.0, 0.0);
+                chassisSpeeds = new ChassisSpeeds(0.75, 0.0, 0.0);
             } else {
-                chassisSpeeds = new ChassisSpeeds(-0.6, 0.0, 0.0);
+                chassisSpeeds = new ChassisSpeeds(-0.75, 0.0, 0.0);
             }
             SwerveModuleState[] states = driveBase.getSwerveKinematics().toSwerveModuleStates(chassisSpeeds);
             driveBase.setModuleStates(states);
