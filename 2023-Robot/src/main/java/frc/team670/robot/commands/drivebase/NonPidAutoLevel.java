@@ -59,9 +59,9 @@ public class NonPidAutoLevel extends CommandBase implements MustangCommand {
         if ((previousPitch - pitch) < 0.5) { //While going up the ramp...
             ChassisSpeeds chassisSpeeds;
             if(fromDriverSide) {
-                chassisSpeeds = new ChassisSpeeds(0.75, 0.0, 0.0);
+                chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(0.75, 0, 0, driveBase.getGyroscopeRotation());
             } else {
-                chassisSpeeds = new ChassisSpeeds(-0.75, 0.0, 0.0);
+                chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(-0.75, 0, 0, driveBase.getGyroscopeRotation());
             }
             SwerveModuleState[] states = driveBase.getSwerveKinematics().toSwerveModuleStates(chassisSpeeds);
             driveBase.setModuleStates(states);
