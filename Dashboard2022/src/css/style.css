@@ -204,8 +204,6 @@ body.login #login {
     margin-bottom: 10px;
 }
 
-    width:400px;
-}
 
 
 #big-warning {
@@ -268,6 +266,11 @@ body.login #login {
     align-items: center; */
 }
 
+#current-path {
+    background-color: rgb(8, 218, 8);
+    color: black;
+}
+
 #arm-state {
     display: flex;
     align-items: center;
@@ -294,12 +297,19 @@ body.login #login {
     width: 250px;
     height: 200px;
     align-items: center;
+    position: relative;
 }
 
 #leveling-line {
     border-top:10px solid#ff00ff; 
     align-items: center;
     margin-top: 100px;    
+}
+
+#pitch-value {
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
 }
 
 fieldset#position {
