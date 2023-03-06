@@ -136,8 +136,8 @@ public class RobotContainer extends RobotContainerBase {
                 led.solidhsv(LEDColor.GREEN);
 
         }
-        return autonCommand;
-        
+        //return autonCommand;
+        return new CenterEngage(driveBase, claw, arm, "CenterEngage");
         //return new AutonCalibration(driveBase, "Curve"); // TODO: use curve path after straight path
 
         // return new ConeCube(driveBase, claw, arm, "CableScore");
@@ -163,6 +163,7 @@ public class RobotContainer extends RobotContainerBase {
     @Override
     public void disabled() {
         SmartDashboard.putBoolean("match-started", false);
+        led.rainbow(false);
     }
     
 
