@@ -50,7 +50,10 @@ function setPaths() { // Todo
     var p5 = document.createElement("p");
     p5.appendChild(document.createTextNode("centerEngage"));
 
-    content.append(p1, p2, p3, p4, p5);
+    var p6 = document.createElement("p");
+    p6.appendChild(document.createTextNode("centerIntake"));
+
+    content.append(p1, p2, p3, p4, p5, p6);
     // switch(side) {
     //     case 'left':
     //         var option1 = document.createElement("p");
@@ -77,7 +80,7 @@ toggleCamera.onclick = () => {
     var cameraDiv = document.querySelector("#camera-streams")
     if (document.querySelector(".camera-stream") == null) {
         var cameraStreams = `<image class="camera-stream" src="http://photonvision.local:1182/stream.mjpg?1664842058013"></image>
-        <image class="camera-stream" src="http://photonvision.local:5800/thinclient.html?port=1184&host=photonvision.local"></image>`
+        <image class="camera-stream" src="http://10.6.70.2:1181"></image>`
         // var cameraStreams = `<image class="camera-stream" src="http://photonvision.local:1184/stream.mjpg?1646964457545"></image>`;
         cameraDiv.insertAdjacentHTML( 'beforeend', cameraStreams );
     } else {
@@ -352,6 +355,9 @@ NetworkTables.addKeyListener('/SmartDashboard/auton-chooser', (key, value) => {
         case 4: // CenterEngage(driveBase, claw, arm, "CenterEngage")
             pathText = "centerEngage";
             break;
+        case 5: // CenterEngage(driveBase, claw, arm, "CenterEngage")
+            pathText = "centerIntake";
+            break;
         default:
             pathText = "Not Sent";
     }
@@ -453,6 +459,8 @@ function getAutonFromMap() {
             return 3.0;
         case "centerEngage": // CenterEngage(driveBase, claw, arm, "CenterEngage")
             return 4.0;
+        case "centerIntake": // CenterEngage(driveBase, claw, arm, "CenterEngage")
+            return 5.0;
         default:
             return -1;
     }
@@ -476,7 +484,7 @@ function sendAuton() {
     console.log("SELECTED AUTON COMMAND", autonCommand);
     NetworkTables.putValue('/SmartDashboard/auton-chooser', autonCommand);
     NetworkTables.putValue('/SmartDashboard/delayTime', delayTime);
-    if (autonCommand !== -1 && NetworkTables.getValue('/SmartDashboard/auton-chooser') == autonCommand) {
+    if (autonCommand !== -1 && NetworkTables.getValue('/SmartDashboard/auton-chooser') == autonCommand && NetworkTables.getValue('/SmartDashboard/pitch') != null) {
         document.getElementById('auton-status').style.backgroundColor = "rgb(0,255,0)";
     } else {
         document.getElementById('auton-status').style.backgroundColor = "rgb(255,0,0)";
