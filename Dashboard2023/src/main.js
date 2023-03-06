@@ -43,16 +43,16 @@ function startServer() {
     // Start python server.
     if (isWin) {
         // If on Windows, use the batch command (py -3 ./server.py).
-        server = child_process.spawn("py", ["-3", "-m", "pynetworktables2js"]);
+        // server = child_process.spawn("py", ["-3", "-m", "pynetworktables2js"]);
         // server = child_process.spawn("py", ["-3", "-m", "pynetworktables2js", "--robot", "roborio-670-frc.local"]);
-        // server = child_process.spawn("py", ["-3", "-m", "pynetworktables2js", "--robot", "10.6.70.2"]);
+        server = child_process.spawn("py", ["-3", "-m", "pynetworktables2js", "--robot", "10.6.70.2"]);
         // server = child_process.spawn("py", ["-3", "-m", "pynetworktables2js", "--team", "670"]);
     }
     else {
         // If on unix-like/other OSes, use bash command (python3 ./server.py).
-        server = child_process.spawn("python3", ["-m", "pynetworktables2js"]);
+        // server = child_process.spawn("python3", ["-m", "pynetworktables2js"]);
         // server = child_process.spawn("python3", ["-m", "pynetworktables2js", "--robot", "roborio-670-frc.local"]);
-        // server = child_process.spawn("python3", ["-m", "pynetworktables2js", "--robot", "10.6.70.2"]);
+        server = child_process.spawn("python3", ["-m", "pynetworktables2js", "--robot", "10.6.70.2"]);
         // server = child_process.spawn("python3", ["-m", "pynetworktables2js", "--team", "670"]);
     }
     // On an error close the window and display an error message to the user
