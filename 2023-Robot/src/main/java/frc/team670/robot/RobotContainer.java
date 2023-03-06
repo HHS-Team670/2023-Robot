@@ -1,8 +1,8 @@
 /*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018-2019 FIRST. All Rights Reserved.                        */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
+/* Copyright (c) 2018-2019 FIRST. All Rights Reserved. */
+/* Open Source Software - may be modified and shared by FRC teams. The code */
 /* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
+/* the project. */
 /*----------------------------------------------------------------------------*/
 
 package frc.team670.robot;
@@ -38,9 +38,8 @@ import frc.team670.robot.subsystems.Vision;
 import frc.team670.robot.subsystems.arm.Arm;
 
 /**
- * RobotContainer is where we put the high-level code for the robot.
- * It contains subsystems, OI devices, etc, and has required methods
- * (autonomousInit, periodic, etc)
+ * RobotContainer is where we put the high-level code for the robot. It contains subsystems, OI
+ * devices, etc, and has required methods (autonomousInit, periodic, etc)
  */
 
 public class RobotContainer extends RobotContainerBase {
@@ -50,19 +49,20 @@ public class RobotContainer extends RobotContainerBase {
     private final Vision vision = new Vision(pd);
     private final DriveBase driveBase = new DriveBase(getDriverController());
     private final Arm arm = new Arm();
-    private final LED led = new LED(RobotMap.LED_PORT, 0,35);
+    private final LED led = new LED(RobotMap.LED_PORT, 0, 35);
     private final Claw claw = new Claw(led);
-    
+
     private static OI oi = new OI();
     private Notifier updateArbitraryFeedForward;
 
 
     public RobotContainer() {
         super();
-        addSubsystem(driveBase, vision, arm, arm.getShoulder(), arm.getElbow(), arm.getWrist(), claw,led);
-        oi.configureButtonBindings(driveBase, vision, arm, claw,led);
+        addSubsystem(driveBase, vision, arm, arm.getShoulder(), arm.getElbow(), arm.getWrist(),
+                claw, led);
+        oi.configureButtonBindings(driveBase, vision, arm, claw, led);
 
-        for(MustangSubsystemBase subsystem : getSubsystems()) {
+        for (MustangSubsystemBase subsystem : getSubsystems()) {
             subsystem.setDebugSubsystem(true);
         }
     }
@@ -85,13 +85,13 @@ public class RobotContainer extends RobotContainerBase {
 
         Alliance alliance = DriverStation.getAlliance();
 
-		if (alliance == Alliance.Red) {
+        if (alliance == Alliance.Red) {
             SmartDashboard.putString("Alliance Color", "red");
-			led.setAllianceColors(LEDColor.RED);
-		}  else if(alliance == Alliance.Blue) {
+            led.setAllianceColors(LEDColor.RED);
+        } else if (alliance == Alliance.Blue) {
             SmartDashboard.putString("Alliance Color", "blue");
-			led.setAllianceColors(LEDColor.BLUE);
-		}
+            led.setAllianceColors(LEDColor.BLUE);
+        }
     }
 
     /**
@@ -101,7 +101,7 @@ public class RobotContainer extends RobotContainerBase {
      */
     @Override
     public MustangCommand getAutonomousCommand() {
-        SmartDashboard.putBoolean("match-started", true);     
+        SmartDashboard.putBoolean("match-started", true);
 
         int selectedPath = (int) (SmartDashboard.getEntry("auton-chooser").getInteger(-1));
         System.out.println(selectedPath);
@@ -124,7 +124,7 @@ public class RobotContainer extends RobotContainerBase {
                 led.solidhsv(LEDColor.BLUE);
                 break;
             case 4:
-                autonCommand = new CenterEngage(driveBase, claw, arm, "CenterEngage");        
+                autonCommand = new CenterEngage(driveBase, claw, arm, "CenterEngage");
                 led.solidhsv(LEDColor.GREEN);
                 break;
             case 5:
@@ -136,14 +136,15 @@ public class RobotContainer extends RobotContainerBase {
                 led.solidhsv(LEDColor.GREEN);
 
         }
-        //return autonCommand;
-        return new CenterEngage(driveBase, claw, arm, "CenterEngage");
-        //return new AutonCalibration(driveBase, "Curve"); // TODO: use curve path after straight path
+        // return autonCommand;
+        return new CubeEngage(driveBase, claw, arm, "StationEngage");
+        // return new AutonCalibration(driveBase, "Curve"); // TODO: use curve path after straight
+        // path
 
         // return new ConeCube(driveBase, claw, arm, "CableScore");
         // return new ConeCube(driveBase, claw, arm, "RightConeCube");
         // return new NonPidAutoLevel(driveBase, true);
-        
+
     }
 
     @Override
@@ -165,7 +166,7 @@ public class RobotContainer extends RobotContainerBase {
         SmartDashboard.putBoolean("match-started", false);
         led.rainbow(false);
     }
-    
+
 
     @Override
     public void disabledPeriodic() {}
