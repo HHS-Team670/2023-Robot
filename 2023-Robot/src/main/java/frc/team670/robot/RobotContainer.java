@@ -26,6 +26,7 @@ import frc.team670.mustanglib.utils.MustangController;
 import frc.team670.robot.commands.drivebase.SwerveDriveParkCommand;
 import frc.team670.robot.commands.pathplanner.AutonCalibration;
 import frc.team670.robot.commands.pathplanner.CenterEngage;
+import frc.team670.robot.commands.pathplanner.CenterIntake;
 import frc.team670.robot.commands.pathplanner.ConeCube;
 import frc.team670.robot.commands.pathplanner.CubeEngage;
 import frc.team670.robot.constants.OI;
@@ -49,8 +50,9 @@ public class RobotContainer extends RobotContainerBase {
     private final Vision vision = new Vision(pd);
     private final DriveBase driveBase = new DriveBase(getDriverController());
     private final Arm arm = new Arm();
-    private final Claw claw = new Claw(arm);
-    private final LED led = new LED(RobotMap.LED_PORT, 0,35, claw);
+    private final LED led = new LED(RobotMap.LED_PORT, 0,35);
+    private final Claw claw = new Claw(led);
+    
     private static OI oi = new OI();
     private Notifier updateArbitraryFeedForward;
 
@@ -89,9 +91,7 @@ public class RobotContainer extends RobotContainerBase {
 		}  else if(alliance == Alliance.Blue) {
             SmartDashboard.putString("Alliance Color", "blue");
 			led.setAllianceColors(LEDColor.BLUE);
-		}else{
-            led.setAllianceColors(LEDColor.WHITE);
-        }
+		}
     }
 
     /**
@@ -127,9 +127,14 @@ public class RobotContainer extends RobotContainerBase {
                 autonCommand = new CenterEngage(driveBase, claw, arm, "CenterEngage");        
                 led.solidhsv(LEDColor.GREEN);
                 break;
+            case 5:
+                autonCommand = new CenterIntake(driveBase, claw, arm, "CenterIntake");
+                led.solidhsv(LEDColor.WHITE);
+                break;
             default:
                 autonCommand = new CenterEngage(driveBase, claw, arm, "CenterEngage");
                 led.solidhsv(LEDColor.GREEN);
+
         }
         return autonCommand;
         

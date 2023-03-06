@@ -7,7 +7,7 @@ import frc.team670.mustanglib.utils.motorcontroller.SparkMAXLite;
 import frc.team670.robot.constants.OI;
 import frc.team670.robot.constants.RobotConstants;
 import frc.team670.robot.constants.RobotMap;
-import frc.team670.robot.subsystems.arm.Arm;
+
 import com.revrobotics.CANSparkMax.IdleMode;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -21,20 +21,25 @@ public class Claw extends MustangSubsystemBase {
     private int currentSpikeCounter = 0;
     private int ejectCounter = 0;
     private Claw.Status status;
-    private Arm arm;
+    private LED led;
     private boolean isFull = false;
     private double ejectingSpeed = RobotConstants.CLAW_EJECTING_SPEED;
 
-    public Claw(Arm arm) {
-        this.arm = arm;
+    public Claw(LED led) {
         motor = SparkMAXFactory.buildSparkMAX(RobotMap.CLAW_MOTOR, SparkMAXFactory.defaultConfig, Motor_Type.NEO);
         motor.setInverted(true);
         status = Status.IDLE;
         motor.setIdleMode(IdleMode.kBrake);
+        this.led = led;
+        
     }
 
-    public Arm getArm() {
-        return arm;
+    public LED getLed() {
+        return led;
+    }
+    
+    public void setLED(LED led){
+        this.led = led;
     }
 
     public boolean isFull() {
@@ -51,16 +56,10 @@ public class Claw extends MustangSubsystemBase {
      */
     public void startEjecting(double ejectingSpeed) {
         this.ejectingSpeed = ejectingSpeed;
-        if(this.status != Status.EJECTING) {
-            this.isFull = true;
-        }
         setStatus(Status.EJECTING);
     }
 
     public void startIntaking() {
-        if(this.status != Status.INTAKING) {
-            this.isFull = false;
-        }
         setStatus(Status.INTAKING);
     }
 
@@ -124,6 +123,7 @@ public class Claw extends MustangSubsystemBase {
                 currentSpikeCounter++;
                 if(currentSpikeCounter > RobotConstants.CLAW_CURRENT_SPIKE_ITERATIONS) {
                     isFull = true;
+                    led.solidhsv(led.getAllianceColor());
                     setStatus(Status.IDLE);
                     OI.getDriverController().rumble(0.5, 0.5);
                     currentSpikeCounter = 0;

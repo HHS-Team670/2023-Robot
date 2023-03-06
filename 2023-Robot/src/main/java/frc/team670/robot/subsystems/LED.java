@@ -7,12 +7,12 @@ import frc.team670.mustanglib.utils.Logger;
 
 public class LED extends LEDSubsystem {
 
-    private LEDColor allianceColor, oppositeAllianceColor;
-    private Claw claw;
+    private LEDColor allianceColor;
 
-    public LED(int port, int startIndex, int endIndex, Claw claw) {
+
+    public LED(int port, int startIndex, int endIndex) {
         super(port, startIndex, endIndex);
-        this.claw = claw;
+       
     }
 
     public void setColorPurple() {
@@ -28,20 +28,10 @@ public class LED extends LEDSubsystem {
         this.allianceColor = alliance;
     }
 
-    @Override
-    public void mustangPeriodic(){
-        if(allianceColor == LEDColor.WHITE){
-            blink(LEDColor.WHITE);
-        }
-        
-        if(DriverStation.isEnabled()){
-
-            if(claw.isFull()){
-
-                solidhsv(allianceColor);
-            }
-        }
-        
-        super.mustangPeriodic();
+    public LEDColor getAllianceColor(){
+        return allianceColor;
     }
+
+
+
 }
