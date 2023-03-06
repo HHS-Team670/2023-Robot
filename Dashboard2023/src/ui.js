@@ -130,7 +130,7 @@ NetworkTables.addKeyListener('/SmartDashboard/match-started', (key, value) => {
 
 
 // updates status lights for driveBase
-NetworkTables.addKeyListener('/SmartDashboard/align', (key, value) => {
+NetworkTables.addKeyListener('/SmartDashboard/aligned', (key, value) => {
     // MOVE_UP,
     //    MOVE_DOWN,
     //    MOVE_LEFT,
