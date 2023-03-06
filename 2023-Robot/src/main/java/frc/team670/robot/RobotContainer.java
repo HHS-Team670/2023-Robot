@@ -109,7 +109,8 @@ public class RobotContainer extends RobotContainerBase {
         switch (selectedPath) {
             case 0:
                 autonCommand = new ConeCube(driveBase, claw, arm, "CableScore");
-                led.solidhsv(LEDColor.RED); //pink
+                led.solidhsv(led.getAllianceColor());
+
                 break;
             case 1:
                 autonCommand = new ConeCube(driveBase, claw, arm, "StationScore");
@@ -121,7 +122,7 @@ public class RobotContainer extends RobotContainerBase {
                 break;
             case 3:
                 autonCommand = new CubeEngage(driveBase, claw, arm, "StationEngage");
-                led.solidhsv(LEDColor.BLUE); //pink- purple 
+                led.solidhsv(LEDColor.LIGHT_BLUE); 
                 break;
             case 4:
                 autonCommand = new CenterEngage(driveBase, claw, arm, "CenterEngage");
