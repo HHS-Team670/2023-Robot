@@ -137,7 +137,7 @@ public class RobotContainer extends RobotContainerBase {
 
         }
         // return autonCommand;
-        return new CubeEngage(driveBase, claw, arm, "StationEngage");
+        return new ConeCube(driveBase, claw, arm, "StationScore");
         // return new AutonCalibration(driveBase, "Curve"); // TODO: use curve path after straight
         // path
 

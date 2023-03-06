@@ -52,16 +52,16 @@
     },
     {
       "anchorPoint": {
-        "x": 6.069845288996134,
-        "y": 4.685079498631219
+        "x": 5.988048417377976,
+        "y": 4.46
       },
       "prevControl": {
-        "x": 6.061594475977591,
-        "y": 4.685079498631219
+        "x": 5.979797604359433,
+        "y": 4.46
       },
       "nextControl": {
-        "x": 6.081688753779635,
-        "y": 4.685079498631219
+        "x": 5.999891882161477,
+        "y": 4.46
       },
       "holonomicAngle": 0,
       "isReversal": false,
@@ -77,25 +77,25 @@
     },
     {
       "anchorPoint": {
-        "x": 6.952704580726959,
-        "y": 4.647032346677688
+        "x": 6.84387646355364,
+        "y": 4.46
       },
       "prevControl": {
-        "x": 6.944819395134356,
-        "y": 4.701632277602119
+        "x": 6.788710091470799,
+        "y": 4.46
       },
       "nextControl": {
-        "x": 7.07714040731671,
-        "y": 3.7853928257640965
+        "x": 7.7144549717533755,
+        "y": 4.46
       },
       "holonomicAngle": 0.0,
       "isReversal": false,
-      "velOverride": 2.0,
+      "velOverride": null,
       "isLocked": false,
       "isStopPoint": false,
       "stopEvent": {
         "names": [
-          "clawIntake2"
+          "moveToStowed"
         ],
         "executionBehavior": "sequential",
         "waitBehavior": "none",
@@ -104,17 +104,17 @@
     },
     {
       "anchorPoint": {
-        "x": 5.351979674336953,
-        "y": 3.3962517134561176
+        "x": 5.3509319830027575,
+        "y": 3.2616557759805915
       },
       "prevControl": {
-        "x": 5.947383771340894,
-        "y": 3.3815390799184373
+        "x": 5.946336080006698,
+        "y": 3.246943142442911
       },
       "nextControl": null,
       "holonomicAngle": 0.0,
       "isReversal": false,
-      "velOverride": null,
+      "velOverride": 0.75,
       "isLocked": false,
       "isStopPoint": false,
       "stopEvent": {
@@ -139,7 +139,7 @@
       ]
     },
     {
-      "position": 2.1366044477982955,
+      "position": 2.8606060606060146,
       "names": [
         "moveToStowed"
       ]

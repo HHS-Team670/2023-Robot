@@ -17,6 +17,7 @@ import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase.HealthState;
 import frc.team670.robot.commands.arm.MoveToTarget;
 import frc.team670.robot.commands.claw.ClawEject;
+import frc.team670.robot.commands.claw.ClawInstantEject;
 import frc.team670.robot.commands.claw.ClawIntake;
 import frc.team670.robot.constants.RobotConstants;
 import frc.team670.robot.subsystems.Claw;
@@ -35,7 +36,7 @@ public class ConeCube extends SequentialCommandGroup implements MustangCommand {
 
     public ConeCube(DriveBase driveBase, Claw claw, Arm arm, String pathName) {
         this.pathName = pathName;
-        List<PathPlannerTrajectory> trajectoryGroup = PathPlanner.loadPathGroup(pathName, 1.0, 0.5);
+        List<PathPlannerTrajectory> trajectoryGroup = PathPlanner.loadPathGroup(pathName, 2.75, 1.5);
 
 
         HashMap<String, Command> eventMap = new HashMap<>();
@@ -43,13 +44,12 @@ public class ConeCube extends SequentialCommandGroup implements MustangCommand {
         // eventMap stuff
         //eventMap.put("clawIntake1", new ClawIntake(claw));
         eventMap.put("moveToMid1", new MoveToTarget(arm, ArmState.SCORE_MID));
-        eventMap.put("clawEject1", new ClawEject(claw));
-        eventMap.put("moveToStowed", new MoveToTarget(arm, ArmState.STOWED));
+        eventMap.put("clawEject1", new ClawInstantEject(claw));
         eventMap.put("moveToGround", new MoveToTarget(arm, ArmState.HYBRID));
         eventMap.put("clawIntake2", new ClawIntake(claw)); //May want to use IntakeAndStow after testing.
-        eventMap.put("moveToStowed2", new MoveToTarget(arm, ArmState.STOWED));
+        eventMap.put("moveToStowed", new MoveToTarget(arm, ArmState.STOWED));
         eventMap.put("moveToMid2", new MoveToTarget(arm, ArmState.SCORE_MID));
-        eventMap.put("clawEject2", new ClawEject(claw));
+        eventMap.put("clawEject2", new ClawInstantEject(claw));
         eventMap.put("moveToStowed3", new MoveToTarget(arm, ArmState.STOWED));
         
         SwerveDriveKinematics driveBaseKinematics = driveBase.getSwerveKinematics();
