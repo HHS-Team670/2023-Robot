@@ -7,18 +7,24 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.team670.mustanglib.commands.MustangCommand;
+import frc.team670.mustanglib.commands.MustangScheduler;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase.HealthState;
 import frc.team670.robot.subsystems.DriveBase;
 
 public class NonPidAutoLevel extends CommandBase implements MustangCommand {
+
     DriveBase driveBase;
+    
     double target = 0;
-    double error = 2.5; // 2.5 degrees is allowable
+    double error = 2.5;
     double pitch;
     double previousPitch;
+    double multiplier; // related to fromDriverSide
+
     boolean hasGoneUp = false;
     boolean fromDriverSide = false;
+    boolean parked;
 
 
     public NonPidAutoLevel(DriveBase driveBase, boolean fromDriverSide) {
@@ -37,17 +43,24 @@ public class NonPidAutoLevel extends CommandBase implements MustangCommand {
         // SmartDashboard.putNumber("init non pid pose y", driveBase.getPose().getY());
 
         pitch = Math.abs(driveBase.getPitch());
-        previousPitch = Math.abs(driveBase.getPitch()); // just to ensure we are going forward
-        this.hasGoneUp = false;
+        previousPitch = Math.abs(driveBase.getPitch());
+        hasGoneUp = false;
+        parked = false;
+
+        if (fromDriverSide) {
+            multiplier = 1;
+        }
+        else {
+            multiplier = -1;
+        }
     }
 
     @Override
     public void execute() {
         previousPitch = pitch;
-        //SmartDashboard.putNumber("previousPitch", previousPitch);
+        // SmartDashboard.putNumber("previousPitch", previousPitch);
         pitch = Math.abs(driveBase.getPitch());
         // SmartDashboard.putNumber("pitch", pitch);
-
         // SmartDashboard.putNumber("non pid pose x", driveBase.getPose().getX());
         // SmartDashboard.putNumber("non pid pose y", driveBase.getPose().getY());
 
@@ -56,22 +69,14 @@ public class NonPidAutoLevel extends CommandBase implements MustangCommand {
             hasGoneUp = true;
         }
 
-        if ((previousPitch - pitch) < 0.5) { //While going up the ramp...
-            ChassisSpeeds chassisSpeeds;
-            if(fromDriverSide) {
-                chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(0.75, 0, 0, driveBase.getGyroscopeRotation());
-            } else {
-                chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(-0.75, 0, 0, driveBase.getGyroscopeRotation());
-            }
+        if ((previousPitch - pitch) < 0.25) { // going up the ramp
+            ChassisSpeeds chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(0.75 * multiplier, 0, 0, driveBase.getGyroscopeRotation());
             SwerveModuleState[] states = driveBase.getSwerveKinematics().toSwerveModuleStates(chassisSpeeds);
             driveBase.setModuleStates(states);
-        } else {
-            SwerveModuleState[] states = new SwerveModuleState[4];
-                states[0] = new SwerveModuleState(0.01, new Rotation2d(Math.PI/4)); 
-                states[1] = new SwerveModuleState(0.01, new Rotation2d(-Math.PI/4));
-                states[2] = new SwerveModuleState(0.01, new Rotation2d(-Math.PI/4));
-                states[3] = new SwerveModuleState(0.01, new Rotation2d(Math.PI/4));
-                driveBase.setModuleStates(states);
+        }
+        else { // going down now
+            parked = true;
+            MustangScheduler.getInstance().schedule(new SwerveDriveParkCommand(driveBase), driveBase);
         }
     }
 
@@ -80,7 +85,11 @@ public class NonPidAutoLevel extends CommandBase implements MustangCommand {
         if (driveBase.getPitch() > (target - error) && driveBase.getPitch() < (target + error) && hasGoneUp) {
             return true;
         }
-        // SmartDashboard.putBoolean("level", level);
+        if (parked) { // parked, but not leveled
+            ChassisSpeeds chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(-0.2 * multiplier, 0, 0, driveBase.getGyroscopeRotation());
+            SwerveModuleState[] states = driveBase.getSwerveKinematics().toSwerveModuleStates(chassisSpeeds);
+            driveBase.setModuleStates(states);
+        }
         return false;
     }
 }
