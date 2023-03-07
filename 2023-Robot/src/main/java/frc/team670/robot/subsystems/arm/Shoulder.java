@@ -206,10 +206,6 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
     public void debugSubsystem() {
         double relativePosition = super.rotator_encoder.getPosition();
         SmartDashboard.putNumber("Shoulder Speed:", super.rotator.get());
-        SmartDashboard.putNumber("Shoulder forward soft limit",
-                super.rotator.getSoftLimit(SoftLimitDirection.kForward));
-        SmartDashboard.putNumber("Shoulder backward soft limit",
-                super.rotator.getSoftLimit(SoftLimitDirection.kReverse));
         SmartDashboard.putNumber("Shoulder position (deg)", getCurrentAngleInDegrees());
         SmartDashboard.putNumber("Shoulder position (rotations)", relativePosition);
         SmartDashboard.putNumber("Shoulder abs encoder position", absEncoder.getAbsolutePosition());

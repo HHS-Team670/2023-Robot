@@ -62,9 +62,9 @@ public class RobotContainer extends RobotContainerBase {
                 claw, led);
         oi.configureButtonBindings(driveBase, vision, arm, claw, led);
 
-        for (MustangSubsystemBase subsystem : getSubsystems()) {
-            subsystem.setDebugSubsystem(true);
-        }
+        // for (MustangSubsystemBase subsystem : getSubsystems()) {
+        //     subsystem.setDebugSubsystem(true);
+        // }
     }
 
     @Override

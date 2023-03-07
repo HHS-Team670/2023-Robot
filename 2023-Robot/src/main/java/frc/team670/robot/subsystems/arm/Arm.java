@@ -139,13 +139,11 @@ public class Arm extends MustangSubsystemBase {
         if(!hasSetElbowTarget && elapsedTime > currentTimeDelays[1]) {
             hasSetElbowTarget = true;
             elbow.setSystemTargetAngleInDegrees(targetState.getElbowAngle());
-            SmartDashboard.putNumber("ElapsedTime", elapsedTime);
         }
         if(!hasSetWristTarget && elapsedTime > currentTimeDelays[2]) {
             hasSetWristTarget = true;
             wrist.setSystemTargetAngleInDegrees(targetState.getWristAngle());
         }
-        SmartDashboard.putString("target-arm-state", this.getTargetState().toString());
     }
 
     /**
@@ -273,13 +271,10 @@ public class Arm extends MustangSubsystemBase {
 
     @Override
     public void debugSubsystem() {
-        shoulder.debugSubsystem();
-        elbow.debugSubsystem();
-        wrist.debugSubsystem();
         SmartDashboard.putString("Arm target state", getTargetState().toString());
-        SmartDashboard.putNumber("Elbow offset", elbowOffset);
-        SmartDashboard.putNumber("Shoulder offset", shoulderOffset);
-        SmartDashboard.putNumber("Wrist offset", wristOffset);
+        // SmartDashboard.putNumber("Elbow offset", elbowOffset);
+        // SmartDashboard.putNumber("Shoulder offset", shoulderOffset);
+        // SmartDashboard.putNumber("Wrist offset", wristOffset);
     }
 
     /**

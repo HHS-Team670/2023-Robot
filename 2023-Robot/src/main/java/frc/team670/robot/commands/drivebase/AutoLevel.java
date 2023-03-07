@@ -41,7 +41,6 @@ public class AutoLevel extends CommandBase implements MustangCommand {
         //double adjustedSpeed = MathUtil.clamp((target - pitch) * kp, -1, 1); //This may need to be PLUS (pitch-prevPitch)*kD, rather than minus. Please test!
         if (counter % 10 == 0) {
             double adjustedSpeed = controller.calculate(pitch, target);
-            SmartDashboard.putNumber("speed", adjustedSpeed);
             
             ChassisSpeeds chassisSpeeds = new ChassisSpeeds(adjustedSpeed, 0.0, 0.0);
             SwerveModuleState[] states = driveBase.getSwerveKinematics().toSwerveModuleStates(chassisSpeeds);

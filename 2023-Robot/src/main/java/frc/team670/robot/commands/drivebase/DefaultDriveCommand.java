@@ -1,7 +1,6 @@
 package frc.team670.robot.commands.drivebase;
 
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.team670.robot.subsystems.DriveBase;
 
@@ -30,7 +29,6 @@ public class DefaultDriveCommand extends CommandBase {
     public void execute() {
         // You can use `new ChassisSpeeds(...)` for robot-oriented movement instead of
         // field-oriented movement
-        SmartDashboard.putNumber("pitch", m_drivetrainSubsystem.getPitch());
         double angle = m_rotationSupplier.getAsDouble();
         double xPos = m_translationXSupplier.getAsDouble();
         double yPos = m_translationYSupplier.getAsDouble();
