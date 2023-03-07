@@ -65,6 +65,8 @@ public class RobotContainer extends RobotContainerBase {
         // for (MustangSubsystemBase subsystem : getSubsystems()) {
         //     subsystem.setDebugSubsystem(true);
         // }
+        claw.setDebugSubsystem(true);
+
     }
 
     @Override

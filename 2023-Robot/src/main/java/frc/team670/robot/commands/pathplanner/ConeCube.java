@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
-import com.pathplanner.lib.auto.PIDConstants;
 import com.pathplanner.lib.auto.SwerveAutoBuilder;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -16,9 +15,8 @@ import frc.team670.mustanglib.commands.MustangCommand;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase.HealthState;
 import frc.team670.robot.commands.arm.MoveToTarget;
-import frc.team670.robot.commands.claw.ClawEject;
 import frc.team670.robot.commands.claw.ClawInstantEject;
-import frc.team670.robot.commands.claw.ClawIntake;
+import frc.team670.robot.commands.claw.ClawInstantIntake;
 import frc.team670.robot.constants.RobotConstants;
 import frc.team670.robot.subsystems.Claw;
 import frc.team670.robot.subsystems.DriveBase;
@@ -42,11 +40,11 @@ public class ConeCube extends SequentialCommandGroup implements MustangCommand {
         HashMap<String, Command> eventMap = new HashMap<>();
 
         // eventMap stuff
-        //eventMap.put("clawIntake1", new ClawIntake(claw));
+        //eventMap.put("clawIntake1", new ClawInstantIntake(claw));
         eventMap.put("moveToMid1", new MoveToTarget(arm, ArmState.SCORE_MID));
         eventMap.put("clawEject1", new ClawInstantEject(claw));
         eventMap.put("moveToGround", new MoveToTarget(arm, ArmState.HYBRID));
-        eventMap.put("clawIntake2", new ClawIntake(claw)); //May want to use IntakeAndStow after testing.
+        eventMap.put("clawIntake2", new ClawInstantIntake(claw)); //May want to use IntakeAndStow after testing.
         eventMap.put("moveToStowed", new MoveToTarget(arm, ArmState.STOWED));
         eventMap.put("moveToMid2", new MoveToTarget(arm, ArmState.SCORE_MID));
         eventMap.put("clawEject2", new ClawInstantEject(claw));

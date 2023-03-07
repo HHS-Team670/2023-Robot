@@ -22,6 +22,7 @@ import frc.team670.robot.commands.leds.SetColorYellow;
 import frc.team670.robot.commands.routines.EjectAndStow;
 import frc.team670.robot.commands.vision.AutoAlign;
 import frc.team670.robot.commands.claw.ClawIdle;
+import frc.team670.robot.commands.claw.ClawInstantIntake;
 import frc.team670.robot.subsystems.Claw;
 import frc.team670.robot.subsystems.DriveBase;
 import frc.team670.robot.commands.drivebase.Creep;
@@ -119,7 +120,7 @@ public class OI extends OIBase {
         manualElbowControl.onTrue(new ManualMoveElbow(arm, operatorController));
         
         // Claw control commands
-        clawSuck.onTrue(new ClawIntake(claw));
+        clawSuck.onTrue(new ClawInstantIntake(claw));
         clawEject.onTrue(new EjectAndStow(claw, arm));
         clawIdle.onTrue(new ClawIdle(claw));
 

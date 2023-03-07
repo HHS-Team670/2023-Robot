@@ -16,6 +16,7 @@ import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase.HealthState;
 import frc.team670.robot.commands.arm.MoveToTarget;
 import frc.team670.robot.commands.claw.ClawEject;
+import frc.team670.robot.commands.claw.ClawInstantIntake;
 import frc.team670.robot.commands.claw.ClawIntake;
 import frc.team670.robot.commands.drivebase.NonPidAutoLevel;
 import frc.team670.robot.constants.RobotConstants;
@@ -44,7 +45,7 @@ public class CenterIntake extends SequentialCommandGroup implements MustangComma
         eventMap.put("clawEject", new ClawEject(claw));
         eventMap.put("stow1", new MoveToTarget(arm, ArmState.STOWED));
         eventMap.put("moveToGround", new MoveToTarget(arm, ArmState.HYBRID));
-        eventMap.put("clawIntake", new ClawIntake(claw));
+        eventMap.put("clawIntake", new ClawInstantIntake(claw));
         eventMap.put("autoLevel", new NonPidAutoLevel(driveBase, false));
         
         SwerveDriveKinematics driveBaseKinematics = driveBase.getSwerveKinematics();

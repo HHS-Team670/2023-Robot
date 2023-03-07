@@ -20,6 +20,7 @@ import frc.team670.mustanglib.subsystems.MustangSubsystemBase.HealthState;
 import frc.team670.robot.commands.arm.MoveToTarget;
 import frc.team670.robot.commands.claw.ClawEject;
 import frc.team670.robot.commands.claw.ClawInstantEject;
+import frc.team670.robot.commands.claw.ClawInstantIntake;
 import frc.team670.robot.commands.claw.ClawIntake;
 import frc.team670.robot.subsystems.Claw;
 import frc.team670.robot.subsystems.DriveBase;
@@ -47,7 +48,7 @@ public class CubeEngage extends SequentialCommandGroup implements MustangCommand
 
         eventMap.put("moveToMid", new MoveToTarget(arm, ArmState.SCORE_MID));
         eventMap.put("clawEject", new ClawInstantEject(claw));
-        eventMap.put("clawIntake2", new ClawIntake(claw));
+        eventMap.put("clawIntake2", new ClawInstantIntake(claw));
         eventMap.put("moveToStowed", new MoveToTarget(arm, ArmState.STOWED));
         eventMap.put("moveToGround", new MoveToTarget(arm, ArmState.HYBRID));
         eventMap.put("moveToStowed2", new MoveToTarget(arm, ArmState.STOWED));
