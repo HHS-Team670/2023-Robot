@@ -23,7 +23,7 @@ import frc.team670.robot.subsystems.DriveBase;
  */
 public class MoveToPose extends CommandBase implements MustangCommand {
     private DriveBase driveBase;
-    private final Pose2d BLUE_RELATIVE_END_POSE;
+    // private final Pose2d endPose;
     private Pose2d endPose;
     private Pose2d startPose;
     private boolean backOut = false;
@@ -32,16 +32,16 @@ public class MoveToPose extends CommandBase implements MustangCommand {
 
     private MustangPPSwerveControllerCommand pathDrivingCommand;
 
-    public MoveToPose(DriveBase driveBase, Pose2d blueRelativeEndPose) {
+    public MoveToPose(DriveBase driveBase, Pose2d endPose) {
         this.driveBase = driveBase;
-        this.BLUE_RELATIVE_END_POSE = blueRelativeEndPose;
+        this.endPose = endPose;
         this.healthReqs = new HashMap<MustangSubsystemBase, HealthState>();
         this.healthReqs.put(driveBase, HealthState.GREEN);
     }
 
-    public MoveToPose(DriveBase driveBase, Pose2d blueRelativeEndPose, boolean backOut) {
+    public MoveToPose(DriveBase driveBase, Pose2d endPose, boolean backOut) {
         this.driveBase = driveBase;
-        this.BLUE_RELATIVE_END_POSE = blueRelativeEndPose;
+        this.endPose = endPose;
         this.backOut = backOut;
         this.healthReqs = new HashMap<MustangSubsystemBase, HealthState>();
         this.healthReqs.put(driveBase, HealthState.GREEN);
@@ -54,7 +54,6 @@ public class MoveToPose extends CommandBase implements MustangCommand {
 
     @Override
     public void initialize() {
-        this.endPose = FieldConstants.allianceFlip(BLUE_RELATIVE_END_POSE);
         this.startPose = driveBase.getPose();
         PathPlannerTrajectory traj = PathPlanner.generatePath(RobotConstants.kAutoPathConstraints,
                 calcStartPoint(endPose), calcEndPoint(startPose));
@@ -91,8 +90,6 @@ public class MoveToPose extends CommandBase implements MustangCommand {
             return new PathPoint(startPose.getTranslation(), new Rotation2d(dx, dy),
                     startPose.getRotation());
         }
-        // return PathPoint.fromCurrentHolonomicState(startPose, driveBase.getChassisSpeeds()); //
-        // turns, doesn't move directly but more accurate?
     }
 
     // end point where robot faces end Pose
