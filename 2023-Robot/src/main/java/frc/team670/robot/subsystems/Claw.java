@@ -9,6 +9,8 @@ import frc.team670.robot.constants.RobotConstants;
 import frc.team670.robot.constants.RobotMap;
 
 import com.revrobotics.CANSparkMax.IdleMode;
+
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Claw extends MustangSubsystemBase {
@@ -112,7 +114,9 @@ public class Claw extends MustangSubsystemBase {
                     currentSpikeCounter++;
                     if(currentSpikeCounter > RobotConstants.CLAW_CURRENT_SPIKE_ITERATIONS) {
                         isFull = true;
-                        led.solidhsv(led.getAllianceColor());
+                        if(DriverStation.isTeleopEnabled()){
+                            led.solidhsv(led.getAllianceColor());
+                    }
                         setStatus(Status.IDLE);
                         OI.getDriverController().rumble(0.5, 0.5);
                         currentSpikeCounter = 0;
