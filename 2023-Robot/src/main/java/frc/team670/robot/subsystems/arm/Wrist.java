@@ -204,8 +204,6 @@ public class Wrist extends SparkMaxRotatingSubsystem {
     @Override
     public void debugSubsystem() {
         SmartDashboard.putNumber("Wrist Speed:", super.rotator.get());
-        SmartDashboard.putNumber("Wrist forward soft limit", super.rotator.getSoftLimit(SoftLimitDirection.kForward));
-        SmartDashboard.putNumber("Wrist backward soft limit", super.rotator.getSoftLimit(SoftLimitDirection.kReverse));
         SmartDashboard.putNumber("Wrist position (deg)", getCurrentAngleInDegrees());
         SmartDashboard.putNumber("Wrist position (rotations)", super.rotator_encoder.getPosition());
         SmartDashboard.putNumber("Wrist current", super.rotator.getOutputCurrent());

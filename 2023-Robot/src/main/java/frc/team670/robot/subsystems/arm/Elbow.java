@@ -231,8 +231,6 @@ public class Elbow extends SparkMaxRotatingSubsystem {
         double relativePosition = super.rotator_encoder.getPosition();
 
         SmartDashboard.putNumber("Elbow Speed:", super.rotator.get());
-        SmartDashboard.putNumber("Elbow forward soft limit", super.rotator.getSoftLimit(SoftLimitDirection.kForward));
-        SmartDashboard.putNumber("Elbow backward soft limit", super.rotator.getSoftLimit(SoftLimitDirection.kReverse));
         SmartDashboard.putNumber("Elbow position (deg)", getCurrentAngleInDegrees());
         SmartDashboard.putNumber("Elbow position (rotations)", relativePosition);
         SmartDashboard.putNumber("Elbow current", super.rotator.getOutputCurrent());

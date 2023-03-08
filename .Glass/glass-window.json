@@ -6,6 +6,7 @@
   },
   "MainWindow": {
     "GLOBAL": {
+      "fps": "120",
       "height": "768",
       "maximized": "0",
       "style": "0",
@@ -18,13 +19,13 @@
   "Window": {
     "###NetworkTables": {
       "Collapsed": "0",
-      "Pos": "250,277",
-      "Size": "750,185"
+      "Pos": "93,277",
+      "Size": "907,432"
     },
     "###NetworkTables Settings": {
       "Collapsed": "0",
-      "Pos": "30,30",
-      "Size": "254,77"
+      "Pos": "29,30",
+      "Size": "329,169"
     },
     "Debug##Default": {
       "Collapsed": "0",

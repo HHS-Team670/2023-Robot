@@ -65,6 +65,7 @@ public class RobotContainer extends RobotContainerBase {
         for (MustangSubsystemBase subsystem : getSubsystems()) {
             subsystem.setDebugSubsystem(true);
         }
+
     }
 
     @Override
@@ -104,40 +105,40 @@ public class RobotContainer extends RobotContainerBase {
         SmartDashboard.putBoolean("match-started", true);
 
         int selectedPath = (int) (SmartDashboard.getEntry("auton-chooser").getInteger(-1));
-        System.out.println(selectedPath);
         MustangCommand autonCommand;
         switch (selectedPath) {
             case 0:
                 autonCommand = new ConeCube(driveBase, claw, arm, "CableScore");
-                led.solidhsv(LEDColor.RED);
+                led.solidhsv(led.getAllianceColor());
+
                 break;
             case 1:
                 autonCommand = new ConeCube(driveBase, claw, arm, "StationScore");
-                led.solidhsv(LEDColor.SEXY_YELLOW);
+                led.solidrgb(LEDColor.SEXY_YELLOW);
                 break;
             case 2:
                 autonCommand = new CubeEngage(driveBase, claw, arm, "CableEngage");
-                led.solidhsv(LEDColor.SEXY_PURPLE);
+                led.solidrgb(LEDColor.SEXY_PURPLE);
                 break;
             case 3:
                 autonCommand = new CubeEngage(driveBase, claw, arm, "StationEngage");
-                led.solidhsv(LEDColor.BLUE);
+                led.solidhsv(LEDColor.LIGHT_BLUE); 
                 break;
             case 4:
                 autonCommand = new CenterEngage(driveBase, claw, arm, "CenterEngage");
-                led.solidhsv(LEDColor.GREEN);
+                led.solidrgb(LEDColor.GREEN); 
                 break;
             case 5:
                 autonCommand = new CenterIntake(driveBase, claw, arm, "CenterIntake");
-                led.solidhsv(LEDColor.WHITE);
+                led.solidrgb(LEDColor.WHITE);
                 break;
             default:
                 autonCommand = new CenterEngage(driveBase, claw, arm, "CenterEngage");
-                led.solidhsv(LEDColor.GREEN);
+                led.solidrgb(LEDColor.GREEN);
 
         }
         // return autonCommand;
-        return new CubeEngage(driveBase, claw, arm, "StationEngage");
+        return new ConeCube(driveBase, claw, arm, "CableScore");
         // return new AutonCalibration(driveBase, "Curve"); // TODO: use curve path after straight
         // path
 
@@ -155,6 +156,7 @@ public class RobotContainer extends RobotContainerBase {
     @Override
     public void teleopInit() {
         // arm.setStateToStarting();
+        led.solidhsv(led.getAllianceColor());
         arm.clearSetpoint();
     }
 
@@ -169,7 +171,32 @@ public class RobotContainer extends RobotContainerBase {
 
 
     @Override
-    public void disabledPeriodic() {}
+    public void disabledPeriodic() {
+        int selectedPath = (int) (SmartDashboard.getEntry("auton-chooser").getInteger(-1));
+        switch (selectedPath) {
+            case 0:
+                led.solidhsv(led.getAllianceColor());
+                break;
+            case 1:
+                led.solidrgb(LEDColor.SEXY_YELLOW);
+                break;
+            case 2:
+                led.solidrgb(LEDColor.SEXY_PURPLE);
+                break;
+            case 3:
+                led.solidhsv(LEDColor.LIGHT_BLUE); 
+                break;
+            case 4:
+                led.solidrgb(LEDColor.GREEN);
+                break;
+            case 5:
+                led.solidrgb(LEDColor.WHITE);
+                break;
+            default:
+                led.solidrgb(LEDColor.GREEN);
+
+        }
+    }
 
     @Override
     public void periodic() {

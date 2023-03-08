@@ -9,6 +9,8 @@ import frc.team670.robot.constants.RobotConstants;
 import frc.team670.robot.constants.RobotMap;
 
 import com.revrobotics.CANSparkMax.IdleMode;
+
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Claw extends MustangSubsystemBase {
@@ -18,19 +20,22 @@ public class Claw extends MustangSubsystemBase {
     }
 
     private SparkMAXLite motor;
+    private Claw.Status status;
+
     private int currentSpikeCounter = 0;
     private int ejectCounter = 0;
-    private Claw.Status status;
-    private LED led;
     private boolean isFull = false;
     private double ejectingSpeed = RobotConstants.CLAW_EJECTING_SPEED;
 
+    private LED led;
+
     public Claw(LED led) {
         motor = SparkMAXFactory.buildSparkMAX(RobotMap.CLAW_MOTOR, SparkMAXFactory.defaultConfig, Motor_Type.NEO);
-        motor.setInverted(true);
         status = Status.IDLE;
-        motor.setIdleMode(IdleMode.kBrake);
         this.led = led;
+
+        motor.setInverted(true);
+        motor.setIdleMode(IdleMode.kBrake);
         
     }
 
@@ -98,17 +103,29 @@ public class Claw extends MustangSubsystemBase {
 
     @Override
     public void mustangPeriodic() {
-        // debugSubsystem();
 
         switch (status) {
             case IDLE:
                 motor.set(RobotConstants.CLAW_IDLE_SPEED);
                 break;
             case INTAKING:
-                if(isFull) {
-                    setIdle();
-                }
                 motor.set(RobotConstants.CLAW_ROLLING_SPEED);
+                if(motor.getOutputCurrent() > RobotConstants.CLAW_CURRENT_MAX) {
+                    currentSpikeCounter++;
+                    if(currentSpikeCounter > RobotConstants.CLAW_CURRENT_SPIKE_ITERATIONS) {
+                        isFull = true;
+                        if(DriverStation.isTeleopEnabled()){
+                            led.solidhsv(led.getAllianceColor());
+                    }
+                        setStatus(Status.IDLE);
+                        OI.getDriverController().rumble(0.5, 0.5);
+                        OI.getOperatorController().rumble(0.5, 0.5);
+                        currentSpikeCounter = 0;
+                        setIdle();
+                    }
+                } else {
+                    currentSpikeCounter = 0;
+                }
                 break;
 
             case EJECTING:
@@ -121,23 +138,6 @@ public class Claw extends MustangSubsystemBase {
                 break;
             default:
                 motor.set(0);
-        }
-
-        // If the current has spiked for more than 1/10th of a second, then set the status to idle
-        if(this.status == Status.INTAKING) {
-            if(motor.getOutputCurrent() > RobotConstants.CLAW_CURRENT_MAX) {
-                currentSpikeCounter++;
-                if(currentSpikeCounter > RobotConstants.CLAW_CURRENT_SPIKE_ITERATIONS) {
-                    isFull = true;
-                    led.solidhsv(led.getAllianceColor());
-                    setStatus(Status.IDLE);
-                    OI.getDriverController().rumble(0.5, 0.5);
-                    currentSpikeCounter = 0;
-                }
-            } else {
-                currentSpikeCounter = 0;
-            }
-
         }
     }
 

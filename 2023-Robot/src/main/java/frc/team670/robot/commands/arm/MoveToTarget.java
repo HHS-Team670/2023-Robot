@@ -13,6 +13,7 @@ import frc.team670.mustanglib.commands.MustangCommand;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase.HealthState;
 import frc.team670.mustanglib.utils.Logger;
+import frc.team670.robot.commands.claw.ClawInstantIntake;
 import frc.team670.robot.commands.claw.ClawIntake;
 import frc.team670.robot.commands.routines.IntakeAndStow;
 import frc.team670.robot.subsystems.Claw;
@@ -82,7 +83,7 @@ public class MoveToTarget extends CommandGroupBase implements MustangCommand {
       if(target == ArmState.HYBRID || target == ArmState.SINGLE_STATION) { //If we're going to an actual intaking position, then we'll want to return to stowed when we're done
         addCommands(new IntakeAndStow(claw, arm));
       } else {
-        addCommands(new ClawIntake(claw)); //Otherwise, we'll run the claw for security, but we don't want to return to stowed when current spikes
+        addCommands(new ClawInstantIntake(claw)); //Otherwise, we'll run the claw for security, but we don't want to return to stowed when current spikes
       }
     }
 
