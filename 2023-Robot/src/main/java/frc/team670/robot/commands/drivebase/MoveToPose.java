@@ -8,6 +8,8 @@ import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.PathPoint;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.team670.mustanglib.commands.MustangCommand;
 import frc.team670.mustanglib.commands.MustangScheduler;
@@ -55,6 +57,8 @@ public class MoveToPose extends CommandBase implements MustangCommand {
     @Override
     public void initialize() {
         this.startPose = driveBase.getPose();
+        this.endPose = FieldConstants.allianceOrientedAllianceFlip(endPose);
+
         PathPlannerTrajectory traj = PathPlanner.generatePath(RobotConstants.kAutoPathConstraints,
                 calcStartPoint(endPose), calcEndPoint(startPose));
         driveBase.getPoseEstimator().addTrajectory(traj);
