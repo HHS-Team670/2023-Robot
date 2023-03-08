@@ -177,7 +177,7 @@ public final class RobotConstants extends RobotConstantsBase {
     public static final double SHOULDER_LENGTH_INCHES = 26;
     public static final double SHOULDER_TO_ELBOW_MASS_LB = 8.7;
     public static final double SHOULDER_MASS_DISTRIBUTION = 0.356; 
-    public static final double SHOULDER_ALLOWED_ERR_DEG = 1;
+    public static final double SHOULDER_ALLOWED_ERR_DEG = 0.2;
 
     // Elbow
     public static final double ELBOW_ABSOLUTE_ENCODER_AT_VERTICAL =
