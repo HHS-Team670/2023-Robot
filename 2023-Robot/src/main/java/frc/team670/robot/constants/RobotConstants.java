@@ -177,7 +177,7 @@ public final class RobotConstants extends RobotConstantsBase {
     public static final double SHOULDER_LENGTH_INCHES = 26;
     public static final double SHOULDER_TO_ELBOW_MASS_LB = 8.7;
     public static final double SHOULDER_MASS_DISTRIBUTION = 0.356; 
-    public static final double SHOULDER_ALLOWED_ERR_DEG = 2;
+    public static final double SHOULDER_ALLOWED_ERR_DEG = 1;
 
     // Elbow
     public static final double ELBOW_ABSOLUTE_ENCODER_AT_VERTICAL =
@@ -187,7 +187,7 @@ public final class RobotConstants extends RobotConstantsBase {
     public static final int ELBOW_SOFT_LIMIT_MIN = 20;
     public static final int ELBOW_SOFT_LIMIT_MAX = 340;
     public static final int ELBOW_MAX_OVERRIDE_DEGREES  = 15;
-    public static final double ELBOW_ALLOWED_ERR_DEG = 2;
+    public static final double ELBOW_ALLOWED_ERR_DEG = 1.5;
     // public static final double ELBOW_ARBITRARY_FF = 0.0;
     public static final double ELBOW_ARBITRARY_FF = 0.5;
     public static final double ELBOW_LENGTH_INCHES = 35;
@@ -201,7 +201,7 @@ public final class RobotConstants extends RobotConstantsBase {
             (hardwareSpecificConstants.get(MAC_ADDRESS).get("WRIST_GEAR_RATIO")).intValue();;
     public static final double WRIST_ARBITRARY_FF = 0;
     public static final double WRIST_MAX_OVERRIDE_DEGREES = 90;
-    public static final double WRIST_ALLOWED_ERR_DEG = 2;
+    public static final double WRIST_ALLOWED_ERR_DEG = 1.5;
 
     public static final double CLAW_LENGTH_INCHES = 4;
     public static final double CLAW_MASS_LB = 6.5;

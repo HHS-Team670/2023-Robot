@@ -62,9 +62,9 @@ public class RobotContainer extends RobotContainerBase {
                 claw, led);
         oi.configureButtonBindings(driveBase, vision, arm, claw, led);
 
-        // for (MustangSubsystemBase subsystem : getSubsystems()) {
-        //     subsystem.setDebugSubsystem(true);
-        // }
+        for (MustangSubsystemBase subsystem : getSubsystems()) {
+            subsystem.setDebugSubsystem(true);
+        }
 
     }
 
@@ -138,7 +138,7 @@ public class RobotContainer extends RobotContainerBase {
 
         }
         // return autonCommand;
-        return new CubeEngage(driveBase, claw, arm, "StationEngage");
+        return new ConeCube(driveBase, claw, arm, "CableScore");
         // return new AutonCalibration(driveBase, "Curve"); // TODO: use curve path after straight
         // path
 
