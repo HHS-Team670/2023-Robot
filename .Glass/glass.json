@@ -1,1 +1,20 @@
-{}
+{
+  "NetworkTables": {
+    "Transitory Values": {
+      "open": false
+    },
+    "persistent": {
+      "SmartDashboard": {
+        "open": true
+      }
+    },
+    "types": {
+      "/FMSInfo": "FMSInfo",
+      "/SmartDashboard/Field": "Field2d"
+    }
+  },
+  "NetworkTables Settings": {
+    "mode": "Client (NT3)",
+    "serverTeam": "670"
+  }
+}

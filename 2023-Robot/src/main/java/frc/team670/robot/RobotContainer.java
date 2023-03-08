@@ -62,9 +62,9 @@ public class RobotContainer extends RobotContainerBase {
                 claw, led);
         oi.configureButtonBindings(driveBase, vision, arm, claw, led);
 
-        for (MustangSubsystemBase subsystem : getSubsystems()) {
-            subsystem.setDebugSubsystem(true);
-        }
+        // for (MustangSubsystemBase subsystem : getSubsystems()) {
+        //     subsystem.setDebugSubsystem(true);
+        // }
 
     }
 
@@ -138,7 +138,7 @@ public class RobotContainer extends RobotContainerBase {
 
         }
         // return autonCommand;
-        return new ConeCube(driveBase, claw, arm, "StationScore");
+        return new CubeEngage(driveBase, claw, arm, "StationEngage");
         // return new AutonCalibration(driveBase, "Curve"); // TODO: use curve path after straight
         // path
 
@@ -156,6 +156,7 @@ public class RobotContainer extends RobotContainerBase {
     @Override
     public void teleopInit() {
         // arm.setStateToStarting();
+        led.solidhsv(led.getAllianceColor());
         arm.clearSetpoint();
     }
 
