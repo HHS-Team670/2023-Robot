@@ -2,7 +2,7 @@
   "name": "FRCDashboard",
   "version": "2.1.0",
   "description": "Robot control dashboard boilerplate for FRC.",
-  "main": "src/main.js",
+  "main": "main.js",
   "scripts": {
     "start": "electron .",
     "package-mac": "electron-packager . --platform=darwin --icon=images/icon.icns --out dist/",
