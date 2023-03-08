@@ -37,13 +37,14 @@ public class Arm extends MustangSubsystemBase {
 
 
     private static final ArmState[][] VALID_PATHS_GRAPH = new ArmState[][] {
-            { ArmState.TUNING, ArmState.SCORE_MID, ArmState.SINGLE_STATION, ArmState.SCORE_HIGH, ArmState.HYBRID }, // STOWED
-            { ArmState.STOWED, ArmState.SCORE_MID, ArmState.SCORE_HIGH}, // HYBRID
+            { ArmState.TUNING, ArmState.SCORE_MID, ArmState.SINGLE_STATION, ArmState.SCORE_HIGH, ArmState.HYBRID, ArmState.INTAKE_SHELF }, // STOWED
+            { ArmState.STOWED, ArmState.SCORE_MID, ArmState.SCORE_HIGH, ArmState.INTAKE_SHELF}, // HYBRID
             { ArmState.SCORE_HIGH, ArmState.STOWED, ArmState.STARTING, ArmState.HYBRID, ArmState.SINGLE_STATION}, // SCORE_MID
-            { ArmState.SCORE_MID,  ArmState.STOWED, ArmState.STARTING, ArmState.HYBRID, ArmState.SINGLE_STATION}, // SCORE_HIGH
-            { ArmState.SCORE_MID, ArmState.SCORE_HIGH}, // STARTING
+            { ArmState.SCORE_MID,  ArmState.STOWED, ArmState.STARTING, ArmState.HYBRID, ArmState.SINGLE_STATION, ArmState.INTAKE_SHELF}, // SCORE_HIGH
+            { ArmState.SCORE_MID, ArmState.SCORE_HIGH, ArmState.INTAKE_SHELF}, // STARTING
             { ArmState.STOWED}, // TUNING
-            { ArmState.STOWED, ArmState.SCORE_MID, ArmState.SCORE_HIGH} // SINGLE_STATION
+            { ArmState.STOWED, ArmState.SCORE_MID, ArmState.SCORE_HIGH, ArmState.INTAKE_SHELF}, // SINGLE_STATION
+            { ArmState.SCORE_HIGH, ArmState.STOWED, ArmState.STARTING, ArmState.HYBRID, ArmState.SINGLE_STATION}, // INTAKE_SHELF
 
     };
 
@@ -56,7 +57,8 @@ public class Arm extends MustangSubsystemBase {
         ),
         entry(ArmState.HYBRID, Map.ofEntries( //From HYBRID
                 entry(ArmState.STOWED, new double[]{0, 0, 0}),
-                entry(ArmState.SCORE_MID, new double[]{0, 150, 400})
+                entry(ArmState.SCORE_MID, new double[]{0, 150, 400}),
+                entry(ArmState.INTAKE_SHELF, new double[]{0, 150, 400})
             )
         ),
         entry(ArmState.SCORE_MID, Map.ofEntries( //From SCORE_MID
@@ -71,7 +73,13 @@ public class Arm extends MustangSubsystemBase {
         ),
         entry(ArmState.STARTING, Map.ofEntries( //From STARTING
                 entry(ArmState.SCORE_MID, new double[]{500, 0, 500}),
+                entry(ArmState.INTAKE_SHELF, new double[]{500, 0, 500}),
                 entry(ArmState.SCORE_HIGH, new double[]{500, 0, 500})
+            )
+        ),
+        entry(ArmState.INTAKE_SHELF, Map.ofEntries( //From SCORE_MID
+                entry(ArmState.STOWED, new double[]{0, 250, 0}),
+                entry(ArmState.HYBRID, new double[]{0, 250, 0})
             )
         )
     );

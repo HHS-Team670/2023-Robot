@@ -119,6 +119,7 @@ public class Claw extends MustangSubsystemBase {
                     }
                         setStatus(Status.IDLE);
                         OI.getDriverController().rumble(0.5, 0.5);
+                        OI.getOperatorController().rumble(0.5, 0.5);
                         currentSpikeCounter = 0;
                         setIdle();
                     }

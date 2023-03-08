@@ -62,10 +62,9 @@ public class RobotContainer extends RobotContainerBase {
                 claw, led);
         oi.configureButtonBindings(driveBase, vision, arm, claw, led);
 
-        // for (MustangSubsystemBase subsystem : getSubsystems()) {
-        //     subsystem.setDebugSubsystem(true);
-        // }
-        claw.setDebugSubsystem(true);
+        for (MustangSubsystemBase subsystem : getSubsystems()) {
+            subsystem.setDebugSubsystem(true);
+        }
 
     }
 
@@ -106,7 +105,6 @@ public class RobotContainer extends RobotContainerBase {
         SmartDashboard.putBoolean("match-started", true);
 
         int selectedPath = (int) (SmartDashboard.getEntry("auton-chooser").getInteger(-1));
-        System.out.println(selectedPath);
         MustangCommand autonCommand;
         switch (selectedPath) {
             case 0:
@@ -128,7 +126,7 @@ public class RobotContainer extends RobotContainerBase {
                 break;
             case 4:
                 autonCommand = new CenterEngage(driveBase, claw, arm, "CenterEngage");
-                led.solidrgb(LEDColor.GREEN);
+                led.solidrgb(LEDColor.GREEN); 
                 break;
             case 5:
                 autonCommand = new CenterIntake(driveBase, claw, arm, "CenterIntake");
@@ -174,7 +172,6 @@ public class RobotContainer extends RobotContainerBase {
     @Override
     public void disabledPeriodic() {
         int selectedPath = (int) (SmartDashboard.getEntry("auton-chooser").getInteger(-1));
-        System.out.println(selectedPath);
         switch (selectedPath) {
             case 0:
                 led.solidhsv(led.getAllianceColor());

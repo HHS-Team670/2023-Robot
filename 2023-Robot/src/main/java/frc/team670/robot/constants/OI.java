@@ -4,6 +4,7 @@ import com.ctre.phoenix.led.ColorFlowAnimation.Direction;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.team670.mustanglib.commands.drive.teleop.SetSwerveForwardDirection;
@@ -58,6 +59,7 @@ public class OI extends OIBase {
     private static POVButton scoreMidR = new POVButton(operatorController, 90);
     private static POVButton singleStation = new POVButton(operatorController, 270);
     private static POVButton scoreHigh = new POVButton(operatorController, 0);
+    private static JoystickButton intakeShelf = new JoystickButton(operatorController, XboxButtons.X);
 
     private static JoystickButton stow = new JoystickButton(operatorController, XboxButtons.B);
     private static JoystickButton manualElbowControl = new JoystickButton(operatorController,
@@ -115,6 +117,7 @@ public class OI extends OIBase {
         scoreMidR.onTrue(new MoveToTarget(arm, ArmState.SCORE_MID));
         singleStation.onTrue(new MoveToTarget(arm, claw, ArmState.SINGLE_STATION));
         scoreHigh.onTrue(new MoveToTarget(arm, ArmState.SCORE_HIGH));
+        intakeShelf.onTrue(new MoveToTarget(arm, ArmState.INTAKE_SHELF));
         stow.onTrue(new MoveToTarget(arm, ArmState.STOWED));
         manualShoulderControl.onTrue(new ManualMoveShoulder(arm, operatorController));
         manualElbowControl.onTrue(new ManualMoveElbow(arm, operatorController));
