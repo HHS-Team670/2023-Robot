@@ -1,9 +1,11 @@
 {
   "NetworkTables": {
-    "Transitory Values": {
-      "open": false
-    },
     "persistent": {
+      "SmartDashboard": {
+        "open": true
+      }
+    },
+    "transitory": {
       "SmartDashboard": {
         "open": true
       }

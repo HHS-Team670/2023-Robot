@@ -62,9 +62,9 @@ public class RobotContainer extends RobotContainerBase {
                 claw, led);
         oi.configureButtonBindings(driveBase, vision, arm, claw, led);
 
-        for (MustangSubsystemBase subsystem : getSubsystems()) {
-            subsystem.setDebugSubsystem(true);
-        }
+        // for (MustangSubsystemBase subsystem : getSubsystems()) {
+        //     subsystem.setDebugSubsystem(true);
+        // }
 
     }
 
@@ -125,7 +125,7 @@ public class RobotContainer extends RobotContainerBase {
                 break;
             case 4:
                 autonCommand = new CenterEngage(driveBase, claw, arm, "CenterEngage");
-                led.solidrgb(LEDColor.GREEN); 
+                led.rainbow(false);
                 break;
             case 5:
                 autonCommand = new CenterIntake(driveBase, claw, arm, "CenterIntake");
@@ -133,7 +133,7 @@ public class RobotContainer extends RobotContainerBase {
                 break;
             default:
                 autonCommand = new CenterEngage(driveBase, claw, arm, "CenterEngage");
-                led.solidrgb(LEDColor.GREEN);
+                led.rainbow(false);
 
         }
         return autonCommand;
@@ -186,13 +186,13 @@ public class RobotContainer extends RobotContainerBase {
                 led.solidhsv(LEDColor.LIGHT_BLUE); 
                 break;
             case 4:
-                led.solidrgb(LEDColor.GREEN);
+                led.rainbow(false);
                 break;
             case 5:
                 led.solidrgb(LEDColor.WHITE);
                 break;
             default:
-                led.solidrgb(LEDColor.GREEN);
+                led.rainbow(false);
 
         }
     }

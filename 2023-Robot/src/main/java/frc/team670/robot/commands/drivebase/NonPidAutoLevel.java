@@ -53,17 +53,17 @@ public class NonPidAutoLevel extends CommandBase implements MustangCommand {
         // SmartDashboard.putNumber("non pid pose x", driveBase.getPose().getX());
         // SmartDashboard.putNumber("non pid pose y", driveBase.getPose().getY());
 
-        if (pitch > 10) {
+        if (pitch > 12) {
             hasGoneUp = true;
         }
 
-        if (hasGoneUp && Math.abs(previousPitch - pitch) > 0.5) {
+        if (hasGoneUp && Math.abs(previousPitch - pitch) > 1 && pitch < 10) {
             hasTippedOver = true;
         }
 
         ChassisSpeeds chassisSpeeds;
 
-        if (hasTippedOver && counter < 10) {
+        if (hasTippedOver) {
             if (fromDriverSide) {
                 chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(-0.5, 0, 0, driveBase.getGyroscopeRotation());
             } else {
@@ -85,7 +85,7 @@ public class NonPidAutoLevel extends CommandBase implements MustangCommand {
 
     @Override
     public boolean isFinished() {
-        if (hasGoneUp && Math.abs(pitch) < 4) { 
+        if (hasTippedOver && Math.abs(pitch) < 4 && counter > 50) { 
             return true;
         }
         // if (driveBase.getPitch() > (target - error) && driveBase.getPitch() < (target + error) && hasGoneUp) {
