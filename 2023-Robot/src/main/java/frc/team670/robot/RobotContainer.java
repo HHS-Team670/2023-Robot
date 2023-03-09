@@ -110,7 +110,6 @@ public class RobotContainer extends RobotContainerBase {
             case 0:
                 autonCommand = new ConeCube(driveBase, claw, arm, "CableScore");
                 led.solidhsv(led.getAllianceColor());
-
                 break;
             case 1:
                 autonCommand = new ConeCube(driveBase, claw, arm, "StationScore");
@@ -137,8 +136,8 @@ public class RobotContainer extends RobotContainerBase {
                 led.solidrgb(LEDColor.GREEN);
 
         }
-        // return autonCommand;
-        return new ConeCube(driveBase, claw, arm, "CableScore");
+        return autonCommand;
+        //greturn new ConeCube(driveBase, claw, arm, "CableScore");
         // return new AutonCalibration(driveBase, "Curve"); // TODO: use curve path after straight
         // path
 

@@ -37,7 +37,7 @@
       "nextControl": null,
       "holonomicAngle": 180.0,
       "isReversal": false,
-      "velOverride": 0.6,
+      "velOverride": 0.75,
       "isLocked": false,
       "isStopPoint": false,
       "stopEvent": {
@@ -55,10 +55,9 @@
   "isReversed": null,
   "markers": [
     {
-      "position": 0.31296164772727264,
+      "position": 0.945454545454571,
       "names": [
-        "stow",
-        "autoLevel"
+        "stow"
       ]
     }
   ]
