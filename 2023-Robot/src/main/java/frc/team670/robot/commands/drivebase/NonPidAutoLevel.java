@@ -27,6 +27,7 @@ public class NonPidAutoLevel extends CommandBase implements MustangCommand {
     public NonPidAutoLevel(DriveBase driveBase, boolean fromDriverSide) {
         this.driveBase = driveBase;
         this.fromDriverSide = fromDriverSide;
+        SmartDashboard.putNumber("backtracking iterations", 50);
     }
 
     @Override
@@ -57,24 +58,30 @@ public class NonPidAutoLevel extends CommandBase implements MustangCommand {
             hasGoneUp = true;
         }
 
-        if (hasGoneUp && Math.abs(previousPitch - pitch) > 1 && pitch < 10) {
+        if (hasGoneUp && Math.abs(previousPitch - pitch) > 1 && Math.abs(pitch) < 6) {
             hasTippedOver = true;
         }
 
         ChassisSpeeds chassisSpeeds;
 
-        if (hasTippedOver) {
-            if (fromDriverSide) {
-                chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(-0.5, 0, 0, driveBase.getGyroscopeRotation());
+        if(!hasGoneUp) {
+            if(fromDriverSide) {
+                chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(1, 0, 0, driveBase.getGyroscopeRotation());
             } else {
-                chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(0.5, 0, 0, driveBase.getGyroscopeRotation());
+                chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(-1, 0, 0, driveBase.getGyroscopeRotation());
+            }
+        } else if (hasTippedOver) {
+             if (fromDriverSide) {
+                chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(-0.6, 0, 0, driveBase.getGyroscopeRotation());
+            } else {
+                chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(0.6, 0, 0, driveBase.getGyroscopeRotation());
             }
             counter++;
         } else {
             if(fromDriverSide) {
-                chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(0.75, 0, 0, driveBase.getGyroscopeRotation());
+                chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(0.65, 0, 0, driveBase.getGyroscopeRotation());
             } else {
-                chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(-0.75, 0, 0, driveBase.getGyroscopeRotation());
+                chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(-0.65, 0, 0, driveBase.getGyroscopeRotation());
             }
         }
 
@@ -85,7 +92,7 @@ public class NonPidAutoLevel extends CommandBase implements MustangCommand {
 
     @Override
     public boolean isFinished() {
-        if (hasTippedOver && Math.abs(pitch) < 4 && counter > 50) { 
+        if (hasTippedOver && Math.abs(pitch) < 4 && counter > 20) { 
             return true;
         }
         // if (driveBase.getPitch() > (target - error) && driveBase.getPitch() < (target + error) && hasGoneUp) {
