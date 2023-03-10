@@ -10,6 +10,7 @@ package frc.team670.robot;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.CvSink;
 import edu.wpi.first.cscore.CvSource;
+import edu.wpi.first.cscore.VideoMode.PixelFormat;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.PowerDistribution;
@@ -70,9 +71,8 @@ public class RobotContainer extends RobotContainerBase {
 
     @Override
     public void robotInit() {
-        CameraServer.startAutomaticCapture();
-        CvSink cvsink = CameraServer.getVideo();
-        CvSource outputStream = CameraServer.putVideo("Sebby Cam", 640, 480);
+        CameraServer.startAutomaticCapture().setVideoMode(PixelFormat.kYUYV, 160, 120, 30);
+
         driveBase.initVision(vision);
 
         updateArbitraryFeedForward = new Notifier(new Runnable() {
