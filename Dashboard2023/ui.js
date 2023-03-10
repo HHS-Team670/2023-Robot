@@ -175,7 +175,7 @@ NetworkTables.addKeyListener('/SmartDashboard/aligned', (key, value) => {
 NetworkTables.addKeyListener('/SmartDashboard/pitch', (key, value) => {
     var line = document.querySelector("#leveling-line");
     var pitchValue = document.querySelector("h3#pitch-value");
-    pitchValue.innerHTML = "Pitch: " + value;
+    pitchValue.innerHTML = "Pitch: " + Number(value).toFixed(2);
     angle = 2*value;
     line.style.transform = `rotate(${angle}deg)`;
     if (value == null){

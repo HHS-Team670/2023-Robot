@@ -255,17 +255,6 @@ body.login #login {
     color: black;
 }
 
-
-
-#auton-chooser {
-    /* position: absolute;
-    transform: translate(0vw, 72vh); */
-    /* display: flex;
-    flex-direction: column wrap;
-    justify-content: space-between;
-    align-items: center; */
-}
-
 #current-path {
     background-color: rgb(8, 218, 8);
     color: black;
@@ -365,11 +354,6 @@ fieldset#position {
     transform: translate(38vw, 70vh);
 }
 
-/* #match-phase {
-    background-color: rgb(25, 67, 75);
-    transform: translate(5vw, 71.5vh);
-} */
-
 
 .general-button { 
     background-color: rgb(25, 105, 25);
@@ -389,13 +373,6 @@ fieldset#position {
     left: 3.5vw;
     bottom: 30vh;
 }
-
-/* #shooter-values  {
-    position: absolute;
-    transform: translate(75vw, 35vh);
-    width: 20vw;
-    height: 10vh;
-} */
 
 #camera-streams {
     height: 50vh;
