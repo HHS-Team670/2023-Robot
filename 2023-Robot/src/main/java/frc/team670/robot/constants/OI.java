@@ -43,7 +43,8 @@ public class OI extends OIBase {
     // private static JoystickButton zeroArm = new JoystickButton(driverController, XboxButtons.START);
     private static JoystickButton zeroArm = new JoystickButton(operatorController, XboxButtons.START);
     private static JoystickButton zeroGyroDriver = new JoystickButton(driverController, XboxButtons.START);
-    private static JoystickButton moveToTarget = new JoystickButton(driverController, XboxButtons.RIGHT_BUMPER);
+    // private static JoystickButton moveToTarget = new JoystickButton(driverController, XboxButtons.RIGHT_BUMPER);
+    private static POVButton singleSubAlign = new POVButton(driverController, 0);
     // private static JoystickButton creep = new JoystickButton(driverController, XboxButtons.RIGHT_TRIGGER);
     // private static POVButton creep = new POVButton(driverController, 0);
     private static POVButton alignToClosest = new POVButton(driverController, 0);
@@ -100,8 +101,9 @@ public class OI extends OIBase {
 
         zeroGyroDriver.onTrue(new SetSwerveForwardDirection(driveBase));
         zeroArm.onTrue(new ResetArmFromAbsolute(arm));
-        moveToTarget.whileTrue(new MoveToPose(driveBase, (FieldConstants.LoadingZone.IntakePoses[0]))); // moves to substation
-        
+        // moveToTarget.whileTrue(new MoveToPose(driveBase, (FieldConstants.LoadingZone.IntakePoses[0]))); // moves to substation
+        singleSubAlign.whileTrue(new MoveToPose(driveBase, (FieldConstants.LoadingZone.IntakePoses[0]))); // moves to substation
+
         alignToClosest.whileTrue(new AutoAlign(driveBase, driverController, AutoAlign.DIRECTION.CLOSEST));
         alignToLeft.whileTrue(new AutoAlign(driveBase, driverController, AutoAlign.DIRECTION.LEFT));
         alignToRight.whileTrue(new AutoAlign(driveBase, driverController, AutoAlign.DIRECTION.RIGHT));
