@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>FRC Dashboard</title>
+    <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body class="">
+    <script src="networktables/networktables.js"></script>
+    <script src="https://code.jquery.com/jquery-2.2.2.min.js"></script>
+    <img id="clockwise" src="../images/clockwise.png" alt=""/>
+    <img id="counter-clockwise" src="../images/counterclockwise.png" alt=""/>
+
+    <div id="login">
+        <input id="connect-address" type="text" value="localhost" disabled>
+        <button id="connect" disabled>Connecting</button>
+    </div>
+
+    <!-- <div id="level-indicator">
+      <h1 id="Level">LEVEL</h1> <!-- Todo make this into a line that rotates according to robot position-->
+    </div>
+
+    <!-- <svg id="warning-info" width="500" height="60">
+    <rect x="0%" y="0%" width="55%" height="100%" style="stroke:rgb(0,200,0)" />
+    <text id="warnings" x="5%" y="66%" style="text-anchor: start">Warnings:</text>
+  </svg> -->
+
+    <!-- <svg id="big-warning">
+      <text id="big-warning-text" x="50%" y="50%" style="text-anchor: middle; font:bold 60px sans-serif">WARNING!</text>
+    </svg> -->
+
+    <div id="auto-warning">
+      <h1>SELECT AUTO PATH!</h1>
+    </div>
+
+    <!-- <svg id="robot-diagram">
+      <rect x="0%" y="0%" width="100%" height="100%"/>
+      <text id="current-arm-state" x="50%" y="10%" style="text-anchor: middle">Current State</text>
+      <rect x="20%" y="85%" width="50%" height="12%"/>
+      <rect id="arm-base" x="85%" y="20%" width="50%" height="20%"/>
+      <rect x="65%" y="80%" width="2%" height="5%"/>
+      <rect id="intake" x="65%" y="75%" width="15%" height="5%"/>
+      <circle cx="25%" cy="95%" r="5%"/>
+      <circle cx="65%" cy="95%" r="5%"/>
+      <circle cx="45%" cy="95%" r="5%"/>
+    </svg> -->
+
+    <div id="camera-streams">
+    </div>
+<!-- <svg id="warning-info" width="700" height="60">
+    <rect x="45%" y="0%" width="55%" height="100%" style="stroke:rgb(0,200,0)" />
+    <text id="warnings" x="47%" y="66%" style="text-anchor: start">Warnings:</text>-->
+
+    <div id="indicators">
+      <div id="subsystems">
+        <div id="drivebase">Drivebase</div>
+        <div id="claw">Claw</div>
+        <div id="vision">Vision</div>
+        <div id="shoulder">Shoulder</div>
+        <div id="elbow">Elbow</div>
+        <div id="wrist">Wrist</div>
+      </div>
+      <div id="leveling">
+        <div id="leveling-line"></div>
+        <h3 id="pitch-value"></h3>
+      </div>
+      <div id="auton-chooser">
+        <form id="auto-form">
+            <h3 id="current-path"></h3>
+            <fieldset id="position">
+                <!-- <input style="margin:5px;" type="radio" name="side" value="Left" id="Left"/>
+                <label for="Left">Left</label>
+                <input style="margin:5px;" type="radio" name="side" value="Middle" id="Middle"/>
+                <label for="Middle">Middle</label>
+                <input style="margin:5px;" type="radio" name="side" value="Right" id="Right"/>
+                <label for="Right">Right</label> -->
+                <div class="path-dropdown">
+                  <button style="margin:2px;" type="button" class="dropbtn general-button">Choose Path</button>
+                  <div class="dropup-content">
+                  </div>
+                </div>
+            </fieldset>
+      
+            <div id="delay">
+              <label for="delay-time">Delay Time</label>
+              <input type="number" min="0" max="15" name="delay-time" value="0" />
+            </div>
+            <button type="button" class="general-button" id="confirm-button" onclick="sendAuton();">SEND</button>
+        </form>
+      </div>
+      <div id="arm-state">
+        <h1 id="arm-state-text">Stowed</h1>
+      </div>
+    </div>
+
+    <button x="0%" y="30%" class = "general-button" id="toggle-camera" style = "margin-top:1%;">Toggle Streams</button>
+    
+    <script type="text/javascript">
+      "use strict";
+      
+      $(document).ready(function(){
+      
+        // sets a function that will be called when the websocket connects/disconnects
+        NetworkTables.addWsConnectionListener(onNetworkTablesConnection, true);
+        
+        // sets a function that will be called when the robot connects/disconnects
+        NetworkTables.addRobotConnectionListener(onRobotConnection, true);
+        
+        // // sets a function that will be called when any NetworkTables key/value changes
+        // NetworkTables.addGlobalListener(onValueChanged, true);
+      });
+
+      function onRobotConnection(connected) {
+        console.log(connected ? "Connected!" : "Disconnected");
+        console.log(connected ? NetworkTables.getRobotAddress() : "disconnected");
+      }
+
+      function onNetworkTablesConnection(connected) {
+
+        if (connected) {
+          console.log("Connected!");
+          
+        } else {
+          console.log("Disconnected!");
+        }
+      }
+
+      // function onValueChanged(key, value, isNew) {
+
+      //   // key thing here: we're using the various NetworkTable keys as
+      //   // the id of the elements that we're appending, for simplicity. However,
+      //   // the key names aren't always valid HTML identifiers, so we use
+      //   // the NetworkTables.keyToId() function to convert them appropriately
+
+      //   if (isNew) {
+      //     var tr = $('<tr></tr>').appendTo($('#nt > tbody:last'));
+      //     $('<td></td>').text(key).appendTo(tr);
+      //     $('<td></td>').attr('id', NetworkTables.keyToId(key))
+      //             .text(value)
+      //             .appendTo(tr);
+      //   } else {
+        
+      //     // similarly, use keySelector to convert the key to a valid jQuery
+      //     // selector. This should work for class names also, not just for ids
+      //     $('#' + NetworkTables.keySelector(key)).text(value);
+      //   }
+      // }
+    
+    </script>
+
+    <!-- <script src="connection.js"></script> -->
+    <script src="ui.js"></script>
+  
+
+</body>
+
+</html>
