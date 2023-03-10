@@ -1,11 +1,9 @@
-// document.getElementById('big-warning').style.display = "none";
 
 // initial camera settings
 var driveReversed = false;
 var allKeysPressed = new Array();
 var angle = 0;
 var selectedPath = "";
-
 
 var targets = []
 
@@ -29,8 +27,7 @@ function resetAndAddDropdownListeners() {
     }
 }
 
-//function setPaths(side) { // Todo
-function setPaths() { // Todo
+function setPaths() { 
 
     var content = document.querySelector(".dropup-content");
     content.innerHTML = "";
@@ -53,26 +50,14 @@ function setPaths() { // Todo
     var p6 = document.createElement("p");
     p6.appendChild(document.createTextNode("centerIntake"));
 
-    content.append(p1, p2, p3, p4, p5, p6);
-    // switch(side) {
-    //     case 'left':
-    //         var option1 = document.createElement("p");
-    //         option1.appendChild(document.createTextNode(""));
-    //         content.append(option1);
-    //     case 'middle':
-    //     case 'right': 
-    // }
+    var p7 = document.createElement("p");
+    p7.appendChild(document.createTextNode("scoreMid"));
+
+    content.append(p1, p2, p3, p4, p5, p6, p7);
     resetAndAddDropdownListeners();
 }
 
 setPaths();
-
-// var left = document.querySelector('#Left');
-// left.onclick = () => {setPaths('left')};
-// var middle = document.querySelector('#Middle');
-// middle.onclick = () => {setPaths('middle')};
-// var right = document.querySelector('#Right');
-// right.onclick = () => {setPaths('right')};
 
 
 var toggleCamera = document.querySelector('#toggle-camera');
@@ -89,13 +74,6 @@ toggleCamera.onclick = () => {
         }
     }
 }
-
-// NetworkTables.addKeyListener('/SmartDashboard/Estimated pose'), (key, value) => {
-//     // (4.25, -1.14) -16.36 degrees
-// }
-
-
-
 
 // // listens for robot-state and updates status lights and auton chooser accordingly
 // NetworkTables.addKeyListener('/SmartDashboard/robot-state', (key, value) => {
@@ -290,17 +268,6 @@ NetworkTables.addKeyListener('/SmartDashboard/Vision', (key, value) => {
     }
 });
 
-// NetworkTables.addKeyListener('/SmartDashboard/Arm', (key, value) => {
-//     var subsystem = document.getElementById('arm');
-//     if (value === 'GREEN') {
-//         subsystem.style.backgroundColor = "rgb(0,255,0)";
-//     } else if (value === 'YELLOW') {
-//         subsystem.style.backgroundColor = "rgb(255,255,0)";
-//     } else if (value === 'RED') {
-//         subsystem.style.backgroundColor = "rgb(255,0,0)";
-//     }
-// });
-
 
 NetworkTables.addKeyListener('/SmartDashboard/Elbow', (key, value) => {
     var subsystem = document.getElementById('elbow');
@@ -336,10 +303,12 @@ NetworkTables.addKeyListener('/SmartDashboard/Wrist', (key, value) => {
     }
 });
 
+
 NetworkTables.addKeyListener('/SmartDashboard/auton-chooser', (key, value) => {
     var currentPath = document.querySelector("#auto-form h3#current-path");
     var pathText = "Not Sent";
-    switch(Number(value)) { // Todo
+    var listenedAuto = Number(value);
+    switch(listenedAuto) { // Todo
         case 0: // ConeCube(driveBase, claw, arm, "CableScore")
             pathText = "cableScore";
             break;
@@ -358,6 +327,8 @@ NetworkTables.addKeyListener('/SmartDashboard/auton-chooser', (key, value) => {
         case 5: // CenterEngage(driveBase, claw, arm, "CenterEngage")
             pathText = "centerIntake";
             break;
+        case 6: 
+            pathText = "scoreMid";
         default:
             pathText = "Not Sent";
     }
@@ -368,87 +339,87 @@ NetworkTables.addKeyListener('/SmartDashboard/auton-chooser', (key, value) => {
 
 
 
-document.getElementById("confirm-button").onclick = function() {
+document.getElementById("confirm-button").onclick = () => {
   sendAuton();
 };
 
 // // listens for keystrokes from the external keypad and passes the corresponding values over networktables
-var keys = [];
-var allKeys = '';
-document.addEventListener("keyup", function(event) {
-    var pressed = event.key.replace("Enter", "");
-    allKeys += pressed;
-    var result = allKeys[allKeys.length - 1];
-    var nextTask = getFromMap(result);
+// var keys = [];
+// var allKeys = '';
+// document.addEventListener("keyup", function(event) {
+//     var pressed = event.key.replace("Enter", "");
+//     allKeys += pressed;
+//     var result = allKeys[allKeys.length - 1];
+//     var nextTask = getFromMap(result);
 
-    console.log(nextTask);
-    allKeysPressed.push(nextTask);
+//     console.log(nextTask);
+//     allKeysPressed.push(nextTask);
 
-    // make sure the key pressed is a valid action
-    if (nextTask != null) {
-        if (nextTask.toUpperCase() === nextTask) NetworkTables.putValue('/SmartDashboard/xkeys-robotstates', nextTask);
-        else if (nextTask.includes("cancel")) NetworkTables.putValue('/SmartDashboard/xkeys-cancel', nextTask);
-        else if (nextTask.includes("shoot")) NetworkTables.putValue('/SmartDashboard/xkeys-shooter', nextTask);
-        else if (nextTask.includes("updraw")) NetworkTables.putValue('/SmartDashboard/xkeys-updraw', nextTask);
-        else if (nextTask.includes("climber")) NetworkTables.putValue('/SmartDashboard/xkeys-climber', nextTask);
-        else if (nextTask.includes("vision")) NetworkTables.putValue('/Vision/vision-data', nextTask);
-        else if (nextTask.includes("intake") || nextTask.includes("roller")) NetworkTables.putValue('/SmartDashboard/xkeys-intake', nextTask);
+//     // make sure the key pressed is a valid action
+//     if (nextTask != null) {
+//         if (nextTask.toUpperCase() === nextTask) NetworkTables.putValue('/SmartDashboard/xkeys-robotstates', nextTask);
+//         else if (nextTask.includes("cancel")) NetworkTables.putValue('/SmartDashboard/xkeys-cancel', nextTask);
+//         else if (nextTask.includes("shoot")) NetworkTables.putValue('/SmartDashboard/xkeys-shooter', nextTask);
+//         else if (nextTask.includes("updraw")) NetworkTables.putValue('/SmartDashboard/xkeys-updraw', nextTask);
+//         else if (nextTask.includes("climber")) NetworkTables.putValue('/SmartDashboard/xkeys-climber', nextTask);
+//         else if (nextTask.includes("vision")) NetworkTables.putValue('/Vision/vision-data', nextTask);
+//         else if (nextTask.includes("intake") || nextTask.includes("roller")) NetworkTables.putValue('/SmartDashboard/xkeys-intake', nextTask);
 
-    }
-});
+//     }
+// });
 
-function getFromMap(key) {
+// function getFromMap(key) {
 
-    // public static final double RUN_INTAKE_IN = 0;
-    // public static final double RUN_INTAKE_OUT = 1;
-    // public static final double TOGGLE_INTAKE = 2;
+//     // public static final double RUN_INTAKE_IN = 0;
+//     // public static final double RUN_INTAKE_OUT = 1;
+//     // public static final double TOGGLE_INTAKE = 2;
 
-    // public static final double INIT_SHOOTER = 4;
-    // public static final double SHOOT = 6;
-    // public static final double SHOOT_ALL = 7;
+//     // public static final double INIT_SHOOTER = 4;
+//     // public static final double SHOOT = 6;
+//     // public static final double SHOOT_ALL = 7;
 
-    // public static final double INCREASE_SHOOTER_RPM = 8;
-    // public static final double DECREASE_SHOOTER_RPM = 9;
+//     // public static final double INCREASE_SHOOTER_RPM = 8;
+//     // public static final double DECREASE_SHOOTER_RPM = 9;
 
-    // public static final double INDEXER_INTAKE = 10;
+//     // public static final double INDEXER_INTAKE = 10;
 
-    // public static final double EXTEND_CLIMBER = 12;
-    // public static final double RETRACT_CLIMBER = 13;
+//     // public static final double EXTEND_CLIMBER = 12;
+//     // public static final double RETRACT_CLIMBER = 13;
 
-    // public static final double SHOOT_NEAR = 14;
-    // public static final double SHOOT_MID = 15;
-    // public static final double SHOOT_LONG = 16;
+//     // public static final double SHOOT_NEAR = 14;
+//     // public static final double SHOOT_MID = 15;
+//     // public static final double SHOOT_LONG = 16;
 
-    // public static final double CANCEL_ALL = 18;
+//     // public static final double CANCEL_ALL = 18;
 
-    if (key === "3") return "4";
-    if (key === "5") return "6";
-    if (key === "2") return "7";
+//     if (key === "3") return "4";
+//     if (key === "5") return "6";
+//     if (key === "2") return "7";
 
-    if (key === "c") return "14";
-    if (key === "j") return "15";
-    if (key === "d") return "16";
+//     if (key === "c") return "14";
+//     if (key === "j") return "15";
+//     if (key === "d") return "16";
 
-    if (key === "k") return "2";
-    if (key === "e") return "0";
-    if (key === "f") return "1";
+//     if (key === "k") return "2";
+//     if (key === "e") return "0";
+//     if (key === "f") return "1";
 
-    if (key === "a") return "NEUTRAL";
+//     if (key === "a") return "NEUTRAL";
 
-    if (key === "m") return "12";
-    if (key === "n") return "13";
+//     if (key === "m") return "12";
+//     if (key === "n") return "13";
 
-    if (key === "y") return "vision";
+//     if (key === "y") return "vision";
 
-    if (key === "v") return "18";
+//     if (key === "v") return "18";
 
-    return null;
-}
+//     return null;
+// }
 
 
 function getAutonFromMap() {
     console.log("SELECTED VALUE", selectedPath);
-    switch(selectedPath) { // Todo
+    switch(selectedPath) { 
         case "cableScore": // ConeCube(driveBase, claw, arm, "CableScore")
             return 0.0;
         case "stationScore": // ConeCube(driveBase, claw, arm, "StationScore")
@@ -461,6 +432,8 @@ function getAutonFromMap() {
             return 4.0;
         case "centerIntake": // CenterEngage(driveBase, claw, arm, "CenterEngage")
             return 5.0;
+        case "scoreMid":
+            return 6.0;
         default:
             return -1;
     }
@@ -473,7 +446,7 @@ function getDelayTime() {
 
 function sendAuton() {
     var autonCommand = getAutonFromMap();
-    var autoSelectWarning = document.querySelector("div#auto-warning"); // TODO
+    var autoSelectWarning = document.querySelector("div#auto-warning"); 
     if (autonCommand === -1) {
         autoSelectWarning.style.display = "block";
         return;
@@ -484,9 +457,4 @@ function sendAuton() {
     console.log("SELECTED AUTON COMMAND", autonCommand);
     NetworkTables.putValue('/SmartDashboard/auton-chooser', autonCommand);
     NetworkTables.putValue('/SmartDashboard/delayTime', delayTime);
-    if (autonCommand !== -1 && NetworkTables.getValue('/SmartDashboard/auton-chooser') == autonCommand && NetworkTables.getValue('/SmartDashboard/pitch') != null) {
-        document.getElementById('auton-status').style.backgroundColor = "rgb(0,255,0)";
-    } else {
-        document.getElementById('auton-status').style.backgroundColor = "rgb(255,0,0)";
-    }
 }
