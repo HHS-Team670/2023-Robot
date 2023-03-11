@@ -113,11 +113,11 @@ public class RobotContainer extends RobotContainerBase {
         MustangCommand autonCommand;
         switch (selectedPath) {
             case 0:
-                autonCommand = new ConeCube(driveBase, claw, arm, "CableScore");
+                autonCommand = new ConeCube(driveBase, claw, arm, "CableScoreShort");
                 led.solidhsv(led.getAllianceColor());
                 break;
             case 1:
-                autonCommand = new ConeCube(driveBase, claw, arm, "StationScore");
+                autonCommand = new ConeCube(driveBase, claw, arm, "StationScoreShort");
                 led.solidrgb(LEDColor.SEXY_YELLOW);
                 break;
             case 2:
