@@ -72,16 +72,16 @@ public class NonPidAutoLevel extends CommandBase implements MustangCommand {
             }
         } else if (hasTippedOver) {
              if (fromDriverSide) {
-                chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(-0.6, 0, 0, driveBase.getGyroscopeRotation());
+                chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(-0.45, 0, 0, driveBase.getGyroscopeRotation());
             } else {
-                chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(0.6, 0, 0, driveBase.getGyroscopeRotation());
+                chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(0.45, 0, 0, driveBase.getGyroscopeRotation());
             }
             counter++;
         } else {
             if(fromDriverSide) {
-                chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(0.65, 0, 0, driveBase.getGyroscopeRotation());
+                chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(0.45, 0, 0, driveBase.getGyroscopeRotation());
             } else {
-                chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(-0.65, 0, 0, driveBase.getGyroscopeRotation());
+                chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(-0.45, 0, 0, driveBase.getGyroscopeRotation());
             }
         }
 
