@@ -40,8 +40,8 @@ public class Arm extends MustangSubsystemBase {
             { ArmState.TUNING, ArmState.SCORE_MID, ArmState.SINGLE_STATION, ArmState.SCORE_HIGH, ArmState.HYBRID, ArmState.INTAKE_SHELF }, // STOWED
             { ArmState.STOWED, ArmState.SCORE_MID, ArmState.SCORE_HIGH, ArmState.INTAKE_SHELF}, // HYBRID
             { ArmState.SCORE_HIGH, ArmState.STOWED, ArmState.STARTING, ArmState.HYBRID, ArmState.SINGLE_STATION}, // SCORE_MID
-            { ArmState.SCORE_MID,  ArmState.STOWED, ArmState.STARTING, ArmState.HYBRID, ArmState.SINGLE_STATION, ArmState.INTAKE_SHELF}, // SCORE_HIGH
-            { ArmState.SCORE_MID, ArmState.SCORE_HIGH, ArmState.INTAKE_SHELF}, // STARTING
+            { ArmState.SCORE_MID,  ArmState.STOWED, ArmState.HYBRID, ArmState.SINGLE_STATION, ArmState.INTAKE_SHELF, ArmState.STARTING}, // SCORE_HIGH
+            { ArmState.SCORE_MID, ArmState.INTAKE_SHELF, ArmState.SCORE_HIGH}, // STARTING
             { ArmState.STOWED}, // TUNING
             { ArmState.STOWED, ArmState.SCORE_MID, ArmState.SCORE_HIGH, ArmState.INTAKE_SHELF}, // SINGLE_STATION
             { ArmState.SCORE_HIGH, ArmState.STOWED, ArmState.STARTING, ArmState.HYBRID, ArmState.SINGLE_STATION}, // INTAKE_SHELF
