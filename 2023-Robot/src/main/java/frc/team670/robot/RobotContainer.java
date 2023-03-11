@@ -105,44 +105,44 @@ public class RobotContainer extends RobotContainerBase {
      */
     @Override
     public MustangCommand getAutonomousCommand() {
-        return new NonPidAutoLevel(driveBase, true);
+        // return new NonPidAutoLevel(driveBase, true);
         
-        // SmartDashboard.putBoolean("match-started", true);
+        SmartDashboard.putBoolean("match-started", true);
 
-        // int selectedPath = (int) (SmartDashboard.getEntry("auton-chooser").getInteger(-1));
-        // MustangCommand autonCommand;
-        // switch (selectedPath) {
-        //     case 0:
-        //         autonCommand = new ConeCube(driveBase, claw, arm, "CableScore");
-        //         led.solidhsv(led.getAllianceColor());
-        //         break;
-        //     case 1:
-        //         autonCommand = new ConeCube(driveBase, claw, arm, "StationScore");
-        //         led.solidrgb(LEDColor.SEXY_YELLOW);
-        //         break;
-        //     case 2:
-        //         autonCommand = new CubeEngage(driveBase, claw, arm, "CableEngage");
-        //         led.solidrgb(LEDColor.SEXY_PURPLE);
-        //         break;
-        //     case 3:
-        //         autonCommand = new CubeEngage(driveBase, claw, arm, "StationEngage");
-        //         led.solidhsv(LEDColor.LIGHT_BLUE); 
-        //         break;
-        //     case 4:
-        //         autonCommand = new CenterEngage(driveBase, claw, arm, "CenterEngage");
-        //         led.rainbow(false);
-        //         break;
-        //     case 5:
-        //         autonCommand = new CenterIntake(driveBase, claw, arm, "CenterIntake");
-        //         led.solidrgb(LEDColor.WHITE);
-        //         break;
-        //     case 6:
-        //         autonCommand = new ScoreMid(driveBase, claw, arm);
-        //         led.mustangRainbow();
-        //         break;
-        //     default:
-        //         autonCommand = new CenterEngage(driveBase, claw, arm, "CenterEngage");
-        //         led.rainbow(false);
+        int selectedPath = (int) (SmartDashboard.getEntry("auton-chooser").getInteger(-1));
+        MustangCommand autonCommand;
+        switch (selectedPath) {
+            case 0:
+                autonCommand = new ConeCube(driveBase, claw, arm, "CableScoreShort");
+                led.solidhsv(led.getAllianceColor());
+                break;
+            case 1:\
+                autonCommand = new ConeCube(driveBase, claw, arm, "StationScoreShort");
+                led.solidrgb(LEDColor.SEXY_YELLOW);
+                break;
+            case 2:
+                autonCommand = new CubeEngage(driveBase, claw, arm, "CableEngage");
+                led.solidrgb(LEDColor.SEXY_PURPLE);
+                break;
+            case 3:
+                autonCommand = new CubeEngage(driveBase, claw, arm, "StationEngage");
+                led.solidhsv(LEDColor.LIGHT_BLUE); 
+                break;
+            case 4:
+                autonCommand = new CenterEngage(driveBase, claw, arm, "CenterEngage");
+                led.rainbow(false);
+                break;
+            case 5:
+                autonCommand = new CenterIntake(driveBase, claw, arm, "CenterIntake");
+                led.solidrgb(LEDColor.WHITE);
+                break;
+            case 6:
+                autonCommand = new ScoreMid(driveBase, claw, arm);
+                led.mustangRainbow();
+                break;
+            default:
+                autonCommand = new CenterEngage(driveBase, claw, arm, "CenterEngage");
+                led.rainbow(false);
 
         // }
         // return autonCommand;
