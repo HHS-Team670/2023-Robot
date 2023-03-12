@@ -7,6 +7,9 @@
 
 package frc.team670.robot;
 
+import java.lang.reflect.Field;
+
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.CvSink;
 import edu.wpi.first.cscore.CvSource;
@@ -32,6 +35,7 @@ import frc.team670.robot.commands.pathplanner.CenterIntake;
 import frc.team670.robot.commands.pathplanner.ConeCube;
 import frc.team670.robot.commands.pathplanner.CubeEngage;
 import frc.team670.robot.commands.pathplanner.ScoreMid;
+import frc.team670.robot.constants.FieldConstants;
 import frc.team670.robot.constants.OI;
 import frc.team670.robot.constants.RobotMap;
 import frc.team670.robot.subsystems.Claw;
@@ -162,11 +166,13 @@ public class RobotContainer extends RobotContainerBase {
     @Override
     public void autonomousInit() {
         arm.setStateToStarting();
+        vision.setAprilTagFieldLayout(null);
     }
 
     @Override
     public void teleopInit() {
         // arm.setStateToStarting();
+        vision.setAprilTagFieldLayout(FieldConstants.getFieldLayout(FieldConstants.aprilTags));
         led.solidhsv(led.getAllianceColor());
         arm.clearSetpoint();
     }
@@ -221,7 +227,11 @@ public class RobotContainer extends RobotContainerBase {
 
     @Override
     public void autonomousPeriodic() {
-
+        if (DriverStation.getAlliance() == Alliance.Blue) {
+            vision.setAprilTagFieldLayout(FieldConstants.getFieldLayout(FieldConstants.blueAprilTags));
+        } else {
+            vision.setAprilTagFieldLayout(FieldConstants.getFieldLayout(FieldConstants.redAprilTags));
+        }
     }
 
     public MustangController getOperatorController() {

@@ -19,7 +19,7 @@ public class Vision extends VisionSubsystemBase {
 
     public Vision(PowerDistribution pd) {
 
-        super(pd, Vision.getFieldLayout(FieldConstants.aprilTags),
+        super(pd, FieldConstants.getFieldLayout(FieldConstants.aprilTags),
                 new PhotonCamera[] {new PhotonCamera(RobotConstants.VISION_CAMERA_NAMES[0]),
                         new PhotonCamera(RobotConstants.VISION_CAMERA_NAMES[1])},
                 RobotConstants.CAMERA_OFFSETS);
@@ -31,12 +31,5 @@ public class Vision extends VisionSubsystemBase {
 
     @Override
     public void debugSubsystem() {}
-
-    private static AprilTagFieldLayout getFieldLayout(Map<Integer, Pose3d> tags) {
-        List<AprilTag> t = new ArrayList<>();
-        FieldConstants.aprilTags.forEach((i, p) -> {
-            t.add(new AprilTag(i, p));
-        });
-        return new AprilTagFieldLayout(t, FieldConstants.fieldLength, FieldConstants.fieldWidth);
-    }
+    
 }
