@@ -48,5 +48,12 @@
       }
     }
   ],
-  "markers": []
+  "markers": [
+    {
+      "position": 0.13636363636363638,
+      "names": [
+        "moveToStowed"
+      ]
+    }
+  ]
 }

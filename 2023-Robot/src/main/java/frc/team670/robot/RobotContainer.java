@@ -65,7 +65,7 @@ public class RobotContainer extends RobotContainerBase {
                 claw, led);
         oi.configureButtonBindings(driveBase, vision, arm, claw, led);
 
-        arm.getElbow().setDebugSubsystem(true);
+        arm.getWrist().setDebugSubsystem(true);
         // for (MustangSubsystemBase subsystem : getSubsystems()) {
         //     subsystem.setDebugSubsystem(true);
         // }
@@ -106,6 +106,7 @@ public class RobotContainer extends RobotContainerBase {
     @Override
     public MustangCommand getAutonomousCommand() {
         // return new NonPidAutoLevel(driveBase, true);
+        // return new ConeCube(driveBase, claw, arm, "StationScoreShort");
         
         SmartDashboard.putBoolean("match-started", true);
 
@@ -116,7 +117,7 @@ public class RobotContainer extends RobotContainerBase {
                 autonCommand = new ConeCube(driveBase, claw, arm, "CableScoreShort");
                 led.solidhsv(led.getAllianceColor());
                 break;
-            case 1:\
+            case 1:
                 autonCommand = new ConeCube(driveBase, claw, arm, "StationScoreShort");
                 led.solidrgb(LEDColor.SEXY_YELLOW);
                 break;
@@ -144,8 +145,8 @@ public class RobotContainer extends RobotContainerBase {
                 autonCommand = new CenterEngage(driveBase, claw, arm, "CenterEngage");
                 led.rainbow(false);
 
-        // }
-        // return autonCommand;
+        }
+        return autonCommand;
 
         // LEAVE COMMENTED
         //greturn new ConeCube(driveBase, claw, arm, "CableScore");
