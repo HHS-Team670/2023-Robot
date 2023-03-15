@@ -224,8 +224,15 @@ public class RobotContainer extends RobotContainerBase {
         // TODO Auto-generated method stub
         // SmartDashboard.putString("alliance", "" +
         // DriverStationJNI.getAllianceStation());
-        if (!DriverStation.isAutonomous() && DriverStation.getMatchTime() <= 1) {
-            MustangScheduler.getInstance().schedule(new SwerveDriveParkCommand(driveBase));
+
+    }
+
+    @Override
+    public void teleopPeriodic() {
+        double cTime = DriverStation.getMatchTime();
+        if (cTime <= 0.1 && cTime != -1) {// Checks for -1 as some cases may return negative one as no data has
+                                          // been sent yet
+            driveBase.park();
         }
     }
 

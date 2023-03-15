@@ -16,8 +16,6 @@ public class SwerveDriveParkCommand extends InstantCommand implements MustangCom
 
     private SwerveDrive driveBase;
 
-    private SwerveModuleState[] states; // 0 is front left, 1 is front right, 2 is back left, 3 is back right
-
     public SwerveDriveParkCommand(SwerveDrive driveBase) {
         this.driveBase = driveBase;
     }
@@ -33,13 +31,7 @@ public class SwerveDriveParkCommand extends InstantCommand implements MustangCom
     }
 
     public void initialize() {
-        states = new SwerveModuleState[4];
-        // needs the 0.1 or else it won't even rotate the wheels
-        states[0] = new SwerveModuleState(0.1, new Rotation2d(Math.PI / 4)); // front right
-        states[1] = new SwerveModuleState(0.1, new Rotation2d(-Math.PI / 4)); // front left
-        states[2] = new SwerveModuleState(0.1, new Rotation2d(-Math.PI / 4)); // back left
-        states[3] = new SwerveModuleState(0.1, new Rotation2d(Math.PI / 4)); // back right
-        driveBase.setModuleStates(states);
+        driveBase.park();
     }
 
 }
