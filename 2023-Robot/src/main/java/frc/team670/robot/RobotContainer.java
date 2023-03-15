@@ -122,7 +122,7 @@ public class RobotContainer extends RobotContainerBase {
                 led.solidhsv(led.getAllianceColor());
                 break;
             case 1:
-                autonCommand = new ConeCube(driveBase, claw, arm, "StationScoreShort");
+                autonCommand = new ConeCube(driveBase, claw, arm, "StationScore");
                 led.solidrgb(LEDColor.SEXY_YELLOW);
                 break;
             case 2:
@@ -166,7 +166,7 @@ public class RobotContainer extends RobotContainerBase {
     @Override
     public void autonomousInit() {
         arm.setStateToStarting();
-        vision.setAprilTagFieldLayout(null);
+        vision.setAprilTagFieldLayout(FieldConstants.getFieldLayout(FieldConstants.aprilTags));
     }
 
     @Override
