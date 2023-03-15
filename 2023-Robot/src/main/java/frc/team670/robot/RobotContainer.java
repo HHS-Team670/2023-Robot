@@ -45,7 +45,8 @@ import frc.team670.robot.subsystems.Vision;
 import frc.team670.robot.subsystems.arm.Arm;
 
 /**
- * RobotContainer is where we put the high-level code for the robot. It contains subsystems, OI
+ * RobotContainer is where we put the high-level code for the robot. It contains
+ * subsystems, OI
  * devices, etc, and has required methods (autonomousInit, periodic, etc)
  */
 
@@ -62,7 +63,6 @@ public class RobotContainer extends RobotContainerBase {
     private static OI oi = new OI();
     private Notifier updateArbitraryFeedForward;
 
-
     public RobotContainer() {
         super();
         addSubsystem(driveBase, vision, arm, arm.getShoulder(), arm.getElbow(), arm.getWrist(),
@@ -71,7 +71,7 @@ public class RobotContainer extends RobotContainerBase {
 
         arm.getWrist().setDebugSubsystem(true);
         // for (MustangSubsystemBase subsystem : getSubsystems()) {
-        //     subsystem.setDebugSubsystem(true);
+        // subsystem.setDebugSubsystem(true);
         // }
 
     }
@@ -111,7 +111,7 @@ public class RobotContainer extends RobotContainerBase {
     public MustangCommand getAutonomousCommand() {
         // return new NonPidAutoLevel(driveBase, true);
         // return new ConeCube(driveBase, claw, arm, "StationScoreShort");
-        
+
         SmartDashboard.putBoolean("match-started", true);
 
         int selectedPath = (int) (SmartDashboard.getEntry("auton-chooser").getInteger(-1));
@@ -131,7 +131,7 @@ public class RobotContainer extends RobotContainerBase {
                 break;
             case 3:
                 autonCommand = new CubeEngage(driveBase, claw, arm, "StationEngage");
-                led.solidhsv(LEDColor.LIGHT_BLUE); 
+                led.solidhsv(LEDColor.LIGHT_BLUE);
                 break;
             case 4:
                 autonCommand = new CenterEngage(driveBase, claw, arm, "CenterEngage");
@@ -153,8 +153,9 @@ public class RobotContainer extends RobotContainerBase {
         return autonCommand;
 
         // LEAVE COMMENTED
-        //greturn new ConeCube(driveBase, claw, arm, "CableScore");
-        // return new AutonCalibration(driveBase, "Curve"); // TODO: use curve path after straight
+        // greturn new ConeCube(driveBase, claw, arm, "CableScore");
+        // return new AutonCalibration(driveBase, "Curve"); // TODO: use curve path
+        // after straight
         // path
 
         // return new ConeCube(driveBase, claw, arm, "CableScore");
@@ -178,14 +179,14 @@ public class RobotContainer extends RobotContainerBase {
     }
 
     @Override
-    public void testInit() {}
+    public void testInit() {
+    }
 
     @Override
     public void disabled() {
         SmartDashboard.putBoolean("match-started", false);
         led.rainbow(false);
     }
-
 
     @Override
     public void disabledPeriodic() {
@@ -201,7 +202,7 @@ public class RobotContainer extends RobotContainerBase {
                 led.solidrgb(LEDColor.SEXY_PURPLE);
                 break;
             case 3:
-                led.solidhsv(LEDColor.LIGHT_BLUE); 
+                led.solidhsv(LEDColor.LIGHT_BLUE);
                 break;
             case 4:
                 led.rainbow(false);
@@ -209,7 +210,7 @@ public class RobotContainer extends RobotContainerBase {
             case 5:
                 led.solidrgb(LEDColor.WHITE);
                 break;
-            case 6: 
+            case 6:
                 led.mustangRainbow();
                 break;
             default:
@@ -223,6 +224,9 @@ public class RobotContainer extends RobotContainerBase {
         // TODO Auto-generated method stub
         // SmartDashboard.putString("alliance", "" +
         // DriverStationJNI.getAllianceStation());
+        if (!DriverStation.isAutonomous() && DriverStation.getMatchTime() <= 1) {
+            MustangScheduler.getInstance().schedule(new SwerveDriveParkCommand(driveBase));
+        }
     }
 
     @Override
@@ -232,6 +236,7 @@ public class RobotContainer extends RobotContainerBase {
         } else {
             vision.setAprilTagFieldLayout(FieldConstants.getFieldLayout(FieldConstants.redAprilTags));
         }
+
     }
 
     public MustangController getOperatorController() {
