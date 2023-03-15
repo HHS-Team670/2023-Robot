@@ -116,7 +116,7 @@ public class Claw extends MustangSubsystemBase {
                     if(currentSpikeCounter > RobotConstants.CLAW_CURRENT_SPIKE_ITERATIONS) {
                         isFull = true;
                         if(DriverStation.isTeleopEnabled()){
-                            led.solidhsv(LEDColor.GREEN);
+                            led.solidhsv(LEDColor.LIGHT_BLUE);
                     }
                         setStatus(Status.IDLE);
                         OI.getDriverController().rumble(0.5, 0.5);
