@@ -16,6 +16,7 @@ import frc.team670.robot.constants.RobotConstants;
  * @author Armaan, Aditi, Alexander, Gabriel, Kedar, Justin, Sanatan, Srinish
  */
 public class Arm extends MustangSubsystemBase {
+    // TODO: Change it so that we assume we're at the closest state instead of the target state.
     private Shoulder shoulder;
     private Elbow elbow;
     private Wrist wrist;
