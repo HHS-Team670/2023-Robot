@@ -20,15 +20,7 @@ public enum ArmState {
     STARTING(4, 205,25,270),
     TUNING(5, 90, 180, 180),
     SINGLE_STATION(6, 231, 11, 241),
-    INTAKE_SHELF(7, 213, 66, 150),
-    // Intermidiate states: These are only for getClosestState() and stowing from them
-    SCORE_BETWEEN_MID_HIGH(8, 150, 192, 115),
-    STOWED_START_INTER(9, 203, 23, 264),
-    HYBRID_STOWED_INTER(10, 170, 35, 256),
-    STOWED_SHELF_INTER(11, 207, 43, 204),
-    STOWED_MID_INTER(12, 193, 50, 200),
-    STOWED_HIGH_INTER(13, 168, 86, 180)
-    ;
+    INTAKE_SHELF(7, 213, 66, 150);
 
     
 

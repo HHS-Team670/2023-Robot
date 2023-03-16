@@ -16,7 +16,6 @@ import frc.team670.robot.constants.RobotConstants;
  * @author Armaan, Aditi, Alexander, Gabriel, Kedar, Justin, Sanatan, Srinish
  */
 public class Arm extends MustangSubsystemBase {
-    // TODO: Change it so that we assume we're at the closest state instead of the target state.
     private Shoulder shoulder;
     private Elbow elbow;
     private Wrist wrist;
@@ -46,12 +45,6 @@ public class Arm extends MustangSubsystemBase {
             { ArmState.STOWED}, // TUNING
             { ArmState.STOWED, ArmState.SCORE_MID, ArmState.SCORE_HIGH, ArmState.INTAKE_SHELF}, // SINGLE_STATION
             { ArmState.SCORE_HIGH, ArmState.STOWED, ArmState.STARTING, ArmState.HYBRID, ArmState.SINGLE_STATION}, // INTAKE_SHELF
-            { ArmState.SCORE_HIGH, ArmState.SCORE_MID}, // SCORE_BETWEEN_MID_HIGH
-            { ArmState.STOWED}, // STOWED_START_INTER
-            { ArmState.STOWED}, // HYBRID_STOWED_INTER
-            { ArmState.STOWED}, // STOWED_SHELF_INTER
-            { ArmState.STOWED}, // STOWED_MID_INTER
-            { ArmState.STOWED}, // STOWED_HIGH_INTER
 
     };
 
@@ -88,31 +81,6 @@ public class Arm extends MustangSubsystemBase {
         entry(ArmState.INTAKE_SHELF, Map.ofEntries( //From INTAKE_SHELF
                 entry(ArmState.STOWED, new double[]{0, 250, 0}),
                 entry(ArmState.HYBRID, new double[]{0, 250, 0})
-            )
-        ),
-        entry(ArmState.SCORE_BETWEEN_MID_HIGH, Map.ofEntries( //From SCORE_BETWEEN_MID_HIGH
-                entry(ArmState.SCORE_HIGH, new double[]{0, 0, 0}), // change these offsets later
-                entry(ArmState.SCORE_MID, new double[]{0, 0, 0}) // change these offsets later
-            )
-        ),
-        entry(ArmState.STOWED_START_INTER, Map.ofEntries( //From STOWED_START_INTER
-                entry(ArmState.STOWED, new double[]{0, 0, 0}) // change these offsets later
-            )
-        ),
-        entry(ArmState.HYBRID_STOWED_INTER, Map.ofEntries( //From HYBRID_STOWED_INTER
-                entry(ArmState.STOWED, new double[]{0, 0, 0}) // change these offsets later
-            )
-        ),
-        entry(ArmState.STOWED_SHELF_INTER, Map.ofEntries( //From STOWED_SHELF_INTER
-                entry(ArmState.STOWED, new double[]{0, 0, 0}) // change these offsets later
-            )
-        ),
-        entry(ArmState.STOWED_MID_INTER, Map.ofEntries( //From STOWED_MID_INTER
-                entry(ArmState.STOWED, new double[]{0, 0, 0}) // change these offsets later
-            )
-        ),
-        entry(ArmState.STOWED_HIGH_INTER, Map.ofEntries( //From STOWED_HIGH_INTER
-                entry(ArmState.STOWED, new double[]{0, 0, 0}) // change these offsets later
             )
         )
     );
@@ -255,7 +223,6 @@ public class Arm extends MustangSubsystemBase {
         shoulder.setOffset(shoulderOffset);
         elbow.setSystemTargetAngleInDegrees(targetState.getElbowAngle() + elbow.getOffset());
         shoulder.setSystemTargetAngleInDegrees(targetState.getShoulderAngle() + shoulder.getOffset());
-
     }
 
     /**
