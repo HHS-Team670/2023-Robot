@@ -154,7 +154,7 @@ public class RobotContainer extends RobotContainerBase {
 
         // LEAVE COMMENTED
         //greturn new ConeCube(driveBase, claw, arm, "CableScore");
-        // return new AutonCalibration(driveBase, "Curve"); // TODO: use curve path after straight
+        //return new AutonCalibration(driveBase, "StraightLine"); // TODO: use curve path after straight
         // path
 
         // return new ConeCube(driveBase, claw, arm, "CableScore");
