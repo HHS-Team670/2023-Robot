@@ -61,6 +61,7 @@ public class OI extends OIBase {
     private static POVButton singleStation = new POVButton(operatorController, 270);
     private static POVButton scoreHigh = new POVButton(operatorController, 0);
     private static JoystickButton intakeShelf = new JoystickButton(operatorController, XboxButtons.X);
+    private static JoystickButton uprightGround = new JoystickButton(operatorController, XboxButtons.BACK);
 
     private static JoystickButton stow = new JoystickButton(operatorController, XboxButtons.B);
     private static JoystickButton manualElbowControl = new JoystickButton(operatorController,
@@ -120,6 +121,7 @@ public class OI extends OIBase {
         singleStation.onTrue(new MoveToTarget(arm, claw, ArmState.SINGLE_STATION));
         scoreHigh.onTrue(new MoveToTarget(arm, ArmState.SCORE_HIGH));
         intakeShelf.onTrue(new MoveToTarget(arm, ArmState.INTAKE_SHELF));
+        uprightGround.onTrue(new MoveToTarget(arm, ArmState.UPRIGHT_GROUND));
         stow.onTrue(new MoveToTarget(arm, ArmState.STOWED));
         manualShoulderControl.onTrue(new ManualMoveShoulder(arm, operatorController));
         manualElbowControl.onTrue(new ManualMoveElbow(arm, operatorController));

@@ -20,7 +20,8 @@ public enum ArmState {
     STARTING(4, 205,25,270),
     TUNING(5, 90, 180, 180),
     SINGLE_STATION(6, 231, 11, 241),
-    INTAKE_SHELF(7, 213, 66, 150);
+    INTAKE_SHELF(7, 213, 66, 150),
+    UPRIGHT_GROUND(8, 157, 35, 236);
 
 
 
