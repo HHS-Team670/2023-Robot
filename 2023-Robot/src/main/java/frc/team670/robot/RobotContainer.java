@@ -33,6 +33,7 @@ import frc.team670.robot.commands.pathplanner.AutonCalibration;
 import frc.team670.robot.commands.pathplanner.CenterEngage;
 import frc.team670.robot.commands.pathplanner.CenterIntake;
 import frc.team670.robot.commands.pathplanner.ConeCube;
+import frc.team670.robot.commands.pathplanner.ConeCubeEngage;
 import frc.team670.robot.commands.pathplanner.CubeEngage;
 import frc.team670.robot.commands.pathplanner.ScoreMid;
 import frc.team670.robot.constants.FieldConstants;
@@ -70,9 +71,9 @@ public class RobotContainer extends RobotContainerBase {
         oi.configureButtonBindings(driveBase, vision, arm, claw, led);
 
         arm.getWrist().setDebugSubsystem(true);
-        // for (MustangSubsystemBase subsystem : getSubsystems()) {
-        // subsystem.setDebugSubsystem(true);
-        // }
+        for (MustangSubsystemBase subsystem : getSubsystems()) {
+            subsystem.setDebugSubsystem(true);
+        }
 
     }
 
@@ -150,13 +151,14 @@ public class RobotContainer extends RobotContainerBase {
                 led.rainbow(false);
 
         }
-        return autonCommand;
+        // return autonCommand;
 
         // LEAVE COMMENTED
         // greturn new ConeCube(driveBase, claw, arm, "CableScore");
-        // return new AutonCalibration(driveBase, "Curve"); // TODO: use curve path
-        // after straight
+        // return new AutonCalibration(driveBase, "StraightLine"); // TODO: use curve
+        // path after straight
         // path
+        return new ConeCubeEngage(driveBase, claw, arm, "StationScoreEngage");
 
         // return new ConeCube(driveBase, claw, arm, "CableScore");
         // return new ConeCube(driveBase, claw, arm, "RightConeCube");
@@ -226,7 +228,7 @@ public class RobotContainer extends RobotContainerBase {
                                           // been sent yet
             driveBase.park();
         }
-        
+
         // SmartDashboard.putString("alliance", "" +
         // DriverStationJNI.getAllianceStation());
 
@@ -240,9 +242,11 @@ public class RobotContainer extends RobotContainerBase {
     @Override
     public void autonomousPeriodic() {
         if (DriverStation.getAlliance() == Alliance.Blue) {
-            vision.setAprilTagFieldLayout(FieldConstants.getFieldLayout(FieldConstants.blueAprilTags));
+            vision.setAprilTagFieldLayout(
+                    FieldConstants.getFieldLayout(FieldConstants.blueAprilTags));
         } else {
-            vision.setAprilTagFieldLayout(FieldConstants.getFieldLayout(FieldConstants.redAprilTags));
+            vision.setAprilTagFieldLayout(
+                    FieldConstants.getFieldLayout(FieldConstants.redAprilTags));
         }
 
     }

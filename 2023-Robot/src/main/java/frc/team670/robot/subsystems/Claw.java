@@ -2,6 +2,7 @@ package frc.team670.robot.subsystems;
 
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 import frc.team670.mustanglib.utils.motorcontroller.MotorConfig.Motor_Type;
+import frc.team670.mustanglib.utils.LEDColor;
 import frc.team670.mustanglib.utils.motorcontroller.SparkMAXFactory;
 import frc.team670.mustanglib.utils.motorcontroller.SparkMAXLite;
 import frc.team670.robot.constants.OI;
@@ -115,7 +116,7 @@ public class Claw extends MustangSubsystemBase {
                     if(currentSpikeCounter > RobotConstants.CLAW_CURRENT_SPIKE_ITERATIONS) {
                         isFull = true;
                         if(DriverStation.isTeleopEnabled()){
-                            led.solidhsv(led.getAllianceColor());
+                            led.solidhsv(LEDColor.LIGHT_BLUE);
                     }
                         setStatus(Status.IDLE);
                         OI.getDriverController().rumble(0.5, 0.5);
@@ -134,6 +135,9 @@ public class Claw extends MustangSubsystemBase {
                 if (ejectCounter > RobotConstants.CLAW_EJECT_ITERATIONS) {
                     ejectCounter = 0;
                     isFull = false;
+                    if(DriverStation.isTeleopEnabled()){
+                        led.off();
+                }
                 }
                 break;
             default:

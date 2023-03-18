@@ -15,7 +15,8 @@ import frc.team670.mustanglib.commands.MustangCommand;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase.HealthState;
 import frc.team670.robot.commands.arm.MoveToTarget;
-import frc.team670.robot.commands.claw.ClawEject;
+import frc.team670.robot.commands.claw.ClawInstantEject;
+import frc.team670.robot.commands.claw.ClawInstantIntake;
 import frc.team670.robot.commands.drivebase.NonPidAutoLevel;
 import frc.team670.robot.constants.RobotConstants;
 import frc.team670.robot.subsystems.Claw;
@@ -23,7 +24,7 @@ import frc.team670.robot.subsystems.DriveBase;
 import frc.team670.robot.subsystems.arm.Arm;
 import frc.team670.robot.subsystems.arm.ArmState;
 
-public class AutonCalibration extends SequentialCommandGroup implements MustangCommand {
+public class ConeCubeEngage extends SequentialCommandGroup implements MustangCommand {
 
     String pathName;
 
@@ -32,11 +33,21 @@ public class AutonCalibration extends SequentialCommandGroup implements MustangC
     }
 
 
-    public AutonCalibration(DriveBase driveBase, String pathName) {
+    public ConeCubeEngage(DriveBase driveBase, Claw claw, Arm arm, String pathName) {
         this.pathName = pathName;
-        List<PathPlannerTrajectory> trajectoryGroup = PathPlanner.loadPathGroup(pathName, 1, 0.5);
+        List<PathPlannerTrajectory> trajectoryGroup = PathPlanner.loadPathGroup(pathName, 3, 2.5);
+
 
         HashMap<String, Command> eventMap = new HashMap<>();
+
+        // eventMap stuff
+        //eventMap.put("clawIntake1", new ClawInstantIntake(claw));
+        eventMap.put("moveToMid", new MoveToTarget(arm, ArmState.SCORE_MID));
+        eventMap.put("clawEject", new ClawInstantEject(claw));
+        eventMap.put("moveToGround", new MoveToTarget(arm, ArmState.HYBRID));
+         eventMap.put("clawIntake", new ClawInstantIntake(claw)); //May want to use IntakeAndStow after testing.
+        eventMap.put("moveToStowed", new MoveToTarget(arm, ArmState.STOWED));
+        eventMap.put("autoLevel", new NonPidAutoLevel(driveBase, true));
         
         SwerveDriveKinematics driveBaseKinematics = driveBase.getSwerveKinematics();
 
