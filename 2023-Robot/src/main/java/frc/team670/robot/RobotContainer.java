@@ -221,7 +221,12 @@ public class RobotContainer extends RobotContainerBase {
 
     @Override
     public void periodic() {
-        // TODO Auto-generated method stub
+        double cTime = DriverStation.getMatchTime();
+        if (cTime <= 0.1 && cTime != -1) {// Checks for -1 as some cases may return negative one as no data has
+                                          // been sent yet
+            driveBase.park();
+        }
+        
         // SmartDashboard.putString("alliance", "" +
         // DriverStationJNI.getAllianceStation());
 
@@ -229,11 +234,7 @@ public class RobotContainer extends RobotContainerBase {
 
     @Override
     public void teleopPeriodic() {
-        double cTime = DriverStation.getMatchTime();
-        if (cTime <= 0.1 && cTime != -1) {// Checks for -1 as some cases may return negative one as no data has
-                                          // been sent yet
-            driveBase.park();
-        }
+
     }
 
     @Override
