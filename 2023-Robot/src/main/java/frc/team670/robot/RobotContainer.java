@@ -151,20 +151,11 @@ public class RobotContainer extends RobotContainerBase {
                 led.rainbow(false);
 
         }
-<<<<<<< Updated upstream
         //return autonCommand;
 
         // LEAVE COMMENTED
         //greturn new ConeCube(driveBase, claw, arm, "CableScore");
         //return new AutonCalibration(driveBase, "StraightLine"); // TODO: use curve path after straight
-=======
-        // return autonCommand;
-        return new AutonCalibration(driveBase, "StraightLine");
-
-        // LEAVE COMMENTED
-        // greturn new ConeCube(driveBase, claw, arm, "CableScore");
-        // return new AutonCalibration(driveBase, "Curve"); // TODO: use curve path after straight
->>>>>>> Stashed changes
         // path
         return new ConeCubeEngage(driveBase, claw, arm, "StationScoreEngage");
 
