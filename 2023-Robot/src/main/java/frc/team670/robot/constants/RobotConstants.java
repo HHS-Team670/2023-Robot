@@ -141,7 +141,11 @@ public final class RobotConstants extends RobotConstantsBase {
 
     //Auton PID controllers
     public static final PIDConstants AUTON_TRANSLATION_CONTROLLER = new PIDConstants(4, 0, 0);
+<<<<<<< Updated upstream
     public static final PIDConstants AUTON_THETA_CONTROLLER = new PIDConstants(0.25, 0, 0);
+=======
+    public static final PIDConstants AUTON_THETA_CONTROLLER = new PIDConstants(0.2, 0, 0);
+>>>>>>> Stashed changes
 
     // vision
 

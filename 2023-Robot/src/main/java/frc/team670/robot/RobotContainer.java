@@ -112,7 +112,7 @@ public class RobotContainer extends RobotContainerBase {
     public MustangCommand getAutonomousCommand() {
         // return new NonPidAutoLevel(driveBase, true);
         // return new ConeCube(driveBase, claw, arm, "StationScoreShort");
-        
+
         SmartDashboard.putBoolean("match-started", true);
 
         int selectedPath = (int) (SmartDashboard.getEntry("auton-chooser").getInteger(-1));
@@ -132,7 +132,7 @@ public class RobotContainer extends RobotContainerBase {
                 break;
             case 3:
                 autonCommand = new CubeEngage(driveBase, claw, arm, "StationEngage");
-                led.solidhsv(LEDColor.LIGHT_BLUE); 
+                led.solidhsv(LEDColor.LIGHT_BLUE);
                 break;
             case 4:
                 autonCommand = new CenterEngage(driveBase, claw, arm, "CenterEngage");
@@ -151,11 +151,20 @@ public class RobotContainer extends RobotContainerBase {
                 led.rainbow(false);
 
         }
+<<<<<<< Updated upstream
         //return autonCommand;
 
         // LEAVE COMMENTED
         //greturn new ConeCube(driveBase, claw, arm, "CableScore");
         //return new AutonCalibration(driveBase, "StraightLine"); // TODO: use curve path after straight
+=======
+        // return autonCommand;
+        return new AutonCalibration(driveBase, "StraightLine");
+
+        // LEAVE COMMENTED
+        // greturn new ConeCube(driveBase, claw, arm, "CableScore");
+        // return new AutonCalibration(driveBase, "Curve"); // TODO: use curve path after straight
+>>>>>>> Stashed changes
         // path
         return new ConeCubeEngage(driveBase, claw, arm, "StationScoreEngage");
 
@@ -203,7 +212,7 @@ public class RobotContainer extends RobotContainerBase {
                 led.solidrgb(LEDColor.SEXY_PURPLE);
                 break;
             case 3:
-                led.solidhsv(LEDColor.LIGHT_BLUE); 
+                led.solidhsv(LEDColor.LIGHT_BLUE);
                 break;
             case 4:
                 led.rainbow(false);
@@ -211,7 +220,7 @@ public class RobotContainer extends RobotContainerBase {
             case 5:
                 led.solidrgb(LEDColor.WHITE);
                 break;
-            case 6: 
+            case 6:
                 led.mustangRainbow();
                 break;
             default:
@@ -230,9 +239,11 @@ public class RobotContainer extends RobotContainerBase {
     @Override
     public void autonomousPeriodic() {
         if (DriverStation.getAlliance() == Alliance.Blue) {
-            vision.setAprilTagFieldLayout(FieldConstants.getFieldLayout(FieldConstants.blueAprilTags));
+            vision.setAprilTagFieldLayout(
+                    FieldConstants.getFieldLayout(FieldConstants.blueAprilTags));
         } else {
-            vision.setAprilTagFieldLayout(FieldConstants.getFieldLayout(FieldConstants.redAprilTags));
+            vision.setAprilTagFieldLayout(
+                    FieldConstants.getFieldLayout(FieldConstants.redAprilTags));
         }
     }
 
