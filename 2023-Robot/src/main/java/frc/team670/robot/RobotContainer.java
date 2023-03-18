@@ -46,7 +46,8 @@ import frc.team670.robot.subsystems.Vision;
 import frc.team670.robot.subsystems.arm.Arm;
 
 /**
- * RobotContainer is where we put the high-level code for the robot. It contains subsystems, OI
+ * RobotContainer is where we put the high-level code for the robot. It contains
+ * subsystems, OI
  * devices, etc, and has required methods (autonomousInit, periodic, etc)
  */
 
@@ -62,7 +63,6 @@ public class RobotContainer extends RobotContainerBase {
 
     private static OI oi = new OI();
     private Notifier updateArbitraryFeedForward;
-
 
     public RobotContainer() {
         super();
@@ -151,11 +151,12 @@ public class RobotContainer extends RobotContainerBase {
                 led.rainbow(false);
 
         }
-        //return autonCommand;
+        // return autonCommand;
 
         // LEAVE COMMENTED
-        //greturn new ConeCube(driveBase, claw, arm, "CableScore");
-        //return new AutonCalibration(driveBase, "StraightLine"); // TODO: use curve path after straight
+        // greturn new ConeCube(driveBase, claw, arm, "CableScore");
+        // return new AutonCalibration(driveBase, "StraightLine"); // TODO: use curve
+        // path after straight
         // path
         return new ConeCubeEngage(driveBase, claw, arm, "StationScoreEngage");
 
@@ -180,14 +181,14 @@ public class RobotContainer extends RobotContainerBase {
     }
 
     @Override
-    public void testInit() {}
+    public void testInit() {
+    }
 
     @Override
     public void disabled() {
         SmartDashboard.putBoolean("match-started", false);
         led.rainbow(false);
     }
-
 
     @Override
     public void disabledPeriodic() {
@@ -222,9 +223,20 @@ public class RobotContainer extends RobotContainerBase {
 
     @Override
     public void periodic() {
-        // TODO Auto-generated method stub
+        double cTime = DriverStation.getMatchTime();
+        if (cTime <= 0.1 && cTime != -1) {// Checks for -1 as some cases may return negative one as no data has
+                                          // been sent yet
+            driveBase.park();
+        }
+
         // SmartDashboard.putString("alliance", "" +
         // DriverStationJNI.getAllianceStation());
+
+    }
+
+    @Override
+    public void teleopPeriodic() {
+
     }
 
     @Override
@@ -236,6 +248,7 @@ public class RobotContainer extends RobotContainerBase {
             vision.setAprilTagFieldLayout(
                     FieldConstants.getFieldLayout(FieldConstants.redAprilTags));
         }
+
     }
 
     public MustangController getOperatorController() {

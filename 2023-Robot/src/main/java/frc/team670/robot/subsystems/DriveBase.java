@@ -4,7 +4,6 @@
 
 package frc.team670.robot.subsystems;
 
-
 import com.pathplanner.lib.PathPlannerTrajectory;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
@@ -18,37 +17,42 @@ import frc.team670.mustanglib.utils.MustangController;
 import frc.team670.robot.commands.drivebase.MustangPPSwerveControllerCommand;
 import frc.team670.robot.commands.drivebase.XboxSwerveDriveAndTurnToAngle;
 import frc.team670.robot.constants.RobotConstants;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveBase extends SwerveDrive {
       /**
-       * The maximum voltage that will be delivered to the drive motors. This can be reduced to cap
-       * the robot's maximum speed. Typically, this is useful during initial testing of the robot.
+       * The maximum voltage that will be delivered to the drive motors. This can be
+       * reduced to cap
+       * the robot's maximum speed. Typically, this is useful during initial testing
+       * of the robot.
        */
       public static final double MAX_VOLTAGE = 12.0;
 
-
       // The formula for calculating the theoretical maximum velocity is:
-      // <Motor free speed RPM> / 60 * <Drive reduction> * <Wheel diameter meters> * pi
+      // <Motor free speed RPM> / 60 * <Drive reduction> * <Wheel diameter meters> *
+      // pi
       // An example of this constant for a Mk4 L2 module with NEOs to drive is:
       // 5880.0 / 60.0 / SdsModuleConfigurations.MK4_L2.getDriveReduction() *
       // SdsModuleConfigurations.MK4_L2.getWheelDiameter() * Math.PI
       /**
-       * The maximum velocity of the robot in meters per second. This is a measure of how fast the
+       * The maximum velocity of the robot in meters per second. This is a measure of
+       * how fast the
        * robot should be able to drive in a straight line.
        */
-      public static final double MAX_VELOCITY_METERS_PER_SECOND =
-                  5676.0 / 60.0 * SdsModuleConfigurations.MK4I_L1.getDriveReduction()
-                              * SdsModuleConfigurations.MK4I_L1.getWheelDiameter() * Math.PI;
+      public static final double MAX_VELOCITY_METERS_PER_SECOND = 5676.0 / 60.0
+                  * SdsModuleConfigurations.MK4I_L1.getDriveReduction()
+                  * SdsModuleConfigurations.MK4I_L1.getWheelDiameter() * Math.PI;
 
       /**
-       * The maximum angular velocity of the robot in radians per second. This is a measure of how
+       * The maximum angular velocity of the robot in radians per second. This is a
+       * measure of how
        * fast the robot can rotate in place.
        */
-      public static final double MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND =
-                  MAX_VELOCITY_METERS_PER_SECOND
-                              / Math.hypot(RobotConstants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0,
-                                          RobotConstants.DRIVETRAIN_WHEELBASE_METERS / 2.0);
+      public static final double MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND = MAX_VELOCITY_METERS_PER_SECOND
+                  / Math.hypot(RobotConstants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0,
+                              RobotConstants.DRIVETRAIN_WHEELBASE_METERS / 2.0);
 
       private MustangCommand defaultCommand;
       private MustangController mController;
@@ -75,7 +79,6 @@ public class DriveBase extends SwerveDrive {
                         RobotConstants.BACK_RIGHT_MODULE_STEER_OFFSET));
             this.mController = mustangController;
       }
-
 
       /**
        * Makes the DriveBase's default command initialize teleop
@@ -114,8 +117,9 @@ public class DriveBase extends SwerveDrive {
             setSwerveControllerCommand(new MustangPPSwerveControllerCommand(traj, this::getPose,
                         getSwerveKinematics(), RobotConstants.xController,
                         RobotConstants.yController, RobotConstants.thetaController,
-                        this::setModuleStates, new Subsystem[] {this}));
+                        this::setModuleStates, new Subsystem[] { this }));
             return getSwerveControllerCommand();
 
       }
+
 }
