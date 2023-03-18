@@ -15,8 +15,7 @@ public class ManualMoveShoulder extends CommandBase implements MustangCommand {
     private MustangController controller;
     private Arm arm;
 
-    private HashMap<MustangSubsystemBase, HealthState> healthReqs =
-            new HashMap<MustangSubsystemBase, HealthState>();
+    private HashMap<MustangSubsystemBase, HealthState> healthReqs = new HashMap<MustangSubsystemBase, HealthState>();
 
     public ManualMoveShoulder(Arm arm, MustangController controller) {
 

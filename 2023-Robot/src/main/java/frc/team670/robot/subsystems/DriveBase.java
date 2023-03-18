@@ -60,7 +60,7 @@ public class DriveBase extends SwerveDrive {
       public DriveBase(MustangController mustangController) {
             super(new SwerveConfig(RobotConstants.DRIVETRAIN_TRACKWIDTH_METERS,
                         RobotConstants.DRIVETRAIN_WHEELBASE_METERS, MAX_VELOCITY_METERS_PER_SECOND,
-                        MAX_VOLTAGE, RobotConstants.NAVX_PORT,
+                        MAX_VOLTAGE, RobotConstants.NAVX_PORT, RobotConstants.SWERVE_MODULE_CONFIGURATION,
                         RobotConstants.FRONT_LEFT_MODULE_DRIVE_MOTOR,
                         RobotConstants.FRONT_LEFT_MODULE_STEER_MOTOR,
                         RobotConstants.FRONT_LEFT_MODULE_STEER_ENCODER,
