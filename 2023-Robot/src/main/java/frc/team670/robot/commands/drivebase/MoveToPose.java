@@ -57,8 +57,6 @@ public class MoveToPose extends CommandBase implements MustangCommand {
     @Override
     public void initialize() {
         this.startPose = driveBase.getPose();
-        this.endPose = FieldConstants.allianceOrientedAllianceFlip(endPose);
-
         PathPlannerTrajectory traj = PathPlanner.generatePath(RobotConstants.kAutoPathConstraints,
                 calcStartPoint(endPose), calcEndPoint(startPose));
         driveBase.getPoseEstimator().addTrajectory(traj);

@@ -32,7 +32,7 @@ import frc.team670.robot.commands.drivebase.SwerveDriveParkCommand;
 import frc.team670.robot.commands.pathplanner.AutonCalibration;
 import frc.team670.robot.commands.pathplanner.CenterEngage;
 import frc.team670.robot.commands.pathplanner.CenterIntake;
-import frc.team670.robot.commands.pathplanner.ConeCube;
+import frc.team670.robot.commands.pathplanner.ConeCubeCube;
 import frc.team670.robot.commands.pathplanner.ConeCubeEngage;
 import frc.team670.robot.commands.pathplanner.CubeEngage;
 import frc.team670.robot.commands.pathplanner.ScoreMid;
@@ -119,11 +119,11 @@ public class RobotContainer extends RobotContainerBase {
         MustangCommand autonCommand;
         switch (selectedPath) {
             case 0:
-                autonCommand = new ConeCube(driveBase, claw, arm, "CableScoreShort");
+                autonCommand = new ConeCubeCube(driveBase, claw, arm, "CableScoreShort");
                 led.solidhsv(led.getAllianceColor());
                 break;
             case 1:
-                autonCommand = new ConeCube(driveBase, claw, arm, "StationScore");
+                autonCommand = new ConeCubeCube(driveBase, claw, arm, "Station3Piece");
                 led.solidrgb(LEDColor.SEXY_YELLOW);
                 break;
             case 2:
@@ -151,13 +151,14 @@ public class RobotContainer extends RobotContainerBase {
                 led.rainbow(false);
 
         }
-        //return autonCommand;
+        return autonCommand;
 
         // LEAVE COMMENTED
-        //greturn new ConeCube(driveBase, claw, arm, "CableScore");
-        //return new AutonCalibration(driveBase, "StraightLine"); // TODO: use curve path after straight
+        // greturn new ConeCube(driveBase, claw, arm, "CableScore");
+        // return new AutonCalibration(driveBase, "StraightLine"); // TODO: use curve path after
+        // straight
         // path
-        return new ConeCubeEngage(driveBase, claw, arm, "StationScoreEngage");
+        // return new ConeCubeCube(driveBase, claw, arm, "Station3Piece");
 
         // return new ConeCube(driveBase, claw, arm, "CableScore");
         // return new ConeCube(driveBase, claw, arm, "RightConeCube");
