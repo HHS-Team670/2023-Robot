@@ -15,8 +15,7 @@ public class ManualMoveElbow extends CommandBase implements MustangCommand {
     private MustangController controller;
     private Arm arm;
 
-    private HashMap<MustangSubsystemBase, HealthState> healthReqs =
-            new HashMap<MustangSubsystemBase, HealthState>();
+    private HashMap<MustangSubsystemBase, HealthState> healthReqs = new HashMap<MustangSubsystemBase, HealthState>();
 
     public ManualMoveElbow(Arm arm, MustangController controller) {
 
@@ -31,7 +30,7 @@ public class ManualMoveElbow extends CommandBase implements MustangCommand {
     @Override
     public void execute() {
 
-        arm.getElbow().setOffset(arm.getElbow().getOffset() + controller.getLeftY() * 5);
+        arm.getElbow().addOffset(controller.getLeftStickY());
 
     }
 

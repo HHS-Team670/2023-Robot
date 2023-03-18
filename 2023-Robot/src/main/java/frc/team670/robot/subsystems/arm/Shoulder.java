@@ -33,6 +33,7 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
     boolean relativePositionIsSet = false;
     String relativePositionLog = "";
     private double offset = 0;
+    private double orgTargetAngle = 0;
 
     /*
      * PID and SmartMotion constants for the Shoulder joint
@@ -137,7 +138,8 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
     }
 
     /**
-     * Returns whether or not the relative position has been properly set from the absEncoder.
+     * Returns whether or not the relative position has been properly set from the
+     * absEncoder.
      * When resetPositionFromAbsolute() gets called, this will temporarily be false.
      */
     public boolean isRelativePositionSet() {
@@ -146,6 +148,7 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
 
     /**
      * Updates the arbitraryFF value to counteract gravity
+     * 
      * @param voltage The calculated voltage, returned from VoltageCalculator
      */
     public void updateArbitraryFeedForward(double voltage) {
@@ -161,16 +164,29 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
         return false;
     }
 
-    public void setOffset(double offset) {
+    @Override
+    public void setSystemTargetAngleInDegrees(double targetAngle) {
+        orgTargetAngle = targetAngle;
+        super.setSystemTargetAngleInDegrees(orgTargetAngle);
+    }
+
+    private void setOffset(double offset) {
         if (Math.abs(offset) > RobotConstants.SHOULDER_MAX_OVERRIDE_DEGREES) {
             this.offset = RobotConstants.SHOULDER_MAX_OVERRIDE_DEGREES * this.offset / Math.abs(this.offset);
         } else {
             this.offset = offset;
         }
+        setSystemTargetAngleInDegrees(orgTargetAngle + offset);
 
     }
 
-    public double getOffset() {
+    public void resetOffset() {
+        setOffset(0);
+
+    }
+
+    public double addOffset(double offset) {
+        setOffset(this.offset + offset);
         return offset;
     }
 
@@ -212,7 +228,8 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
         SmartDashboard.putNumber("Shoulder current", super.rotator.getOutputCurrent());
         SmartDashboard.putNumber("Shoulder setpoint (rotations)", setpoint);
 
-        RobotConstants.SHOULDER_SEGMENT.setArbitraryFF(SmartDashboard.getNumber("Shoulder arbitrary FF", RobotConstants.SHOULDER_ARBITRARY_FF));
+        RobotConstants.SHOULDER_SEGMENT.setArbitraryFF(
+                SmartDashboard.getNumber("Shoulder arbitrary FF", RobotConstants.SHOULDER_ARBITRARY_FF));
 
         relativePositionLog += ("" + relativePosition + ", ");
 
@@ -224,7 +241,7 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
      */
     private void setEncoderPositionFromAbsolute() {
         double absEncoderPosition = absEncoder.getAbsolutePosition();
-        if(absEncoderPosition != 0.0) {
+        if (absEncoderPosition != 0.0) {
             clearSetpoint();
             double relativePosition = ((-1
                     * (absEncoderPosition - (RobotConstants.SHOULDER_ABSOLUTE_ENCODER_AT_VERTICAL - 0.5)) + 1)
@@ -245,7 +262,8 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
 
     @Override
     public boolean hasReachedTargetPosition() {
-        return (MathUtils.doublesEqual(rotator_encoder.getPosition(), setpoint, RobotConstants.SHOULDER_ALLOWED_ERR_DEG));
+        return (MathUtils.doublesEqual(rotator_encoder.getPosition(), setpoint,
+                RobotConstants.SHOULDER_ALLOWED_ERR_DEG));
     }
 
     @Override

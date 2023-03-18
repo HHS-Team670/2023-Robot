@@ -10,14 +10,14 @@ import frc.team670.mustanglib.subsystems.MustangSubsystemBase.HealthState;
 import frc.team670.mustanglib.utils.MustangController;
 import frc.team670.robot.subsystems.arm.Arm;
 
-public class ManualMoveShoulder extends CommandBase implements MustangCommand {
+public class ManualMoveWrist extends CommandBase implements MustangCommand {
 
     private MustangController controller;
     private Arm arm;
 
     private HashMap<MustangSubsystemBase, HealthState> healthReqs = new HashMap<MustangSubsystemBase, HealthState>();
 
-    public ManualMoveShoulder(Arm arm, MustangController controller) {
+    public ManualMoveWrist(Arm arm, MustangController controller) {
 
         this.arm = arm;
         this.controller = controller;
@@ -30,13 +30,14 @@ public class ManualMoveShoulder extends CommandBase implements MustangCommand {
     @Override
     public void execute() {
 
-        arm.getShoulder().addOffset(controller.getRightStickY());
+        arm.getShoulder().addOffset(controller.getLeftTriggerAxis() - controller.getRightTriggerAxis());
 
     }
 
     @Override
     public boolean isFinished() {
-        return !controller.getLeftJoystickButton();
+
+        return !(controller.getLeftJoystickButton() || controller.getRightJoystickButton());
 
     }
 

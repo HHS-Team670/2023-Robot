@@ -28,6 +28,8 @@ public class Wrist extends SparkMaxRotatingSubsystem {
     private double previousReading = 0.0;
     private double calculatedRelativePosition = 0.0;
     private boolean relativePositionIsSet = false;
+    private double offset = 0;
+    private double orgTargetAngle = 0;
 
     /*
      * PID and SmartMotion constants for the Wrist joint
@@ -47,7 +49,7 @@ public class Wrist extends SparkMaxRotatingSubsystem {
         }
 
         public double getP() {
-            return 0.00011; 
+            return 0.00011;
         }
 
         public double getI() {
@@ -126,15 +128,15 @@ public class Wrist extends SparkMaxRotatingSubsystem {
         super.getRotator().setInverted(true);
         SmartDashboard.putNumber("wrist arbitary feed forward value", RobotConstants.WRIST_ARBITRARY_FF);
 
-
     }
 
     /**
      * Calculated voltage using VoltageCalculator
+     * 
      * @param voltage
      */
     public void updateArbitraryFeedForward(double voltage) {
-        if(setpoint != SparkMaxRotatingSubsystem.NO_SETPOINT){
+        if (setpoint != SparkMaxRotatingSubsystem.NO_SETPOINT) {
             rotator_controller.setReference(setpoint,
                     SparkMAXLite.ControlType.kSmartMotion, super.SMARTMOTION_SLOT,
                     voltage);
@@ -147,7 +149,7 @@ public class Wrist extends SparkMaxRotatingSubsystem {
      */
     public void setEncoderPositionFromAbsolute() {
         double absEncoderPosition = absEncoder.getAbsolutePosition();
-        if(absEncoderPosition != 0.0) {
+        if (absEncoderPosition != 0.0) {
             clearSetpoint();
             double relativePosition = ((-1
                     * (absEncoderPosition - (RobotConstants.WRIST_ABSOLUTE_ENCODER_AT_VERTICAL - 0.5)) + 1)
@@ -166,6 +168,26 @@ public class Wrist extends SparkMaxRotatingSubsystem {
         return false;
     }
 
+    private void setOffset(double offset) {
+        if (Math.abs(offset) > RobotConstants.WRIST_MAX_OVERRIDE_DEGREES) {
+            this.offset = RobotConstants.WRIST_MAX_OVERRIDE_DEGREES * this.offset / Math.abs(this.offset);
+        } else {
+            this.offset = offset;
+        }
+        setSystemTargetAngleInDegrees(orgTargetAngle + offset);
+
+    }
+
+    public void resetOffset() {
+        setOffset(0);
+
+    }
+
+    public double addOffset(double offset) {
+        setOffset(this.offset + offset);
+        return offset;
+    }
+
     @Override
     public HealthState checkHealth() {
         REVLibError rotatorError = super.rotator.getLastError();
@@ -174,7 +196,7 @@ public class Wrist extends SparkMaxRotatingSubsystem {
             return HealthState.RED;
         }
 
-        if(!hasSetAbsolutePosition || !relativePositionIsSet) {
+        if (!hasSetAbsolutePosition || !relativePositionIsSet) {
             return HealthState.YELLOW;
         }
 
@@ -182,7 +204,8 @@ public class Wrist extends SparkMaxRotatingSubsystem {
     }
 
     /**
-     * Returns whether or not the relative position has been properly set from the absEncoder.
+     * Returns whether or not the relative position has been properly set from the
+     * absEncoder.
      * When resetPositionFromAbsolute() gets called, this will temporarily be false.
      */
     public boolean isRelativePositionSet() {
