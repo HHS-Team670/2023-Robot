@@ -60,6 +60,9 @@ public class RobotContainer extends RobotContainerBase {
     private final LED led = new LED(RobotMap.LED_PORT, 0, 35);
     private final Claw claw = new Claw(led);
 
+    private MustangCommand cableScore, cableEngage, stationScore, stationEngage, centerEngage,
+            centerIntake, scoreMid;
+
     private static OI oi = new OI();
     private Notifier updateArbitraryFeedForward;
 
@@ -74,6 +77,16 @@ public class RobotContainer extends RobotContainerBase {
         for (MustangSubsystemBase subsystem : getSubsystems()) {
             subsystem.setDebugSubsystem(true);
         }
+
+
+        cableScore = new ConeCubeCube(driveBase, claw, arm, "CableScoreShort");
+        stationScore = new ConeCubeCube(driveBase, claw, arm, "Station3Piece");
+        cableEngage = new CubeEngage(driveBase, claw, arm, "CableEngage");
+        stationEngage = new CubeEngage(driveBase, claw, arm, "StationEngage");
+        centerEngage = new CenterEngage(driveBase, claw, arm, "CenterEngage");
+        centerIntake = new CenterIntake(driveBase, claw, arm, "CenterIntake");
+        scoreMid = new ScoreMid(driveBase, claw, arm);
+
 
     }
 
@@ -119,35 +132,35 @@ public class RobotContainer extends RobotContainerBase {
         MustangCommand autonCommand;
         switch (selectedPath) {
             case 0:
-                autonCommand = new ConeCubeCube(driveBase, claw, arm, "CableScoreShort");
+                autonCommand = cableScore;
                 led.solidhsv(led.getAllianceColor());
                 break;
             case 1:
-                autonCommand = new ConeCubeCube(driveBase, claw, arm, "Station3Piece");
+                autonCommand = stationScore;
                 led.solidrgb(LEDColor.SEXY_YELLOW);
                 break;
             case 2:
-                autonCommand = new CubeEngage(driveBase, claw, arm, "CableEngage");
+                autonCommand = cableEngage;
                 led.solidrgb(LEDColor.SEXY_PURPLE);
                 break;
             case 3:
-                autonCommand = new CubeEngage(driveBase, claw, arm, "StationEngage");
+                autonCommand = stationEngage;
                 led.solidhsv(LEDColor.LIGHT_BLUE);
                 break;
             case 4:
-                autonCommand = new CenterEngage(driveBase, claw, arm, "CenterEngage");
+                autonCommand = centerEngage;
                 led.rainbow(false);
                 break;
             case 5:
-                autonCommand = new CenterIntake(driveBase, claw, arm, "CenterIntake");
+                autonCommand = centerIntake;
                 led.solidrgb(LEDColor.WHITE);
                 break;
             case 6:
-                autonCommand = new ScoreMid(driveBase, claw, arm);
+                autonCommand = scoreMid;
                 led.mustangRainbow();
                 break;
             default:
-                autonCommand = new CenterEngage(driveBase, claw, arm, "CenterEngage");
+                autonCommand = centerEngage;
                 led.rainbow(false);
 
         }
