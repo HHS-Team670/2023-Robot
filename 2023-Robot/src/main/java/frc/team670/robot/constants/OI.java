@@ -73,9 +73,9 @@ public class OI extends OIBase {
             XboxButtons.LEFT_JOYSTICK_BUTTON);
     private static JoystickButton stow = new JoystickButton(operatorController, XboxButtons.B);
     private static JoystickButton manualElbowControl = new JoystickButton(operatorController,
-            XboxButtons.RIGHT_JOYSTICK_BUTTON);
+            XboxButtons.RIGHT_BUMPER);
     private static JoystickButton manualShoulderControl = new JoystickButton(operatorController,
-            XboxButtons.LEFT_JOYSTICK_BUTTON);
+            XboxButtons.LEFT_BUMPER);
 
     private static JoystickButton clawSuck = new JoystickButton(operatorController, XboxButtons.RIGHT_BUMPER);
     private static JoystickButton clawEject = new JoystickButton(driverController, XboxButtons.LEFT_BUMPER);
@@ -134,9 +134,9 @@ public class OI extends OIBase {
         manualWristControlLeft.onTrue(new ManualMoveWrist(arm, operatorController));
         manualWristControlRight.onTrue(new ManualMoveWrist(arm, operatorController));
         // Claw control commands
-        clawSuck.onTrue(new ClawInstantIntake(claw));
+        // clawSuck.onTrue(new ClawInstantIntake(claw));
         clawEject.onTrue(new EjectAndStow(claw, arm));
-        clawIdle.onTrue(new ClawIdle(claw));
+        // clawIdle.onTrue(new ClawIdle(claw));
 
         // Rotate to cardinal direction while driving
         rotateTo0.onTrue(new SetDesiredHeading(driveBase, new Rotation2d(0)));

@@ -3,6 +3,7 @@ package frc.team670.robot.commands.arm;
 import java.util.HashMap;
 import java.util.Map;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.team670.mustanglib.commands.MustangCommand;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
@@ -30,7 +31,8 @@ public class ManualMoveElbow extends CommandBase implements MustangCommand {
     @Override
     public void execute() {
 
-        arm.getElbow().addOffset(controller.getLeftStickY());
+        SmartDashboard.putNumber("left stick y", controller.getLeftStickY() * 2.5);
+        arm.getElbow().addOffset(controller.getLeftStickY() * 2.5);
 
     }
 

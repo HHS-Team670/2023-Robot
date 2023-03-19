@@ -183,9 +183,8 @@ public class Wrist extends SparkMaxRotatingSubsystem {
 
     }
 
-    public double addOffset(double offset) {
+    public void addOffset(double offset) {
         setOffset(this.offset + offset);
-        return offset;
     }
 
     @Override

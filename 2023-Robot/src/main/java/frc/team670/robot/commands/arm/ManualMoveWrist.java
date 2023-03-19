@@ -3,6 +3,7 @@ package frc.team670.robot.commands.arm;
 import java.util.HashMap;
 import java.util.Map;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.team670.mustanglib.commands.MustangCommand;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
@@ -30,7 +31,8 @@ public class ManualMoveWrist extends CommandBase implements MustangCommand {
     @Override
     public void execute() {
 
-        arm.getShoulder().addOffset(controller.getLeftTriggerAxis() - controller.getRightTriggerAxis());
+        SmartDashboard.putNumber("left trigger", controller.getLeftTriggerAxis() - controller.getRightTriggerAxis());
+        arm.getWrist().addOffset(controller.getLeftTriggerAxis() - controller.getRightTriggerAxis());
 
     }
 
