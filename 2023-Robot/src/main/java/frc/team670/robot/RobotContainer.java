@@ -158,7 +158,7 @@ public class RobotContainer extends RobotContainerBase {
         // return new AutonCalibration(driveBase, "StraightLine"); // TODO: use curve
         // path after straight
         // path
-        return new ConeCubeEngage(driveBase, claw, arm, "StationScoreEngage");
+        return new ConeCube(driveBase, claw, arm, "Straight180");
 
         // return new ConeCube(driveBase, claw, arm, "CableScore");
         // return new ConeCube(driveBase, claw, arm, "RightConeCube");
@@ -234,10 +234,7 @@ public class RobotContainer extends RobotContainerBase {
 
     }
 
-    @Override
-    public void teleopPeriodic() {
-
-    }
+ 
 
     @Override
     public void autonomousPeriodic() {

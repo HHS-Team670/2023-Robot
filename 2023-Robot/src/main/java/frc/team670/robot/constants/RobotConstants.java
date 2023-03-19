@@ -21,6 +21,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.SerialPort;
 import frc.team670.mustanglib.constants.RobotConstantsBase;
 import frc.team670.mustanglib.swervelib.Mk4iSwerveModuleHelper;
+import frc.team670.mustanglib.swervelib.SdsModuleConfigurations;
 import frc.team670.mustanglib.swervelib.Mk4iSwerveModuleHelper.GearRatio;
 import frc.team670.robot.subsystems.arm.ArmSegment;
 
@@ -153,6 +154,9 @@ public final class RobotConstants extends RobotConstantsBase {
         public static final double kMaxAccelerationMetersPerSecondSquared = 1;
         public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI * 16;
         public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI * 16;
+        public static final double MAX_VELOCITY_METERS_PER_SECOND = 5676.0 / 60.0
+        * SdsModuleConfigurations.MK4I_L1.getDriveReduction()
+        * SdsModuleConfigurations.MK4I_L1.getWheelDiameter() * Math.PI;
 
         // TODO: TUNE PID CONTROLLERS AND
         public static final PIDController xController = new PIDController(3, 0, 0);
@@ -161,7 +165,7 @@ public final class RobotConstants extends RobotConstantsBase {
 
         // Auton PID controllers
         public static final PIDConstants AUTON_TRANSLATION_CONTROLLER = new PIDConstants(4, 0, 0);
-        public static final PIDConstants AUTON_THETA_CONTROLLER = new PIDConstants(0.25, 0, 0);
+        public static final PIDConstants AUTON_THETA_CONTROLLER = new PIDConstants(0.5, 0, 0);
 
         // vision
 
