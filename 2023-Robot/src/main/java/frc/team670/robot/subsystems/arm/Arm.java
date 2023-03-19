@@ -168,7 +168,7 @@ public class Arm extends MustangSubsystemBase {
      * until the relative positions have been properly reset
      */
     public void resetPositionFromAbsolute() {
-        initializedState = false;
+        // initializedState = false;
         elbow.resetPositionFromAbsolute();
         shoulder.resetPositionFromAbsolute();
         wrist.resetPositionFromAbsolute();
