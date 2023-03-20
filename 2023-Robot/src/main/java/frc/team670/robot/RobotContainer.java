@@ -8,15 +8,12 @@
 package frc.team670.robot;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Queue;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.CvSink;
 import edu.wpi.first.cscore.CvSource;
 import edu.wpi.first.cscore.VideoMode.PixelFormat;
-import edu.wpi.first.math.filter.LinearFilter;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.PowerDistribution;
@@ -35,7 +32,6 @@ import frc.team670.robot.commands.drivebase.SwerveDriveParkCommand;
 import frc.team670.robot.commands.pathplanner.AutonCalibration;
 import frc.team670.robot.commands.pathplanner.CenterEngage;
 import frc.team670.robot.commands.pathplanner.CenterIntake;
-import frc.team670.robot.commands.pathplanner.ConeCube;
 import frc.team670.robot.commands.pathplanner.ConeCubeCube;
 import frc.team670.robot.commands.pathplanner.ConeCubeEngage;
 import frc.team670.robot.commands.pathplanner.CubeEngage;
@@ -66,11 +62,10 @@ public class RobotContainer extends RobotContainerBase {
     private final Claw claw = new Claw(led);
 
     private MustangCommand cableScore, cableEngage, stationScore, stationEngage, centerEngage,
-            centerIntake, scoreMid, straight180;
+            centerIntake, scoreMid;
 
     private static OI oi = new OI();
     private Notifier updateArbitraryFeedForward;
-
 
     public RobotContainer() {
         super();
@@ -78,9 +73,10 @@ public class RobotContainer extends RobotContainerBase {
                 claw, led);
         oi.configureButtonBindings(driveBase, vision, arm, claw, led);
 
-        // for (MustangSubsystemBase subsystem : getSubsystems()) {
-        //     subsystem.setDebugSubsystem(true);
-        // }
+        arm.getWrist().setDebugSubsystem(true);
+        for (MustangSubsystemBase subsystem : getSubsystems()) {
+            subsystem.setDebugSubsystem(true);
+        }
 
 
         cableScore = new ConeCubeCube(driveBase, claw, arm, "CableScoreShort");
@@ -168,7 +164,7 @@ public class RobotContainer extends RobotContainerBase {
                 led.rainbow(false);
 
         }
-        return new ConeCube(driveBase, claw, arm, "Straight180");
+        return autonCommand;
 
         // LEAVE COMMENTED
         // greturn new ConeCube(driveBase, claw, arm, "CableScore");
@@ -259,6 +255,7 @@ public class RobotContainer extends RobotContainerBase {
             vision.setAprilTagFieldLayout(
                     FieldConstants.getFieldLayout(FieldConstants.redAprilTags));
         }
+
     }
 
     public MustangController getOperatorController() {
@@ -271,6 +268,12 @@ public class RobotContainer extends RobotContainerBase {
 
     public MustangController getBackupController() {
         return null;
+    }
+
+    @Override
+    public void teleopPeriodic() {
+        // TODO Auto-generated method stub
+        
     }
 
 }
