@@ -13,7 +13,9 @@ import frc.team670.mustanglib.commands.MustangCommand;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase.HealthState;
 import frc.team670.mustanglib.utils.Logger;
+import frc.team670.robot.commands.claw.ClawInstantIntake;
 import frc.team670.robot.commands.claw.ClawIntake;
+import frc.team670.robot.commands.routines.IntakeAndStow;
 import frc.team670.robot.subsystems.Claw;
 import frc.team670.robot.subsystems.arm.Arm;
 import frc.team670.robot.subsystems.arm.ArmState;
@@ -69,11 +71,20 @@ public class MoveToTarget extends CommandGroupBase implements MustangCommand {
     // 3) then call move directly to target for each of those returned paths
     m_commands.clear();
     ArmState[] path = Arm.getValidPath(arm.getTargetState(), target);
-    for (int i = 1; i < path.length; i++) {
-      addCommands(new MoveDirectlyToTarget(arm, path[i]));
+    if(path.length > 1) {
+      for(int i = 1; i<path.length; i++){
+        addCommands(new MoveDirectlyToTarget(arm, path[i]));
+      }
+    } else if(path.length == 1) {
+      addCommands(new MoveDirectlyToTarget(arm, path[0]));
     }
-    if (target != ArmState.STOWED && claw != null) {
-      addCommands(new ClawIntake(claw));
+
+    if (claw != null) {
+      if(target == ArmState.HYBRID || target == ArmState.SINGLE_STATION) { //If we're going to an actual intaking position, then we'll want to return to stowed when we're done
+        addCommands(new IntakeAndStow(claw, arm));
+      } else {
+        addCommands(new ClawInstantIntake(claw)); //Otherwise, we'll run the claw for security, but we don't want to return to stowed when current spikes
+      }
     }
 
     m_currentCommandIndex = 0;

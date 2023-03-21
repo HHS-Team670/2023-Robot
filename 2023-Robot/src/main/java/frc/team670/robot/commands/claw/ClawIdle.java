@@ -6,7 +6,6 @@ import frc.team670.mustanglib.commands.MustangCommand;
 import java.util.Map;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.team670.robot.subsystems.Claw;
-import frc.team670.robot.subsystems.Claw.Status;
 
 /**
  * @author Tarini, Samanyu and Ishaan
@@ -22,7 +21,7 @@ public class ClawIdle extends InstantCommand implements MustangCommand {
 
     @Override
     public void execute() {
-        claw.setStatus(Status.IDLE);
+        claw.setIdle();
     }
 
     @Override

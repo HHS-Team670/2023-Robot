@@ -15,7 +15,8 @@ public class ManualMoveShoulder extends CommandBase implements MustangCommand {
     private MustangController controller;
     private Arm arm;
 
-    private HashMap<MustangSubsystemBase, HealthState> healthReqs = new HashMap<MustangSubsystemBase, HealthState>();
+    private HashMap<MustangSubsystemBase, HealthState> healthReqs =
+            new HashMap<MustangSubsystemBase, HealthState>();
 
     public ManualMoveShoulder(Arm arm, MustangController controller) {
 
@@ -30,7 +31,7 @@ public class ManualMoveShoulder extends CommandBase implements MustangCommand {
     @Override
     public void execute() {
 
-        arm.setShoulderOffset(arm.getShoulder().getOffset() + controller.getRightY());
+        arm.getShoulder().setOffset(arm.getShoulder().getOffset() + controller.getRightY() * 5);
 
     }
 
@@ -42,7 +43,6 @@ public class ManualMoveShoulder extends CommandBase implements MustangCommand {
 
     @Override
     public Map<MustangSubsystemBase, HealthState> getHealthRequirements() {
-        // TODO Auto-generated method stub
         return healthReqs;
     }
 

@@ -19,34 +19,39 @@ import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase.HealthState;
 import frc.team670.robot.commands.arm.MoveToTarget;
 import frc.team670.robot.commands.claw.ClawEject;
+import frc.team670.robot.commands.claw.ClawInstantEject;
+import frc.team670.robot.commands.claw.ClawInstantIntake;
 import frc.team670.robot.commands.claw.ClawIntake;
 import frc.team670.robot.subsystems.Claw;
 import frc.team670.robot.subsystems.DriveBase;
 import frc.team670.robot.subsystems.arm.Arm;
 import frc.team670.robot.subsystems.arm.ArmState;
 import frc.team670.robot.commands.drivebase.NonPidAutoLevel;
+import frc.team670.robot.constants.RobotConstants;
 
 public class CubeEngage extends SequentialCommandGroup implements MustangCommand {
 
+    String pathName;
+
     public Map<MustangSubsystemBase, HealthState> getHealthRequirements() {
-        return new HashMap();
+        return new HashMap<>();
     }
 
     public CubeEngage(DriveBase driveBase, Claw claw, Arm arm, String pathName) {
-        List<PathPlannerTrajectory> trajectoryGroup = PathPlanner.loadPathGroup(pathName, 2, 1);
+        this.pathName = pathName;
+        List<PathPlannerTrajectory> trajectoryGroup = PathPlanner.loadPathGroup(pathName, 2.75, 1.5);
 
-        PIDConstants PID_translation = new PIDConstants(1.0, 0, 0);
-        PIDConstants PID_theta = new PIDConstants(1.0, 0, 0);
-
-        driveBase.resetOdometry(trajectoryGroup.get(0).getInitialHolonomicPose());
+        PIDConstants PID_translation = RobotConstants.AUTON_TRANSLATION_CONTROLLER;
+        PIDConstants PID_theta = RobotConstants.AUTON_THETA_CONTROLLER;
 
         Map<String, Command> eventMap = new HashMap<>();
 
-        eventMap.put("clawIntake1", new ClawIntake(claw));
-        eventMap.put("moveToHigh", new MoveToTarget(arm, ArmState.SCORE_HIGH));
-        eventMap.put("clawEject", new ClawEject(claw));
-        eventMap.put("moveToGround", new MoveToTarget(arm, ArmState.BACKWARD_GROUND));
-        eventMap.put("clawIntake2", new ClawIntake(claw));
+        eventMap.put("moveToMid", new MoveToTarget(arm, ArmState.SCORE_MID));
+        eventMap.put("clawEject", new ClawInstantEject(claw));
+        eventMap.put("clawIntake2", new ClawInstantIntake(claw));
+        eventMap.put("moveToStowed", new MoveToTarget(arm, ArmState.STOWED));
+        eventMap.put("moveToGround", new MoveToTarget(arm, ArmState.HYBRID));
+        eventMap.put("moveToStowed2", new MoveToTarget(arm, ArmState.STOWED));
         eventMap.put("autoLevel", new NonPidAutoLevel(driveBase, false)); // regardless of what side
                                                                           // (right/left) you are
                                                                           // on, markers are the
@@ -54,9 +59,9 @@ public class CubeEngage extends SequentialCommandGroup implements MustangCommand
 
         SwerveDriveKinematics driveBaseKinematics = driveBase.getSwerveKinematics();
 
-        SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(driveBase::getOdometerPose,
+        SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(driveBase::getPose,
                 driveBase::resetOdometry, driveBaseKinematics, PID_translation, PID_theta,
-                driveBase::setModuleStates, eventMap, false, new Subsystem[] {driveBase});
+                driveBase::setModuleStates, eventMap, true, new Subsystem[] {driveBase});
 
         CommandBase fullAuto = autoBuilder.fullAuto(trajectoryGroup);
 

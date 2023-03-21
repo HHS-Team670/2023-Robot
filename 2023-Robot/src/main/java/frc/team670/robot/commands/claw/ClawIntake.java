@@ -4,15 +4,16 @@ import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase.HealthState;
 import frc.team670.mustanglib.commands.MustangCommand;
 import java.util.Map;
+
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.team670.robot.subsystems.Claw;
-import frc.team670.robot.subsystems.Claw.Status;
 
 /**
  * @author Tarini, Samanyu and Ishaan
  */
 
-public class ClawIntake extends InstantCommand implements MustangCommand {
+public class ClawIntake extends CommandBase implements MustangCommand {
     private Claw claw;
 
     public ClawIntake(Claw claw) {
@@ -20,9 +21,20 @@ public class ClawIntake extends InstantCommand implements MustangCommand {
         addRequirements(claw);
     }
 
+    // @Override
+    // public void execute() {
+    //     claw.startIntaking();
+    // }
+
     @Override
-    public void execute() {
-        claw.setStatus(Status.INTAKING);
+    public void initialize() {
+        claw.startIntaking();
+
+    }
+
+    @Override
+    public boolean isFinished() {
+        return claw.isFull();
     }
 
     @Override

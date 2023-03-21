@@ -1,20 +1,17 @@
 package frc.team670.robot.subsystems;
 
-import frc.team670.mustanglib.commands.MustangScheduler;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 import frc.team670.mustanglib.utils.motorcontroller.MotorConfig.Motor_Type;
+import frc.team670.mustanglib.utils.LEDColor;
 import frc.team670.mustanglib.utils.motorcontroller.SparkMAXFactory;
 import frc.team670.mustanglib.utils.motorcontroller.SparkMAXLite;
-import frc.team670.robot.commands.arm.MoveToTarget;
+import frc.team670.robot.constants.OI;
 import frc.team670.robot.constants.RobotConstants;
 import frc.team670.robot.constants.RobotMap;
-import frc.team670.robot.subsystems.arm.Arm;
-import frc.team670.robot.subsystems.arm.ArmState;
-
-import java.util.List;
 
 import com.revrobotics.CANSparkMax.IdleMode;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Claw extends MustangSubsystemBase {
@@ -23,59 +20,83 @@ public class Claw extends MustangSubsystemBase {
         EJECTING, INTAKING, IDLE;
     }
 
-    private SparkMAXLite leader, follower;
-
-    private int count = 0;
-    private boolean isFull = false;
-    private int ticker = 0;
+    private SparkMAXLite motor;
     private Claw.Status status;
-    private Arm arm;
-    private boolean returnToStowed = true;
 
-    public Claw(Arm arm) {
-        List<SparkMAXLite> motorControllers = SparkMAXFactory.buildSparkMAXPair(RobotMap.CLAW_LEADER_MOTOR,
-                RobotMap.CLAW_FOLLOWER_MOTOR, true, SparkMAXFactory.defaultConfig, Motor_Type.NEO_550);
-        leader = motorControllers.get(0);
-        follower = motorControllers.get(1);
+    private int currentSpikeCounter = 0;
+    private int ejectCounter = 0;
+    private boolean isFull = false;
+    private double ejectingSpeed = RobotConstants.CLAW_EJECTING_SPEED;
+
+    private LED led;
+
+    public Claw(LED led) {
+        motor = SparkMAXFactory.buildSparkMAX(RobotMap.CLAW_MOTOR, SparkMAXFactory.defaultConfig, Motor_Type.NEO);
         status = Status.IDLE;
-        leader.setIdleMode(IdleMode.kBrake);
-        follower.setIdleMode(IdleMode.kBrake);
-        this.arm = arm;
+        this.led = led;
+
+        motor.setInverted(true);
+        motor.setIdleMode(IdleMode.kBrake);
+        
     }
 
-    public void setArm(Arm arm) {
-        this.arm = arm;
+    public LED getLed() {
+        return led;
     }
-
-    public Arm getArm() {
-        return arm;
-    }
-
-    public boolean willReturnToStowed() {
-        return returnToStowed;
-    }
-
-    public void setReturnToStowed(boolean returnToStowed) {
-        this.returnToStowed = returnToStowed;
-    }
-
-    public void setStatus(Claw.Status status) {
-        this.status = status;
-    }
-
-    private void stopAll() {
-        leader.set(0);
+    
+    public void setLED(LED led){
+        this.led = led;
     }
 
     public boolean isFull() {
-        return isFull;
-
+        return this.isFull;
     }
 
+    public void startEjecting() {
+        this.startEjecting(RobotConstants.CLAW_EJECTING_SPEED);
+    }
+
+    /**
+     * Ejects the held item at the given speed
+     * @param ejectingSpeed Should be <0. The more negative, the faster the claw will run backwards.
+     */
+    public void startEjecting(double ejectingSpeed) {
+        this.ejectingSpeed = ejectingSpeed;
+        if(this.status != Status.EJECTING) {
+            this.isFull = true;
+        }
+        setStatus(Status.EJECTING);
+    }
+
+    public void startIntaking() {
+        if(this.status != Status.INTAKING) {
+            this.isFull = false;
+        }
+        setStatus(Status.INTAKING);
+    }
+
+    /**
+     * Sets the claw to an IDLE state
+     * Please note that "IDLE" does not mean "stopped"!
+     */
+    public void setIdle() {
+        setStatus(Status.IDLE);
+    }
+
+    /**
+     * Private method, only intended to be used by the public set() methods
+     * @param status
+     */
+    private void setStatus (Claw.Status status) {
+        this.status = status;
+    }
+
+    /**
+     * Checking for hardware breaks with the motor
+     */
     @Override
-    // Checking for hardware breaks within the motors.
     public HealthState checkHealth() {
-        if (leader == null || leader.isErrored() || follower == null || follower.isErrored()) {
+        if (motor == null || motor.isErrored()) {
             return HealthState.RED;
         }
         return HealthState.GREEN;
@@ -83,60 +104,50 @@ public class Claw extends MustangSubsystemBase {
 
     @Override
     public void mustangPeriodic() {
-        // debugSubsystem();
 
         switch (status) {
             case IDLE:
-                leader.set(RobotConstants.CLAW_IDLE_SPEED);
+                motor.set(RobotConstants.CLAW_IDLE_SPEED);
                 break;
             case INTAKING:
-                if (isFull) {
-                    setStatus(Status.IDLE);
+                motor.set(RobotConstants.CLAW_ROLLING_SPEED);
+                if(motor.getOutputCurrent() > RobotConstants.CLAW_CURRENT_MAX) {
+                    currentSpikeCounter++;
+                    if(currentSpikeCounter > RobotConstants.CLAW_CURRENT_SPIKE_ITERATIONS) {
+                        isFull = true;
+                        if(DriverStation.isTeleopEnabled()){
+                            led.solidhsv(LEDColor.LIGHT_BLUE);
+                    }
+                        setStatus(Status.IDLE);
+                        OI.getDriverController().rumble(0.5, 0.5);
+                        OI.getOperatorController().rumble(0.5, 0.5);
+                        currentSpikeCounter = 0;
+                        setIdle();
+                    }
+                } else {
+                    currentSpikeCounter = 0;
                 }
-                leader.set(RobotConstants.CLAW_ROLLING_SPEED);
                 break;
 
             case EJECTING:
-                leader.set(RobotConstants.CLAW_EJECTING_SPEED);
-                ticker++;
-                // some arbitrary amount of time until ejection is finished
-                // TODO: adjust length of time or find a better way to check for finishing
-                // ejection
-                if (ticker > 25) {
+                motor.set(ejectingSpeed);
+                ejectCounter++;
+                if (ejectCounter > RobotConstants.CLAW_EJECT_ITERATIONS) {
+                    ejectCounter = 0;
                     isFull = false;
-                    ticker = 0;
-                    if (returnToStowed) {
-                        MustangScheduler.getInstance().schedule(new MoveToTarget(arm, this, ArmState.STOWED));
-                    }
+                    if(DriverStation.isTeleopEnabled()){
+                        led.off();
+                }
                 }
                 break;
             default:
-                leader.set(0);
-        }
-
-        if (this.status == Status.INTAKING) {
-            if (leader.getOutputCurrent() > RobotConstants.CLAW_CURRENT_MAX
-                    || follower.getOutputCurrent() > RobotConstants.CLAW_CURRENT_MAX) {
-                count++;
-                if (count > 5) {
-                    setStatus(Status.IDLE);
-                    isFull = true;
-                    ticker = 0;
-                    if (returnToStowed) {
-                        MustangScheduler.getInstance().schedule(new MoveToTarget(arm, this, ArmState.STOWED));
-                    }
-                }
-            } else {
-                count = 0;
-            }
-
+                motor.set(0);
         }
     }
 
     @Override
     public void debugSubsystem() {
-        SmartDashboard.putNumber("Claw leader current", leader.getOutputCurrent());
-        SmartDashboard.putNumber("Claw follower current", leader.getOutputCurrent());
+        SmartDashboard.putNumber("Claw motor current", motor.getOutputCurrent());
         SmartDashboard.putString("Claw state", status.toString());
     }
 

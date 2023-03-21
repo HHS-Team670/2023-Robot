@@ -34,7 +34,7 @@ public class PathFindMoveToPose extends CommandBase implements MustangCommand {
 
 	@Override
 	public void initialize() {
-		this.startPoint = new PoseNode(driveBase.getPoseEstimator().getCurrentPose());
+		this.startPoint = new PoseNode(driveBase.getPose());
 		this.AStarMap = new ObstacleAvoidanceAStarMap(startPoint, endPoint,
 				FieldConstants.obstacles, FieldConstants.obstacleContingencyNodes);
 

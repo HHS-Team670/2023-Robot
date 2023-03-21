@@ -1,32 +1,54 @@
 /*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018-2019 FIRST. All Rights Reserved.                        */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
+/* Copyright (c) 2018-2019 FIRST. All Rights Reserved. */
+/* Open Source Software - may be modified and shared by FRC teams. The code */
 /* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
+/* the project. */
 /*----------------------------------------------------------------------------*/
 
 package frc.team670.robot;
 
-import edu.wpi.first.hal.DriverStationJNI;
+import java.lang.reflect.Field;
+
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.CvSink;
+import edu.wpi.first.cscore.CvSource;
+import edu.wpi.first.cscore.VideoMode.PixelFormat;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.PowerDistribution;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team670.mustanglib.RobotContainerBase;
 import frc.team670.mustanglib.commands.MustangCommand;
+import frc.team670.mustanglib.commands.MustangScheduler;
+import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
+import frc.team670.mustanglib.utils.LEDColor;
+import frc.team670.mustanglib.utils.Logger;
 import frc.team670.mustanglib.utils.MustangController;
 import frc.team670.robot.commands.drivebase.NonPidAutoLevel;
-import frc.team670.robot.commands.pathplanner.ConeCube;
+import frc.team670.robot.commands.drivebase.SwerveDriveParkCommand;
+import frc.team670.robot.commands.pathplanner.AutonCalibration;
+import frc.team670.robot.commands.pathplanner.CenterEngage;
+import frc.team670.robot.commands.pathplanner.CenterIntake;
+import frc.team670.robot.commands.pathplanner.ConeCubeCube;
+import frc.team670.robot.commands.pathplanner.ConeCubeEngage;
+import frc.team670.robot.commands.pathplanner.CubeEngage;
+import frc.team670.robot.commands.pathplanner.ScoreMid;
+import frc.team670.robot.constants.FieldConstants;
 import frc.team670.robot.constants.OI;
+import frc.team670.robot.constants.RobotMap;
 import frc.team670.robot.subsystems.Claw;
 import frc.team670.robot.subsystems.DriveBase;
+import frc.team670.robot.subsystems.LED;
 import frc.team670.robot.subsystems.Vision;
 import frc.team670.robot.subsystems.arm.Arm;
 
 /**
- * RobotContainer is where we put the high-level code for the robot.
- * It contains subsystems, OI devices, etc, and has required methods
- * (autonomousInit, periodic, etc)
+ * RobotContainer is where we put the high-level code for the robot. It contains
+ * subsystems, OI
+ * devices, etc, and has required methods (autonomousInit, periodic, etc)
  */
 
 public class RobotContainer extends RobotContainerBase {
@@ -36,28 +58,62 @@ public class RobotContainer extends RobotContainerBase {
     private final Vision vision = new Vision(pd);
     private final DriveBase driveBase = new DriveBase(getDriverController());
     private final Arm arm = new Arm();
-    private final Claw claw = new Claw(arm);
-    private static OI oi = new OI();
+    private final LED led = new LED(RobotMap.LED_PORT, 0, 35);
+    private final Claw claw = new Claw(led);
 
-    private Notifier updateArbitraryFeedForwards;
+    private MustangCommand cableScore, cableEngage, stationScore, stationEngage, centerEngage,
+            centerIntake, scoreMid;
+
+    private static OI oi = new OI();
+    private Notifier updateArbitraryFeedForward;
 
     public RobotContainer() {
         super();
-        addSubsystem(driveBase, vision, arm, arm.getShoulder(), arm.getElbow(), claw);
-        oi.configureButtonBindings(driveBase, vision, arm, claw);
+        addSubsystem(driveBase, vision, arm, arm.getShoulder(), arm.getElbow(), arm.getWrist(),
+                claw, led);
+        oi.configureButtonBindings(driveBase, vision, arm, claw, led);
+
+        arm.getWrist().setDebugSubsystem(true);
+        for (MustangSubsystemBase subsystem : getSubsystems()) {
+            subsystem.setDebugSubsystem(true);
+        }
+
+
+        cableScore = new ConeCubeCube(driveBase, claw, arm, "CableScoreShort");
+        stationScore = new ConeCubeCube(driveBase, claw, arm, "Station3Piece");
+        cableEngage = new CubeEngage(driveBase, claw, arm, "CableEngage");
+        stationEngage = new CubeEngage(driveBase, claw, arm, "StationEngage");
+        centerEngage = new CenterEngage(driveBase, claw, arm, "CenterEngage");
+        centerIntake = new CenterIntake(driveBase, claw, arm, "CenterIntake");
+        scoreMid = new ScoreMid(driveBase, claw, arm);
+
+
     }
 
     @Override
     public void robotInit() {
+        CameraServer.startAutomaticCapture().setVideoMode(PixelFormat.kYUYV, 160, 120, 30);
+
         driveBase.initVision(vision);
 
-        updateArbitraryFeedForwards = new Notifier(new Runnable() {
+        updateArbitraryFeedForward = new Notifier(new Runnable() {
             public void run() {
-                arm.updateArbitraryFeedForwards();
+                arm.updateArbitraryFeedForward();
             }
         });
+        led.rainbow(false);
 
-        updateArbitraryFeedForwards.startPeriodic(0.01);
+        updateArbitraryFeedForward.startPeriodic(0.01);
+
+        Alliance alliance = DriverStation.getAlliance();
+
+        if (alliance == Alliance.Red) {
+            SmartDashboard.putString("Alliance Color", "red");
+            led.setAllianceColors(LEDColor.RED);
+        } else if (alliance == Alliance.Blue) {
+            SmartDashboard.putString("Alliance Color", "blue");
+            led.setAllianceColors(LEDColor.BLUE);
+        }
     }
 
     /**
@@ -67,51 +123,138 @@ public class RobotContainer extends RobotContainerBase {
      */
     @Override
     public MustangCommand getAutonomousCommand() {
-        // return new CubeEngage(driveBase, claw, arm, "RightCubeEngage");
-        return new ConeCube(driveBase, claw, arm, "RightConeCube");
-        // return new NonPidAutoLevel(driveBase, false);
+        // return new NonPidAutoLevel(driveBase, true);
+        // return new ConeCube(driveBase, claw, arm, "StationScoreShort");
+
+        SmartDashboard.putBoolean("match-started", true);
+
+        int selectedPath = (int) (SmartDashboard.getEntry("auton-chooser").getInteger(-1));
+        MustangCommand autonCommand;
+        switch (selectedPath) {
+            case 0:
+                autonCommand = cableScore;
+                led.solidhsv(led.getAllianceColor());
+                break;
+            case 1:
+                autonCommand = stationScore;
+                led.solidrgb(LEDColor.SEXY_YELLOW);
+                break;
+            case 2:
+                autonCommand = cableEngage;
+                led.solidrgb(LEDColor.SEXY_PURPLE);
+                break;
+            case 3:
+                autonCommand = stationEngage;
+                led.solidhsv(LEDColor.LIGHT_BLUE);
+                break;
+            case 4:
+                autonCommand = centerEngage;
+                led.rainbow(false);
+                break;
+            case 5:
+                autonCommand = centerIntake;
+                led.solidrgb(LEDColor.WHITE);
+                break;
+            case 6:
+                autonCommand = scoreMid;
+                led.mustangRainbow();
+                break;
+            default:
+                autonCommand = centerEngage;
+                led.rainbow(false);
+
+        }
+        return autonCommand;
+
+        // LEAVE COMMENTED
+        // greturn new ConeCube(driveBase, claw, arm, "CableScore");
+        // return new AutonCalibration(driveBase, "StraightLine"); // TODO: use curve path after
+        // straight
+        // path
+        // return new ConeCubeCube(driveBase, claw, arm, "Station3Piece");
+
+        // return new ConeCube(driveBase, claw, arm, "CableScore");
+        // return new ConeCube(driveBase, claw, arm, "RightConeCube");
+        // return new NonPidAutoLevel(driveBase, true);
 
     }
 
     @Override
     public void autonomousInit() {
-        // TODO Auto-generated method stub
-
+        arm.setStateToStarting();
+        vision.setAprilTagFieldLayout(FieldConstants.getFieldLayout(FieldConstants.aprilTags));
     }
 
     @Override
     public void teleopInit() {
-        // TODO Auto-generated method stub
+        // arm.setStateToStarting();
+        vision.setAprilTagFieldLayout(FieldConstants.getFieldLayout(FieldConstants.aprilTags));
+        led.solidhsv(led.getAllianceColor());
+        arm.clearSetpoint();
     }
 
     @Override
     public void testInit() {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public void disabled() {
-        // TODO Auto-generated method stub
-
+        SmartDashboard.putBoolean("match-started", false);
+        led.rainbow(false);
     }
 
     @Override
     public void disabledPeriodic() {
-        // TODO Auto-generated method stub
+        int selectedPath = (int) (SmartDashboard.getEntry("auton-chooser").getInteger(-1));
+        switch (selectedPath) {
+            case 0:
+                led.solidhsv(led.getAllianceColor());
+                break;
+            case 1:
+                led.solidrgb(LEDColor.SEXY_YELLOW);
+                break;
+            case 2:
+                led.solidrgb(LEDColor.SEXY_PURPLE);
+                break;
+            case 3:
+                led.solidhsv(LEDColor.LIGHT_BLUE);
+                break;
+            case 4:
+                led.rainbow(false);
+                break;
+            case 5:
+                led.solidrgb(LEDColor.WHITE);
+                break;
+            case 6:
+                led.mustangRainbow();
+                break;
+            default:
+                led.rainbow(false);
 
+        }
     }
 
     @Override
     public void periodic() {
-        // TODO Auto-generated method stub
+        double cTime = DriverStation.getMatchTime();
+        if (cTime <= 0.1 && cTime != -1) {
+            driveBase.park();
+        }
+
         // SmartDashboard.putString("alliance", "" +
         // DriverStationJNI.getAllianceStation());
+
     }
 
     @Override
     public void autonomousPeriodic() {
-        // TODO Auto-generated method stub
+        if (DriverStation.getAlliance() == Alliance.Blue) {
+            vision.setAprilTagFieldLayout(
+                    FieldConstants.getFieldLayout(FieldConstants.blueAprilTags));
+        } else {
+            vision.setAprilTagFieldLayout(
+                    FieldConstants.getFieldLayout(FieldConstants.redAprilTags));
+        }
 
     }
 
@@ -124,8 +267,13 @@ public class RobotContainer extends RobotContainerBase {
     }
 
     public MustangController getBackupController() {
-        // TODO Auto-generated method stub
         return null;
+    }
+
+    @Override
+    public void teleopPeriodic() {
+        // TODO Auto-generated method stub
+        
     }
 
 }

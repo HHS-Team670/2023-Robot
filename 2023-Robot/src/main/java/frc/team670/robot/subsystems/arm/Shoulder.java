@@ -4,6 +4,7 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMax.SoftLimitDirection;
 
 import frc.team670.mustanglib.utils.Logger;
+import frc.team670.mustanglib.utils.functions.MathUtils;
 import frc.team670.mustanglib.utils.motorcontroller.MotorConfig;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -23,7 +24,7 @@ import com.revrobotics.REVLibError;
  */
 public class Shoulder extends SparkMaxRotatingSubsystem {
 
-    DutyCycleEncoder absEncoder;
+    private DutyCycleEncoder absEncoder;
     private SparkMAXLite follower;
     private boolean hasSetAbsolutePosition = false;
     int counter = 0;
@@ -100,7 +101,7 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
         }
 
         public int getPeakCurrent() {
-            return 80;
+            return 60;
         }
 
         public double getRotatorGearRatio() {
@@ -127,32 +128,31 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
 
     public Shoulder() {
         super(SHOULDER_CONFIG);
+        super.getRotator().setInverted(true);
         follower = SparkMAXFactory.setPermanentFollower(RobotMap.SHOULDER_FOLLOWER_MOTOR, rotator, true);
         follower.setIdleMode(IdleMode.kBrake);
         absEncoder = new DutyCycleEncoder(RobotMap.SHOULDER_ABSOLUTE_ENCODER);
-        SmartDashboard.putNumber("shoulder arbitary feed forward value", RobotConstants.SHOULDER_ARBITRARY_FF);
 
+        SmartDashboard.putNumber("Shoulder arbitrary FF", RobotConstants.SHOULDER_ARBITRARY_FF);
     }
 
-    public static double calculateFeedForward(double shoulderAngle, double elbowAngle) {
-
-        double ffValue = SmartDashboard.getNumber("shoulder arbitary feed forward value",
-                RobotConstants.SHOULDER_ARBITRARY_FF) * RobotConstants.armXCM(shoulderAngle, elbowAngle)
-                / RobotConstants.ARM_MAX_XCM;
-        SmartDashboard.putNumber("shoulder arbitrary feed forward value calculated", ffValue);
-        return ffValue;
-
-    }
-
+    /**
+     * Returns whether or not the relative position has been properly set from the absEncoder.
+     * When resetPositionFromAbsolute() gets called, this will temporarily be false.
+     */
     public boolean isRelativePositionSet() {
         return relativePositionIsSet;
     }
 
-    public void updateArbitraryFeedForward(double elbowAngle) {
+    /**
+     * Updates the arbitraryFF value to counteract gravity
+     * @param voltage The calculated voltage, returned from VoltageCalculator
+     */
+    public void updateArbitraryFeedForward(double voltage) {
         if (setpoint != SparkMaxRotatingSubsystem.NO_SETPOINT) {
             rotator_controller.setReference(setpoint,
                     SparkMAXLite.ControlType.kSmartMotion, super.SMARTMOTION_SLOT,
-                    calculateFeedForward(this.getCurrentAngleInDegrees(), elbowAngle));
+                    voltage);
         }
     }
 
@@ -161,7 +161,7 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
         return false;
     }
 
-    protected void setOffset(double offset) {
+    public void setOffset(double offset) {
         if (Math.abs(offset) > RobotConstants.SHOULDER_MAX_OVERRIDE_DEGREES) {
             this.offset = RobotConstants.SHOULDER_MAX_OVERRIDE_DEGREES * this.offset / Math.abs(this.offset);
         } else {
@@ -195,51 +195,57 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
 
     }
 
+    /**
+     * Public method to reset arm's relative position from absolute
+     */
     public void resetPositionFromAbsolute() {
-        hasSetAbsolutePosition = false;
-        counter = 0;
-        relativePositionIsSet = false;
+        setEncoderPositionFromAbsolute();
     }
 
     @Override
     public void debugSubsystem() {
         double relativePosition = super.rotator_encoder.getPosition();
         SmartDashboard.putNumber("Shoulder Speed:", super.rotator.get());
-        SmartDashboard.putNumber("Shoulder forward soft limit",
-                super.rotator.getSoftLimit(SoftLimitDirection.kForward));
-        SmartDashboard.putNumber("Shoulder backward soft limit",
-                super.rotator.getSoftLimit(SoftLimitDirection.kReverse));
         SmartDashboard.putNumber("Shoulder position (deg)", getCurrentAngleInDegrees());
         SmartDashboard.putNumber("Shoulder position (rotations)", relativePosition);
         SmartDashboard.putNumber("Shoulder abs encoder position", absEncoder.getAbsolutePosition());
         SmartDashboard.putNumber("Shoulder current", super.rotator.getOutputCurrent());
-        SmartDashboard.putString("Shoulder health", checkHealth().toString());
         SmartDashboard.putNumber("Shoulder setpoint (rotations)", setpoint);
+
+        RobotConstants.SHOULDER_SEGMENT.setArbitraryFF(SmartDashboard.getNumber("Shoulder arbitrary FF", RobotConstants.SHOULDER_ARBITRARY_FF));
 
         relativePositionLog += ("" + relativePosition + ", ");
 
     }
 
     /**
-     * Sets the rotator encoder's reference position to the constant obtained from
-     * the absolute encoder corresponding to that position.
+     * PRIVATE method to set position from absolute.
+     * DO NOT USE DIRECTLY. Instead, use resetPositionFromAbsolute()
      */
-    public void setEncoderPositionFromAbsolute() {
-        clearSetpoint();
+    private void setEncoderPositionFromAbsolute() {
         double absEncoderPosition = absEncoder.getAbsolutePosition();
-        double relativePosition = ((-1
-                * (absEncoderPosition - (RobotConstants.SHOULDER_ABSOLUTE_ENCODER_AT_VERTICAL - 0.5)) + 1)
-                * RobotConstants.SHOULDER_GEAR_RATIO) % RobotConstants.SHOULDER_GEAR_RATIO;
-        REVLibError error = rotator_encoder.setPosition(relativePosition);
-        SmartDashboard.putNumber("shoulder position at init", absEncoderPosition);
-        SmartDashboard.putNumber("shoulder rotator encoder setPosition", relativePosition);
-        SmartDashboard.putString("shoulder error", error.toString());
-        calculatedRelativePosition = relativePosition;
+        if(absEncoderPosition != 0.0) {
+            clearSetpoint();
+            double relativePosition = ((-1
+                    * (absEncoderPosition - (RobotConstants.SHOULDER_ABSOLUTE_ENCODER_AT_VERTICAL - 0.5)) + 1)
+                    * RobotConstants.SHOULDER_GEAR_RATIO) % RobotConstants.SHOULDER_GEAR_RATIO;
+            REVLibError error = rotator_encoder.setPosition(relativePosition);
+            SmartDashboard.putNumber("Shoulder absEncoder position when reset", absEncoderPosition);
+            SmartDashboard.putNumber("Shoulder relEncoder position when reset", relativePosition);
+            SmartDashboard.putString("Shoulder error", error.toString());
+            calculatedRelativePosition = relativePosition;
+
+        }
     }
 
     // TODO: Move to mustang lib after testing;
     public double getSetpoint() {
         return setpoint;
+    }
+
+    @Override
+    public boolean hasReachedTargetPosition() {
+        return (MathUtils.doublesEqual(rotator_encoder.getPosition(), setpoint, RobotConstants.SHOULDER_ALLOWED_ERR_DEG));
     }
 
     @Override
@@ -265,7 +271,7 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
             Logger.consoleLog("Shoulder relative position = " + position + ", calculatedRelativePosition = "
                     + calculatedRelativePosition);
             Logger.consoleLog("Shoulder relativePositionIsSet = " + this.relativePositionIsSet);
-            if (Math.abs(position - calculatedRelativePosition) < 0.01) {
+            if (Math.abs(position - calculatedRelativePosition) < 0.5) {
                 relativePositionIsSet = true;
                 Logger.consoleLog(relativePositionLog);
             } else {

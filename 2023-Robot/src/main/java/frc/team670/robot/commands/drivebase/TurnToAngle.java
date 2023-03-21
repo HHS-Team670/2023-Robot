@@ -46,6 +46,7 @@ public class TurnToAngle extends CommandBase implements MustangCommand {
         ProfiledPIDController thetacontroller = new ProfiledPIDController(4, 0, 1, // not tuned yet
                 new Constraints(RobotConstants.kMaxAngularSpeedRadiansPerSecond,
                         RobotConstants.kMaxAngularSpeedRadiansPerSecondSquared));
+
         holonomicDriveController =
                 new HolonomicDriveController(xcontroller, ycontroller, thetacontroller);
         holonomicDriveController.setTolerance(new Pose2d(1, 1, Rotation2d.fromDegrees(0.5)));
@@ -61,7 +62,7 @@ public class TurnToAngle extends CommandBase implements MustangCommand {
 
     @Override
     public void initialize() {
-        startPos = swerve.getOdometerPose();
+        startPos = swerve.getPose();
         if (isRelative) {
             targetPose2d = new Pose2d(startPos.getTranslation(),
                     startPos.getRotation().rotateBy(Rotation2d.fromDegrees(goal)));
@@ -72,7 +73,7 @@ public class TurnToAngle extends CommandBase implements MustangCommand {
 
     @Override
     public void execute() {
-        Pose2d currPose2d = swerve.getOdometerPose();
+        Pose2d currPose2d = swerve.getPose();
         ChassisSpeeds chassisSpeeds = this.holonomicDriveController.calculate(currPose2d,
                 targetPose2d, 0, targetPose2d.getRotation());
         SwerveModuleState[] swerveModuleStates =
@@ -91,7 +92,8 @@ public class TurnToAngle extends CommandBase implements MustangCommand {
 
     @Override
     public boolean isFinished() {
-        return controller.getBButtonPressed() || holonomicDriveController.atReference();
+        return controller.getBackButtonPressed() || holonomicDriveController.atReference();
+        // return holonomicDriveController.atReference();
         // return false;
     }
 

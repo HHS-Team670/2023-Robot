@@ -3,6 +3,9 @@ package frc.team670.robot.constants;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import edu.wpi.first.apriltag.AprilTag;
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -228,6 +231,35 @@ public class FieldConstants {
                 }
         }
 
+        public static final Map<Integer, Pose3d> blueAprilTags = Map.of(
+                        1,
+                        new Pose3d(Units.inchesToMeters(610.77), Units.inchesToMeters(42.19),
+                                        Units.inchesToMeters(18.22),
+                                        new Rotation3d(0.0, 0.0, Math.PI)),
+                        2,
+                        new Pose3d(Units.inchesToMeters(610.77), Units.inchesToMeters(108.19),
+                                        Units.inchesToMeters(18.22),
+                                        new Rotation3d(0.0, 0.0, Math.PI)),
+                        3, new Pose3d(Units.inchesToMeters(610.77), Units.inchesToMeters(174.19),
+                                        Units.inchesToMeters(18.22),
+                                        new Rotation3d(0.0, 0.0, Math.PI)),
+                        4,
+                        new Pose3d(Units.inchesToMeters(636.96), Units.inchesToMeters(265.74),
+                                        Units.inchesToMeters(27.38),
+                                        new Rotation3d(0.0, 0.0, Math.PI)));
+
+        public static final Map<Integer, Pose3d> redAprilTags = Map.of(
+                        5,
+                        new Pose3d(Units.inchesToMeters(14.25), Units.inchesToMeters(265.74),
+                                        Units.inchesToMeters(27.38), new Rotation3d()),
+                        6, new Pose3d(Units.inchesToMeters(40.45), Units.inchesToMeters(174.19),
+                                        Units.inchesToMeters(18.22), new Rotation3d()),
+                        7,
+                        new Pose3d(Units.inchesToMeters(40.45), Units.inchesToMeters(108.19),
+                                        Units.inchesToMeters(18.22), new Rotation3d()),
+                        8, new Pose3d(Units.inchesToMeters(40.45), Units.inchesToMeters(42.19),
+                                        Units.inchesToMeters(18.22), new Rotation3d()));
+
         // AprilTag locations (do not flip for red alliance)
         public static final Map<Integer, Pose3d> aprilTags = Map.of(1,
                         new Pose3d(Units.inchesToMeters(610.77), Units.inchesToMeters(42.19),
@@ -237,14 +269,7 @@ public class FieldConstants {
                         new Pose3d(Units.inchesToMeters(610.77), Units.inchesToMeters(108.19),
                                         Units.inchesToMeters(18.22),
                                         new Rotation3d(0.0, 0.0, Math.PI)),
-                        3, new Pose3d(Units.inchesToMeters(610.77), Units.inchesToMeters(174.19), // FIRST's
-                                                                                                  // diagram
-                                                                                                  // has
-                                                                                                  // a
-                                                                                                  // typo
-                                                                                                  // (it
-                                                                                                  // says
-                                                                                                  // 147.19)
+                        3, new Pose3d(Units.inchesToMeters(610.77), Units.inchesToMeters(174.19),
                                         Units.inchesToMeters(18.22),
                                         new Rotation3d(0.0, 0.0, Math.PI)),
                         4,
@@ -254,14 +279,7 @@ public class FieldConstants {
                         5,
                         new Pose3d(Units.inchesToMeters(14.25), Units.inchesToMeters(265.74),
                                         Units.inchesToMeters(27.38), new Rotation3d()),
-                        6, new Pose3d(Units.inchesToMeters(40.45), Units.inchesToMeters(174.19), // FIRST's
-                                                                                                 // diagram
-                                                                                                 // has
-                                                                                                 // a
-                                                                                                 // typo
-                                                                                                 // (it
-                                                                                                 // says
-                                                                                                 // 147.19)
+                        6, new Pose3d(Units.inchesToMeters(40.45), Units.inchesToMeters(174.19),
                                         Units.inchesToMeters(18.22), new Rotation3d()),
                         7,
                         new Pose3d(Units.inchesToMeters(40.45), Units.inchesToMeters(108.19),
@@ -284,6 +302,14 @@ public class FieldConstants {
                                         FieldConstants.Community.chargingStationCorners[2].getX(),
                                         FieldConstants.Community.chargingStationCorners[2]
                                                         .getY()) };
+
+        public static AprilTagFieldLayout getFieldLayout(Map<Integer, Pose3d> tags) {
+                List<AprilTag> t = new ArrayList<>();
+                FieldConstants.aprilTags.forEach((i, p) -> {
+                        t.add(new AprilTag(i, p));
+                });
+                return new AprilTagFieldLayout(t, FieldConstants.fieldLength, FieldConstants.fieldWidth);
+        }
 
         public static final List<Obstacle> obstacles = List.of(
                         // add charging station of one side
@@ -362,6 +388,15 @@ public class FieldConstants {
                 if (DriverStation.getAlliance() == Alliance.Red) {
                         return new Pose2d(fieldLength - pose.getX(), pose.getY(), new Rotation2d(
                                         -pose.getRotation().getCos(), pose.getRotation().getSin()));
+                } else {
+                        return pose;
+                }
+        }
+
+        public static Pose2d allianceOrientedAllianceFlip(Pose2d pose) {
+                if (DriverStation.getAlliance() == Alliance.Red) {
+                        return new Pose2d(fieldLength - pose.getX(), fieldWidth - pose.getY(),
+                                        pose.getRotation().times(-1));
                 } else {
                         return pose;
                 }
