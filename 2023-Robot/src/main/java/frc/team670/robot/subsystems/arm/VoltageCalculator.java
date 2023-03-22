@@ -15,6 +15,8 @@ public class VoltageCalculator {
      */
     private ArmSegment[] armSegments;
 
+    private final String voltageString = "VoltageCalculator output";
+
     /**
      * Array of MAXIMUM X_CM displacements. the calculate() method compares against these.
      */
@@ -68,7 +70,7 @@ public class VoltageCalculator {
             
         }
 
-        SmartDashboard.putString("VoltageCalculator output ", voltages.toString());
+        SmartDashboard.putString(voltageString, voltages.toString());
 
         return voltages;
 

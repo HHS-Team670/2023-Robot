@@ -14,6 +14,7 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.CvSink;
 import edu.wpi.first.cscore.CvSource;
 import edu.wpi.first.cscore.VideoMode.PixelFormat;
+import edu.wpi.first.hal.DriverStationJNI;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.PowerDistribution;
@@ -67,16 +68,18 @@ public class RobotContainer extends RobotContainerBase {
     private static OI oi = new OI();
     private Notifier updateArbitraryFeedForward;
 
+    private final String matchStarted = "match-started";
+    private final String autonChooser = "auton-chooser";
+
     public RobotContainer() {
         super();
         addSubsystem(driveBase, vision, arm, arm.getShoulder(), arm.getElbow(), arm.getWrist(),
                 claw, led);
         oi.configureButtonBindings(driveBase, vision, arm, claw, led);
 
-        arm.getWrist().setDebugSubsystem(true);
-        for (MustangSubsystemBase subsystem : getSubsystems()) {
-            subsystem.setDebugSubsystem(true);
-        }
+        // for (MustangSubsystemBase subsystem : getSubsystems()) {
+        //     subsystem.setDebugSubsystem(true);
+        // }
 
 
         cableScore = new ConeCubeCube(driveBase, claw, arm, "CableScoreShort");
@@ -199,13 +202,13 @@ public class RobotContainer extends RobotContainerBase {
 
     @Override
     public void disabled() {
-        SmartDashboard.putBoolean("match-started", false);
+        SmartDashboard.putBoolean(matchStarted, false);
         led.rainbow(false);
     }
 
     @Override
     public void disabledPeriodic() {
-        int selectedPath = (int) (SmartDashboard.getEntry("auton-chooser").getInteger(-1));
+        int selectedPath = (int) (SmartDashboard.getEntry(autonChooser).getInteger(-1));
         switch (selectedPath) {
             case 0:
                 led.solidhsv(led.getAllianceColor());

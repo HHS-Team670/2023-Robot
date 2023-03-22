@@ -30,6 +30,8 @@ public class Arm extends MustangSubsystemBase {
     private boolean hasSetShoulderTarget = true;
     private boolean hasSetElbowTarget = true;
     private boolean hasSetWristTarget = true;
+
+    private final String targetPositionKey = "Arm target position";
     
     private long startingTime = 0;
 
@@ -287,7 +289,7 @@ public class Arm extends MustangSubsystemBase {
 
     @Override
     public void debugSubsystem() {
-        SmartDashboard.putString("Arm target state", getTargetState().toString());
+        SmartDashboard.putString(targetPositionKey, getTargetState().toString());
         // SmartDashboard.putNumber("Elbow offset", elbowOffset);
         // SmartDashboard.putNumber("Shoulder offset", shoulderOffset);
         // SmartDashboard.putNumber("Wrist offset", wristOffset);
