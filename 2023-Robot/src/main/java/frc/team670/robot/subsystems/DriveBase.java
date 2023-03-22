@@ -22,6 +22,8 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveBase extends SwerveDrive {
+      private final String pitchKey = "pitch";
+
       /**
        * The maximum voltage that will be delivered to the drive motors. This can be
        * reduced to cap
@@ -98,8 +100,13 @@ public class DriveBase extends SwerveDrive {
 
       public void mustangPeriodic() {
             super.mustangPeriodic();
-            debugSubsystem();
+            SmartDashboard.putNumber(pitchKey, getPitch());
       }
+
+      // @Override
+      // public void periodic() {
+      //       return;
+      // }
 
       @Override
       public HealthState checkHealth() {
@@ -108,7 +115,6 @@ public class DriveBase extends SwerveDrive {
 
       @Override
       public void debugSubsystem() {
-            SmartDashboard.putNumber("pitch", getPitch());
 
       }
 

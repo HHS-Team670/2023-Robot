@@ -30,7 +30,10 @@ public class Elbow extends SparkMaxRotatingSubsystem {
     private boolean relativePositionIsSet = false;
     private double offset = 0;
 
-    String relativePositionLog = "";
+    private final String positionDeg = "Elbow position (deg)";
+    private final String absEncoderPos = "Elbow abs encoder position";
+    private final String positionRot = "Elbow position (rotations)";
+    private final String setpointRot = "Elbow setpoint (rotations)";
 
     /*
      * PID and SmartMotion constants for the Elbow joint
@@ -131,7 +134,6 @@ public class Elbow extends SparkMaxRotatingSubsystem {
         super(ELBOW_CONFIG);
         absEncoder = new DutyCycleEncoder(RobotMap.ELBOW_ABSOLUTE_ENCODER);
         super.getRotator().setInverted(false);
-        SmartDashboard.putNumber("Elbow arbitrary FF", RobotConstants.ELBOW_ARBITRARY_FF);
     }
 
     /**
@@ -230,16 +232,10 @@ public class Elbow extends SparkMaxRotatingSubsystem {
     public void debugSubsystem() {
         double relativePosition = super.rotator_encoder.getPosition();
 
-        SmartDashboard.putNumber("Elbow Speed:", super.rotator.get());
-        SmartDashboard.putNumber("Elbow position (deg)", getCurrentAngleInDegrees());
-        SmartDashboard.putNumber("Elbow position (rotations)", relativePosition);
-        SmartDashboard.putNumber("Elbow current", super.rotator.getOutputCurrent());
-        SmartDashboard.putNumber("Elbow abs encoder position", absEncoder.getAbsolutePosition());
-        SmartDashboard.putNumber("Elbow setpoint (rotations)", setpoint);
-
-        RobotConstants.ELBOW_SEGMENT.setArbitraryFF(SmartDashboard.getNumber("Elbow arbitrary FF", RobotConstants.ELBOW_ARBITRARY_FF));
-
-        relativePositionLog += ("" + relativePosition + ", ");
+        SmartDashboard.putNumber(positionDeg, getCurrentAngleInDegrees());
+        SmartDashboard.putNumber(positionRot, relativePosition);
+        SmartDashboard.putNumber(absEncoderPos, absEncoder.getAbsolutePosition());
+        SmartDashboard.putNumber(setpointRot, setpoint);
     }
 
     @Override
@@ -265,7 +261,6 @@ public class Elbow extends SparkMaxRotatingSubsystem {
             Logger.consoleLog("Elbow relative position = " + position + ", calculatedRelativePosition = "
                     + calculatedRelativePosition);
             if (Math.abs(position - calculatedRelativePosition) < 0.5) {
-                Logger.consoleLog(relativePositionLog);
                 relativePositionIsSet = true;
             } else {
                 super.rotator_encoder.setPosition(calculatedRelativePosition);

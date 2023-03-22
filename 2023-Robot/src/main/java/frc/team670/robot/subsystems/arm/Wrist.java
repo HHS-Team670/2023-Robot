@@ -29,6 +29,11 @@ public class Wrist extends SparkMaxRotatingSubsystem {
     private double calculatedRelativePosition = 0.0;
     private boolean relativePositionIsSet = false;
 
+    private final String positionDeg = "Wrist position (deg)";
+    private final String absEncoderPos = "Wrist abs encoder position";
+    private final String positionRot = "Wrist position (rotations)";
+    private final String setpointRot = "Wrist setpoint (rotations)";
+
     /*
      * PID and SmartMotion constants for the Wrist joint
      */
@@ -124,7 +129,6 @@ public class Wrist extends SparkMaxRotatingSubsystem {
         super(WRIST_CONFIG);
         absEncoder = new DutyCycleEncoder(RobotMap.WRIST_ABSOLUTE_ENCODER);
         super.getRotator().setInverted(true);
-        SmartDashboard.putNumber("wrist arbitary feed forward value", RobotConstants.WRIST_ARBITRARY_FF);
 
 
     }
@@ -203,12 +207,12 @@ public class Wrist extends SparkMaxRotatingSubsystem {
 
     @Override
     public void debugSubsystem() {
-        SmartDashboard.putNumber("Wrist Speed:", super.rotator.get());
-        SmartDashboard.putNumber("Wrist position (deg)", getCurrentAngleInDegrees());
-        SmartDashboard.putNumber("Wrist position (rotations)", super.rotator_encoder.getPosition());
-        SmartDashboard.putNumber("Wrist current", super.rotator.getOutputCurrent());
-        SmartDashboard.putNumber("Wrist abs encoder position", absEncoder.getAbsolutePosition());
-        SmartDashboard.putNumber("Wrist setpoint (rotations)", setpoint);
+        double relativePosition = super.rotator_encoder.getPosition();
+        
+        SmartDashboard.putNumber(positionDeg, getCurrentAngleInDegrees());
+        SmartDashboard.putNumber(positionRot, relativePosition);
+        SmartDashboard.putNumber(absEncoderPos, absEncoder.getAbsolutePosition());
+        SmartDashboard.putNumber(setpointRot, setpoint);
 
     }
 

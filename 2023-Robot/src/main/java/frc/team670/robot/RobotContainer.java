@@ -14,6 +14,7 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.CvSink;
 import edu.wpi.first.cscore.CvSource;
 import edu.wpi.first.cscore.VideoMode.PixelFormat;
+import edu.wpi.first.hal.DriverStationJNI;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.PowerDistribution;
@@ -32,7 +33,7 @@ import frc.team670.robot.commands.drivebase.SwerveDriveParkCommand;
 import frc.team670.robot.commands.pathplanner.AutonCalibration;
 import frc.team670.robot.commands.pathplanner.CenterEngage;
 import frc.team670.robot.commands.pathplanner.CenterIntake;
-import frc.team670.robot.commands.pathplanner.ConeCube;
+import frc.team670.robot.commands.pathplanner.ConeCubeCube;
 import frc.team670.robot.commands.pathplanner.ConeCubeEngage;
 import frc.team670.robot.commands.pathplanner.CubeEngage;
 import frc.team670.robot.commands.pathplanner.ScoreMid;
@@ -61,8 +62,14 @@ public class RobotContainer extends RobotContainerBase {
     private final LED led = new LED(RobotMap.LED_PORT, 0, 35);
     private final Claw claw = new Claw(led);
 
+    private MustangCommand cableScore, cableEngage, stationScore, stationEngage, centerEngage,
+            centerIntake, scoreMid;
+
     private static OI oi = new OI();
     private Notifier updateArbitraryFeedForward;
+
+    private final String matchStarted = "match-started";
+    private final String autonChooser = "auton-chooser";
 
     public RobotContainer() {
         super();
@@ -70,10 +77,17 @@ public class RobotContainer extends RobotContainerBase {
                 claw, led);
         oi.configureButtonBindings(driveBase, vision, arm, claw, led);
 
-        arm.getWrist().setDebugSubsystem(true);
-        for (MustangSubsystemBase subsystem : getSubsystems()) {
-            subsystem.setDebugSubsystem(true);
-        }
+        // for (MustangSubsystemBase subsystem : getSubsystems()) {
+        // subsystem.setDebugSubsystem(true);
+        // }
+
+        cableScore = new ConeCubeCube(driveBase, claw, arm, "CableScoreShort");
+        stationScore = new ConeCubeCube(driveBase, claw, arm, "Station3Piece");
+        cableEngage = new CubeEngage(driveBase, claw, arm, "CableEngage");
+        stationEngage = new CubeEngage(driveBase, claw, arm, "StationEngage");
+        centerEngage = new CenterEngage(driveBase, claw, arm, "CenterEngage");
+        centerIntake = new CenterIntake(driveBase, claw, arm, "CenterIntake");
+        scoreMid = new ScoreMid(driveBase, claw, arm);
 
     }
 
@@ -119,46 +133,47 @@ public class RobotContainer extends RobotContainerBase {
         MustangCommand autonCommand;
         switch (selectedPath) {
             case 0:
-                autonCommand = new ConeCube(driveBase, claw, arm, "CableScoreShort");
+                autonCommand = cableScore;
                 led.solidhsv(led.getAllianceColor());
                 break;
             case 1:
-                autonCommand = new ConeCube(driveBase, claw, arm, "StationScore");
+                autonCommand = stationScore;
                 led.solidrgb(LEDColor.SEXY_YELLOW);
                 break;
             case 2:
-                autonCommand = new CubeEngage(driveBase, claw, arm, "CableEngage");
+                autonCommand = cableEngage;
                 led.solidrgb(LEDColor.SEXY_PURPLE);
                 break;
             case 3:
-                autonCommand = new CubeEngage(driveBase, claw, arm, "StationEngage");
+                autonCommand = stationEngage;
                 led.solidhsv(LEDColor.LIGHT_BLUE);
                 break;
             case 4:
-                autonCommand = new CenterEngage(driveBase, claw, arm, "CenterEngage");
+                autonCommand = centerEngage;
                 led.rainbow(false);
                 break;
             case 5:
-                autonCommand = new CenterIntake(driveBase, claw, arm, "CenterIntake");
+                autonCommand = centerIntake;
                 led.solidrgb(LEDColor.WHITE);
                 break;
             case 6:
-                autonCommand = new ScoreMid(driveBase, claw, arm);
+                autonCommand = scoreMid;
                 led.mustangRainbow();
                 break;
             default:
-                autonCommand = new CenterEngage(driveBase, claw, arm, "CenterEngage");
+                autonCommand = centerEngage;
                 led.rainbow(false);
 
         }
-        // return autonCommand;
+        return autonCommand;
 
         // LEAVE COMMENTED
         // greturn new ConeCube(driveBase, claw, arm, "CableScore");
         // return new AutonCalibration(driveBase, "StraightLine"); // TODO: use curve
-        // path after straight
+        // path after
+        // straight
         // path
-        return new ConeCube(driveBase, claw, arm, "Straight180");
+        // return new ConeCubeCube(driveBase, claw, arm, "Station3Piece");
 
         // return new ConeCube(driveBase, claw, arm, "CableScore");
         // return new ConeCube(driveBase, claw, arm, "RightConeCube");
@@ -186,31 +201,31 @@ public class RobotContainer extends RobotContainerBase {
 
     @Override
     public void disabled() {
-        SmartDashboard.putBoolean("match-started", false);
+        SmartDashboard.putBoolean(matchStarted, false);
         led.rainbow(false);
     }
 
     @Override
     public void disabledPeriodic() {
-        int selectedPath = (int) (SmartDashboard.getEntry("auton-chooser").getInteger(-1));
+        int selectedPath = (int) (SmartDashboard.getEntry(autonChooser).getInteger(-1));
         switch (selectedPath) {
             case 0:
-                led.solidhsv(led.getAllianceColor());
+                led.blinkhsv(led.getAllianceColor());
                 break;
             case 1:
-                led.solidrgb(LEDColor.SEXY_YELLOW);
+                led.blinkrgb(LEDColor.SEXY_YELLOW);
                 break;
             case 2:
-                led.solidrgb(LEDColor.SEXY_PURPLE);
+                led.blinkrgb(LEDColor.SEXY_PURPLE);
                 break;
             case 3:
-                led.solidhsv(LEDColor.LIGHT_BLUE);
+                led.blinkhsv(LEDColor.LIGHT_BLUE);
                 break;
             case 4:
                 led.rainbow(false);
                 break;
             case 5:
-                led.solidrgb(LEDColor.WHITE);
+                led.blinkrgb(LEDColor.WHITE);
                 break;
             case 6:
                 led.mustangRainbow();
@@ -224,8 +239,7 @@ public class RobotContainer extends RobotContainerBase {
     @Override
     public void periodic() {
         double cTime = DriverStation.getMatchTime();
-        if (cTime <= 0.1 && cTime != -1) {// Checks for -1 as some cases may return negative one as no data has
-                                          // been sent yet
+        if (cTime <= 0.1 && cTime != -1) {
             driveBase.park();
         }
 
@@ -233,8 +247,6 @@ public class RobotContainer extends RobotContainerBase {
         // DriverStationJNI.getAllianceStation());
 
     }
-
- 
 
     @Override
     public void autonomousPeriodic() {
@@ -258,6 +270,12 @@ public class RobotContainer extends RobotContainerBase {
 
     public MustangController getBackupController() {
         return null;
+    }
+
+    @Override
+    public void teleopPeriodic() {
+        // TODO Auto-generated method stub
+
     }
 
 }

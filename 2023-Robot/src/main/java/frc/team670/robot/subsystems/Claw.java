@@ -23,6 +23,9 @@ public class Claw extends MustangSubsystemBase {
     private SparkMAXLite motor;
     private Claw.Status status;
 
+    private final String currentKey = "Claw motor current";
+    private final String clawStateKey = "Claw state";
+
     private int currentSpikeCounter = 0;
     private int ejectCounter = 0;
     private boolean isFull = false;
@@ -147,8 +150,8 @@ public class Claw extends MustangSubsystemBase {
 
     @Override
     public void debugSubsystem() {
-        SmartDashboard.putNumber("Claw motor current", motor.getOutputCurrent());
-        SmartDashboard.putString("Claw state", status.toString());
+        SmartDashboard.putNumber(currentKey, motor.getOutputCurrent());
+        SmartDashboard.putString(clawStateKey, status.toString());
     }
 
 }
