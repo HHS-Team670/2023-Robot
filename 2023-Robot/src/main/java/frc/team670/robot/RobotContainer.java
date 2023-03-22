@@ -211,22 +211,22 @@ public class RobotContainer extends RobotContainerBase {
         int selectedPath = (int) (SmartDashboard.getEntry(autonChooser).getInteger(-1));
         switch (selectedPath) {
             case 0:
-                led.solidhsv(led.getAllianceColor());
+                led.blinkhsv(led.getAllianceColor());
                 break;
             case 1:
-                led.solidrgb(LEDColor.SEXY_YELLOW);
+                led.blinkrgb(LEDColor.SEXY_YELLOW);
                 break;
             case 2:
-                led.solidrgb(LEDColor.SEXY_PURPLE);
+                led.blinkrgb(LEDColor.SEXY_PURPLE);
                 break;
             case 3:
-                led.solidhsv(LEDColor.LIGHT_BLUE);
+                led.blinkhsv(LEDColor.LIGHT_BLUE);
                 break;
             case 4:
                 led.rainbow(false);
                 break;
             case 5:
-                led.solidrgb(LEDColor.WHITE);
+                led.blinkrgb(LEDColor.WHITE);
                 break;
             case 6:
                 led.mustangRainbow();
