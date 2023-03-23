@@ -75,7 +75,10 @@ public class RobotContainer extends RobotContainerBase {
         super();
         addSubsystem(driveBase, vision, arm, arm.getShoulder(), arm.getElbow(), arm.getWrist(),
                 claw, led);
+        // addSubsystem(driveBase, arm, arm.getShoulder(), arm.getElbow(), arm.getWrist(),
+        //         claw, led);
         oi.configureButtonBindings(driveBase, vision, arm, claw, led);
+        // oi.configureButtonBindings(driveBase, null, arm, claw, led);
 
         // for (MustangSubsystemBase subsystem : getSubsystems()) {
         //     subsystem.setDebugSubsystem(true);
@@ -167,7 +170,7 @@ public class RobotContainer extends RobotContainerBase {
                 led.rainbow(false);
 
         }
-        return autonCommand;
+        //return autonCommand;
 
         // LEAVE COMMENTED
         // greturn new ConeCube(driveBase, claw, arm, "CableScore");
@@ -175,6 +178,7 @@ public class RobotContainer extends RobotContainerBase {
         // straight
         // path
         // return new ConeCubeCube(driveBase, claw, arm, "Station3Piece");
+        return new ConeCubeEngage(driveBase, claw, arm, "StationScoreEngage2");
 
         // return new ConeCube(driveBase, claw, arm, "CableScore");
         // return new ConeCube(driveBase, claw, arm, "RightConeCube");
@@ -209,32 +213,32 @@ public class RobotContainer extends RobotContainerBase {
     @Override
     public void disabledPeriodic() {
         int selectedPath = (int) (SmartDashboard.getEntry(autonChooser).getInteger(-1));
-        switch (selectedPath) {
-            case 0:
-                led.blinkhsv(led.getAllianceColor());
-                break;
-            case 1:
-                led.blinkrgb(LEDColor.SEXY_YELLOW);
-                break;
-            case 2:
-                led.blinkrgb(LEDColor.SEXY_PURPLE);
-                break;
-            case 3:
-                led.blinkhsv(LEDColor.LIGHT_BLUE);
-                break;
-            case 4:
-                led.rainbow(false);
-                break;
-            case 5:
-                led.blinkrgb(LEDColor.WHITE);
-                break;
-            case 6:
-                led.mustangRainbow();
-                break;
-            default:
-                led.rainbow(false);
+        // switch (selectedPath) {
+        //     case 0:
+        //         led.blinkhsv(led.getAllianceColor());
+        //         break;
+        //     case 1:
+        //         led.blinkrgb(LEDColor.SEXY_YELLOW);
+        //         break;
+        //     case 2:
+        //         led.blinkrgb(LEDColor.SEXY_PURPLE);
+        //         break;
+        //     case 3:
+        //         led.blinkhsv(LEDColor.LIGHT_BLUE);
+        //         break;
+        //     case 4:
+        //         led.rainbow(false);
+        //         break;
+        //     case 5:
+        //         led.blinkrgb(LEDColor.WHITE);
+        //         break;
+        //     case 6:
+        //         led.mustangRainbow();
+        //         break;
+        //     default:
+        //         led.rainbow(false);
 
-        }
+        // }
     }
 
     @Override

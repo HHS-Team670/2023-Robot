@@ -35,7 +35,7 @@ public class ConeCubeEngage extends SequentialCommandGroup implements MustangCom
 
     public ConeCubeEngage(DriveBase driveBase, Claw claw, Arm arm, String pathName) {
         this.pathName = pathName;
-        List<PathPlannerTrajectory> trajectoryGroup = PathPlanner.loadPathGroup(pathName, 3, 2.5);
+        List<PathPlannerTrajectory> trajectoryGroup = PathPlanner.loadPathGroup(pathName, 4, 3);
 
 
         HashMap<String, Command> eventMap = new HashMap<>();
@@ -47,6 +47,7 @@ public class ConeCubeEngage extends SequentialCommandGroup implements MustangCom
         eventMap.put("moveToGround", new MoveToTarget(arm, ArmState.HYBRID));
          eventMap.put("clawIntake", new ClawInstantIntake(claw)); //May want to use IntakeAndStow after testing.
         eventMap.put("moveToStowed", new MoveToTarget(arm, ArmState.STOWED));
+        eventMap.put("moveToHigh", new MoveToTarget(arm, ArmState.SCORE_HIGH));
         eventMap.put("autoLevel", new NonPidAutoLevel(driveBase, true));
         
         SwerveDriveKinematics driveBaseKinematics = driveBase.getSwerveKinematics();
