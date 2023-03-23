@@ -44,13 +44,13 @@ public class DriveBase extends SwerveDrive {
        * robot should be able to drive in a straight line.
        */
       public static final double MAX_VELOCITY_METERS_PER_SECOND = 5676.0 / 60.0
-                  * SdsModuleConfigurations.MK4I_L1.getDriveReduction()
-                  * SdsModuleConfigurations.MK4I_L1.getWheelDiameter() * Math.PI;
+                  * RobotConstants.SWERVE_MODULE_CONFIGURATION.getDriveReduction()
+                  * RobotConstants.SWERVE_MODULE_CONFIGURATION.getWheelDiameter() * Math.PI;
 
       /**
        * The maximum angular velocity of the robot in radians per second. This is a
        * measure of how
-       * fast the robot can rotate in place.
+       * fast the robot can rotate in place.`
        */
       public static final double MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND = MAX_VELOCITY_METERS_PER_SECOND
                   / Math.hypot(RobotConstants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0,
@@ -62,7 +62,7 @@ public class DriveBase extends SwerveDrive {
       public DriveBase(MustangController mustangController) {
             super(new SwerveConfig(RobotConstants.DRIVETRAIN_TRACKWIDTH_METERS,
                         RobotConstants.DRIVETRAIN_WHEELBASE_METERS, MAX_VELOCITY_METERS_PER_SECOND,
-                        MAX_VOLTAGE, RobotConstants.NAVX_PORT,
+                        MAX_VOLTAGE, RobotConstants.NAVX_PORT, RobotConstants.SWERVE_GEAR_RATIO,
                         RobotConstants.FRONT_LEFT_MODULE_DRIVE_MOTOR,
                         RobotConstants.FRONT_LEFT_MODULE_STEER_MOTOR,
                         RobotConstants.FRONT_LEFT_MODULE_STEER_ENCODER,
@@ -105,7 +105,7 @@ public class DriveBase extends SwerveDrive {
 
       // @Override
       // public void periodic() {
-      //       return;
+      // return;
       // }
 
       @Override

@@ -21,6 +21,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.SerialPort;
 import frc.team670.mustanglib.constants.RobotConstantsBase;
 import frc.team670.mustanglib.swervelib.Mk4iSwerveModuleHelper;
+import frc.team670.mustanglib.swervelib.ModuleConfiguration;
 import frc.team670.mustanglib.swervelib.SdsModuleConfigurations;
 import frc.team670.mustanglib.swervelib.Mk4iSwerveModuleHelper.GearRatio;
 import frc.team670.robot.subsystems.arm.ArmSegment;
@@ -81,7 +82,7 @@ public final class RobotConstants extends RobotConstantsBase {
                                         entry("ELBOW_ABSOLUTE_ENCODER_AT_VERTICAL", 0.494),
                                         entry("WRIST_ABSOLUTE_ENCODER_AT_VERTICAL", 0.0),
                                         entry("SHOULDER_GEAR_RATIO", 96.0), entry("ELBOW_GEAR_RATIO",
-                                                        75.0),
+                                                        70.833333333333),
                                         entry("SWERVE_MODULE_CONFIGURATION", 2.0),
                                         entry("WRIST_GEAR_RATIO", 0.0))),
                         entry("00:80:2F:33:D0:46", Map.ofEntries( // The mac address is from 670_2023
@@ -122,9 +123,16 @@ public final class RobotConstants extends RobotConstantsBase {
         public static final double LIMIT = 1.0;
 
         // Swerve Drivebase constants
-        public static final GearRatio SWERVE_MODULE_CONFIGURATION = hardwareSpecificConstants.get(MAC_ADDRESS)
-                        .get("SWERVE_MODULE_CONFIGURATION") == 1.0 ? Mk4iSwerveModuleHelper.GearRatio.L1
-                                        : Mk4iSwerveModuleHelper.GearRatio.L2;
+        public static final ModuleConfiguration SWERVE_MODULE_CONFIGURATION = hardwareSpecificConstants
+                        .get(MAC_ADDRESS)
+                        .get("SWERVE_MODULE_CONFIGURATION") == 1.0 ? SdsModuleConfigurations.MK4I_L1
+                                        : SdsModuleConfigurations.MK4I_L2;
+
+        public static final GearRatio SWERVE_GEAR_RATIO = hardwareSpecificConstants
+                        .get(MAC_ADDRESS)
+                        .get("SWERVE_MODULE_CONFIGURATION") == 1.0 ? GearRatio.L1
+                                        : GearRatio.L2;
+
         public static final int BACK_RIGHT_MODULE_DRIVE_MOTOR = 25;
         public static final int BACK_RIGHT_MODULE_STEER_MOTOR = 24;
         public static final int BACK_RIGHT_MODULE_STEER_ENCODER = 34;
@@ -207,8 +215,9 @@ public final class RobotConstants extends RobotConstantsBase {
         // Elbow
         public static final double ELBOW_ABSOLUTE_ENCODER_AT_VERTICAL = hardwareSpecificConstants.get(MAC_ADDRESS)
                         .get("ELBOW_ABSOLUTE_ENCODER_AT_VERTICAL");
-        public static final int ELBOW_GEAR_RATIO = (hardwareSpecificConstants.get(MAC_ADDRESS).get("ELBOW_GEAR_RATIO"))
-                        .intValue();;
+        public static final double ELBOW_GEAR_RATIO = hardwareSpecificConstants.get(MAC_ADDRESS)
+                        .get("ELBOW_GEAR_RATIO");
+
         public static final int ELBOW_SOFT_LIMIT_MIN = 20;
         public static final int ELBOW_SOFT_LIMIT_MAX = 340;
         public static final int ELBOW_MAX_OVERRIDE_DEGREES = 15;
