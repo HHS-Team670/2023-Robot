@@ -15,6 +15,7 @@ import edu.wpi.first.cscore.CvSink;
 import edu.wpi.first.cscore.CvSource;
 import edu.wpi.first.cscore.VideoMode.PixelFormat;
 import edu.wpi.first.hal.DriverStationJNI;
+import edu.wpi.first.networktables.IntegerSubscriber;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.PowerDistribution;
@@ -189,7 +190,7 @@ public class RobotContainer extends RobotContainerBase {
     @Override
     public void autonomousInit() {
         arm.setStateToStarting();
-        vision.setAprilTagFieldLayout(FieldConstants.getFieldLayout(FieldConstants.aprilTags));
+        // vision.setAprilTagFieldLayout(FieldConstants.getFieldLayout(FieldConstants.aprilTags));
     }
 
     @Override
@@ -213,7 +214,7 @@ public class RobotContainer extends RobotContainerBase {
     @Override
     public void disabledPeriodic() {
         int selectedPath = (int) (SmartDashboard.getEntry(autonChooser).getInteger(-1));
-        switch (selectedPath) {
+        switch (selectedPath) { 
             case 0:
                 led.blinkhsv(led.getAllianceColor());
                 break;
@@ -243,10 +244,10 @@ public class RobotContainer extends RobotContainerBase {
 
     @Override
     public void periodic() {
-        double cTime = DriverStation.getMatchTime();
-        if (cTime <= 0.1 && cTime != -1) {
-            driveBase.park();
-        }
+        // double cTime = DriverStation.getMatchTime();
+        // if (cTime <= 0.1 && cTime != -1) {
+        //     driveBase.park();
+        // }
 
         // SmartDashboard.putString("alliance", "" +
         // DriverStationJNI.getAllianceStation());
@@ -255,14 +256,12 @@ public class RobotContainer extends RobotContainerBase {
 
     @Override
     public void autonomousPeriodic() {
-        if (DriverStation.getAlliance() == Alliance.Blue) {
-            vision.setAprilTagFieldLayout(
-                    FieldConstants.getFieldLayout(FieldConstants.blueAprilTags));
-        } else {
-            vision.setAprilTagFieldLayout(
-                    FieldConstants.getFieldLayout(FieldConstants.redAprilTags));
-        }
+        parkBeforeDisable();
+    }
 
+    @Override
+    public void teleopPeriodic() {
+        parkBeforeDisable();
     }
 
     public MustangController getOperatorController() {
@@ -277,10 +276,11 @@ public class RobotContainer extends RobotContainerBase {
         return null;
     }
 
-    @Override
-    public void teleopPeriodic() {
-        // TODO Auto-generated method stub
-        
+    private void parkBeforeDisable() {
+        double cTime = DriverStation.getMatchTime();
+        if (cTime <= 0.1 && cTime != -1) {
+            driveBase.park();
+        }
     }
 
 }
