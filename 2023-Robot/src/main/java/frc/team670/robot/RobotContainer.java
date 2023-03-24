@@ -88,7 +88,7 @@ public class RobotContainer extends RobotContainerBase {
 
 
         cableScore = new ConeCubeCube(driveBase, claw, arm, "CableScoreShort");
-        stationScore = new ConeCubeCube(driveBase, claw, arm, "Station3Piece");
+        stationScore = new ConeCubeCube(driveBase, claw, arm, "Station3Piece"); 
         cableEngage = new CubeEngage(driveBase, claw, arm, "CableEngage");
         stationEngage = new CubeEngage(driveBase, claw, arm, "StationEngage");
         centerEngage = new CenterEngage(driveBase, claw, arm, "CenterEngage");
@@ -258,12 +258,12 @@ public class RobotContainer extends RobotContainerBase {
 
     @Override
     public void autonomousPeriodic() {
-        // parkBeforeDisable();
+        parkBeforeDisable();
     }
 
     @Override
     public void teleopPeriodic() {
-        // parkBeforeDisable();
+        parkBeforeDisable();
     }
 
     public MustangController getOperatorController() {
