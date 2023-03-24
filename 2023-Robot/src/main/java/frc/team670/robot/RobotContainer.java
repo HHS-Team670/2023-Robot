@@ -214,33 +214,33 @@ public class RobotContainer extends RobotContainerBase {
 
     @Override
     public void disabledPeriodic() {
-        // int selectedPath = (int) (SmartDashboard.getEntry(autonChooser).getInteger(-1));
-        // switch (selectedPath) { 
-        //     case 0:
-        //         led.blinkhsv(led.getAllianceColor());
-        //         break;
-        //     case 1:
-        //         led.blinkrgb(LEDColor.SEXY_YELLOW);
-        //         break;
-        //     case 2:
-        //         led.blinkrgb(LEDColor.SEXY_PURPLE);
-        //         break;
-        //     case 3:
-        //         led.blinkhsv(LEDColor.LIGHT_BLUE);
-        //         break;
-        //     case 4:
-        //         led.rainbow(false);
-        //         break;
-        //     case 5:
-        //         led.blinkrgb(LEDColor.WHITE);
-        //         break;
-        //     case 6:
-        //         led.mustangRainbow();
-        //         break;
-        //     default:
-        //         led.rainbow(false);
+        int selectedPath = (int) (SmartDashboard.getEntry(autonChooser).getInteger(-1));
+        switch (selectedPath) { 
+            case 0:
+                led.blinkhsv(led.getAllianceColor());
+                break;
+            case 1:
+                led.blinkrgb(LEDColor.SEXY_YELLOW);
+                break;
+            case 2:
+                led.blinkrgb(LEDColor.SEXY_PURPLE);
+                break;
+            case 3:
+                led.blinkhsv(LEDColor.LIGHT_BLUE);
+                break;
+            case 4:
+                led.rainbow(false);
+                break;
+            case 5:
+                led.blinkrgb(LEDColor.WHITE);
+                break;
+            case 6:
+                led.mustangRainbow();
+                break;
+            default:
+                led.rainbow(false);
 
-        // }
+        }
     }
 
     @Override
