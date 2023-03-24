@@ -1,16 +1,7 @@
 package frc.team670.robot.subsystems;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 import org.photonvision.PhotonCamera;
-import edu.wpi.first.apriltag.AprilTag;
-import edu.wpi.first.apriltag.AprilTagFieldLayout;
-import edu.wpi.first.apriltag.AprilTagFieldLayout.OriginPosition;
-import edu.wpi.first.math.geometry.Pose3d;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistribution;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import frc.team670.mustanglib.subsystems.VisionSubsystemBase;
 import frc.team670.robot.constants.FieldConstants;
 import frc.team670.robot.constants.RobotConstants;

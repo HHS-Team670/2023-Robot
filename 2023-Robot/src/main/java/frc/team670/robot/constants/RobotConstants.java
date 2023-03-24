@@ -164,11 +164,11 @@ public final class RobotConstants extends RobotConstantsBase {
         public static final Transform3d[] CAMERA_OFFSETS = {
                         // Cam B - LEFT
                         new Transform3d(new Translation3d(Units.inchesToMeters(0.56),
-                                        Units.inchesToMeters(-5.25), Units.inchesToMeters(19 + 5)),
+                                        Units.inchesToMeters(5.25), Units.inchesToMeters(19 + 5)),
                                         new Rotation3d(0, 0, 0)),
                         // Cam C - RIGHT
                         new Transform3d(new Translation3d(Units.inchesToMeters(0.56),
-                                        Units.inchesToMeters(5.25), Units.inchesToMeters(19 + 5)),
+                                        Units.inchesToMeters(-5.25), Units.inchesToMeters(19 + 5)),
                                         new Rotation3d(0, 0, 0))};
 
         public static final double LOCKED_ON_ERROR_X = 0.3; // TODO: test what angles are
