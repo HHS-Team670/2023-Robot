@@ -49,7 +49,7 @@ public class NonPidAutoLevel extends CommandBase implements MustangCommand {
         previousPitch = pitch;
         //SmartDashboard.putNumber("previousPitch", previousPitch);
         pitch = Math.abs(driveBase.getPitch());
-        // SmartDashboard.putNumber("pitch", pitch);
+        SmartDashboard.putNumber("pitch", pitch);
 
         // SmartDashboard.putNumber("non pid pose x", driveBase.getPose().getX());
         // SmartDashboard.putNumber("non pid pose y", driveBase.getPose().getY());

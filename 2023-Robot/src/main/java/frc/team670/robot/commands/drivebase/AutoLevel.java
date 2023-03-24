@@ -35,7 +35,7 @@ public class AutoLevel extends CommandBase implements MustangCommand {
     public void execute() {
         SmartDashboard.putBoolean("level", false); //TODO: will change this line after this command is finished
         double pitch = driveBase.getPitch();
-        SmartDashboard.putNumber("pitch", pitch);
+        // SmartDashboard.putNumber("pitch", pitch);
 
         // Run while facing positive X direction
         //double adjustedSpeed = MathUtil.clamp((target - pitch) * kp, -1, 1); //This may need to be PLUS (pitch-prevPitch)*kD, rather than minus. Please test!

@@ -180,8 +180,8 @@ public class RobotContainer extends RobotContainerBase {
         // straight
         // path
         // return new ConeCubeCube(driveBase, claw, arm, "Station3Piece");
-        // return new ConeCubeEngage(driveBase, claw, arm, "StationScoreEngage2");
-        return null;
+        return new ConeCubeEngage(driveBase, claw, arm, "StationScoreEngage2");
+        // return new NonPidAutoLevel(driveBase, true);
 
         // return new ConeCube(driveBase, claw, arm, "CableScore");
         // return new ConeCube(driveBase, claw, arm, "RightConeCube");
@@ -218,7 +218,7 @@ public class RobotContainer extends RobotContainerBase {
         int selectedPath = (int) (SmartDashboard.getEntry(autonChooser).getInteger(-1));
         switch (selectedPath) { 
             case 0:
-                led.blinkhsv(led.getAllianceColor());
+                led.solidrgb(led.getAllianceColor());
                 break;
             case 1:
                 led.blinkrgb(LEDColor.SEXY_YELLOW);
@@ -227,7 +227,7 @@ public class RobotContainer extends RobotContainerBase {
                 led.blinkrgb(LEDColor.SEXY_PURPLE);
                 break;
             case 3:
-                led.blinkhsv(LEDColor.LIGHT_BLUE);
+                led.solidrgb(LEDColor.LIGHT_BLUE);
                 break;
             case 4:
                 led.rainbow(false);
