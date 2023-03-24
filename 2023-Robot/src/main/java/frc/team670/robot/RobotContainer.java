@@ -141,7 +141,7 @@ public class RobotContainer extends RobotContainerBase {
         switch (selectedPath) {
             case 0:
                 autonCommand = cableScore;
-                led.solidhsv(led.getAllianceColor());
+                led.solidrgb(led.getAllianceColor());
                 break;
             case 1:
                 autonCommand = stationScore;
@@ -153,7 +153,7 @@ public class RobotContainer extends RobotContainerBase {
                 break;
             case 3:
                 autonCommand = stationEngage;
-                led.solidhsv(LEDColor.LIGHT_BLUE);
+                led.solidrgb(LEDColor.LIGHT_BLUE);
                 break;
             case 4:
                 autonCommand = centerEngage;
@@ -180,7 +180,8 @@ public class RobotContainer extends RobotContainerBase {
         // straight
         // path
         // return new ConeCubeCube(driveBase, claw, arm, "Station3Piece");
-        return new ConeCubeEngage(driveBase, claw, arm, "StationScoreEngage2");
+        // return new ConeCubeEngage(driveBase, claw, arm, "StationScoreEngage2");
+        return null;
 
         // return new ConeCube(driveBase, claw, arm, "CableScore");
         // return new ConeCube(driveBase, claw, arm, "RightConeCube");
@@ -198,7 +199,7 @@ public class RobotContainer extends RobotContainerBase {
     public void teleopInit() {
         // arm.setStateToStarting();
         vision.setAprilTagFieldLayout(FieldConstants.getFieldLayout(FieldConstants.aprilTags));
-        led.solidhsv(led.getAllianceColor());
+        led.solidrgb(led.getAllianceColor());
         arm.clearSetpoint();
     }
 
