@@ -15,6 +15,7 @@ import edu.wpi.first.cscore.CvSink;
 import edu.wpi.first.cscore.CvSource;
 import edu.wpi.first.cscore.VideoMode.PixelFormat;
 import edu.wpi.first.hal.DriverStationJNI;
+import edu.wpi.first.networktables.IntegerSubscriber;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.PowerDistribution;
@@ -75,14 +76,18 @@ public class RobotContainer extends RobotContainerBase {
         super();
         addSubsystem(driveBase, vision, arm, arm.getShoulder(), arm.getElbow(), arm.getWrist(),
                 claw, led);
+        // addSubsystem(driveBase, arm, arm.getShoulder(), arm.getElbow(), arm.getWrist(),
+        //         claw, led);
         oi.configureButtonBindings(driveBase, vision, arm, claw, led);
+        // oi.configureButtonBindings(driveBase, null, arm, claw, led);
 
         // for (MustangSubsystemBase subsystem : getSubsystems()) {
         //     subsystem.setDebugSubsystem(true);
         // }
+        arm.getElbow().setDebugSubsystem(true);
 
         cableScore = new ConeCubeCube(driveBase, claw, arm, "CableScoreShort");
-        stationScore = new ConeCubeCube(driveBase, claw, arm, "Station3Piece");
+        stationScore = new ConeCubeCube(driveBase, claw, arm, "Station3Piece"); 
         cableEngage = new CubeEngage(driveBase, claw, arm, "CableEngage");
         stationEngage = new CubeEngage(driveBase, claw, arm, "StationEngage");
         centerEngage = new CenterEngage(driveBase, claw, arm, "CenterEngage");
@@ -134,7 +139,7 @@ public class RobotContainer extends RobotContainerBase {
         switch (selectedPath) {
             case 0:
                 autonCommand = cableScore;
-                led.solidhsv(led.getAllianceColor());
+                led.solidrgb(led.getAllianceColor());
                 break;
             case 1:
                 autonCommand = stationScore;
@@ -146,7 +151,7 @@ public class RobotContainer extends RobotContainerBase {
                 break;
             case 3:
                 autonCommand = stationEngage;
-                led.solidhsv(LEDColor.LIGHT_BLUE);
+                led.solidrgb(LEDColor.LIGHT_BLUE);
                 break;
             case 4:
                 autonCommand = centerEngage;
@@ -165,7 +170,7 @@ public class RobotContainer extends RobotContainerBase {
                 led.rainbow(false);
 
         }
-        return autonCommand;
+        //return autonCommand;
 
         // LEAVE COMMENTED
         // greturn new ConeCube(driveBase, claw, arm, "CableScore");
@@ -174,6 +179,8 @@ public class RobotContainer extends RobotContainerBase {
         // straight
         // path
         // return new ConeCubeCube(driveBase, claw, arm, "Station3Piece");
+        return new ConeCubeEngage(driveBase, claw, arm, "StationScoreEngage2");
+        // return new NonPidAutoLevel(driveBase, true);
 
         // return new ConeCube(driveBase, claw, arm, "CableScore");
         // return new ConeCube(driveBase, claw, arm, "RightConeCube");
@@ -184,14 +191,14 @@ public class RobotContainer extends RobotContainerBase {
     @Override
     public void autonomousInit() {
         arm.setStateToStarting();
-        vision.setAprilTagFieldLayout(FieldConstants.getFieldLayout(FieldConstants.aprilTags));
+        // vision.setAprilTagFieldLayout(FieldConstants.getFieldLayout(FieldConstants.aprilTags));
     }
 
     @Override
     public void teleopInit() {
         // arm.setStateToStarting();
         vision.setAprilTagFieldLayout(FieldConstants.getFieldLayout(FieldConstants.aprilTags));
-        led.solidhsv(led.getAllianceColor());
+        led.solidrgb(led.getAllianceColor());
         arm.clearSetpoint();
     }
 
@@ -208,9 +215,9 @@ public class RobotContainer extends RobotContainerBase {
     @Override
     public void disabledPeriodic() {
         int selectedPath = (int) (SmartDashboard.getEntry(autonChooser).getInteger(-1));
-        switch (selectedPath) {
+        switch (selectedPath) { 
             case 0:
-                led.blinkhsv(led.getAllianceColor());
+                led.solidrgb(led.getAllianceColor());
                 break;
             case 1:
                 led.blinkrgb(LEDColor.SEXY_YELLOW);
@@ -219,7 +226,7 @@ public class RobotContainer extends RobotContainerBase {
                 led.blinkrgb(LEDColor.SEXY_PURPLE);
                 break;
             case 3:
-                led.blinkhsv(LEDColor.LIGHT_BLUE);
+                led.solidrgb(LEDColor.LIGHT_BLUE);
                 break;
             case 4:
                 led.rainbow(false);
@@ -238,10 +245,10 @@ public class RobotContainer extends RobotContainerBase {
 
     @Override
     public void periodic() {
-        double cTime = DriverStation.getMatchTime();
-        if (cTime <= 0.1 && cTime != -1) {
-            driveBase.park();
-        }
+        // double cTime = DriverStation.getMatchTime();
+        // if (cTime <= 0.1 && cTime != -1) {
+        //     driveBase.park();
+        // }
 
         // SmartDashboard.putString("alliance", "" +
         // DriverStationJNI.getAllianceStation());
@@ -250,14 +257,12 @@ public class RobotContainer extends RobotContainerBase {
 
     @Override
     public void autonomousPeriodic() {
-        if (DriverStation.getAlliance() == Alliance.Blue) {
-            vision.setAprilTagFieldLayout(
-                    FieldConstants.getFieldLayout(FieldConstants.blueAprilTags));
-        } else {
-            vision.setAprilTagFieldLayout(
-                    FieldConstants.getFieldLayout(FieldConstants.redAprilTags));
-        }
+        parkBeforeDisable();
+    }
 
+    @Override
+    public void teleopPeriodic() {
+        parkBeforeDisable();
     }
 
     public MustangController getOperatorController() {
@@ -272,10 +277,11 @@ public class RobotContainer extends RobotContainerBase {
         return null;
     }
 
-    @Override
-    public void teleopPeriodic() {
-        // TODO Auto-generated method stub
-
+    private void parkBeforeDisable() {
+        double cTime = DriverStation.getMatchTime();
+        if (cTime <= 0.1 && cTime != -1) {
+            driveBase.park();
+        }
     }
 
 }

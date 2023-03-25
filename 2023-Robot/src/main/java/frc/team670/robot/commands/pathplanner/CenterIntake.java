@@ -43,7 +43,7 @@ public class CenterIntake extends SequentialCommandGroup implements MustangComma
         // eventMap stuff
         eventMap.put("moveToMid", new MoveToTarget(arm, ArmState.SCORE_MID));
         eventMap.put("clawEject", new ClawEject(claw));
-        eventMap.put("stow1", new MoveToTarget(arm, ArmState.STOWED));
+        eventMap.put("stow", new MoveToTarget(arm, ArmState.STOWED));
         eventMap.put("moveToGround", new MoveToTarget(arm, ArmState.HYBRID));
         eventMap.put("clawIntake", new ClawInstantIntake(claw));
         eventMap.put("autoLevel", new NonPidAutoLevel(driveBase, false));
