@@ -19,11 +19,11 @@ public class AutoAlignToSubstation extends InstantCommand implements MustangComm
 
     private DriveBase driveBase;
     private MoveToPose moveCommand;
-    private boolean singleOrDouble; // single substation - true, double substation - false
+    private boolean doubleSub; // single substation - true, double substation - false
 
-    public AutoAlignToSubstation(DriveBase driveBase, boolean singleOrDouble) {
+    public AutoAlignToSubstation(DriveBase driveBase, boolean doubleSub) {
         this.driveBase = driveBase;
-        this.singleOrDouble = singleOrDouble;
+        this.doubleSub = doubleSub;
     }
 
     @Override
@@ -33,11 +33,11 @@ public class AutoAlignToSubstation extends InstantCommand implements MustangComm
 
     @Override
     public void execute() {
-        if (singleOrDouble) {
-            moveCommand = new MoveToPose(driveBase, (FieldConstants.allianceOrientedAllianceFlip(FieldConstants.LoadingZone.IntakePoses[0])));
+        if (doubleSub) {
+            moveCommand = new MoveToPose(driveBase, (FieldConstants.allianceOrientedAllianceFlip(FieldConstants.LoadingZone.IntakePoses[1])));
         }
         else {
-            moveCommand = new MoveToPose(driveBase, (FieldConstants.allianceOrientedAllianceFlip(FieldConstants.LoadingZone.IntakePoses[1])));
+            moveCommand = new MoveToPose(driveBase, (FieldConstants.allianceOrientedAllianceFlip(FieldConstants.LoadingZone.IntakePoses[0])));
         }
         MustangScheduler.getInstance().schedule(moveCommand, driveBase);
     }

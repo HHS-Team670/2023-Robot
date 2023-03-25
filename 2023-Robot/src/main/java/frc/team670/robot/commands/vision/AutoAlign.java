@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.team670.mustanglib.commands.MustangCommand;
 import frc.team670.mustanglib.commands.MustangScheduler;
@@ -25,57 +27,49 @@ public class AutoAlign extends CommandBase implements MustangCommand {
     private MoveToPose moveCommand;
     private int goal;
     private List<Pose2d> targets = new ArrayList<>(12);
-    private DIRECTION direction;
+    private Direction direction;
 
-    MustangController controller;
+    // MustangController controller;
     // private final int CONTROLLER_RIGHT = 90;
     // private final int CONTROLLER_LEFT = 90 + 180;
 
-    public static enum DIRECTION {
-        CLOSEST,
-        LEFT,
-        RIGHT
+    public static enum Direction {
+        CLOSEST, LEFT, RIGHT
     }
 
-    public AutoAlign(DriveBase driveBase, MustangController controller, DIRECTION direction) {
+    public AutoAlign(DriveBase driveBase, Direction direction) {
         this.driveBase = driveBase;
-        this.controller = controller;
+        // this.controller = controller;
         this.direction = direction;
     }
 
     @Override
     public void initialize() {
-        if (targets.isEmpty()) loadTargets();
-            
+        if (targets.isEmpty())
+            loadTargets();
+
         goal = getClosestTargetIndex(driveBase.getPose());
-        
-        boolean backUp = false;
-        if (direction == DIRECTION.LEFT) {
-            ++goal;
-            backUp = true;
-        }
-        else if (direction == DIRECTION.RIGHT) {
-            --goal;
-            backUp = true;
-        }
+
+        // boolean backUp = false;
+        alterGoal(direction);
 
         Pose2d goalPose = targets.get(goal);
-        SmartDashboard.putString("AUTOALIGN: END POSE", String.format("(%.2f, %.2f)", goalPose.getX(), goalPose.getY()));
+        SmartDashboard.putString("AUTOALIGN: END POSE",
+                String.format("(%.2f, %.2f)", goalPose.getX(), goalPose.getY()));
 
-        this.moveCommand = new MoveToPose(driveBase, goalPose, backUp);
+        this.moveCommand = new MoveToPose(driveBase, goalPose);
         MustangScheduler.getInstance().schedule(moveCommand, driveBase);
     }
 
-    // only ends when auto align mapped button let go
     @Override
     public boolean isFinished() {
-        return moveCommand == null || !moveCommand.isScheduled();
+        // TODO Auto-generated method stub
+        return this.moveCommand.isFinished();
     }
 
-    // only ends when auto align mapped button let go
     @Override
     public void end(boolean interrupted) {
-        if (interrupted) moveCommand.cancel();
+        this.moveCommand.end(interrupted);
     }
 
     @Override
@@ -85,39 +79,66 @@ public class AutoAlign extends CommandBase implements MustangCommand {
 
     private void loadTargets() {
         for (Pose2d p : FieldConstants.Grids.scoringPoses)
-            targets.add(p);
+            targets.add(FieldConstants.allianceOrientedAllianceFlip(p));
         for (Pose2d p : FieldConstants.LoadingZone.IntakePoses)
-            targets.add(p);
+            targets.add(FieldConstants.allianceOrientedAllianceFlip(p));
 
-        targets.forEach(
-            p -> {
-                SmartDashboard.putString(p.toString(), String.format("(%.2f, %.2f)", p.getX(), p.getY()));
-            }
-        );
+        for (int i = 0; i < targets.size(); i++) {
+            Pose2d p = targets.get(i);
+            SmartDashboard.putString(i + ": " + p.toString(),
+                    String.format("(%.2f, %.2f)", p.getX(), p.getY()));
+        }
+
     }
 
     private int getClosestTargetIndex(Pose2d robotPose) {
         int closest = 0;
 
         for (int i = 0; i < targets.size(); i++) {
-            closest = robotPose.getTranslation()
-                    .getDistance(FieldConstants.allianceFlip(targets.get(i).getTranslation())) < robotPose.getTranslation()
-                            .getDistance(FieldConstants.allianceFlip(targets.get(closest).getTranslation())) ? i : closest;
+            Translation2d robot = robotPose.getTranslation();
+            double distanceToI = robot.getDistance(targets.get(i).getTranslation());
+            double distanceToClosest = robot.getDistance(targets.get(closest).getTranslation());
+            // SmartDashboard.putNumber(i + "'th Dist: ", distanceToI);
+            // SmartDashboard.putNumber(closest + ": closest Dist: ", distanceToClosest);
+            closest = distanceToI < distanceToClosest ? i : closest;
         }
         return closest;
     }
 
+    private void alterGoal(Direction d) {
+        int initGoal = goal;
+        if (initGoal <= 8) {    // in grid
+            if (direction == Direction.RIGHT) goal--;
+            else goal++;
+        } else {    // intake zones
+            if (direction == Direction.RIGHT) goal++;
+            else goal--;
+        }
+        // goal += n;
+        if (initGoal <= 8 && goal > 8)
+            goal = 8;
+        else if (initGoal >= 9 && goal < 9)
+            goal = 9;
+        checkGoalInBounds();
+    }
+
+    private void checkGoalInBounds() {
+        if (goal < 0)
+            goal = 0;
+        else if (goal > targets.size() - 1)
+            goal = targets.size() - 1;
+    }
     // private void scheduleNewMove(int goal) {
-    //     // if tries to go over/under, stays and doesn't do anything
-    //     if (goal < 0)
-    //         goal = 0;
-    //     else if (goal > 11)
-    //         goal = 11;
-    //     else {
-    //         moveCommand.cancel();
-    //         Pose2d goalPose = targets.get(goal);
-    //         moveCommand = new MoveToPose(driveBase, goalPose, true);
-    //         MustangScheduler.getInstance().schedule(moveCommand, driveBase);
-    //     }
+    // // if tries to go over/under, stays and doesn't do anything
+    // if (goal < 0)
+    // goal = 0;
+    // else if (goal > 11)
+    // goal = 11;
+    // else {
+    // moveCommand.cancel();
+    // Pose2d goalPose = targets.get(goal);
+    // moveCommand = new MoveToPose(driveBase, goalPose, true);
+    // MustangScheduler.getInstance().schedule(moveCommand, driveBase);
+    // }
     // }
 }

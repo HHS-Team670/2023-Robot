@@ -78,7 +78,7 @@ public class RobotContainer extends RobotContainerBase {
         // for (MustangSubsystemBase subsystem : getSubsystems()) {
         //     subsystem.setDebugSubsystem(true);
         // }
-        arm.getElbow().setDebugSubsystem(true);
+        // arm.getElbow().setDebugSubsystem(true);
 
 
         cableScore = new ConeCubeCube(driveBase, claw, arm, "CableScoreShort");
@@ -209,33 +209,33 @@ public class RobotContainer extends RobotContainerBase {
 
     @Override
     public void disabledPeriodic() {
-        int selectedPath = (int) (SmartDashboard.getEntry(autonChooser).getInteger(-1));
-        switch (selectedPath) { 
-            case 0:
-                led.solidrgb(led.getAllianceColor());
-                break;
-            case 1:
-                led.blinkrgb(LEDColor.SEXY_YELLOW);
-                break;
-            case 2:
-                led.blinkrgb(LEDColor.SEXY_PURPLE);
-                break;
-            case 3:
-                led.solidrgb(LEDColor.LIGHT_BLUE);
-                break;
-            case 4:
-                led.rainbow(false);
-                break;
-            case 5:
-                led.blinkrgb(LEDColor.WHITE);
-                break;
-            case 6:
-                led.mustangRainbow();
-                break;
-            default:
-                led.rainbow(false);
+        // int selectedPath = (int) (SmartDashboard.getEntry(autonChooser).getInteger(-1));
+        // switch (selectedPath) { 
+        //     case 0:
+        //         led.solidrgb(led.getAllianceColor());
+        //         break;
+        //     case 1:
+        //         led.blinkrgb(LEDColor.SEXY_YELLOW);
+        //         break;
+        //     case 2:
+        //         led.blinkrgb(LEDColor.SEXY_PURPLE);
+        //         break;
+        //     case 3:
+        //         led.solidrgb(LEDColor.LIGHT_BLUE);
+        //         break;
+        //     case 4:
+        //         led.rainbow(false);
+        //         break;
+        //     case 5:
+        //         led.blinkrgb(LEDColor.WHITE);
+        //         break;
+        //     case 6:
+        //         led.mustangRainbow();
+        //         break;
+        //     default:
+        //         led.rainbow(false);
 
-        }
+        // }
     }
 
     @Override
@@ -252,12 +252,12 @@ public class RobotContainer extends RobotContainerBase {
 
     @Override
     public void autonomousPeriodic() {
-        parkBeforeDisable();
+        // parkBeforeDisable();
     }
 
     @Override
     public void teleopPeriodic() {
-        parkBeforeDisable();
+        // parkBeforeDisable();
     }
 
     public MustangController getOperatorController() {
