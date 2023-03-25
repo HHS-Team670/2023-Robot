@@ -78,7 +78,7 @@ public class RobotContainer extends RobotContainerBase {
         oi.configureButtonBindings(driveBase, vision, arm, claw, led);
 
         // for (MustangSubsystemBase subsystem : getSubsystems()) {
-        // subsystem.setDebugSubsystem(true);
+        //     subsystem.setDebugSubsystem(true);
         // }
 
         cableScore = new ConeCubeCube(driveBase, claw, arm, "CableScoreShort");

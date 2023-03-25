@@ -128,7 +128,7 @@ public class Wrist extends SparkMaxRotatingSubsystem {
     public Wrist() {
         super(WRIST_CONFIG);
         absEncoder = new DutyCycleEncoder(RobotMap.WRIST_ABSOLUTE_ENCODER);
-        super.getRotator().setInverted(true);
+        super.getRotator().setInverted(false);
 
 
     }
@@ -153,7 +153,7 @@ public class Wrist extends SparkMaxRotatingSubsystem {
         double absEncoderPosition = absEncoder.getAbsolutePosition();
         if(absEncoderPosition != 0.0) {
             clearSetpoint();
-            double relativePosition = ((-1
+            double relativePosition = ((1
                     * (absEncoderPosition - (RobotConstants.WRIST_ABSOLUTE_ENCODER_AT_VERTICAL - 0.5)) + 1)
                     * RobotConstants.WRIST_GEAR_RATIO) % RobotConstants.WRIST_GEAR_RATIO;
             REVLibError error = rotator_encoder.setPosition(relativePosition);

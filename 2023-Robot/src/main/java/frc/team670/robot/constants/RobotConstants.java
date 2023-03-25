@@ -45,8 +45,8 @@ public final class RobotConstants extends RobotConstantsBase {
          * Set your team number using the WPILib extension's "Set Team Number" action.
          * 0) FACTORY RESET
          * ALL MOTOR CONTROLLERS 1) Set all of the *_ANGLE_OFFSET constants to
-         * -Math.toRadians(0.0). 2)
-         * Deploy the code to your robot. NOTE: The robot isn't drivable quite yet, we
+         * -Math.toRadians(0.0).  2)
+         * Deploy the code to your robot. Power cycle. NOTE: The robot isn't drivable quite yet, we
          * still have to
          * setup the module offsets 3) Turn the robot on its side and align all the
          * wheels so they are
@@ -63,7 +63,7 @@ public final class RobotConstants extends RobotConstantsBase {
          * Angle, Front Right Module Angle, etc. 5) Set the values of the *_ANGLE_OFFSET
          * to
          * -Math.toRadians(<the angle you recorded>) NOTE: All angles must be in
-         * degrees. 6) Re-deploy
+         * degrees. 6) Re-deploy and power cycle
          * and try to drive the robot forwards. All the wheels should stay parallel to
          * each other. If
          * not go back to step 3. 7) Make sure all the wheels are spinning in the
@@ -73,18 +73,18 @@ public final class RobotConstants extends RobotConstantsBase {
          * i.e -Math.toRadians(<angle> + 180.0).
          */
         public static Map<String, Map<String, Double>> hardwareSpecificConstants = Map.ofEntries(
-                        entry("00:80:2F:34:0B:07", Map.ofEntries( // Mac address from 670_bench
-                                        entry("BACK_RIGHT_MODULE_STEER_OFFSET", -Math.toRadians(228.85)),
-                                        entry("BACK_LEFT_MODULE_STEER_OFFSET", -Math.toRadians(228.3)),
-                                        entry("FRONT_RIGHT_MODULE_STEER_OFFSET", -Math.toRadians(2.37)),
-                                        entry("FRONT_LEFT_MODULE_STEER_OFFSET", -Math.toRadians(30.2)),
-                                        entry("SHOULDER_ABSOLUTE_ENCODER_AT_VERTICAL", 0.957),
-                                        entry("ELBOW_ABSOLUTE_ENCODER_AT_VERTICAL", 0.494),
-                                        entry("WRIST_ABSOLUTE_ENCODER_AT_VERTICAL", 0.0),
-                                        entry("SHOULDER_GEAR_RATIO", 96.0), entry("ELBOW_GEAR_RATIO",
-                                                        70.833333333333),
+                        entry("00:80:2F:34:0B:07", Map.ofEntries( // Mac address from 670_SunTzu
+                                        entry("BACK_RIGHT_MODULE_STEER_OFFSET", -Math.toRadians(90.895)),
+                                        entry("BACK_LEFT_MODULE_STEER_OFFSET", -Math.toRadians(299.807)),
+                                        entry("FRONT_RIGHT_MODULE_STEER_OFFSET", -Math.toRadians(137.499)),
+                                        entry("FRONT_LEFT_MODULE_STEER_OFFSET", -Math.toRadians(318.604)),
+                                        entry("SHOULDER_ABSOLUTE_ENCODER_AT_VERTICAL", 0.477770),
+                                        entry("ELBOW_ABSOLUTE_ENCODER_AT_VERTICAL", 0.004892),
+                                        entry("WRIST_ABSOLUTE_ENCODER_AT_VERTICAL", 0.337308),
+                                        entry("SHOULDER_GEAR_RATIO", 96.0), 
+                                        entry("ELBOW_GEAR_RATIO", 70.833333333333),
                                         entry("SWERVE_MODULE_CONFIGURATION", 2.0),
-                                        entry("WRIST_GEAR_RATIO", 0.0))),
+                                        entry("WRIST_GEAR_RATIO", 125.0))),
                         entry("00:80:2F:33:D0:46", Map.ofEntries( // The mac address is from 670_2023
                                         entry("BACK_RIGHT_MODULE_STEER_OFFSET", -Math.toRadians(82.694)),
                                         entry("BACK_LEFT_MODULE_STEER_OFFSET", -Math.toRadians(233.29)),
