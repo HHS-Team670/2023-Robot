@@ -59,7 +59,7 @@ public class RobotContainer extends RobotContainerBase {
     private final Vision vision = new Vision(pd);
     private final DriveBase driveBase = new DriveBase(getDriverController());
     private final Arm arm = new Arm();
-    private final LED led = new LED(RobotMap.LED_PORT, 0, 35);
+    private final LED led = new LED(RobotMap.LED_PORT, 0, 37);
     private final Claw claw = new Claw(led);
 
     private MustangCommand cableScore, cableEngage, stationScore, stationEngage, centerEngage,

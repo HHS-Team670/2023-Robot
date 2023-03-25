@@ -13,7 +13,7 @@ public enum ArmState {
     
     STOWED(0, 200, 20, 259),
 
-    HYBRID(1, 140, 50, 254),
+    HYBRID(1, 149, 48, 256),
 
     SCORE_MID(2, 185, 80, 138), 
     SCORE_HIGH(3,137, 171, 101),
