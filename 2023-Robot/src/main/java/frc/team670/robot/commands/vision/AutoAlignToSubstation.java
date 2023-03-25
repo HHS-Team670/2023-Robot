@@ -1,10 +1,12 @@
 package frc.team670.robot.commands.vision;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.team670.mustanglib.commands.MustangCommand;
 import frc.team670.mustanglib.commands.MustangScheduler;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
@@ -13,7 +15,7 @@ import frc.team670.robot.commands.drivebase.MoveToPose;
 import frc.team670.robot.constants.FieldConstants;
 import frc.team670.robot.subsystems.DriveBase;
 
-public class AutoAlignToSubstation extends CommandBase implements MustangCommand {
+public class AutoAlignToSubstation extends InstantCommand implements MustangCommand {
 
     private DriveBase driveBase;
     private MoveToPose moveCommand;
@@ -31,12 +33,13 @@ public class AutoAlignToSubstation extends CommandBase implements MustangCommand
 
     @Override
     public void execute() {
-
-        // get the pose to align to from FieldConstants.java (based on singleOrDouble)
-        // schedule a new moveToPose command for it
-
+        if (singleOrDouble) {
+            moveCommand = new MoveToPose(driveBase, (FieldConstants.allianceOrientedAllianceFlip(FieldConstants.LoadingZone.IntakePoses[0])));
+        }
+        else {
+            moveCommand = new MoveToPose(driveBase, (FieldConstants.allianceOrientedAllianceFlip(FieldConstants.LoadingZone.IntakePoses[1])));
+        }
+        MustangScheduler.getInstance().schedule(moveCommand, driveBase);
     }
-
-    // isFinished and end return moveToPose's?
 
 }
