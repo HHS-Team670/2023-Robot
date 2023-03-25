@@ -34,6 +34,7 @@ public class Elbow extends SparkMaxRotatingSubsystem {
     private final String absEncoderPos = "Elbow abs encoder position";
     private final String positionRot = "Elbow position (rotations)";
     private final String setpointRot = "Elbow setpoint (rotations)";
+    private final String current = "Elbow current";
 
     /*
      * PID and SmartMotion constants for the Elbow joint
@@ -236,6 +237,7 @@ public class Elbow extends SparkMaxRotatingSubsystem {
         SmartDashboard.putNumber(positionRot, relativePosition);
         SmartDashboard.putNumber(absEncoderPos, absEncoder.getAbsolutePosition());
         SmartDashboard.putNumber(setpointRot, setpoint);
+        SmartDashboard.putNumber(current,  super.getRotator().getOutputCurrent());
     }
 
     @Override
