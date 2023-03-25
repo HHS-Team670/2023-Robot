@@ -60,7 +60,7 @@ public class RobotContainer extends RobotContainerBase {
     private final Vision vision = new Vision(pd);
     private final DriveBase driveBase = new DriveBase(getDriverController());
     private final Arm arm = new Arm();
-    private final LED led = new LED(RobotMap.LED_PORT, 0, 37);
+    private final LED led = new LED(RobotMap.LED_PORT, 0, 61);
     private final Claw claw = new Claw(led);
 
     private MustangCommand cableScore, cableEngage, stationScore, stationEngage, centerEngage,
@@ -81,9 +81,9 @@ public class RobotContainer extends RobotContainerBase {
         oi.configureButtonBindings(driveBase, vision, arm, claw, led);
         // oi.configureButtonBindings(driveBase, null, arm, claw, led);
 
-        // for (MustangSubsystemBase subsystem : getSubsystems()) {
-        //     subsystem.setDebugSubsystem(true);
-        // }
+        for (MustangSubsystemBase subsystem : getSubsystems()) {
+            subsystem.setDebugSubsystem(true);
+        }
         arm.getElbow().setDebugSubsystem(true);
 
         cableScore = new ConeCubeCube(driveBase, claw, arm, "CableScoreShort");
@@ -107,7 +107,6 @@ public class RobotContainer extends RobotContainerBase {
                 arm.updateArbitraryFeedForward();
             }
         });
-        led.rainbow(false);
 
         updateArbitraryFeedForward.startPeriodic(0.01);
 
@@ -155,7 +154,7 @@ public class RobotContainer extends RobotContainerBase {
                 break;
             case 4:
                 autonCommand = centerEngage;
-                led.rainbow(false);
+                led.animatedRainbow(false, 10, 10);
                 break;
             case 5:
                 autonCommand = centerIntake;
@@ -163,11 +162,11 @@ public class RobotContainer extends RobotContainerBase {
                 break;
             case 6:
                 autonCommand = scoreMid;
-                led.mustangRainbow();
+                led.animatedMustangRainbow(10, 10);
                 break;
             default:
                 autonCommand = centerEngage;
-                led.rainbow(false);
+                led.animatedRainbow(false, 10, 10);
 
         }
         //return autonCommand;
@@ -209,7 +208,6 @@ public class RobotContainer extends RobotContainerBase {
     @Override
     public void disabled() {
         SmartDashboard.putBoolean(matchStarted, false);
-        led.rainbow(false);
     }
 
     @Override
@@ -220,25 +218,25 @@ public class RobotContainer extends RobotContainerBase {
                 led.solidrgb(led.getAllianceColor());
                 break;
             case 1:
-                led.blinkrgb(LEDColor.SEXY_YELLOW);
+                led.solidrgb(LEDColor.SEXY_YELLOW);
                 break;
             case 2:
-                led.blinkrgb(LEDColor.SEXY_PURPLE);
+                led.solidrgb(LEDColor.SEXY_PURPLE);
                 break;
             case 3:
                 led.solidrgb(LEDColor.LIGHT_BLUE);
                 break;
             case 4:
-                led.rainbow(false);
+                led.animatedRainbow(false, 10, 10);
                 break;
             case 5:
-                led.blinkrgb(LEDColor.WHITE);
+                led.solidrgb(LEDColor.WHITE);
                 break;
             case 6:
-                led.mustangRainbow();
+                led.animatedMustangRainbow(10, 10);
                 break;
             default:
-                led.rainbow(false);
+                led.animatedRainbow(false, 10, 10);
 
         }
     }
