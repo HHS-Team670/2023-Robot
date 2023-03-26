@@ -9,29 +9,27 @@ public class LED extends LEDSubsystem {
 
     private LEDColor allianceColor;
 
-
     public LED(int port, int startIndex, int endIndex) {
         super(port, startIndex, endIndex);
-       
+
     }
 
     public void setColorPurple() {
-        // Logger.consoleLog("LED COPLOR BEING SET TO PURPLE IN LED SUBSYSTEM Pokjipguhygxdtfyu08tfyui[u/hyfygyuhGy/HIYUg'uhyG?SaJHKVGUYITDFTIGFGYF<CGUOF<CDHXDGDFTYO*GTRDYTY&UY:RDTYUTDP");
-        solidrgb(LEDColor.SEXY_PURPLE); // does not need to be changed
+        // Logger.consoleLog("LED COPLOR BEING SET TO PURPLE IN LED SUBSYSTEM
+        // Pokjipguhygxdtfyu08tfyui[u/hyfygyuhGy/HIYUg'uhyG?SaJHKVGUYITDFTIGFGYF<CGUOF<CDHXDGDFTYO*GTRDYTY&UY:RDTYUTDP");
+        solidhsv(LEDColor.SEXY_PURPLE); // does not need to be changed
     }
 
     public void setColorYellow() {
-        solidrgb(LEDColor.SEXY_YELLOW); // does not need to be changed
+        solidhsv(LEDColor.SEXY_YELLOW); // does not need to be changed
     }
 
-    public void setAllianceColors(LEDColor alliance){
+    public void setAllianceColors(LEDColor alliance) {
         this.allianceColor = alliance;
     }
 
-    public LEDColor getAllianceColor(){
+    public LEDColor getAllianceColor() {
         return allianceColor;
     }
-
-
 
 }

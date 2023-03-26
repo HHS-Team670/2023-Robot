@@ -40,14 +40,14 @@ public class Claw extends MustangSubsystemBase {
 
         motor.setInverted(true);
         motor.setIdleMode(IdleMode.kBrake);
-        
+
     }
 
     public LED getLed() {
         return led;
     }
-    
-    public void setLED(LED led){
+
+    public void setLED(LED led) {
         this.led = led;
     }
 
@@ -61,18 +61,20 @@ public class Claw extends MustangSubsystemBase {
 
     /**
      * Ejects the held item at the given speed
-     * @param ejectingSpeed Should be <0. The more negative, the faster the claw will run backwards.
+     * 
+     * @param ejectingSpeed Should be <0. The more negative, the faster the claw
+     *                      will run backwards.
      */
     public void startEjecting(double ejectingSpeed) {
         this.ejectingSpeed = ejectingSpeed;
-        if(this.status != Status.EJECTING) {
+        if (this.status != Status.EJECTING) {
             this.isFull = true;
         }
         setStatus(Status.EJECTING);
     }
 
     public void startIntaking() {
-        if(this.status != Status.INTAKING) {
+        if (this.status != Status.INTAKING) {
             this.isFull = false;
         }
         setStatus(Status.INTAKING);
@@ -88,9 +90,10 @@ public class Claw extends MustangSubsystemBase {
 
     /**
      * Private method, only intended to be used by the public set() methods
+     * 
      * @param status
      */
-    private void setStatus (Claw.Status status) {
+    private void setStatus(Claw.Status status) {
         this.status = status;
     }
 
@@ -114,13 +117,13 @@ public class Claw extends MustangSubsystemBase {
                 break;
             case INTAKING:
                 motor.set(RobotConstants.CLAW_ROLLING_SPEED);
-                if(motor.getOutputCurrent() > RobotConstants.CLAW_CURRENT_MAX) {
+                if (motor.getOutputCurrent() > RobotConstants.CLAW_CURRENT_MAX) {
                     currentSpikeCounter++;
-                    if(currentSpikeCounter > RobotConstants.CLAW_CURRENT_SPIKE_ITERATIONS) {
+                    if (currentSpikeCounter > RobotConstants.CLAW_CURRENT_SPIKE_ITERATIONS) {
                         isFull = true;
-                        if(DriverStation.isTeleopEnabled()){
-                            led.solidrgb(LEDColor.LIGHT_BLUE);
-                    }
+                        if (DriverStation.isTeleopEnabled()) {
+                            led.solidhsv(LEDColor.GREEN);
+                        }
                         setStatus(Status.IDLE);
                         OI.getDriverController().rumble(0.5, 0.5);
                         OI.getOperatorController().rumble(0.5, 0.5);
@@ -138,9 +141,9 @@ public class Claw extends MustangSubsystemBase {
                 if (ejectCounter > RobotConstants.CLAW_EJECT_ITERATIONS) {
                     ejectCounter = 0;
                     isFull = false;
-                    if(DriverStation.isTeleopEnabled()){
+                    if (DriverStation.isTeleopEnabled()) {
                         led.off();
-                }
+                    }
                 }
                 break;
             default:
