@@ -22,6 +22,7 @@ import frc.team670.robot.commands.leds.SetColorPurple;
 import frc.team670.robot.commands.leds.SetColorYellow;
 import frc.team670.robot.commands.routines.EjectAndStow;
 import frc.team670.robot.commands.vision.AutoAlign;
+import frc.team670.robot.commands.vision.AutoAlignToSubstation;
 import frc.team670.robot.commands.claw.ClawIdle;
 import frc.team670.robot.commands.claw.ClawInstantIntake;
 import frc.team670.robot.subsystems.Claw;
@@ -40,19 +41,24 @@ public class OI extends OIBase {
     private static MustangController operatorController = new MustangController(1);
 
     // Driver buttons
-    // private static JoystickButton zeroArm = new JoystickButton(driverController, XboxButtons.START);
-    private static JoystickButton zeroArm = new JoystickButton(operatorController, XboxButtons.START);
-    private static JoystickButton zeroGyroDriver = new JoystickButton(driverController, XboxButtons.START);
-    // private static JoystickButton moveToTarget = new JoystickButton(driverController, XboxButtons.RIGHT_BUMPER);
+    // private static JoystickButton zeroArm = new JoystickButton(driverController,
+    // XboxButtons.START);
+    private static JoystickButton zeroArm =
+            new JoystickButton(operatorController, XboxButtons.START);
+    private static JoystickButton zeroGyroDriver =
+            new JoystickButton(driverController, XboxButtons.START);
+    // private static JoystickButton moveToTarget = new JoystickButton(driverController,
+    // XboxButtons.RIGHT_BUMPER);
     private static POVButton singleSubAlign = new POVButton(driverController, 0);
-    // private static JoystickButton creep = new JoystickButton(driverController, XboxButtons.RIGHT_TRIGGER);
+    // private static JoystickButton creep = new JoystickButton(driverController,
+    // XboxButtons.RIGHT_TRIGGER);
     // private static POVButton creep = new POVButton(driverController, 0);
-    // private static POVButton alignToClosest = new POVButton(driverController, 0);
-    // private static POVButton alignToLeft = new POVButton(driverController, 90);
-    // private static POVButton alignToRight = new POVButton(driverController, 180);
+    private static POVButton alignToClosest = new POVButton(driverController, 180);
+    private static POVButton alignToLeft = new POVButton(driverController, 270);
+    private static POVButton alignToRight = new POVButton(driverController, 90);
 
     // private static POVButton alignToClosest = new POVButton(driverController, 0);
-    
+
     // private static JoystickButton singleSubstation = new JoystickButton(driverController, 0)
 
     // Operator buttons
@@ -60,26 +66,31 @@ public class OI extends OIBase {
     private static POVButton scoreMidR = new POVButton(operatorController, 90);
     private static POVButton singleStation = new POVButton(operatorController, 270);
     private static POVButton scoreHigh = new POVButton(operatorController, 0);
-    private static JoystickButton intakeShelf = new JoystickButton(operatorController, XboxButtons.X);
-    private static JoystickButton uprightGround = new JoystickButton(operatorController, XboxButtons.BACK);
+    private static JoystickButton intakeShelf =
+            new JoystickButton(operatorController, XboxButtons.X);
+    private static JoystickButton uprightGround =
+            new JoystickButton(operatorController, XboxButtons.BACK);
 
     private static JoystickButton stow = new JoystickButton(operatorController, XboxButtons.B);
-    private static JoystickButton manualElbowControl = new JoystickButton(operatorController,
-            XboxButtons.RIGHT_JOYSTICK_BUTTON);
-    private static JoystickButton manualShoulderControl = new JoystickButton(operatorController,
-            XboxButtons.LEFT_JOYSTICK_BUTTON);
+    private static JoystickButton manualElbowControl =
+            new JoystickButton(operatorController, XboxButtons.RIGHT_JOYSTICK_BUTTON);
+    private static JoystickButton manualShoulderControl =
+            new JoystickButton(operatorController, XboxButtons.LEFT_JOYSTICK_BUTTON);
 
-    private static JoystickButton clawSuck = new JoystickButton(operatorController, XboxButtons.RIGHT_BUMPER);
-    private static JoystickButton clawEject = new JoystickButton(driverController, XboxButtons.LEFT_BUMPER);
-    private static JoystickButton clawIdle = new JoystickButton(operatorController, XboxButtons.LEFT_BUMPER);
+    private static JoystickButton clawSuck =
+            new JoystickButton(operatorController, XboxButtons.RIGHT_BUMPER);
+    private static JoystickButton clawEject =
+            new JoystickButton(driverController, XboxButtons.LEFT_BUMPER);
+    private static JoystickButton clawIdle =
+            new JoystickButton(operatorController, XboxButtons.LEFT_BUMPER);
 
-    //Align to cardinal directions
+    // Align to cardinal directions
     private static JoystickButton rotateTo0 = new JoystickButton(driverController, XboxButtons.Y);
     private static JoystickButton rotateTo90 = new JoystickButton(driverController, XboxButtons.X);
     private static JoystickButton rotateTo180 = new JoystickButton(driverController, XboxButtons.A);
     private static JoystickButton rotateTo270 = new JoystickButton(driverController, XboxButtons.B);
 
-    //LED commands
+    // LED commands
     private static JoystickButton ledYellow = new JoystickButton(operatorController, XboxButtons.Y);
     private static JoystickButton ledPurple = new JoystickButton(operatorController, XboxButtons.A);
 
@@ -102,20 +113,24 @@ public class OI extends OIBase {
 
         zeroGyroDriver.onTrue(new SetSwerveForwardDirection(driveBase));
         zeroArm.onTrue(new ResetArmFromAbsolute(arm));
-        // moveToTarget.whileTrue(new MoveToPose(driveBase, (FieldConstants.LoadingZone.IntakePoses[0]))); // moves to substation
-        singleSubAlign.whileTrue(new MoveToPose(driveBase, (FieldConstants.allianceOrientedAllianceFlip(FieldConstants.LoadingZone.IntakePoses[0])))); // moves to substation
+        // moveToTarget.whileTrue(new MoveToPose(driveBase,
+        // (FieldConstants.LoadingZone.IntakePoses[0]))); // moves to substation
+        // singleSubAlign.whileTrue(new MoveToPose(driveBase,
+        // (FieldConstants.allianceOrientedAllianceFlip(FieldConstants.LoadingZone.IntakePoses[0]))));
+        // // moves to substation
+        singleSubAlign.whileTrue(new AutoAlignToSubstation(driveBase, false)); // moves to
+                                                                               // substation
 
-        // alignToClosest.whileTrue(new AutoAlign(driveBase, driverController, AutoAlign.DIRECTION.CLOSEST));
-        // alignToLeft.whileTrue(new AutoAlign(driveBase, driverController, AutoAlign.DIRECTION.LEFT));
-        // alignToRight.whileTrue(new AutoAlign(driveBase, driverController, AutoAlign.DIRECTION.RIGHT));
+        alignToClosest.whileTrue(new AutoAlign(driveBase, AutoAlign.Direction.CLOSEST));
+        alignToLeft.whileTrue(new AutoAlign(driveBase, AutoAlign.Direction.LEFT));
+        alignToRight.whileTrue(new AutoAlign(driveBase, AutoAlign.Direction.RIGHT));
 
-        
+
         // creep.whileTrue(new Creep(driveBase));
-        
 
-        
 
-        //arm movement commands
+
+        // arm movement commands
         hybrid.onTrue(new MoveToTarget(arm, ArmState.HYBRID));
         scoreMidR.onTrue(new MoveToTarget(arm, ArmState.SCORE_MID));
         singleStation.onTrue(new MoveToTarget(arm, claw, ArmState.SINGLE_STATION));
@@ -125,18 +140,18 @@ public class OI extends OIBase {
         stow.onTrue(new MoveToTarget(arm, ArmState.STOWED));
         manualShoulderControl.onTrue(new ManualMoveShoulder(arm, operatorController));
         manualElbowControl.onTrue(new ManualMoveElbow(arm, operatorController));
-        
+
         // Claw control commands
         clawSuck.onTrue(new ClawInstantIntake(claw));
         clawEject.onTrue(new EjectAndStow(claw, arm));
         clawIdle.onTrue(new ClawIdle(claw));
 
 
-        //Rotate to cardinal direction while driving
+        // Rotate to cardinal direction while driving
         rotateTo0.onTrue(new SetDesiredHeading(driveBase, new Rotation2d(0)));
-        rotateTo90.onTrue(new SetDesiredHeading(driveBase, new Rotation2d(Math.PI/2)));
+        rotateTo90.onTrue(new SetDesiredHeading(driveBase, new Rotation2d(Math.PI / 2)));
         rotateTo180.onTrue(new SetDesiredHeading(driveBase, new Rotation2d(Math.PI)));
-        rotateTo270.onTrue(new SetDesiredHeading(driveBase, new Rotation2d(3*Math.PI/2)));
+        rotateTo270.onTrue(new SetDesiredHeading(driveBase, new Rotation2d(3 * Math.PI / 2)));
         // rotateTo0.onTrue(new TurnToAngle(driveBase, 0, false, driverController));
         // rotateTo90.onTrue(new TurnToAngle(driveBase, 90, false, driverController));
         // rotateTo180.onTrue(new TurnToAngle(driveBase, 180, false, driverController));

@@ -28,7 +28,7 @@ public class MoveToPose extends CommandBase implements MustangCommand {
     // private final Pose2d endPose;
     private Pose2d endPose;
     private Pose2d startPose;
-    private boolean backOut = false;
+    // private boolean backOut = false;
 
     protected Map<MustangSubsystemBase, HealthState> healthReqs;
 
@@ -41,13 +41,13 @@ public class MoveToPose extends CommandBase implements MustangCommand {
         this.healthReqs.put(driveBase, HealthState.GREEN);
     }
 
-    public MoveToPose(DriveBase driveBase, Pose2d endPose, boolean backOut) {
-        this.driveBase = driveBase;
-        this.endPose = endPose;
-        this.backOut = backOut;
-        this.healthReqs = new HashMap<MustangSubsystemBase, HealthState>();
-        this.healthReqs.put(driveBase, HealthState.GREEN);
-    }
+    // public MoveToPose(DriveBase driveBase, Pose2d endPose, boolean backOut) {
+    // this.driveBase = driveBase;
+    // this.endPose = endPose;
+    // this.backOut = backOut;
+    // this.healthReqs = new HashMap<MustangSubsystemBase, HealthState>();
+    // this.healthReqs.put(driveBase, HealthState.GREEN);
+    // }
 
     @Override
     public Map<MustangSubsystemBase, HealthState> getHealthRequirements() {
@@ -82,16 +82,11 @@ public class MoveToPose extends CommandBase implements MustangCommand {
 
     // calcs start point and points directly towards end point
     private PathPoint calcStartPoint(Pose2d nextPose) {
-        if (backOut) {
-            return new PathPoint(startPose.getTranslation(), startPose.getRotation().rotateBy(new Rotation2d(Math.PI)),
-                    startPose.getRotation());
-        } else {
-            double dx, dy;
-            dx = nextPose.getX() - startPose.getX();
-            dy = nextPose.getY() - startPose.getY();
-            return new PathPoint(startPose.getTranslation(), new Rotation2d(dx, dy),
-                    startPose.getRotation());
-        }
+        double dx, dy;
+        dx = nextPose.getX() - startPose.getX();
+        dy = nextPose.getY() - startPose.getY();
+        return new PathPoint(startPose.getTranslation(), new Rotation2d(dx, dy),
+                startPose.getRotation());
     }
 
     // end point where robot faces end Pose
