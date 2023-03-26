@@ -169,17 +169,18 @@ public class RobotContainer extends RobotContainerBase {
                 led.animatedRainbow(false, 10, 10);
 
         }
-        return autonCommand;
+        //return autonCommand;
 
         // LEAVE COMMENTED
         // greturn new ConeCube(driveBase, claw, arm, "CableScore");
-        // return new AutonCalibration(driveBase, "StraightLine"); // TODO: use curve
+        //return new AutonCalibration(driveBase, "Straight180"); // TODO: use curve
         // path after
         // straight
         // path
-        // return new ConeCubeCube(driveBase, claw, arm, "Station3Piece");
+         return new ConeCubeCube(driveBase, claw, arm, "Station3Piece");
         // return new ConeCubeEngage(driveBase, claw, arm, "StationScoreEngage2");
         // return new NonPidAutoLevel(driveBase, true);
+        //return new CenterEngage(driveBase, claw, arm, "CenterEngage");
 
         // return new ConeCube(driveBase, claw, arm, "CableScore");
         // return new ConeCube(driveBase, claw, arm, "RightConeCube");

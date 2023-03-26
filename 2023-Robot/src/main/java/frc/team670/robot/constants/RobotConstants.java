@@ -267,6 +267,8 @@ public final class RobotConstants extends RobotConstantsBase {
         public static final double rightKvVoltSecondsPerMeter = leftKvVoltSecondsPerMeter;
         public static final double rightKaVoltSecondsSquaredPerMeter = leftKaVoltSecondsSquaredPerMeter;
 
+        public static final double PITCH_OFFSET = 2;
+
         // Auto contraints for vision
         public static final PathConstraints kAutoPathConstraints = new PathConstraints(kMaxSpeedMetersPerSecond,
                         kMaxAccelerationMetersPerSecondSquared);
