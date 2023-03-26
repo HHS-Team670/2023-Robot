@@ -101,7 +101,7 @@ public class DriveBase extends SwerveDrive {
 
       public void mustangPeriodic() {
             super.mustangPeriodic();
-            // SmartDashboard.putNumber(pitchKey, getPitch());
+            SmartDashboard.putNumber(pitchKey, getPitch());
       }
 
       // @Override

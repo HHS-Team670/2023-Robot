@@ -40,9 +40,9 @@ public class Arm extends MustangSubsystemBase {
 
     private static final ArmState[][] VALID_PATHS_GRAPH = new ArmState[][] {
             { ArmState.TUNING, ArmState.SCORE_MID, ArmState.SINGLE_STATION, ArmState.SCORE_HIGH, ArmState.HYBRID, ArmState.INTAKE_SHELF, ArmState.UPRIGHT_GROUND }, // STOWED
-            { ArmState.STOWED, ArmState.INTAKE_SHELF, ArmState.UPRIGHT_GROUND}, // HYBRID
-            { ArmState.SCORE_HIGH, ArmState.STOWED, ArmState.STARTING, ArmState.SINGLE_STATION}, // SCORE_MID
-            { ArmState.SCORE_MID,  ArmState.STOWED, ArmState.SINGLE_STATION, ArmState.INTAKE_SHELF, ArmState.STARTING}, // SCORE_HIGH
+            { ArmState.STOWED, ArmState.INTAKE_SHELF, ArmState.UPRIGHT_GROUND, ArmState.SCORE_HIGH, ArmState.SCORE_MID}, // HYBRID
+            { ArmState.SCORE_HIGH, ArmState.STOWED, ArmState.STARTING, ArmState.SINGLE_STATION, ArmState.HYBRID}, // SCORE_MID
+            { ArmState.SCORE_MID,  ArmState.STOWED, ArmState.SINGLE_STATION, ArmState.HYBRID, ArmState.INTAKE_SHELF, ArmState.STARTING}, // SCORE_HIGH
             { ArmState.SCORE_MID, ArmState.INTAKE_SHELF, ArmState.SCORE_HIGH}, // STARTING
             { ArmState.STOWED}, // TUNING
             { ArmState.STOWED, ArmState.SCORE_MID, ArmState.SCORE_HIGH, ArmState.INTAKE_SHELF}, // SINGLE_STATION
