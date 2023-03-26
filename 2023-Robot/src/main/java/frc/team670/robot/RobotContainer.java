@@ -155,7 +155,7 @@ public class RobotContainer extends RobotContainerBase {
                 break;
             case 5:
                 autonCommand = centerIntake;
-                led.solidhsv(LEDColor.WHITE);
+                led.solidhsv(LEDColor.PINK);
                 break;
             case 6:
                 autonCommand = scoreMid;
@@ -217,7 +217,7 @@ public class RobotContainer extends RobotContainerBase {
         // int selectedPath = 4;
         switch (selectedPath) {
             case 0:
-                led.solidhsv(LEDColor.RED);
+                led.solidhsv(LEDColor.BLUE);
                 break;
             case 1:
                 led.blinkhsv(LEDColor.SEXY_YELLOW);
@@ -232,7 +232,7 @@ public class RobotContainer extends RobotContainerBase {
                 led.rainbow(false);
                 break;
             case 5:
-                led.blinkhsv(LEDColor.WHITE);
+                led.blinkhsv(LEDColor.PINK);
                 break;
             case 6:
                 led.mustangRainbow();
