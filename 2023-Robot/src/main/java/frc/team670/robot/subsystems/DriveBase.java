@@ -7,6 +7,7 @@ package frc.team670.robot.subsystems;
 import com.pathplanner.lib.PathPlannerTrajectory;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.REVLibError;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import frc.team670.mustanglib.commands.MustangCommand;
@@ -16,9 +17,8 @@ import frc.team670.mustanglib.constants.SwerveConfig;
 import frc.team670.mustanglib.subsystems.drivebase.SwerveDrive;
 import frc.team670.mustanglib.swervelib.SdsModuleConfigurations;
 import frc.team670.mustanglib.swervelib.SwerveModule;
+import frc.team670.mustanglib.swervelib.pathplanner.MustangPPSwerveControllerCommand;
 import frc.team670.mustanglib.utils.MustangController;
-import frc.team670.robot.commands.drivebase.MustangPPSwerveControllerCommand;
-import frc.team670.robot.commands.drivebase.XboxSwerveDriveAndTurnToAngle;
 import frc.team670.robot.constants.RobotConstants;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -48,8 +48,7 @@ public class DriveBase extends SwerveDrive {
                   * RobotConstants.SWERVE_MODULE_CONFIGURATION.getWheelDiameter() * Math.PI;
 
       /**
-       * The maximum angular velocity of the robot in radians per second. This is a
-       * measure of how
+       * The maximum angular velocity of the robot in radians per second. This is a measure of how
        * fast the robot can rotate in place.`
        */
       public static final double MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND =
@@ -90,13 +89,17 @@ public class DriveBase extends SwerveDrive {
             // defaultCommand = new XboxSwerveDrive(this, mController,
             // MAX_VELOCITY_METERS_PER_SECOND,
             // MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND);
-            defaultCommand = new XboxSwerveDriveAndTurnToAngle(this, mController,
-                        MAX_VELOCITY_METERS_PER_SECOND, MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND);
+            defaultCommand = new XboxSwerveDrive(this, mController, MAX_VELOCITY_METERS_PER_SECOND,
+                        MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND);
             MustangScheduler.getInstance().setDefaultCommand(this, defaultCommand);
       }
 
       public void cancelDefaultCommand() {
             MustangScheduler.getInstance().cancel(defaultCommand);
+      }
+
+      public MustangCommand getDefaultMustangCommand() {
+            return defaultCommand;
       }
 
       public void mustangPeriodic() {
@@ -112,9 +115,10 @@ public class DriveBase extends SwerveDrive {
       @Override
       public HealthState checkHealth() {
             for (SwerveModule curr : getModules()) {
-                  CANSparkMax motor = (CANSparkMax)curr.getDriveMotor();
+                  CANSparkMax motor = (CANSparkMax) curr.getDriveMotor();
                   if (motor.getLastError() != REVLibError.kOk) {
-                        SmartDashboard.putString("Swerve Module " + motor.getDeviceId() + " ERROR:", motor.getLastError().toString());
+                        SmartDashboard.putString("Swerve Module " + motor.getDeviceId() + " ERROR:",
+                                    motor.getLastError().toString());
                         return HealthState.RED;
                   }
             }

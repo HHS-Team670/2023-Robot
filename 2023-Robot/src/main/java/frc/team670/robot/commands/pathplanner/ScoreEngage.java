@@ -20,7 +20,6 @@ import frc.team670.robot.commands.arm.MoveToTarget;
 import frc.team670.robot.commands.claw.ClawInstantEject;
 import frc.team670.robot.commands.claw.ClawInstantIntake;
 import frc.team670.robot.commands.drivebase.NonPidAutoLevel;
-import frc.team670.robot.commands.drivebase.SetDesiredHeading;
 import frc.team670.robot.commands.drivebase.TurnToAngle;
 import frc.team670.robot.constants.RobotConstants;
 import frc.team670.robot.subsystems.Claw;
@@ -61,6 +60,6 @@ public class ScoreEngage extends SequentialCommandGroup implements MustangComman
 
         CommandBase fullAuto = autoBuilder.fullAuto(trajectoryGroup);
 
-        addCommands(fullAuto, new SetDesiredHeading(driveBase, new Rotation2d(0)), new NonPidAutoLevel(driveBase, true));
+        addCommands(fullAuto, new TurnToAngle(driveBase, 0), new NonPidAutoLevel(driveBase, true));
     }
 }

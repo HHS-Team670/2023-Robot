@@ -34,6 +34,26 @@ public class TurnToAngle extends CommandBase implements MustangCommand {
 
     protected Map<MustangSubsystemBase, HealthState> healthReqs;
 
+    public TurnToAngle(SwerveDrive swerve, double angle) {
+        this.swerve = swerve;
+        this.goal = angle;
+        this.isRelative = false;
+        this.controller = null;
+
+        PIDController xcontroller = new PIDController(0, 0, 0);
+        PIDController ycontroller = new PIDController(0, 0, 0);
+        ProfiledPIDController thetacontroller = new ProfiledPIDController(4, 0, 1, // not tuned yet
+                new Constraints(RobotConstants.kMaxAngularSpeedRadiansPerSecond,
+                        RobotConstants.kMaxAngularSpeedRadiansPerSecondSquared));
+
+        holonomicDriveController =
+                new HolonomicDriveController(xcontroller, ycontroller, thetacontroller);
+        holonomicDriveController.setTolerance(new Pose2d(1, 1, Rotation2d.fromDegrees(0.5)));
+
+        this.healthReqs = new HashMap<MustangSubsystemBase, HealthState>();
+        this.healthReqs.put(swerve, HealthState.GREEN);
+    }
+
     public TurnToAngle(SwerveDrive swerve, double angle, boolean isRelative,
             MustangController controller) {
         this.swerve = swerve;
@@ -83,18 +103,18 @@ public class TurnToAngle extends CommandBase implements MustangCommand {
     }
 
     @Override
+    public boolean isFinished() {
+        return controller == null ? false : controller.getBackButtonPressed() || holonomicDriveController.atReference();
+        // return holonomicDriveController.atReference();
+        // return false;
+    }
+
+    @Override
     public void end(boolean interrupt) {
         ChassisSpeeds chassisSpeeds = new ChassisSpeeds(0, 0, 0);
         SwerveModuleState[] swerveModuleStates =
                 swerve.getSwerveKinematics().toSwerveModuleStates(chassisSpeeds);
         swerve.setModuleStates(swerveModuleStates);
-    }
-
-    @Override
-    public boolean isFinished() {
-        return controller.getBackButtonPressed() || holonomicDriveController.atReference();
-        // return holonomicDriveController.atReference();
-        // return false;
     }
 
 }
