@@ -102,7 +102,6 @@ public class RobotContainer extends RobotContainerBase {
                 arm.updateArbitraryFeedForward();
             }
         });
-        led.rainbow(false);
 
         updateArbitraryFeedForward.startPeriodic(0.01);
 
@@ -151,7 +150,7 @@ public class RobotContainer extends RobotContainerBase {
                 break;
             case 4:
                 autonCommand = centerEngage;
-                led.rainbow(false);
+                led.animatedRainbow(false, 50, 10);
                 break;
             case 5:
                 autonCommand = centerIntake;
@@ -159,11 +158,11 @@ public class RobotContainer extends RobotContainerBase {
                 break;
             case 6:
                 autonCommand = scoreMid;
-                led.mustangRainbow();
+                led.animatedMustangRainbow(50, 10);
                 break;
             default:
                 autonCommand = centerEngage;
-                led.rainbow(false);
+                led.animatedRainbow(false, 50, 10);
 
         }
         // return autonCommand;
@@ -205,7 +204,6 @@ public class RobotContainer extends RobotContainerBase {
     @Override
     public void disabled() {
         SmartDashboard.putBoolean(matchStarted, false);
-        led.rainbow(false);
     }
 
     @Override
@@ -229,16 +227,16 @@ public class RobotContainer extends RobotContainerBase {
                 led.solidhsv(LEDColor.GREEN);
                 break;
             case 4:
-                led.rainbow(false);
+                led.animatedRainbow(false, 50, 10);
                 break;
             case 5:
                 led.blinkhsv(LEDColor.PINK);
                 break;
             case 6:
-                led.mustangRainbow();
+                led.animatedMustangRainbow(50, 10);
                 break;
             default:
-                led.rainbow(false);
+                led.animatedRainbow(false, 50, 10);
 
         }
     }
