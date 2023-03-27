@@ -209,9 +209,9 @@ public class FieldConstants {
 
                                 // double substation
                                 new Pose2d(fieldLength - 0.31 - RobotConstants.DRIVEBASE_CLEARANCE, 6.01 + 1.31,
-                                                new Rotation2d()),
+                                                new Rotation2d(Math.PI)),
                                 new Pose2d(fieldLength - 0.31 - RobotConstants.DRIVEBASE_CLEARANCE, 6.01,
-                                                new Rotation2d())
+                                                new Rotation2d(Math.PI))
                 };
         }
 
@@ -399,6 +399,13 @@ public class FieldConstants {
                                         pose.getRotation().times(-1));
                 } else {
                         return pose;
+                }
+        }
+        public static Translation2d allianceOrientedAllianceFlip(Translation2d t) {
+                if (DriverStation.getAlliance() == Alliance.Red) {
+                        return new Translation2d(fieldLength - t.getX(), fieldWidth - t.getY());
+                } else {
+                        return t;
                 }
         }
 

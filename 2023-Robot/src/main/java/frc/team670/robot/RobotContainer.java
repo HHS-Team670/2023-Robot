@@ -240,12 +240,12 @@ public class RobotContainer extends RobotContainerBase {
 
     @Override
     public void autonomousPeriodic() {
-        parkBeforeDisable();
+        // parkBeforeDisable();
     }
 
     @Override
     public void teleopPeriodic() {
-        parkBeforeDisable();
+        // parkBeforeDisable();
     }
 
     public MustangController getOperatorController() {
