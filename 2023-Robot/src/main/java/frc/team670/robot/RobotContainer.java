@@ -54,7 +54,7 @@ public class RobotContainer extends RobotContainerBase {
     private final Vision vision = new Vision(pd);
     private final DriveBase driveBase = new DriveBase(getDriverController());
     private final Arm arm = new Arm();
-    private final LED led = new LED(RobotMap.LED_PORT, 0, 35);
+    private final LED led = new LED(RobotMap.LED_PORT, 0, 61);
     private final Claw claw = new Claw(led);
 
     private MustangCommand cableScore, cableEngage, stationScore, stationEngage, centerEngage,
@@ -79,7 +79,6 @@ public class RobotContainer extends RobotContainerBase {
         // for (MustangSubsystemBase subsystem : getSubsystems()) {
         // subsystem.setDebugSubsystem(true);
         // }
-        arm.getElbow().setDebugSubsystem(true);
 
         cableScore = new ConeCubeCube(driveBase, claw, arm, "CableScoreShort");
         stationScore = new ConeCubeCube(driveBase, claw, arm, "Station3Piece");
@@ -150,7 +149,7 @@ public class RobotContainer extends RobotContainerBase {
                 break;
             case 4:
                 autonCommand = centerEngage;
-                led.animatedRainbow(false, 50, 10);
+                led.animatedRainbow(false, 10, 10);
                 break;
             case 5:
                 autonCommand = centerIntake;
@@ -158,24 +157,25 @@ public class RobotContainer extends RobotContainerBase {
                 break;
             case 6:
                 autonCommand = scoreMid;
-                led.animatedMustangRainbow(50, 10);
+                led.animatedMustangRainbow(10, 10);
                 break;
             default:
                 autonCommand = centerEngage;
-                led.animatedRainbow(false, 50, 10);
+                led.animatedRainbow(false, 10, 10);
 
         }
-        // return autonCommand;
+        return autonCommand;
 
         // LEAVE COMMENTED
         // greturn new ConeCube(driveBase, claw, arm, "CableScore");
-        // return new AutonCalibration(driveBase, "StraightLine"); // TODO: use curve
+        //return new AutonCalibration(driveBase, "Straight180"); // TODO: use curve
         // path after
         // straight
         // path
         // return new ConeCubeCube(driveBase, claw, arm, "Station3Piece");
-        return new ConeCubeEngage(driveBase, claw, arm, "StationScoreEngage2");
+        // return new ConeCubeEngage(driveBase, claw, arm, "StationScoreEngage2");
         // return new NonPidAutoLevel(driveBase, true);
+        //return new CenterEngage(driveBase, claw, arm, "CenterEngage");
 
         // return new ConeCube(driveBase, claw, arm, "CableScore");
         // return new ConeCube(driveBase, claw, arm, "RightConeCube");
@@ -227,7 +227,7 @@ public class RobotContainer extends RobotContainerBase {
                 led.solidhsv(LEDColor.GREEN);
                 break;
             case 4:
-                led.animatedRainbow(false, 50, 10);
+                led.animatedRainbow(false, 10, 10);
                 break;
             case 5:
                 led.blinkhsv(LEDColor.PINK);
@@ -236,7 +236,7 @@ public class RobotContainer extends RobotContainerBase {
                 led.animatedMustangRainbow(50, 10);
                 break;
             default:
-                led.animatedRainbow(false, 50, 10);
+                led.animatedRainbow(false, 10, 10);
 
         }
     }

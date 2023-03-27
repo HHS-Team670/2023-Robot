@@ -134,7 +134,7 @@ public class Elbow extends SparkMaxRotatingSubsystem {
     public Elbow() {
         super(ELBOW_CONFIG);
         absEncoder = new DutyCycleEncoder(RobotMap.ELBOW_ABSOLUTE_ENCODER);
-        super.getRotator().setInverted(false);
+        super.getRotator().setInverted(true);
     }
 
     /**
@@ -162,7 +162,7 @@ public class Elbow extends SparkMaxRotatingSubsystem {
         double absEncoderPosition = absEncoder.getAbsolutePosition();
         if(absEncoderPosition != 0.0) {
             clearSetpoint();
-            double relativePosition = ((1
+            double relativePosition = ((-1
                     * (absEncoderPosition - (RobotConstants.ELBOW_ABSOLUTE_ENCODER_AT_VERTICAL - 0.5)) + 1)
                     * RobotConstants.ELBOW_GEAR_RATIO) % RobotConstants.ELBOW_GEAR_RATIO;
             REVLibError error = rotator_encoder.setPosition(relativePosition);
