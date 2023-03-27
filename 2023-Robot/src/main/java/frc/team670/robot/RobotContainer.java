@@ -95,7 +95,7 @@ public class RobotContainer extends RobotContainerBase {
         CameraServer.startAutomaticCapture().setVideoMode(PixelFormat.kYUYV, 160, 120, 30);
 
         driveBase.initVision(vision);
-        SmartDashboard.putNumber("auton-choosoer", 0);
+        SmartDashboard.putNumber(autonChooser, 0);
         updateArbitraryFeedForward = new Notifier(new Runnable() {
             public void run() {
                 arm.updateArbitraryFeedForward();
@@ -103,16 +103,6 @@ public class RobotContainer extends RobotContainerBase {
         });
 
         updateArbitraryFeedForward.startPeriodic(0.01);
-
-        Alliance alliance = DriverStation.getAlliance();
-
-        if (alliance == Alliance.Red) {
-            SmartDashboard.putString("Alliance Color", "red");
-            led.setAllianceColors(LEDColor.RED);
-        } else if (alliance == Alliance.Blue) {
-            SmartDashboard.putString("Alliance Color", "blue");
-            led.setAllianceColors(LEDColor.BLUE);
-        }
     }
 
     /**
@@ -125,15 +115,15 @@ public class RobotContainer extends RobotContainerBase {
         // return new NonPidAutoLevel(driveBase, true);
         // return new ConeCube(driveBase, claw, arm, "StationScoreShort");
 
-        SmartDashboard.putBoolean("match-started", true);
+        SmartDashboard.putBoolean(matchStarted, true);
 
-        SmartDashboard.putNumber("auton-choosoer", 0);
-        int selectedPath = (int) SmartDashboard.getNumber("auton-choosoer", 0);
+        // SmartDashboard.putNumber(autonChooser, 0);
+        int selectedPath = (int) SmartDashboard.getNumber(autonChooser, 0);
         MustangCommand autonCommand;
         switch (selectedPath) {
             case 0:
                 autonCommand = cableScore;
-                led.solidhsv(led.getAllianceColor());
+                led.solidhsv(LEDColor.LIGHT_BLUE);
                 break;
             case 1:
                 autonCommand = stationScore;
@@ -180,20 +170,16 @@ public class RobotContainer extends RobotContainerBase {
         // return new ConeCube(driveBase, claw, arm, "CableScore");
         // return new ConeCube(driveBase, claw, arm, "RightConeCube");
         // return new NonPidAutoLevel(driveBase, true);
-
     }
 
     @Override
     public void autonomousInit() {
         arm.setStateToStarting();
-        // vision.setAprilTagFieldLayout(FieldConstants.getFieldLayout(FieldConstants.aprilTags));
     }
 
     @Override
     public void teleopInit() {
-        // arm.setStateToStarting();
         vision.setAprilTagFieldLayout(FieldConstants.getFieldLayout(FieldConstants.aprilTags));
-        led.solidhsv(led.getAllianceColor());
         arm.clearSetpoint();
     }
 
@@ -211,11 +197,11 @@ public class RobotContainer extends RobotContainerBase {
         // int selectedPath = (int)
         // (SmartDashboard.getEntry(autonChooser).getInteger(-1));
 
-        int selectedPath = (int) SmartDashboard.getNumber("auton-choosoer", 0);
+        int selectedPath = (int) SmartDashboard.getNumber(autonChooser, 0);
         // int selectedPath = 4;
         switch (selectedPath) {
             case 0:
-                led.solidhsv(LEDColor.BLUE);
+                led.blinkhsv(LEDColor.LIGHT_BLUE);
                 break;
             case 1:
                 led.blinkhsv(LEDColor.SEXY_YELLOW);
@@ -224,7 +210,7 @@ public class RobotContainer extends RobotContainerBase {
                 led.blinkhsv(LEDColor.SEXY_PURPLE);
                 break;
             case 3:
-                led.solidhsv(LEDColor.GREEN);
+                led.blinkhsv(LEDColor.GREEN);
                 break;
             case 4:
                 led.animatedRainbow(false, 10, 10);
@@ -233,7 +219,7 @@ public class RobotContainer extends RobotContainerBase {
                 led.blinkhsv(LEDColor.PINK);
                 break;
             case 6:
-                led.animatedMustangRainbow(50, 10);
+                led.animatedMustangRainbow(10, 10);
                 break;
             default:
                 led.animatedRainbow(false, 10, 10);
@@ -249,7 +235,6 @@ public class RobotContainer extends RobotContainerBase {
         // }
 
         // SmartDashboard.putString("alliance", "" +
-        // DriverStationJNI.getAllianceStation());
 
     }
 
