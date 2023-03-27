@@ -221,7 +221,7 @@ public final class RobotConstants extends RobotConstantsBase {
         public static final int ELBOW_SOFT_LIMIT_MIN = 20;
         public static final int ELBOW_SOFT_LIMIT_MAX = 340;
         public static final int ELBOW_MAX_OVERRIDE_DEGREES = 15;
-        public static final double ELBOW_ALLOWED_ERR_DEG = 1.5;
+        public static final double ELBOW_ALLOWED_ERR_DEG = 0.75;
         // public static final double ELBOW_ARBITRARY_FF = 0.0;
         public static final double ELBOW_ARBITRARY_FF = 0.5;
         public static final double ELBOW_LENGTH_INCHES = 35;
@@ -256,7 +256,7 @@ public final class RobotConstants extends RobotConstantsBase {
         public static final double CLAW_EJECTING_SPEED = -0.60;
         public static final double CLAW_CURRENT_MAX = 23.0;
         public static final double CLAW_IDLE_SPEED = 0.05;
-        public static final int CLAW_EJECT_ITERATIONS = 25;
+        public static final int CLAW_EJECT_ITERATIONS = 30;
         public static final int CLAW_CURRENT_SPIKE_ITERATIONS = 25;
 
         public static final int kTimeoutMs = 0;

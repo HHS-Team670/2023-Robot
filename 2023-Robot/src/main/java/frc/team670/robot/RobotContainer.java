@@ -31,6 +31,7 @@ import frc.team670.robot.commands.pathplanner.CenterIntake;
 import frc.team670.robot.commands.pathplanner.ConeCubeCube;
 import frc.team670.robot.commands.pathplanner.ConeCubeEngage;
 import frc.team670.robot.commands.pathplanner.CubeEngage;
+import frc.team670.robot.commands.pathplanner.ScoreEngage;
 import frc.team670.robot.commands.pathplanner.ScoreMid;
 import frc.team670.robot.constants.FieldConstants;
 import frc.team670.robot.constants.OI;
@@ -70,20 +71,17 @@ public class RobotContainer extends RobotContainerBase {
         super();
         addSubsystem(driveBase, vision, arm, arm.getShoulder(), arm.getElbow(), arm.getWrist(),
                 claw, led);
-        // addSubsystem(driveBase, arm, arm.getShoulder(), arm.getElbow(),
-        // arm.getWrist(),
-        // claw, led);
         oi.configureButtonBindings(driveBase, vision, arm, claw, led);
-        // oi.configureButtonBindings(driveBase, null, arm, claw, led);
 
         // for (MustangSubsystemBase subsystem : getSubsystems()) {
         // subsystem.setDebugSubsystem(true);
         // }
+        arm.getWrist().setDebugSubsystem(true);
 
         cableScore = new ConeCubeCube(driveBase, claw, arm, "CableScoreShort");
         stationScore = new ConeCubeCube(driveBase, claw, arm, "Station3Piece");
         cableEngage = new CubeEngage(driveBase, claw, arm, "CableEngage");
-        stationEngage = new CubeEngage(driveBase, claw, arm, "StationEngage");
+        stationEngage = new ScoreEngage(driveBase, claw, arm, "StationScoreEngage3");
         centerEngage = new CenterEngage(driveBase, claw, arm, "CenterEngage");
         centerIntake = new CenterIntake(driveBase, claw, arm, "CenterIntake");
         scoreMid = new ScoreMid(driveBase, claw, arm);
@@ -198,7 +196,6 @@ public class RobotContainer extends RobotContainerBase {
         // (SmartDashboard.getEntry(autonChooser).getInteger(-1));
 
         int selectedPath = (int) SmartDashboard.getNumber(autonChooser, 0);
-        // int selectedPath = 4;
         switch (selectedPath) {
             case 0:
                 led.blinkhsv(LEDColor.LIGHT_BLUE);
@@ -240,12 +237,12 @@ public class RobotContainer extends RobotContainerBase {
 
     @Override
     public void autonomousPeriodic() {
-        // parkBeforeDisable();
+        parkBeforeDisable();
     }
 
     @Override
     public void teleopPeriodic() {
-        // parkBeforeDisable();
+        parkBeforeDisable();
     }
 
     public MustangController getOperatorController() {
