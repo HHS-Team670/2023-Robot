@@ -99,7 +99,17 @@ setPaths()
 //     Console.log(value)
 // })
 
-
+var x = 0.5
+var y = 0.5
+var r = 0.5
+var move = document.querySelector('#move')
+move.onclick = () => {
+    x += 1
+    y += 1
+    r += 1
+    var robot_box = document.querySelector("div#robot")
+    robot_box.style.transform = `rotate(${r}deg) translate(${x}px, ${y}px)`
+}
 
 NetworkTables.addKeyListener('/SmartDashboard/match-started', (key, value) => {
     var autoSelector = document.querySelector('#auton-chooser')
@@ -112,66 +122,66 @@ NetworkTables.addKeyListener('/SmartDashboard/match-started', (key, value) => {
 
 
 // updates status lights for driveBase
-NetworkTables.addKeyListener('/SmartDashboard/aligned', (key, value) => {
-    // MOVE_UP,
-    //    MOVE_DOWN,
-    //    MOVE_LEFT,
-    //    MOVE_RIGHT,
-    //    TURN_CLOCK,
-    //    TURN_COUNTERCLOCK,
-    //    OKAY
+// NetworkTables.addKeyListener('/SmartDashboard/aligned', (key, value) => {
+//     // MOVE_UP,
+//     //    MOVE_DOWN,
+//     //    MOVE_LEFT,
+//     //    MOVE_RIGHT,
+//     //    TURN_CLOCK,
+//     //    TURN_COUNTERCLOCK,
+//     //    OKAY
 
 
-    var moveStatus = value[0]
-    var strafeStatus = value[1]
-    var turnStatus = value[2]
-    var okay = true
+//     var moveStatus = value[0]
+//     var strafeStatus = value[1]
+//     var turnStatus = value[2]
+//     var okay = true
 
-    var body = document.querySelector('body')
+//     var body = document.querySelector('body')
 
-    body.classList.remove(string.match(/aligned.*/))
+//     body.classList.remove(string.match(/aligned.*/))
 
-    var addCorrection = (className) => {
-        body.classList.add(className)
-        okay = false
-    }
+//     var addCorrection = (className) => {
+//         body.classList.add(className)
+//         okay = false
+//     }
 
-    switch (moveStatus) {
-        case "MOVE_UP":
-            addCorrection("aligned-up")
-            break
-        case "MOVE_DOWN":
-            addCorrection("aligned-down")
-            break
-    }
+//     switch (moveStatus) {
+//         case "MOVE_UP":
+//             addCorrection("aligned-up")
+//             break
+//         case "MOVE_DOWN":
+//             addCorrection("aligned-down")
+//             break
+//     }
 
-    switch (strafeStatus) {
-        case "MOVE_RIGHT":
-            addCorrection("aligned-right")
-            break
-        case "MOVE_LEFT":
-            addCorrection("aligned-left")
-            break
-    }
+//     switch (strafeStatus) {
+//         case "MOVE_RIGHT":
+//             addCorrection("aligned-right")
+//             break
+//         case "MOVE_LEFT":
+//             addCorrection("aligned-left")
+//             break
+//     }
 
-    var clockwiseArrow = document.querySelector("#clockwise")
-    var counterClockwiseArrow = document.querySelector("#counter-clockwise")
-    clockwiseArrow.style.display = "none"
-    counterClockwiseArrow.style.display = "none"
-    switch (turnStatus) {
-        case "TURN_CLOCK":
-            clockwiseArrow.style.display = "block"
-            okay = false
-            break
-        case "TURN_COUNTERCLOCK":
-            counterClockwiseArrow.style.display = "block"
-            okay = false
-            break
-    }
-    if (okay) {
-        body.classList.add("aligned-complete")
-    }
-})
+//     var clockwiseArrow = document.querySelector("#clockwise")
+//     var counterClockwiseArrow = document.querySelector("#counter-clockwise")
+//     clockwiseArrow.style.display = "none"
+//     counterClockwiseArrow.style.display = "none"
+//     switch (turnStatus) {
+//         case "TURN_CLOCK":
+//             clockwiseArrow.style.display = "block"
+//             okay = false
+//             break
+//         case "TURN_COUNTERCLOCK":
+//             counterClockwiseArrow.style.display = "block"
+//             okay = false
+//             break
+//     }
+//     if (okay) {
+//         body.classList.add("aligned-complete")
+//     }
+// })
 
 NetworkTables.addKeyListener('/SmartDashboard/Single Substation', (key, poseString) => {
     single_substation_coords = parsePose(poseString)
@@ -179,20 +189,12 @@ NetworkTables.addKeyListener('/SmartDashboard/Single Substation', (key, poseStri
 
 NetworkTables.addKeyListener('/SmartDashboard/Estimated Pose', (key, poseString) => {
     var field_coord = parsePose(poseString)
-
     var relX = field_coord[0] - single_substation_coords[0]
     var relY = field_coord[1] - single_substation_coords[1]
     var rotation = field_coord[2]
 
     var robot_box = document.querySelector("div#robot")
-    // robot_box.style.backgroundImage = "url(red-triangle.png)"
-    // robot_box.style.transform = `translate(${relX}, ${relY * 5})`
-    // robot_box.style.transform = `translateY(500px)`
-    robot_box.style.left = `${relX} * 10`
-    // console.log(`translate(${relX}px, ${relY * 5}px)`)
-    // robot_box.style.translate = `(${relX}px, ${relY * 5}px)`
-    // robot_box.style.tranform = `translate(500px, 500px)`
-    robot_box.style.transform = `rotate(${rotation}deg)`
+    robot_box.style.transform = `translate(${relX}px, ${relY}px) rotate(${rotation}deg)`
     console.log(relX + " " + relY + " " + rotation)
 })
 

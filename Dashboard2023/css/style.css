@@ -284,6 +284,7 @@ body.login #login {
     width: 50vw;
     height: 50vh;
     border: 1px solid rgb(8, 218, 8);
+    overflow: hidden;
 }
 
 #substation, #robot {
