@@ -277,6 +277,35 @@ body.login #login {
     justify-content: space-around;
 }
 
+#mini-map {
+    position: absolute;
+    top: 5vh;
+    left: 5vw;
+    width: 50vw;
+    height: 50vh;
+    border: 1px solid rgb(8, 218, 8);
+}
+
+#substation, #robot {
+    top: 0vh;
+    left: 20vw;
+    width: 125px;
+    position: relative;
+}
+
+#substation {
+    border: 5px solid rgb(8, 152, 218);
+    height: 5vw;
+}
+
+#robot {
+    border: 1px solid rgb(8, 218, 8);
+    height: 125px;
+    /* transform: translate(0, -100%); */  
+    background-image: url("../images/red-triangle.png"); 
+    background-color: #cccccc;
+}
+
 #align {
     width: 250px;
     height: 200px;
