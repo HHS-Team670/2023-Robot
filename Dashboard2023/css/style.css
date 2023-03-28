@@ -301,9 +301,8 @@ body.login #login {
 #robot {
     border: 1px solid rgb(8, 218, 8);
     height: 125px;
-    /* transform: translate(0, -100%); */  
+    /* transform: translate(0, -100%);   */
     background-image: url("../images/red-triangle.png"); 
-    background-color: #cccccc;
 }
 
 #align {

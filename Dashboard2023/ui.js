@@ -184,17 +184,22 @@ NetworkTables.addKeyListener('/SmartDashboard/Estimated Pose', (key, poseString)
     var relY = field_coord[1] - single_substation_coords[1]
     var rotation = field_coord[2]
 
-    var robot_box = document.querySelector("#robot")
-    robot_box.style.backgroundImage = "url(red_triangle.png)"
-    robot_box.style.tranform = `translate(${relX}, ${relY})`
-    robot_box.style.tranform = `rotate(${rotation}deg)`
+    var robot_box = document.querySelector("div#robot")
+    // robot_box.style.backgroundImage = "url(red-triangle.png)"
+    // robot_box.style.transform = `translate(${relX}, ${relY * 5})`
+    // robot_box.style.transform = `translateY(500px)`
+    robot_box.style.left = `${relX} * 10`
+    // console.log(`translate(${relX}px, ${relY * 5}px)`)
+    // robot_box.style.translate = `(${relX}px, ${relY * 5}px)`
+    // robot_box.style.tranform = `translate(500px, 500px)`
+    robot_box.style.transform = `rotate(${rotation}deg)`
     console.log(relX + " " + relY + " " + rotation)
 })
 
 var parsePose = (poseString) => {
-    var x = poseString.substring(1, poseString.indexOf(","))
-    var y = poseString.substring(poseString.indexOf(",") + 2, poseString.indexOf(")"))
-    var rot = poseString.substring(poseString.indexOf(")") + 2, poseString.indexOf("degrees"))
+    var x = Number(poseString.substring(1, poseString.indexOf(",")))
+    var y = Number(poseString.substring(poseString.indexOf(",") + 2, poseString.indexOf(")")))
+    var rot = Number(poseString.substring(poseString.indexOf(")") + 2, poseString.indexOf("degrees")))
     return [x, y, rot]
 }
 
