@@ -160,8 +160,8 @@ public final class RobotConstants extends RobotConstantsBase {
         public final static SerialPort.Port NAVX_PORT = SerialPort.Port.kMXP;
         public static final double kMaxSpeedMetersPerSecond = 2;
         public static final double kMaxAccelerationMetersPerSecondSquared = 1;
-        public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI * 16;
-        public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI * 16;
+        public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI * 4;
+        public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI * 8;
         public static final double MAX_VELOCITY_METERS_PER_SECOND = 5676.0 / 60.0
                         * SdsModuleConfigurations.MK4I_L1.getDriveReduction()
                         * SdsModuleConfigurations.MK4I_L1.getWheelDiameter() * Math.PI;

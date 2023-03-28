@@ -21,6 +21,7 @@ import frc.team670.robot.commands.claw.ClawInstantEject;
 import frc.team670.robot.commands.claw.ClawInstantIntake;
 import frc.team670.robot.commands.drivebase.NonPidAutoLevel;
 import frc.team670.robot.commands.drivebase.TurnToAngle;
+import frc.team670.robot.constants.OI;
 import frc.team670.robot.constants.RobotConstants;
 import frc.team670.robot.subsystems.Claw;
 import frc.team670.robot.subsystems.DriveBase;
@@ -44,10 +45,10 @@ public class ScoreEngage extends SequentialCommandGroup implements MustangComman
         HashMap<String, Command> eventMap = new HashMap<>();
 
         // eventMap stuff
-        // eventMap.put("moveToMid", new MoveToTarget(arm, ArmState.SCORE_MID));
-        // eventMap.put("moveToStowed", new MoveToTarget(arm, ArmState.STOWED));
+        eventMap.put("moveToMid", new MoveToTarget(arm, ArmState.SCORE_MID));
+        eventMap.put("moveToStowed", new MoveToTarget(arm, ArmState.STOWED));
         eventMap.put("clawEject", new ClawInstantEject(claw));
-        // eventMap.put("moveToGround", new MoveToTarget(arm, ArmState.HYBRID));
+        eventMap.put("moveToGround", new MoveToTarget(arm, ArmState.HYBRID));
         eventMap.put("clawIntake", new ClawInstantIntake(claw)); // May want to use IntakeAndStow
                                                                  // after testing.
 
@@ -60,6 +61,6 @@ public class ScoreEngage extends SequentialCommandGroup implements MustangComman
 
         CommandBase fullAuto = autoBuilder.fullAuto(trajectoryGroup);
 
-        addCommands(fullAuto, new TurnToAngle(driveBase, 0), new NonPidAutoLevel(driveBase, true));
+        addCommands(fullAuto, new TurnToAngle(driveBase, 180, true, OI.getDriverController()), new NonPidAutoLevel(driveBase, true));
     }
 }

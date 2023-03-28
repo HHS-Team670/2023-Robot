@@ -70,7 +70,7 @@ public class TurnToAngle extends CommandBase implements MustangCommand {
 
         holonomicDriveController =
                 new HolonomicDriveController(xcontroller, ycontroller, thetacontroller);
-        holonomicDriveController.setTolerance(new Pose2d(1, 1, Rotation2d.fromDegrees(1.5)));
+        holonomicDriveController.setTolerance(new Pose2d(1, 1, Rotation2d.fromDegrees(3)));
 
         this.healthReqs = new HashMap<MustangSubsystemBase, HealthState>();
         this.healthReqs.put(swerve, HealthState.GREEN);

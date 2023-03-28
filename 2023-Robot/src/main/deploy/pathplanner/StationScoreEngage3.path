@@ -184,6 +184,25 @@
       "names": [
         "moveToStowed"
       ]
+    },
+    {
+      "position": 0.07762340198863456,
+      "names": [
+        "moveToGround",
+        "clawIntake"
+      ]
+    },
+    {
+      "position": 3.461305930397728,
+      "names": [
+        "moveToStowed"
+      ]
+    },
+    {
+      "position": 4.152772105823865,
+      "names": [
+        "moveToMid"
+      ]
     }
   ]
 }
