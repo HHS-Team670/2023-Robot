@@ -27,6 +27,7 @@ import frc.team670.robot.commands.drivebase.NonPidAutoLevel;
 import frc.team670.robot.commands.drivebase.SwerveDriveParkCommand;
 import frc.team670.robot.commands.pathplanner.AutonCalibration;
 import frc.team670.robot.commands.pathplanner.CenterEngage;
+import frc.team670.robot.commands.pathplanner.CenterEngageSequential;
 import frc.team670.robot.commands.pathplanner.CenterIntake;
 import frc.team670.robot.commands.pathplanner.ConeCubeCube;
 import frc.team670.robot.commands.pathplanner.ConeCubeEngage;
@@ -82,7 +83,7 @@ public class RobotContainer extends RobotContainerBase {
         stationScore = new ConeCubeCube(driveBase, claw, arm, "Station3Piece");
         cableEngage = new CubeEngage(driveBase, claw, arm, "CableEngage");
         stationEngage = new ScoreEngage(driveBase, claw, arm, "StationScoreEngage3");
-        centerEngage = new CenterEngage(driveBase, claw, arm, "CenterEngage");
+        centerEngage = new CenterEngageSequential(driveBase, claw, arm);
         centerIntake = new CenterIntake(driveBase, claw, arm, "CenterIntake");
         scoreMid = new ScoreMid(driveBase, claw, arm);
 

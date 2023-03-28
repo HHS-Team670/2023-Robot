@@ -18,6 +18,7 @@ import frc.team670.mustanglib.subsystems.drivebase.SwerveDrive;
 import frc.team670.mustanglib.utils.MustangController;
 import frc.team670.robot.constants.RobotConstants;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 // testing
 // https://github.com/Frc5572/FRC2022/blob/main/src/main/java/frc/robot/commands/TurnToAngle.java
@@ -48,7 +49,7 @@ public class TurnToAngle extends CommandBase implements MustangCommand {
 
         holonomicDriveController =
                 new HolonomicDriveController(xcontroller, ycontroller, thetacontroller);
-        holonomicDriveController.setTolerance(new Pose2d(1, 1, Rotation2d.fromDegrees(0.5)));
+        holonomicDriveController.setTolerance(new Pose2d(1, 1, Rotation2d.fromDegrees(3)));
 
         this.healthReqs = new HashMap<MustangSubsystemBase, HealthState>();
         this.healthReqs.put(swerve, HealthState.GREEN);
@@ -69,7 +70,7 @@ public class TurnToAngle extends CommandBase implements MustangCommand {
 
         holonomicDriveController =
                 new HolonomicDriveController(xcontroller, ycontroller, thetacontroller);
-        holonomicDriveController.setTolerance(new Pose2d(1, 1, Rotation2d.fromDegrees(0.5)));
+        holonomicDriveController.setTolerance(new Pose2d(1, 1, Rotation2d.fromDegrees(3)));
 
         this.healthReqs = new HashMap<MustangSubsystemBase, HealthState>();
         this.healthReqs.put(swerve, HealthState.GREEN);
@@ -104,6 +105,8 @@ public class TurnToAngle extends CommandBase implements MustangCommand {
 
     @Override
     public boolean isFinished() {
+        SmartDashboard.putNumber("current rotation error", targetPose2d.getRotation().minus(swerve.getPose().getRotation()).getDegrees());
+        SmartDashboard.putBoolean("isAtReference", holonomicDriveController.atReference());
         return controller == null ? false : controller.getBackButtonPressed() || holonomicDriveController.atReference();
         // return holonomicDriveController.atReference();
         // return false;

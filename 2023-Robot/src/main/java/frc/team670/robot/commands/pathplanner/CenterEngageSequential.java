@@ -1,10 +1,12 @@
 package frc.team670.robot.commands.pathplanner;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;
+import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.auto.SwerveAutoBuilder;
 import com.pathplanner.lib.commands.FollowPathWithEvents;
 
@@ -29,12 +31,12 @@ import frc.team670.robot.subsystems.arm.ArmState;
 public class CenterEngageSequential extends SequentialCommandGroup implements MustangCommand {
     
     public Map<MustangSubsystemBase, HealthState> getHealthRequirements() {
-
         return new HashMap<MustangSubsystemBase, HealthState>();
     }
 
 
     public CenterEngageSequential(DriveBase driveBase, Claw claw, Arm arm) {
+        List<PathPlannerTrajectory> trajectoryGroup = PathPlanner.loadPathGroup("BackUp", 4, 4.5);
         SwerveDriveKinematics driveBaseKinematics = driveBase.getSwerveKinematics();
         SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(driveBase::getPose,
                 driveBase::resetOdometry, driveBaseKinematics, RobotConstants.AUTON_TRANSLATION_CONTROLLER, RobotConstants.AUTON_THETA_CONTROLLER,
@@ -44,7 +46,7 @@ public class CenterEngageSequential extends SequentialCommandGroup implements Mu
             new MoveToTarget(arm, ArmState.SCORE_MID),
             new ClawInstantEject(claw),
             new MoveToTarget(arm, ArmState.STOWED),
-            autoBuilder.followPath(PathPlanner.loadPath("BackUp", new PathConstraints(2, 1))),
+            autoBuilder.fullAuto(trajectoryGroup),
             new TurnToAngle(driveBase, 180, true, OI.getDriverController()),
             new NonPidAutoLevel(driveBase, true)));
     }
