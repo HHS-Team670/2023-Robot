@@ -1,3 +1,5 @@
+// const { Console } = require("console");
+// import console from "console"
 
 // initial camera settings
 var driveReversed = false
@@ -26,14 +28,14 @@ function resetAndAddDropdownListeners() {
     }
 }
 
-function setPaths() { 
+function setPaths() {
 
     var content = document.querySelector(".dropup-content")
     content.innerHTML = ""
 
     var p1 = document.createElement("p")
     p1.appendChild(document.createTextNode("cableScore"))
-    
+
     var p2 = document.createElement("p")
     p2.appendChild(document.createTextNode("stationScore"))
 
@@ -94,7 +96,7 @@ setPaths()
 
 //     // setTimeout(() => { document.getElementById('big-warning').style.display = "none" }, 1000)
 //     // var timeSinceWarningFlashed = Date.getTime()
-//     console.log(value)
+//     Console.log(value)
 // })
 
 
@@ -119,7 +121,7 @@ NetworkTables.addKeyListener('/SmartDashboard/aligned', (key, value) => {
     //    TURN_COUNTERCLOCK,
     //    OKAY
 
-    
+
     var moveStatus = value[0]
     var strafeStatus = value[1]
     var turnStatus = value[2]
@@ -171,27 +173,28 @@ NetworkTables.addKeyListener('/SmartDashboard/aligned', (key, value) => {
     }
 })
 
-NetwordTables.addKeyListener('/SmartDashboard/Single Substation'), (key, poseString) => {
+NetworkTables.addKeyListener('/SmartDashboard/Single Substation', (key, poseString) => {
     single_substation_coords = parsePose(poseString)
-}
+})
 
-NetworkTables.addKeyListener('/SmartDashboard/Estimated Pose'), (key, poseString) => {
+NetworkTables.addKeyListener('/SmartDashboard/Estimated Pose', (key, poseString) => {
     var field_coord = parsePose(poseString)
 
     var relX = field_coord[0] - single_substation_coords[0]
     var relY = field_coord[1] - single_substation_coords[1]
     var rotation = field_coord[2]
-    
+
     var robot_box = document.querySelector("#robot")
-    robot_box.style.backgroundImage="url(red_triangle.png)"
+    robot_box.style.backgroundImage = "url(red_triangle.png)"
     robot_box.style.tranform = `translate(${relX}, ${relY})`
     robot_box.style.tranform = `rotate(${rotation}deg)`
-}
+    console.log(relX + " " + relY + " " + rotation)
+})
 
 var parsePose = (poseString) => {
-    var x = value.substring(1, value.indexOf(","))
-    var y = value.substring(value.indexOf(",")+2 , value.indexOf(")"))
-    var rot = value.substring(value.indexOf(")")+2, value.indexOf("degrees")) 
+    var x = poseString.substring(1, poseString.indexOf(","))
+    var y = poseString.substring(poseString.indexOf(",") + 2, poseString.indexOf(")"))
+    var rot = poseString.substring(poseString.indexOf(")") + 2, poseString.indexOf("degrees"))
     return [x, y, rot]
 }
 
@@ -200,18 +203,18 @@ NetworkTables.addKeyListener('/SmartDashboard/pitch', (key, value) => {
     var line = document.querySelector("#leveling-line")
     var pitchValue = document.querySelector("h3#pitch-value")
     pitchValue.innerHTML = "Pitch: " + Number(value).toFixed(2)
-    angle = 2*value
+    angle = 2 * value
     line.style.transform = `rotate(${angle}deg)`
-    if (value == null){
+    if (value == null) {
         line.style.backgroundColor = "#ff00ff" //pink
         line.style.borderColor = "#ff00ff" //pink
-    }else if (value > 2){
+    } else if (value > 2) {
         line.style.backgroundColor = "#FF0000" //red
         line.style.borderColor = "#FF0000" //red
-    }else if (value < -2){
+    } else if (value < -2) {
         line.style.backgroundColor = "#0000FF" //blue
         line.style.borderColor = "#0000FF" //blue
-    }else if (value <= 2 && value >= -2){
+    } else if (value <= 2 && value >= -2) {
         line.style.backgroundColor = "#00FF00" //green
         line.style.borderColor = "#00FF00" //green
     }
@@ -332,7 +335,7 @@ NetworkTables.addKeyListener('/SmartDashboard/auton-chooser', (key, value) => {
     var currentPath = document.querySelector("#auto-form h3#current-path")
     var pathText = "Not Sent"
     var listenedAuto = Number(value)
-    switch(listenedAuto) { // Todo
+    switch (listenedAuto) { // Todo
         case 0: // ConeCube(driveBase, claw, arm, "CableScore")
             pathText = "cableScore"
             break
@@ -351,7 +354,7 @@ NetworkTables.addKeyListener('/SmartDashboard/auton-chooser', (key, value) => {
         case 5: // CenterEngage(driveBase, claw, arm, "CenterEngage")
             pathText = "centerIntake"
             break
-        case 6: 
+        case 6:
             pathText = "scoreMid"
         default:
             pathText = "Not Sent"
@@ -364,7 +367,7 @@ NetworkTables.addKeyListener('/SmartDashboard/auton-chooser', (key, value) => {
 
 
 document.getElementById("confirm-button").onclick = () => {
-  sendAuton()
+    sendAuton()
 }
 
 // // listens for keystrokes from the external keypad and passes the corresponding values over networktables
@@ -376,7 +379,7 @@ document.getElementById("confirm-button").onclick = () => {
 //     var result = allKeys[allKeys.length - 1]
 //     var nextTask = getFromMap(result)
 
-//     console.log(nextTask)
+//     Console.log(nextTask)
 //     allKeysPressed.push(nextTask)
 
 //     // make sure the key pressed is a valid action
@@ -443,7 +446,7 @@ document.getElementById("confirm-button").onclick = () => {
 
 function getAutonFromMap() {
     console.log("SELECTED VALUE", selectedPath)
-    switch(selectedPath) { 
+    switch (selectedPath) {
         case "cableScore": // ConeCube(driveBase, claw, arm, "CableScore")
             return 0.0
         case "stationScore": // ConeCube(driveBase, claw, arm, "StationScore")
@@ -470,7 +473,7 @@ function getDelayTime() {
 
 function sendAuton() {
     var autonCommand = getAutonFromMap()
-    var autoSelectWarning = document.querySelector("div#auto-warning") 
+    var autoSelectWarning = document.querySelector("div#auto-warning")
     if (autonCommand === -1) {
         autoSelectWarning.style.display = "block"
         return
