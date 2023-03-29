@@ -30,6 +30,7 @@ import frc.team670.robot.commands.pathplanner.AutonCalibration;
 import frc.team670.robot.commands.pathplanner.CenterEngage;
 import frc.team670.robot.commands.pathplanner.CenterEngageSequential;
 import frc.team670.robot.commands.pathplanner.CenterIntake;
+import frc.team670.robot.commands.pathplanner.ConeCube;
 import frc.team670.robot.commands.pathplanner.ConeCubeCube;
 import frc.team670.robot.commands.pathplanner.ConeCubeEngage;
 import frc.team670.robot.commands.pathplanner.CubeEngage;
@@ -79,7 +80,7 @@ public class RobotContainer extends RobotContainerBase {
             subsystem.setDebugSubsystem(true);
         }
 
-        cableScore = new ConeCubeCube(driveBase, claw, arm, "CableScoreShort");
+        cableScore = new ConeCube(driveBase, claw, arm, "Cable2Piece");
         stationScore = new ConeCubeCube(driveBase, claw, arm, "Station3Piece");
         cableEngage = new CubeEngage(driveBase, claw, arm, "CableEngage");
         stationEngage = new ScoreEngage(driveBase, claw, arm, "StationScoreEngage3");
