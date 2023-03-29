@@ -60,6 +60,6 @@ public class ScoreEngage extends SequentialCommandGroup implements MustangComman
 
         CommandBase fullAuto = autoBuilder.fullAuto(trajectoryGroup);
 
-        addCommands(fullAuto, new TurnToAngle(driveBase, 0), new NonPidAutoLevel(driveBase, true));
+        addCommands(fullAuto, new TurnToAngle(driveBase, 0), new NonPidAutoLevel(driveBase, arm,true));
     }
 }
