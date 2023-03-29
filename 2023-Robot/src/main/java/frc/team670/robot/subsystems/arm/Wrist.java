@@ -8,6 +8,7 @@ import com.revrobotics.REVLibError;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team670.mustanglib.subsystems.SparkMaxRotatingSubsystem;
+import frc.team670.mustanglib.utils.Logger;
 import frc.team670.mustanglib.utils.functions.MathUtils;
 import frc.team670.mustanglib.utils.motorcontroller.MotorConfig;
 import frc.team670.mustanglib.utils.motorcontroller.MotorConfig.Motor_Type;
@@ -28,6 +29,7 @@ public class Wrist extends SparkMaxRotatingSubsystem {
     private double previousReading = 0.0;
     private double calculatedRelativePosition = 0.0;
     private boolean relativePositionIsSet = false;
+    private double errorCounter = 0;
 
     private final String positionDeg = "Wrist position (deg)";
     private final String absEncoderPos = "Wrist abs encoder position";
@@ -174,13 +176,21 @@ public class Wrist extends SparkMaxRotatingSubsystem {
     public HealthState checkHealth() {
         REVLibError rotatorError = super.rotator.getLastError();
 
-        if (rotatorError != null && rotatorError != REVLibError.kOk) {
-            return HealthState.RED;
-        }
+         if (rotatorError != null && rotatorError != REVLibError.kOk) {
+             Logger.consoleError("Wrist error! Rotator Error is " + rotatorError.toString());
+             errorCounter++;
+         } else {
+             errorCounter = 0;
+         }
 
-        if(!hasSetAbsolutePosition || !relativePositionIsSet) {
-            return HealthState.YELLOW;
-        }
+         if (errorCounter >= 20){
+             return HealthState.RED;
+         }
+
+
+         if (!hasSetAbsolutePosition || !relativePositionIsSet) {
+             return HealthState.YELLOW;
+         }
 
         return HealthState.GREEN;
     }
@@ -241,5 +251,9 @@ public class Wrist extends SparkMaxRotatingSubsystem {
                 super.rotator_encoder.setPosition(calculatedRelativePosition);
             }
         }
+    }
+    
+    public void sendAngleToDashboard() {
+        SmartDashboard.putNumber(positionDeg, getCurrentAngleInDegrees());
     }
 }

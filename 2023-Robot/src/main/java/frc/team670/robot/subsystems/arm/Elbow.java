@@ -29,6 +29,7 @@ public class Elbow extends SparkMaxRotatingSubsystem {
     private double calculatedRelativePosition = 0.0;
     private boolean relativePositionIsSet = false;
     private double offset = 0;
+    private double errorCounter = 0;
 
     private final String positionDeg = "Elbow position (deg)";
     private final String absEncoderPos = "Elbow abs encoder position";
@@ -185,13 +186,21 @@ public class Elbow extends SparkMaxRotatingSubsystem {
     public HealthState checkHealth() {
         REVLibError rotatorError = super.rotator.getLastError();
 
-        if (rotatorError != null && rotatorError != REVLibError.kOk) {
-            return HealthState.RED;
-        }
+         if (rotatorError != null && rotatorError != REVLibError.kOk) {
+             Logger.consoleError("Elbow error! Rotator error is " + rotatorError.toString());
+             errorCounter++;
+         } else {
+             errorCounter = 0;
+         }
 
-        if (!hasSetAbsolutePosition || !relativePositionIsSet) {
-            return HealthState.YELLOW;
-        }
+         if (errorCounter >= 20){
+             return HealthState.RED;
+         }
+
+
+         if (!hasSetAbsolutePosition || !relativePositionIsSet) {
+             return HealthState.YELLOW;
+         }
 
         return HealthState.GREEN;
     }
@@ -269,5 +278,9 @@ public class Elbow extends SparkMaxRotatingSubsystem {
             }
             Logger.consoleLog("Elbow relativePositionIsSet = " + this.relativePositionIsSet);
         }
+    }
+
+    public void sendAngleToDashboard() {
+        SmartDashboard.putNumber(positionDeg, getCurrentAngleInDegrees());
     }
 }

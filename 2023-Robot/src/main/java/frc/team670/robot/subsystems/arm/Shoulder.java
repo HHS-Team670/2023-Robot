@@ -185,6 +185,8 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
         boolean followerOK = (followerRotatorError == REVLibError.kOk);
 
         if (!leaderOK && !followerOK) {
+            Logger.consoleError("Shoulder error! Leader error is " + leaderRotatorError.toString());
+            Logger.consoleError("Shoulder error! Follower error is " + followerRotatorError.toString());
             return HealthState.RED;
         }
 
@@ -273,5 +275,9 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
                 super.rotator_encoder.setPosition(calculatedRelativePosition);
             }
         }
+    }
+
+    public void sendAngleToDashboard() {
+        SmartDashboard.putNumber(positionDeg, getCurrentAngleInDegrees());
     }
 }

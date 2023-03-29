@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team670.mustanglib.RobotContainerBase;
 import frc.team670.mustanglib.commands.MustangCommand;
+import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 import frc.team670.mustanglib.utils.LEDColor;
 import frc.team670.mustanglib.utils.Logger;
 import frc.team670.mustanglib.utils.MustangController;
@@ -74,10 +75,9 @@ public class RobotContainer extends RobotContainerBase {
                 claw, led);
         oi.configureButtonBindings(driveBase, vision, arm, claw, led);
 
-        // for (MustangSubsystemBase subsystem : getSubsystems()) {
-        // subsystem.setDebugSubsystem(true);
-        // }
-        arm.getWrist().setDebugSubsystem(true);
+        for (MustangSubsystemBase subsystem : getSubsystems()) {
+            subsystem.setDebugSubsystem(true);
+        }
 
         cableScore = new ConeCubeCube(driveBase, claw, arm, "CableScoreShort");
         stationScore = new ConeCubeCube(driveBase, claw, arm, "Station3Piece");
@@ -195,6 +195,10 @@ public class RobotContainer extends RobotContainerBase {
     public void disabledPeriodic() {
         // int selectedPath = (int)
         // (SmartDashboard.getEntry(autonChooser).getInteger(-1));
+
+        arm.getShoulder().sendAngleToDashboard();
+        arm.getElbow().sendAngleToDashboard();
+        arm.getWrist().sendAngleToDashboard();
 
         int selectedPath = (int) SmartDashboard.getNumber(autonChooser, 0);
         switch (selectedPath) {
