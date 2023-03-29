@@ -161,16 +161,21 @@ public class Elbow extends SparkMaxRotatingSubsystem {
      */
     private void setEncoderPositionFromAbsolute() {
         double absEncoderPosition = absEncoder.getAbsolutePosition();
+        double previousPositionRot = super.rotator_encoder.getPosition();
+
         if(absEncoderPosition != 0.0) {
-            clearSetpoint();
             double relativePosition = ((-1
                     * (absEncoderPosition - (RobotConstants.ELBOW_ABSOLUTE_ENCODER_AT_VERTICAL - 0.5)) + 1)
                     * RobotConstants.ELBOW_GEAR_RATIO) % RobotConstants.ELBOW_GEAR_RATIO;
-            REVLibError error = rotator_encoder.setPosition(relativePosition);
-            SmartDashboard.putNumber("Elbow absEncoder position when reset", absEncoderPosition);
-            SmartDashboard.putNumber("Elbow relEncoder position when reset", relativePosition);
-            SmartDashboard.putString("Elbow error", error.toString());
-            calculatedRelativePosition = relativePosition;
+
+            if(calculatedRelativePosition == 0.0 || Math.abs(360 * ((previousPositionRot - relativePosition) / this.ROTATOR_GEAR_RATIO)) < 6.0) {
+                clearSetpoint();
+                REVLibError error = rotator_encoder.setPosition(relativePosition);
+                SmartDashboard.putNumber("Elbow absEncoder position when reset", absEncoderPosition);
+                SmartDashboard.putNumber("Elbow relEncoder position when reset", relativePosition);
+                SmartDashboard.putString("Elbow error", error.toString());
+                calculatedRelativePosition = relativePosition;
+            }
         }
         
 
