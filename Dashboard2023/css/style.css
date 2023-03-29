@@ -199,6 +199,38 @@ body.login #login {
     margin-top: 10vh;
 }
 
+#arm-values {
+    top: 5vh;
+    left: 60vw;
+    width: 25vw;
+    height: 25vh;
+    border: 1px solid rgb(8, 218, 8);
+    overflow: hidden;
+    background-color: black;
+    /*margin-top: 10vh;*/
+}
+
+#shoulder-value {
+    position: absolute;
+    bottom: 70px;
+    left: 0px;
+    color:white;
+}
+
+#wrist-value {
+    position: absolute;
+    bottom: 35px;
+    left: 0px;
+    color:white;
+}
+
+#elbow-value {
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    color:white;
+}
+
 #delay {
     margin-top: 10px;
     margin-bottom: 10px;
@@ -284,26 +316,27 @@ body.login #login {
     width: 50vw;
     height: 50vh;
     border: 1px solid rgb(8, 218, 8);
+    overflow: hidden;
 }
 
 #substation, #robot {
     top: 0vh;
     left: 20vw;
-    width: 125px;
     position: relative;
 }
 
 #substation {
     border: 5px solid rgb(8, 152, 218);
+    width: 94.5px;
     height: 5vw;
 }
 
 #robot {
     border: 1px solid rgb(8, 218, 8);
-    height: 125px;
-    /* transform: translate(0, -100%); */  
+    width: 137.25px;
+    height: 137.25px;
+    /* transform: translate(0, -100%);   */
     background-image: url("../images/red-triangle.png"); 
-    background-color: #cccccc;
 }
 
 #align {

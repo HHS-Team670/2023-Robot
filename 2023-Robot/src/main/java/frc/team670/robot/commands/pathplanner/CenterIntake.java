@@ -46,7 +46,7 @@ public class CenterIntake extends SequentialCommandGroup implements MustangComma
         eventMap.put("stow", new MoveToTarget(arm, ArmState.STOWED));
         eventMap.put("moveToGround", new MoveToTarget(arm, ArmState.HYBRID));
         eventMap.put("clawIntake", new ClawInstantIntake(claw));
-        eventMap.put("autoLevel", new NonPidAutoLevel(driveBase, false));
+        eventMap.put("autoLevel", new NonPidAutoLevel(driveBase, arm, false));
         
         SwerveDriveKinematics driveBaseKinematics = driveBase.getSwerveKinematics();
 
