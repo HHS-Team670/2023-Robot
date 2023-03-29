@@ -290,18 +290,19 @@ body.login #login {
 #substation, #robot {
     top: 0vh;
     left: 20vw;
-    width: 125px;
     position: relative;
 }
 
 #substation {
     border: 5px solid rgb(8, 152, 218);
+    width: 94.5px;
     height: 5vw;
 }
 
 #robot {
     border: 1px solid rgb(8, 218, 8);
-    height: 125px;
+    width: 137.25px;
+    height: 137.25px;
     /* transform: translate(0, -100%);   */
     background-image: url("../images/red-triangle.png"); 
 }

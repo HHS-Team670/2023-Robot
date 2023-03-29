@@ -190,8 +190,8 @@ NetworkTables.addKeyListener('/SmartDashboard/Single Substation', (key, poseStri
 NetworkTables.addKeyListener('/SmartDashboard/Estimated Pose', (key, poseString) => {
     var field_coord = parsePose(poseString)
     var relX = field_coord[0] - single_substation_coords[0]
-    var relY = field_coord[1] - single_substation_coords[1]
-    var rotation = field_coord[2]
+    var relY = -field_coord[1] + single_substation_coords[1]
+    var rotation = -field_coord[2] + 90
 
     var robot_box = document.querySelector("div#robot")
     robot_box.style.transform = `translate(${relX*150}px, ${relY*150}px) rotate(${rotation}deg)`
