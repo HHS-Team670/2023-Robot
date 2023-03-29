@@ -178,7 +178,6 @@ public class RobotContainer extends RobotContainerBase {
 
     @Override
     public void teleopInit() {
-        vision.setAprilTagFieldLayout(FieldConstants.getFieldLayout(FieldConstants.aprilTags));
         arm.clearSetpoint();
     }
 
