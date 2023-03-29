@@ -194,8 +194,10 @@ NetworkTables.addKeyListener('/SmartDashboard/Estimated Pose', (key, poseString)
     var rotation = field_coord[2]
 
     var robot_box = document.querySelector("div#robot")
-    robot_box.style.transform = `translate(${relX}px, ${relY}px) rotate(${rotation}deg)`
+    robot_box.style.transform = `translate(${relX*150}px, ${relY*150}px) rotate(${rotation}deg)`
     console.log(relX + " " + relY + " " + rotation)
+    console.log((relX*150) + " " + (relY*150) + " " + rotation)
+
 })
 
 var parsePose = (poseString) => {
