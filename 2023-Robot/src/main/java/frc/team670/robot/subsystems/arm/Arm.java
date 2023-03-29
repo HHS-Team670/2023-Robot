@@ -39,7 +39,7 @@ public class Arm extends MustangSubsystemBase {
 
 
     private static final ArmState[][] VALID_PATHS_GRAPH = new ArmState[][] {
-            { ArmState.TUNING, ArmState.SCORE_MID, ArmState.SINGLE_STATION, ArmState.SCORE_HIGH, ArmState.HYBRID, ArmState.INTAKE_SHELF, ArmState.UPRIGHT_GROUND, ArmState.STATION_KICK }, // STOWED
+            { ArmState.TUNING, ArmState.SCORE_MID, ArmState.SINGLE_STATION, ArmState.SCORE_HIGH, ArmState.HYBRID, ArmState.INTAKE_SHELF, ArmState.UPRIGHT_GROUND }, // STOWED
             { ArmState.STOWED, ArmState.INTAKE_SHELF, ArmState.UPRIGHT_GROUND, ArmState.SCORE_HIGH, ArmState.SCORE_MID}, // HYBRID
             { ArmState.SCORE_HIGH, ArmState.STOWED, ArmState.STARTING, ArmState.SINGLE_STATION, ArmState.HYBRID}, // SCORE_MID
             { ArmState.SCORE_MID,  ArmState.STOWED, ArmState.SINGLE_STATION, ArmState.HYBRID, ArmState.INTAKE_SHELF, ArmState.STARTING}, // SCORE_HIGH
@@ -48,7 +48,6 @@ public class Arm extends MustangSubsystemBase {
             { ArmState.STOWED, ArmState.SCORE_MID, ArmState.SCORE_HIGH, ArmState.INTAKE_SHELF}, // SINGLE_STATION
             { ArmState.SCORE_HIGH, ArmState.STOWED, ArmState.STARTING, ArmState.HYBRID, ArmState.SINGLE_STATION, ArmState.UPRIGHT_GROUND}, // INTAKE_SHELF
             { ArmState.STOWED, ArmState.INTAKE_SHELF, ArmState.HYBRID}, // UPRIGHT_GROUND
-            { ArmState.STOWED },
 
     };
 

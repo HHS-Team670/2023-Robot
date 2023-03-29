@@ -48,7 +48,7 @@ public class ConeCubeEngage extends SequentialCommandGroup implements MustangCom
         //  eventMap.put("clawIntake", new ClawInstantIntake(claw)); //May want to use IntakeAndStow after testing.
         // eventMap.put("moveToStowed", new MoveToTarget(arm, ArmState.STOWED));
         // eventMap.put("moveToHigh", new MoveToTarget(arm, ArmState.SCORE_HIGH));
-        eventMap.put("autoLevel", new NonPidAutoLevel(driveBase, arm, true));
+        eventMap.put("autoLevel", new NonPidAutoLevel(driveBase, true));
         
         SwerveDriveKinematics driveBaseKinematics = driveBase.getSwerveKinematics();
 

@@ -48,7 +48,7 @@ public class CenterEngageSequential extends SequentialCommandGroup implements Mu
             new MoveToTarget(arm, ArmState.STOWED),
             autoBuilder.fullAuto(trajectoryGroup),
             new TurnToAngle(driveBase, 180, true, OI.getDriverController()),
-            new NonPidAutoLevel(driveBase, arm, true)));
+            new NonPidAutoLevel(driveBase, true)));
     }
 
 }

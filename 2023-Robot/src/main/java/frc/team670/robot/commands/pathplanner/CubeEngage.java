@@ -52,7 +52,7 @@ public class CubeEngage extends SequentialCommandGroup implements MustangCommand
         eventMap.put("moveToStowed", new MoveToTarget(arm, ArmState.STOWED));
         eventMap.put("moveToGround", new MoveToTarget(arm, ArmState.HYBRID));
         eventMap.put("moveToStowed2", new MoveToTarget(arm, ArmState.STOWED));
-        eventMap.put("autoLevel", new NonPidAutoLevel(driveBase, arm, false)); // regardless of what side
+        eventMap.put("autoLevel", new NonPidAutoLevel(driveBase, false)); // regardless of what side
                                                                           // (right/left) you are
                                                                           // on, markers are the
                                                                           // same

@@ -25,11 +25,10 @@ public class NonPidAutoLevel extends CommandBase implements MustangCommand {
     boolean fromDriverSide = false;
     int counter;
     boolean hasTippedOver;
-    Arm arm;
 
 
 
-    public NonPidAutoLevel(DriveBase driveBase, Arm arm, boolean fromDriverSide) {
+    public NonPidAutoLevel(DriveBase driveBase, boolean fromDriverSide) {
         this.driveBase = driveBase;
         this.fromDriverSide = fromDriverSide;
         SmartDashboard.putNumber("backtracking iterations", 50);
@@ -47,7 +46,6 @@ public class NonPidAutoLevel extends CommandBase implements MustangCommand {
         previousPitch = Math.abs(driveBase.getPitch()); // just to ensure we are going forward
         this.hasGoneUp = false;
         this.hasTippedOver = false;
-        MustangScheduler.getInstance().schedule(new MoveToTarget(arm, ArmState.STATION_KICK));
     }
 
     @Override
@@ -114,7 +112,6 @@ public class NonPidAutoLevel extends CommandBase implements MustangCommand {
     @Override
     public void end(boolean interrupted) {
         //SmartDashboard.putBoolean("non PID auto level ended", true);
-        MustangScheduler.getInstance().schedule(new MoveToTarget(arm, ArmState.STOWED));
             SwerveModuleState[] states = new SwerveModuleState[4];
                 states[0] = new SwerveModuleState(0.01, new Rotation2d(Math.PI/4)); 
                 states[1] = new SwerveModuleState(0.01, new Rotation2d(-Math.PI/4));
