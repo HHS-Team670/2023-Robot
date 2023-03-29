@@ -206,7 +206,20 @@ var parsePose = (poseString) => {
     var rot = Number(poseString.substring(poseString.indexOf(")") + 2, poseString.indexOf("degrees")))
     return [x, y, rot]
 }
+NetworkTables.addKeyListener('/SmartDashboard/Shoulder position (deg)', (key, value) => {
+    var shoulderValue = document.querySelector("h3#shoulder-value")
+    shoulderValue.innerHTML = "Shoulder Position (deg): " + Number(value).toFixed(2)
+})
 
+NetworkTables.addKeyListener('/SmartDashboard/Wrist position (deg)', (key, value) => {
+    var wristValue = document.querySelector("h3#wrist-value")
+    wristValue.innerHTML = "Wrist Position (deg): " + Number(value).toFixed(2)
+})
+
+NetworkTables.addKeyListener('/SmartDashboard/Elbow position (deg)', (key, value) => {
+    var elbowValue = document.querySelector("h3#elbow-value")
+    elbowValue.innerHTML = "Elbow Position (deg): " + Number(value).toFixed(2)
+})
 
 NetworkTables.addKeyListener('/SmartDashboard/pitch', (key, value) => {
     var line = document.querySelector("#leveling-line")

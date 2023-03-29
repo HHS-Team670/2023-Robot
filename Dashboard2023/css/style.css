@@ -199,6 +199,33 @@ body.login #login {
     margin-top: 10vh;
 }
 
+#arm-values {
+    display: none;
+    background-color: black;
+    margin-top: 10vh;
+}
+
+#shoulder-value {
+    position: absolute;
+    bottom: 30px;
+    left: 0px;
+    color:white;
+}
+
+#wrist-value {
+    position: absolute;
+    bottom: 15px;
+    left: 0px;
+    color:white;
+}
+
+#elbow-value {
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    color:white;
+}
+
 #delay {
     margin-top: 10px;
     margin-bottom: 10px;
