@@ -200,21 +200,26 @@ body.login #login {
 }
 
 #arm-values {
-    display: none;
+    top: 5vh;
+    left: 60vw;
+    width: 25vw;
+    height: 25vh;
+    border: 1px solid rgb(8, 218, 8);
+    overflow: hidden;
     background-color: black;
-    margin-top: 10vh;
+    /*margin-top: 10vh;*/
 }
 
 #shoulder-value {
     position: absolute;
-    bottom: 30px;
+    bottom: 70px;
     left: 0px;
     color:white;
 }
 
 #wrist-value {
     position: absolute;
-    bottom: 15px;
+    bottom: 35px;
     left: 0px;
     color:white;
 }
