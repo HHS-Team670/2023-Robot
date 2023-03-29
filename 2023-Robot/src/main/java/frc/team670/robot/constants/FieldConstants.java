@@ -386,8 +386,7 @@ public class FieldConstants {
          */
         public static Pose2d allianceFlip(Pose2d pose) {
                 if (DriverStation.getAlliance() == Alliance.Red) {
-                        return new Pose2d(fieldLength - pose.getX(), pose.getY(), new Rotation2d(
-                                        -pose.getRotation().getCos(), pose.getRotation().getSin()));
+                        return new Pose2d(fieldLength - pose.getX(), pose.getY(), pose.getRotation().times(-1));
                 } else {
                         return pose;
                 }
