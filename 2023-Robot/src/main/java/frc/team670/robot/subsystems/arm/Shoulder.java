@@ -27,10 +27,11 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
     private DutyCycleEncoder absEncoder;
     private SparkMAXLite follower;
     private boolean hasSetAbsolutePosition = false;
-    int counter = 0;
-    double previousReading = 0.0;
-    double calculatedRelativePosition = 0.0;
-    boolean relativePositionIsSet = false;
+    private int counter = 0;
+    private int errorCounter = 0;
+    private double previousReading = 0.0;
+    private double calculatedRelativePosition = 0.0;
+    private boolean relativePositionIsSet = false;
     private double offset = 0;
 
     private final String positionDeg = "Shoulder position (deg)";
@@ -185,6 +186,13 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
         boolean followerOK = (followerRotatorError == REVLibError.kOk);
 
         if (!leaderOK && !followerOK) {
+            errorCounter++;
+            Logger.consoleError("Shoulder Rotator Error", leaderRotatorError, followerRotatorError);
+        } else {
+            errorCounter = 0;
+        }
+
+        if(errorCounter >= 20){
             return HealthState.RED;
         }
 

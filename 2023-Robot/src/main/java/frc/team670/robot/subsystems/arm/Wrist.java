@@ -14,6 +14,8 @@ import frc.team670.mustanglib.utils.motorcontroller.MotorConfig.Motor_Type;
 import frc.team670.mustanglib.utils.motorcontroller.SparkMAXLite;
 import frc.team670.robot.constants.RobotConstants;
 import frc.team670.robot.constants.RobotMap;
+import frc.team670.mustanglib.utils.Logger;
+
 
 /**
  * Represents the wrist joint. Uses only one motor
@@ -25,6 +27,7 @@ public class Wrist extends SparkMaxRotatingSubsystem {
     private DutyCycleEncoder absEncoder;
     private boolean hasSetAbsolutePosition = false;
     private int counter = 0;
+    private int errorCounter = 0;
     private double previousReading = 0.0;
     private double calculatedRelativePosition = 0.0;
     private boolean relativePositionIsSet = false;
@@ -175,13 +178,19 @@ public class Wrist extends SparkMaxRotatingSubsystem {
         REVLibError rotatorError = super.rotator.getLastError();
 
         if (rotatorError != null && rotatorError != REVLibError.kOk) {
+            errorCounter++;
+            Logger.consoleError("Wrist Rotator Error", rotatorError);
+        } else{
+            errorCounter = 0;
+        }
+
+        if(errorCounter >= 20){
             return HealthState.RED;
         }
 
         if(!hasSetAbsolutePosition || !relativePositionIsSet) {
             return HealthState.YELLOW;
         }
-
         return HealthState.GREEN;
     }
 

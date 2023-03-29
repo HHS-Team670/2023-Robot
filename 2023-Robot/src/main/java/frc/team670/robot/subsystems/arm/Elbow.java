@@ -14,6 +14,8 @@ import frc.team670.mustanglib.utils.motorcontroller.MotorConfig.Motor_Type;
 import frc.team670.mustanglib.utils.motorcontroller.SparkMAXLite;
 import frc.team670.robot.constants.RobotConstants;
 import frc.team670.robot.constants.RobotMap;
+import frc.team670.mustanglib.utils.Logger;
+
 
 /**
  * Represents the Elbow joint. Uses only one motor
@@ -29,6 +31,7 @@ public class Elbow extends SparkMaxRotatingSubsystem {
     private double calculatedRelativePosition = 0.0;
     private boolean relativePositionIsSet = false;
     private double offset = 0;
+    private int errorCounter = 0;
 
     private final String positionDeg = "Elbow position (deg)";
     private final String absEncoderPos = "Elbow abs encoder position";
@@ -186,8 +189,16 @@ public class Elbow extends SparkMaxRotatingSubsystem {
         REVLibError rotatorError = super.rotator.getLastError();
 
         if (rotatorError != null && rotatorError != REVLibError.kOk) {
+            Logger.consoleError("Elbow Rotator Error", rotatorError);
+            errorCounter++;
+        } else {
+            errorCounter = 0;
+        }
+        
+        if (errorCounter >= 20){
             return HealthState.RED;
         }
+
 
         if (!hasSetAbsolutePosition || !relativePositionIsSet) {
             return HealthState.YELLOW;
