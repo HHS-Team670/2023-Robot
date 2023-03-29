@@ -22,8 +22,9 @@ public enum ArmState {
     SINGLE_STATION(6, 231, 11, 249),
     INTAKE_SHELF(7, 213, 66, 150),
     UPRIGHT_GROUND(8, 157, 35, 236),
-    STATION_KICK(9, 140, 50, 344); // Set values
-    
+    STATION_KICK(9, 140, 50, 344), // Set values
+    INTERMEDIATE_BACKWARD_GROUND(10, 217, 40, 170), // need to be tuned
+    BACKWARD_GROUND(11, 217, 310, 90); // need to be tuned
 
 
 
