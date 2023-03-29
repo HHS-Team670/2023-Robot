@@ -102,14 +102,14 @@ setPaths()
 var x = 0.5
 var y = 0.5
 var r = 0.5
-var move = document.querySelector('#move')
-move.onclick = () => {
-    x += 1
-    y += 1
-    r += 1
-    var robot_box = document.querySelector("div#robot")
-    robot_box.style.transform = `rotate(${r}deg) translate(${x}px, ${y}px)`
-}
+// var move = document.querySelector('#move')
+// move.onclick = () => {
+//     x += 1
+//     y += 1
+//     r += 1
+//     var robot_box = document.querySelector("div#robot")
+//     robot_box.style.transform = `rotate(${r}deg) translate(${x}px, ${y}px)`
+// }
 
 NetworkTables.addKeyListener('/SmartDashboard/match-started', (key, value) => {
     var autoSelector = document.querySelector('#auton-chooser')
