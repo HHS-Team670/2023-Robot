@@ -201,42 +201,61 @@ body.login #login {
 
 #arm-values {
     top: 5vh;
-    left: 60vw;
-    width: 25vw;
+    left: 58vw;
+    width: 18vw;
     height: 25vh;
     border: 1px solid rgb(8, 218, 8);
     overflow: hidden;
     background-color: black;
-    /*margin-top: 10vh;*/
 }
 
+#shoulder-value, #wrist-value, #elbow-value {
+    position: absolute;
+    left: 3px;
+    color:white;
+}
 #shoulder-value {
-    position: absolute;
     bottom: 70px;
-    left: 0px;
-    color:white;
 }
-
 #wrist-value {
-    position: absolute;
     bottom: 35px;
-    left: 0px;
-    color:white;
+}
+#elbow-value {
+    bottom: 0px;
 }
 
-#elbow-value {
+#swerve-absolute-values {
+    top: 5vh;
+    left: 78vw;
+    width: 22vw;
+    height: 25vh;
+    border: 1px solid rgb(8, 218, 8);
+    overflow: hidden;
+    background-color: black;
+}
+
+#backLeft-value, #backRight-value, #frontLeft-value, #frontRight-value {
     position: absolute;
-    bottom: 0px;
-    left: 0px;
+    left: 3px;
     color:white;
+}
+#backLeft-value {
+    bottom: 90px;
+}
+#backRight-value {
+    bottom: 60px;
+}
+#frontLeft-value {
+    bottom: 30px;
+}
+#frontRight-value {
+    bottom: 0px;
 }
 
 #delay {
     margin-top: 10px;
     margin-bottom: 10px;
 }
-
-
 
 #big-warning {
     position: absolute;

@@ -209,17 +209,73 @@ var parsePose = (poseString) => {
 NetworkTables.addKeyListener('/SmartDashboard/Shoulder position (deg)', (key, value) => {
     var shoulderValue = document.querySelector("h3#shoulder-value")
     shoulderValue.innerHTML = "Shoulder Position (deg): " + Number(value).toFixed(2)
+    if (value == null){
+        shoulderValue.backgroundColor = "#FF0000"; //red
+    }else if(value >= 202 && value <= 208){
+        shoulderValue.backgroundColor = "#00FF00"; //green
+    }
 })
 
 NetworkTables.addKeyListener('/SmartDashboard/Wrist position (deg)', (key, value) => {
     var wristValue = document.querySelector("h3#wrist-value")
     wristValue.innerHTML = "Wrist Position (deg): " + Number(value).toFixed(2)
+    if (value == null){
+        wristValue.backgroundColor = "#FF0000"; //red
+    }else if(value >= 255 && value <= 285){
+        wristValue.backgroundColor = "#00FF00"; //green
+    }
 })
 
 NetworkTables.addKeyListener('/SmartDashboard/Elbow position (deg)', (key, value) => {
     var elbowValue = document.querySelector("h3#elbow-value")
     elbowValue.innerHTML = "Elbow Position (deg): " + Number(value).toFixed(2)
+    if (value == null){
+        elbowValue.backgroundColor = "#FF0000"; //red
+    }else if(value >= 7 && value <= 13){
+        elbowValue.backgroundColor = "#00FF00"; //green
+    }
 })
+
+NetworkTables.addKeyListener('/Shuffleboard/Drivetrain/Back Left Module/Absolute Encoder Angle', (key, value) => {
+    var backLeftValue = document.querySelector("h3#backLeft-value")
+    backLeftValue.innerHTML = "Back Left Absolute Position(deg): " + Number(value).toFixed(2)
+    if (value == null){
+        backLeftValue.backgroundColor = "#FF0000"; //red
+    }else if(value >= -2 && value <= 2){
+        backLeftValue.backgroundColor = "#00FF00"; //green
+    }
+})
+
+NetworkTables.addKeyListener('/Shuffleboard/Drivetrain/Back Right Module/Absolute Encoder Angle', (key, value) => {
+    var backRightValue = document.querySelector("h3#backRight-value")
+    backRightValue.innerHTML = "Back Right Absolute Position(deg): " + Number(value).toFixed(2)
+    if (value == null){
+        backRightValue.backgroundColor = "#FF0000"; //red
+    }else if(value >= -2 && value <= 2){
+        backRightValue.backgroundColor = "#00FF00"; //green
+    }
+})
+
+NetworkTables.addKeyListener('/Shuffleboard/Drivetrain/Front Left Module/Absolute Encoder Angle', (key, value) => {
+    var frontLeftValue = document.querySelector("h3#frontLeft-value")
+    frontLeftValue.innerHTML = "Front Left Absolute Position(deg): " + Number(value).toFixed(2)
+    if (value == null){
+        frontLeftValue.backgroundColor = "#FF0000"; //red
+    }else if(value >= -2 && value <= 2){
+        frontLeftValue.backgroundColor = "#00FF00"; //green
+    }
+})
+
+NetworkTables.addKeyListener('/Shuffleboard/Drivetrain/Front Right Module/Absolute Encoder Angle', (key, value) => {
+    var frontRightValue = document.querySelector("h3#frontRight-value")
+    frontRightValue.innerHTML = "Front Right Absolute Position(deg): " + Number(value).toFixed(2)
+    if (value == null){
+        frontRightValue.backgroundColor = "#FF0000"; //red
+    }else if(value >= -2 && value <= 2){
+        frontRightValue.backgroundColor = "#00FF00"; //green
+    }
+})
+
 
 NetworkTables.addKeyListener('/SmartDashboard/pitch', (key, value) => {
     var line = document.querySelector("#leveling-line")
