@@ -125,8 +125,8 @@ public class Claw extends MustangSubsystemBase {
                             led.solidhsv(LEDColor.GREEN);
                         }
                         setStatus(Status.IDLE);
-                        OI.getDriverController().rumble(0.5, 0.5);
-                        OI.getOperatorController().rumble(0.5, 0.5);
+                        // OI.getDriverController().rumble(0.5, 0.5);
+                        // OI.getOperatorController().rumble(0.5, 0.5);
                         currentSpikeCounter = 0;
                         setIdle();
                     }

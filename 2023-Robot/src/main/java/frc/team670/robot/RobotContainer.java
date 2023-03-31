@@ -80,7 +80,7 @@ public class RobotContainer extends RobotContainerBase {
             subsystem.setDebugSubsystem(true);
         }
 
-        cableScore = new ConeCube(driveBase, claw, arm, "Cable2Piece");
+        cableScore = new ConeCube(driveBase, claw, arm, "CableScoreShort");
         stationScore = new ConeCubeCube(driveBase, claw, arm, "Station3Piece");
         cableEngage = new CubeEngage(driveBase, claw, arm, "CableEngage");
         stationEngage = new ScoreEngage(driveBase, claw, arm, "StationScoreEngage3");

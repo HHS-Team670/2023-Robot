@@ -162,6 +162,7 @@ public class Wrist extends SparkMaxRotatingSubsystem {
             
             if(calculatedRelativePosition == 0.0 || Math.abs(360 * ((previousPositionRot - relativePosition) / this.ROTATOR_GEAR_RATIO)) < 20.0) {
                 clearSetpoint();
+                
                 REVLibError error = rotator_encoder.setPosition(relativePosition);
                 SmartDashboard.putNumber("Wrist absEncoder position when reset", absEncoderPosition);
                 SmartDashboard.putNumber("Wrist relEncoder position when reset", relativePosition);

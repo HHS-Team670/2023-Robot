@@ -82,7 +82,7 @@ public class Arm extends MustangSubsystemBase {
             )
         ),
         entry(ArmState.INTAKE_SHELF, Map.ofEntries( //From SCORE_MID
-                entry(ArmState.STOWED, new double[]{0, 250, 0}),
+                entry(ArmState.STOWED, new double[]{0, 500, 0}),
                 entry(ArmState.HYBRID, new double[]{0, 250, 0})
             )
         ),

@@ -127,7 +127,7 @@ public class OI extends OIBase {
         scoreMidR.onTrue(new MoveToTarget(arm, ArmState.SCORE_MID));
         singleStation.onTrue(new MoveToTarget(arm, claw, ArmState.SINGLE_STATION));
         scoreHigh.onTrue(new MoveToTarget(arm, ArmState.SCORE_HIGH));
-        intakeShelf.onTrue(new MoveToTarget(arm, ArmState.INTAKE_SHELF));
+        intakeShelf.onTrue(new MoveToTarget(arm, claw, ArmState.INTAKE_SHELF));
         uprightGround.onTrue(new MoveToTarget(arm, ArmState.UPRIGHT_GROUND));
         stow.onTrue(new MoveToTarget(arm, ArmState.STOWED));
         manualShoulderControl.onTrue(new ManualMoveShoulder(arm, operatorController));

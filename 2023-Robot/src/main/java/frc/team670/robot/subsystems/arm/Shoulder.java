@@ -229,7 +229,7 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
                     * (absEncoderPosition - (RobotConstants.SHOULDER_ABSOLUTE_ENCODER_AT_VERTICAL - 0.5)) + 1)
                     * RobotConstants.SHOULDER_GEAR_RATIO) % RobotConstants.SHOULDER_GEAR_RATIO;
             
-            if(calculatedRelativePosition == 0.0 || Math.abs(360 * ((previousPositionRot - relativePosition) / this.ROTATOR_GEAR_RATIO)) < 3.0) {
+            if(calculatedRelativePosition == 0.0 || Math.abs(360 * ((previousPositionRot - relativePosition) / this.ROTATOR_GEAR_RATIO)) < 5.0) {
                 clearSetpoint();
                 REVLibError error = rotator_encoder.setPosition(relativePosition);
                 SmartDashboard.putNumber("Shoulder absEncoder position when reset", absEncoderPosition);

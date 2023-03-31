@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -107,12 +109,13 @@ public class AutoAlign extends CommandBase implements MustangCommand {
 
     private void alterGoal(Direction d) {
         int initGoal = goal;
+        int allianceColorFlip = DriverStation.getAlliance() == Alliance.Blue ? 1 : -1;
         if (initGoal <= 8) {    // in grid
-            if (direction == Direction.RIGHT) goal--;
-            else goal++;
+            if (direction == Direction.RIGHT) goal -= allianceColorFlip;
+            else goal += allianceColorFlip;
         } else {    // intake zones
-            if (direction == Direction.RIGHT) goal++;
-            else goal--;
+            if (direction == Direction.RIGHT) goal += allianceColorFlip;
+            else goal -= allianceColorFlip;
         }
         // goal += n;
         if (initGoal <= 8 && goal > 8)
@@ -121,6 +124,7 @@ public class AutoAlign extends CommandBase implements MustangCommand {
             goal = 9;
         checkGoalInBounds();
     }
+
 
     private void checkGoalInBounds() {
         if (goal < 0)

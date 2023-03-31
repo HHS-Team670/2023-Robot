@@ -204,7 +204,7 @@ public class FieldConstants {
                 public static final Pose2d[] IntakePoses = {
                                 // single substation
                                 new Pose2d(singleSubstationTranslation
-                                                .minus(new Translation2d(0, RobotConstants.DRIVEBASE_CLEARANCE)),
+                                                .minus(new Translation2d(-RobotConstants.DRIVEBASE_WIDTH/2, RobotConstants.DRIVEBASE_CLEARANCE)),
                                                 new Rotation2d(-Math.PI / 2)),
 
                                 // double substation
@@ -261,6 +261,7 @@ public class FieldConstants {
                                         Units.inchesToMeters(18.22), new Rotation3d()));
 
         // AprilTag locations (do not flip for red alliance)
+        // FIELD ORIENTED, bottom left (blue) is 0, 0
         public static final Map<Integer, Pose3d> aprilTags = Map.of(1,
                         new Pose3d(Units.inchesToMeters(610.77), Units.inchesToMeters(42.19),
                                         Units.inchesToMeters(18.22),
@@ -378,11 +379,7 @@ public class FieldConstants {
         }
 
         /**
-         * Flips a pose to the correct side of the field based on the current alliance
-         * color. By
-         * default, all translations and poses in {@link FieldConstants} are stored with
-         * the origin
-         * at the rightmost point on the BLUE ALLIANCE wall.
+         * Flips a pose FIELD ORIENTED
          */
         public static Pose2d allianceFlip(Pose2d pose) {
                 if (DriverStation.getAlliance() == Alliance.Red) {
