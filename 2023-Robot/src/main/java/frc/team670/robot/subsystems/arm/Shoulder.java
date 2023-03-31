@@ -169,7 +169,7 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
     @Override
     public void setSystemTargetAngleInDegrees(double targetAngle) {
         orgTargetAngle = targetAngle;
-        super.setSystemTargetAngleInDegrees(orgTargetAngle);
+        super.setSystemTargetAngleInDegrees(orgTargetAngle + offset);
     }
 
     private void setOffset(double offset) {
@@ -178,7 +178,7 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
         } else {
             this.offset = offset;
         }
-        setSystemTargetAngleInDegrees(orgTargetAngle + offset);
+        setSystemTargetAngleInDegrees(orgTargetAngle);
 
     }
 
