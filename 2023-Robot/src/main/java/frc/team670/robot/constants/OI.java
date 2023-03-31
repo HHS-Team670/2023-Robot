@@ -130,7 +130,7 @@ public class OI extends OIBase {
         uprightGround.onTrue(new MoveToTarget(arm, ArmState.UPRIGHT_GROUND));
         stow.onTrue(new MoveToTarget(arm, ArmState.STOWED));
         manualShoulderControl.onTrue(new ManualMoveShoulder(arm, operatorController));
-        manualElbowControl.onTrue(new ManualMoveElbow(arm, operatorController));
+        manualElbowControl.onTrue(new ManualMoveElbow(arm, true));
         manualWristControlLeft.onTrue(new ManualMoveWrist(arm, operatorController));
         manualWristControlRight.onTrue(new ManualMoveWrist(arm, operatorController));
         // Claw control commands
