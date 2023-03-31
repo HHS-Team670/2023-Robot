@@ -32,6 +32,7 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
     double calculatedRelativePosition = 0.0;
     boolean relativePositionIsSet = false;
     private double offset = 0;
+    private double orgTargetAngle = 0;
 
     private final String positionDeg = "Shoulder position (deg)";
     private final String absEncoderPos = "Shoulder abs encoder position";
@@ -139,7 +140,8 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
     }
 
     /**
-     * Returns whether or not the relative position has been properly set from the absEncoder.
+     * Returns whether or not the relative position has been properly set from the
+     * absEncoder.
      * When resetPositionFromAbsolute() gets called, this will temporarily be false.
      */
     public boolean isRelativePositionSet() {
@@ -148,6 +150,7 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
 
     /**
      * Updates the arbitraryFF value to counteract gravity
+     * 
      * @param voltage The calculated voltage, returned from VoltageCalculator
      */
     public void updateArbitraryFeedForward(double voltage) {
@@ -163,17 +166,29 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
         return false;
     }
 
-    public void setOffset(double offset) {
+    @Override
+    public void setSystemTargetAngleInDegrees(double targetAngle) {
+        orgTargetAngle = targetAngle;
+        super.setSystemTargetAngleInDegrees(orgTargetAngle);
+    }
+
+    private void setOffset(double offset) {
         if (Math.abs(offset) > RobotConstants.SHOULDER_MAX_OVERRIDE_DEGREES) {
             this.offset = RobotConstants.SHOULDER_MAX_OVERRIDE_DEGREES * this.offset / Math.abs(this.offset);
         } else {
             this.offset = offset;
         }
+        setSystemTargetAngleInDegrees(orgTargetAngle + offset);
 
     }
 
-    public double getOffset() {
-        return offset;
+    public void resetOffset() {
+        setOffset(0);
+
+    }
+
+    public void addOffset(double offset) {
+        setOffset(this.offset + offset);
     }
 
     @Override
@@ -223,13 +238,14 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
     private void setEncoderPositionFromAbsolute() {
         double absEncoderPosition = absEncoder.getAbsolutePosition();
         double previousPositionRot = super.rotator_encoder.getPosition();
-        if(absEncoderPosition != 0.0) {
+        if (absEncoderPosition != 0.0) {
 
             double relativePosition = ((-1
                     * (absEncoderPosition - (RobotConstants.SHOULDER_ABSOLUTE_ENCODER_AT_VERTICAL - 0.5)) + 1)
                     * RobotConstants.SHOULDER_GEAR_RATIO) % RobotConstants.SHOULDER_GEAR_RATIO;
-            
-            if(calculatedRelativePosition == 0.0 || Math.abs(360 * ((previousPositionRot - relativePosition) / this.ROTATOR_GEAR_RATIO)) < 5.0) {
+
+            if (calculatedRelativePosition == 0.0
+                    || Math.abs(360 * ((previousPositionRot - relativePosition) / this.ROTATOR_GEAR_RATIO)) < 5.0) {
                 clearSetpoint();
                 REVLibError error = rotator_encoder.setPosition(relativePosition);
                 SmartDashboard.putNumber("Shoulder absEncoder position when reset", absEncoderPosition);
@@ -248,7 +264,8 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
 
     @Override
     public boolean hasReachedTargetPosition() {
-        return (MathUtils.doublesEqual(rotator_encoder.getPosition(), setpoint, RobotConstants.SHOULDER_ALLOWED_ERR_DEG));
+        return (MathUtils.doublesEqual(rotator_encoder.getPosition(), setpoint,
+                RobotConstants.SHOULDER_ALLOWED_ERR_DEG));
     }
 
     @Override

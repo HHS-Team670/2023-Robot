@@ -30,13 +30,14 @@ public class ManualMoveShoulder extends CommandBase implements MustangCommand {
     @Override
     public void execute() {
 
-        arm.getShoulder().setOffset(arm.getShoulder().getOffset() + controller.getRightY() * 5);
+        // arm.getShoulder().setOffset(arm.getShoulder().getOffset() +
+        // controller.getRightY() * 5);
 
     }
 
     @Override
     public boolean isFinished() {
-        return !controller.getLeftJoystickButton();
+        return true;
 
     }
 
