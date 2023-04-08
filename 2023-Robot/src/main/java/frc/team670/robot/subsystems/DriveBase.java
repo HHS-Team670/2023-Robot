@@ -21,8 +21,6 @@ import frc.team670.robot.constants.RobotConstants;
 
 public class DriveBase extends SwerveDrive {
     private static DriveBase mInstance;
-    private MustangCommand defaultCommand;
-    private MustangController mController;
 
     public static DriveBase getInstance() {
         return mInstance == null ? new DriveBase() : mInstance;
@@ -30,39 +28,12 @@ public class DriveBase extends SwerveDrive {
 
     public DriveBase() {
         super(RobotConstants.DriveBase.kConfig);
-        this.mController = OI.getDriverController();
-    }
-
-    /**
-     * Makes the DriveBase's default command initialize teleop
-     */
-    public void initDefaultCommand() { // TODO: switch to super class's init default command
-        // defaultCommand = new XboxSwerveDrive(this, mController,
-        // MAX_VELOCITY_METERS_PER_SECOND,
-        // MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND);
-        defaultCommand = new XboxSwerveDrive(this, mController,
-                RobotConstants.DriveBase.kMaxVelocityMetersPerSecond,
-                RobotConstants.DriveBase.kMaxAngularVelocityRadiansPerSecond);
-        MustangScheduler.getInstance().setDefaultCommand(this, defaultCommand);
-    }
-
-    public void cancelDefaultCommand() {
-        MustangScheduler.getInstance().cancel(defaultCommand);
-    }
-
-    public MustangCommand getDefaultMustangCommand() {
-        return defaultCommand;
     }
 
     public void mustangPeriodic() {
         super.mustangPeriodic();
         SmartDashboard.putNumber("pitch", getPitch());
     }
-
-    // @Override
-    // public void periodic() {
-    // return;
-    // }
 
     @Override
     public HealthState checkHealth() {
@@ -78,17 +49,6 @@ public class DriveBase extends SwerveDrive {
     }
 
     @Override
-    public void debugSubsystem() {
-
-    }
-
-    public MustangPPSwerveControllerCommand getFollowTrajectoryCommand(PathPlannerTrajectory traj) {
-        setmSwerveControllerCommand(new MustangPPSwerveControllerCommand(traj, this::getPose,
-                getSwerveKinematics(), RobotConstants.DriveBase.xController,
-                RobotConstants.DriveBase.yController, RobotConstants.DriveBase.thetaController,
-                this::setModuleStates, new Subsystem[] {this}));
-        return getSwerveControllerCommand();
-
-    }
+    public void debugSubsystem() {}
 
 }
