@@ -18,7 +18,6 @@ import frc.team670.mustanglib.subsystems.MustangSubsystemBase.HealthState;
 import frc.team670.mustanglib.swervelib.pathplanner.MustangPPSwerveControllerCommand;
 import frc.team670.robot.commands.vision.IsLockedOn;
 import frc.team670.robot.constants.FieldConstants;
-import frc.team670.robot.constants.RobotConstants;
 import frc.team670.robot.subsystems.DriveBase;
 
 /**
@@ -58,7 +57,7 @@ public class MoveToPose extends CommandBase implements MustangCommand {
     @Override
     public void initialize() {
         this.startPose = driveBase.getPose();
-        PathPlannerTrajectory traj = PathPlanner.generatePath(RobotConstants.kAutoPathConstraints,
+        PathPlannerTrajectory traj = PathPlanner.generatePath(frc.team670.robot.constants.RobotConstants.DriveBase.kAutoPathConstraints,
                 calcStartPoint(endPose), calcEndPoint(startPose));
         driveBase.getPoseEstimator().addTrajectory(traj);
 

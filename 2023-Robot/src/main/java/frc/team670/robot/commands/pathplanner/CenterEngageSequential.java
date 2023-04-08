@@ -29,7 +29,7 @@ import frc.team670.robot.subsystems.arm.Arm;
 import frc.team670.robot.subsystems.arm.ArmState;
 
 public class CenterEngageSequential extends SequentialCommandGroup implements MustangCommand {
-    
+
     public Map<MustangSubsystemBase, HealthState> getHealthRequirements() {
         return new HashMap<MustangSubsystemBase, HealthState>();
     }
@@ -38,17 +38,17 @@ public class CenterEngageSequential extends SequentialCommandGroup implements Mu
     public CenterEngageSequential(DriveBase driveBase, Claw claw, Arm arm) {
         List<PathPlannerTrajectory> trajectoryGroup = PathPlanner.loadPathGroup("BackUp", 4, 4.5);
         SwerveDriveKinematics driveBaseKinematics = driveBase.getSwerveKinematics();
-        SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(driveBase::getPose,
-                driveBase::resetOdometry, driveBaseKinematics, RobotConstants.AUTON_TRANSLATION_CONTROLLER, RobotConstants.AUTON_THETA_CONTROLLER,
-                driveBase::setModuleStates, null, true, new Subsystem[] {driveBase});
-                
-        addCommands(new SequentialCommandGroup(
-            new MoveToTarget(arm, ArmState.SCORE_MID),
-            new ClawInstantEject(claw),
-            new MoveToTarget(arm, ArmState.STOWED),
-            autoBuilder.fullAuto(trajectoryGroup),
-            new TurnToAngle(driveBase, 180, true, OI.getDriverController()),
-            new NonPidAutoLevel(driveBase, true)));
+        SwerveAutoBuilder autoBuilder =
+                new SwerveAutoBuilder(driveBase::getPose, driveBase::resetOdometry,
+                        driveBaseKinematics, RobotConstants.DriveBase.kAutonTranslationPID,
+                        RobotConstants.DriveBase.kAutonThetaPID, driveBase::setModuleStates, null,
+                        true, new Subsystem[] {driveBase});
+
+        addCommands(new SequentialCommandGroup(new MoveToTarget(arm, ArmState.SCORE_MID),
+                new ClawInstantEject(claw), new MoveToTarget(arm, ArmState.STOWED),
+                autoBuilder.fullAuto(trajectoryGroup),
+                new TurnToAngle(driveBase, 180, true, OI.getDriverController()),
+                new NonPidAutoLevel(driveBase, true)));
     }
 
 }

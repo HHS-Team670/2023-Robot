@@ -44,8 +44,8 @@ public class TurnToAngle extends CommandBase implements MustangCommand {
         PIDController xcontroller = new PIDController(0, 0, 0);
         PIDController ycontroller = new PIDController(0, 0, 0);
         ProfiledPIDController thetacontroller = new ProfiledPIDController(4, 0, 1, // not tuned yet
-                new Constraints(RobotConstants.kMaxAngularSpeedRadiansPerSecond,
-                        RobotConstants.kMaxAngularSpeedRadiansPerSecondSquared));
+                new Constraints(RobotConstants.DriveBase.kMaxAngularSpeedRadiansPerSecond,
+                        RobotConstants.DriveBase.kMaxAngularSpeedRadiansPerSecondSquared));
 
         holonomicDriveController =
                 new HolonomicDriveController(xcontroller, ycontroller, thetacontroller);
@@ -65,8 +65,8 @@ public class TurnToAngle extends CommandBase implements MustangCommand {
         PIDController xcontroller = new PIDController(0, 0, 0);
         PIDController ycontroller = new PIDController(0, 0, 0);
         ProfiledPIDController thetacontroller = new ProfiledPIDController(4, 0, 1, // not tuned yet
-                new Constraints(RobotConstants.kMaxAngularSpeedRadiansPerSecond,
-                        RobotConstants.kMaxAngularSpeedRadiansPerSecondSquared));
+                new Constraints(RobotConstants.DriveBase.kMaxAngularSpeedRadiansPerSecond,
+                        RobotConstants.DriveBase.kMaxAngularSpeedRadiansPerSecondSquared));
 
         holonomicDriveController =
                 new HolonomicDriveController(xcontroller, ycontroller, thetacontroller);

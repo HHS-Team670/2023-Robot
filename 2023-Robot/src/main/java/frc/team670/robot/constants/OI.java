@@ -27,7 +27,7 @@ import frc.team670.robot.subsystems.arm.Arm;
 import frc.team670.robot.subsystems.arm.ArmState;
 
 public class OI extends OIBase {
-
+        
         // Controllers
         private static MustangController driverController = new MustangController(0);
         private static MustangController operatorController = new MustangController(1);

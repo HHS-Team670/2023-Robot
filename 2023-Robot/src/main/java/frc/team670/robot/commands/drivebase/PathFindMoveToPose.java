@@ -15,7 +15,6 @@ import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase.HealthState;
 import frc.team670.mustanglib.swervelib.pathplanner.MustangPPSwerveControllerCommand;
 import frc.team670.robot.constants.FieldConstants;
-import frc.team670.robot.constants.RobotConstants;
 import frc.team670.robot.pathfinder.ObstacleAvoidanceAStarMap;
 import frc.team670.robot.pathfinder.PoseNode;
 import frc.team670.robot.subsystems.DriveBase;
@@ -48,7 +47,7 @@ public class PathFindMoveToPose extends CommandBase implements MustangCommand {
 		PathPoint[] fullPathPoints = getPathPointsFromNodes(fullPath);
 
 		PathPlannerTrajectory trajectory = PathPlanner
-				.generatePath(RobotConstants.kAutoPathConstraints, Arrays.asList(fullPathPoints));
+				.generatePath(frc.team670.robot.constants.RobotConstants.DriveBase.kAutoPathConstraints, Arrays.asList(fullPathPoints));
 		driveBase.getPoseEstimator().addTrajectory(trajectory);
 		pathDrivingCommand = driveBase.getFollowTrajectoryCommand(trajectory);
 		pathDrivingCommand.schedule();

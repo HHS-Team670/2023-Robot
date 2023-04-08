@@ -44,12 +44,14 @@ public class CenterEngage extends SequentialCommandGroup implements MustangComma
         eventMap.put("clawEject", new ClawEject(claw));
         eventMap.put("stow", new MoveToTarget(arm, ArmState.STOWED));
         eventMap.put("autoLevel", new NonPidAutoLevel(driveBase, true));
-        
+
         SwerveDriveKinematics driveBaseKinematics = driveBase.getSwerveKinematics();
 
-        SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(driveBase::getPose,
-                driveBase::resetOdometry, driveBaseKinematics, RobotConstants.AUTON_TRANSLATION_CONTROLLER, RobotConstants.AUTON_THETA_CONTROLLER,
-                driveBase::setModuleStates, eventMap, true, new Subsystem[] {driveBase});
+        SwerveAutoBuilder autoBuilder =
+                new SwerveAutoBuilder(driveBase::getPose, driveBase::resetOdometry,
+                        driveBaseKinematics, RobotConstants.DriveBase.kAutonTranslationPID,
+                        RobotConstants.DriveBase.kAutonThetaPID, driveBase::setModuleStates,
+                        eventMap, true, new Subsystem[] {driveBase});
 
         CommandBase fullAuto = autoBuilder.fullAuto(trajectoryGroup);
 

@@ -25,119 +25,72 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveBase extends SwerveDrive {
-      private final String pitchKey = "pitch";
 
-      /**
-       * The maximum voltage that will be delivered to the drive motors. This can be reduced to cap
-       * the robot's maximum speed. Typically, this is useful during initial testing of the robot.
-       */
-      public static final double MAX_VOLTAGE = 12.0;
 
-      // The formula for calculating the theoretical maximum velocity is:
-      // <Motor free speed RPM> / 60 * <Drive reduction> * <Wheel diameter meters> *
-      // pi
-      // An example of this constant for a Mk4 L2 module with NEOs to drive is:
-      // 5880.0 / 60.0 / SdsModuleConfigurations.MK4_L2.getDriveReduction() *
-      // SdsModuleConfigurations.MK4_L2.getWheelDiameter() * Math.PI
-      /**
-       * The maximum velocity of the robot in meters per second. This is a measure of how fast the
-       * robot should be able to drive in a straight line.
-       */
-      public static final double MAX_VELOCITY_METERS_PER_SECOND = 5676.0 / 60.0
-                  * RobotConstants.SWERVE_MODULE_CONFIGURATION.getDriveReduction()
-                  * RobotConstants.SWERVE_MODULE_CONFIGURATION.getWheelDiameter() * Math.PI;
+    private MustangCommand defaultCommand;
+    private MustangController mController;
 
-      /**
-       * The maximum angular velocity of the robot in radians per second. This is a measure of how
-       * fast the robot can rotate in place.`
-       */
-      public static final double MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND =
-                  MAX_VELOCITY_METERS_PER_SECOND
-                              / Math.hypot(RobotConstants.DRIVETRAIN_TRACKWIDTH_METERS / 2.0,
-                                          RobotConstants.DRIVETRAIN_WHEELBASE_METERS / 2.0);
+    public DriveBase(MustangController mustangController) {
+        super(RobotConstants.DriveBase.kConfig);
+        this.mController = mustangController;
+    }
 
-      private MustangCommand defaultCommand;
-      private MustangController mController;
+    /**
+     * Makes the DriveBase's default command initialize teleop
+     */
+    public void initDefaultCommand() { // TODO: switch to super class's init default command
+        // defaultCommand = new XboxSwerveDrive(this, mController,
+        // MAX_VELOCITY_METERS_PER_SECOND,
+        // MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND);
+        defaultCommand = new XboxSwerveDrive(this, mController,
+                RobotConstants.DriveBase.kMaxVelocityMetersPerSecond,
+                RobotConstants.DriveBase.kMaxAngularVelocityRadiansPerSecond);
+        MustangScheduler.getInstance().setDefaultCommand(this, defaultCommand);
+    }
 
-      public DriveBase(MustangController mustangController) {
-            super(new SwerveConfig(RobotConstants.DRIVETRAIN_TRACKWIDTH_METERS,
-                        RobotConstants.DRIVETRAIN_WHEELBASE_METERS, MAX_VELOCITY_METERS_PER_SECOND,
-                        MAX_VOLTAGE, RobotConstants.NAVX_PORT, RobotConstants.SWERVE_GEAR_RATIO,
-                        RobotConstants.FRONT_LEFT_MODULE_DRIVE_MOTOR,
-                        RobotConstants.FRONT_LEFT_MODULE_STEER_MOTOR,
-                        RobotConstants.FRONT_LEFT_MODULE_STEER_ENCODER,
-                        RobotConstants.FRONT_LEFT_MODULE_STEER_OFFSET,
-                        RobotConstants.FRONT_RIGHT_MODULE_DRIVE_MOTOR,
-                        RobotConstants.FRONT_RIGHT_MODULE_STEER_MOTOR,
-                        RobotConstants.FRONT_RIGHT_MODULE_STEER_ENCODER,
-                        RobotConstants.FRONT_RIGHT_MODULE_STEER_OFFSET,
-                        RobotConstants.BACK_LEFT_MODULE_DRIVE_MOTOR,
-                        RobotConstants.BACK_LEFT_MODULE_STEER_MOTOR,
-                        RobotConstants.BACK_LEFT_MODULE_STEER_ENCODER,
-                        RobotConstants.BACK_LEFT_MODULE_STEER_OFFSET,
-                        RobotConstants.BACK_RIGHT_MODULE_DRIVE_MOTOR,
-                        RobotConstants.BACK_RIGHT_MODULE_STEER_MOTOR,
-                        RobotConstants.BACK_RIGHT_MODULE_STEER_ENCODER,
-                        RobotConstants.BACK_RIGHT_MODULE_STEER_OFFSET));
-            this.mController = mustangController;
-      }
+    public void cancelDefaultCommand() {
+        MustangScheduler.getInstance().cancel(defaultCommand);
+    }
 
-      /**
-       * Makes the DriveBase's default command initialize teleop
-       */
-      public void initDefaultCommand() { // TODO: switch to super class's init default command
-            // defaultCommand = new XboxSwerveDrive(this, mController,
-            // MAX_VELOCITY_METERS_PER_SECOND,
-            // MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND);
-            defaultCommand = new XboxSwerveDrive(this, mController, MAX_VELOCITY_METERS_PER_SECOND,
-                        MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND);
-            MustangScheduler.getInstance().setDefaultCommand(this, defaultCommand);
-      }
+    public MustangCommand getDefaultMustangCommand() {
+        return defaultCommand;
+    }
 
-      public void cancelDefaultCommand() {
-            MustangScheduler.getInstance().cancel(defaultCommand);
-      }
+    public void mustangPeriodic() {
+        super.mustangPeriodic();
+        SmartDashboard.putNumber("pitch", getPitch());
+    }
 
-      public MustangCommand getDefaultMustangCommand() {
-            return defaultCommand;
-      }
+    // @Override
+    // public void periodic() {
+    // return;
+    // }
 
-      public void mustangPeriodic() {
-            super.mustangPeriodic();
-            SmartDashboard.putNumber(pitchKey, getPitch());
-      }
-
-      // @Override
-      // public void periodic() {
-      // return;
-      // }
-
-      @Override
-      public HealthState checkHealth() {
-            for (SwerveModule curr : getModules()) {
-                  CANSparkMax motor = (CANSparkMax) curr.getDriveMotor();
-                  if (motor.getLastError() != REVLibError.kOk) {
-                        SmartDashboard.putString("Swerve Module " + motor.getDeviceId() + " ERROR:",
-                                    motor.getLastError().toString());
-                        return HealthState.RED;
-                  }
+    @Override
+    public HealthState checkHealth() {
+        for (SwerveModule curr : getModules()) {
+            CANSparkMax motor = (CANSparkMax) curr.getDriveMotor();
+            if (motor.getLastError() != REVLibError.kOk) {
+                SmartDashboard.putString("Swerve Module " + motor.getDeviceId() + " ERROR:",
+                        motor.getLastError().toString());
+                return HealthState.RED;
             }
-            return HealthState.GREEN;
-      }
+        }
+        return HealthState.GREEN;
+    }
 
-      @Override
-      public void debugSubsystem() {
+    @Override
+    public void debugSubsystem() {
 
-      }
+    }
 
-      public MustangPPSwerveControllerCommand getFollowTrajectoryCommand(
-                  PathPlannerTrajectory traj) {
-            setSwerveControllerCommand(new MustangPPSwerveControllerCommand(traj, this::getPose,
-                        getSwerveKinematics(), RobotConstants.xController,
-                        RobotConstants.yController, RobotConstants.thetaController,
-                        this::setModuleStates, new Subsystem[] {this}));
-            return getSwerveControllerCommand();
+    public MustangPPSwerveControllerCommand getFollowTrajectoryCommand(PathPlannerTrajectory traj) {
+        setSwerveControllerCommand(new MustangPPSwerveControllerCommand(traj, this::getPose,
+                getSwerveKinematics(), RobotConstants.DriveBase.xController,
+                RobotConstants.DriveBase.yController, RobotConstants.DriveBase.thetaController,
+                this::setModuleStates, new Subsystem[] {this}));
+        return getSwerveControllerCommand();
 
-      }
+    }
 
 }

@@ -45,29 +45,33 @@ public class FieldConstants {
                                 new Translation2d(innerX, rightY), new Translation2d(innerX, leftY),
                                 new Translation2d(midX, leftY), new Translation2d(midX, midY),
                                 new Translation2d(outerX, midY),
-                                new Translation2d(outerX, rightY), };
+                                new Translation2d(outerX, rightY),};
 
                 // Charging station dimensions
                 public static final double chargingStationLength = Units.inchesToMeters(76.125);
                 public static final double chargingStationWidth = Units.inchesToMeters(97.25);
                 public static final double chargingStationOuterX = outerX - tapeWidth;
-                public static final double chargingStationInnerX = chargingStationOuterX - chargingStationLength;
+                public static final double chargingStationInnerX =
+                                chargingStationOuterX - chargingStationLength;
                 public static final double chargingStationLeftY = midY - tapeWidth;
-                public static final double chargingStationRightY = chargingStationLeftY - chargingStationWidth;
+                public static final double chargingStationRightY =
+                                chargingStationLeftY - chargingStationWidth;
                 public static final Translation2d[] chargingStationCorners = new Translation2d[] {
                                 new Translation2d(chargingStationInnerX, chargingStationRightY),
                                 new Translation2d(chargingStationInnerX, chargingStationLeftY),
                                 new Translation2d(chargingStationOuterX, chargingStationRightY),
-                                new Translation2d(chargingStationOuterX, chargingStationLeftY) };
+                                new Translation2d(chargingStationOuterX, chargingStationLeftY)};
 
                 // Cable bump
-                public static final double cableBumpInnerX = innerX + Grids.outerX + Units.inchesToMeters(95.25);
-                public static final double cableBumpOuterX = cableBumpInnerX + Units.inchesToMeters(7);
+                public static final double cableBumpInnerX =
+                                innerX + Grids.outerX + Units.inchesToMeters(95.25);
+                public static final double cableBumpOuterX =
+                                cableBumpInnerX + Units.inchesToMeters(7);
                 public static final Translation2d[] cableBumpCorners = new Translation2d[] {
                                 new Translation2d(cableBumpInnerX, 0.0),
                                 new Translation2d(cableBumpInnerX, chargingStationRightY),
                                 new Translation2d(cableBumpOuterX, 0.0),
-                                new Translation2d(cableBumpOuterX, chargingStationRightY) };
+                                new Translation2d(cableBumpOuterX, chargingStationRightY)};
         }
 
         // Dimensions for grids and nodes
@@ -95,11 +99,16 @@ public class FieldConstants {
                 public static final double midConeZ = Units.inchesToMeters(34.0);
 
                 // Translations (all nodes in the same column/row have the same X/Y coordinate)
-                public static final Translation2d[] lowTranslations = new Translation2d[nodeRowCount];
-                public static final Translation2d[] midTranslations = new Translation2d[nodeRowCount];
-                public static final Translation3d[] mid3dTranslations = new Translation3d[nodeRowCount];
-                public static final Translation2d[] highTranslations = new Translation2d[nodeRowCount];
-                public static final Translation3d[] high3dTranslations = new Translation3d[nodeRowCount];
+                public static final Translation2d[] lowTranslations =
+                                new Translation2d[nodeRowCount];
+                public static final Translation2d[] midTranslations =
+                                new Translation2d[nodeRowCount];
+                public static final Translation3d[] mid3dTranslations =
+                                new Translation3d[nodeRowCount];
+                public static final Translation2d[] highTranslations =
+                                new Translation2d[nodeRowCount];
+                public static final Translation3d[] high3dTranslations =
+                                new Translation3d[nodeRowCount];
 
                 static {
                         for (int i = 0; i < nodeRowCount; i++) {
@@ -121,11 +130,12 @@ public class FieldConstants {
 
                 // Complex low layout (shifted to account for cube vs cone rows and wide edge
                 // nodes)
-                public static final double complexLowXCones = outerX - Units.inchesToMeters(16.0) / 2.0; // Centered
-                                                                                                         // X
-                                                                                                         // under
-                                                                                                         // cone
-                                                                                                         // nodes
+                public static final double complexLowXCones =
+                                outerX - Units.inchesToMeters(16.0) / 2.0; // Centered
+                                                                           // X
+                                                                           // under
+                                                                           // cone
+                                                                           // nodes
                 public static final double complexLowXCubes = lowX; // Centered X under cube nodes
                 public static final double complexLowOuterYOffset = nodeFirstY
                                 - Units.inchesToMeters(3.0) - (Units.inchesToMeters(25.75) / 2.0);
@@ -148,14 +158,15 @@ public class FieldConstants {
                                 new Translation2d(complexLowXCubes,
                                                 nodeFirstY + nodeSeparationY * 7),
                                 new Translation2d(complexLowXCones, nodeFirstY + nodeSeparationY * 8
-                                                + complexLowOuterYOffset) };
+                                                + complexLowOuterYOffset)};
 
-                public static final Pose2d[] scoringPoses = new Pose2d[complexLowTranslations.length];
+                public static final Pose2d[] scoringPoses =
+                                new Pose2d[complexLowTranslations.length];
                 static {
                         for (int i = 0; i < scoringPoses.length; i++) {
                                 scoringPoses[i] = new Pose2d(
                                                 complexLowTranslations[i].plus(new Translation2d(
-                                                                RobotConstants.DRIVEBASE_CLEARANCE,
+                                                                RobotConstants.DriveBase.kClearance,
                                                                 0)),
                                                 new Rotation2d());
                         }
@@ -178,7 +189,7 @@ public class FieldConstants {
                                                                  // community
                                 new Translation2d(midX, midY), new Translation2d(outerX, midY),
                                 new Translation2d(outerX, leftY), new Translation2d(innerX, leftY),
-                                new Translation2d(innerX, rightY), };
+                                new Translation2d(innerX, rightY),};
 
                 // Double substation dimensions
                 public static final double doubleSubstationLength = Units.inchesToMeters(14.0);
@@ -189,36 +200,38 @@ public class FieldConstants {
                 public static final double singleSubstationWidth = Units.inchesToMeters(22.75);
                 public static final double singleSubstationLeftX = FieldConstants.fieldLength
                                 - doubleSubstationLength - Units.inchesToMeters(88.77);
-                public static final double singleSubstationCenterX = singleSubstationLeftX
-                                + (singleSubstationWidth / 2.0);
-                public static final double singleSubstationRightX = singleSubstationLeftX + singleSubstationWidth;
-                public static final Translation2d singleSubstationTranslation = new Translation2d(
-                                singleSubstationCenterX,
-                                leftY);
+                public static final double singleSubstationCenterX =
+                                singleSubstationLeftX + (singleSubstationWidth / 2.0);
+                public static final double singleSubstationRightX =
+                                singleSubstationLeftX + singleSubstationWidth;
+                public static final Translation2d singleSubstationTranslation =
+                                new Translation2d(singleSubstationCenterX, leftY);
 
                 public static final double singleSubstationHeight = Units.inchesToMeters(18.0);
                 public static final double singleSubstationLowZ = Units.inchesToMeters(27.125);
-                public static final double singleSubstationCenterZ = singleSubstationLowZ
-                                + (singleSubstationHeight / 2.0);
-                public static final double singleSubstationHighZ = singleSubstationLowZ + singleSubstationHeight;
+                public static final double singleSubstationCenterZ =
+                                singleSubstationLowZ + (singleSubstationHeight / 2.0);
+                public static final double singleSubstationHighZ =
+                                singleSubstationLowZ + singleSubstationHeight;
                 public static final Pose2d[] IntakePoses = {
                                 // single substation
-                                new Pose2d(singleSubstationTranslation
-                                                .minus(new Translation2d(-RobotConstants.DRIVEBASE_WIDTH/2, RobotConstants.DRIVEBASE_CLEARANCE)),
+                                new Pose2d(singleSubstationTranslation.minus(new Translation2d(
+                                                -RobotConstants.DriveBase.kWidth / 2,
+                                                RobotConstants.DriveBase.kClearance)),
                                                 new Rotation2d(-Math.PI / 2)),
 
                                 // double substation
-                                new Pose2d(fieldLength - 0.31 - RobotConstants.DRIVEBASE_CLEARANCE, 6.01 + 1.31,
-                                                new Rotation2d(Math.PI)),
-                                new Pose2d(fieldLength - 0.31 - RobotConstants.DRIVEBASE_CLEARANCE, 6.01,
-                                                new Rotation2d(Math.PI))
-                };
+                                new Pose2d(fieldLength - 0.31 - RobotConstants.DriveBase.kClearance,
+                                                6.01 + 1.31, new Rotation2d(Math.PI)),
+                                new Pose2d(fieldLength - 0.31 - RobotConstants.DriveBase.kClearance,
+                                                6.01, new Rotation2d(Math.PI))};
         }
 
         // Locations of staged game pieces
         public static final class StagingLocations {
                 public static final double centerOffsetX = Units.inchesToMeters(47.36);
-                public static final double positionX = fieldLength / 2.0 - Units.inchesToMeters(47.36);
+                public static final double positionX =
+                                fieldLength / 2.0 - Units.inchesToMeters(47.36);
                 public static final double firstY = Units.inchesToMeters(36.19);
                 public static final double separationY = Units.inchesToMeters(48.0);
                 public static final Translation2d[] translations = new Translation2d[4];
@@ -231,8 +244,7 @@ public class FieldConstants {
                 }
         }
 
-        public static final Map<Integer, Pose3d> blueAprilTags = Map.of(
-                        1,
+        public static final Map<Integer, Pose3d> blueAprilTags = Map.of(1,
                         new Pose3d(Units.inchesToMeters(610.77), Units.inchesToMeters(42.19),
                                         Units.inchesToMeters(18.22),
                                         new Rotation3d(0.0, 0.0, Math.PI)),
@@ -240,7 +252,8 @@ public class FieldConstants {
                         new Pose3d(Units.inchesToMeters(610.77), Units.inchesToMeters(108.19),
                                         Units.inchesToMeters(18.22),
                                         new Rotation3d(0.0, 0.0, Math.PI)),
-                        3, new Pose3d(Units.inchesToMeters(610.77), Units.inchesToMeters(174.19),
+                        3,
+                        new Pose3d(Units.inchesToMeters(610.77), Units.inchesToMeters(174.19),
                                         Units.inchesToMeters(18.22),
                                         new Rotation3d(0.0, 0.0, Math.PI)),
                         4,
@@ -248,11 +261,11 @@ public class FieldConstants {
                                         Units.inchesToMeters(27.38),
                                         new Rotation3d(0.0, 0.0, Math.PI)));
 
-        public static final Map<Integer, Pose3d> redAprilTags = Map.of(
-                        5,
+        public static final Map<Integer, Pose3d> redAprilTags = Map.of(5,
                         new Pose3d(Units.inchesToMeters(14.25), Units.inchesToMeters(265.74),
                                         Units.inchesToMeters(27.38), new Rotation3d()),
-                        6, new Pose3d(Units.inchesToMeters(40.45), Units.inchesToMeters(174.19),
+                        6,
+                        new Pose3d(Units.inchesToMeters(40.45), Units.inchesToMeters(174.19),
                                         Units.inchesToMeters(18.22), new Rotation3d()),
                         7,
                         new Pose3d(Units.inchesToMeters(40.45), Units.inchesToMeters(108.19),
@@ -270,7 +283,8 @@ public class FieldConstants {
                         new Pose3d(Units.inchesToMeters(610.77), Units.inchesToMeters(108.19),
                                         Units.inchesToMeters(18.22),
                                         new Rotation3d(0.0, 0.0, Math.PI)),
-                        3, new Pose3d(Units.inchesToMeters(610.77), Units.inchesToMeters(174.19),
+                        3,
+                        new Pose3d(Units.inchesToMeters(610.77), Units.inchesToMeters(174.19),
                                         Units.inchesToMeters(18.22),
                                         new Rotation3d(0.0, 0.0, Math.PI)),
                         4,
@@ -280,7 +294,8 @@ public class FieldConstants {
                         5,
                         new Pose3d(Units.inchesToMeters(14.25), Units.inchesToMeters(265.74),
                                         Units.inchesToMeters(27.38), new Rotation3d()),
-                        6, new Pose3d(Units.inchesToMeters(40.45), Units.inchesToMeters(174.19),
+                        6,
+                        new Pose3d(Units.inchesToMeters(40.45), Units.inchesToMeters(174.19),
                                         Units.inchesToMeters(18.22), new Rotation3d()),
                         7,
                         new Pose3d(Units.inchesToMeters(40.45), Units.inchesToMeters(108.19),
@@ -290,83 +305,70 @@ public class FieldConstants {
 
         public static final Translation2d[] obstacleCorners = {
                         // right inner
-                        new Translation2d(
-                                        FieldConstants.Community.chargingStationCorners[0].getX(),
+                        new Translation2d(FieldConstants.Community.chargingStationCorners[0].getX(),
                                         FieldConstants.Community.chargingStationCorners[0].getY()),
-                        new Translation2d(
-                                        FieldConstants.Community.chargingStationCorners[1].getX(),
+                        new Translation2d(FieldConstants.Community.chargingStationCorners[1].getX(),
                                         FieldConstants.Community.chargingStationCorners[1].getY()),
-                        new Translation2d(
-                                        FieldConstants.Community.chargingStationCorners[3].getX(),
+                        new Translation2d(FieldConstants.Community.chargingStationCorners[3].getX(),
                                         FieldConstants.Community.chargingStationCorners[3].getY()),
-                        new Translation2d(
-                                        FieldConstants.Community.chargingStationCorners[2].getX(),
-                                        FieldConstants.Community.chargingStationCorners[2]
-                                                        .getY()) };
+                        new Translation2d(FieldConstants.Community.chargingStationCorners[2].getX(),
+                                        FieldConstants.Community.chargingStationCorners[2].getY())};
 
         public static AprilTagFieldLayout getFieldLayout(Map<Integer, Pose3d> tags) {
                 List<AprilTag> t = new ArrayList<>();
                 FieldConstants.aprilTags.forEach((i, p) -> {
                         t.add(new AprilTag(i, p));
                 });
-                return new AprilTagFieldLayout(t, FieldConstants.fieldLength, FieldConstants.fieldWidth);
+                return new AprilTagFieldLayout(t, FieldConstants.fieldLength,
+                                FieldConstants.fieldWidth);
         }
 
         public static final List<Obstacle> obstacles = List.of(
                         // add charging station of one side
-                        new Obstacle(new Translation2d[] { obstacleCorners[0], obstacleCorners[1],
-                                        obstacleCorners[2], obstacleCorners[3] }),
-                        new Obstacle(new Translation2d[] { allianceFlip(obstacleCorners[0]),
+                        new Obstacle(new Translation2d[] {obstacleCorners[0], obstacleCorners[1],
+                                        obstacleCorners[2], obstacleCorners[3]}),
+                        new Obstacle(new Translation2d[] {allianceFlip(obstacleCorners[0]),
                                         allianceFlip(obstacleCorners[1]),
-                                        allianceFlip(obstacleCorners[2]), allianceFlip(obstacleCorners[3]) }));
+                                        allianceFlip(obstacleCorners[2]),
+                                        allianceFlip(obstacleCorners[3])}));
 
         public static List<PoseNode> obstacleContingencyNodes = List.of(
-                        new PoseNode(
-                                        allianceFlip(Community.chargingStationCorners[0].plus(new Translation2d(
-                                                        -RobotConstants.DRIVEBASE_CLEARANCE,
-                                                        -RobotConstants.DRIVEBASE_CLEARANCE))),
+                        new PoseNode(allianceFlip(Community.chargingStationCorners[0].plus(
+                                        new Translation2d(-RobotConstants.DriveBase.kClearance,
+                                                        -RobotConstants.DriveBase.kClearance))),
                                         new Rotation2d()),
-                        new PoseNode(
-                                        allianceFlip(Community.chargingStationCorners[1].plus(new Translation2d(
-                                                        -RobotConstants.DRIVEBASE_CLEARANCE,
-                                                        RobotConstants.DRIVEBASE_CLEARANCE))),
+                        new PoseNode(allianceFlip(Community.chargingStationCorners[1].plus(
+                                        new Translation2d(-RobotConstants.DriveBase.kClearance,
+                                                        RobotConstants.DriveBase.kClearance))),
                                         new Rotation2d()),
-                        new PoseNode(
-                                        allianceFlip(Community.chargingStationCorners[3].plus(
-                                                        new Translation2d(RobotConstants.DRIVEBASE_CLEARANCE,
-                                                                        RobotConstants.DRIVEBASE_CLEARANCE))),
+                        new PoseNode(allianceFlip(Community.chargingStationCorners[3]
+                                        .plus(new Translation2d(RobotConstants.DriveBase.kClearance,
+                                                        RobotConstants.DriveBase.kClearance))),
                                         new Rotation2d()),
-                        new PoseNode(
-                                        allianceFlip(Community.chargingStationCorners[2].plus(new Translation2d(
-                                                        RobotConstants.DRIVEBASE_CLEARANCE,
-                                                        -RobotConstants.DRIVEBASE_CLEARANCE))),
+                        new PoseNode(allianceFlip(Community.chargingStationCorners[2]
+                                        .plus(new Translation2d(RobotConstants.DriveBase.kClearance,
+                                                        -RobotConstants.DriveBase.kClearance))),
                                         new Rotation2d()),
-                        new PoseNode(
-                                        Community.chargingStationCorners[0].plus(new Translation2d(
-                                                        -RobotConstants.DRIVEBASE_CLEARANCE,
-                                                        -RobotConstants.DRIVEBASE_CLEARANCE)),
+                        new PoseNode(Community.chargingStationCorners[0].plus(
+                                        new Translation2d(-RobotConstants.DriveBase.kClearance,
+                                                        -RobotConstants.DriveBase.kClearance)),
                                         new Rotation2d()),
-                        new PoseNode(
-                                        Community.chargingStationCorners[1].plus(new Translation2d(
-                                                        -RobotConstants.DRIVEBASE_CLEARANCE,
-                                                        RobotConstants.DRIVEBASE_CLEARANCE)),
+                        new PoseNode(Community.chargingStationCorners[1].plus(
+                                        new Translation2d(-RobotConstants.DriveBase.kClearance,
+                                                        RobotConstants.DriveBase.kClearance)),
                                         new Rotation2d()),
-                        new PoseNode(
-                                        Community.chargingStationCorners[3].plus(
-                                                        new Translation2d(RobotConstants.DRIVEBASE_CLEARANCE,
-                                                                        RobotConstants.DRIVEBASE_CLEARANCE)),
+                        new PoseNode(Community.chargingStationCorners[3]
+                                        .plus(new Translation2d(RobotConstants.DriveBase.kClearance,
+                                                        RobotConstants.DriveBase.kClearance)),
                                         new Rotation2d()),
-                        new PoseNode(
-                                        Community.chargingStationCorners[2].plus(new Translation2d(
-                                                        RobotConstants.DRIVEBASE_CLEARANCE,
-                                                        -RobotConstants.DRIVEBASE_CLEARANCE)),
+                        new PoseNode(Community.chargingStationCorners[2]
+                                        .plus(new Translation2d(RobotConstants.DriveBase.kClearance,
+                                                        -RobotConstants.DriveBase.kClearance)),
                                         new Rotation2d()));
 
         /**
-         * Flips a translation to the correct side of the field based on the current
-         * alliance color.
-         * By default, all translations and poses in {@link FieldConstants} are stored
-         * with the
+         * Flips a translation to the correct side of the field based on the current alliance color.
+         * By default, all translations and poses in {@link FieldConstants} are stored with the
          * origin at the rightmost point on the BLUE ALLIANCE wall.
          */
         public static Translation2d allianceFlip(Translation2d translation) {
@@ -383,7 +385,8 @@ public class FieldConstants {
          */
         public static Pose2d allianceFlip(Pose2d pose) {
                 if (DriverStation.getAlliance() == Alliance.Red) {
-                        return new Pose2d(fieldLength - pose.getX(), pose.getY(), pose.getRotation().times(-1));
+                        return new Pose2d(fieldLength - pose.getX(), pose.getY(),
+                                        pose.getRotation().times(-1));
                 } else {
                         return pose;
                 }
@@ -397,6 +400,7 @@ public class FieldConstants {
                         return pose;
                 }
         }
+
         public static Translation2d allianceOrientedAllianceFlip(Translation2d t) {
                 if (DriverStation.getAlliance() == Alliance.Red) {
                         return new Translation2d(fieldLength - t.getX(), fieldWidth - t.getY());

@@ -38,7 +38,7 @@ import frc.team670.robot.commands.pathplanner.ScoreEngage;
 import frc.team670.robot.commands.pathplanner.ScoreMid;
 import frc.team670.robot.constants.FieldConstants;
 import frc.team670.robot.constants.OI;
-import frc.team670.robot.constants.RobotMap;
+import frc.team670.robot.constants.RobotConstants;
 import frc.team670.robot.subsystems.Claw;
 import frc.team670.robot.subsystems.DriveBase;
 import frc.team670.robot.subsystems.LED;
@@ -46,8 +46,7 @@ import frc.team670.robot.subsystems.Vision;
 import frc.team670.robot.subsystems.arm.Arm;
 
 /**
- * RobotContainer is where we put the high-level code for the robot. It contains
- * subsystems, OI
+ * RobotContainer is where we put the high-level code for the robot. It contains subsystems, OI
  * devices, etc, and has required methods (autonomousInit, periodic, etc)
  */
 
@@ -58,7 +57,7 @@ public class RobotContainer extends RobotContainerBase {
     private final Vision vision = new Vision(pd);
     private final DriveBase driveBase = new DriveBase(getDriverController());
     private final Arm arm = new Arm();
-    private final LED led = new LED(RobotMap.LED_PORT, 0, 61);
+    private final LED led = new LED(RobotConstants.kLEDPort, 0, 61);
     private final Claw claw = new Claw(led);
 
     private MustangCommand cableScore, cableEngage, stationScore, stationEngage, centerEngage,
@@ -158,14 +157,14 @@ public class RobotContainer extends RobotContainerBase {
 
         // LEAVE COMMENTED
         // greturn new ConeCube(driveBase, claw, arm, "CableScore");
-        //return new AutonCalibration(driveBase, "Straight180"); // TODO: use curve
+        // return new AutonCalibration(driveBase, "Straight180"); // TODO: use curve
         // path after
         // straight
         // path
         // return new ConeCubeCube(driveBase, claw, arm, "Station3Piece");
         // return new ConeCubeEngage(driveBase, claw, arm, "StationScoreEngage2");
         // return new NonPidAutoLevel(driveBase, true);
-        //return new CenterEngage(driveBase, claw, arm, "CenterEngage");
+        // return new CenterEngage(driveBase, claw, arm, "CenterEngage");
 
         // return new ConeCube(driveBase, claw, arm, "CableScore");
         // return new ConeCube(driveBase, claw, arm, "RightConeCube");
@@ -183,8 +182,7 @@ public class RobotContainer extends RobotContainerBase {
     }
 
     @Override
-    public void testInit() {
-    }
+    public void testInit() {}
 
     @Override
     public void disabled() {

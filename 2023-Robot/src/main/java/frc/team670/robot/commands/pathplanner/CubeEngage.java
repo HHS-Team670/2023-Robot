@@ -39,10 +39,11 @@ public class CubeEngage extends SequentialCommandGroup implements MustangCommand
 
     public CubeEngage(DriveBase driveBase, Claw claw, Arm arm, String pathName) {
         this.pathName = pathName;
-        List<PathPlannerTrajectory> trajectoryGroup = PathPlanner.loadPathGroup(pathName, 2.75, 1.5);
+        List<PathPlannerTrajectory> trajectoryGroup =
+                PathPlanner.loadPathGroup(pathName, 2.75, 1.5);
 
-        PIDConstants PID_translation = RobotConstants.AUTON_TRANSLATION_CONTROLLER;
-        PIDConstants PID_theta = RobotConstants.AUTON_THETA_CONTROLLER;
+        PIDConstants PID_translation = RobotConstants.DriveBase.kAutonTranslationPID;
+        PIDConstants PID_theta = RobotConstants.DriveBase.kAutonThetaPID;
 
         Map<String, Command> eventMap = new HashMap<>();
 

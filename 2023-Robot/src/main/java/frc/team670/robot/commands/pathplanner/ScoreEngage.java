@@ -54,13 +54,15 @@ public class ScoreEngage extends SequentialCommandGroup implements MustangComman
 
         SwerveDriveKinematics driveBaseKinematics = driveBase.getSwerveKinematics();
 
-        SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(driveBase::getPose,
-                driveBase::resetOdometry, driveBaseKinematics,
-                RobotConstants.AUTON_TRANSLATION_CONTROLLER, RobotConstants.AUTON_THETA_CONTROLLER,
-                driveBase::setModuleStates, eventMap, true, new Subsystem[] {driveBase});
+        SwerveAutoBuilder autoBuilder =
+                new SwerveAutoBuilder(driveBase::getPose, driveBase::resetOdometry,
+                        driveBaseKinematics, RobotConstants.DriveBase.kAutonTranslationPID,
+                        RobotConstants.DriveBase.kAutonThetaPID, driveBase::setModuleStates,
+                        eventMap, true, new Subsystem[] {driveBase});
 
         CommandBase fullAuto = autoBuilder.fullAuto(trajectoryGroup);
 
-        addCommands(fullAuto, new TurnToAngle(driveBase, 180, true, OI.getDriverController()), new NonPidAutoLevel(driveBase, true));
+        addCommands(fullAuto, new TurnToAngle(driveBase, 180, true, OI.getDriverController()),
+                new NonPidAutoLevel(driveBase, true));
     }
 }
