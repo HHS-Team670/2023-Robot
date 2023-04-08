@@ -83,7 +83,7 @@ public class DriveBase extends SwerveDrive {
                 getSwerveKinematics(), RobotConstants.DriveBase.xController,
                 RobotConstants.DriveBase.yController, RobotConstants.DriveBase.thetaController,
                 this::setModuleStates, new Subsystem[] {this}));
-        return getmSwerveControllerCommand();
+        return getSwerveControllerCommand();
 
     }
 
