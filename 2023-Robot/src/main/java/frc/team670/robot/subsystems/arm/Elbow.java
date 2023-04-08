@@ -1,14 +1,11 @@
 
 package frc.team670.robot.subsystems.arm;
 
-import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import com.revrobotics.REVLibError;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team670.mustanglib.subsystems.SparkMaxRotatingSubsystem;
 import frc.team670.mustanglib.utils.Logger;
-import frc.team670.mustanglib.utils.functions.MathUtils;
-import frc.team670.mustanglib.utils.motorcontroller.SparkMAXLite;
 import frc.team670.robot.constants.RobotConstants;
 
 /**
@@ -39,25 +36,8 @@ public class Elbow extends SparkMaxRotatingSubsystem {
     public Elbow() {
         super(RobotConstants.Arm.Elbow.kConfig);
         absEncoder = new DutyCycleEncoder(
-                frc.team670.robot.constants.RobotConstants.Arm.Elbow.kAbsoluteEncoderID);
-        super.getRotator().setInverted(true);
-    }
-
-    /**
-     * Updates the arbitraryFF value to counteract gravity
-     * 
-     * @param voltage The calculated voltage, returned from VoltageCalculator
-     */
-    public void updateArbitraryFeedForward(double voltage) {
-        if (setpoint != SparkMaxRotatingSubsystem.NO_SETPOINT) {
-            rotator_controller.setReference(setpoint, SparkMAXLite.ControlType.kSmartMotion,
-                    super.SMARTMOTION_SLOT, voltage);
-        }
-    }
-
-    // TODO: Move to mustang lib after testing
-    public double getSetpoint() {
-        return setpoint;
+                RobotConstants.Arm.Elbow.kAbsoluteEncoderID);
+        super.getmRotator().setInverted(true);
     }
 
     /**
@@ -66,20 +46,20 @@ public class Elbow extends SparkMaxRotatingSubsystem {
      */
     private void setEncoderPositionFromAbsolute() {
         double absEncoderPosition = absEncoder.getAbsolutePosition();
-        double previousPositionRot = super.rotator_encoder.getPosition();
+        double previousPositionRot = super.mEncoder.getPosition();
 
         if (absEncoderPosition != 0.0) {
             double relativePosition = ((-1 * (absEncoderPosition
-                    - (frc.team670.robot.constants.RobotConstants.Arm.Elbow.kAbsoluteEncoderVerticalOffsetRadians
+                    - (RobotConstants.Arm.Elbow.kAbsoluteEncoderVerticalOffsetRadians
                             - 0.5))
-                    + 1) * frc.team670.robot.constants.RobotConstants.Arm.Elbow.kGearRatio)
-                    % frc.team670.robot.constants.RobotConstants.Arm.Elbow.kGearRatio;
+                    + 1) * RobotConstants.Arm.Elbow.kGearRatio)
+                    % RobotConstants.Arm.Elbow.kGearRatio;
 
             if (calculatedRelativePosition == 0.0
                     || Math.abs(360 * ((previousPositionRot - relativePosition)
-                            / this.ROTATOR_GEAR_RATIO)) < 10.0) {
+                            / kConfig.kRotatorGearRatio())) < 10.0) {
                 clearSetpoint();
-                REVLibError error = rotator_encoder.setPosition(relativePosition);
+                REVLibError error = mEncoder.setPosition(relativePosition);
                 SmartDashboard.putNumber("Elbow absEncoder position when reset",
                         absEncoderPosition);
                 SmartDashboard.putNumber("Elbow relEncoder position when reset", relativePosition);
@@ -97,7 +77,7 @@ public class Elbow extends SparkMaxRotatingSubsystem {
 
     @Override
     public HealthState checkHealth() {
-        REVLibError rotatorError = super.rotator.getLastError();
+        REVLibError rotatorError = super.mRotator.getLastError();
 
         if (rotatorError != null && rotatorError != REVLibError.kOk) {
             Logger.consoleError("Elbow error! Rotator error is " + rotatorError.toString());
@@ -134,8 +114,8 @@ public class Elbow extends SparkMaxRotatingSubsystem {
 
     // @Override
     // public boolean hasReachedTargetPosition() {
-    //     return (MathUtils.doublesEqual(rotator_encoder.getPosition(), setpoint,
-    //             frc.team670.robot.constants.RobotConstants.Arm.Elbow.kAllowedErrorDegrees));
+    // return (MathUtils.doublesEqual(rotator_encoder.getPosition(), setpoint,
+    // RobotConstants.Arm.Elbow.kAllowedErrorDegrees));
     // }
 
     @Override
@@ -146,8 +126,8 @@ public class Elbow extends SparkMaxRotatingSubsystem {
 
     private void setOffset(double offset) {
         if (Math.abs(
-                offset) > frc.team670.robot.constants.RobotConstants.Arm.Elbow.kMaxOverrideDegreees) {
-            this.offset = frc.team670.robot.constants.RobotConstants.Arm.Elbow.kMaxOverrideDegreees
+                offset) > RobotConstants.Arm.Elbow.kMaxOverrideDegreees) {
+            this.offset = RobotConstants.Arm.Elbow.kMaxOverrideDegreees
                     * this.offset / Math.abs(this.offset);
         } else {
             this.offset = offset;
@@ -167,13 +147,13 @@ public class Elbow extends SparkMaxRotatingSubsystem {
 
     @Override
     public void debugSubsystem() {
-        double relativePosition = super.rotator_encoder.getPosition();
+        double relativePosition = super.mEncoder.getPosition();
 
         SmartDashboard.putNumber(positionDeg, getCurrentAngleInDegrees());
         SmartDashboard.putNumber(positionRot, relativePosition);
         SmartDashboard.putNumber(absEncoderPos, absEncoder.getAbsolutePosition());
-        SmartDashboard.putNumber(setpointRot, setpoint);
-        SmartDashboard.putNumber(current, super.getRotator().getOutputCurrent());
+        SmartDashboard.putNumber(setpointRot, mSetpoint);
+        SmartDashboard.putNumber(current, super.getmRotator().getOutputCurrent());
     }
 
     @Override
@@ -199,13 +179,13 @@ public class Elbow extends SparkMaxRotatingSubsystem {
                 hasSetAbsolutePosition = true;
             }
         } else if (!relativePositionIsSet) {
-            double position = super.rotator_encoder.getPosition();
+            double position = super.mEncoder.getPosition();
             Logger.consoleLog("Elbow relative position = " + position
                     + ", calculatedRelativePosition = " + calculatedRelativePosition);
             if (Math.abs(position - calculatedRelativePosition) < 0.5) {
                 relativePositionIsSet = true;
             } else {
-                super.rotator_encoder.setPosition(calculatedRelativePosition);
+                super.mEncoder.setPosition(calculatedRelativePosition);
             }
             Logger.consoleLog("Elbow relativePositionIsSet = " + this.relativePositionIsSet);
         }

@@ -6,8 +6,6 @@ import java.util.Map;
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.auto.SwerveAutoBuilder;
-
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -50,17 +48,8 @@ public class ScoreEngage extends SequentialCommandGroup implements MustangComman
         eventMap.put("clawEject", new ClawInstantEject(claw));
         eventMap.put("moveToGround", new MoveToTarget(arm, ArmState.HYBRID));
         eventMap.put("clawIntake", new ClawInstantIntake(claw)); // May want to use IntakeAndStow
-                                                                 // after testing.
-
-        SwerveDriveKinematics driveBaseKinematics = driveBase.getSwerveKinematics();
-
-        SwerveAutoBuilder autoBuilder =
-                new SwerveAutoBuilder(driveBase::getPose, driveBase::resetOdometry,
-                        driveBaseKinematics, RobotConstants.DriveBase.kAutonTranslationPID,
-                        RobotConstants.DriveBase.kAutonThetaPID, driveBase::setModuleStates,
-                        eventMap, true, new Subsystem[] {driveBase});
-
-        CommandBase fullAuto = autoBuilder.fullAuto(trajectoryGroup);
+        
+        CommandBase fullAuto = driveBase.getAutoBuilderFromEvents(eventMap).fullAuto(trajectoryGroup);
 
         addCommands(fullAuto, new TurnToAngle(driveBase, 180, true, OI.getDriverController()),
                 new NonPidAutoLevel(driveBase, true));

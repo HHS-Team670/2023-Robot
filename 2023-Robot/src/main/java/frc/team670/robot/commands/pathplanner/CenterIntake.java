@@ -48,15 +48,8 @@ public class CenterIntake extends SequentialCommandGroup implements MustangComma
         eventMap.put("clawIntake", new ClawInstantIntake(claw));
         eventMap.put("autoLevel", new NonPidAutoLevel(driveBase, false));
 
-        SwerveDriveKinematics driveBaseKinematics = driveBase.getSwerveKinematics();
-
-        SwerveAutoBuilder autoBuilder =
-                new SwerveAutoBuilder(driveBase::getPose, driveBase::resetOdometry,
-                        driveBaseKinematics, RobotConstants.DriveBase.kAutonTranslationPID,
-                        RobotConstants.DriveBase.kAutonThetaPID, driveBase::setModuleStates,
-                        eventMap, true, new Subsystem[] {driveBase});
-
-        CommandBase fullAuto = autoBuilder.fullAuto(trajectoryGroup);
+        CommandBase fullAuto = driveBase.getAutoBuilderFromEvents(eventMap).fullAuto(trajectoryGroup);
+        
 
         addCommands(fullAuto);
     }

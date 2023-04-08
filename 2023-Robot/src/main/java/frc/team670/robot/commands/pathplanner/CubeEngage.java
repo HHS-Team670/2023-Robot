@@ -58,14 +58,7 @@ public class CubeEngage extends SequentialCommandGroup implements MustangCommand
                                                                           // on, markers are the
                                                                           // same
 
-        SwerveDriveKinematics driveBaseKinematics = driveBase.getSwerveKinematics();
-
-        SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(driveBase::getPose,
-                driveBase::resetOdometry, driveBaseKinematics, PID_translation, PID_theta,
-                driveBase::setModuleStates, eventMap, true, new Subsystem[] {driveBase});
-
-        CommandBase fullAuto = autoBuilder.fullAuto(trajectoryGroup);
-
+        CommandBase fullAuto = driveBase.getAutoBuilderFromEvents(eventMap).fullAuto(trajectoryGroup);
         addCommands(fullAuto);
     }
 }

@@ -16,17 +16,21 @@ import frc.team670.mustanglib.subsystems.drivebase.SwerveDrive;
 import frc.team670.mustanglib.swervelib.SwerveModule;
 import frc.team670.mustanglib.swervelib.pathplanner.MustangPPSwerveControllerCommand;
 import frc.team670.mustanglib.utils.MustangController;
+import frc.team670.robot.constants.OI;
 import frc.team670.robot.constants.RobotConstants;
 
 public class DriveBase extends SwerveDrive {
-
-
+    private static DriveBase mInstance;
     private MustangCommand defaultCommand;
     private MustangController mController;
 
-    public DriveBase(MustangController mustangController) {
+    public static DriveBase getInstance() {
+        return mInstance == null ? new DriveBase() : mInstance;
+    }
+
+    public DriveBase() {
         super(RobotConstants.DriveBase.kConfig);
-        this.mController = mustangController;
+        this.mController = OI.getDriverController();
     }
 
     /**

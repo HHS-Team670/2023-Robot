@@ -7,6 +7,7 @@ import static java.util.Map.entry;
 import java.util.PriorityQueue;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
+import frc.team670.robot.constants.RobotConstants;
 
 /**
  * Represents the whole Arm system, containing multiple joints. Models the arm as a state machine.
@@ -20,10 +21,6 @@ public class Arm extends MustangSubsystemBase {
     private ArmState targetState;
     private boolean initializedState;
     private VoltageCalculator voltageCalculator;
-
-    private double elbowOffset;
-    private double shoulderOffset;
-    private double wristOffset;
 
     private boolean hasSetShoulderTarget = true;
     private boolean hasSetElbowTarget = true;
@@ -91,9 +88,9 @@ public class Arm extends MustangSubsystemBase {
         this.targetState = ArmState.STOWED;
         this.initializedState = false;
         this.voltageCalculator = new VoltageCalculator(
-                frc.team670.robot.constants.RobotConstants.Arm.Shoulder.kSegment,
-                frc.team670.robot.constants.RobotConstants.Arm.Elbow.kSegment,
-                frc.team670.robot.constants.RobotConstants.Arm.Wrist.kWristSegment);
+                RobotConstants.Arm.Shoulder.kSegment,
+                RobotConstants.Arm.Elbow.kSegment,
+                RobotConstants.Arm.Wrist.kWristSegment);
 
         init();
     }
@@ -176,8 +173,8 @@ public class Arm extends MustangSubsystemBase {
      */
     public void moveToTarget(ArmState target) {
         if (checkHealth() == HealthState.GREEN) {
-            this.elbowOffset = 0;
-            this.shoulderOffset = 0;
+            // double elbowOffset = 0;
+            // double shoulderOffset = 0;
 
             hasSetShoulderTarget = false;
             hasSetElbowTarget = false;

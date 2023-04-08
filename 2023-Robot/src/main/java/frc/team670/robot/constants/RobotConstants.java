@@ -8,9 +8,11 @@ import static java.util.Map.entry;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Map;
 import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.auto.PIDConstants;
+import com.pathplanner.lib.auto.SwerveAutoBuilder;
 import com.revrobotics.CANSparkMax.IdleMode;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation3d;
@@ -18,6 +20,7 @@ import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.team670.mustanglib.constants.RobotConstantsBase;
 import frc.team670.mustanglib.subsystems.SparkMaxRotatingSubsystem;
 import frc.team670.mustanglib.subsystems.drivebase.SwerveDrive;
@@ -44,14 +47,14 @@ public final class RobotConstants extends RobotConstantsBase {
      * so they are facing in the forwards direction. NOTE: The wheels will be pointed forwards (not
      * backwards) when modules are turned so the large bevel gears are towards the LEFT side of the
      * robot. When aligning the wheels they must be as straight as possible. It is recommended to
-     * use a long strait edge such as a piece of 2x1 in order to make the wheels straight. 4) Record
-     * the angles of each module using the angle put onto Shuffleboard. The values are named Front
-     * Left Module Angle, Front Right Module Angle, etc. 5) Set the values of the *_ANGLE_OFFSET to
-     * -Math.toRadians(<the angle you recorded>) NOTE: All angles must be in degrees. 6) Re-deploy
-     * and power cycle and try to drive the robot forwards. All the wheels should stay parallel to
-     * each other. If not go back to step 3. 7) Make sure all the wheels are spinning in the correct
-     * direction. If not, add 180 degrees to the offset of each wheel that is spinning in the
-     * incorrect direction. i.e -Math.toRadians(<angle> + 180.0).
+     * use a long straight edge such as a piece of 2x1 in order to make the wheels straight. 4)
+     * Record the angles of each module using the angle put onto Shuffleboard. The values are named
+     * Front Left Module Angle, Front Right Module Angle, etc. 5) Set the values of the
+     * *_ANGLE_OFFSET to -Math.toRadians(<the angle you recorded>) NOTE: All angles must be in
+     * degrees. 6) Re-deploy and power cycle and try to drive the robot forwards. All the wheels
+     * should stay parallel to each other. If not go back to step 3. 7) Make sure all the wheels are
+     * spinning in the correct direction. If not, add 180 degrees to the offset of each wheel that
+     * is spinning in the incorrect direction. i.e -Math.toRadians(<angle> + 180.0).
      */
 
     public static final String kSunTzuAddress = "00:80:2F:34:0B:07";
@@ -162,8 +165,6 @@ public final class RobotConstants extends RobotConstantsBase {
         public static final PIDController thetaController = new PIDController(0.2, 0, 0);
         public static final PathConstraints kAutoPathConstraints = new PathConstraints(
                 kMaxSpeedMetersPerSecond, kMaxAccelerationMetersPerSecondSquared);
-
-        // public static final SwerveAutoBuilder autoBuilder =
     }
 
 

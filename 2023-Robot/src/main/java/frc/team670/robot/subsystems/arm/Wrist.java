@@ -1,19 +1,13 @@
 
 package frc.team670.robot.subsystems.arm;
 
-import com.revrobotics.CANSparkMax.IdleMode;
-import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import com.revrobotics.REVLibError;
-
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team670.mustanglib.subsystems.SparkMaxRotatingSubsystem;
 import frc.team670.mustanglib.utils.Logger;
 import frc.team670.mustanglib.utils.functions.MathUtils;
-import frc.team670.mustanglib.utils.motorcontroller.MotorConfig;
-import frc.team670.mustanglib.utils.motorcontroller.MotorConfig.Motor_Type;
 import frc.team670.robot.constants.RobotConstants;
-import frc.team670.mustanglib.utils.motorcontroller.SparkMAXLite;
 
 /**
  * Represents the wrist joint. Uses only one motor
@@ -39,45 +33,34 @@ public class Wrist extends SparkMaxRotatingSubsystem {
     public Wrist() {
         super(RobotConstants.Arm.Wrist.kConfig);
         absEncoder = new DutyCycleEncoder(
-                frc.team670.robot.constants.RobotConstants.Arm.Wrist.kAbsoluteEncoderID);
-        super.getRotator().setInverted(false);
+                RobotConstants.Arm.Wrist.kAbsoluteEncoderID);
+        super.getmRotator().setInverted(false);
 
 
     }
 
-    /**
-     * Calculated voltage using VoltageCalculator
-     * 
-     * @param voltage
-     */
-    public void updateArbitraryFeedForward(double voltage) {
-        if (setpoint != SparkMaxRotatingSubsystem.NO_SETPOINT) {
-            rotator_controller.setReference(setpoint, SparkMAXLite.ControlType.kSmartMotion,
-                    super.SMARTMOTION_SLOT, voltage);
-        }
-    }
-
+    
     /**
      * PRIVATE method to set position from absolute. DO NOT USE DIRECTLY. Instead, use
      * resetPositionFromAbsolute()
      */
-    public void setEncoderPositionFromAbsolute() {
+    private void setEncoderPositionFromAbsolute() {
         double absEncoderPosition = absEncoder.getAbsolutePosition();
-        double previousPositionRot = super.rotator_encoder.getPosition();
+        double previousPositionRot = super.mEncoder.getPosition();
 
         if (absEncoderPosition != 0.0) {
             double relativePosition = ((1 * (absEncoderPosition
-                    - (frc.team670.robot.constants.RobotConstants.Arm.Wrist.kAbsoluteEncoderVerticalOffsetRadians
+                    - (RobotConstants.Arm.Wrist.kAbsoluteEncoderVerticalOffsetRadians
                             - 0.5))
-                    + 1) * frc.team670.robot.constants.RobotConstants.Arm.Wrist.kGearRatio)
-                    % frc.team670.robot.constants.RobotConstants.Arm.Wrist.kGearRatio;
+                    + 1) * RobotConstants.Arm.Wrist.kGearRatio)
+                    % RobotConstants.Arm.Wrist.kGearRatio;
 
             if (calculatedRelativePosition == 0.0
                     || Math.abs(360 * ((previousPositionRot - relativePosition)
-                            / this.ROTATOR_GEAR_RATIO)) < 20.0) {
+                            / kConfig.kRotatorGearRatio())) < 20.0) {
                 clearSetpoint();
 
-                REVLibError error = rotator_encoder.setPosition(relativePosition);
+                REVLibError error = mEncoder.setPosition(relativePosition);
                 SmartDashboard.putNumber("Wrist absEncoder position when reset",
                         absEncoderPosition);
                 SmartDashboard.putNumber("Wrist relEncoder position when reset", relativePosition);
@@ -95,7 +78,7 @@ public class Wrist extends SparkMaxRotatingSubsystem {
 
     @Override
     public HealthState checkHealth() {
-        REVLibError rotatorError = super.rotator.getLastError();
+        REVLibError rotatorError = super.mRotator.getLastError();
 
         if (rotatorError != null && rotatorError != REVLibError.kOk) {
             Logger.consoleError("Wrist error! Rotator Error is " + rotatorError.toString());
@@ -133,18 +116,18 @@ public class Wrist extends SparkMaxRotatingSubsystem {
 
     @Override
     public boolean hasReachedTargetPosition() {
-        return (MathUtils.doublesEqual(rotator_encoder.getPosition(), setpoint,
-                frc.team670.robot.constants.RobotConstants.Arm.Wrist.kAllowedErrorDegrees));
+        return (MathUtils.doublesEqual(mEncoder.getPosition(), mSetpoint,
+                RobotConstants.Arm.Wrist.kAllowedErrorDegrees));
     }
 
     @Override
     public void debugSubsystem() {
-        double relativePosition = super.rotator_encoder.getPosition();
+        double relativePosition = super.mEncoder.getPosition();
 
         SmartDashboard.putNumber(positionDeg, getCurrentAngleInDegrees());
         SmartDashboard.putNumber(positionRot, relativePosition);
         SmartDashboard.putNumber(absEncoderPos, absEncoder.getAbsolutePosition());
-        SmartDashboard.putNumber(setpointRot, setpoint);
+        SmartDashboard.putNumber(setpointRot, mSetpoint);
 
     }
 
@@ -171,10 +154,10 @@ public class Wrist extends SparkMaxRotatingSubsystem {
                 hasSetAbsolutePosition = true;
             }
         } else if (!relativePositionIsSet) {
-            if (Math.abs(super.rotator_encoder.getPosition() - calculatedRelativePosition) < 0.5) {
+            if (Math.abs(super.mEncoder.getPosition() - calculatedRelativePosition) < 0.5) {
                 relativePositionIsSet = true;
             } else {
-                super.rotator_encoder.setPosition(calculatedRelativePosition);
+                super.mEncoder.setPosition(calculatedRelativePosition);
             }
         }
     }

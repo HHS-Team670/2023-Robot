@@ -5,7 +5,7 @@ import frc.team670.mustanglib.utils.motorcontroller.MotorConfig.Motor_Type;
 import frc.team670.mustanglib.utils.LEDColor;
 import frc.team670.mustanglib.utils.motorcontroller.SparkMAXFactory;
 import frc.team670.mustanglib.utils.motorcontroller.SparkMAXLite;
-import frc.team670.robot.constants.OI;
+import frc.team670.robot.constants.RobotConstants;
 import com.revrobotics.CANSparkMax.IdleMode;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -27,13 +27,13 @@ public class Claw extends MustangSubsystemBase {
     private int ejectCounter = 0;
     private boolean isFull = false;
     private double ejectingSpeed =
-            frc.team670.robot.constants.RobotConstants.Arm.Claw.kEjectingSpeed;
+            RobotConstants.Arm.Claw.kEjectingSpeed;
 
     private LED led;
 
     public Claw(LED led) {
         motor = SparkMAXFactory.buildSparkMAX(
-                frc.team670.robot.constants.RobotConstants.Arm.Claw.kMotorID,
+                RobotConstants.Arm.Claw.kMotorID,
                 SparkMAXFactory.defaultConfig, Motor_Type.NEO);
         status = Status.IDLE;
         this.led = led;
@@ -56,7 +56,7 @@ public class Claw extends MustangSubsystemBase {
     }
 
     public void startEjecting() {
-        this.startEjecting(frc.team670.robot.constants.RobotConstants.Arm.Claw.kEjectingSpeed);
+        this.startEjecting(RobotConstants.Arm.Claw.kEjectingSpeed);
     }
 
     /**
@@ -111,14 +111,14 @@ public class Claw extends MustangSubsystemBase {
 
         switch (status) {
             case IDLE:
-                motor.set(frc.team670.robot.constants.RobotConstants.Arm.Claw.kIdleSpeed);
+                motor.set(RobotConstants.Arm.Claw.kIdleSpeed);
                 break;
             case INTAKING:
-                motor.set(frc.team670.robot.constants.RobotConstants.Arm.Claw.kRollingSpeed);
+                motor.set(RobotConstants.Arm.Claw.kRollingSpeed);
                 if (motor
-                        .getOutputCurrent() > frc.team670.robot.constants.RobotConstants.Arm.Claw.kCurrentMax) {
+                        .getOutputCurrent() > RobotConstants.Arm.Claw.kCurrentMax) {
                     currentSpikeCounter++;
-                    if (currentSpikeCounter > frc.team670.robot.constants.RobotConstants.Arm.Claw.kCurrentSpikeIterations) {
+                    if (currentSpikeCounter > RobotConstants.Arm.Claw.kCurrentSpikeIterations) {
                         isFull = true;
                         if (DriverStation.isTeleopEnabled()) {
                             led.solidhsv(LEDColor.GREEN);
@@ -137,7 +137,7 @@ public class Claw extends MustangSubsystemBase {
             case EJECTING:
                 motor.set(ejectingSpeed);
                 ejectCounter++;
-                if (ejectCounter > frc.team670.robot.constants.RobotConstants.Arm.Claw.kEjectIterations) {
+                if (ejectCounter > RobotConstants.Arm.Claw.kEjectIterations) {
                     ejectCounter = 0;
                     isFull = false;
                     if (DriverStation.isTeleopEnabled()) {
