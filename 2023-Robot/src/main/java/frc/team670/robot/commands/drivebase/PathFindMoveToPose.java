@@ -46,8 +46,9 @@ public class PathFindMoveToPose extends CommandBase implements MustangCommand {
 		// points in the path.
 		PathPoint[] fullPathPoints = getPathPointsFromNodes(fullPath);
 
-		PathPlannerTrajectory trajectory = PathPlanner
-				.generatePath(frc.team670.robot.constants.RobotConstants.DriveBase.kAutoPathConstraints, Arrays.asList(fullPathPoints));
+		PathPlannerTrajectory trajectory = PathPlanner.generatePath(
+				frc.team670.robot.constants.RobotConstants.DriveBase.kAutoPathConstraints,
+				Arrays.asList(fullPathPoints));
 		driveBase.getPoseEstimator().addTrajectory(trajectory);
 		pathDrivingCommand = driveBase.getFollowTrajectoryCommand(trajectory);
 		pathDrivingCommand.schedule();

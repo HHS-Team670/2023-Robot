@@ -1,19 +1,15 @@
 package frc.team670.robot.subsystems.arm;
 
 import com.revrobotics.CANSparkMax.IdleMode;
-import com.revrobotics.CANSparkMax.SoftLimitDirection;
-
-import frc.team670.mustanglib.utils.Logger;
-import frc.team670.mustanglib.utils.functions.MathUtils;
-import frc.team670.mustanglib.utils.motorcontroller.MotorConfig;
+import com.revrobotics.REVLibError;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team670.mustanglib.subsystems.SparkMaxRotatingSubsystem;
+import frc.team670.mustanglib.utils.Logger;
+import frc.team670.mustanglib.utils.functions.MathUtils;
 import frc.team670.mustanglib.utils.motorcontroller.SparkMAXFactory;
 import frc.team670.mustanglib.utils.motorcontroller.SparkMAXLite;
-import frc.team670.mustanglib.utils.motorcontroller.MotorConfig.Motor_Type;
 import frc.team670.robot.constants.RobotConstants;
-import com.revrobotics.REVLibError;
 
 /**
  * Represents the shoulder joint. The shoulder uses a leader-follower SparkMax pair

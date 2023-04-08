@@ -7,22 +7,16 @@ package frc.team670.robot.subsystems;
 import com.pathplanner.lib.PathPlannerTrajectory;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.REVLibError;
-import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Subsystem;
-import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import frc.team670.mustanglib.commands.MustangCommand;
 import frc.team670.mustanglib.commands.MustangScheduler;
 import frc.team670.mustanglib.commands.drive.teleop.XboxSwerveDrive;
-import frc.team670.mustanglib.constants.SwerveConfig;
 import frc.team670.mustanglib.subsystems.drivebase.SwerveDrive;
-import frc.team670.mustanglib.swervelib.SdsModuleConfigurations;
 import frc.team670.mustanglib.swervelib.SwerveModule;
 import frc.team670.mustanglib.swervelib.pathplanner.MustangPPSwerveControllerCommand;
 import frc.team670.mustanglib.utils.MustangController;
 import frc.team670.robot.constants.RobotConstants;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveBase extends SwerveDrive {
 
@@ -85,11 +79,11 @@ public class DriveBase extends SwerveDrive {
     }
 
     public MustangPPSwerveControllerCommand getFollowTrajectoryCommand(PathPlannerTrajectory traj) {
-        setSwerveControllerCommand(new MustangPPSwerveControllerCommand(traj, this::getPose,
+        setmSwerveControllerCommand(new MustangPPSwerveControllerCommand(traj, this::getPose,
                 getSwerveKinematics(), RobotConstants.DriveBase.xController,
                 RobotConstants.DriveBase.yController, RobotConstants.DriveBase.thetaController,
                 this::setModuleStates, new Subsystem[] {this}));
-        return getSwerveControllerCommand();
+        return getmSwerveControllerCommand();
 
     }
 

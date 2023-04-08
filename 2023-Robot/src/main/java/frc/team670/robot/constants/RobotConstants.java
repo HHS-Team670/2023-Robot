@@ -9,10 +9,8 @@ import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.Enumeration;
 import java.util.Map;
-import com.fasterxml.jackson.annotation.Nulls;
 import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.auto.PIDConstants;
-import com.pathplanner.lib.auto.SwerveAutoBuilder;
 import com.revrobotics.CANSparkMax.IdleMode;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation3d;
@@ -21,14 +19,12 @@ import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.SerialPort;
 import frc.team670.mustanglib.constants.RobotConstantsBase;
-import frc.team670.mustanglib.constants.SwerveConfig;
 import frc.team670.mustanglib.subsystems.SparkMaxRotatingSubsystem;
-import frc.team670.mustanglib.swervelib.Mk4iSwerveModuleHelper;
+import frc.team670.mustanglib.subsystems.drivebase.SwerveDrive;
+import frc.team670.mustanglib.swervelib.Mk4iSwerveModuleHelper.GearRatio;
 import frc.team670.mustanglib.swervelib.ModuleConfiguration;
 import frc.team670.mustanglib.swervelib.SdsModuleConfigurations;
 import frc.team670.mustanglib.utils.motorcontroller.MotorConfig;
-import frc.team670.mustanglib.utils.motorcontroller.MotorConfig.Motor_Type;
-import frc.team670.mustanglib.swervelib.Mk4iSwerveModuleHelper.GearRatio;
 import frc.team670.robot.subsystems.arm.ArmSegment;
 
 /**
@@ -146,7 +142,7 @@ public final class RobotConstants extends RobotConstantsBase {
         public static final double kMaxAngularVelocityRadiansPerSecond = kMaxVelocityMetersPerSecond
                 / Math.hypot(kTrackWidthMeters / 2.0, kWheelBaseMeters / 2.0);
 
-        public static final SwerveConfig kConfig = new SwerveConfig(kTrackWidthMeters,
+        public static final SwerveDrive.Config kConfig = new SwerveDrive.Config(kTrackWidthMeters,
                 kWheelBaseMeters, kMaxVelocityMetersPerSecond, kMaxVoltage, kNAVXPort,
                 kSwerveModuleGearRatio, kFrontLeftModuleDriveMotorID, kFrontLeftModuleSteerMotorID,
                 kFrontLeftModuleSteerEncoderID, kFrontLeftModuleSteerOffsetRadians,
