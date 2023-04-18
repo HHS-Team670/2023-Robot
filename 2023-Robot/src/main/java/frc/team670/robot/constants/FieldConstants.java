@@ -15,8 +15,8 @@ import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import frc.team670.robot.pathfinder.Obstacle;
-import frc.team670.robot.pathfinder.PoseNode;
+import frc.team670.mustanglib.pathfinder.Obstacle;
+import frc.team670.mustanglib.pathfinder.PoseNode;
 
 /**
  * ORIGIN AT BOTTOM LEFT

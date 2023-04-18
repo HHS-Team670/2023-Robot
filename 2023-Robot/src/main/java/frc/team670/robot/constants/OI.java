@@ -109,19 +109,12 @@ public class OI extends OIBase {
 
         zeroGyroDriver.onTrue(new SetSwerveForwardDirection(driveBase));
         zeroArm.onTrue(new ResetArmFromAbsolute(arm));
-        // moveToTarget.whileTrue(new MoveToPose(driveBase,
-        // (FieldConstants.LoadingZone.IntakePoses[0]))); // moves to substation
-        // singleSubAlign.whileTrue(new MoveToPose(driveBase,
-        // (FieldConstants.allianceOrientedAllianceFlip(FieldConstants.LoadingZone.IntakePoses[0]))));
-        // // moves to substation
         singleSubAlign.whileTrue(new AutoAlignToSubstation(driveBase, false)); // moves to
                                                                                // substation
 
         alignToClosest.whileTrue(new AutoAlign(driveBase, AutoAlign.Direction.CLOSEST));
         alignToLeft.whileTrue(new AutoAlign(driveBase, AutoAlign.Direction.LEFT));
         alignToRight.whileTrue(new AutoAlign(driveBase, AutoAlign.Direction.RIGHT));
-
-        // creep.whileTrue(new Creep(driveBase));
 
         // arm movement commands
         hybrid.onTrue(new MoveToTarget(arm, ArmState.HYBRID));
