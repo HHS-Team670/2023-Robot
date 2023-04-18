@@ -25,6 +25,7 @@ import frc.team670.mustanglib.constants.RobotConstantsBase;
 import frc.team670.mustanglib.subsystems.SparkMaxRotatingSubsystem;
 import frc.team670.mustanglib.subsystems.drivebase.SwerveDrive;
 import frc.team670.mustanglib.swervelib.Mk4iSwerveModuleHelper.GearRatio;
+import frc.team670.mustanglib.swervelib.Mk4ModuleConfiguration;
 import frc.team670.mustanglib.swervelib.ModuleConfiguration;
 import frc.team670.mustanglib.swervelib.SdsModuleConfigurations;
 import frc.team670.mustanglib.utils.motorcontroller.MotorConfig;
@@ -131,6 +132,8 @@ public final class RobotConstants extends RobotConstantsBase {
         public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI * 8;
 
         public static final double kMaxVoltage = 12.0;
+        public static final double kMaxDriveCurrent = 45.0;
+        public static final double kMaxSteerCurrent = 20.0;
 
         // The formula for calculating the theoretical maximum velocity is:
         // <Motor free speed RPM> / 60 * <Drive reduction> * <Wheel diameter meters> *
@@ -146,15 +149,16 @@ public final class RobotConstants extends RobotConstantsBase {
                 / Math.hypot(kTrackWidthMeters / 2.0, kWheelBaseMeters / 2.0);
 
         public static final SwerveDrive.Config kConfig = new SwerveDrive.Config(kTrackWidthMeters,
-                kWheelBaseMeters, kMaxVelocityMetersPerSecond, kMaxVoltage, kNAVXPort,
-                kSwerveModuleGearRatio, kFrontLeftModuleDriveMotorID, kFrontLeftModuleSteerMotorID,
-                kFrontLeftModuleSteerEncoderID, kFrontLeftModuleSteerOffsetRadians,
-                kFrontRightModuleDriveMotorID, kFrontRightModuleSteerMotorID,
-                kFrontRightModuleSteerEncoderID, kFrontRightModuleSteerOffsetRadians,
-                kBackLeftModuleDriveMotorID, kBackLeftModuleSteerMotorID,
-                kBackLeftModuleSteerEncoderID, kBackLeftModuleSteerOffsetRadians,
-                kBackRightModuleDriveMotorID, kBackRightModuleSteerMotorID,
-                kBackRightModuleSteerEncoderID, kBackRightModuleSteerOffsetRadians);
+                kWheelBaseMeters, kMaxVelocityMetersPerSecond, kMaxVoltage, kMaxDriveCurrent,
+                kMaxSteerCurrent, kNAVXPort, kSwerveModuleGearRatio, kFrontLeftModuleDriveMotorID,
+                kFrontLeftModuleSteerMotorID, kFrontLeftModuleSteerEncoderID,
+                kFrontLeftModuleSteerOffsetRadians, kFrontRightModuleDriveMotorID,
+                kFrontRightModuleSteerMotorID, kFrontRightModuleSteerEncoderID,
+                kFrontRightModuleSteerOffsetRadians, kBackLeftModuleDriveMotorID,
+                kBackLeftModuleSteerMotorID, kBackLeftModuleSteerEncoderID,
+                kBackLeftModuleSteerOffsetRadians, kBackRightModuleDriveMotorID,
+                kBackRightModuleSteerMotorID, kBackRightModuleSteerEncoderID,
+                kBackRightModuleSteerOffsetRadians);
 
         public static final PIDConstants kAutonTranslationPID = new PIDConstants(4, 0, 0);
         public static final PIDConstants kAutonThetaPID = new PIDConstants(0.5, 0, 0);
