@@ -10,7 +10,6 @@ import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 import frc.team670.mustanglib.utils.MustangController;
 import frc.team670.mustanglib.utils.MustangController.XboxButtons;
 import frc.team670.robot.commands.arm.ManualMoveElbow;
-import frc.team670.robot.commands.arm.ManualMoveShoulder;
 import frc.team670.robot.commands.arm.MoveToTarget;
 import frc.team670.robot.commands.arm.ResetArmFromAbsolute;
 import frc.team670.robot.commands.claw.ClawIdle;

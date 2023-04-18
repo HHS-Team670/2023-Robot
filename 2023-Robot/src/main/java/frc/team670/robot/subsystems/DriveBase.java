@@ -14,7 +14,7 @@ import frc.team670.robot.constants.RobotConstants;
 public class DriveBase extends SwerveDrive {
     private static DriveBase mInstance;
 
-    public static DriveBase getInstance() {
+    public static synchronized DriveBase getInstance() {
         return mInstance == null ? new DriveBase() : mInstance;
     }
 
