@@ -21,7 +21,7 @@ public class SetColorYellow extends InstantCommand implements MustangCommand {
     }
 
     public void initialize() {
-        led.setColorYellow();
+        led.setConeColor();
     }
 
     @Override

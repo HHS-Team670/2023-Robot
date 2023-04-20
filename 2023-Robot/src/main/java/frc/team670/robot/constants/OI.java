@@ -5,8 +5,6 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.team670.mustanglib.commands.drive.teleop.SetSwerveForwardDirection;
 import frc.team670.mustanglib.commands.drive.teleop.XboxSwerveDrive;
-import frc.team670.mustanglib.constants.OIBase;
-import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 import frc.team670.mustanglib.utils.MustangController;
 import frc.team670.mustanglib.utils.MustangController.XboxButtons;
 import frc.team670.robot.commands.arm.ManualMoveElbow;
@@ -25,34 +23,21 @@ import frc.team670.robot.subsystems.LED;
 import frc.team670.robot.subsystems.arm.Arm;
 import frc.team670.robot.subsystems.arm.ArmState;
 
-public class OI extends OIBase {
+public final class OI {
 
     // Controllers
     private static MustangController driverController = new MustangController(0);
     private static MustangController operatorController = new MustangController(1);
 
     // Driver buttons
-    // private static JoystickButton zeroArm = new JoystickButton(driverController,
-    // XboxButtons.START);
     private static JoystickButton zeroArm =
             new JoystickButton(operatorController, XboxButtons.START);
     private static JoystickButton zeroGyroDriver =
             new JoystickButton(driverController, XboxButtons.START);
-    // private static JoystickButton moveToTarget = new
-    // JoystickButton(driverController,
-    // XboxButtons.RIGHT_BUMPER);
     private static POVButton singleSubAlign = new POVButton(driverController, 0);
-    // private static JoystickButton creep = new JoystickButton(driverController,
-    // XboxButtons.RIGHT_TRIGGER);
-    // private static POVButton creep = new POVButton(driverController, 0);
     private static POVButton alignToClosest = new POVButton(driverController, 180);
     private static POVButton alignToLeft = new POVButton(driverController, 270);
     private static POVButton alignToRight = new POVButton(driverController, 90);
-
-    // private static POVButton alignToClosest = new POVButton(driverController, 0);
-
-    // private static JoystickButton singleSubstation = new
-    // JoystickButton(driverController, 0)
 
     // Operator buttons
     private static POVButton hybrid = new POVButton(operatorController, 180);
@@ -95,13 +80,12 @@ public class OI extends OIBase {
         return operatorController;
     }
 
-    @Override
-    public void configureButtonBindings(MustangSubsystemBase... subsystemBases) {
-        DriveBase driveBase = (DriveBase) subsystemBases[0];
-        // Vision vision = (Vision) subsystemBases[1];
-        Arm arm = (Arm) subsystemBases[2];
-        Claw claw = (Claw) subsystemBases[3];
-        LED led = (LED) subsystemBases[4];
+    public static void configureButtonBindings() {
+        DriveBase driveBase = DriveBase.getInstance();
+        Arm arm = Arm.getInstance();
+        Claw claw = Claw.getInstance();
+        LED led = LED.getInstance();
+
         driveBase.initDefaultCommand(new XboxSwerveDrive(driveBase, driverController,
                 RobotConstants.DriveBase.kMaxVelocityMetersPerSecond,
                 RobotConstants.DriveBase.kMaxAngularVelocityRadiansPerSecond));
@@ -140,6 +124,5 @@ public class OI extends OIBase {
 
         ledPurple.onTrue(new SetColorPurple(led));
         ledYellow.onTrue(new SetColorYellow(led));
-
     }
 }

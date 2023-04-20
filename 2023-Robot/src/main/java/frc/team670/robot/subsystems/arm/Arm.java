@@ -81,6 +81,12 @@ public class Arm extends MustangSubsystemBase {
     private static ArmState VALID_PATHS[][][] =
             new ArmState[VALID_PATHS_GRAPH.length][VALID_PATHS_GRAPH.length][];
 
+    private static Arm mInstance;
+
+    public static Arm getInstance() {
+        return mInstance == null ? new Arm() : mInstance;
+    }
+
     public Arm() {
         this.shoulder = new Shoulder();
         this.elbow = new Elbow();

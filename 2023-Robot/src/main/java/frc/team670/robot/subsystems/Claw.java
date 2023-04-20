@@ -31,16 +31,21 @@ public class Claw extends MustangSubsystemBase {
 
     private LED led;
 
-    public Claw(LED led) {
+    private static Claw mInstance;
+
+    public static synchronized Claw getInstance() {
+        return mInstance == null ? new Claw() : mInstance;
+    }
+
+    public Claw() {
         motor = SparkMAXFactory.buildSparkMAX(
                 RobotConstants.Arm.Claw.kMotorID,
                 SparkMAXFactory.defaultConfig, Motor_Type.NEO);
         status = Status.IDLE;
-        this.led = led;
+        this.led = LED.getInstance();
 
         motor.setInverted(true);
         motor.setIdleMode(IdleMode.kBrake);
-
     }
 
     public LED getLed() {
