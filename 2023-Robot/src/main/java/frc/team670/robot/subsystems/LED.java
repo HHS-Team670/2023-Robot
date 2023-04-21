@@ -1,7 +1,6 @@
 package frc.team670.robot.subsystems;
 
 import frc.team670.mustanglib.subsystems.LEDSubsystem;
-import frc.team670.mustanglib.utils.LEDColor;
 import frc.team670.robot.constants.RobotConstants;
 
 public class LED extends LEDSubsystem {

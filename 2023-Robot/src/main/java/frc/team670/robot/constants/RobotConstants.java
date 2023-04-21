@@ -5,26 +5,31 @@
 package frc.team670.robot.constants;
 
 import static java.util.Map.entry;
+
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.Enumeration;
-import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
 import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.auto.PIDConstants;
-import com.pathplanner.lib.auto.SwerveAutoBuilder;
 import com.revrobotics.CANSparkMax.IdleMode;
+
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.SerialPort;
-import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.team670.mustanglib.subsystems.SparkMaxRotatingSubsystem;
+import frc.team670.mustanglib.subsystems.VisionSubsystemBase;
+import frc.team670.mustanglib.subsystems.VisionSubsystemBase.TagCountDeviation;
+import frc.team670.mustanglib.subsystems.VisionSubsystemBase.UnitDeviationParams;
 import frc.team670.mustanglib.subsystems.drivebase.SwerveDrive;
 import frc.team670.mustanglib.swervelib.Mk4iSwerveModuleHelper.GearRatio;
-import frc.team670.mustanglib.swervelib.Mk4ModuleConfiguration;
 import frc.team670.mustanglib.swervelib.ModuleConfiguration;
 import frc.team670.mustanglib.swervelib.SdsModuleConfigurations;
 import frc.team670.mustanglib.utils.motorcontroller.MotorConfig;
@@ -203,6 +208,25 @@ public final class RobotConstants {
         public static final double kLockedOnErrorX = 0.3;
         public static final double xLockedOnErrorY = 0.3;
         public static final double kLockedOnErrorDegrees = 10;
+
+        public static final double kPoseAmbiguityCutOff = 0.05;
+        public static final List<Set<Integer>> kPossibleFrameFIDCombos = List.of(Set.of(1, 2, 3, 4),
+                Set.of(5, 6, 7, 8));
+
+        public static final int kMaxFrameFIDs = 4;
+        public static final Map<Integer, TagCountDeviation> kVisionStdFromTagsSeen = Map.ofEntries(
+            Map.entry(1, new TagCountDeviation(
+                new UnitDeviationParams(.25, .4, .9),
+                new UnitDeviationParams(.35, .5, 1.2),
+                new UnitDeviationParams(.5, .7, 1.5))),
+            Map.entry(2, new TagCountDeviation(
+                new UnitDeviationParams(.35, .1, .4), new UnitDeviationParams(.5, .7, 1.5))),
+            Map.entry(3, new TagCountDeviation(
+                new UnitDeviationParams(.25, .07, .25), new UnitDeviationParams(.15, 1, 1.5)))
+        );
+        
+        public static final AprilTagFieldLayout kFieldLayout = FieldConstants.getFieldLayout(FieldConstants.aprilTags);
+        public static final VisionSubsystemBase.Config kConfig = new VisionSubsystemBase.Config(kFieldLayout, kVisionCameraIDs, kCameraOffsets, kPoseAmbiguityCutOff, kMaxFrameFIDs, kPossibleFrameFIDCombos, kVisionStdFromTagsSeen);
     }
 
     public static final class Arm {

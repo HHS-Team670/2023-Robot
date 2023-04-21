@@ -16,10 +16,7 @@ public class Vision extends VisionSubsystemBase {
     }
 
     public Vision() {
-        super(FieldConstants.getFieldLayout(FieldConstants.aprilTags),
-                new PhotonCamera[] {new PhotonCamera(RobotConstants.Vision.kVisionCameraIDs[0]),
-                        new PhotonCamera(RobotConstants.Vision.kVisionCameraIDs[1])},
-                RobotConstants.Vision.kCameraOffsets);
+        super(RobotConstants.Vision.kConfig);
         setName("Vision");
     }
 
