@@ -83,8 +83,11 @@ public class Arm extends MustangSubsystemBase {
 
     private static Arm mInstance;
 
-    public static Arm getInstance() {
-        return mInstance == null ? new Arm() : mInstance;
+    public static synchronized Arm getInstance() {
+        if(mInstance==null){
+            mInstance=new Arm();
+        }
+        return mInstance;
     }
 
     public Arm() {

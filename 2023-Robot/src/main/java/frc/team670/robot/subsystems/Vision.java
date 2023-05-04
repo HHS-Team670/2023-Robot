@@ -12,7 +12,10 @@ public class Vision extends VisionSubsystemBase {
     private static Vision mInstance;
 
     public static synchronized Vision getInstance() {
-        return mInstance == null ? new Vision() : mInstance;
+        if(mInstance==null){
+            mInstance=new Vision();
+        }
+        return mInstance;
     }
 
     public Vision() {

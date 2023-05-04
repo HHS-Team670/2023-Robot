@@ -34,7 +34,11 @@ public class Claw extends MustangSubsystemBase {
     private static Claw mInstance;
 
     public static synchronized Claw getInstance() {
-        return mInstance == null ? new Claw() : mInstance;
+        if(mInstance==null){
+            mInstance=new Claw();
+        }
+
+        return mInstance;
     }
 
     public Claw() {

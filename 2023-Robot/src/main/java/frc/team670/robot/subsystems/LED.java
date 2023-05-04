@@ -9,7 +9,9 @@ public class LED extends LEDSubsystem {
     private int prevPath = -1;
 
     public static synchronized LED getInstance() {
-        return mInstance == null ? new LED() : mInstance;
+        if(mInstance==null)
+            mInstance=new LED();
+        return mInstance;
     }
 
     public LED() {
