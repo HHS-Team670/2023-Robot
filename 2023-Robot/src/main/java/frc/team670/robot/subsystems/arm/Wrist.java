@@ -50,7 +50,7 @@ public class Wrist extends SparkMaxRotatingSubsystem {
 
         if (absEncoderPosition != 0.0) {
             double relativePosition = ((1 * (absEncoderPosition
-                    - (RobotConstants.Arm.Wrist.kAbsoluteEncoderVerticalOffsetRadians
+                    - (RobotConstants.Arm.Wrist.kAbsoluteEncoderVerticalOffset
                             - 0.5))
                     + 1) * RobotConstants.Arm.Wrist.kGearRatio)
                     % RobotConstants.Arm.Wrist.kGearRatio;

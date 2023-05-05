@@ -50,7 +50,7 @@ public class Elbow extends SparkMaxRotatingSubsystem {
 
         if (absEncoderPosition != 0.0) {
             double relativePosition = ((-1 * (absEncoderPosition
-                    - (RobotConstants.Arm.Elbow.kAbsoluteEncoderVerticalOffsetRadians
+                    - (RobotConstants.Arm.Elbow.kAbsoluteEncoderVerticalOffset
                             - 0.5))
                     + 1) * RobotConstants.Arm.Elbow.kGearRatio)
                     % RobotConstants.Arm.Elbow.kGearRatio;
@@ -154,6 +154,7 @@ public class Elbow extends SparkMaxRotatingSubsystem {
         SmartDashboard.putNumber(absEncoderPos, absEncoder.getAbsolutePosition());
         SmartDashboard.putNumber(setpointRot, mSetpoint);
         SmartDashboard.putNumber(current, super.getmRotator().getOutputCurrent());
+        SmartDashboard.putNumber("Elbow motor power: ",super.mRotator.get() );
     }
 
     @Override

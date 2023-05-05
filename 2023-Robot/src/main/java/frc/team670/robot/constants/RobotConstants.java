@@ -87,9 +87,9 @@ public final class RobotConstants {
                     entry("kBackLeftModuleSteerOffsetRadians", -Math.toRadians(299.807)),
                     entry("kFrontRightModuleSteerOffsetRadians", -Math.toRadians(137.499)),
                     entry("kFrontLeftModuleSteerOffsetRadians", -Math.toRadians(318.604)),
-                    entry("kShoulderAbsoluteEncoderVerticalOffsetRadians", 0.484233), // 0.47777
-                    entry("kElbowAbsoluteEncoderVerticalOffsetRadians", 0.004892),
-                    entry("kWristAbsoluteEncoderVerticalOffsetRadians", 0.337308),
+                entry("kShoulderAbsoluteEncoderVerticalOffset", 0.484233), // 0.47777
+                    entry("kElbowAbsoluteEncoderVerticalOffset", 0.004892),
+                    entry("kWristAbsoluteEncoderVerticalOffset", 0.177702),//234.126606
                     entry("kShoulderGearRatio", 96.0), entry("kElbowGearRatio", 70.833333333333),
                     entry("kSwerveModuleConfig", 2.0), entry("kWristGearRatio", 125.0))),
             entry(kSkipperAddress,
@@ -98,9 +98,9 @@ public final class RobotConstants {
                             entry("kBackLeftModuleSteerOffsetRadians", -Math.toRadians(233.29)),
                             entry("kFrontRightModuleSteerOffsetRadians", -Math.toRadians(225.77)),
                             entry("kFrontLeftModuleSteerOffsetRadians", -Math.toRadians(112.53)),
-                            entry("kShoulderAbsoluteEncoderVerticalOffsetRadians", 0.895),
-                            entry("kElbowAbsoluteEncoderVerticalOffsetRadians", 0.588),
-                            entry("kWristAbsoluteEncoderVerticalOffsetRadians", 0.918),
+                            entry("kShoulderAbsoluteEncoderVerticalOffset", 0.895),
+                            entry("kElbowAbsoluteEncoderVerticalOffset", 0.588),
+                            entry("kWristAbsoluteEncoderVerticalOffset", 0.918),
                             entry("kShoulderGearRatio", 75.0), entry("kElbowGearRatio", 90.0),
                             entry("kSwerveModuleConfig", 1.0), entry("kWristGearRatio", 125.0))))
             .get(kRobotAddress);
@@ -235,8 +235,8 @@ public final class RobotConstants {
             public static final int kLeaderMotorID = 2;
             public static final int kFollowerMotorID = 3;
             public static final int kAbsoluteEncoderID = 0;
-            public static final double kAbsoluteEncoderVerticalOffsetRadians = RobotConstants.robotSpecificConstants
-                    .get("kShoulderAbsoluteEncoderVerticalOffsetRadians");
+            public static final double kAbsoluteEncoderVerticalOffset = RobotConstants.robotSpecificConstants
+                    .get("kShoulderAbsoluteEncoderVerticalOffset");
             public static final int kGearRatio = (RobotConstants.robotSpecificConstants.get("kShoulderGearRatio"))
                     .intValue();
             public static final int kSoftLimitMin = 60;
@@ -278,8 +278,8 @@ public final class RobotConstants {
         }
 
         public static final class Elbow {
-            public static final double kAbsoluteEncoderVerticalOffsetRadians = RobotConstants.robotSpecificConstants
-                    .get("kElbowAbsoluteEncoderVerticalOffsetRadians");
+            public static final double kAbsoluteEncoderVerticalOffset = RobotConstants.robotSpecificConstants
+                    .get("kElbowAbsoluteEncoderVerticalOffset");
             public static final double kGearRatio = RobotConstants.robotSpecificConstants.get("kElbowGearRatio");
             public static final int kSoftLimitMin = 20;
             public static final int kSoftLimitMax = 340;
@@ -322,8 +322,8 @@ public final class RobotConstants {
         public static final class Wrist {
 
             // Wrist
-            public static final double kAbsoluteEncoderVerticalOffsetRadians = RobotConstants.robotSpecificConstants
-                    .get("kWristAbsoluteEncoderVerticalOffsetRadians");
+            public static final double kAbsoluteEncoderVerticalOffset = RobotConstants.robotSpecificConstants
+                    .get("kWristAbsoluteEncoderVerticalOffset");
             public static final double kGearRatio = (RobotConstants.robotSpecificConstants.get("kWristGearRatio"))
                     .intValue();
             public static final double kMaxOverrideDegrees = 90;

@@ -138,7 +138,7 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
         if (absEncoderPosition != 0.0) {
 
             double relativePosition = ((-1 * (absEncoderPosition
-                    - (RobotConstants.Arm.Shoulder.kAbsoluteEncoderVerticalOffsetRadians
+                    - (RobotConstants.Arm.Shoulder.kAbsoluteEncoderVerticalOffset
                             - 0.5))
                     + 1) * RobotConstants.Arm.Shoulder.kGearRatio)
                     % RobotConstants.Arm.Shoulder.kGearRatio;
