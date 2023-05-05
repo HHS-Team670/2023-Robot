@@ -15,9 +15,7 @@ public class DriveBase extends SwerveDrive {
     private static DriveBase mInstance;
 
     public static synchronized DriveBase getInstance() {
-        if(mInstance==null){
-            mInstance=new DriveBase();
-        }
+        mInstance = mInstance == null ? new DriveBase() : mInstance;
         return mInstance;
     }
 
