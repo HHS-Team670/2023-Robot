@@ -1,8 +1,6 @@
 package frc.team670.robot.subsystems;
 
-import org.photonvision.PhotonCamera;
 import frc.team670.mustanglib.subsystems.VisionSubsystemBase;
-import frc.team670.robot.constants.FieldConstants;
 import frc.team670.robot.constants.RobotConstants;
 
 /**
@@ -12,9 +10,7 @@ public class Vision extends VisionSubsystemBase {
     private static Vision mInstance;
 
     public static synchronized Vision getInstance() {
-        if(mInstance==null){
-            mInstance=new Vision();
-        }
+        mInstance = mInstance == null ? new Vision() : mInstance;
         return mInstance;
     }
 
