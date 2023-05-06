@@ -82,7 +82,7 @@ public class Arm extends MustangSubsystemBase {
                 entry(ArmState.SCORE_HIGH, new double[]{500, 0, 500})
             )
         ),
-        entry(ArmState.INTAKE_SHELF, Map.ofEntries( //From SCORE_MID
+        entry(ArmState.INTAKE_SHELF, Map.ofEntries( //From INTAKE_SHELF
                 entry(ArmState.STOWED, new double[]{0, 250, 0}),
                 entry(ArmState.HYBRID, new double[]{0, 250, 0})
             )
@@ -233,7 +233,6 @@ public class Arm extends MustangSubsystemBase {
         shoulder.setOffset(shoulderOffset);
         elbow.setSystemTargetAngleInDegrees(targetState.getElbowAngle() + elbow.getOffset());
         shoulder.setSystemTargetAngleInDegrees(targetState.getShoulderAngle() + shoulder.getOffset());
-
     }
 
     /**
