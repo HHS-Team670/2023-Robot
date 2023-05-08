@@ -32,14 +32,13 @@ public class Wrist extends SparkMaxRotatingSubsystem {
 
     public Wrist() {
         super(RobotConstants.Arm.Wrist.kConfig);
-        absEncoder = new DutyCycleEncoder(
-                RobotConstants.Arm.Wrist.kAbsoluteEncoderID);
-        super.getmRotator().setInverted(false);
+        absEncoder = new DutyCycleEncoder(RobotConstants.Arm.Wrist.kAbsoluteEncoderID);
+        super.getRotator().setInverted(false);
 
 
     }
 
-    
+
     /**
      * PRIVATE method to set position from absolute. DO NOT USE DIRECTLY. Instead, use
      * resetPositionFromAbsolute()
@@ -50,10 +49,8 @@ public class Wrist extends SparkMaxRotatingSubsystem {
 
         if (absEncoderPosition != 0.0) {
             double relativePosition = ((1 * (absEncoderPosition
-                    - (RobotConstants.Arm.Wrist.kAbsoluteEncoderVerticalOffset
-                            - 0.5))
-                    + 1) * RobotConstants.Arm.Wrist.kGearRatio)
-                    % RobotConstants.Arm.Wrist.kGearRatio;
+                    - (RobotConstants.Arm.Wrist.kAbsoluteEncoderVerticalOffset - 0.5)) + 1)
+                    * RobotConstants.Arm.Wrist.kGearRatio) % RobotConstants.Arm.Wrist.kGearRatio;
 
             if (calculatedRelativePosition == 0.0
                     || Math.abs(360 * ((previousPositionRot - relativePosition)

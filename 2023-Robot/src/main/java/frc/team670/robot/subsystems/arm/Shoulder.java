@@ -37,13 +37,11 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
 
     public Shoulder() {
         super(RobotConstants.Arm.Shoulder.kConfig);
-        super.getmRotator().setInverted(true);
-        follower = SparkMAXFactory.setPermanentFollower(
-                RobotConstants.Arm.Shoulder.kFollowerMotorID, mRotator,
-                true);
+        super.getRotator().setInverted(true);
+        follower = SparkMAXFactory
+                .setPermanentFollower(RobotConstants.Arm.Shoulder.kFollowerMotorID, mRotator, true);
         follower.setIdleMode(IdleMode.kBrake);
-        absEncoder = new DutyCycleEncoder(
-                RobotConstants.Arm.Shoulder.kAbsoluteEncoderID);
+        absEncoder = new DutyCycleEncoder(RobotConstants.Arm.Shoulder.kAbsoluteEncoderID);
     }
 
     /**
@@ -66,11 +64,9 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
     }
 
     private void setOffset(double offset) {
-        if (Math.abs(
-                offset) > RobotConstants.Arm.Shoulder.kMaxOverrideDegrees) {
-            this.offset =
-                    RobotConstants.Arm.Shoulder.kMaxOverrideDegrees
-                            * this.offset / Math.abs(this.offset);
+        if (Math.abs(offset) > RobotConstants.Arm.Shoulder.kMaxOverrideDegrees) {
+            this.offset = RobotConstants.Arm.Shoulder.kMaxOverrideDegrees * this.offset
+                    / Math.abs(this.offset);
         } else {
             this.offset = offset;
         }
@@ -137,14 +133,15 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
         double previousPositionRot = super.mEncoder.getPosition();
         if (absEncoderPosition != 0.0) {
 
-            double relativePosition = ((-1 * (absEncoderPosition
-                    - (RobotConstants.Arm.Shoulder.kAbsoluteEncoderVerticalOffset
-                            - 0.5))
+            double relativePosition = ((-1
+                    * (absEncoderPosition
+                            - (RobotConstants.Arm.Shoulder.kAbsoluteEncoderVerticalOffset - 0.5))
                     + 1) * RobotConstants.Arm.Shoulder.kGearRatio)
                     % RobotConstants.Arm.Shoulder.kGearRatio;
 
-            if (calculatedRelativePosition == 0.0 || Math.abs(360
-                    * ((previousPositionRot - relativePosition) / kConfig.kRotatorGearRatio())) < 5.0) {
+            if (calculatedRelativePosition == 0.0
+                    || Math.abs(360 * ((previousPositionRot - relativePosition)
+                            / kConfig.kRotatorGearRatio())) < 5.0) {
                 clearSetpoint();
                 REVLibError error = mEncoder.setPosition(relativePosition);
                 SmartDashboard.putNumber("Shoulder absEncoder position when reset",

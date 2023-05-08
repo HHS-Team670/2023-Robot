@@ -35,9 +35,8 @@ public class Elbow extends SparkMaxRotatingSubsystem {
 
     public Elbow() {
         super(RobotConstants.Arm.Elbow.kConfig);
-        absEncoder = new DutyCycleEncoder(
-                RobotConstants.Arm.Elbow.kAbsoluteEncoderID);
-        super.getmRotator().setInverted(true);
+        absEncoder = new DutyCycleEncoder(RobotConstants.Arm.Elbow.kAbsoluteEncoderID);
+        super.getRotator().setInverted(true);
     }
 
     /**
@@ -50,10 +49,8 @@ public class Elbow extends SparkMaxRotatingSubsystem {
 
         if (absEncoderPosition != 0.0) {
             double relativePosition = ((-1 * (absEncoderPosition
-                    - (RobotConstants.Arm.Elbow.kAbsoluteEncoderVerticalOffset
-                            - 0.5))
-                    + 1) * RobotConstants.Arm.Elbow.kGearRatio)
-                    % RobotConstants.Arm.Elbow.kGearRatio;
+                    - (RobotConstants.Arm.Elbow.kAbsoluteEncoderVerticalOffset - 0.5)) + 2)
+                    * RobotConstants.Arm.Elbow.kGearRatio) % RobotConstants.Arm.Elbow.kGearRatio;
 
             if (calculatedRelativePosition == 0.0
                     || Math.abs(360 * ((previousPositionRot - relativePosition)
@@ -125,10 +122,9 @@ public class Elbow extends SparkMaxRotatingSubsystem {
     }
 
     private void setOffset(double offset) {
-        if (Math.abs(
-                offset) > RobotConstants.Arm.Elbow.kMaxOverrideDegreees) {
-            this.offset = RobotConstants.Arm.Elbow.kMaxOverrideDegreees
-                    * this.offset / Math.abs(this.offset);
+        if (Math.abs(offset) > RobotConstants.Arm.Elbow.kMaxOverrideDegreees) {
+            this.offset = RobotConstants.Arm.Elbow.kMaxOverrideDegreees * this.offset
+                    / Math.abs(this.offset);
         } else {
             this.offset = offset;
         }
@@ -153,8 +149,8 @@ public class Elbow extends SparkMaxRotatingSubsystem {
         SmartDashboard.putNumber(positionRot, relativePosition);
         SmartDashboard.putNumber(absEncoderPos, absEncoder.getAbsolutePosition());
         SmartDashboard.putNumber(setpointRot, mSetpoint);
-        SmartDashboard.putNumber(current, super.getmRotator().getOutputCurrent());
-        SmartDashboard.putNumber("Elbow motor power: ",super.mRotator.get() );
+        SmartDashboard.putNumber(current, super.getRotator().getOutputCurrent());
+        SmartDashboard.putNumber("Elbow motor power: ", super.mRotator.get());
     }
 
     @Override
