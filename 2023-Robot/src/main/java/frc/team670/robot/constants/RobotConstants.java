@@ -284,7 +284,7 @@ public final class RobotConstants {
             public static final int kSoftLimitMin = 20;
             public static final int kSoftLimitMax = 340;
             public static final int kMaxOverrideDegreees = 15;
-            public static final double kAllowedErrorDegrees = 0.75;
+            public static final double kAllowedErrorDegrees = 0.75;;
             public static final double kLengthInches = 35;
             public static final double kMassLb = 5.5;
             public static final double kMassDistribution = 0.686;
