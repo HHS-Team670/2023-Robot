@@ -23,7 +23,7 @@ public class SetColorPurple extends InstantCommand implements MustangCommand {
 
     public void initialize() {
         // Logger.consoleLog("LED COLOR BEING SET TO PURPLE");
-        led.setColorPurple();
+        led.setCubeColor();
     }
 
     @Override

@@ -39,10 +39,11 @@ public class CubeEngage extends SequentialCommandGroup implements MustangCommand
 
     public CubeEngage(DriveBase driveBase, Claw claw, Arm arm, String pathName) {
         this.pathName = pathName;
-        List<PathPlannerTrajectory> trajectoryGroup = PathPlanner.loadPathGroup(pathName, 2.75, 1.5);
+        List<PathPlannerTrajectory> trajectoryGroup =
+                PathPlanner.loadPathGroup(pathName, 2.75, 1.5);
 
-        PIDConstants PID_translation = RobotConstants.AUTON_TRANSLATION_CONTROLLER;
-        PIDConstants PID_theta = RobotConstants.AUTON_THETA_CONTROLLER;
+        PIDConstants PID_translation = RobotConstants.DriveBase.kAutonTranslationPID;
+        PIDConstants PID_theta = RobotConstants.DriveBase.kAutonThetaPID;
 
         Map<String, Command> eventMap = new HashMap<>();
 
@@ -57,14 +58,7 @@ public class CubeEngage extends SequentialCommandGroup implements MustangCommand
                                                                           // on, markers are the
                                                                           // same
 
-        SwerveDriveKinematics driveBaseKinematics = driveBase.getSwerveKinematics();
-
-        SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(driveBase::getPose,
-                driveBase::resetOdometry, driveBaseKinematics, PID_translation, PID_theta,
-                driveBase::setModuleStates, eventMap, true, new Subsystem[] {driveBase});
-
-        CommandBase fullAuto = autoBuilder.fullAuto(trajectoryGroup);
-
+        CommandBase fullAuto = driveBase.getAutoBuilderFromEvents(eventMap).fullAuto(trajectoryGroup);
         addCommands(fullAuto);
     }
 }

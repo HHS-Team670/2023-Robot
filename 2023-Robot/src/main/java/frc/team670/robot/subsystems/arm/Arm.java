@@ -10,8 +10,7 @@ import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 import frc.team670.robot.constants.RobotConstants;
 
 /**
- * Represents the whole Arm system, containing multiple joints.
- * Models the arm as a state machine.
+ * Represents the whole Arm system, containing multiple joints. Models the arm as a state machine.
  * 
  * @author Armaan, Aditi, Alexander, Gabriel, Kedar, Justin, Sanatan, Srinish
  */
@@ -23,10 +22,6 @@ public class Arm extends MustangSubsystemBase {
     private boolean initializedState;
     private VoltageCalculator voltageCalculator;
 
-    private double elbowOffset;
-    private double shoulderOffset;
-    private double wristOffset;
-
     private boolean hasSetShoulderTarget = true;
     private boolean hasSetElbowTarget = true;
     private boolean hasSetWristTarget = true;
@@ -35,54 +30,63 @@ public class Arm extends MustangSubsystemBase {
 
     private long startingTime = 0;
 
-    private double[] currentTimeDelays = new double[] { 0, 0, 0 };
+    private double[] currentTimeDelays = new double[] {0, 0, 0};
 
     private static final ArmState[][] VALID_PATHS_GRAPH = new ArmState[][] {
-            { ArmState.TUNING, ArmState.SCORE_MID, ArmState.SINGLE_STATION, ArmState.SCORE_HIGH, ArmState.HYBRID,
-                    ArmState.INTAKE_SHELF, ArmState.UPRIGHT_GROUND }, // STOWED
-            { ArmState.STOWED, ArmState.INTAKE_SHELF, ArmState.UPRIGHT_GROUND, ArmState.SCORE_HIGH,
-                    ArmState.SCORE_MID }, // HYBRID
-            { ArmState.SCORE_HIGH, ArmState.STOWED, ArmState.STARTING, ArmState.SINGLE_STATION, ArmState.HYBRID }, // SCORE_MID
-            { ArmState.SCORE_MID, ArmState.STOWED, ArmState.SINGLE_STATION, ArmState.HYBRID, ArmState.INTAKE_SHELF,
-                    ArmState.STARTING }, // SCORE_HIGH
-            { ArmState.SCORE_MID, ArmState.INTAKE_SHELF, ArmState.SCORE_HIGH }, // STARTING
-            { ArmState.STOWED }, // TUNING
-            { ArmState.STOWED, ArmState.SCORE_MID, ArmState.SCORE_HIGH, ArmState.INTAKE_SHELF }, // SINGLE_STATION
-            { ArmState.SCORE_HIGH, ArmState.STOWED, ArmState.STARTING, ArmState.HYBRID, ArmState.SINGLE_STATION,
-                    ArmState.UPRIGHT_GROUND }, // INTAKE_SHELF
-            { ArmState.STOWED, ArmState.INTAKE_SHELF, ArmState.HYBRID }, // UPRIGHT_GROUND
+            {ArmState.TUNING, ArmState.SCORE_MID, ArmState.SINGLE_STATION, ArmState.SCORE_HIGH,
+                    ArmState.HYBRID, ArmState.INTAKE_SHELF, ArmState.UPRIGHT_GROUND}, // STOWED
+            {ArmState.STOWED, ArmState.INTAKE_SHELF, ArmState.UPRIGHT_GROUND, ArmState.SCORE_HIGH,
+                    ArmState.SCORE_MID}, // HYBRID
+            {ArmState.SCORE_HIGH, ArmState.STOWED, ArmState.STARTING, ArmState.SINGLE_STATION,
+                    ArmState.HYBRID}, // SCORE_MID
+            {ArmState.SCORE_MID, ArmState.STOWED, ArmState.SINGLE_STATION, ArmState.HYBRID,
+                    ArmState.INTAKE_SHELF, ArmState.STARTING}, // SCORE_HIGH
+            {ArmState.SCORE_MID, ArmState.INTAKE_SHELF, ArmState.SCORE_HIGH}, // STARTING
+            {ArmState.STOWED}, // TUNING
+            {ArmState.STOWED, ArmState.SCORE_MID, ArmState.SCORE_HIGH, ArmState.INTAKE_SHELF}, // SINGLE_STATION
+            {ArmState.SCORE_HIGH, ArmState.STOWED, ArmState.STARTING, ArmState.HYBRID,
+                    ArmState.SINGLE_STATION, ArmState.UPRIGHT_GROUND}, // INTAKE_SHELF
+            {ArmState.STOWED, ArmState.INTAKE_SHELF, ArmState.HYBRID}, // UPRIGHT_GROUND
 
     };
 
     private static final Map<ArmState, Map<ArmState, double[]>> timeDelays = Map.ofEntries(
             entry(ArmState.STOWED, Map.ofEntries( // From STOWED
-                    entry(ArmState.SCORE_HIGH, new double[] { 300, 0, 250 }),
-                    entry(ArmState.SCORE_MID, new double[] { 300, 0, 250 }),
-                    entry(ArmState.HYBRID, new double[] { 0, 0, 0 }))),
+                    entry(ArmState.SCORE_HIGH, new double[] {300, 0, 250}),
+                    entry(ArmState.SCORE_MID, new double[] {300, 0, 250}),
+                    entry(ArmState.HYBRID, new double[] {0, 0, 0}))),
             entry(ArmState.HYBRID, Map.ofEntries( // From HYBRID
-                    entry(ArmState.STOWED, new double[] { 0, 250, 0 }),
-                    entry(ArmState.SCORE_MID, new double[] { 0, 150, 400 }),
-                    entry(ArmState.INTAKE_SHELF, new double[] { 0, 150, 400 }))),
+                    entry(ArmState.STOWED, new double[] {0, 250, 0}),
+                    entry(ArmState.SCORE_MID, new double[] {0, 150, 400}),
+                    entry(ArmState.INTAKE_SHELF, new double[] {0, 150, 400}))),
             entry(ArmState.SCORE_MID, Map.ofEntries( // From SCORE_MID
-                    entry(ArmState.STOWED, new double[] { 0, 250, 0 }),
-                    entry(ArmState.HYBRID, new double[] { 0, 250, 0 }),
-                    entry(ArmState.SCORE_HIGH, new double[] { 250, 0, 250 }))),
+                    entry(ArmState.STOWED, new double[] {0, 250, 0}),
+                    entry(ArmState.HYBRID, new double[] {0, 250, 0}),
+                    entry(ArmState.SCORE_HIGH, new double[] {250, 0, 250}))),
             entry(ArmState.SCORE_HIGH, Map.ofEntries( // From SCORE_HIGH
-                    entry(ArmState.STOWED, new double[] { 0, 0, 0 }),
-                    entry(ArmState.HYBRID, new double[] { 250, 500, 0 }))),
+                    entry(ArmState.STOWED, new double[] {0, 0, 0}),
+                    entry(ArmState.HYBRID, new double[] {250, 500, 0}))),
             entry(ArmState.STARTING, Map.ofEntries( // From STARTING
-                    entry(ArmState.SCORE_MID, new double[] { 500, 0, 500 }),
-                    entry(ArmState.INTAKE_SHELF, new double[] { 500, 0, 500 }),
-                    entry(ArmState.SCORE_HIGH, new double[] { 500, 0, 500 }))),
+                    entry(ArmState.SCORE_MID, new double[] {500, 0, 500}),
+                    entry(ArmState.INTAKE_SHELF, new double[] {500, 0, 500}),
+                    entry(ArmState.SCORE_HIGH, new double[] {500, 0, 500}))),
             entry(ArmState.INTAKE_SHELF, Map.ofEntries( // From SCORE_MID
-                    entry(ArmState.STOWED, new double[] { 0, 500, 0 }),
-                    entry(ArmState.HYBRID, new double[] { 0, 250, 0 }))),
+                    entry(ArmState.STOWED, new double[] {0, 500, 0}),
+                    entry(ArmState.HYBRID, new double[] {0, 250, 0}))),
             entry(ArmState.UPRIGHT_GROUND, Map.ofEntries( // From UPRIGHT_GROUND
-                    entry(ArmState.STOWED, new double[] { 0, 250, 0 }),
-                    entry(ArmState.SCORE_MID, new double[] { 0, 150, 400 }),
-                    entry(ArmState.INTAKE_SHELF, new double[] { 0, 150, 400 }))));
+                    entry(ArmState.STOWED, new double[] {0, 250, 0}),
+                    entry(ArmState.SCORE_MID, new double[] {0, 150, 400}),
+                    entry(ArmState.INTAKE_SHELF, new double[] {0, 150, 400}))));
 
-    private static ArmState VALID_PATHS[][][] = new ArmState[VALID_PATHS_GRAPH.length][VALID_PATHS_GRAPH.length][];
+    private static ArmState VALID_PATHS[][][] =
+            new ArmState[VALID_PATHS_GRAPH.length][VALID_PATHS_GRAPH.length][];
+
+    private static Arm mInstance;
+
+    public static synchronized Arm getInstance() {
+        mInstance = mInstance == null ? new Arm() : mInstance;
+        return mInstance;
+    }
 
     public Arm() {
         this.shoulder = new Shoulder();
@@ -90,15 +94,17 @@ public class Arm extends MustangSubsystemBase {
         this.wrist = new Wrist();
         this.targetState = ArmState.STOWED;
         this.initializedState = false;
-        this.voltageCalculator = new VoltageCalculator(RobotConstants.SHOULDER_SEGMENT, RobotConstants.ELBOW_SEGMENT,
-                RobotConstants.WRIST_SEGMENT);
+        this.voltageCalculator = new VoltageCalculator(
+                RobotConstants.Arm.Shoulder.kSegment,
+                RobotConstants.Arm.Elbow.kSegment,
+                RobotConstants.Arm.Wrist.kWristSegment);
 
         init();
     }
 
     /**
-     * Private initialization method that populates the grpah of valid paths with
-     * every possible state transition
+     * Private initialization method that populates the grpah of valid paths with every possible
+     * state transition
      */
     private static void init() {
         for (int i = 0; i < VALID_PATHS_GRAPH.length; i++) {
@@ -118,7 +124,8 @@ public class Arm extends MustangSubsystemBase {
         }
 
         // If one or more joints are YELLOW, and none are RED, then Arm is YELLOW
-        if (shoulder.checkHealth() == HealthState.YELLOW || elbow.checkHealth() == HealthState.YELLOW
+        if (shoulder.checkHealth() == HealthState.YELLOW
+                || elbow.checkHealth() == HealthState.YELLOW
                 || wrist.checkHealth() == HealthState.YELLOW) {
             return HealthState.YELLOW;
         }
@@ -133,7 +140,8 @@ public class Arm extends MustangSubsystemBase {
     @Override
     public void mustangPeriodic() {
         if (!initializedState) {
-            if (elbow.isRelativePositionSet() && shoulder.isRelativePositionSet() && wrist.isRelativePositionSet()) {
+            if (elbow.isRelativePositionSet() && shoulder.isRelativePositionSet()
+                    && wrist.isRelativePositionSet()) {
                 initializedState = true;
                 this.targetState = getClosestState();
             }
@@ -157,9 +165,8 @@ public class Arm extends MustangSubsystemBase {
     }
 
     /**
-     * Public method to reset the arm's state from its absolute position.
-     * This will also temporarily set the Arm's HealthState to YELLOW
-     * until the relative positions have been properly reset
+     * Public method to reset the arm's state from its absolute position. This will also temporarily
+     * set the Arm's HealthState to YELLOW until the relative positions have been properly reset
      */
     public void resetPositionFromAbsolute() {
         // initializedState = false;
@@ -169,13 +176,12 @@ public class Arm extends MustangSubsystemBase {
     }
 
     /**
-     * This moves DIRECTLY to the target ArmState
-     * We must handle checking for valid paths ELSEWHERE.
+     * This moves DIRECTLY to the target ArmState We must handle checking for valid paths ELSEWHERE.
      */
     public void moveToTarget(ArmState target) {
         if (checkHealth() == HealthState.GREEN) {
-            this.elbowOffset = 0;
-            this.shoulderOffset = 0;
+            // double elbowOffset = 0;
+            // double shoulderOffset = 0;
 
             hasSetShoulderTarget = false;
             hasSetElbowTarget = false;
@@ -188,11 +194,11 @@ public class Arm extends MustangSubsystemBase {
 
             }
             if (currentTimeDelays == null) {
-                currentTimeDelays = new double[] { 0, 0, 0 };
+                currentTimeDelays = new double[] {0, 0, 0};
             }
 
-            SmartDashboard.putString("Arm moveToTarget()",
-                    "from " + this.targetState + " to " + target + " is " + Arrays.toString(currentTimeDelays));
+            SmartDashboard.putString("Arm moveToTarget()", "from " + this.targetState + " to "
+                    + target + " is " + Arrays.toString(currentTimeDelays));
 
             this.targetState = target;
 
@@ -205,8 +211,9 @@ public class Arm extends MustangSubsystemBase {
      */
     public void updateArbitraryFeedForward() {
         // The -90 here is so that the first joint's position is relative to the GROUND.
-        ArrayList<Double> voltages = voltageCalculator.calculateVoltages(shoulder.getCurrentAngleInDegrees() - 90,
-                elbow.getCurrentAngleInDegrees(), wrist.getCurrentAngleInDegrees());
+        ArrayList<Double> voltages =
+                voltageCalculator.calculateVoltages(shoulder.getCurrentAngleInDegrees() - 90,
+                        elbow.getCurrentAngleInDegrees(), wrist.getCurrentAngleInDegrees());
 
         elbow.updateArbitraryFeedForward(voltages.get(0));
         shoulder.updateArbitraryFeedForward(voltages.get(1));
@@ -214,8 +221,7 @@ public class Arm extends MustangSubsystemBase {
     }
 
     /**
-     * Returns the state we're moving towards
-     * Ex: If we're moving from A to B, this returns B
+     * Returns the state we're moving towards Ex: If we're moving from A to B, this returns B
      */
     public ArmState getTargetState() {
         return targetState;
@@ -230,8 +236,8 @@ public class Arm extends MustangSubsystemBase {
     }
 
     /**
-     * Returns a valid list of states from the starting State to the ending State
-     * This path should include BOTH the starting state AND the ending state
+     * Returns a valid list of states from the starting State to the ending State This path should
+     * include BOTH the starting state AND the ending state
      */
     public static ArmState[] getValidPath(ArmState start, ArmState finish) {
         // retrieve the list of intermediate states from VALID_PATHS
@@ -283,10 +289,8 @@ public class Arm extends MustangSubsystemBase {
     }
 
     /**
-     * Gets the closest state, using angles.
-     * It prefers prefers to move smaller joints than larger ones
-     * (i.e. it would rather choose to have the elbow be off by 20
-     * degrees than the shoulder)
+     * Gets the closest state, using angles. It prefers prefers to move smaller joints than larger
+     * ones (i.e. it would rather choose to have the elbow be off by 20 degrees than the shoulder)
      * 
      * @return
      */
@@ -296,7 +300,8 @@ public class Arm extends MustangSubsystemBase {
         double wristAngle = wrist.getCurrentAngleInDegrees();
 
         ArmState closestState = ArmState.STOWED;
-        double closestStateDistance = 10000; // Intentionally high number. The first state checked will be less
+        double closestStateDistance = 10000; // Intentionally high number. The first state checked
+                                             // will be less
 
         for (ArmState state : ArmState.values()) {
             double shoulderDistance = Math.abs(state.getShoulderAngle() - shoulderAngle);

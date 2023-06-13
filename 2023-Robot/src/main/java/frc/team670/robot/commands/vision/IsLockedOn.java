@@ -1,21 +1,14 @@
 package frc.team670.robot.commands.vision;
 
 import java.util.Map;
-
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Transform2d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import javax.print.attribute.HashAttributeSet;
-
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.team670.mustanglib.commands.MustangCommand;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
-import frc.team670.mustanglib.subsystems.VisionSubsystemBase;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase.HealthState;
-import frc.team670.mustanglib.subsystems.drivebase.SwerveDrive;
-import frc.team670.mustanglib.utils.Logger;
 import frc.team670.robot.constants.RobotConstants;
 import frc.team670.robot.subsystems.DriveBase;
 
@@ -29,13 +22,7 @@ public class IsLockedOn extends CommandBase implements MustangCommand {
     private STATUS turnStatus, strafeStatus, moveStatus;
 
     private enum STATUS {
-        MOVE_UP,
-        MOVE_DOWN,
-        MOVE_LEFT,
-        MOVE_RIGHT,
-        TURN_CLOCK,
-        TURN_COUNTERCLOCK,
-        OKAY
+        MOVE_UP, MOVE_DOWN, MOVE_LEFT, MOVE_RIGHT, TURN_CLOCK, TURN_COUNTERCLOCK, OKAY
     }
 
     public IsLockedOn(DriveBase driveBase, Pose2d goalPose) {
@@ -51,7 +38,8 @@ public class IsLockedOn extends CommandBase implements MustangCommand {
     @Override
     public void execute() {
         updatePoseAlignment();
-        SmartDashboard.putStringArray("align", new String[] {moveStatus.name(), strafeStatus.name(), turnStatus.name()});
+        SmartDashboard.putStringArray("align",
+                new String[] {moveStatus.name(), strafeStatus.name(), turnStatus.name()});
     }
 
     @Override
@@ -69,26 +57,26 @@ public class IsLockedOn extends CommandBase implements MustangCommand {
         double driverDX = allianceAdjustment(goalPose.getX() - currentPose.getX());
         double driverDY = allianceAdjustment(goalPose.getY() - currentPose.getY());
         double dRot = goalPose.getRotation().getDegrees() - currentPose.getRotation().getDegrees();
-        
-        if (driverDX > RobotConstants.LOCKED_ON_ERROR_X) {
+
+        if (driverDX > RobotConstants.Vision.kLockedOnErrorX) {
             moveStatus = STATUS.MOVE_UP;
-        } else if (driverDX < RobotConstants.LOCKED_ON_ERROR_X) {
+        } else if (driverDX < RobotConstants.Vision.kLockedOnErrorX) {
             moveStatus = STATUS.MOVE_DOWN;
         } else {
             moveStatus = STATUS.OKAY;
         }
-        
-        if (driverDY > RobotConstants.LOCKED_ON_ERROR_Y) {
+
+        if (driverDY > RobotConstants.Vision.xLockedOnErrorY) {
             strafeStatus = STATUS.MOVE_RIGHT;
-        } else if (driverDY < RobotConstants.LOCKED_ON_ERROR_Y) {
+        } else if (driverDY < RobotConstants.Vision.xLockedOnErrorY) {
             strafeStatus = STATUS.MOVE_LEFT;
         } else {
             strafeStatus = STATUS.OKAY;
         }
-        
-        if (dRot > RobotConstants.LOCKED_ON_ERROR_DEGREES) {
+
+        if (dRot > RobotConstants.Vision.kLockedOnErrorDegrees) {
             turnStatus = STATUS.TURN_CLOCK;
-        } else if (dRot < RobotConstants.LOCKED_ON_ERROR_DEGREES) {
+        } else if (dRot < RobotConstants.Vision.kLockedOnErrorDegrees) {
             turnStatus = STATUS.TURN_COUNTERCLOCK;
         } else {
             turnStatus = STATUS.OKAY;

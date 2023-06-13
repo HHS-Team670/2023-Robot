@@ -49,8 +49,8 @@ public class MoveToPosePID extends CommandBase implements MustangCommand {
         PIDController xController = new PIDController(0.5, 0, 0);
         PIDController yController = new PIDController(0.5, 0, 0);
         ProfiledPIDController thetacontroller = new ProfiledPIDController(4, 0, 1, // not tuned yet
-                new Constraints(RobotConstants.kMaxAngularSpeedRadiansPerSecond,
-                        RobotConstants.kMaxAngularSpeedRadiansPerSecondSquared));
+                new Constraints(RobotConstants.DriveBase.kMaxAngularSpeedRadiansPerSecond,
+                        RobotConstants.DriveBase.kMaxAngularSpeedRadiansPerSecondSquared));
         holonomicDriveController =
                 new HolonomicDriveController(xController, yController, thetacontroller);
         holonomicDriveController.setTolerance(new Pose2d(0.1, 0.1, Rotation2d.fromDegrees(0.5)));
@@ -73,8 +73,8 @@ public class MoveToPosePID extends CommandBase implements MustangCommand {
         PIDController xController = new PIDController(0.5, 0, 0);
         PIDController yController = new PIDController(0.5, 0, 0);
         ProfiledPIDController thetacontroller = new ProfiledPIDController(4, 0, 1, // not tuned yet
-                new Constraints(RobotConstants.kMaxAngularSpeedRadiansPerSecond,
-                        RobotConstants.kMaxAngularSpeedRadiansPerSecondSquared));
+                new Constraints(RobotConstants.DriveBase.kMaxAngularSpeedRadiansPerSecond,
+                        RobotConstants.DriveBase.kMaxAngularSpeedRadiansPerSecondSquared));
         holonomicDriveController =
                 new HolonomicDriveController(xController, yController, thetacontroller);
         holonomicDriveController.setTolerance(new Pose2d(0.1, 0.1, Rotation2d.fromDegrees(0.5)));

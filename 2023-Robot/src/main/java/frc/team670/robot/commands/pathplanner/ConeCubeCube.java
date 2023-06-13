@@ -45,19 +45,10 @@ public class ConeCubeCube extends SequentialCommandGroup implements MustangComma
         eventMap.put("moveToHigh", new MoveToTarget(arm, ArmState.SCORE_HIGH));
         eventMap.put("clawEject", new ClawInstantEject(claw));
         eventMap.put("moveToGround", new MoveToTarget(arm, ArmState.HYBRID));
-        eventMap.put("clawIntake", new ClawInstantIntake(claw)); // May want to use IntakeAndStow
-                                                                 // after testing.
+        eventMap.put("clawIntake", new ClawInstantIntake(claw));
         eventMap.put("moveToStowed", new MoveToTarget(arm, ArmState.STOWED));
 
-        SwerveDriveKinematics driveBaseKinematics = driveBase.getSwerveKinematics();
-
-        SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(driveBase::getPose,
-                driveBase::resetOdometry, driveBaseKinematics,
-                RobotConstants.AUTON_TRANSLATION_CONTROLLER, RobotConstants.AUTON_THETA_CONTROLLER,
-                driveBase::setModuleStates, eventMap, true, new Subsystem[] {driveBase});
-
-        CommandBase fullAuto = autoBuilder.fullAuto(trajectoryGroup);
-
+        CommandBase fullAuto = driveBase.getAutoBuilderFromEvents(eventMap).fullAuto(trajectoryGroup);
         addCommands(fullAuto);
     }
 }

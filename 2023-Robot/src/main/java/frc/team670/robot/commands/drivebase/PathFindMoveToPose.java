@@ -11,13 +11,13 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.team670.mustanglib.commands.MustangCommand;
+import frc.team670.mustanglib.pathfinder.ObstacleAvoidanceAStarMap;
+import frc.team670.mustanglib.pathfinder.PoseNode;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase.HealthState;
 import frc.team670.mustanglib.swervelib.pathplanner.MustangPPSwerveControllerCommand;
 import frc.team670.robot.constants.FieldConstants;
 import frc.team670.robot.constants.RobotConstants;
-import frc.team670.robot.pathfinder.ObstacleAvoidanceAStarMap;
-import frc.team670.robot.pathfinder.PoseNode;
 import frc.team670.robot.subsystems.DriveBase;
 
 public class PathFindMoveToPose extends CommandBase implements MustangCommand {
@@ -47,8 +47,9 @@ public class PathFindMoveToPose extends CommandBase implements MustangCommand {
 		// points in the path.
 		PathPoint[] fullPathPoints = getPathPointsFromNodes(fullPath);
 
-		PathPlannerTrajectory trajectory = PathPlanner
-				.generatePath(RobotConstants.kAutoPathConstraints, Arrays.asList(fullPathPoints));
+		PathPlannerTrajectory trajectory = PathPlanner.generatePath(
+				RobotConstants.DriveBase.kAutoPathConstraints,
+				Arrays.asList(fullPathPoints));
 		driveBase.getPoseEstimator().addTrajectory(trajectory);
 		pathDrivingCommand = driveBase.getFollowTrajectoryCommand(trajectory);
 		pathDrivingCommand.schedule();

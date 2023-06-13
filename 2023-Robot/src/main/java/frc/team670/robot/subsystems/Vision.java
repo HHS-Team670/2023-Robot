@@ -1,26 +1,30 @@
 package frc.team670.robot.subsystems;
 
-import org.photonvision.PhotonCamera;
-import edu.wpi.first.wpilibj.PowerDistribution;
 import frc.team670.mustanglib.subsystems.VisionSubsystemBase;
-import frc.team670.robot.constants.FieldConstants;
 import frc.team670.robot.constants.RobotConstants;
 
+/**
+ * @author ethan c
+ */
 public class Vision extends VisionSubsystemBase {
+    private static Vision mInstance;
 
-    public Vision(PowerDistribution pd) {
+    public static synchronized Vision getInstance() {
+        mInstance = mInstance == null ? new Vision() : mInstance;
+        return mInstance;
+    }
 
-        super(pd, FieldConstants.getFieldLayout(FieldConstants.aprilTags),
-                new PhotonCamera[] {new PhotonCamera(RobotConstants.VISION_CAMERA_NAMES[0]),
-                        new PhotonCamera(RobotConstants.VISION_CAMERA_NAMES[1])},
-                RobotConstants.CAMERA_OFFSETS);
+    public Vision() {
+        super(RobotConstants.Vision.kConfig);
         setName("Vision");
     }
 
     @Override
-    public void mustangPeriodic() {}
+    public void mustangPeriodic() {
+        super.mustangPeriodic();
+    }
 
     @Override
     public void debugSubsystem() {}
-    
+
 }

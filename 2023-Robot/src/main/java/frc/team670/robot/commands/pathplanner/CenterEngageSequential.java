@@ -3,33 +3,26 @@ package frc.team670.robot.commands.pathplanner;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
-import com.pathplanner.lib.auto.SwerveAutoBuilder;
-import com.pathplanner.lib.commands.FollowPathWithEvents;
-
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.team670.mustanglib.commands.MustangCommand;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase.HealthState;
-import frc.team670.mustanglib.swervelib.pathplanner.MustangFollowPathWithEvents;
 import frc.team670.robot.commands.arm.MoveToTarget;
 import frc.team670.robot.commands.claw.ClawInstantEject;
 import frc.team670.robot.commands.drivebase.NonPidAutoLevel;
 import frc.team670.robot.commands.drivebase.TurnToAngle;
 import frc.team670.robot.constants.OI;
-import frc.team670.robot.constants.RobotConstants;
 import frc.team670.robot.subsystems.Claw;
 import frc.team670.robot.subsystems.DriveBase;
 import frc.team670.robot.subsystems.arm.Arm;
 import frc.team670.robot.subsystems.arm.ArmState;
 
 public class CenterEngageSequential extends SequentialCommandGroup implements MustangCommand {
-    
+
     public Map<MustangSubsystemBase, HealthState> getHealthRequirements() {
         return new HashMap<MustangSubsystemBase, HealthState>();
     }
@@ -37,18 +30,12 @@ public class CenterEngageSequential extends SequentialCommandGroup implements Mu
 
     public CenterEngageSequential(DriveBase driveBase, Claw claw, Arm arm) {
         List<PathPlannerTrajectory> trajectoryGroup = PathPlanner.loadPathGroup("BackUp", 4, 4.5);
-        SwerveDriveKinematics driveBaseKinematics = driveBase.getSwerveKinematics();
-        SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(driveBase::getPose,
-                driveBase::resetOdometry, driveBaseKinematics, RobotConstants.AUTON_TRANSLATION_CONTROLLER, RobotConstants.AUTON_THETA_CONTROLLER,
-                driveBase::setModuleStates, null, true, new Subsystem[] {driveBase});
-                
-        addCommands(new SequentialCommandGroup(
-            new MoveToTarget(arm, ArmState.SCORE_MID),
-            new ClawInstantEject(claw),
-            new MoveToTarget(arm, ArmState.STOWED),
-            autoBuilder.fullAuto(trajectoryGroup),
-            new TurnToAngle(driveBase, 180, true, OI.getDriverController()),
-            new NonPidAutoLevel(driveBase, true)));
+        
+        CommandBase fullAuto = driveBase.getAutoBuilderFromEvents(null).fullAuto(trajectoryGroup);
+        addCommands(new SequentialCommandGroup(new MoveToTarget(arm, ArmState.SCORE_MID),
+                new ClawInstantEject(claw), new MoveToTarget(arm, ArmState.STOWED), fullAuto,
+                new TurnToAngle(driveBase, 180, true, OI.getDriverController()),
+                new NonPidAutoLevel(driveBase, true)));
     }
 
 }

@@ -1,27 +1,28 @@
 package frc.team670.robot.subsystems;
 
-import edu.wpi.first.wpilibj.DriverStation;
 import frc.team670.mustanglib.subsystems.LEDSubsystem;
-import frc.team670.mustanglib.utils.LEDColor;
-import frc.team670.mustanglib.utils.Logger;
+import frc.team670.robot.constants.RobotConstants;
 
 public class LED extends LEDSubsystem {
-
+    private static LED mInstance;
     private LEDColor allianceColor;
+    private int prevPath = -1;
 
-    public LED(int port, int startIndex, int endIndex) {
-        super(port, startIndex, endIndex);
-
+    public static synchronized LED getInstance() {
+        mInstance = mInstance == null ? new LED() : mInstance;
+        return mInstance;
     }
 
-    public void setColorPurple() {
-        // Logger.consoleLog("LED COPLOR BEING SET TO PURPLE IN LED SUBSYSTEM
-        // Pokjipguhygxdtfyu08tfyui[u/hyfygyuhGy/HIYUg'uhyG?SaJHKVGUYITDFTIGFGYF<CGUOF<CDHXDGDFTYO*GTRDYTY&UY:RDTYUTDP");
-        solidhsv(LEDColor.SEXY_PURPLE); // does not need to be changed
+    public LED() {
+        super(RobotConstants.Led.kPort, RobotConstants.Led.kStartIndex, RobotConstants.Led.kEndindex);
     }
 
-    public void setColorYellow() {
-        solidhsv(LEDColor.SEXY_YELLOW); // does not need to be changed
+    public void setCubeColor() {
+        solidhsv(LEDColor.SEXY_PURPLE);
+    }
+
+    public void setConeColor() {
+        solidhsv(LEDColor.SEXY_YELLOW);
     }
 
     public void setAllianceColors(LEDColor alliance) {
@@ -30,6 +31,37 @@ public class LED extends LEDSubsystem {
 
     public LEDColor getAllianceColor() {
         return allianceColor;
+    }
+
+    public void updateAutonPathColor(int selectedPath) {
+        if (prevPath == selectedPath) return;
+        
+        switch (selectedPath) {
+            case 0:
+                blinkhsv(LEDColor.LIGHT_BLUE);
+                break;
+            case 1:
+                blinkhsv(LEDColor.SEXY_YELLOW);
+                break;
+            case 2:
+                blinkhsv(LEDColor.SEXY_PURPLE);
+                break;
+            case 3:
+                blinkhsv(LEDColor.GREEN);
+                break;
+            case 4:
+                animatedRainbow(false, 10, 10);
+                break;
+            case 5:
+                blinkhsv(LEDColor.PINK);
+                break;
+            case 6:
+                animatedMustangRainbow(10, 10);
+                break;
+            default:
+                animatedRainbow(false, 10, 10);
+        }
+        prevPath = selectedPath;
     }
 
 }

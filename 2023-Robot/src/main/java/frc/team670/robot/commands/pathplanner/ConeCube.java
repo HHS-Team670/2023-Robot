@@ -40,20 +40,15 @@ public class ConeCube extends SequentialCommandGroup implements MustangCommand {
         HashMap<String, Command> eventMap = new HashMap<>();
 
         // eventMap stuff
-        //eventMap.put("clawIntake1", new ClawInstantIntake(claw));
+        // eventMap.put("clawIntake1", new ClawInstantIntake(claw));
         eventMap.put("moveToMid", new MoveToTarget(arm, ArmState.SCORE_MID));
         eventMap.put("clawEject", new ClawInstantEject(claw));
         eventMap.put("moveToGround", new MoveToTarget(arm, ArmState.HYBRID));
-        eventMap.put("clawIntake", new ClawInstantIntake(claw)); //May want to use IntakeAndStow after testing.
+        eventMap.put("clawIntake", new ClawInstantIntake(claw)); // May want to use IntakeAndStow
+                                                                 // after testing.
         eventMap.put("moveToStowed", new MoveToTarget(arm, ArmState.STOWED));
-        
-        SwerveDriveKinematics driveBaseKinematics = driveBase.getSwerveKinematics();
 
-        SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(driveBase::getPose,
-                driveBase::resetOdometry, driveBaseKinematics, RobotConstants.AUTON_TRANSLATION_CONTROLLER, RobotConstants.AUTON_THETA_CONTROLLER,
-                driveBase::setModuleStates, eventMap, true, new Subsystem[] {driveBase});
-
-        CommandBase fullAuto = autoBuilder.fullAuto(trajectoryGroup);
+        CommandBase fullAuto = driveBase.getAutoBuilderFromEvents(eventMap).fullAuto(trajectoryGroup);
 
         addCommands(fullAuto);
     }
