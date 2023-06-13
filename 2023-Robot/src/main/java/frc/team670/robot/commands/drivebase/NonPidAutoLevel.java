@@ -26,8 +26,6 @@ public class NonPidAutoLevel extends CommandBase implements MustangCommand {
     int counter;
     boolean hasTippedOver;
 
-
-
     public NonPidAutoLevel(DriveBase driveBase, boolean fromDriverSide) {
         this.driveBase = driveBase;
         this.fromDriverSide = fromDriverSide;
@@ -51,7 +49,7 @@ public class NonPidAutoLevel extends CommandBase implements MustangCommand {
     @Override
     public void execute() {
         previousPitch = pitch;
-        //SmartDashboard.putNumber("previousPitch", previousPitch);
+        // SmartDashboard.putNumber("previousPitch", previousPitch);
         pitch = Math.abs(driveBase.getPitch());
         SmartDashboard.putNumber("pitch", pitch);
         // SmartDashboard.putBoolean("hasGoneUp", hasGoneUp);
@@ -70,21 +68,21 @@ public class NonPidAutoLevel extends CommandBase implements MustangCommand {
 
         ChassisSpeeds chassisSpeeds;
 
-        if(!hasGoneUp) {
-            if(fromDriverSide) {
+        if (!hasGoneUp) {
+            if (fromDriverSide) {
                 chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(1, 0, 0, driveBase.getGyroscopeRotation());
             } else {
                 chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(-1, 0, 0, driveBase.getGyroscopeRotation());
             }
         } else if (hasTippedOver) {
-             if (fromDriverSide) {
+            if (fromDriverSide) {
                 chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(-0.45, 0, 0, driveBase.getGyroscopeRotation());
             } else {
                 chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(0.45, 0, 0, driveBase.getGyroscopeRotation());
             }
             counter++;
         } else {
-            if(fromDriverSide) {
+            if (fromDriverSide) {
                 chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(0.45, 0, 0, driveBase.getGyroscopeRotation());
             } else {
                 chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(-0.45, 0, 0, driveBase.getGyroscopeRotation());
@@ -93,17 +91,18 @@ public class NonPidAutoLevel extends CommandBase implements MustangCommand {
 
         SwerveModuleState[] states = driveBase.getSwerveKinematics().toSwerveModuleStates(chassisSpeeds);
         driveBase.setModuleStates(states);
-        
+
     }
 
     @Override
     public boolean isFinished() {
-        if (hasTippedOver && Math.abs(pitch) < 4 && counter > 20) { 
-            //SmartDashboard.putBoolean("isFinished", true);
+        if (hasTippedOver && Math.abs(pitch) < 4 && counter > 20) {
+            // SmartDashboard.putBoolean("isFinished", true);
             return true;
         }
-        // if (driveBase.getPitch() > (target - error) && driveBase.getPitch() < (target + error) && hasGoneUp) {
-        //     return true;
+        // if (driveBase.getPitch() > (target - error) && driveBase.getPitch() < (target
+        // + error) && hasGoneUp) {
+        // return true;
         // }
         // SmartDashboard.putBoolean("level", level);
         return false;
@@ -111,12 +110,12 @@ public class NonPidAutoLevel extends CommandBase implements MustangCommand {
 
     @Override
     public void end(boolean interrupted) {
-        //SmartDashboard.putBoolean("non PID auto level ended", true);
-            SwerveModuleState[] states = new SwerveModuleState[4];
-                states[0] = new SwerveModuleState(0.01, new Rotation2d(Math.PI/4)); 
-                states[1] = new SwerveModuleState(0.01, new Rotation2d(-Math.PI/4));
-                states[2] = new SwerveModuleState(0.01, new Rotation2d(-Math.PI/4));
-                states[3] = new SwerveModuleState(0.01, new Rotation2d(Math.PI/4));
-                driveBase.setModuleStates(states);
+        // SmartDashboard.putBoolean("non PID auto level ended", true);
+        SwerveModuleState[] states = new SwerveModuleState[4];
+        states[0] = new SwerveModuleState(0.01, new Rotation2d(Math.PI / 4));
+        states[1] = new SwerveModuleState(0.01, new Rotation2d(-Math.PI / 4));
+        states[2] = new SwerveModuleState(0.01, new Rotation2d(-Math.PI / 4));
+        states[3] = new SwerveModuleState(0.01, new Rotation2d(Math.PI / 4));
+        driveBase.setModuleStates(states);
     }
 }

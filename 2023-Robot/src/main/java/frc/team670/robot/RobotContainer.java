@@ -62,7 +62,7 @@ public class RobotContainer extends RobotContainerBase {
     private final Claw claw = new Claw(led);
 
     private MustangCommand cableScore, cableEngage, stationScore, stationEngage, centerEngage,
-            centerIntake, scoreMid;
+            centerIntake, scoreMid, engage;
 
     private static OI oi = new OI();
     private Notifier updateArbitraryFeedForward;
@@ -85,6 +85,7 @@ public class RobotContainer extends RobotContainerBase {
         cableEngage = new CubeEngage(driveBase, claw, arm, "CableEngage");
         stationEngage = new ScoreEngage(driveBase, claw, arm, "StationScoreEngage3");
         centerEngage = new CenterEngageSequential(driveBase, claw, arm);
+        // engage = new Engage(driveBase);
         centerIntake = new CenterIntake(driveBase, claw, arm, "CenterIntake");
         scoreMid = new ScoreMid(driveBase, claw, arm);
 
@@ -149,6 +150,9 @@ public class RobotContainer extends RobotContainerBase {
                 autonCommand = scoreMid;
                 led.animatedMustangRainbow(10, 10);
                 break;
+            // case 7:
+            // autonCommand=engage;
+            // led.solidhsv(LEDColor.);
             default:
                 autonCommand = centerEngage;
                 led.animatedRainbow(false, 10, 10);
@@ -158,14 +162,14 @@ public class RobotContainer extends RobotContainerBase {
 
         // LEAVE COMMENTED
         // greturn new ConeCube(driveBase, claw, arm, "CableScore");
-        //return new AutonCalibration(driveBase, "Straight180"); // TODO: use curve
+        // return new AutonCalibration(driveBase, "Straight180"); // TODO: use curve
         // path after
         // straight
         // path
         // return new ConeCubeCube(driveBase, claw, arm, "Station3Piece");
         // return new ConeCubeEngage(driveBase, claw, arm, "StationScoreEngage2");
         // return new NonPidAutoLevel(driveBase, true);
-        //return new CenterEngage(driveBase, claw, arm, "CenterEngage");
+        // return new CenterEngage(driveBase, claw, arm, "CenterEngage");
 
         // return new ConeCube(driveBase, claw, arm, "CableScore");
         // return new ConeCube(driveBase, claw, arm, "RightConeCube");
@@ -249,7 +253,6 @@ public class RobotContainer extends RobotContainerBase {
     public void teleopPeriodic() {
         parkBeforeDisable();
     }
-
 
     public MustangController getOperatorController() {
         return OI.getOperatorController();

@@ -45,8 +45,9 @@ public final class RobotConstants extends RobotConstantsBase {
          * Set your team number using the WPILib extension's "Set Team Number" action.
          * 0) FACTORY RESET
          * ALL MOTOR CONTROLLERS 1) Set all of the *_ANGLE_OFFSET constants to
-         * -Math.toRadians(0.0).  2)
-         * Deploy the code to your robot. Power cycle. NOTE: The robot isn't drivable quite yet, we
+         * -Math.toRadians(0.0). 2)
+         * Deploy the code to your robot. Power cycle. NOTE: The robot isn't drivable
+         * quite yet, we
          * still have to
          * setup the module offsets 3) Turn the robot on its side and align all the
          * wheels so they are
@@ -78,10 +79,10 @@ public final class RobotConstants extends RobotConstantsBase {
                                         entry("BACK_LEFT_MODULE_STEER_OFFSET", -Math.toRadians(299.807)),
                                         entry("FRONT_RIGHT_MODULE_STEER_OFFSET", -Math.toRadians(137.499)),
                                         entry("FRONT_LEFT_MODULE_STEER_OFFSET", -Math.toRadians(318.604)),
-                                        entry("SHOULDER_ABSOLUTE_ENCODER_AT_VERTICAL", 0.484233),//0.47777
+                                        entry("SHOULDER_ABSOLUTE_ENCODER_AT_VERTICAL", 0.484233), // 0.47777
                                         entry("ELBOW_ABSOLUTE_ENCODER_AT_VERTICAL", 0.004892),
-                                        entry("WRIST_ABSOLUTE_ENCODER_AT_VERTICAL", 0.337308),
-                                        entry("SHOULDER_GEAR_RATIO", 96.0), 
+                                        entry("WRIST_ABSOLUTE_ENCODER_AT_VERTICAL", 0.174231),
+                                        entry("SHOULDER_GEAR_RATIO", 96.0),
                                         entry("ELBOW_GEAR_RATIO", 70.833333333333),
                                         entry("SWERVE_MODULE_CONFIGURATION", 2.0),
                                         entry("WRIST_GEAR_RATIO", 125.0))),
@@ -188,7 +189,7 @@ public final class RobotConstants extends RobotConstantsBase {
                         // Cam C - LEFT
                         new Transform3d(new Translation3d(Units.inchesToMeters(0.56),
                                         Units.inchesToMeters(5.25), Units.inchesToMeters(19 + 5)),
-                                        new Rotation3d(0, 0, Units.degreesToRadians(45)))};
+                                        new Rotation3d(0, 0, Units.degreesToRadians(45))) };
 
         public static final double LOCKED_ON_ERROR_X = 0.3; // TODO: test what angles are
                                                             // appropriate

@@ -15,6 +15,7 @@ import frc.team670.robot.commands.arm.MoveToTarget;
 import frc.team670.robot.commands.arm.ResetArmFromAbsolute;
 import frc.team670.robot.commands.claw.ClawIdle;
 import frc.team670.robot.commands.claw.ClawInstantIntake;
+import frc.team670.robot.commands.drivebase.NonPidAutoLevel;
 import frc.team670.robot.commands.leds.SetColorPurple;
 import frc.team670.robot.commands.leds.SetColorYellow;
 import frc.team670.robot.commands.routines.EjectAndStow;
@@ -120,7 +121,8 @@ public class OI extends OIBase {
                 singleStation.onTrue(new MoveToTarget(arm, claw, ArmState.SINGLE_STATION));
                 scoreHigh.onTrue(new MoveToTarget(arm, ArmState.SCORE_HIGH));
                 intakeShelf.onTrue(new MoveToTarget(arm, claw, ArmState.INTAKE_SHELF));
-                uprightGround.onTrue(new MoveToTarget(arm, ArmState.UPRIGHT_GROUND));
+                uprightGround.onTrue(new NonPidAutoLevel(driveBase, true));
+                // uprightGround.onTrue(new MoveToTarget(arm, ArmState.UPRIGHT_GROUND));
                 stow.onTrue(new MoveToTarget(arm, ArmState.STOWED));
                 manualElbowControlNegative.onTrue(new ManualMoveElbow(arm, false));
                 manualElbowControlPositive.onTrue(new ManualMoveElbow(arm, true));
