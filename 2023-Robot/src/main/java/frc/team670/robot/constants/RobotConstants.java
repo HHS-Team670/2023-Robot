@@ -245,7 +245,9 @@ public final class RobotConstants {
             public static final double kLengthInches = 26;
             public static final double kMassLb = 8.7;
             public static final double kMassDistribution = 0.356;
-            public static final double kAllowedErrorDegrees = 0.2;
+            public static final double kAllowedErrorDegrees= 0.2;
+            public static final double kAllowedErrorRotations = kGearRatio*kAllowedErrorDegrees/360;
+            
             public static final ArmSegment kSegment = new ArmSegment(kLengthInches, kMassLb, kMassDistribution,
                     frc.team670.robot.subsystems.arm.Shoulder.SHOULDER_ARBITRARY_FF);
 
@@ -272,7 +274,7 @@ public final class RobotConstants {
             public static final SparkMaxRotatingSubsystem.Config kConfig = new SparkMaxRotatingSubsystem.Config(
                     kLeaderMotorID, 0, kMotorType, kIdleMode,
                     kGearRatio, kP, kI, kD, kFF, kIz, kMaxOutput, kMinOutput,
-                    kMaxRotatorRPM, kMinRotatorRPM, kMaxAcceleration, kAllowedErrorDegrees,
+                    kMaxRotatorRPM, kMinRotatorRPM, kMaxAcceleration, kAllowedErrorRotations,
                     kSoftLimits, kContinuousCurrent, kPeakCurrent);
 
         }
@@ -284,7 +286,8 @@ public final class RobotConstants {
             public static final int kSoftLimitMin = 20;
             public static final int kSoftLimitMax = 340;
             public static final int kMaxOverrideDegreees = 15;
-            public static final double kAllowedErrorDegrees = 0.75;;
+            public static final double kAllowedErrorDegrees = 0.75;
+            public static final double kAllowedErrorRotations = kGearRatio*kAllowedErrorDegrees/360;
             public static final double kLengthInches = 35;
             public static final double kMassLb = 5.5;
             public static final double kMassDistribution = 0.686;
@@ -328,6 +331,7 @@ public final class RobotConstants {
                     .intValue();
             public static final double kMaxOverrideDegrees = 90;
             public static final double kAllowedErrorDegrees = 1.5;
+            public static final double kAllowedErrorRotations =kGearRatio* kAllowedErrorDegrees/360;
             public static final ArmSegment kWristSegment = new ArmSegment(Claw.kLengthInches, Claw.kMassLB,
                     Claw.kMassDistribution, 0);
 
@@ -355,7 +359,7 @@ public final class RobotConstants {
             public static final SparkMaxRotatingSubsystem.Config kConfig = new SparkMaxRotatingSubsystem.Config(
                     kMotorID, 0, kMotorType, kIdleMode,
                     kGearRatio, kP, kI, kD, kFF, kIz, kMaxOutput, kMinOutput,
-                    kMaxRotatorRPM, kMinRotatorRPM, kMaxAcceleration, kAllowedErrorDegrees,
+                    kMaxRotatorRPM, kMinRotatorRPM, kMaxAcceleration, kAllowedErrorRotations,
                     kSoftLimits, kContinuousCurrent, kPeakCurrent);
 
         }
