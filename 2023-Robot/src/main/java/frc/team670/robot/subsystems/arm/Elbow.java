@@ -259,12 +259,17 @@ public class Elbow extends SparkMaxRotatingSubsystem {
     @Override
     public void debugSubsystem() {
         double relativePosition = super.rotator_encoder.getPosition();
-
+        SmartDashboard.putBoolean("Elbow has set absolute position", hasSetAbsolutePosition);
+        SmartDashboard.putNumber("Elbow previous reading", previousReading);
+        SmartDashboard.putNumber("Elbow calculated relative position", calculatedRelativePosition);
+        SmartDashboard.putBoolean("Elbow relative position is set", relativePositionIsSet);
+        SmartDashboard.putNumber("Elbow offset", offset);
+        SmartDashboard.putNumber("Elbow orgTargetAngle", orgTargetAngle);
         SmartDashboard.putNumber(positionDeg, getCurrentAngleInDegrees());
         SmartDashboard.putNumber(positionRot, relativePosition);
         SmartDashboard.putNumber(absEncoderPos, absEncoder.getAbsolutePosition());
         SmartDashboard.putNumber(setpointRot, setpoint);
-        SmartDashboard.putNumber(current, super.getRotator().getOutputCurrent());
+        SmartDashboard.putNumber("Elbow motor power: ", super.rotator.get());
     }
 
     @Override

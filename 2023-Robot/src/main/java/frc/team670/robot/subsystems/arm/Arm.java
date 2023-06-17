@@ -277,6 +277,12 @@ public class Arm extends MustangSubsystemBase {
     @Override
     public void debugSubsystem() {
         SmartDashboard.putString(targetPositionKey, getTargetState().toString());
+        SmartDashboard.putString("Arm Target State", this.targetState.toString());
+        SmartDashboard.putBoolean(" Arm hasInitializeState",initializedState);
+        SmartDashboard.putBoolean(" Arm hasSetShoulderTarget", hasSetShoulderTarget);
+        SmartDashboard.putBoolean(" Arm hasSetElbowTarget", hasSetElbowTarget);
+        SmartDashboard.putBoolean(" Arm hasSetWristTarget", hasSetWristTarget);
+        SmartDashboard.putString("Arm Time Delays", Arrays.toString(currentTimeDelays));
         // SmartDashboard.putNumber("Elbow offset", elbowOffset);
         // SmartDashboard.putNumber("Shoulder offset", shoulderOffset);
         // SmartDashboard.putNumber("Wrist offset", wristOffset);

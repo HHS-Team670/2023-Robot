@@ -224,11 +224,17 @@ public class Wrist extends SparkMaxRotatingSubsystem {
     @Override
     public void debugSubsystem() {
         double relativePosition = super.rotator_encoder.getPosition();
-        
+        SmartDashboard.putBoolean("Shoulder has set absolute position", hasSetAbsolutePosition);
+        SmartDashboard.putNumber("Shoulder previous reading", previousReading);
+        SmartDashboard.putNumber("Shoulder calculated relative position", calculatedRelativePosition);
+        SmartDashboard.putBoolean("Shoulder relative position is set", relativePositionIsSet);
+        //SmartDashboard.putNumber("Shoulder offset", offset);
+        //SmartDashboard.putNumber("Shoulder orgTargetAngle", orgTargetAngle);
         SmartDashboard.putNumber(positionDeg, getCurrentAngleInDegrees());
         SmartDashboard.putNumber(positionRot, relativePosition);
         SmartDashboard.putNumber(absEncoderPos, absEncoder.getAbsolutePosition());
         SmartDashboard.putNumber(setpointRot, setpoint);
+        SmartDashboard.putNumber("Shoulder motor power: ", super.rotator.get());
 
     }
 
