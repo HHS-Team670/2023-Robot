@@ -280,9 +280,6 @@ public class Arm extends MustangSubsystemBase {
 
     }
 
-
-    
-
     @Override
     public void debugSubsystem() {
         SmartDashboard.putString(targetPositionKey, getTargetState().toString());
