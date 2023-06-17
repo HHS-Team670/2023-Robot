@@ -114,13 +114,27 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
         setEncoderPositionFromAbsolute();
     }
 
+    /*
+     * double previousReading = 0.0;
+       double calculatedRelativePosition = 0.0;
+       boolean relativePositionIsSet = false;
+       private double offset = 0;
+       private double orgTargetAngle = 0;
+     */
     @Override
     public void debugSubsystem() {
         double relativePosition = super.mEncoder.getPosition();
+        SmartDashboard.putBoolean("Shoulder has set absolute position", hasSetAbsolutePosition);
+        SmartDashboard.putNumber("Shoulder previous reading", previousReading);
+        SmartDashboard.putNumber("Shoulder calculated relative position", calculatedRelativePosition);
+        SmartDashboard.putBoolean("Shoulder relative position is set", relativePositionIsSet);
+        SmartDashboard.putNumber("Shoulder offset", offset);
+        SmartDashboard.putNumber("Shoulder orgTargetAngle", orgTargetAngle);
         SmartDashboard.putNumber(positionDeg, getCurrentAngleInDegrees());
         SmartDashboard.putNumber(positionRot, relativePosition);
         SmartDashboard.putNumber(absEncoderPos, absEncoder.getAbsolutePosition());
         SmartDashboard.putNumber(setpointRot, mSetpoint);
+        SmartDashboard.putNumber("Shoulder motor power: ", super.mRotator.get());
 
     }
 
