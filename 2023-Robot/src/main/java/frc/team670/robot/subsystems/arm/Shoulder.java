@@ -21,10 +21,10 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
     private DutyCycleEncoder absEncoder;
     private SparkMAXLite follower;
     private boolean hasSetAbsolutePosition = false;
-    int counter = 0;
-    double previousReading = 0.0;
-    double calculatedRelativePosition = 0.0;
-    boolean relativePositionIsSet = false;
+    private int counter = 0;
+    private double previousReading = 0.0;
+    private double calculatedRelativePosition = 0.0;
+    private boolean relativePositionIsSet = false;
     private double offset = 0;
     private double orgTargetAngle = 0;
 
