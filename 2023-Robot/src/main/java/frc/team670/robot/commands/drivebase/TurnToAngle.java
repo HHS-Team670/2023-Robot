@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.team670.mustanglib.commands.MustangCommand;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase.HealthState;
+import frc.team670.mustanglib.subsystems.drivebase.BetterSwerveModuleState;
 import frc.team670.mustanglib.subsystems.drivebase.SwerveDrive;
 import frc.team670.mustanglib.utils.MustangController;
 import frc.team670.robot.constants.RobotConstants;
@@ -97,7 +98,7 @@ public class TurnToAngle extends CommandBase implements MustangCommand {
         Pose2d currPose2d = swerve.getPose();
         ChassisSpeeds chassisSpeeds = this.holonomicDriveController.calculate(currPose2d,
                 targetPose2d, 0, targetPose2d.getRotation());
-        SwerveModuleState[] swerveModuleStates =
+        BetterSwerveModuleState[] swerveModuleStates =
                 swerve.getSwerveKinematics().toSwerveModuleStates(chassisSpeeds);
         swerve.setModuleStates(swerveModuleStates);
         // System.out.println(targetPose2d.relativeTo(currPose2d));
@@ -115,7 +116,7 @@ public class TurnToAngle extends CommandBase implements MustangCommand {
     @Override
     public void end(boolean interrupt) {
         ChassisSpeeds chassisSpeeds = new ChassisSpeeds(0, 0, 0);
-        SwerveModuleState[] swerveModuleStates =
+        BetterSwerveModuleState[] swerveModuleStates =
                 swerve.getSwerveKinematics().toSwerveModuleStates(chassisSpeeds);
         swerve.setModuleStates(swerveModuleStates);
     }

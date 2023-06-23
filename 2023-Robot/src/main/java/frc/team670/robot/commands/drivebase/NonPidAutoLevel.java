@@ -10,6 +10,7 @@ import frc.team670.mustanglib.commands.MustangCommand;
 import frc.team670.mustanglib.commands.MustangScheduler;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase.HealthState;
+import frc.team670.mustanglib.subsystems.drivebase.BetterSwerveModuleState;
 import frc.team670.robot.commands.arm.MoveToTarget;
 import frc.team670.robot.subsystems.DriveBase;
 import frc.team670.robot.subsystems.arm.Arm;
@@ -91,7 +92,7 @@ public class NonPidAutoLevel extends CommandBase implements MustangCommand {
             }
         }
 
-        SwerveModuleState[] states = driveBase.getSwerveKinematics().toSwerveModuleStates(chassisSpeeds);
+        BetterSwerveModuleState[] states = driveBase.getSwerveKinematics().toSwerveModuleStates(chassisSpeeds);
         driveBase.setModuleStates(states);
         
     }
@@ -112,11 +113,11 @@ public class NonPidAutoLevel extends CommandBase implements MustangCommand {
     @Override
     public void end(boolean interrupted) {
         //SmartDashboard.putBoolean("non PID auto level ended", true);
-            SwerveModuleState[] states = new SwerveModuleState[4];
-                states[0] = new SwerveModuleState(0.01, new Rotation2d(Math.PI/4)); 
-                states[1] = new SwerveModuleState(0.01, new Rotation2d(-Math.PI/4));
-                states[2] = new SwerveModuleState(0.01, new Rotation2d(-Math.PI/4));
-                states[3] = new SwerveModuleState(0.01, new Rotation2d(Math.PI/4));
+            BetterSwerveModuleState[] states = new BetterSwerveModuleState[4];
+                states[0] = new BetterSwerveModuleState(0.01, new Rotation2d(Math.PI/4), 0); 
+                states[1] = new BetterSwerveModuleState(0.01, new Rotation2d(-Math.PI/4), 0);
+                states[2] = new BetterSwerveModuleState(0.01, new Rotation2d(-Math.PI/4), 0);
+                states[3] = new BetterSwerveModuleState(0.01, new Rotation2d(Math.PI/4), 0);
                 driveBase.setModuleStates(states);
     }
 }

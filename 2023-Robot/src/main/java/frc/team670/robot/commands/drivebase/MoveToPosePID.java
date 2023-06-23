@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.team670.mustanglib.commands.MustangCommand;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase.HealthState;
+import frc.team670.mustanglib.subsystems.drivebase.BetterSwerveModuleState;
 import frc.team670.mustanglib.subsystems.drivebase.SwerveDrive;
 import frc.team670.mustanglib.utils.MustangController;
 import frc.team670.robot.constants.RobotConstants;
@@ -103,7 +104,7 @@ public class MoveToPosePID extends CommandBase implements MustangCommand {
         Pose2d currPose2d = swerve.getPose();
         ChassisSpeeds chassisSpeeds = this.holonomicDriveController.calculate(currPose2d,
                 targetPose, 0, targetPose.getRotation());
-        SwerveModuleState[] swerveModuleStates =
+        BetterSwerveModuleState[] swerveModuleStates =
                 swerve.getSwerveKinematics().toSwerveModuleStates(chassisSpeeds);
         swerve.setModuleStates(swerveModuleStates);
     }
@@ -118,7 +119,7 @@ public class MoveToPosePID extends CommandBase implements MustangCommand {
     public void end(boolean interrupted) {
         // stop
         ChassisSpeeds chassisSpeeds = new ChassisSpeeds(0, 0, 0);
-        SwerveModuleState[] swerveModuleStates =
+        BetterSwerveModuleState[] swerveModuleStates =
                 swerve.getSwerveKinematics().toSwerveModuleStates(chassisSpeeds);
         swerve.setModuleStates(swerveModuleStates);
     }

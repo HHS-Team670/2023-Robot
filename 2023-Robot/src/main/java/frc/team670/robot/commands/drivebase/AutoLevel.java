@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.team670.mustanglib.commands.MustangCommand;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase.HealthState;
+import frc.team670.mustanglib.subsystems.drivebase.BetterSwerveModuleState;
 import frc.team670.robot.subsystems.DriveBase;
 
 public class AutoLevel extends CommandBase implements MustangCommand {
@@ -43,7 +44,7 @@ public class AutoLevel extends CommandBase implements MustangCommand {
             double adjustedSpeed = controller.calculate(pitch, target);
             
             ChassisSpeeds chassisSpeeds = new ChassisSpeeds(adjustedSpeed, 0.0, 0.0);
-            SwerveModuleState[] states = driveBase.getSwerveKinematics().toSwerveModuleStates(chassisSpeeds);
+            BetterSwerveModuleState[] states = driveBase.getSwerveKinematics().toSwerveModuleStates(chassisSpeeds);
             driveBase.setModuleStates(states);
         }
         counter++;
