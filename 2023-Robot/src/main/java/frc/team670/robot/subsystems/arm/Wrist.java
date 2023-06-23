@@ -114,7 +114,7 @@ public class Wrist extends SparkMaxRotatingSubsystem {
     @Override
     public boolean hasReachedTargetPosition() {
         return (MathUtils.doublesEqual(mEncoder.getPosition(), mSetpoint,
-                RobotConstants.Arm.Wrist.kAllowedErrorDegrees));
+                RobotConstants.Arm.Wrist.kAllowedErrorRotations));
     }
 
     @Override

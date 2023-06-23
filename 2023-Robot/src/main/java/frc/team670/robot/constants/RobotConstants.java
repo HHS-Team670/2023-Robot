@@ -333,7 +333,7 @@ public final class RobotConstants {
                     .intValue();
             public static final double kMaxOverrideDegrees = 90;
             public static final double kAllowedErrorDegrees = 1.5;
-            public static final double kAllowedErrorRotations =kGearRatio* kAllowedErrorDegrees/360;
+            public static final double kAllowedErrorRotations = kGearRatio* kAllowedErrorDegrees/360;
             public static final ArmSegment kWristSegment = new ArmSegment(Claw.kLengthInches, Claw.kMassLB,
                     Claw.kMassDistribution, 0);
 

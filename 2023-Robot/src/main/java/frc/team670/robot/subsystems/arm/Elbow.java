@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team670.mustanglib.subsystems.SparkMaxRotatingSubsystem;
 import frc.team670.mustanglib.utils.Logger;
+import frc.team670.mustanglib.utils.functions.MathUtils;
 import frc.team670.robot.constants.RobotConstants;
 
 /**
@@ -110,10 +111,10 @@ public class Elbow extends SparkMaxRotatingSubsystem {
     }
 
     // @Override
-    // public boolean hasReachedTargetPosition() {
-    // return (MathUtils.doublesEqual(rotator_encoder.getPosition(), setpoint,
-    // RobotConstants.Arm.Elbow.kAllowedErrorDegrees));
-    // }
+    public boolean hasReachedTargetPosition() {
+        return (MathUtils.doublesEqual(mEncoder.getPosition(), mSetpoint,
+        RobotConstants.Arm.Elbow.kAllowedErrorRotations));
+    }
 
     @Override
     public void setSystemTargetAngleInDegrees(double targetAngle) {

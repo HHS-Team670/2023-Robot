@@ -158,7 +158,7 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
     @Override
     public boolean hasReachedTargetPosition() {
         return (MathUtils.doublesEqual(mEncoder.getPosition(), mSetpoint,
-                RobotConstants.Arm.Shoulder.kAllowedErrorDegrees));
+                RobotConstants.Arm.Shoulder.kAllowedErrorRotations));
     }
 
     @Override
