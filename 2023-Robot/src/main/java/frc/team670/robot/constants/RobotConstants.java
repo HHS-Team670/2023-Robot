@@ -82,12 +82,14 @@ public final class RobotConstants {
     public static final String kSunTzuAddress = "00:80:2F:34:0B:07";
     public static final String kSkipperAddress = "00:80:2F:33:D0:46";
     public static final String kRobotAddress = getMACAddress();
-    private static Map<String, Double> robotSpecificConstants = Map.ofEntries(entry(kSunTzuAddress,
-            Map.ofEntries(entry("kBackRightModuleSteerOffsetRadians", -Math.toRadians(90.895)),
+    
+    private static  Map<String, Double> robotSpecificConstants = Map.ofEntries(
+        entry(kSunTzuAddress, Map.ofEntries(
+                    entry("kBackRightModuleSteerOffsetRadians", -Math.toRadians(90.895)),
                     entry("kBackLeftModuleSteerOffsetRadians", -Math.toRadians(299.807)),
                     entry("kFrontRightModuleSteerOffsetRadians", -Math.toRadians(137.499)),
                     entry("kFrontLeftModuleSteerOffsetRadians", -Math.toRadians(318.604)),
-                entry("kShoulderAbsoluteEncoderVerticalOffset", 0.484233), // 0.47777
+                    entry("kShoulderAbsoluteEncoderVerticalOffset", 0.484233), // 0.47777
                     entry("kElbowAbsoluteEncoderVerticalOffset", 0.004892),
                     entry("kWristAbsoluteEncoderVerticalOffset", 0.174231), // 0.177702
                     entry("kShoulderGearRatio", 96.0), entry("kElbowGearRatio", 70.833333333333),
@@ -263,8 +265,8 @@ public final class RobotConstants {
             public static final double kMaxOutput = 1;
             public static final double kMinOutput = -1;
             public static final double kMaxAcceleration = 2500;
-            public static final float[] kSoftLimits = new float[] { (float) Units.degreesToRotations(kSoftLimitMax),
-                    (float) Units.degreesToRotations(kSoftLimitMin) };
+            //public static final float[] kSoftLimits = new float[] { (float) Units.degreesToRotations(kSoftLimitMax), (float) Units.degreesToRotations(kSoftLimitMin) };
+            public static final float[] kSoftLimits = null;
             public static final int kContinuousCurrent = 20;
             public static final int kPeakCurrent = 60;
 
@@ -307,8 +309,8 @@ public final class RobotConstants {
             public static final double kMaxOutput = 1;
             public static final double kMinOutput = -1;
             public static final double kMaxAcceleration = 4000;
-            public static final float[] kSoftLimits = new float[] { (float) Units.degreesToRotations(kSoftLimitMax),
-                    (float) Units.degreesToRotations(kSoftLimitMin) };
+            //public static final float[] kSoftLimits = new float[] { (float) Units.degreesToRotations(kSoftLimitMax),(float) Units.degreesToRotations(kSoftLimitMin) };
+            public static final float[] kSoftLimits = null;
             public static final int kContinuousCurrent = 20;
             public static final int kPeakCurrent = 60;
 
