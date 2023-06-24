@@ -102,7 +102,7 @@ public final class RobotConstants {
                             entry("kFrontLeftModuleSteerOffsetRadians", -Math.toRadians(112.53)),
                             entry("kShoulderAbsoluteEncoderVerticalOffset", 0.895),
                             entry("kElbowAbsoluteEncoderVerticalOffset", 0.588),
-                            entry("kWristAbsoluteEncoderVerticalOffset", 0.918),
+                            entry("kWristAbsoluteEncoderVerticalOffset", 0.169884),
                             entry("kShoulderGearRatio", 75.0), entry("kElbowGearRatio", 90.0),
                             entry("kSwerveModuleConfig", 1.0), entry("kWristGearRatio", 125.0))))
             .get(kRobotAddress);

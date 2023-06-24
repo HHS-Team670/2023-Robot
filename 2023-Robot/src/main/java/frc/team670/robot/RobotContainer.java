@@ -54,7 +54,7 @@ public class RobotContainer extends RobotContainerBase {
     public RobotContainer() {
         super();
         addSubsystem(mDriveBase, mVision, mArm, mArm.getShoulder(), mArm.getElbow(), mArm.getWrist(),
-                mClaw, mLed);
+                mClaw);
         OI.configureButtonBindings();
 
         for (MustangSubsystemBase subsystem : getSubsystems()) {
@@ -96,6 +96,7 @@ public class RobotContainer extends RobotContainerBase {
 
         int selectedPath = (int) SmartDashboard.getNumber(kAutonChooserString, 0);
         MustangCommand autonCommand;
+        // autonCommand = scoreMid;
         switch (selectedPath) {
             case 0:
                 autonCommand = cableScore;
