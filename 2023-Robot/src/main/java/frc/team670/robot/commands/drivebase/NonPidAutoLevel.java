@@ -92,7 +92,7 @@ public class NonPidAutoLevel extends CommandBase implements MustangCommand {
             }
         }
 
-        BetterSwerveModuleState[] states = driveBase.getSwerveKinematics().toSwerveModuleStates(chassisSpeeds);
+        SwerveModuleState[] states = driveBase.getSwerveKinematics().toSwerveModuleStates(chassisSpeeds);
         driveBase.setModuleStates(states);
         
     }

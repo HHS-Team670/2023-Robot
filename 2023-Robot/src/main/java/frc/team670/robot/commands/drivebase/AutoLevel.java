@@ -44,7 +44,7 @@ public class AutoLevel extends CommandBase implements MustangCommand {
             double adjustedSpeed = controller.calculate(pitch, target);
             
             ChassisSpeeds chassisSpeeds = new ChassisSpeeds(adjustedSpeed, 0.0, 0.0);
-            BetterSwerveModuleState[] states = driveBase.getSwerveKinematics().toSwerveModuleStates(chassisSpeeds);
+            SwerveModuleState[] states = driveBase.getSwerveKinematics().toSwerveModuleStates(chassisSpeeds);
             driveBase.setModuleStates(states);
         }
         counter++;
