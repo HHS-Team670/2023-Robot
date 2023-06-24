@@ -16,6 +16,7 @@ import frc.team670.mustanglib.RobotContainerBase;
 import frc.team670.mustanglib.commands.MustangCommand;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 import frc.team670.mustanglib.utils.MustangController;
+import frc.team670.robot.commands.arm.ResetArmFromAbsolute;
 import frc.team670.robot.commands.pathplanner.CenterEngageSequential;
 import frc.team670.robot.commands.pathplanner.CenterIntake;
 import frc.team670.robot.commands.pathplanner.ConeCube;
@@ -133,6 +134,7 @@ public class RobotContainer extends RobotContainerBase {
     @Override
     public void teleopInit() {
         mArm.clearSetpoint();
+        new ResetArmFromAbsolute(mArm);
     }
 
     @Override
