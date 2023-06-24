@@ -86,9 +86,7 @@ public final class OI {
         Claw claw = Claw.getInstance();
         LED led = LED.getInstance();
 
-        driveBase.initDefaultCommand(new XboxSwerveDrive(driveBase, driverController,
-                RobotConstants.DriveBase.kMaxVelocityMetersPerSecond,
-                RobotConstants.DriveBase.kMaxAngularVelocityRadiansPerSecond));
+        driveBase.initDefaultCommand();
 
         zeroGyroDriver.onTrue(new SetSwerveForwardDirection(driveBase));
         zeroArm.onTrue(new ResetArmFromAbsolute(arm));
