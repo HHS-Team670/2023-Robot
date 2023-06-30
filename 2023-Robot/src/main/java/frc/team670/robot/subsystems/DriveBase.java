@@ -24,6 +24,7 @@ public class DriveBase extends SwerveDrive {
     }
 
     public void mustangPeriodic() {
+        SmartDashboard.putBoolean("periodic ran", true);
         super.mustangPeriodic();
         SmartDashboard.putNumber("pitch", getPitch());
     }
