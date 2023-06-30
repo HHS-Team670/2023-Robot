@@ -12,8 +12,8 @@ import frc.team670.robot.commands.arm.MoveToTarget;
 import frc.team670.robot.commands.arm.ResetArmFromAbsolute;
 import frc.team670.robot.commands.claw.ClawIdle;
 import frc.team670.robot.commands.claw.ClawInstantIntake;
-import frc.team670.robot.commands.leds.SetColorPurple;
-import frc.team670.robot.commands.leds.SetColorYellow;
+import frc.team670.robot.commands.leds.SetIntakeCube;
+import frc.team670.robot.commands.leds.SetIntakeCone;
 import frc.team670.robot.commands.routines.EjectAndStow;
 import frc.team670.robot.commands.vision.AutoAlign;
 import frc.team670.robot.commands.vision.AutoAlignToSubstation;
@@ -69,8 +69,8 @@ public final class OI {
     private static JoystickButton rotateTo270 = new JoystickButton(driverController, XboxButtons.B);
 
     // LED commands
-    private static JoystickButton ledYellow = new JoystickButton(operatorController, XboxButtons.Y);
-    private static JoystickButton ledPurple = new JoystickButton(operatorController, XboxButtons.A);
+    private static JoystickButton coneIntake = new JoystickButton(operatorController, XboxButtons.Y);
+    private static JoystickButton cubeIntake = new JoystickButton(operatorController, XboxButtons.A);
 
     public static MustangController getDriverController() {
         return driverController;
@@ -120,7 +120,7 @@ public final class OI {
         rotateTo180.onTrue(driveCommand.new SetDesiredHeading(new Rotation2d(Math.PI)));
         rotateTo270.onTrue(driveCommand.new SetDesiredHeading(new Rotation2d(3 * Math.PI / 2)));
 
-        ledPurple.onTrue(new SetColorPurple(led));
-        ledYellow.onTrue(new SetColorYellow(led));
+        cubeIntake.onTrue(new SetIntakeCube(led, claw));
+        coneIntake.onTrue(new SetIntakeCone(led, claw));
     }
 }

@@ -22,6 +22,10 @@ import frc.team670.robot.subsystems.Claw;
 import frc.team670.robot.subsystems.DriveBase;
 import frc.team670.robot.subsystems.arm.Arm;
 import frc.team670.robot.subsystems.arm.ArmState;
+import frc.team670.robot.subsystems.LED;
+import frc.team670.robot.commands.leds.SetIntakeCone;
+import frc.team670.robot.commands.leds.SetIntakeCube;
+
 
 public class ConeCubeCube extends SequentialCommandGroup implements MustangCommand {
 
@@ -32,7 +36,7 @@ public class ConeCubeCube extends SequentialCommandGroup implements MustangComma
     }
 
 
-    public ConeCubeCube(DriveBase driveBase, Claw claw, Arm arm, String pathName) {
+    public ConeCubeCube(DriveBase driveBase, Claw claw, Arm arm,LED led, String pathName) {
         this.pathName = pathName;
         List<PathPlannerTrajectory> trajectoryGroup = PathPlanner.loadPathGroup(pathName, 4, 4.5);
 
@@ -41,10 +45,12 @@ public class ConeCubeCube extends SequentialCommandGroup implements MustangComma
 
         // eventMap stuff
         // eventMap.put("clawIntake1", new ClawInstantIntake(claw));
+        eventMap.put("setIntakeCone", new SetIntakeCone(led,claw));//here
         eventMap.put("moveToMid", new MoveToTarget(arm, ArmState.SCORE_MID));
         eventMap.put("moveToHigh", new MoveToTarget(arm, ArmState.SCORE_HIGH));
         eventMap.put("clawEject", new ClawInstantEject(claw));
         eventMap.put("moveToGround", new MoveToTarget(arm, ArmState.HYBRID));
+        eventMap.put("setIntakeCube", new SetIntakeCube(led,claw));//here
         eventMap.put("clawIntake", new ClawInstantIntake(claw));
         eventMap.put("moveToStowed", new MoveToTarget(arm, ArmState.STOWED));
 

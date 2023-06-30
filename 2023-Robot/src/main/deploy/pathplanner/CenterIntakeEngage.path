@@ -17,6 +17,7 @@
       "isStopPoint": false,
       "stopEvent": {
         "names": [
+          "setIntakeCone",
           "moveToMid",
           "clawEject"
         ],
@@ -133,6 +134,7 @@
       "position": 2.672656249999999,
       "names": [
         "moveToGround",
+        "setIntakeCube",
         "clawIntake"
       ]
     },

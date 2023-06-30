@@ -16,9 +16,13 @@ public class Claw extends MustangSubsystemBase {
     public enum Status {
         EJECTING, INTAKING, IDLE;
     }
+    public enum GamePiece{
+        NONE,CONE,CUBE;
+    }
 
     private SparkMAXLite motor;
     private Claw.Status status;
+    private Claw.GamePiece gamepiece=Claw.GamePiece.NONE;
 
     private final String currentKey = "Claw motor current";
     private final String clawStateKey = "Claw state";
@@ -91,6 +95,12 @@ public class Claw extends MustangSubsystemBase {
     public void setIdle() {
         setStatus(Status.IDLE);
     }
+    public void setGamePiece(Claw.GamePiece gamepiece) {
+        if(!isFull()||gamepiece==GamePiece.NONE){
+            this.gamepiece = gamepiece;
+        }
+        
+    }
 
     /**
      * Private method, only intended to be used by the public set() methods
@@ -117,12 +127,21 @@ public class Claw extends MustangSubsystemBase {
 
         switch (status) {
             case IDLE:
+            if(gamepiece == GamePiece.CONE){
+                motor.set(RobotConstants.Arm.Claw.kIdleSpeed);//We may want different idle speeeds later on
+            }else{
                 motor.set(RobotConstants.Arm.Claw.kIdleSpeed);
+            }
+                
                 break;
             case INTAKING:
+            if(gamepiece == GamePiece.CONE){
                 motor.set(RobotConstants.Arm.Claw.kRollingSpeed);
-                if (motor
-                        .getOutputCurrent() > RobotConstants.Arm.Claw.kCurrentMax) {
+            } else{
+                motor.set(-RobotConstants.Arm.Claw.kRollingSpeed);
+            }
+                
+                if (motor.getOutputCurrent() > RobotConstants.Arm.Claw.kCurrentMax) {
                     currentSpikeCounter++;
                     if (currentSpikeCounter > RobotConstants.Arm.Claw.kCurrentSpikeIterations) {
                         isFull = true;
@@ -141,7 +160,12 @@ public class Claw extends MustangSubsystemBase {
                 break;
 
             case EJECTING:
-                motor.set(ejectingSpeed);
+                if(gamepiece == GamePiece.CONE){
+                    motor.set(ejectingSpeed);
+                }else{
+                    motor.set(-ejectingSpeed);
+                }
+                
                 ejectCounter++;
                 if (ejectCounter > RobotConstants.Arm.Claw.kEjectIterations) {
                     ejectCounter = 0;

@@ -112,8 +112,9 @@
     {
       "position": 0.67,
       "names": [
+        "setIntakeCube",
         "moveToGround",
-        "clawIntake"
+        "intake"
       ]
     }
   ]

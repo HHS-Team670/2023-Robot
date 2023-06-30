@@ -23,6 +23,9 @@ import frc.team670.robot.subsystems.Claw;
 import frc.team670.robot.subsystems.DriveBase;
 import frc.team670.robot.subsystems.arm.Arm;
 import frc.team670.robot.subsystems.arm.ArmState;
+import frc.team670.robot.subsystems.LED;
+import frc.team670.robot.commands.leds.SetIntakeCone;
+import frc.team670.robot.commands.leds.SetIntakeCube;
 
 public class ConeCubeEngage extends SequentialCommandGroup implements MustangCommand {
 
@@ -33,7 +36,7 @@ public class ConeCubeEngage extends SequentialCommandGroup implements MustangCom
     }
 
 
-    public ConeCubeEngage(DriveBase driveBase, Claw claw, Arm arm, String pathName) {
+    public ConeCubeEngage(DriveBase driveBase, Claw claw, Arm arm,LED led, String pathName) {
         this.pathName = pathName;
         List<PathPlannerTrajectory> trajectoryGroup = PathPlanner.loadPathGroup(pathName, 4, 3);
 
@@ -41,14 +44,16 @@ public class ConeCubeEngage extends SequentialCommandGroup implements MustangCom
         HashMap<String, Command> eventMap = new HashMap<>();
 
         // eventMap stuff
-        // eventMap.put("clawIntake1", new ClawInstantIntake(claw));
-        // eventMap.put("moveToMid", new MoveToTarget(arm, ArmState.SCORE_MID));
-        // eventMap.put("clawEject", new ClawInstantEject(claw));
-        // eventMap.put("moveToGround", new MoveToTarget(arm, ArmState.HYBRID));
-        // eventMap.put("clawIntake", new ClawInstantIntake(claw)); //May want to use IntakeAndStow
-        // after testing.
-        // eventMap.put("moveToStowed", new MoveToTarget(arm, ArmState.STOWED));
-        // eventMap.put("moveToHigh", new MoveToTarget(arm, ArmState.SCORE_HIGH));
+        // Need to add claw intake mode setting
+        eventMap.put("setIntakeCone", new SetIntakeCone(led,claw));//here
+        eventMap.put("clawIntake1", new ClawInstantIntake(claw));
+        eventMap.put("moveToMid", new MoveToTarget(arm, ArmState.SCORE_MID));
+        eventMap.put("clawEject", new ClawInstantEject(claw));
+        eventMap.put("moveToGround", new MoveToTarget(arm, ArmState.HYBRID));
+        eventMap.put("setIntakeCube", new SetIntakeCube(led,claw));//here
+        eventMap.put("clawIntake", new ClawInstantIntake(claw)); //May want to use IntakeAndStow after testing.
+        eventMap.put("moveToStowed", new MoveToTarget(arm, ArmState.STOWED));
+        eventMap.put("moveToHigh", new MoveToTarget(arm, ArmState.SCORE_HIGH));
         eventMap.put("autoLevel", new NonPidAutoLevel(driveBase, true));
 
         CommandBase fullAuto = driveBase.getAutoBuilderFromEvents(eventMap).fullAuto(trajectoryGroup);

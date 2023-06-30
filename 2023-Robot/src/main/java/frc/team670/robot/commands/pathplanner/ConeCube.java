@@ -22,6 +22,9 @@ import frc.team670.robot.subsystems.Claw;
 import frc.team670.robot.subsystems.DriveBase;
 import frc.team670.robot.subsystems.arm.Arm;
 import frc.team670.robot.subsystems.arm.ArmState;
+import frc.team670.robot.subsystems.LED;
+import frc.team670.robot.commands.leds.SetIntakeCone;
+import frc.team670.robot.commands.leds.SetIntakeCube;
 
 public class ConeCube extends SequentialCommandGroup implements MustangCommand {
 
@@ -32,7 +35,7 @@ public class ConeCube extends SequentialCommandGroup implements MustangCommand {
     }
 
 
-    public ConeCube(DriveBase driveBase, Claw claw, Arm arm, String pathName) {
+    public ConeCube(DriveBase driveBase, Claw claw, Arm arm,LED led, String pathName) {
         this.pathName = pathName;
         List<PathPlannerTrajectory> trajectoryGroup = PathPlanner.loadPathGroup(pathName, 3, 2.5);
 
@@ -40,16 +43,19 @@ public class ConeCube extends SequentialCommandGroup implements MustangCommand {
         HashMap<String, Command> eventMap = new HashMap<>();
 
         // eventMap stuff
-        // eventMap.put("clawIntake1", new ClawInstantIntake(claw));
+        //eventMap.put("clawIntake1", new ClawInstantIntake(claw));
+        eventMap.put("setIntakeCone", new SetIntakeCone(led,claw));//here
         eventMap.put("moveToMid", new MoveToTarget(arm, ArmState.SCORE_MID));
         eventMap.put("clawEject", new ClawInstantEject(claw));
         eventMap.put("moveToGround", new MoveToTarget(arm, ArmState.HYBRID));
-        eventMap.put("clawIntake", new ClawInstantIntake(claw)); // May want to use IntakeAndStow
-                                                                 // after testing.
+        eventMap.put("setIntakeCube", new SetIntakeCube(led,claw));//here
+        eventMap.put("clawIntake", new ClawInstantIntake(claw)); //May want to use IntakeAndStow after testing.
         eventMap.put("moveToStowed", new MoveToTarget(arm, ArmState.STOWED));
+        
+
 
         CommandBase fullAuto = driveBase.getAutoBuilderFromEvents(eventMap).fullAuto(trajectoryGroup);
-
         addCommands(fullAuto);
+
     }
 }

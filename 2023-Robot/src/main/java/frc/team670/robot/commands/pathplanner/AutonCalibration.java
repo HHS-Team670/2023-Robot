@@ -11,6 +11,8 @@ import frc.team670.mustanglib.commands.MustangCommand;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase.HealthState;
 import frc.team670.robot.subsystems.DriveBase;
+import frc.team670.robot.commands.leds.SetIntakeCone;
+import frc.team670.robot.commands.leds.SetIntakeCube;
 
 public class AutonCalibration extends SequentialCommandGroup implements MustangCommand {
 

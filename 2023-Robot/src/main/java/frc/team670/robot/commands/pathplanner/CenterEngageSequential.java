@@ -17,9 +17,12 @@ import frc.team670.robot.commands.drivebase.NonPidAutoLevel;
 import frc.team670.robot.commands.drivebase.TurnToAngle;
 import frc.team670.robot.constants.OI;
 import frc.team670.robot.subsystems.Claw;
+import frc.team670.robot.subsystems.LED;
 import frc.team670.robot.subsystems.DriveBase;
 import frc.team670.robot.subsystems.arm.Arm;
 import frc.team670.robot.subsystems.arm.ArmState;
+import frc.team670.robot.commands.leds.SetIntakeCone;
+import frc.team670.robot.commands.leds.SetIntakeCube;
 
 public class CenterEngageSequential extends SequentialCommandGroup implements MustangCommand {
 
@@ -28,11 +31,11 @@ public class CenterEngageSequential extends SequentialCommandGroup implements Mu
     }
 
 
-    public CenterEngageSequential(DriveBase driveBase, Claw claw, Arm arm) {
+    public CenterEngageSequential(DriveBase driveBase, Claw claw, Arm arm,LED led) {
         List<PathPlannerTrajectory> trajectoryGroup = PathPlanner.loadPathGroup("BackUp", 4, 4.5);
         
         CommandBase fullAuto = driveBase.getAutoBuilderFromEvents(null).fullAuto(trajectoryGroup);
-        addCommands(new SequentialCommandGroup(new MoveToTarget(arm, ArmState.SCORE_MID),
+        addCommands(new SequentialCommandGroup(new SetIntakeCone(led,claw),new MoveToTarget(arm, ArmState.SCORE_MID),
                 new ClawInstantEject(claw), new MoveToTarget(arm, ArmState.STOWED), fullAuto,
                 new TurnToAngle(driveBase, 180, true, OI.getDriverController()),
                 new NonPidAutoLevel(driveBase, true)));

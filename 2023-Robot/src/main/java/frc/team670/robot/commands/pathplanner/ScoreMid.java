@@ -14,6 +14,9 @@ import frc.team670.robot.subsystems.Claw;
 import frc.team670.robot.subsystems.DriveBase;
 import frc.team670.robot.subsystems.arm.Arm;
 import frc.team670.robot.subsystems.arm.ArmState;
+import frc.team670.robot.subsystems.LED;
+import frc.team670.robot.commands.leds.SetIntakeCone;
+import frc.team670.robot.commands.leds.SetIntakeCube;
 
 public class ScoreMid extends SequentialCommandGroup implements MustangCommand {
 
@@ -21,8 +24,9 @@ public class ScoreMid extends SequentialCommandGroup implements MustangCommand {
         return new HashMap<MustangSubsystemBase, HealthState>();
     }
 
-    public ScoreMid(DriveBase driveBase, Claw claw, Arm arm) {
-        addCommands(new ClawInstantIntake(claw),
+    public ScoreMid(DriveBase driveBase, Claw claw, Arm arm,LED led) {
+        
+        addCommands(new SetIntakeCone(led,claw),new ClawInstantIntake(claw),
                     new MoveToTarget(arm, ArmState.SCORE_MID), 
                     new ClawEject(claw), 
                     new MoveToTarget(arm, ArmState.STOWED));

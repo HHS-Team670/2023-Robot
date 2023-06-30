@@ -28,7 +28,9 @@ import frc.team670.robot.subsystems.arm.Arm;
 import frc.team670.robot.subsystems.arm.ArmState;
 import frc.team670.robot.commands.drivebase.NonPidAutoLevel;
 import frc.team670.robot.constants.RobotConstants;
-
+import frc.team670.robot.subsystems.LED;
+import frc.team670.robot.commands.leds.SetIntakeCone;
+import frc.team670.robot.commands.leds.SetIntakeCube;
 public class CubeEngage extends SequentialCommandGroup implements MustangCommand {
 
     String pathName;
@@ -37,7 +39,7 @@ public class CubeEngage extends SequentialCommandGroup implements MustangCommand
         return new HashMap<>();
     }
 
-    public CubeEngage(DriveBase driveBase, Claw claw, Arm arm, String pathName) {
+    public CubeEngage(DriveBase driveBase, Claw claw, Arm arm,LED led, String pathName) {
         this.pathName = pathName;
         List<PathPlannerTrajectory> trajectoryGroup =
                 PathPlanner.loadPathGroup(pathName, 2.75, 1.5);
@@ -46,9 +48,10 @@ public class CubeEngage extends SequentialCommandGroup implements MustangCommand
         PIDConstants PID_theta = RobotConstants.DriveBase.kAutonThetaPID;
 
         Map<String, Command> eventMap = new HashMap<>();
-
+        eventMap.put("setIntakeCone", new SetIntakeCone(led,claw));//here
         eventMap.put("moveToMid", new MoveToTarget(arm, ArmState.SCORE_MID));
         eventMap.put("clawEject", new ClawInstantEject(claw));
+        eventMap.put("setIntakeCube", new SetIntakeCube(led,claw));//here
         eventMap.put("clawIntake2", new ClawInstantIntake(claw));
         eventMap.put("moveToStowed", new MoveToTarget(arm, ArmState.STOWED));
         eventMap.put("moveToGround", new MoveToTarget(arm, ArmState.HYBRID));

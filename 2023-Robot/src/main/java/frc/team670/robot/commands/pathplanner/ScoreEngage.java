@@ -25,6 +25,9 @@ import frc.team670.robot.subsystems.Claw;
 import frc.team670.robot.subsystems.DriveBase;
 import frc.team670.robot.subsystems.arm.Arm;
 import frc.team670.robot.subsystems.arm.ArmState;
+import frc.team670.robot.subsystems.LED;
+import frc.team670.robot.commands.leds.SetIntakeCone;
+import frc.team670.robot.commands.leds.SetIntakeCube;
 
 public class ScoreEngage extends SequentialCommandGroup implements MustangCommand {
 
@@ -35,7 +38,7 @@ public class ScoreEngage extends SequentialCommandGroup implements MustangComman
     }
 
 
-    public ScoreEngage(DriveBase driveBase, Claw claw, Arm arm, String pathName) {
+    public ScoreEngage(DriveBase driveBase, Claw claw, Arm arm,LED led, String pathName) {
         this.pathName = pathName;
         List<PathPlannerTrajectory> trajectoryGroup = PathPlanner.loadPathGroup(pathName, 4, 4.5);
 
@@ -43,9 +46,11 @@ public class ScoreEngage extends SequentialCommandGroup implements MustangComman
         HashMap<String, Command> eventMap = new HashMap<>();
 
         // eventMap stuff
+        eventMap.put("setIntakeCone", new SetIntakeCone(led,claw));//here
         eventMap.put("moveToMid", new MoveToTarget(arm, ArmState.SCORE_MID));
         eventMap.put("moveToStowed", new MoveToTarget(arm, ArmState.STOWED));
         eventMap.put("clawEject", new ClawInstantEject(claw));
+        eventMap.put("setIntakeCube", new SetIntakeCube(led,claw));//here
         eventMap.put("moveToGround", new MoveToTarget(arm, ArmState.HYBRID));
         eventMap.put("clawIntake", new ClawInstantIntake(claw)); // May want to use IntakeAndStow
         

@@ -24,6 +24,10 @@ import frc.team670.robot.subsystems.Claw;
 import frc.team670.robot.subsystems.DriveBase;
 import frc.team670.robot.subsystems.arm.Arm;
 import frc.team670.robot.subsystems.arm.ArmState;
+import frc.team670.robot.subsystems.LED;
+import frc.team670.robot.commands.leds.SetIntakeCone;
+import frc.team670.robot.commands.leds.SetIntakeCube;
+
 
 public class CenterIntake extends SequentialCommandGroup implements MustangCommand {
 
@@ -34,17 +38,19 @@ public class CenterIntake extends SequentialCommandGroup implements MustangComma
     }
 
 
-    public CenterIntake(DriveBase driveBase, Claw claw, Arm arm, String pathName) {
+    public CenterIntake(DriveBase driveBase, Claw claw, Arm arm,LED led, String pathName) {
         this.pathName = pathName;
         List<PathPlannerTrajectory> trajectoryGroup = PathPlanner.loadPathGroup(pathName, 1, 0.5);
 
         HashMap<String, Command> eventMap = new HashMap<>();
 
         // eventMap stuff
+        eventMap.put("setIntakeCone", new SetIntakeCone(led,claw));//Here
         eventMap.put("moveToMid", new MoveToTarget(arm, ArmState.SCORE_MID));
         eventMap.put("clawEject", new ClawEject(claw));
         eventMap.put("stow", new MoveToTarget(arm, ArmState.STOWED));
         eventMap.put("moveToGround", new MoveToTarget(arm, ArmState.HYBRID));
+        eventMap.put("setIntakeCube", new SetIntakeCube(led,claw));//Here
         eventMap.put("clawIntake", new ClawInstantIntake(claw));
         eventMap.put("autoLevel", new NonPidAutoLevel(driveBase, false));
 

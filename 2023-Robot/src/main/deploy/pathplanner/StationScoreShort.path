@@ -17,8 +17,9 @@
       "isStopPoint": false,
       "stopEvent": {
         "names": [
-          "moveToMid1",
-          "clawEject1"
+          "setIntakeCone",
+          "moveToMid",
+          "clawEject"
         ],
         "executionBehavior": "sequential",
         "waitBehavior": "none",
