@@ -5,6 +5,13 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "type": "java",
+      "request": "attach",
+      "hostName": "10.6.70.2",
+      "port": 9500,
+      "projectName": "2023-Robot",
+    },
+    {
       "type": "wpilib",
       "name": "WPILib Desktop Debug",
       "request": "launch",
