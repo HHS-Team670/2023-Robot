@@ -29,6 +29,9 @@ import frc.team670.mustanglib.subsystems.VisionSubsystemBase;
 import frc.team670.mustanglib.subsystems.VisionSubsystemBase.TagCountDeviation;
 import frc.team670.mustanglib.subsystems.VisionSubsystemBase.UnitDeviationParams;
 import frc.team670.mustanglib.subsystems.drivebase.SwerveDrive;
+import frc.team670.mustanglib.swervelib.parser.SwerveControllerConfiguration;
+import frc.team670.mustanglib.swervelib.parser.SwerveDriveConfiguration;
+import frc.team670.mustanglib.swervelib.parser.SwerveModuleConfiguration;
 import frc.team670.mustanglib.swervelibold.ModuleConfiguration;
 import frc.team670.mustanglib.swervelibold.SdsModuleConfigurations;
 import frc.team670.mustanglib.swervelibold.Mk4iSwerveModuleHelper.GearRatio;
@@ -168,6 +171,15 @@ public final class RobotConstants {
 
         public static final double kMaxAngularVelocityRadiansPerSecond = kMaxVelocityMetersPerSecond
                 / Math.hypot(kTrackWidthMeters / 2.0, kWheelBaseMeters / 2.0);
+
+        
+        public static SwerveModuleConfiguration[] kSwerveModuleConfigurations = new SwerveModuleConfiguration[4];
+        kSwerveModuleConfigurations[0] = new SwerveModuleConfiguration(kFrontLeftModuleDriveMotorID, kFrontLeftModuleSteerMotorID, kFrontLeftModuleSteerEncoderID, kFrontLeftModuleSteerOffsetRadians, kDriveBaseTrackWidth/2.0, kDriveBaseWheelBase/2.0,);//check radians or degrees
+
+        public static SwerveDriveConfiguration kSwerveDriveConfiguration;
+
+        public static SwerveControllerConfiguration kSwerveControllerConfiguration;
+        
 
         public static final SwerveDrive.Config kConfig = new SwerveDrive.Config(kTrackWidthMeters,
                 kWheelBaseMeters, kMaxVelocityMetersPerSecond, kMaxVoltage, kMaxDriveCurrent,

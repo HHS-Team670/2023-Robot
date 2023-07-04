@@ -12,6 +12,7 @@ import frc.team670.mustanglib.commands.MustangScheduler;
 import frc.team670.mustanglib.commands.drive.teleop.XboxSwerveDrive;
 import frc.team670.mustanglib.swervelib.SwerveDrive;
 import frc.team670.mustanglib.swervelib.SwerveModule;
+import frc.team670.mustanglib.swervelib.motors.SwerveMotor;
 import frc.team670.mustanglib.utils.MustangController;
 import frc.team670.robot.constants.RobotConstants;
 
@@ -45,12 +46,12 @@ public class DriveBase extends SwerveDrive {
     @Override
     public HealthState checkHealth() {
         for (SwerveModule curr : getModules()) {
-            CANSparkMax motor = (CANSparkMax) curr.getDriveMotor();
-            if (motor.getLastError() != REVLibError.kOk) {
-                SmartDashboard.putString("Swerve Module " + motor.getDeviceId() + " ERROR:",
-                        motor.getLastError().toString());
-                return HealthState.RED;
-            }
+            SwerveMotor motor = curr.getDriveMotor();
+            // if (motor.getLastError() != REVLibError.kOk) {
+            //     SmartDashboard.putString("Swerve Module " + motor.getDeviceId() + " ERROR:",
+            //             motor.getLastError().toString());
+            //     return HealthState.RED;
+            // }
         }
         return HealthState.GREEN;
     }
