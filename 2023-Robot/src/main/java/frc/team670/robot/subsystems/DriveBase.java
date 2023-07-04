@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team670.mustanglib.commands.MustangCommand;
 import frc.team670.mustanglib.commands.MustangScheduler;
 import frc.team670.mustanglib.commands.drive.teleop.XboxSwerveDrive;
-import frc.team670.mustanglib.subsystems.drivebase.SwerveDrive;
+import frc.team670.mustanglib.swervelib.SwerveDrive;
 import frc.team670.mustanglib.swervelib.SwerveModule;
 import frc.team670.mustanglib.utils.MustangController;
 import frc.team670.robot.constants.RobotConstants;
@@ -39,7 +39,7 @@ public class DriveBase extends SwerveDrive {
 
     public void mustangPeriodic() {
         super.mustangPeriodic();
-        SmartDashboard.putNumber("pitch", getPitch());
+        SmartDashboard.putNumber("pitch", getPitchDegrees());
     }
 
     @Override

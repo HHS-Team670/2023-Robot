@@ -10,6 +10,7 @@ import frc.team670.mustanglib.commands.MustangCommand;
 import frc.team670.mustanglib.commands.MustangScheduler;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase.HealthState;
+import frc.team670.mustanglib.swervelib.math.SwerveModuleState2;
 import frc.team670.robot.commands.arm.MoveToTarget;
 import frc.team670.robot.subsystems.DriveBase;
 import frc.team670.robot.subsystems.arm.Arm;
@@ -42,8 +43,8 @@ public class NonPidAutoLevel extends CommandBase implements MustangCommand {
     @Override
     public void initialize() {
         counter = 0;
-        pitch = Math.abs(driveBase.getPitch());
-        previousPitch = Math.abs(driveBase.getPitch()); // just to ensure we are going forward
+        pitch = Math.abs(driveBase.getPitchDegrees());
+        previousPitch = Math.abs(driveBase.getPitchDegrees()); // just to ensure we are going forward
         this.hasGoneUp = false;
         this.hasTippedOver = false;
     }
@@ -52,7 +53,7 @@ public class NonPidAutoLevel extends CommandBase implements MustangCommand {
     public void execute() {
         previousPitch = pitch;
         //SmartDashboard.putNumber("previousPitch", previousPitch);
-        pitch = Math.abs(driveBase.getPitch());
+        pitch = Math.abs(driveBase.getPitchDegrees());
         SmartDashboard.putNumber("pitch", pitch);
         // SmartDashboard.putBoolean("hasGoneUp", hasGoneUp);
         // SmartDashboard.putBoolean("hasTippedOver", hasTippedOver);
@@ -91,8 +92,8 @@ public class NonPidAutoLevel extends CommandBase implements MustangCommand {
             }
         }
 
-        SwerveModuleState[] states = driveBase.getSwerveKinematics().toSwerveModuleStates(chassisSpeeds);
-        driveBase.setModuleStates(states);
+        SwerveModuleState2[] states = driveBase.getSwerveKinematics().toSwerveModuleStates(chassisSpeeds);
+        driveBase.setModuleStates(states, false);
         
     }
 
@@ -112,11 +113,11 @@ public class NonPidAutoLevel extends CommandBase implements MustangCommand {
     @Override
     public void end(boolean interrupted) {
         //SmartDashboard.putBoolean("non PID auto level ended", true);
-            SwerveModuleState[] states = new SwerveModuleState[4];
-                states[0] = new SwerveModuleState(0.01, new Rotation2d(Math.PI/4)); 
-                states[1] = new SwerveModuleState(0.01, new Rotation2d(-Math.PI/4));
-                states[2] = new SwerveModuleState(0.01, new Rotation2d(-Math.PI/4));
-                states[3] = new SwerveModuleState(0.01, new Rotation2d(Math.PI/4));
-                driveBase.setModuleStates(states);
+            SwerveModuleState2[] states = new SwerveModuleState2[4];
+                states[0] = new SwerveModuleState2(0.01, new Rotation2d(Math.PI/4), 0); 
+                states[1] = new SwerveModuleState2(0.01, new Rotation2d(-Math.PI/4), 0);
+                states[2] = new SwerveModuleState2(0.01, new Rotation2d(-Math.PI/4), 0);
+                states[3] = new SwerveModuleState2(0.01, new Rotation2d(Math.PI/4), 0);
+                driveBase.setModuleStates(states, false);
     }
 }

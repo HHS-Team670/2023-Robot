@@ -29,9 +29,9 @@ import frc.team670.mustanglib.subsystems.VisionSubsystemBase;
 import frc.team670.mustanglib.subsystems.VisionSubsystemBase.TagCountDeviation;
 import frc.team670.mustanglib.subsystems.VisionSubsystemBase.UnitDeviationParams;
 import frc.team670.mustanglib.subsystems.drivebase.SwerveDrive;
-import frc.team670.mustanglib.swervelib.Mk4iSwerveModuleHelper.GearRatio;
-import frc.team670.mustanglib.swervelib.ModuleConfiguration;
-import frc.team670.mustanglib.swervelib.SdsModuleConfigurations;
+import frc.team670.mustanglib.swervelibold.ModuleConfiguration;
+import frc.team670.mustanglib.swervelibold.SdsModuleConfigurations;
+import frc.team670.mustanglib.swervelibold.Mk4iSwerveModuleHelper.GearRatio;
 import frc.team670.mustanglib.utils.motorcontroller.MotorConfig;
 import frc.team670.robot.subsystems.arm.ArmSegment;
 

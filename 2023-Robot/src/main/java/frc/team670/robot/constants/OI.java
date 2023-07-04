@@ -88,7 +88,7 @@ public final class OI {
 
         driveBase.initDefaultCommand();
 
-        zeroGyroDriver.onTrue(new SetSwerveForwardDirection(driveBase));
+        // zeroGyroDriver.onTrue(new SetSwerveForwardDirection(driveBase));
         zeroArm.onTrue(new ResetArmFromAbsolute(arm));
         singleSubAlign.whileTrue(new AutoAlignToSubstation(driveBase, false)); // moves to
                                                                                // substation
@@ -115,10 +115,10 @@ public final class OI {
 
         // Rotate to cardinal direction while driving
         XboxSwerveDrive driveCommand = (XboxSwerveDrive) driveBase.getDefaultCommand();
-        rotateTo0.onTrue(driveCommand.new SetDesiredHeading(new Rotation2d(0)));
-        rotateTo90.onTrue(driveCommand.new SetDesiredHeading(new Rotation2d(Math.PI / 2)));
-        rotateTo180.onTrue(driveCommand.new SetDesiredHeading(new Rotation2d(Math.PI)));
-        rotateTo270.onTrue(driveCommand.new SetDesiredHeading(new Rotation2d(3 * Math.PI / 2)));
+        // rotateTo0.onTrue(driveCommand.new SetDesiredHeading(new Rotation2d(0)));
+        // rotateTo90.onTrue(driveCommand.new SetDesiredHeading(new Rotation2d(Math.PI / 2)));
+        // rotateTo180.onTrue(driveCommand.new SetDesiredHeading(new Rotation2d(Math.PI)));
+        // rotateTo270.onTrue(driveCommand.new SetDesiredHeading(new Rotation2d(3 * Math.PI / 2)));
 
         ledPurple.onTrue(new SetColorPurple(led));
         ledYellow.onTrue(new SetColorYellow(led));

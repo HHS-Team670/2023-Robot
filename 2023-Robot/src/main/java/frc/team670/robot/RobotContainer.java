@@ -62,13 +62,13 @@ public class RobotContainer extends RobotContainerBase {
             subsystem.setDebugSubsystem(true);
         }
 
-        cableScore = new ConeCube(mDriveBase, mClaw, mArm, "CableScoreShort");
-        stationScore = new ConeCubeCube(mDriveBase, mClaw, mArm, "Station3Piece");
-        cableEngage = new CubeEngage(mDriveBase, mClaw, mArm, "CableEngage");
-        stationEngage = new ScoreEngage(mDriveBase, mClaw, mArm, "StationScoreEngage3");
-        centerEngage = new CenterEngageSequential(mDriveBase, mClaw, mArm);
-        centerIntake = new CenterIntake(mDriveBase, mClaw, mArm, "CenterIntake");
-        scoreMid = new ScoreMid(mDriveBase, mClaw, mArm);
+        // cableScore = new ConeCube(mDriveBase, mClaw, mArm, "CableScoreShort");
+        // stationScore = new ConeCubeCube(mDriveBase, mClaw, mArm, "Station3Piece");
+        // cableEngage = new CubeEngage(mDriveBase, mClaw, mArm, "CableEngage");
+        // stationEngage = new ScoreEngage(mDriveBase, mClaw, mArm, "StationScoreEngage3");
+        // centerEngage = new CenterEngageSequential(mDriveBase, mClaw, mArm);
+        // centerIntake = new CenterIntake(mDriveBase, mClaw, mArm, "CenterIntake");
+        // scoreMid = new ScoreMid(mDriveBase, mClaw, mArm);
 
     }
 
@@ -76,7 +76,7 @@ public class RobotContainer extends RobotContainerBase {
     public void robotInit() {
         CameraServer.startAutomaticCapture().setVideoMode(PixelFormat.kYUYV, 160, 120, 30);
 
-        mDriveBase.initVision(mVision);
+        // mDriveBase.initVision(mVision);
         SmartDashboard.putNumber(kAutonChooserString, 0);
         updateArbitraryFeedForward = new Notifier(
                 () -> {
@@ -192,7 +192,7 @@ public class RobotContainer extends RobotContainerBase {
     private void parkBeforeDisable() {
         double cTime = DriverStation.getMatchTime();
         if (cTime <= 0.1 && cTime != -1) {
-            mDriveBase.park();
+            // mDriveBase.park();
         }
     }
 
