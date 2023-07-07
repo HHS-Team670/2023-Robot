@@ -15,8 +15,8 @@ import frc.team670.robot.commands.claw.ClawInstantIntake;
 import frc.team670.robot.commands.leds.SetColorPurple;
 import frc.team670.robot.commands.leds.SetColorYellow;
 import frc.team670.robot.commands.routines.EjectAndStow;
-import frc.team670.robot.commands.vision.AutoAlign;
-import frc.team670.robot.commands.vision.AutoAlignToSubstation;
+// import frc.team670.robot.commands.vision.AutoAlign;
+// import frc.team670.robot.commands.vision.AutoAlignToSubstation;
 import frc.team670.robot.subsystems.Claw;
 import frc.team670.robot.subsystems.DriveBase;
 import frc.team670.robot.subsystems.LED;
@@ -90,12 +90,12 @@ public final class OI {
 
         // zeroGyroDriver.onTrue(new SetSwerveForwardDirection(driveBase));
         zeroArm.onTrue(new ResetArmFromAbsolute(arm));
-        singleSubAlign.whileTrue(new AutoAlignToSubstation(driveBase, false)); // moves to
-                                                                               // substation
+        // singleSubAlign.whileTrue(new AutoAlignToSubstation(driveBase, false)); // moves to
+        //                                                                        // substation
 
-        alignToClosest.whileTrue(new AutoAlign(driveBase, AutoAlign.Direction.CLOSEST));
-        alignToLeft.whileTrue(new AutoAlign(driveBase, AutoAlign.Direction.LEFT));
-        alignToRight.whileTrue(new AutoAlign(driveBase, AutoAlign.Direction.RIGHT));
+        // alignToClosest.whileTrue(new AutoAlign(driveBase, AutoAlign.Direction.CLOSEST));
+        // alignToLeft.whileTrue(new AutoAlign(driveBase, AutoAlign.Direction.LEFT));
+        // alignToRight.whileTrue(new AutoAlign(driveBase, AutoAlign.Direction.RIGHT));
 
         // arm movement commands
         hybrid.onTrue(new MoveToTarget(arm, ArmState.HYBRID));

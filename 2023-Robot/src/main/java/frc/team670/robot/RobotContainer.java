@@ -17,12 +17,12 @@ import frc.team670.mustanglib.commands.MustangCommand;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 import frc.team670.mustanglib.utils.MustangController;
 import frc.team670.robot.commands.arm.ResetArmFromAbsolute;
-import frc.team670.robot.commands.pathplanner.CenterEngageSequential;
-import frc.team670.robot.commands.pathplanner.CenterIntake;
-import frc.team670.robot.commands.pathplanner.ConeCube;
-import frc.team670.robot.commands.pathplanner.ConeCubeCube;
-import frc.team670.robot.commands.pathplanner.CubeEngage;
-import frc.team670.robot.commands.pathplanner.ScoreEngage;
+// import frc.team670.robot.commands.pathplanner.CenterEngageSequential;
+// import frc.team670.robot.commands.pathplanner.CenterIntake;
+// import frc.team670.robot.commands.pathplanner.ConeCube;
+// import frc.team670.robot.commands.pathplanner.ConeCubeCube;
+// import frc.team670.robot.commands.pathplanner.CubeEngage;
+// import frc.team670.robot.commands.pathplanner.ScoreEngage;
 import frc.team670.robot.commands.pathplanner.ScoreMid;
 import frc.team670.robot.constants.OI;
 import frc.team670.robot.subsystems.Claw;
@@ -54,8 +54,9 @@ public class RobotContainer extends RobotContainerBase {
 
     public RobotContainer() {
         super();
-        addSubsystem(mDriveBase, mVision, mArm, mArm.getShoulder(), mArm.getElbow(), mArm.getWrist(),
-                mClaw, mLed);
+        // addSubsystem(mDriveBase, mVision, mArm, mArm.getShoulder(), mArm.getElbow(), mArm.getWrist(),
+        //         mClaw, mLed);
+        addSubsystem(mDriveBase);
         OI.configureButtonBindings();
 
         for (MustangSubsystemBase subsystem : getSubsystems()) {

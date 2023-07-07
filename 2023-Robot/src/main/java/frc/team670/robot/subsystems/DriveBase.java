@@ -26,7 +26,7 @@ public class DriveBase extends SwerveDrive {
     }
 
     public DriveBase() {
-        super(RobotConstants.DriveBase.kConfig);
+        super(RobotConstants.DriveBase.kSwerveDriveConfiguration, RobotConstants.DriveBase.kSwerveControllerConfiguration);
     }
 
 

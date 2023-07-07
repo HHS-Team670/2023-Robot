@@ -15,8 +15,9 @@ import java.util.Set;
 
 import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.auto.PIDConstants;
+import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
-
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation3d;
@@ -29,14 +30,20 @@ import frc.team670.mustanglib.subsystems.VisionSubsystemBase;
 import frc.team670.mustanglib.subsystems.VisionSubsystemBase.TagCountDeviation;
 import frc.team670.mustanglib.subsystems.VisionSubsystemBase.UnitDeviationParams;
 import frc.team670.mustanglib.subsystems.drivebase.SwerveDrive;
+import frc.team670.mustanglib.swervelib.encoders.SparkMaxEncoderSwerve;
+import frc.team670.mustanglib.swervelib.imu.NavXSwerve;
+import frc.team670.mustanglib.swervelib.motors.SparkMaxSwerve;
+import frc.team670.mustanglib.swervelib.parser.PIDFConfig;
 import frc.team670.mustanglib.swervelib.parser.SwerveControllerConfiguration;
 import frc.team670.mustanglib.swervelib.parser.SwerveDriveConfiguration;
 import frc.team670.mustanglib.swervelib.parser.SwerveModuleConfiguration;
+import frc.team670.mustanglib.swervelib.parser.SwerveModulePhysicalCharacteristics;
 import frc.team670.mustanglib.swervelibold.ModuleConfiguration;
 import frc.team670.mustanglib.swervelibold.SdsModuleConfigurations;
 import frc.team670.mustanglib.swervelibold.Mk4iSwerveModuleHelper.GearRatio;
 import frc.team670.mustanglib.utils.motorcontroller.MotorConfig;
 import frc.team670.robot.subsystems.arm.ArmSegment;
+
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -88,10 +95,10 @@ public final class RobotConstants {
     
     private static  Map<String, Double> robotSpecificConstants = Map.ofEntries(
         entry(kSunTzuAddress, Map.ofEntries(
-                    entry("kBackRightModuleSteerOffsetRadians", -Math.toRadians(90.895)),
-                    entry("kBackLeftModuleSteerOffsetRadians", -Math.toRadians(299.807)),
-                    entry("kFrontRightModuleSteerOffsetRadians", -Math.toRadians(137.499)),
-                    entry("kFrontLeftModuleSteerOffsetRadians", -Math.toRadians(318.604)),
+                    entry("kBackRightModuleSteerOffsetRadians", -90.895),
+                    entry("kBackLeftModuleSteerOffsetRadians", -299.807),
+                    entry("kFrontRightModuleSteerOffsetRadians", -137.499),
+                    entry("kFrontLeftModuleSteerOffsetRadians", -318.604),
                     entry("kShoulderAbsoluteEncoderVerticalOffset", 0.484233), // 0.47777
                     entry("kElbowAbsoluteEncoderVerticalOffset", 0.004892),
                     entry("kWristAbsoluteEncoderVerticalOffset", 0.174231), // 0.177702
@@ -99,10 +106,10 @@ public final class RobotConstants {
                     entry("kSwerveModuleConfig", 2.0), entry("kWristGearRatio", 125.0))),
             entry(kSkipperAddress,
                     Map.ofEntries(
-                            entry("kBackRightModuleSteerOffsetRadians", -Math.toRadians(82.694)),
-                            entry("kBackLeftModuleSteerOffsetRadians", -Math.toRadians(233.29)),
-                            entry("kFrontRightModuleSteerOffsetRadians", -Math.toRadians(225.77)),
-                            entry("kFrontLeftModuleSteerOffsetRadians", -Math.toRadians(112.53)),
+                            entry("kBackRightModuleSteerOffsetRadians", -82.694),
+                            entry("kBackLeftModuleSteerOffsetRadians", -233.29),
+                            entry("kFrontRightModuleSteerOffsetRadians", 225.77),
+                            entry("kFrontLeftModuleSteerOffsetRadians", -112.53),
                             entry("kShoulderAbsoluteEncoderVerticalOffset", 0.895),
                             entry("kElbowAbsoluteEncoderVerticalOffset", 0.588),
                             entry("kWristAbsoluteEncoderVerticalOffset", 0.918),
@@ -173,13 +180,6 @@ public final class RobotConstants {
                 / Math.hypot(kTrackWidthMeters / 2.0, kWheelBaseMeters / 2.0);
 
         
-        public static SwerveModuleConfiguration[] kSwerveModuleConfigurations = new SwerveModuleConfiguration[4];
-        kSwerveModuleConfigurations[0] = new SwerveModuleConfiguration(kFrontLeftModuleDriveMotorID, kFrontLeftModuleSteerMotorID, kFrontLeftModuleSteerEncoderID, kFrontLeftModuleSteerOffsetRadians, kDriveBaseTrackWidth/2.0, kDriveBaseWheelBase/2.0,);//check radians or degrees
-
-        public static SwerveDriveConfiguration kSwerveDriveConfiguration;
-
-        public static SwerveControllerConfiguration kSwerveControllerConfiguration;
-        
 
         public static final SwerveDrive.Config kConfig = new SwerveDrive.Config(kTrackWidthMeters,
                 kWheelBaseMeters, kMaxVelocityMetersPerSecond, kMaxVoltage, kMaxDriveCurrent,
@@ -202,7 +202,74 @@ public final class RobotConstants {
         public static final PIDController thetaController = new PIDController(0.2, 0, 0);
         public static final PathConstraints kAutoPathConstraints = new PathConstraints(
                 kMaxSpeedMetersPerSecond, kMaxAccelerationMetersPerSecondSquared);
-    }
+    
+        // yagsl swerve lib stuff
+
+        // fl
+        public static SparkMaxSwerve kFLdriveMotor = new SparkMaxSwerve(new CANSparkMax(kFrontLeftModuleDriveMotorID, MotorType.kBrushless), true);
+        public static SparkMaxSwerve kFLsteerMotor = new SparkMaxSwerve(new CANSparkMax(kFrontLeftModuleSteerMotorID, MotorType.kBrushless), false);
+        public static SparkMaxEncoderSwerve kFLabsoluteEncoder = new SparkMaxEncoderSwerve(kFLsteerMotor);
+        //bl
+        public static SparkMaxSwerve kBLdriveMotor = new SparkMaxSwerve(new CANSparkMax(kBackLeftModuleDriveMotorID, MotorType.kBrushless), true);
+        public static SparkMaxSwerve kBLsteerMotor = new SparkMaxSwerve(new CANSparkMax(kBackLeftModuleSteerMotorID, MotorType.kBrushless), false);
+        public static SparkMaxEncoderSwerve kBLabsoluteEncoder = new SparkMaxEncoderSwerve(kBLsteerMotor);
+        //fr
+        public static SparkMaxSwerve kFRdriveMotor = new SparkMaxSwerve(new CANSparkMax(kFrontRightModuleDriveMotorID, MotorType.kBrushless), true);
+        public static SparkMaxSwerve kFRsteerMotor = new SparkMaxSwerve(new CANSparkMax(kFrontRightModuleSteerMotorID, MotorType.kBrushless), false);
+        public static SparkMaxEncoderSwerve kFRabsoluteEncoder = new SparkMaxEncoderSwerve(kFRsteerMotor);
+        //br
+        public static SparkMaxSwerve kBRdriveMotor = new SparkMaxSwerve(new CANSparkMax(kBackRightModuleDriveMotorID, MotorType.kBrushless), true);
+        public static SparkMaxSwerve kBRsteerMotor = new SparkMaxSwerve(new CANSparkMax(kBackRightModuleSteerMotorID, MotorType.kBrushless), false);
+        public static SparkMaxEncoderSwerve kBRabsoluteEncoder = new SparkMaxEncoderSwerve(kBRsteerMotor);
+
+        public static final PIDFConfig kvelocityPIDF = new PIDFConfig(3, 0, 0);
+        public static final PIDFConfig kanglePIDF = new PIDFConfig(0.2, 0, 0);
+        public static final double kSteerRatio = 150.0/7.0;
+        public static final double kDriveRatio = 6.75;
+        public static final double kWheelDiameter = 0.0958;
+        public static final double kCoefficientOfFriction = 0.8;
+        public static final double kOptimalVoltage = 12.0;
+        public static final int kDriveCurrentLimit = 45;
+        public static final int kSteerCurrentLimit = 25;
+        public static final double kDriveMotorRampRate = kMaxAccelerationMetersPerSecondSquared;
+        public static final double kSteerMotorRampRate = kMaxAngularSpeedRadiansPerSecondSquared;
+        public static final double kModuleSteerFFCL = 0.33;
+
+        public static SwerveModulePhysicalCharacteristics kphysicalCharacteristics = new SwerveModulePhysicalCharacteristics(
+                kDriveRatio, kSteerRatio, kWheelDiameter, kCoefficientOfFriction,kOptimalVoltage, 
+                kDriveCurrentLimit, kSteerCurrentLimit, kDriveMotorRampRate,
+                kSteerMotorRampRate, 1, 1, kModuleSteerFFCL);
+        private static double kDriveBaseTrackWidth;
+        private static double kDriveBaseWheelBase;
+
+        public static SwerveModuleConfiguration[] kSwerveModuleConfigurations = {
+                //Front Left
+                new SwerveModuleConfiguration(kFLdriveMotor, kFLsteerMotor, kFLabsoluteEncoder, kFrontLeftModuleSteerOffsetRadians, 
+                kDriveBaseTrackWidth/2.0, kDriveBaseWheelBase/2.0, kanglePIDF, kvelocityPIDF, kMaxSpeedMetersPerSecond,kphysicalCharacteristics,
+                false, true, false, 0, "FrontLeft"), 
+                 //Black Left
+                new SwerveModuleConfiguration(kBLdriveMotor, kBLsteerMotor, kBLabsoluteEncoder, kBackLeftModuleSteerOffsetRadians, 
+                kDriveBaseTrackWidth/2.0, kDriveBaseWheelBase/2.0, kanglePIDF, kvelocityPIDF, kMaxSpeedMetersPerSecond,kphysicalCharacteristics,
+                false, true, false, 0, "BackLeft" ),
+                //Front Right
+                new SwerveModuleConfiguration(kFRdriveMotor, kFRsteerMotor, kFRabsoluteEncoder, kFrontRightModuleSteerOffsetRadians, 
+                kDriveBaseTrackWidth/2.0, kDriveBaseWheelBase/2.0, kanglePIDF, kvelocityPIDF, kMaxSpeedMetersPerSecond,kphysicalCharacteristics,
+                false, true, false, 0, "FrontRight" ),
+                //Back Right
+                new SwerveModuleConfiguration(kBRdriveMotor, kBRsteerMotor, kBRabsoluteEncoder, kBackRightModuleSteerOffsetRadians, 
+                kDriveBaseTrackWidth/2.0, kDriveBaseWheelBase/2.0, kanglePIDF, kvelocityPIDF, kMaxSpeedMetersPerSecond,kphysicalCharacteristics,
+                false, true, false, 0, "BackRight" )
+                 };
+
+        public static PIDFConfig kHeadingPIDFConfig = new PIDFConfig(3.5, 0, 0);
+      
+        public static NavXSwerve knavX = new NavXSwerve(kNAVXPort);
+
+        public static SwerveDriveConfiguration kSwerveDriveConfiguration = new SwerveDriveConfiguration(kSwerveModuleConfigurations, knavX, kMaxSpeedMetersPerSecond, false);
+
+        public static SwerveControllerConfiguration kSwerveControllerConfiguration = new SwerveControllerConfiguration(kSwerveDriveConfiguration, kHeadingPIDFConfig, 0.2);
+
+}
 
     // vision
     public static final class Vision {
@@ -436,3 +503,5 @@ public final class RobotConstants {
     }
 
 }
+
+
