@@ -29,7 +29,7 @@ public class DriveBase extends SwerveDrive {
     }
 
 
-     public void initDefaultCommand() { // TODO: switch to super class's init default command
+     public void initDefaultCommand(MustangController mController) { // TODO: switch to super class's init default command
             // defaultCommand = new XboxSwerveDrive(this, mController,
             // MAX_VELOCITY_METERS_PER_SECOND,
             // MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND);

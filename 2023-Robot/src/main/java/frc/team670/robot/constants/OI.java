@@ -86,7 +86,7 @@ public final class OI {
         Claw claw = Claw.getInstance();
         LED led = LED.getInstance();
 
-        driveBase.initDefaultCommand();
+        driveBase.initDefaultCommand(driverController);
 
         zeroGyroDriver.onTrue(new SetSwerveForwardDirection(driveBase));
         zeroArm.onTrue(new ResetArmFromAbsolute(arm));
