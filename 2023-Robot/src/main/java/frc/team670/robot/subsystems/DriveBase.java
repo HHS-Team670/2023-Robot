@@ -33,7 +33,7 @@ public class DriveBase extends SwerveDrive {
             // defaultCommand = new XboxSwerveDrive(this, mController,
             // MAX_VELOCITY_METERS_PER_SECOND,
             // MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND);
-            defaultCommand = new XboxSwerveDrive(driveBase, mController, RobotConstants.DriveBase.kMaxVelocityMetersPerSecond, RobotConstants.DriveBase.kMaxAngularVelocityRadiansPerSecond);
+            defaultCommand = new XboxSwerveDrive(driveBase, mController);
             MustangScheduler.getInstance().setDefaultCommand(this, defaultCommand);
       }
 

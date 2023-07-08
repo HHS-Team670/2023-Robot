@@ -3,6 +3,7 @@ package frc.team670.robot.constants;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
+
 import frc.team670.mustanglib.commands.drive.teleop.SetSwerveForwardDirection;
 import frc.team670.mustanglib.commands.drive.teleop.XboxSwerveDrive;
 import frc.team670.mustanglib.utils.MustangController;
@@ -86,7 +87,7 @@ public final class OI {
         Claw claw = Claw.getInstance();
         LED led = LED.getInstance();
 
-        driveBase.initDefaultCommand(driveBase, driverController);
+        driveBase.initDefaultCommand(new XboxSwerveDrive(driveBase, driverController));
 
         zeroGyroDriver.onTrue(new SetSwerveForwardDirection(driveBase));
         zeroArm.onTrue(new ResetArmFromAbsolute(arm));
