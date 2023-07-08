@@ -174,7 +174,7 @@ public final class RobotConstants {
         // 5880.0 / 60.0 / SdsModuleConfigurations.MK4_L2.getDriveReduction() *
         // SdsModuleConfigurations.MK4_L2.getWheelDiameter() * Math.PI
         public static final double kMaxVelocityMetersPerSecond = 5676.0 / 60.0
-                * kModuleConfig.getDriveReduction() * kModuleConfig.getWheelDiameter() * Math.PI;
+                * (14.0 / 50.0) * (27.0 / 17.0) * (15.0 / 45.0) * 0.0958 * Math.PI;
 
         public static final double kMaxAngularVelocityRadiansPerSecond = kMaxVelocityMetersPerSecond
                 / Math.hypot(kTrackWidthMeters / 2.0, kWheelBaseMeters / 2.0);
@@ -205,19 +205,19 @@ public final class RobotConstants {
     
         // yagsl swerve lib stuff
 
-        // fl
+        // front left
         public static SparkMaxSwerve kFLdriveMotor = new SparkMaxSwerve(new CANSparkMax(kFrontLeftModuleDriveMotorID, MotorType.kBrushless), true);
         public static SparkMaxSwerve kFLsteerMotor = new SparkMaxSwerve(new CANSparkMax(kFrontLeftModuleSteerMotorID, MotorType.kBrushless), false);
         public static SparkMaxEncoderSwerve kFLabsoluteEncoder = new SparkMaxEncoderSwerve(kFLsteerMotor);
-        //bl
+        //back left
         public static SparkMaxSwerve kBLdriveMotor = new SparkMaxSwerve(new CANSparkMax(kBackLeftModuleDriveMotorID, MotorType.kBrushless), true);
         public static SparkMaxSwerve kBLsteerMotor = new SparkMaxSwerve(new CANSparkMax(kBackLeftModuleSteerMotorID, MotorType.kBrushless), false);
         public static SparkMaxEncoderSwerve kBLabsoluteEncoder = new SparkMaxEncoderSwerve(kBLsteerMotor);
-        //fr
+        //front right
         public static SparkMaxSwerve kFRdriveMotor = new SparkMaxSwerve(new CANSparkMax(kFrontRightModuleDriveMotorID, MotorType.kBrushless), true);
         public static SparkMaxSwerve kFRsteerMotor = new SparkMaxSwerve(new CANSparkMax(kFrontRightModuleSteerMotorID, MotorType.kBrushless), false);
         public static SparkMaxEncoderSwerve kFRabsoluteEncoder = new SparkMaxEncoderSwerve(kFRsteerMotor);
-        //br
+        //back right
         public static SparkMaxSwerve kBRdriveMotor = new SparkMaxSwerve(new CANSparkMax(kBackRightModuleDriveMotorID, MotorType.kBrushless), true);
         public static SparkMaxSwerve kBRsteerMotor = new SparkMaxSwerve(new CANSparkMax(kBackRightModuleSteerMotorID, MotorType.kBrushless), false);
         public static SparkMaxEncoderSwerve kBRabsoluteEncoder = new SparkMaxEncoderSwerve(kBRsteerMotor);
@@ -247,14 +247,14 @@ public final class RobotConstants {
                 new SwerveModuleConfiguration(kFLdriveMotor, kFLsteerMotor, kFLabsoluteEncoder, kFrontLeftModuleSteerOffsetRadians, 
                 kDriveBaseTrackWidth/2.0, kDriveBaseWheelBase/2.0, kanglePIDF, kvelocityPIDF, kMaxSpeedMetersPerSecond,kphysicalCharacteristics,
                 false, true, false, 0, "FrontLeft"), 
-                 //Black Left
+                 //Back Left
                 new SwerveModuleConfiguration(kBLdriveMotor, kBLsteerMotor, kBLabsoluteEncoder, kBackLeftModuleSteerOffsetRadians, 
                 kDriveBaseTrackWidth/2.0, kDriveBaseWheelBase/2.0, kanglePIDF, kvelocityPIDF, kMaxSpeedMetersPerSecond,kphysicalCharacteristics,
                 false, true, false, 0, "BackLeft" ),
                 //Front Right
                 new SwerveModuleConfiguration(kFRdriveMotor, kFRsteerMotor, kFRabsoluteEncoder, kFrontRightModuleSteerOffsetRadians, 
                 kDriveBaseTrackWidth/2.0, kDriveBaseWheelBase/2.0, kanglePIDF, kvelocityPIDF, kMaxSpeedMetersPerSecond,kphysicalCharacteristics,
-                false, true, false, 0, "FrontRight" ),
+                false, true, true, 0, "FrontRight" ),
                 //Back Right
                 new SwerveModuleConfiguration(kBRdriveMotor, kBRsteerMotor, kBRabsoluteEncoder, kBackRightModuleSteerOffsetRadians, 
                 kDriveBaseTrackWidth/2.0, kDriveBaseWheelBase/2.0, kanglePIDF, kvelocityPIDF, kMaxSpeedMetersPerSecond,kphysicalCharacteristics,
