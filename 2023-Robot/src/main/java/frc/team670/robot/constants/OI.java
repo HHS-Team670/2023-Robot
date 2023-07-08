@@ -1,10 +1,9 @@
 package frc.team670.robot.constants;
 
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
-import frc.team670.mustanglib.commands.drive.teleop.SetSwerveForwardDirection;
 import frc.team670.mustanglib.commands.drive.teleop.XboxSwerveDrive;
+import frc.team670.mustanglib.swervelib.SwerveController;
 import frc.team670.mustanglib.utils.MustangController;
 import frc.team670.mustanglib.utils.MustangController.XboxButtons;
 import frc.team670.robot.commands.arm.ManualMoveElbow;
@@ -15,18 +14,18 @@ import frc.team670.robot.commands.claw.ClawInstantIntake;
 import frc.team670.robot.commands.leds.SetColorPurple;
 import frc.team670.robot.commands.leds.SetColorYellow;
 import frc.team670.robot.commands.routines.EjectAndStow;
-// import frc.team670.robot.commands.vision.AutoAlign;
-// import frc.team670.robot.commands.vision.AutoAlignToSubstation;
 import frc.team670.robot.subsystems.Claw;
 import frc.team670.robot.subsystems.DriveBase;
 import frc.team670.robot.subsystems.LED;
 import frc.team670.robot.subsystems.arm.Arm;
 import frc.team670.robot.subsystems.arm.ArmState;
+// import frc.team670.robot.commands.vision.AutoAlign;
+// import frc.team670.robot.commands.vision.AutoAlignToSubstation;
 
 public final class OI {
 
     // Controllers
-    private static MustangController driverController = new MustangController(0);
+    private static SwerveController driverController = new SwerveController(RobotConstants.DriveBase.kSwerveControllerConfiguration);//switch to swerveController
     private static MustangController operatorController = new MustangController(1);
 
     // Driver buttons
@@ -63,10 +62,10 @@ public final class OI {
             new JoystickButton(operatorController, XboxButtons.LEFT_BUMPER);
 
     // Align to cardinal directions
-    private static JoystickButton rotateTo0 = new JoystickButton(driverController, XboxButtons.Y);
-    private static JoystickButton rotateTo90 = new JoystickButton(driverController, XboxButtons.X);
-    private static JoystickButton rotateTo180 = new JoystickButton(driverController, XboxButtons.A);
-    private static JoystickButton rotateTo270 = new JoystickButton(driverController, XboxButtons.B);
+//     private static JoystickButton rotateTo0 = new JoystickButton(driverController, XboxButtons.Y);
+//     private static JoystickButton rotateTo90 = new JoystickButton(driverController, XboxButtons.X);
+//     private static JoystickButton rotateTo180 = new JoystickButton(driverController, XboxButtons.A);
+//     private static JoystickButton rotateTo270 = new JoystickButton(driverController, XboxButtons.B);
 
     // LED commands
     private static JoystickButton ledYellow = new JoystickButton(operatorController, XboxButtons.Y);
@@ -86,7 +85,7 @@ public final class OI {
         Claw claw = Claw.getInstance();
         LED led = LED.getInstance();
 
-        driveBase.initDefaultCommand(new XboxSwerveDrive(driveBase, driverController));
+        driveBase.initDefaultCommand(driveBase, driverController);
 
         // zeroGyroDriver.onTrue(new SetSwerveForwardDirection(driveBase));
         zeroArm.onTrue(new ResetArmFromAbsolute(arm));
