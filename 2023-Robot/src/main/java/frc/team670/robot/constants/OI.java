@@ -18,10 +18,10 @@ import frc.team670.robot.commands.routines.EjectAndStow;
 import frc.team670.robot.commands.vision.AutoAlign;
 import frc.team670.robot.commands.vision.AutoAlignToSubstation;
 import frc.team670.robot.subsystems.Claw;
-import frc.team670.robot.subsystems.DriveBase;
 import frc.team670.robot.subsystems.LED;
 import frc.team670.robot.subsystems.arm.Arm;
 import frc.team670.robot.subsystems.arm.ArmState;
+import frc.team670.robot.subsystems.drivebase.DriveBase;
 
 public final class OI {
 
@@ -87,7 +87,7 @@ public final class OI {
         Claw claw = Claw.getInstance();
         LED led = LED.getInstance();
 
-        driveBase.initDefaultCommand(driverController);
+        driveBase.initDefaultCommand(new XboxSwerveDrive(driveBase, driverController));
 
         zeroGyroDriver.onTrue(new SetSwerveForwardDirection(driveBase));
         zeroArm.onTrue(new ResetArmFromAbsolute(arm));

@@ -15,7 +15,7 @@ import frc.team670.mustanglib.subsystems.MustangSubsystemBase.HealthState;
 import frc.team670.mustanglib.swervelib.pathplanner.MustangPPSwerveControllerCommand;
 import frc.team670.robot.commands.vision.IsLockedOn;
 import frc.team670.robot.constants.RobotConstants;
-import frc.team670.robot.subsystems.DriveBase;
+import frc.team670.robot.subsystems.drivebase.DriveBase;
 
 /**
  * MoveToPose - moves to specified pose. Cancels when button is released.

@@ -18,7 +18,7 @@ import frc.team670.mustanglib.subsystems.MustangSubsystemBase.HealthState;
 import frc.team670.mustanglib.utils.MustangController;
 import frc.team670.robot.commands.drivebase.MoveToPose;
 import frc.team670.robot.constants.FieldConstants;
-import frc.team670.robot.subsystems.DriveBase;
+import frc.team670.robot.subsystems.drivebase.DriveBase;
 
 /**
  * AutoAlign - autonomously moves the robot to a given target. If no target is given, it moves to

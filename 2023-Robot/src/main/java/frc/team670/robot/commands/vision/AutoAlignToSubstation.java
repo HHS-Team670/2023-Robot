@@ -13,7 +13,7 @@ import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase.HealthState;
 import frc.team670.robot.commands.drivebase.MoveToPose;
 import frc.team670.robot.constants.FieldConstants;
-import frc.team670.robot.subsystems.DriveBase;
+import frc.team670.robot.subsystems.drivebase.DriveBase;
 
 public class AutoAlignToSubstation extends InstantCommand implements MustangCommand {
 
