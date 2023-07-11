@@ -25,6 +25,13 @@
         "LD_LIBRARY_PATH": "${workspaceFolder}/build/jni/release",
         "DYLD_LIBRARY_PATH": "${workspaceFolder}/build/jni/release"
       }
+    },
+    {
+      "name": "Test with AppMap",
+      "vmArgs": [
+        "-javaagent:${userHome}\\.appmap\\lib\\java\\appmap.jar",
+        "-Dappmap.output.directory=${command:appmap.getAppmapDir}"
+      ]
     }
   ],
   "java.test.defaultConfig": "WPIlibUnitTests"

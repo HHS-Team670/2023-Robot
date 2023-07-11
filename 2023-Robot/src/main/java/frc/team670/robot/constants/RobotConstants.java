@@ -24,6 +24,7 @@ import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.SerialPort;
+import frc.team670.mustanglib.RobotConstantsBase;
 import frc.team670.mustanglib.subsystems.SparkMaxRotatingSubsystem;
 import frc.team670.mustanglib.subsystems.VisionSubsystemBase;
 import frc.team670.mustanglib.subsystems.VisionSubsystemBase.TagCountDeviation;
@@ -46,7 +47,7 @@ import frc.team670.robot.subsystems.arm.ArmSegment;
  * wherever the
  * constants are needed, to reduce verbosity.
  */
-public final class RobotConstants {
+public final class RobotConstants extends RobotConstantsBase {
     /**
      * Set your team number using the WPILib extension's "Set Team Number" action.
      * 0) FACTORY RESET
@@ -107,11 +108,8 @@ public final class RobotConstants {
                             entry("kSwerveModuleConfig", 1.0), entry("kWristGearRatio", 125.0))))
             .get(kRobotAddress);
 
-    public static final class DriveBase {
-        public static final double kWidth = Units.inchesToMeters(36);
-        public static double kClearance = Math.hypot(kWidth, kWidth) / 2 + 0.05;
-        public static final double kTrackWidthMeters = 0.6096;
-        public static final double kWheelBaseMeters = 0.6096;
+    public static final class DriveBase extends SwerveDriveBase {
+       //Remember
 
         public static final ModuleConfiguration kModuleConfig = robotSpecificConstants.get("kSwerveModuleConfig") == 1.0
                 ? SdsModuleConfigurations.MK4I_L1
@@ -144,25 +142,8 @@ public final class RobotConstants {
         public static final int kBackRightModuleSteerEncoderID = 34;
         public static final double kBackRightModuleSteerOffsetRadians = robotSpecificConstants
                 .get("kBackRightModuleSteerOffsetRadians");
+        
 
-        public final static SerialPort.Port kNAVXPort = SerialPort.Port.kMXP;
-        public static final double kPitchOffset = 2;
-
-        public static final double kMaxSpeedMetersPerSecond = 2;
-        public static final double kMaxAccelerationMetersPerSecondSquared = 1;
-        public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI * 4;
-        public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI * 8;
-
-        public static final double kMaxVoltage = 12.0;
-        public static final double kMaxDriveCurrent = 45.0;
-        public static final double kMaxSteerCurrent = 20.0;
-
-        // The formula for calculating the theoretical maximum velocity is:
-        // <Motor free speed RPM> / 60 * <Drive reduction> * <Wheel diameter meters> *
-        // pi
-        // An example of this constant for a Mk4 L2 module with NEOs to drive is:
-        // 5880.0 / 60.0 / SdsModuleConfigurations.MK4_L2.getDriveReduction() *
-        // SdsModuleConfigurations.MK4_L2.getWheelDiameter() * Math.PI
         public static final double kMaxVelocityMetersPerSecond = 5676.0 / 60.0
                 * kModuleConfig.getDriveReduction() * kModuleConfig.getWheelDiameter() * Math.PI;
 
@@ -181,15 +162,7 @@ public final class RobotConstants {
                 kBackRightModuleSteerMotorID, kBackRightModuleSteerEncoderID,
                 kBackRightModuleSteerOffsetRadians);
 
-        public static final PIDConstants kAutonTranslationPID = new PIDConstants(4, 0, 0);
-        public static final PIDConstants kAutonThetaPID = new PIDConstants(0.5, 0, 0);
 
-        // PID controllers
-        public static final PIDController xController = new PIDController(3, 0, 0);
-        public static final PIDController yController = new PIDController(3, 0, 0);
-        public static final PIDController thetaController = new PIDController(0.2, 0, 0);
-        public static final PathConstraints kAutoPathConstraints = new PathConstraints(
-                kMaxSpeedMetersPerSecond, kMaxAccelerationMetersPerSecondSquared);
     }
 
     // vision
