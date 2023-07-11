@@ -37,6 +37,7 @@ public class DriveBase extends SwerveDrive {
             MustangScheduler.getInstance().setDefaultCommand(this, defaultCommand);
       }
 
+    @Override
     public void mustangPeriodic() {
         super.mustangPeriodic();
         SmartDashboard.putNumber("pitch", getPitch());
@@ -57,5 +58,10 @@ public class DriveBase extends SwerveDrive {
 
     @Override
     public void debugSubsystem() {}
+
+    @Override
+    protected void initPoseEstimator() {
+        // TODO Auto-generated method stub
+    }
 
 }

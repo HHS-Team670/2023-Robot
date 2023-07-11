@@ -7,29 +7,18 @@
 
 package frc.team670.robot;
 
-import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.cscore.VideoMode.PixelFormat;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team670.mustanglib.RobotContainerBase;
 import frc.team670.mustanglib.commands.MustangCommand;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 import frc.team670.mustanglib.utils.MustangController;
-import frc.team670.robot.commands.arm.ResetArmFromAbsolute;
-import frc.team670.robot.commands.pathplanner.CenterEngageSequential;
-import frc.team670.robot.commands.pathplanner.CenterIntake;
-import frc.team670.robot.commands.pathplanner.ConeCube;
-import frc.team670.robot.commands.pathplanner.ConeCubeCube;
-import frc.team670.robot.commands.pathplanner.CubeEngage;
-import frc.team670.robot.commands.pathplanner.ScoreEngage;
-import frc.team670.robot.commands.pathplanner.ScoreMid;
 import frc.team670.robot.constants.OI;
 import frc.team670.robot.subsystems.Claw;
 import frc.team670.robot.subsystems.DriveBase;
 import frc.team670.robot.subsystems.LED;
-import frc.team670.robot.subsystems.Vision;
 import frc.team670.robot.subsystems.arm.Arm;
+
 
 /**
  * RobotContainer is where we put the high-level code for the robot. It contains
@@ -38,7 +27,7 @@ import frc.team670.robot.subsystems.arm.Arm;
  */
 
 public class RobotContainer extends RobotContainerBase {
-    private final Vision mVision = Vision.getInstance();
+    // private final Vision mVision = Vision.getInstance();
     private final DriveBase mDriveBase = DriveBase.getInstance();
     private final LED mLed = LED.getInstance();
     private final Arm mArm = Arm.getInstance();
@@ -54,36 +43,35 @@ public class RobotContainer extends RobotContainerBase {
 
     public RobotContainer() {
         super();
-        addSubsystem(mDriveBase, mVision, mArm, mArm.getShoulder(), mArm.getElbow(), mArm.getWrist(),
-                mClaw, mLed);
+        addSubsystem(mDriveBase);
         OI.configureButtonBindings();
 
         for (MustangSubsystemBase subsystem : getSubsystems()) {
             subsystem.setDebugSubsystem(true);
         }
 
-        cableScore = new ConeCube(mDriveBase, mClaw, mArm,mLed, "CableScoreShort");
-        stationScore = new ConeCubeCube(mDriveBase, mClaw,mArm,mLed, "Station3Piece");
-        cableEngage = new CubeEngage(mDriveBase, mClaw, mArm,mLed, "CableEngage");
-        stationEngage = new ScoreEngage(mDriveBase, mClaw, mArm, mLed,"StationScoreEngage3");
-        centerEngage = new CenterEngageSequential(mDriveBase, mClaw, mArm, mLed);
-        centerIntake = new CenterIntake(mDriveBase, mClaw, mArm, mLed, "CenterIntake");
-        scoreMid = new ScoreMid(mDriveBase, mClaw, mArm, mLed);
+        // cableScore = new ConeCube(mDriveBase, mClaw, mArm,mLed, "CableScoreShort");
+        // stationScore = new ConeCubeCube(mDriveBase, mClaw,mArm,mLed, "Station3Piece");
+        // cableEngage = new CubeEngage(mDriveBase, mClaw, mArm,mLed, "CableEngage");
+        // stationEngage = new ScoreEngage(mDriveBase, mClaw, mArm, mLed,"StationScoreEngage3");
+        // centerEngage = new CenterEngageSequential(mDriveBase, mClaw, mArm, mLed);
+        // centerIntake = new CenterIntake(mDriveBase, mClaw, mArm, mLed, "CenterIntake");
+        // scoreMid = new ScoreMid(mDriveBase, mClaw, mArm, mLed);
 
     }
 
     @Override
     public void robotInit() {
-        CameraServer.startAutomaticCapture().setVideoMode(PixelFormat.kYUYV, 160, 120, 30);
+        //CameraServer.startAutomaticCapture().setVideoMode(PixelFormat.kYUYV, 160, 120, 30);
 
-        mDriveBase.initVision(mVision);
-        SmartDashboard.putNumber(kAutonChooserString, 0);
-        updateArbitraryFeedForward = new Notifier(
-                () -> {
-                    mArm.updateArbitraryFeedForward();
-                });
+        // mDriveBase.initVision(mVision);
+        // SmartDashboard.putNumber(kAutonChooserString, 0);
+        // updateArbitraryFeedForward = new Notifier(
+        //         () -> {
+        //             mArm.updateArbitraryFeedForward();
+        //         });
 
-        updateArbitraryFeedForward.startPeriodic(0.01);
+        //updateArbitraryFeedForward.startPeriodic(0.01);
     }
 
     /**
@@ -93,37 +81,38 @@ public class RobotContainer extends RobotContainerBase {
      */
     @Override
     public MustangCommand getAutonomousCommand() {
-        SmartDashboard.putBoolean(kMatchStartedString, true);
+        return null;
+        // SmartDashboard.putBoolean(kMatchStartedString, true);
 
-        int selectedPath = (int) SmartDashboard.getNumber(kAutonChooserString, 0);
-        MustangCommand autonCommand;
-        switch (selectedPath) {
-            case 0:
-                autonCommand = cableScore;
-                break;
-            case 1:
-                autonCommand = stationScore;
-                break;
-            case 2:
-                autonCommand = cableEngage;
-                break;
-            case 3:
-                autonCommand = stationEngage;
-                break;
-            case 4:
-                autonCommand = centerEngage;
-                break;
-            case 5:
-                autonCommand = centerIntake;
-                break;
-            case 6:
-                autonCommand = scoreMid;
-                break;
-            default:
-                autonCommand = centerEngage;
-        }
-        mLed.updateAutonPathColor(selectedPath);
-        return autonCommand;
+        // int selectedPath = (int) SmartDashboard.getNumber(kAutonChooserString, 0);
+        // MustangCommand autonCommand;
+        // switch (selectedPath) {
+        //     case 0:
+        //         autonCommand = cableScore;
+        //         break;
+        //     case 1:
+        //         autonCommand = stationScore;
+        //         break;
+        //     case 2:
+        //         autonCommand = cableEngage;
+        //         break;
+        //     case 3:
+        //         autonCommand = stationEngage;
+        //         break;
+        //     case 4:
+        //         autonCommand = centerEngage;
+        //         break;
+        //     case 5:
+        //         autonCommand = centerIntake;
+        //         break;
+        //     case 6:
+        //         autonCommand = scoreMid;
+        //         break;
+        //     default:
+        //         autonCommand = centerEngage;
+        // }
+        // mLed.updateAutonPathColor(selectedPath);
+        // return autonCommand;
     }
 
     @Override
@@ -133,8 +122,8 @@ public class RobotContainer extends RobotContainerBase {
 
     @Override
     public void teleopInit() {
-        mArm.clearSetpoint();
-        new ResetArmFromAbsolute(mArm);
+        // mArm.clearSetpoint();
+        // new ResetArmFromAbsolute(mArm);
     }
 
     @Override
@@ -143,7 +132,7 @@ public class RobotContainer extends RobotContainerBase {
 
     @Override
     public void disabled() {
-        SmartDashboard.putBoolean(kMatchStartedString, false);
+        //SmartDashboard.putBoolean(kMatchStartedString, false);
     }
 
     @Override
@@ -177,23 +166,24 @@ public class RobotContainer extends RobotContainerBase {
         parkBeforeDisable();
     }
 
+    @Override
     public MustangController getOperatorController() {
         return OI.getOperatorController();
     }
 
+    @Override
     public MustangController getDriverController() {
         return OI.getDriverController();
     }
 
+    @Override
     public MustangController getBackupController() {
         return null;
     }
 
     private void parkBeforeDisable() {
-        double cTime = DriverStation.getMatchTime();
-        if (cTime <= 0.1 && cTime != -1) {
-            mDriveBase.park();
-        }
+        //double cTime = DriverStation.getMatchTime();
+       //
     }
 
 }
