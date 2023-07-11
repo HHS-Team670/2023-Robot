@@ -72,6 +72,7 @@ public final class OI {
     private static JoystickButton coneIntake = new JoystickButton(operatorController, XboxButtons.Y);
     private static JoystickButton cubeIntake = new JoystickButton(operatorController, XboxButtons.A);
 
+    
     public static MustangController getDriverController() {
         return driverController;
     }
@@ -86,7 +87,7 @@ public final class OI {
         Claw claw = Claw.getInstance();
         LED led = LED.getInstance();
 
-        driveBase.initDefaultCommand();
+        driveBase.initDefaultCommand(driverController);
 
         zeroGyroDriver.onTrue(new SetSwerveForwardDirection(driveBase));
         zeroArm.onTrue(new ResetArmFromAbsolute(arm));

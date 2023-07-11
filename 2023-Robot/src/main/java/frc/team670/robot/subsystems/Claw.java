@@ -96,9 +96,9 @@ public class Claw extends MustangSubsystemBase {
         setStatus(Status.IDLE);
     }
     public void setGamePiece(Claw.GamePiece gamepiece) {
-        if(!isFull()||gamepiece==GamePiece.NONE){
+        // if(!isFull()||gamepiece==GamePiece.NONE){
             this.gamepiece = gamepiece;
-        }
+        // }
         
     }
 
@@ -128,7 +128,7 @@ public class Claw extends MustangSubsystemBase {
         switch (status) {
             case IDLE:
             if(gamepiece == GamePiece.CONE){
-                motor.set(RobotConstants.Arm.Claw.kIdleSpeed);//We may want different idle speeeds later on
+                motor.set(-RobotConstants.Arm.Claw.kIdleSpeed);//We may want different idle speeeds later on
             }else{
                 motor.set(RobotConstants.Arm.Claw.kIdleSpeed);
             }
@@ -136,9 +136,9 @@ public class Claw extends MustangSubsystemBase {
                 break;
             case INTAKING:
             if(gamepiece == GamePiece.CONE){
-                motor.set(RobotConstants.Arm.Claw.kRollingSpeed);
-            } else{
                 motor.set(-RobotConstants.Arm.Claw.kRollingSpeed);
+            } else{
+                motor.set(RobotConstants.Arm.Claw.kRollingSpeed);
             }
                 
                 if (motor.getOutputCurrent() > RobotConstants.Arm.Claw.kCurrentMax) {
@@ -161,9 +161,9 @@ public class Claw extends MustangSubsystemBase {
 
             case EJECTING:
                 if(gamepiece == GamePiece.CONE){
-                    motor.set(ejectingSpeed);
-                }else{
                     motor.set(-ejectingSpeed);
+                }else{
+                    motor.set(ejectingSpeed);
                 }
                 
                 ejectCounter++;

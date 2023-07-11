@@ -91,7 +91,7 @@ public final class RobotConstants {
                     entry("kFrontLeftModuleSteerOffsetRadians", -Math.toRadians(318.604)),
                     entry("kShoulderAbsoluteEncoderVerticalOffset", 0.484233), // 0.47777
                     entry("kElbowAbsoluteEncoderVerticalOffset", 0.004892),
-                    entry("kWristAbsoluteEncoderVerticalOffset", 0.174231), // 0.177702
+                    entry("kWristAbsoluteEncoderVerticalOffset", 0.380388), // 0.177702
                     entry("kShoulderGearRatio", 96.0), entry("kElbowGearRatio", 70.833333333333),
                     entry("kSwerveModuleConfig", 2.0), entry("kWristGearRatio", 125.0))),
             entry(kSkipperAddress,
@@ -370,14 +370,15 @@ public final class RobotConstants {
 
             public static final int kMotorID = 6;
             public static final double kLengthInches = 4;
-            public static final double kMassLB = 6.5;
+            public static final double kMassLB = 5;
             public static final double kMassDistribution = 1;
             public static final double kRollingSpeed = 1.0;
-            public static final double kEjectingSpeed = -0.60;
-            public static final double kCurrentMax = 23.0;
+            public static final double kEjectingSpeed = -0.40;
+            public static final double kCurrentMax = 30.0;
             public static final double kIdleSpeed = 0.05;
             public static final int kEjectIterations = 30;
-            public static final int kCurrentSpikeIterations = 25;
+            public static final int kCurrentSpikeIterations = 10;
+            ;
         }
     }
 

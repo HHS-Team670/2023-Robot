@@ -17,6 +17,7 @@ public class SetIntakeCone extends InstantCommand implements MustangCommand {
 
     public SetIntakeCone(LED led,Claw claw) {
         this.led = led;
+        this.claw=claw;
         addRequirements(led);
         healthreqs.put(led, HealthState.GREEN);
     }
