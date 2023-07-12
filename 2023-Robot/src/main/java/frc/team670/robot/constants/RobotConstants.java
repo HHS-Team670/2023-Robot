@@ -151,7 +151,7 @@ public final class RobotConstants extends RobotConstantsBase {
                 / Math.hypot(kTrackWidthMeters / 2.0, kWheelBaseMeters / 2.0);
 
         public static final SwerveDrive.Config kConfig = new SwerveDrive.Config(kTrackWidthMeters,
-                kWheelBaseMeters, kMaxVelocityMetersPerSecond, kMaxVoltage, kMaxDriveCurrent,
+                kWheelBaseMeters, kMaxVelocityMetersPerSecond,kMaxAngularVelocityRadiansPerSecond, kMaxVoltage, kMaxDriveCurrent,
                 kMaxSteerCurrent, kNAVXPort, kSwerveModuleGearRatio, kFrontLeftModuleDriveMotorID,
                 kFrontLeftModuleSteerMotorID, kFrontLeftModuleSteerEncoderID,
                 kFrontLeftModuleSteerOffsetRadians, kFrontRightModuleDriveMotorID,
