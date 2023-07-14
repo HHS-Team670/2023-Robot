@@ -46,7 +46,7 @@ public class DriveBase extends SwerveDrive {
 
     @Override
     protected void initPoseEstimator() {
-        // TODO Auto-generated method stub
+        this.mPoseEstimator=new SwervePoseEstimator(this);
     }
 
 }

@@ -38,9 +38,9 @@ public class Arm extends MustangSubsystemBase {
             {ArmState.STOWED, ArmState.INTAKE_SHELF, ArmState.UPRIGHT_GROUND, ArmState.SCORE_HIGH,
                     ArmState.SCORE_MID}, // HYBRID
             {ArmState.SCORE_HIGH, ArmState.STOWED, ArmState.STARTING, ArmState.SINGLE_STATION,
-                    ArmState.HYBRID}, // SCORE_MID
+                    ArmState.HYBRID,ArmState.UPRIGHT_GROUND}, // SCORE_MID
             {ArmState.SCORE_MID, ArmState.STOWED, ArmState.SINGLE_STATION, ArmState.HYBRID,
-                    ArmState.INTAKE_SHELF, ArmState.STARTING}, // SCORE_HIGH
+                    ArmState.INTAKE_SHELF, ArmState.STARTING, ArmState.UPRIGHT_GROUND}, // SCORE_HIGH
             {ArmState.SCORE_MID, ArmState.INTAKE_SHELF, ArmState.SCORE_HIGH}, // STARTING
             {ArmState.STOWED}, // TUNING
             {ArmState.STOWED, ArmState.SCORE_MID, ArmState.SCORE_HIGH, ArmState.INTAKE_SHELF}, // SINGLE_STATION
@@ -52,9 +52,12 @@ public class Arm extends MustangSubsystemBase {
 
     private static final Map<ArmState, Map<ArmState, double[]>> timeDelays = Map.ofEntries(
             entry(ArmState.STOWED, Map.ofEntries( // From STOWED
-                    entry(ArmState.SCORE_HIGH, new double[] {300, 0, 250}),
+                    entry(ArmState.SCORE_HIGH, new double[] {500, 0, 500}),
                     entry(ArmState.SCORE_MID, new double[] {300, 0, 250}),
+                    entry(ArmState.UPRIGHT_GROUND, new double[] {0, 0, 500}),
                     entry(ArmState.HYBRID, new double[] {0, 0, 0}))),
+                    
+
             entry(ArmState.HYBRID, Map.ofEntries( // From HYBRID
                     entry(ArmState.STOWED, new double[] {0, 250, 0}),
                     entry(ArmState.SCORE_MID, new double[] {0, 150, 400}),
@@ -62,7 +65,9 @@ public class Arm extends MustangSubsystemBase {
             entry(ArmState.SCORE_MID, Map.ofEntries( // From SCORE_MID
                     entry(ArmState.STOWED, new double[] {0, 250, 0}),
                     entry(ArmState.HYBRID, new double[] {0, 250, 0}),
+                    entry(ArmState.UPRIGHT_GROUND, new double[] {0, 0, 0}),
                     entry(ArmState.SCORE_HIGH, new double[] {250, 0, 250}))),
+
             entry(ArmState.SCORE_HIGH, Map.ofEntries( // From SCORE_HIGH
                     entry(ArmState.STOWED, new double[] {0, 0, 0}),
                     entry(ArmState.HYBRID, new double[] {250, 500, 0}))),

@@ -15,14 +15,14 @@ public enum ArmState {
 
     HYBRID(1, 140, 50, 254),
 
-    SCORE_MID(2, 200, 75, 214), 
+    SCORE_MID(2, 200, 75, 184), 
     // SCORE_MID(2, 191, 91, 194),  possible score high
-    SCORE_HIGH(3, 167, 122, 185),
+    SCORE_HIGH(3, 167, 125, 185),
     STARTING(4, 205,25,270),
     TUNING(5, 90, 180, 180),
     SINGLE_STATION(6, 231, 13, 249),
-    INTAKE_SHELF(7, 213, 70, 150),
-    UPRIGHT_GROUND(8, 157, 35, 236);
+    INTAKE_SHELF(7, 200, 85, 193),
+    UPRIGHT_GROUND(8, 164, 33, 270);
     
 
 
