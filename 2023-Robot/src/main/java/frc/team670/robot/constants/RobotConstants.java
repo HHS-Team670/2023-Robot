@@ -111,6 +111,17 @@ public final class RobotConstants extends RobotConstantsBase {
     public static final class DriveBase extends SwerveDriveBase {
        //Remember
 
+       public static final double kWidth = Units.inchesToMeters(36);//RS
+       public static double kClearance = Math.hypot(kWidth, kWidth) / 2 + 0.05;//RS
+       public static final double kTrackWidthMeters = 0.6096;//RS
+       public static final double kWheelBaseMeters = 0.6096;//RS
+       
+       public final static SerialPort.Port kNAVXPort = SerialPort.Port.kMXP;//RS
+
+       public static final double kMaxSpeedMetersPerSecond = 2;// 1. Not constant between auton path, 2. Robot specific
+       public static final double kMaxAccelerationMetersPerSecondSquared = 1;//RS
+       public static final PathConstraints kAutoPathConstraints = new PathConstraints(
+        kMaxSpeedMetersPerSecond, kMaxAccelerationMetersPerSecondSquared);
         public static final ModuleConfiguration kModuleConfig = robotSpecificConstants.get("kSwerveModuleConfig") == 1.0
                 ? SdsModuleConfigurations.MK4I_L1
                 : SdsModuleConfigurations.MK4I_L2;
@@ -359,42 +370,6 @@ public final class RobotConstants extends RobotConstantsBase {
         public static final int kPort = 0;
         public static final int kStartIndex = 0;
         public static final int kEndindex = 61;
-    }
-
-    /**
-     * This is code from Poofs 2022
-     * 
-     * @return the MAC address of the robot
-     */
-    public static String getMACAddress() {
-        try {
-            Enumeration<NetworkInterface> nwInterface = NetworkInterface.getNetworkInterfaces();
-            StringBuilder ret = new StringBuilder();
-            while (nwInterface.hasMoreElements()) {
-                NetworkInterface nis = nwInterface.nextElement();
-                System.out.println("NIS: " + nis.getDisplayName());
-                if (nis != null && "eth0".equals(nis.getDisplayName())) {
-                    byte[] mac = nis.getHardwareAddress();
-                    if (mac != null) {
-                        for (int i = 0; i < mac.length; i++) {
-                            ret.append(String.format("%02X%s", mac[i],
-                                    (i < mac.length - 1) ? ":" : ""));
-                        }
-                        String addr = ret.toString();
-                        System.out.println("NIS " + nis.getDisplayName() + " addr: " + addr);
-                        return addr;
-                    } else {
-                        System.out.println("Address doesn't exist or is not accessible");
-                    }
-                } else {
-                    System.out.println("Skipping adaptor: " + nis.getDisplayName());
-                }
-            }
-        } catch (SocketException | NullPointerException e) {
-            e.printStackTrace();
-        }
-        System.out.println("\n\nMAC ADDRESS NOTHING");
-        return "";
     }
 
 }

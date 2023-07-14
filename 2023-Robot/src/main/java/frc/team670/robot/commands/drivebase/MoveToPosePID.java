@@ -13,6 +13,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.team670.mustanglib.RobotConstantsBase;
 import frc.team670.mustanglib.commands.MustangCommand;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase.HealthState;
@@ -50,7 +51,7 @@ public class MoveToPosePID extends CommandBase implements MustangCommand {
         PIDController yController = new PIDController(0.5, 0, 0);
         ProfiledPIDController thetacontroller = new ProfiledPIDController(4, 0, 1, // not tuned yet
                 new Constraints(RobotConstants.DriveBase.kMaxAngularSpeedRadiansPerSecond,
-                        RobotConstants.DriveBase.kMaxAngularSpeedRadiansPerSecondSquared));
+                        RobotConstants.DriveBase.kMaxAngularAccelerationRadiansPerSecondSquared));
         holonomicDriveController =
                 new HolonomicDriveController(xController, yController, thetacontroller);
         holonomicDriveController.setTolerance(new Pose2d(0.1, 0.1, Rotation2d.fromDegrees(0.5)));
@@ -74,7 +75,7 @@ public class MoveToPosePID extends CommandBase implements MustangCommand {
         PIDController yController = new PIDController(0.5, 0, 0);
         ProfiledPIDController thetacontroller = new ProfiledPIDController(4, 0, 1, // not tuned yet
                 new Constraints(RobotConstants.DriveBase.kMaxAngularSpeedRadiansPerSecond,
-                        RobotConstants.DriveBase.kMaxAngularSpeedRadiansPerSecondSquared));
+                        RobotConstants.DriveBase.kMaxAngularAccelerationRadiansPerSecondSquared));
         holonomicDriveController =
                 new HolonomicDriveController(xController, yController, thetacontroller);
         holonomicDriveController.setTolerance(new Pose2d(0.1, 0.1, Rotation2d.fromDegrees(0.5)));
