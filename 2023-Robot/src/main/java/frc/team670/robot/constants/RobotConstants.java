@@ -83,7 +83,7 @@ public final class RobotConstants {
     public static final String kSkipperAddress = "00:80:2F:33:D0:46";
     public static final String kRobotAddress = getMACAddress();
     
-    private static  Map<String, Double> robotSpecificConstants = Map.ofEntries(
+    public static  Map<String, Double> robotSpecificConstants = Map.ofEntries(
         entry(kSunTzuAddress, Map.ofEntries(
                     entry("kBackRightModuleSteerOffsetRadians", -Math.toRadians(90.895)),
                     entry("kBackLeftModuleSteerOffsetRadians", -Math.toRadians(299.807)),
@@ -94,12 +94,11 @@ public final class RobotConstants {
                     entry("kWristAbsoluteEncoderVerticalOffset", 0.174231), // 0.177702
                     entry("kShoulderGearRatio", 96.0), entry("kElbowGearRatio", 70.833333333333),
                     entry("kSwerveModuleConfig", 2.0), entry("kWristGearRatio", 125.0))),
-            entry(kSkipperAddress,
-                    Map.ofEntries(
-                            entry("kBackRightModuleSteerOffsetRadians", -Math.toRadians(82.694)),
-                            entry("kBackLeftModuleSteerOffsetRadians", -Math.toRadians(233.29)),
-                            entry("kFrontRightModuleSteerOffsetRadians", -Math.toRadians(225.77)),
-                            entry("kFrontLeftModuleSteerOffsetRadians", -Math.toRadians(112.53)),
+            entry(kSkipperAddress,Map.ofEntries(
+                            entry("kBackRightModuleSteerOffsetRadians", -Math.toRadians(84.023437)),
+                            entry("kBackLeftModuleSteerOffsetRadians", -Math.toRadians(232.734379)),
+                            entry("kFrontRightModuleSteerOffsetRadians", -Math.toRadians(133.681651)),
+                            entry("kFrontLeftModuleSteerOffsetRadians", -Math.toRadians(202.939455)),
                             entry("kShoulderAbsoluteEncoderVerticalOffset", 0.895),
                             entry("kElbowAbsoluteEncoderVerticalOffset", 0.588),
                             entry("kWristAbsoluteEncoderVerticalOffset", 0.918),

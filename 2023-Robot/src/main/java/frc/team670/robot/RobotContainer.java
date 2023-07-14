@@ -25,6 +25,7 @@ import frc.team670.robot.commands.pathplanner.CubeEngage;
 import frc.team670.robot.commands.pathplanner.ScoreEngage;
 import frc.team670.robot.commands.pathplanner.ScoreMid;
 import frc.team670.robot.constants.OI;
+import frc.team670.robot.constants.RobotConstants;
 import frc.team670.robot.subsystems.Claw;
 import frc.team670.robot.subsystems.DriveBase;
 import frc.team670.robot.subsystems.LED;
@@ -54,9 +55,14 @@ public class RobotContainer extends RobotContainerBase {
 
     public RobotContainer() {
         super();
-        addSubsystem(mDriveBase, mVision, mArm, mArm.getShoulder(), mArm.getElbow(), mArm.getWrist(),
-                mClaw, mLed);
+        addSubsystem(mDriveBase);
         OI.configureButtonBindings();
+
+        // SmartDashboard.putNumber("fr", RobotConstants.robotSpecificConstants
+        // .get("kFrontLeftModuleSteerOffsetRadians"));
+        // SmartDashboard.putNumber("fl", RobotConstants.robotSpecificConstants.get(
+        // "kFrontLeftModuleSteerOffsetRadians"));
+        
 
         for (MustangSubsystemBase subsystem : getSubsystems()) {
             subsystem.setDebugSubsystem(true);
