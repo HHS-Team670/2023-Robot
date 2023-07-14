@@ -111,17 +111,19 @@ public final class RobotConstants extends RobotConstantsBase {
     public static final class DriveBase extends SwerveDriveBase {
        //Remember
 
-       public static final double kWidth = Units.inchesToMeters(36);//RS
-       public static double kClearance = Math.hypot(kWidth, kWidth) / 2 + 0.05;//RS
-       public static final double kTrackWidthMeters = 0.6096;//RS
-       public static final double kWheelBaseMeters = 0.6096;//RS
+       public static final double kWidth = Units.inchesToMeters(36);
+       public static double kClearance = Math.hypot(kWidth, kWidth) / 2 + 0.05;
+       public static final double kTrackWidthMeters = 0.6096;
+       public static final double kWheelBaseMeters = 0.6096;
        
-       public final static SerialPort.Port kNAVXPort = SerialPort.Port.kMXP;//RS
+       public final static SerialPort.Port kNAVXPort = SerialPort.Port.kMXP;
 
        public static final double kMaxSpeedMetersPerSecond = 2;// 1. Not constant between auton path, 2. Robot specific
-       public static final double kMaxAccelerationMetersPerSecondSquared = 1;//RS
+       public static final double kMaxAccelerationMetersPerSecondSquared = 1;
+
        public static final PathConstraints kAutoPathConstraints = new PathConstraints(
         kMaxSpeedMetersPerSecond, kMaxAccelerationMetersPerSecondSquared);
+
         public static final ModuleConfiguration kModuleConfig = robotSpecificConstants.get("kSwerveModuleConfig") == 1.0
                 ? SdsModuleConfigurations.MK4I_L1
                 : SdsModuleConfigurations.MK4I_L2;
