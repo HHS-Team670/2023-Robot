@@ -106,10 +106,10 @@ public final class RobotConstants {
                     entry("kSwerveModuleConfig", 2.0), entry("kWristGearRatio", 125.0))),
             entry(kSkipperAddress,
                     Map.ofEntries(
-                            entry("kBackRightModuleSteerOffsetRadians", -82.694),
-                            entry("kBackLeftModuleSteerOffsetRadians", -233.29),
-                            entry("kFrontRightModuleSteerOffsetRadians", 225.77),
-                            entry("kFrontLeftModuleSteerOffsetRadians", -112.53),
+                            entry("kBackRightModuleSteerOffsetRadians", -Math.toRadians(84.023437)),
+                            entry("kBackLeftModuleSteerOffsetRadians", -Math.toRadians(232.734379)),
+                            entry("kFrontRightModuleSteerOffsetRadians", -Math.toRadians(133.681651)),
+                            entry("kFrontLeftModuleSteerOffsetRadians", -Math.toRadians(202.939455)),
                             entry("kShoulderAbsoluteEncoderVerticalOffset", 0.895),
                             entry("kElbowAbsoluteEncoderVerticalOffset", 0.588),
                             entry("kWristAbsoluteEncoderVerticalOffset", 0.918),
@@ -222,10 +222,12 @@ public final class RobotConstants {
         public static SparkMaxSwerve kBRsteerMotor = new SparkMaxSwerve(new CANSparkMax(kBackRightModuleSteerMotorID, MotorType.kBrushless), false);
         public static SparkMaxEncoderSwerve kBRabsoluteEncoder = new SparkMaxEncoderSwerve(kBRsteerMotor);
 
+        // bench
+
         public static final PIDFConfig kvelocityPIDF = new PIDFConfig(3, 0, 0);
         public static final PIDFConfig kanglePIDF = new PIDFConfig(0.2, 0, 0);
         public static final double kSteerRatio = 150.0/7.0;
-        public static final double kDriveRatio = 6.75;
+        public static final double kDriveRatio = 8.14;
         public static final double kWheelDiameter = 0.0958;
         public static final double kCoefficientOfFriction = 0.8;
         public static final double kOptimalVoltage = 12.0;
@@ -234,6 +236,22 @@ public final class RobotConstants {
         public static final double kDriveMotorRampRate = kMaxAccelerationMetersPerSecondSquared;
         public static final double kSteerMotorRampRate = kMaxAngularSpeedRadiansPerSecondSquared;
         public static final double kModuleSteerFFCL = 0.33;
+
+
+        // suntzu 
+
+        // public static final PIDFConfig kvelocityPIDF = new PIDFConfig(3, 0, 0);
+        // public static final PIDFConfig kanglePIDF = new PIDFConfig(0.2, 0, 0);
+        // public static final double kSteerRatio = 150.0/7.0;
+        // public static final double kDriveRatio = 6.75;
+        // public static final double kWheelDiameter = 0.0958;
+        // public static final double kCoefficientOfFriction = 0.8;
+        // public static final double kOptimalVoltage = 12.0;
+        // public static final int kDriveCurrentLimit = 45;
+        // public static final int kSteerCurrentLimit = 25;
+        // public static final double kDriveMotorRampRate = kMaxAccelerationMetersPerSecondSquared;
+        // public static final double kSteerMotorRampRate = kMaxAngularSpeedRadiansPerSecondSquared;
+        // public static final double kModuleSteerFFCL = 0.33;
 
         public static SwerveModulePhysicalCharacteristics kphysicalCharacteristics = new SwerveModulePhysicalCharacteristics(
                 kDriveRatio, kSteerRatio, kWheelDiameter, kCoefficientOfFriction,kOptimalVoltage, 

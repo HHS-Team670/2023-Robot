@@ -25,7 +25,8 @@ import frc.team670.robot.subsystems.arm.ArmState;
 public final class OI {
 
     // Controllers
-    private static SwerveController driverController = new SwerveController(RobotConstants.DriveBase.kSwerveControllerConfiguration);//switch to swerveController
+    private static MustangController driverController = new MustangController(0);//switch to swerveController
+//     private static SwerveController driverController = new SwerveController(RobotConstants.DriveBase.kSwerveControllerConfiguration);//switch to swerveController
     private static MustangController operatorController = new MustangController(1);
 
     // Driver buttons
