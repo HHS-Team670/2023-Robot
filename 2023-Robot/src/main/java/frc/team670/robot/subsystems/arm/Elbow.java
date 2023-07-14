@@ -117,9 +117,9 @@ public class Elbow extends SparkMaxRotatingSubsystem {
     }
 
     @Override
-    public void setSystemTargetAngleInDegrees(double targetAngle) {
+    public boolean setSystemTargetAngleInDegrees(double targetAngle) {
         orgTargetAngle = targetAngle;
-        super.setSystemTargetAngleInDegrees(targetAngle);
+        return super.setSystemTargetAngleInDegrees(targetAngle);
     }
 
     private void setOffset(double offset) {
