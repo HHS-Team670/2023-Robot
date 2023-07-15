@@ -257,8 +257,8 @@ public final class RobotConstants {
                 kDriveRatio, kSteerRatio, kWheelDiameter, kCoefficientOfFriction,kOptimalVoltage, 
                 kDriveCurrentLimit, kSteerCurrentLimit, kDriveMotorRampRate,
                 kSteerMotorRampRate, 1, 1, kModuleSteerFFCL);
-        private static double kDriveBaseTrackWidth;
-        private static double kDriveBaseWheelBase;
+        private static double kDriveBaseTrackWidth = 0.6096;
+        private static double kDriveBaseWheelBase = 0.6096;
 
         public static SwerveModuleConfiguration[] kSwerveModuleConfigurations = {
                 //Front Left
