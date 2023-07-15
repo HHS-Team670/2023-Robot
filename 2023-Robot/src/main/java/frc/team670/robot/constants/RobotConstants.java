@@ -97,8 +97,8 @@ public final class RobotConstants {
             entry(kSkipperAddress,Map.ofEntries(
                             entry("kBackRightModuleSteerOffsetRadians", -Math.toRadians(84.023437)),
                             entry("kBackLeftModuleSteerOffsetRadians", -Math.toRadians(232.734379)),
-                            entry("kFrontRightModuleSteerOffsetRadians", -Math.toRadians(133.681651)),
-                            entry("kFrontLeftModuleSteerOffsetRadians", -Math.toRadians(202.939455)),
+                            entry("kFrontRightModuleSteerOffsetRadians", -Math.toRadians(22.939455)),
+                            entry("kFrontLeftModuleSteerOffsetRadians", -Math.toRadians(134.281651)),
                             entry("kShoulderAbsoluteEncoderVerticalOffset", 0.895),
                             entry("kElbowAbsoluteEncoderVerticalOffset", 0.588),
                             entry("kWristAbsoluteEncoderVerticalOffset", 0.918),
@@ -132,17 +132,19 @@ public final class RobotConstants {
         public static final double kFrontRightModuleSteerOffsetRadians = robotSpecificConstants
                 .get("kFrontRightModuleSteerOffsetRadians");
 
+        public static final int kBackRightModuleSteerMotorID = 24;
+        public static final int kBackRightModuleDriveMotorID = 25;
+        public static final int kBackRightModuleSteerEncoderID = 34;
+        public static final double kBackRightModuleSteerOffsetRadians = robotSpecificConstants
+                .get("kBackRightModuleSteerOffsetRadians");
+
         public static final int kBackLeftModuleSteerMotorID = 26;
         public static final int kBackLeftModuleDriveMotorID = 27;
         public static final int kBackLeftModuleSteerEncoderID = 36;
         public static final double kBackLeftModuleSteerOffsetRadians = robotSpecificConstants
                 .get("kBackLeftModuleSteerOffsetRadians");
 
-        public static final int kBackRightModuleSteerMotorID = 24;
-        public static final int kBackRightModuleDriveMotorID = 25;
-        public static final int kBackRightModuleSteerEncoderID = 34;
-        public static final double kBackRightModuleSteerOffsetRadians = robotSpecificConstants
-                .get("kBackRightModuleSteerOffsetRadians");
+        
 
         public final static SerialPort.Port kNAVXPort = SerialPort.Port.kMXP;
         public static final double kPitchOffset = 2;
