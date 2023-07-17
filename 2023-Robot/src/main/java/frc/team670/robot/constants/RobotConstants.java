@@ -131,30 +131,19 @@ public final class RobotConstants extends RobotConstantsBase {
         public static final GearRatio kSwerveModuleGearRatio = robotSpecificConstants.get("kSwerveModuleConfig") == 1.0
                 ? GearRatio.L1
                 : GearRatio.L2;
-
-        public static final int kFrontLeftModuleSteerMotorID = 20;
-        public static final int kFrontLeftModuleDriveMotorID = 21;
-        public static final int kFrontLeftModuleSteerEncoderID = 30;
         public static final double kFrontLeftModuleSteerOffsetRadians = robotSpecificConstants
                 .get("kFrontLeftModuleSteerOffsetRadians");
 
-        public static final int kFrontRightModuleSteerMotorID = 22;
-        public static final int kFrontRightModuleDriveMotorID = 23;
-        public static final int kFrontRightModuleSteerEncoderID = 32;
         public static final double kFrontRightModuleSteerOffsetRadians = robotSpecificConstants
                 .get("kFrontRightModuleSteerOffsetRadians");
 
-        public static final int kBackLeftModuleSteerMotorID = 26;
-        public static final int kBackLeftModuleDriveMotorID = 27;
-        public static final int kBackLeftModuleSteerEncoderID = 36;
         public static final double kBackLeftModuleSteerOffsetRadians = robotSpecificConstants
                 .get("kBackLeftModuleSteerOffsetRadians");
-
-        public static final int kBackRightModuleSteerMotorID = 24;
-        public static final int kBackRightModuleDriveMotorID = 25;
-        public static final int kBackRightModuleSteerEncoderID = 34;
+                
         public static final double kBackRightModuleSteerOffsetRadians = robotSpecificConstants
                 .get("kBackRightModuleSteerOffsetRadians");
+      
+        
         
 
         public static final double kMaxVelocityMetersPerSecond = 5676.0 / 60.0
