@@ -10,6 +10,7 @@ import frc.team670.mustanglib.utils.MustangController.XboxButtons;
 import frc.team670.robot.commands.arm.ManualMoveElbow;
 import frc.team670.robot.commands.arm.MoveToTarget;
 import frc.team670.robot.commands.arm.ResetArmFromAbsolute;
+import frc.team670.robot.commands.arm.ResetArmOffset;
 import frc.team670.robot.commands.claw.ClawIdle;
 import frc.team670.robot.commands.claw.ClawInstantIntake;
 import frc.team670.robot.commands.leds.SetIntakeCube;
@@ -30,7 +31,7 @@ public final class OI {
     private static MustangController operatorController = new MustangController(1);
 
     // Driver buttons
-    private static JoystickButton zeroArm =
+    private static JoystickButton resetManualOffset =
             new JoystickButton(operatorController, XboxButtons.START);
     private static JoystickButton zeroGyroDriver =
             new JoystickButton(driverController, XboxButtons.START);
@@ -40,13 +41,13 @@ public final class OI {
     private static POVButton alignToRight = new POVButton(driverController, 90);
 
     // Operator buttons
-    private static POVButton hybrid = new POVButton(operatorController, 180);
+    private static POVButton uprightGround = new POVButton(operatorController, 180);
     private static POVButton scoreMidR = new POVButton(operatorController, 90);
-    private static POVButton singleStation = new POVButton(operatorController, 270);
+    private static POVButton intakeShelf = new POVButton(operatorController, 270);
     private static POVButton scoreHigh = new POVButton(operatorController, 0);
-    private static JoystickButton intakeShelf =
+    private static JoystickButton zeroArm =
             new JoystickButton(operatorController, XboxButtons.X);
-    private static JoystickButton uprightGround =
+    private static JoystickButton clawIdle =
             new JoystickButton(operatorController, XboxButtons.BACK);
 
     private static JoystickButton stow = new JoystickButton(operatorController, XboxButtons.B);
@@ -59,8 +60,7 @@ public final class OI {
             new JoystickButton(operatorController, XboxButtons.RIGHT_BUMPER);
     private static JoystickButton clawEject =
             new JoystickButton(driverController, XboxButtons.LEFT_BUMPER);
-    private static JoystickButton clawIdle =
-            new JoystickButton(operatorController, XboxButtons.LEFT_BUMPER);
+
 
     // Align to cardinal directions
     private static JoystickButton rotateTo0 = new JoystickButton(driverController, XboxButtons.Y);
@@ -92,16 +92,16 @@ public final class OI {
         zeroGyroDriver.onTrue(new SetSwerveForwardDirection(driveBase));
         zeroArm.onTrue(new ResetArmFromAbsolute(arm));
         singleSubAlign.whileTrue(new AutoAlignToSubstation(driveBase, false)); // moves to
-                                                                               // substation
+        resetManualOffset.onTrue(new ResetArmOffset(arm));                                   // substation
 
         alignToClosest.whileTrue(new AutoAlign(driveBase, AutoAlign.Direction.CLOSEST));
         alignToLeft.whileTrue(new AutoAlign(driveBase, AutoAlign.Direction.LEFT));
         alignToRight.whileTrue(new AutoAlign(driveBase, AutoAlign.Direction.RIGHT));
 
         // arm movement commands
-        hybrid.onTrue(new MoveToTarget(arm, ArmState.HYBRID));
+  
         scoreMidR.onTrue(new MoveToTarget(arm, ArmState.SCORE_MID));
-        singleStation.onTrue(new MoveToTarget(arm, claw, ArmState.SINGLE_STATION));
+  
         scoreHigh.onTrue(new MoveToTarget(arm, ArmState.SCORE_HIGH));
         intakeShelf.onTrue(new MoveToTarget(arm, claw, ArmState.INTAKE_SHELF));
         uprightGround.onTrue(new MoveToTarget(arm, ArmState.UPRIGHT_GROUND));

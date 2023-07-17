@@ -32,6 +32,7 @@ public class Claw extends MustangSubsystemBase {
     private boolean isFull = false;
     private double ejectingSpeed =
             RobotConstants.Arm.Claw.kEjectingSpeed;
+    
 
     private LED led;
 
@@ -132,7 +133,7 @@ public class Claw extends MustangSubsystemBase {
             }else{
                 motor.set(RobotConstants.Arm.Claw.kIdleSpeed);
             }
-                
+
                 break;
             case INTAKING:
             if(gamepiece == GamePiece.CONE){
@@ -171,7 +172,11 @@ public class Claw extends MustangSubsystemBase {
                     ejectCounter = 0;
                     isFull = false;
                     if (DriverStation.isTeleopEnabled()) {
-                        led.off();
+                        if(this.gamepiece==GamePiece.CONE){
+                            led.solidhsv(LEDColor.YELLOW);
+                        }else{
+                            led.solidhsv(LEDColor.PURPLE);
+                        }
                     }
                 }
                 break;
