@@ -3,23 +3,23 @@ package frc.team670.robot.constants;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
-import frc.team670.mustanglib.commands.drive.teleop.SetSwerveForwardDirection;
-import frc.team670.mustanglib.commands.drive.teleop.XboxSwerveDrive;
+// import frc.team670.mustanglib.commands.drive.teleop.SetSwerveForwardDirection;
+// import frc.team670.mustanglib.commands.drive.teleop.XboxSwerveDrive;
 import frc.team670.mustanglib.utils.MustangController;
 import frc.team670.mustanglib.utils.MustangController.XboxButtons;
 import frc.team670.robot.commands.arm.ManualMoveElbow;
 import frc.team670.robot.commands.arm.MoveToTarget;
 import frc.team670.robot.commands.arm.ResetArmFromAbsolute;
-import frc.team670.robot.commands.claw.ClawIdle;
-import frc.team670.robot.commands.claw.ClawInstantIntake;
-import frc.team670.robot.commands.leds.SetColorPurple;
-import frc.team670.robot.commands.leds.SetColorYellow;
-import frc.team670.robot.commands.routines.EjectAndStow;
-import frc.team670.robot.commands.vision.AutoAlign;
-import frc.team670.robot.commands.vision.AutoAlignToSubstation;
-import frc.team670.robot.subsystems.Claw;
-import frc.team670.robot.subsystems.DriveBase;
-import frc.team670.robot.subsystems.LED;
+// import frc.team670.robot.commands.claw.ClawIdle;
+// import frc.team670.robot.commands.claw.ClawInstantIntake;
+// import frc.team670.robot.commands.leds.SetColorPurple;
+// import frc.team670.robot.commands.leds.SetColorYellow;
+// import frc.team670.robot.commands.routines.EjectAndStow;
+// import frc.team670.robot.commands.vision.AutoAlign;
+// import frc.team670.robot.commands.vision.AutoAlignToSubstation;
+// import frc.team670.robot.subsystems.Claw;
+// import frc.team670.robot.subsystems.DriveBase;
+// import frc.team670.robot.subsystems.LED;
 import frc.team670.robot.subsystems.arm.Arm;
 import frc.team670.robot.subsystems.arm.ArmState;
 
@@ -81,46 +81,50 @@ public final class OI {
     }
 
     public static void configureButtonBindings() {
-        DriveBase driveBase = DriveBase.getInstance();
+        // DriveBase driveBase = DriveBase.getInstance();
         Arm arm = Arm.getInstance();
-        Claw claw = Claw.getInstance();
-        LED led = LED.getInstance();
+        // Claw claw = Claw.getInstance();
+        // LED led = LED.getInstance();
 
-        driveBase.initDefaultCommand();
+        // driveBase.initDefaultCommand();
 
-        zeroGyroDriver.onTrue(new SetSwerveForwardDirection(driveBase));
+        // zeroGyroDriver.onTrue(new SetSwerveForwardDirection(driveBase));
         zeroArm.onTrue(new ResetArmFromAbsolute(arm));
-        singleSubAlign.whileTrue(new AutoAlignToSubstation(driveBase, false)); // moves to
+        // singleSubAlign.whileTrue(new AutoAlignToSubstation(driveBase, false)); // moves to
                                                                                // substation
 
-        alignToClosest.whileTrue(new AutoAlign(driveBase, AutoAlign.Direction.CLOSEST));
-        alignToLeft.whileTrue(new AutoAlign(driveBase, AutoAlign.Direction.LEFT));
-        alignToRight.whileTrue(new AutoAlign(driveBase, AutoAlign.Direction.RIGHT));
+        // alignToClosest.whileTrue(new AutoAlign(driveBase, AutoAlign.Direction.CLOSEST));
+        // alignToLeft.whileTrue(new AutoAlign(driveBase, AutoAlign.Direction.LEFT));
+        // alignToRight.whileTrue(new AutoAlign(driveBase, AutoAlign.Direction.RIGHT));
 
         // arm movement commands
         hybrid.onTrue(new MoveToTarget(arm, ArmState.HYBRID));
         scoreMidR.onTrue(new MoveToTarget(arm, ArmState.SCORE_MID));
-        singleStation.onTrue(new MoveToTarget(arm, claw, ArmState.SINGLE_STATION));
+        singleStation.onTrue(new MoveToTarget(arm, ArmState.SINGLE_STATION));
         scoreHigh.onTrue(new MoveToTarget(arm, ArmState.SCORE_HIGH));
-        intakeShelf.onTrue(new MoveToTarget(arm, claw, ArmState.INTAKE_SHELF));
+        intakeShelf.onTrue(new MoveToTarget(arm, ArmState.INTAKE_SHELF));
         uprightGround.onTrue(new MoveToTarget(arm, ArmState.UPRIGHT_GROUND));
         stow.onTrue(new MoveToTarget(arm, ArmState.STOWED));
         manualElbowControlNegative.onTrue(new ManualMoveElbow(arm, false));
         manualElbowControlPositive.onTrue(new ManualMoveElbow(arm, true));
 
         // Claw control commands
-        clawSuck.onTrue(new ClawInstantIntake(claw));
-        clawEject.onTrue(new EjectAndStow(claw, arm));
-        clawIdle.onTrue(new ClawIdle(claw));
+        // The line `// clawSuck.onTrue(new ClawInstantIntake(claw));` is creating a button binding for
+        // the `clawSuck` button on the operator controller. When the `clawSuck` button is pressed, it
+        // will execute the `ClawInstantIntake` command, which is responsible for activating the claw
+        // to perform an instant intake action.
+        // clawSuck.onTrue(new ClawInstantIntake(claw));
+        // clawEject.onTrue(new EjectAndStow(claw, arm));
+        // clawIdle.onTrue(new ClawIdle(claw));
 
         // Rotate to cardinal direction while driving
-        XboxSwerveDrive driveCommand = (XboxSwerveDrive) driveBase.getDefaultCommand();
-        rotateTo0.onTrue(driveCommand.new SetDesiredHeading(new Rotation2d(0)));
-        rotateTo90.onTrue(driveCommand.new SetDesiredHeading(new Rotation2d(Math.PI / 2)));
-        rotateTo180.onTrue(driveCommand.new SetDesiredHeading(new Rotation2d(Math.PI)));
-        rotateTo270.onTrue(driveCommand.new SetDesiredHeading(new Rotation2d(3 * Math.PI / 2)));
+        // XboxSwerveDrive driveCommand = (XboxSwerveDrive) driveBase.getDefaultCommand();
+        // rotateTo0.onTrue(driveCommand.new SetDesiredHeading(new Rotation2d(0)));
+        // rotateTo90.onTrue(driveCommand.new SetDesiredHeading(new Rotation2d(Math.PI / 2)));
+        // rotateTo180.onTrue(driveCommand.new SetDesiredHeading(new Rotation2d(Math.PI)));
+        // rotateTo270.onTrue(driveCommand.new SetDesiredHeading(new Rotation2d(3 * Math.PI / 2)));
 
-        ledPurple.onTrue(new SetColorPurple(led));
-        ledYellow.onTrue(new SetColorYellow(led));
+        // ledPurple.onTrue(new SetColorPurple(led));
+        // ledYellow.onTrue(new SetColorYellow(led));
     }
 }

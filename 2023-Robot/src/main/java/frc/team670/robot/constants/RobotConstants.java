@@ -9,29 +9,11 @@ import static java.util.Map.entry;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.Enumeration;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
-import com.pathplanner.lib.PathConstraints;
-import com.pathplanner.lib.auto.PIDConstants;
 import com.revrobotics.CANSparkMax.IdleMode;
 
-import edu.wpi.first.apriltag.AprilTagFieldLayout;
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.geometry.Rotation3d;
-import edu.wpi.first.math.geometry.Transform3d;
-import edu.wpi.first.math.geometry.Translation3d;
-import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.SerialPort;
-import frc.team670.mustanglib.subsystems.SparkMaxRotatingSubsystem;
-import frc.team670.mustanglib.subsystems.VisionSubsystemBase;
-import frc.team670.mustanglib.subsystems.VisionSubsystemBase.TagCountDeviation;
-import frc.team670.mustanglib.subsystems.VisionSubsystemBase.UnitDeviationParams;
-import frc.team670.mustanglib.subsystems.drivebase.SwerveDrive;
-import frc.team670.mustanglib.swervelib.Mk4iSwerveModuleHelper.GearRatio;
-import frc.team670.mustanglib.swervelib.ModuleConfiguration;
-import frc.team670.mustanglib.swervelib.SdsModuleConfigurations;
+import frc.team670.mustanglib.subsystems.SparkMaxRotatingSubsystemIO;
 import frc.team670.mustanglib.utils.motorcontroller.MotorConfig;
 import frc.team670.robot.subsystems.arm.ArmSegment;
 
@@ -107,129 +89,129 @@ public final class RobotConstants {
                             entry("kSwerveModuleConfig", 1.0), entry("kWristGearRatio", 125.0))))
             .get(kRobotAddress);
 
-    public static final class DriveBase {
-        public static final double kWidth = Units.inchesToMeters(36);
-        public static double kClearance = Math.hypot(kWidth, kWidth) / 2 + 0.05;
-        public static final double kTrackWidthMeters = 0.6096;
-        public static final double kWheelBaseMeters = 0.6096;
+//     public static final class DriveBase {
+//         public static final double kWidth = Units.inchesToMeters(36);
+//         public static double kClearance = Math.hypot(kWidth, kWidth) / 2 + 0.05;
+//         public static final double kTrackWidthMeters = 0.6096;
+//         public static final double kWheelBaseMeters = 0.6096;
 
-        public static final ModuleConfiguration kModuleConfig = robotSpecificConstants.get("kSwerveModuleConfig") == 1.0
-                ? SdsModuleConfigurations.MK4I_L1
-                : SdsModuleConfigurations.MK4I_L2;
+//         public static final ModuleConfiguration kModuleConfig = robotSpecificConstants.get("kSwerveModuleConfig") == 1.0
+//                 ? SdsModuleConfigurations.MK4I_L1
+//                 : SdsModuleConfigurations.MK4I_L2;
 
-        public static final GearRatio kSwerveModuleGearRatio = robotSpecificConstants.get("kSwerveModuleConfig") == 1.0
-                ? GearRatio.L1
-                : GearRatio.L2;
+//         public static final GearRatio kSwerveModuleGearRatio = robotSpecificConstants.get("kSwerveModuleConfig") == 1.0
+//                 ? GearRatio.L1
+//                 : GearRatio.L2;
 
-        public static final int kFrontLeftModuleSteerMotorID = 20;
-        public static final int kFrontLeftModuleDriveMotorID = 21;
-        public static final int kFrontLeftModuleSteerEncoderID = 30;
-        public static final double kFrontLeftModuleSteerOffsetRadians = robotSpecificConstants
-                .get("kFrontLeftModuleSteerOffsetRadians");
+//         public static final int kFrontLeftModuleSteerMotorID = 20;
+//         public static final int kFrontLeftModuleDriveMotorID = 21;
+//         public static final int kFrontLeftModuleSteerEncoderID = 30;
+//         public static final double kFrontLeftModuleSteerOffsetRadians = robotSpecificConstants
+//                 .get("kFrontLeftModuleSteerOffsetRadians");
 
-        public static final int kFrontRightModuleSteerMotorID = 22;
-        public static final int kFrontRightModuleDriveMotorID = 23;
-        public static final int kFrontRightModuleSteerEncoderID = 32;
-        public static final double kFrontRightModuleSteerOffsetRadians = robotSpecificConstants
-                .get("kFrontRightModuleSteerOffsetRadians");
+//         public static final int kFrontRightModuleSteerMotorID = 22;
+//         public static final int kFrontRightModuleDriveMotorID = 23;
+//         public static final int kFrontRightModuleSteerEncoderID = 32;
+//         public static final double kFrontRightModuleSteerOffsetRadians = robotSpecificConstants
+//                 .get("kFrontRightModuleSteerOffsetRadians");
 
-        public static final int kBackLeftModuleSteerMotorID = 26;
-        public static final int kBackLeftModuleDriveMotorID = 27;
-        public static final int kBackLeftModuleSteerEncoderID = 36;
-        public static final double kBackLeftModuleSteerOffsetRadians = robotSpecificConstants
-                .get("kBackLeftModuleSteerOffsetRadians");
+//         public static final int kBackLeftModuleSteerMotorID = 26;
+//         public static final int kBackLeftModuleDriveMotorID = 27;
+//         public static final int kBackLeftModuleSteerEncoderID = 36;
+//         public static final double kBackLeftModuleSteerOffsetRadians = robotSpecificConstants
+//                 .get("kBackLeftModuleSteerOffsetRadians");
 
-        public static final int kBackRightModuleSteerMotorID = 24;
-        public static final int kBackRightModuleDriveMotorID = 25;
-        public static final int kBackRightModuleSteerEncoderID = 34;
-        public static final double kBackRightModuleSteerOffsetRadians = robotSpecificConstants
-                .get("kBackRightModuleSteerOffsetRadians");
+//         public static final int kBackRightModuleSteerMotorID = 24;
+//         public static final int kBackRightModuleDriveMotorID = 25;
+//         public static final int kBackRightModuleSteerEncoderID = 34;
+//         public static final double kBackRightModuleSteerOffsetRadians = robotSpecificConstants
+//                 .get("kBackRightModuleSteerOffsetRadians");
 
-        public final static SerialPort.Port kNAVXPort = SerialPort.Port.kMXP;
-        public static final double kPitchOffset = 2;
+//         public final static SerialPort.Port kNAVXPort = SerialPort.Port.kMXP;
+//         public static final double kPitchOffset = 2;
 
-        public static final double kMaxSpeedMetersPerSecond = 2;
-        public static final double kMaxAccelerationMetersPerSecondSquared = 1;
-        public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI * 4;
-        public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI * 8;
+//         public static final double kMaxSpeedMetersPerSecond = 2;
+//         public static final double kMaxAccelerationMetersPerSecondSquared = 1;
+//         public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI * 4;
+//         public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI * 8;
 
-        public static final double kMaxVoltage = 12.0;
-        public static final double kMaxDriveCurrent = 45.0;
-        public static final double kMaxSteerCurrent = 20.0;
+//         public static final double kMaxVoltage = 12.0;
+//         public static final double kMaxDriveCurrent = 45.0;
+//         public static final double kMaxSteerCurrent = 20.0;
 
-        // The formula for calculating the theoretical maximum velocity is:
-        // <Motor free speed RPM> / 60 * <Drive reduction> * <Wheel diameter meters> *
-        // pi
-        // An example of this constant for a Mk4 L2 module with NEOs to drive is:
-        // 5880.0 / 60.0 / SdsModuleConfigurations.MK4_L2.getDriveReduction() *
-        // SdsModuleConfigurations.MK4_L2.getWheelDiameter() * Math.PI
-        public static final double kMaxVelocityMetersPerSecond = 5676.0 / 60.0
-                * kModuleConfig.getDriveReduction() * kModuleConfig.getWheelDiameter() * Math.PI;
+//         // The formula for calculating the theoretical maximum velocity is:
+//         // <Motor free speed RPM> / 60 * <Drive reduction> * <Wheel diameter meters> *
+//         // pi
+//         // An example of this constant for a Mk4 L2 module with NEOs to drive is:
+//         // 5880.0 / 60.0 / SdsModuleConfigurations.MK4_L2.getDriveReduction() *
+//         // SdsModuleConfigurations.MK4_L2.getWheelDiameter() * Math.PI
+//         public static final double kMaxVelocityMetersPerSecond = 5676.0 / 60.0
+//                 * kModuleConfig.getDriveReduction() * kModuleConfig.getWheelDiameter() * Math.PI;
 
-        public static final double kMaxAngularVelocityRadiansPerSecond = kMaxVelocityMetersPerSecond
-                / Math.hypot(kTrackWidthMeters / 2.0, kWheelBaseMeters / 2.0);
+//         public static final double kMaxAngularVelocityRadiansPerSecond = kMaxVelocityMetersPerSecond
+//                 / Math.hypot(kTrackWidthMeters / 2.0, kWheelBaseMeters / 2.0);
 
-        public static final SwerveDrive.Config kConfig = new SwerveDrive.Config(kTrackWidthMeters,
-                kWheelBaseMeters, kMaxVelocityMetersPerSecond, kMaxVoltage, kMaxDriveCurrent,
-                kMaxSteerCurrent, kNAVXPort, kSwerveModuleGearRatio, kFrontLeftModuleDriveMotorID,
-                kFrontLeftModuleSteerMotorID, kFrontLeftModuleSteerEncoderID,
-                kFrontLeftModuleSteerOffsetRadians, kFrontRightModuleDriveMotorID,
-                kFrontRightModuleSteerMotorID, kFrontRightModuleSteerEncoderID,
-                kFrontRightModuleSteerOffsetRadians, kBackLeftModuleDriveMotorID,
-                kBackLeftModuleSteerMotorID, kBackLeftModuleSteerEncoderID,
-                kBackLeftModuleSteerOffsetRadians, kBackRightModuleDriveMotorID,
-                kBackRightModuleSteerMotorID, kBackRightModuleSteerEncoderID,
-                kBackRightModuleSteerOffsetRadians);
+//         public static final SwerveDrive.Config kConfig = new SwerveDrive.Config(kTrackWidthMeters,
+//                 kWheelBaseMeters, kMaxVelocityMetersPerSecond, kMaxVoltage, kMaxDriveCurrent,
+//                 kMaxSteerCurrent, kNAVXPort, kSwerveModuleGearRatio, kFrontLeftModuleDriveMotorID,
+//                 kFrontLeftModuleSteerMotorID, kFrontLeftModuleSteerEncoderID,
+//                 kFrontLeftModuleSteerOffsetRadians, kFrontRightModuleDriveMotorID,
+//                 kFrontRightModuleSteerMotorID, kFrontRightModuleSteerEncoderID,
+//                 kFrontRightModuleSteerOffsetRadians, kBackLeftModuleDriveMotorID,
+//                 kBackLeftModuleSteerMotorID, kBackLeftModuleSteerEncoderID,
+//                 kBackLeftModuleSteerOffsetRadians, kBackRightModuleDriveMotorID,
+//                 kBackRightModuleSteerMotorID, kBackRightModuleSteerEncoderID,
+//                 kBackRightModuleSteerOffsetRadians);
 
-        public static final PIDConstants kAutonTranslationPID = new PIDConstants(4, 0, 0);
-        public static final PIDConstants kAutonThetaPID = new PIDConstants(0.5, 0, 0);
+//         public static final PIDConstants kAutonTranslationPID = new PIDConstants(4, 0, 0);
+//         public static final PIDConstants kAutonThetaPID = new PIDConstants(0.5, 0, 0);
 
-        // PID controllers
-        public static final PIDController xController = new PIDController(3, 0, 0);
-        public static final PIDController yController = new PIDController(3, 0, 0);
-        public static final PIDController thetaController = new PIDController(0.2, 0, 0);
-        public static final PathConstraints kAutoPathConstraints = new PathConstraints(
-                kMaxSpeedMetersPerSecond, kMaxAccelerationMetersPerSecondSquared);
-    }
+//         // PID controllers
+//         public static final PIDController xController = new PIDController(3, 0, 0);
+//         public static final PIDController yController = new PIDController(3, 0, 0);
+//         public static final PIDController thetaController = new PIDController(0.2, 0, 0);
+//         public static final PathConstraints kAutoPathConstraints = new PathConstraints(
+//                 kMaxSpeedMetersPerSecond, kMaxAccelerationMetersPerSecondSquared);
+//     }
 
     // vision
-    public static final class Vision {
-        public static final String[] kVisionCameraIDs = { "Arducam_B", "Arducam_C" };
-        public static final Transform3d[] kCameraOffsets = {
-                // Cam B - RIGHT
-                new Transform3d(
-                        new Translation3d(Units.inchesToMeters(0.56), Units.inchesToMeters(-5.25),
-                                Units.inchesToMeters(19 + 5)),
-                        new Rotation3d(0, 0, Units.degreesToRadians(-45))),
-                // Cam C - LEFT
-                new Transform3d(
-                        new Translation3d(Units.inchesToMeters(0.56), Units.inchesToMeters(5.25),
-                                Units.inchesToMeters(19 + 5)),
-                        new Rotation3d(0, 0, Units.degreesToRadians(45))) };
+//     public static final class Vision {
+//         public static final String[] kVisionCameraIDs = { "Arducam_B", "Arducam_C" };
+//         public static final Transform3d[] kCameraOffsets = {
+//                 // Cam B - RIGHT
+//                 new Transform3d(
+//                         new Translation3d(Units.inchesToMeters(0.56), Units.inchesToMeters(-5.25),
+//                                 Units.inchesToMeters(19 + 5)),
+//                         new Rotation3d(0, 0, Units.degreesToRadians(-45))),
+//                 // Cam C - LEFT
+//                 new Transform3d(
+//                         new Translation3d(Units.inchesToMeters(0.56), Units.inchesToMeters(5.25),
+//                                 Units.inchesToMeters(19 + 5)),
+//                         new Rotation3d(0, 0, Units.degreesToRadians(45))) };
 
-        public static final double kLockedOnErrorX = 0.3;
-        public static final double xLockedOnErrorY = 0.3;
-        public static final double kLockedOnErrorDegrees = 10;
+//         public static final double kLockedOnErrorX = 0.3;
+//         public static final double xLockedOnErrorY = 0.3;
+//         public static final double kLockedOnErrorDegrees = 10;
 
-        public static final double kPoseAmbiguityCutOff = 0.05;
-        public static final List<Set<Integer>> kPossibleFrameFIDCombos = List.of(Set.of(1, 2, 3, 4),
-                Set.of(5, 6, 7, 8));
+//         public static final double kPoseAmbiguityCutOff = 0.05;
+//         public static final List<Set<Integer>> kPossibleFrameFIDCombos = List.of(Set.of(1, 2, 3, 4),
+//                 Set.of(5, 6, 7, 8));
 
-        public static final int kMaxFrameFIDs = 4;
-        public static final Map<Integer, TagCountDeviation> kVisionStdFromTagsSeen = Map.ofEntries(
-            Map.entry(1, new TagCountDeviation(
-                new UnitDeviationParams(.25, .4, .9),
-                new UnitDeviationParams(.35, .5, 1.2),
-                new UnitDeviationParams(.5, .7, 1.5))),
-            Map.entry(2, new TagCountDeviation(
-                new UnitDeviationParams(.35, .1, .4), new UnitDeviationParams(.5, .7, 1.5))),
-            Map.entry(3, new TagCountDeviation(
-                new UnitDeviationParams(.25, .07, .25), new UnitDeviationParams(.15, 1, 1.5)))
-        );
+//         public static final int kMaxFrameFIDs = 4;
+//         public static final Map<Integer, TagCountDeviation> kVisionStdFromTagsSeen = Map.ofEntries(
+//             Map.entry(1, new TagCountDeviation(
+//                 new UnitDeviationParams(.25, .4, .9),
+//                 new UnitDeviationParams(.35, .5, 1.2),
+//                 new UnitDeviationParams(.5, .7, 1.5))),
+//             Map.entry(2, new TagCountDeviation(
+//                 new UnitDeviationParams(.35, .1, .4), new UnitDeviationParams(.5, .7, 1.5))),
+//             Map.entry(3, new TagCountDeviation(
+//                 new UnitDeviationParams(.25, .07, .25), new UnitDeviationParams(.15, 1, 1.5)))
+//         );
         
-        public static final AprilTagFieldLayout kFieldLayout = FieldConstants.getFieldLayout(FieldConstants.aprilTags);
-        public static final VisionSubsystemBase.Config kConfig = new VisionSubsystemBase.Config(kFieldLayout, kVisionCameraIDs, kCameraOffsets, kPoseAmbiguityCutOff, kMaxFrameFIDs, kPossibleFrameFIDCombos, kVisionStdFromTagsSeen);
-    }
+//         public static final AprilTagFieldLayout kFieldLayout = FieldConstants.getFieldLayout(FieldConstants.aprilTags);
+//         public static final VisionSubsystemBase.Config kConfig = new VisionSubsystemBase.Config(kFieldLayout, kVisionCameraIDs, kCameraOffsets, kPoseAmbiguityCutOff, kMaxFrameFIDs, kPossibleFrameFIDCombos, kVisionStdFromTagsSeen);
+//     }
 
     public static final class Arm {
 
@@ -273,11 +255,11 @@ public final class RobotConstants {
             public static final double kMaxRotatorRPM = 1500;
             public static final double kMinRotatorRPM = 0;
 
-            public static final SparkMaxRotatingSubsystem.Config kConfig = new SparkMaxRotatingSubsystem.Config(
+            public static final SparkMaxRotatingSubsystemIO.Config kConfig = new SparkMaxRotatingSubsystemIO.Config(
                     kLeaderMotorID, 0, kMotorType, kIdleMode,
                     kGearRatio, kP, kI, kD, kFF, kIz, kMaxOutput, kMinOutput,
                     kMaxRotatorRPM, kMinRotatorRPM, kMaxAcceleration, kAllowedErrorRotations,
-                    kSoftLimits, kContinuousCurrent, kPeakCurrent);
+                    kSoftLimits, kContinuousCurrent, kPeakCurrent,kAllowedErrorRotations);
 
         }
 
@@ -317,11 +299,11 @@ public final class RobotConstants {
             public static final double kMaxRotatorRPM = 3000;
             public static final double kMinRotatorRPM = 0;
 
-            public static final SparkMaxRotatingSubsystem.Config kConfig = new SparkMaxRotatingSubsystem.Config(
+            public static final SparkMaxRotatingSubsystemIO.Config kConfig = new SparkMaxRotatingSubsystemIO.Config(
                     kMotorID, 0, kMotorType, kIdleMode,
                     kGearRatio, kP, kI, kD, kFF, kIz, kMaxOutput, kMinOutput,
                     kMaxRotatorRPM, kMinRotatorRPM, kMaxAcceleration, kAllowedErrorDegrees,
-                    kSoftLimits, kContinuousCurrent, kPeakCurrent);
+                    kSoftLimits, kContinuousCurrent, kPeakCurrent,kAllowedErrorRotations);
         }
 
         public static final class Wrist {
@@ -358,11 +340,11 @@ public final class RobotConstants {
             public static final double kMaxRotatorRPM = 6000;
             public static final double kMinRotatorRPM = 0;
 
-            public static final SparkMaxRotatingSubsystem.Config kConfig = new SparkMaxRotatingSubsystem.Config(
+            public static final SparkMaxRotatingSubsystemIO.Config kConfig = new SparkMaxRotatingSubsystemIO.Config(
                     kMotorID, 0, kMotorType, kIdleMode,
                     kGearRatio, kP, kI, kD, kFF, kIz, kMaxOutput, kMinOutput,
                     kMaxRotatorRPM, kMinRotatorRPM, kMaxAcceleration, kAllowedErrorRotations,
-                    kSoftLimits, kContinuousCurrent, kPeakCurrent);
+                    kSoftLimits, kContinuousCurrent, kPeakCurrent,kAllowedErrorRotations);
 
         }
 

@@ -13,10 +13,16 @@ import frc.team670.mustanglib.commands.MustangCommand;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase.HealthState;
 import frc.team670.mustanglib.utils.Logger;
-import frc.team670.robot.commands.claw.ClawInstantIntake;
-import frc.team670.robot.commands.claw.ClawIntake;
-import frc.team670.robot.commands.routines.IntakeAndStow;
-import frc.team670.robot.subsystems.Claw;
+// import frc.team670.robot.commands.claw.ClawInstant// The line `import
+// frc.team670.robot.commands.claw.ClawIntake;` is
+// importing the `ClawIntake` command from the
+// `frc.team670.robot.commands.claw` package. This
+// command is used to control the intake mechanism
+// of the robot's claw subsystem.
+// Intake;
+// import frc.team670.robot.commands.claw.ClawIntake;
+// import frc.team670.robot.commands.routines.IntakeAndStow;
+// import frc.team670.robot.subsystems.Claw;
 import frc.team670.robot.subsystems.arm.Arm;
 import frc.team670.robot.subsystems.arm.ArmState;
 
@@ -41,17 +47,17 @@ public class MoveToTarget extends CommandGroupBase implements MustangCommand {
   private Map<MustangSubsystemBase, HealthState> healthReqs;
   private ArmState target;
   private Arm arm;
-  private Claw claw;
+  // private Claw claw;
 
   private final List<Command> m_commands = new ArrayList<>();
   private int m_currentCommandIndex = -1;
   private boolean m_runWhenDisabled = true;
   private InterruptionBehavior m_interruptBehavior = InterruptionBehavior.kCancelSelf;
 
-  public MoveToTarget(Arm arm, Claw claw, ArmState target) {
-    this(arm, target);
-    this.claw = claw;
-  }
+  // public MoveToTarget(Arm arm, ArmState target) {
+  //   this(arm, target);
+  //   // this.claw = claw;
+  // }
 
   public MoveToTarget(Arm arm, ArmState target) {
     healthReqs = new HashMap<MustangSubsystemBase, HealthState>();
@@ -79,13 +85,13 @@ public class MoveToTarget extends CommandGroupBase implements MustangCommand {
       addCommands(new MoveDirectlyToTarget(arm, path[0]));
     }
 
-    if (claw != null) {
-      if(target == ArmState.HYBRID || target == ArmState.SINGLE_STATION) { //If we're going to an actual intaking position, then we'll want to return to stowed when we're done
-        addCommands(new IntakeAndStow(claw, arm));
-      } else {
-        addCommands(new ClawInstantIntake(claw)); //Otherwise, we'll run the claw for security, but we don't want to return to stowed when current spikes
-      }
-    }
+    // if (claw != null) {
+    //   if(target == ArmState.HYBRID || target == ArmState.SINGLE_STATION) { //If we're going to an actual intaking position, then we'll want to return to stowed when we're done
+    //     // addCommands(new IntakeAndStow(claw, arm));
+    //   } else {
+    //     // addCommands(new ClawInstantIntake(claw)); //Otherwise, we'll run the claw for security, but we don't want to return to stowed when current spikes
+    //   }
+    // }
 
     m_currentCommandIndex = 0;
 

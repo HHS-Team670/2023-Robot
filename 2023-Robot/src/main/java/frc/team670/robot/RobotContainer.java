@@ -17,18 +17,18 @@ import frc.team670.mustanglib.commands.MustangCommand;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 import frc.team670.mustanglib.utils.MustangController;
 import frc.team670.robot.commands.arm.ResetArmFromAbsolute;
-import frc.team670.robot.commands.pathplanner.CenterEngageSequential;
-import frc.team670.robot.commands.pathplanner.CenterIntake;
-import frc.team670.robot.commands.pathplanner.ConeCube;
-import frc.team670.robot.commands.pathplanner.ConeCubeCube;
-import frc.team670.robot.commands.pathplanner.CubeEngage;
-import frc.team670.robot.commands.pathplanner.ScoreEngage;
-import frc.team670.robot.commands.pathplanner.ScoreMid;
+// import frc.team670.robot.commands.pathplanner.CenterEngageSequential;
+// import frc.team670.robot.commands.pathplanner.CenterIntake;
+// import frc.team670.robot.commands.pathplanner.ConeCube;
+// import frc.team670.robot.commands.pathplanner.ConeCubeCube;
+// import frc.team670.robot.commands.pathplanner.CubeEngage;
+// import frc.team670.robot.commands.pathplanner.ScoreEngage;
+// import frc.team670.robot.commands.pathplanner.ScoreMid;
 import frc.team670.robot.constants.OI;
-import frc.team670.robot.subsystems.Claw;
-import frc.team670.robot.subsystems.DriveBase;
-import frc.team670.robot.subsystems.LED;
-import frc.team670.robot.subsystems.Vision;
+// import frc.team670.robot.subsystems.Claw;
+// import frc.team670.robot.subsystems.DriveBase;
+// import frc.team670.robot.subsystems.LED;
+// import frc.team670.robot.subsystems.Vision;
 import frc.team670.robot.subsystems.arm.Arm;
 
 /**
@@ -38,11 +38,11 @@ import frc.team670.robot.subsystems.arm.Arm;
  */
 
 public class RobotContainer extends RobotContainerBase {
-    private final Vision mVision = Vision.getInstance();
-    private final DriveBase mDriveBase = DriveBase.getInstance();
-    private final LED mLed = LED.getInstance();
+    // private final Vision mVision = Vision.getInstance();
+    // private final DriveBase mDriveBase = DriveBase.getInstance();
+    // private final LED mLed = LED.getInstance();
     private final Arm mArm = Arm.getInstance();
-    private final Claw mClaw = Claw.getInstance();
+    // private final Claw mClaw = Claw.getInstance();
 
     private MustangCommand cableScore, cableEngage, stationScore, stationEngage, centerEngage,
             centerIntake, scoreMid;
@@ -54,21 +54,22 @@ public class RobotContainer extends RobotContainerBase {
 
     public RobotContainer() {
         super();
-        addSubsystem(mDriveBase, mVision, mArm, mArm.getShoulder(), mArm.getElbow(), mArm.getWrist(),
-                mClaw, mLed);
+        // addSubsystem(mDriveBase, mVision, mArm, mArm.getShoulder(), mArm.getElbow(), mArm.getWrist(),
+        //         mClaw, mLed);
+        addSubsystem( mArm, mArm.getShoulder(), mArm.getElbow(), mArm.getWrist());
         OI.configureButtonBindings();
 
-        for (MustangSubsystemBase subsystem : getSubsystems()) {
-            subsystem.setDebugSubsystem(true);
-        }
+        // for (MustangSubsystemBase subsystem : getSubsystems()) {
+        //     subsystem.setDebugSubsystem(true);
+        // }
 
-        cableScore = new ConeCube(mDriveBase, mClaw, mArm, "CableScoreShort");
-        stationScore = new ConeCubeCube(mDriveBase, mClaw, mArm, "Station3Piece");
-        cableEngage = new CubeEngage(mDriveBase, mClaw, mArm, "CableEngage");
-        stationEngage = new ScoreEngage(mDriveBase, mClaw, mArm, "StationScoreEngage3");
-        centerEngage = new CenterEngageSequential(mDriveBase, mClaw, mArm);
-        centerIntake = new CenterIntake(mDriveBase, mClaw, mArm, "CenterIntake");
-        scoreMid = new ScoreMid(mDriveBase, mClaw, mArm);
+        // cableScore = new ConeCube(mDriveBase, mClaw, mArm, "CableScoreShort");
+        // stationScore = new ConeCubeCube(mDriveBase, mClaw, mArm, "Station3Piece");
+        // cableEngage = new CubeEngage(mDriveBase, mClaw, mArm, "CableEngage");
+        // stationEngage = new ScoreEngage(mDriveBase, mClaw, mArm, "StationScoreEngage3");
+        // centerEngage = new CenterEngageSequential(mDriveBase, mClaw, mArm);
+        // centerIntake = new CenterIntake(mDriveBase, mClaw, mArm, "CenterIntake");
+        // scoreMid = new ScoreMid(mDriveBase, mClaw, mArm);
 
     }
 
@@ -76,7 +77,7 @@ public class RobotContainer extends RobotContainerBase {
     public void robotInit() {
         CameraServer.startAutomaticCapture().setVideoMode(PixelFormat.kYUYV, 160, 120, 30);
 
-        mDriveBase.initVision(mVision);
+        // mDriveBase.initVision(mVision);
         SmartDashboard.putNumber(kAutonChooserString, 0);
         updateArbitraryFeedForward = new Notifier(
                 () -> {
@@ -122,7 +123,7 @@ public class RobotContainer extends RobotContainerBase {
             default:
                 autonCommand = centerEngage;
         }
-        mLed.updateAutonPathColor(selectedPath);
+        // mLed.updateAutonPathColor(selectedPath);
         return autonCommand;
     }
 
@@ -149,11 +150,11 @@ public class RobotContainer extends RobotContainerBase {
     @Override
     public void disabledPeriodic() {
         mArm.getShoulder().sendAngleToDashboard();
-        mArm.getElbow().sendAngleToDashboard();
+        // mArm.getElbow().sendAngleToDashboard();
         mArm.getWrist().sendAngleToDashboard();
 
         int selectedPath = (int) SmartDashboard.getNumber(kAutonChooserString, 0);
-        mLed.updateAutonPathColor(selectedPath);
+        // mLed.updateAutonPathColor(selectedPath);
     }
 
     @Override
@@ -192,7 +193,7 @@ public class RobotContainer extends RobotContainerBase {
     private void parkBeforeDisable() {
         double cTime = DriverStation.getMatchTime();
         if (cTime <= 0.1 && cTime != -1) {
-            mDriveBase.park();
+            // mDriveBase.park();
         }
     }
 
