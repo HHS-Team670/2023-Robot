@@ -13,8 +13,12 @@ import frc.team670.robot.commands.arm.ResetArmFromAbsolute;
 import frc.team670.robot.commands.arm.ResetArmOffset;
 import frc.team670.robot.commands.claw.ClawIdle;
 import frc.team670.robot.commands.claw.ClawInstantIntake;
+import frc.team670.robot.commands.cubeintake.CubeIntakeToggle;
 import frc.team670.robot.commands.leds.SetIntakeCube;
 import frc.team670.robot.commands.leds.SetIntakeCone;
+import frc.team670.robot.commands.routines.DualEject;
+import frc.team670.robot.commands.routines.DualIntake;
+import frc.team670.robot.commands.routines.DualIdle;
 import frc.team670.robot.commands.routines.EjectAndStow;
 import frc.team670.robot.commands.vision.AutoAlign;
 import frc.team670.robot.commands.vision.AutoAlignToSubstation;
@@ -23,6 +27,8 @@ import frc.team670.robot.subsystems.LED;
 import frc.team670.robot.subsystems.arm.Arm;
 import frc.team670.robot.subsystems.arm.ArmState;
 import frc.team670.robot.subsystems.drivebase.DriveBase;
+import frc.team670.robot.subsystems.CubeIntake;
+
 
 public final class OI {
 
@@ -56,10 +62,11 @@ public final class OI {
     private static JoystickButton manualElbowControlNegative =
             new JoystickButton(operatorController, XboxButtons.LEFT_JOYSTICK_BUTTON);
 
-    private static JoystickButton clawSuck =
+    private static JoystickButton suck =
             new JoystickButton(operatorController, XboxButtons.RIGHT_BUMPER);
-    private static JoystickButton clawEject =
+    private static JoystickButton eject =
             new JoystickButton(driverController, XboxButtons.LEFT_BUMPER);
+    private static JoystickButton toggleCubeIntake= new JoystickButton(operatorController, XboxButtons.LEFT_BUMPER);
 
 
     // Align to cardinal directions
@@ -69,8 +76,8 @@ public final class OI {
     private static JoystickButton rotateTo270 = new JoystickButton(driverController, XboxButtons.B);
 
     // LED commands
-    private static JoystickButton coneIntake = new JoystickButton(operatorController, XboxButtons.Y);
-    private static JoystickButton cubeIntake = new JoystickButton(operatorController, XboxButtons.A);
+    private static JoystickButton coneSuck = new JoystickButton(operatorController, XboxButtons.Y);
+    private static JoystickButton cubeSuck = new JoystickButton(operatorController, XboxButtons.A);
 
     
     public static MustangController getDriverController() {
@@ -86,6 +93,7 @@ public final class OI {
         Arm arm = Arm.getInstance();
         Claw claw = Claw.getInstance();
         LED led = LED.getInstance();
+        CubeIntake cubeIntake = CubeIntake.getInstance();
 
         driveBase.initDefaultCommand(new XboxSwerveDrive(driveBase, driverController));
 
@@ -110,10 +118,10 @@ public final class OI {
         manualElbowControlPositive.onTrue(new ManualMoveElbow(arm, true));
 
         // Claw control commands
-        clawSuck.onTrue(new ClawInstantIntake(claw));
-        clawEject.onTrue(new EjectAndStow(claw, arm));
-        clawIdle.onTrue(new ClawIdle(claw));
-
+        suck.onTrue(new DualIntake(claw,arm,cubeIntake));
+        eject.onTrue(new DualEject(claw, arm, cubeIntake));
+        clawIdle.onTrue(new DualIdle(claw, cubeIntake));
+        toggleCubeIntake.onTrue(new CubeIntakeToggle(cubeIntake));
         // Rotate to cardinal direction while driving
         XboxSwerveDrive driveCommand = (XboxSwerveDrive) driveBase.getDefaultCommand();
         rotateTo0.onTrue(driveCommand.new SetDesiredHeading(new Rotation2d(0)));
@@ -121,7 +129,7 @@ public final class OI {
         rotateTo180.onTrue(driveCommand.new SetDesiredHeading(new Rotation2d(Math.PI)));
         rotateTo270.onTrue(driveCommand.new SetDesiredHeading(new Rotation2d(3 * Math.PI / 2)));
 
-        cubeIntake.onTrue(new SetIntakeCube(led, claw));
-        coneIntake.onTrue(new SetIntakeCone(led, claw));
+        cubeSuck.onTrue(new SetIntakeCube(led, claw));
+        coneSuck.onTrue(new SetIntakeCone(led, claw));
     }
 }
