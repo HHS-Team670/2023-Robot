@@ -16,12 +16,13 @@ public class Joint extends SparkMaxRotatingSubsystem {
     
     private double offset = 0;
     private double orgTargetAngle = 0;
-    private JointIOInputs inputs;
-    private JointIO io;
+    protected JointIOInputs inputs;
+    protected JointIO io;
     public Joint(JointIO io,LoggableInputs inputs) {
         super(io,inputs);
         this.io=io;
         this.inputs=(JointIOInputs)(super.getInputs());
+        io.updateInputs(inputs);
     }
 
     @Override
@@ -33,18 +34,18 @@ public class Joint extends SparkMaxRotatingSubsystem {
     public void mustangPeriodic() {
         io.checkAlignment(inputs);
     }
-    @Override
-    public void setSystemTargetAngleInDegrees(double targetAngle) {
-        orgTargetAngle = targetAngle;
-        super.setSystemTargetAngleInDegrees(targetAngle);
-    }
+    // @Override
+    // public void setSystemTargetAngleInDegrees(double targetAngle) {
+    //     orgTargetAngle = targetAngle;
+    //     super.setSystemTargetAngleInDegrees(targetAngle);
+    // }
     private void setOffset(double offset) {
-        if (Math.abs(offset) > RobotConstants.Arm.Elbow.kMaxOverrideDegreees) {
-            this.offset = RobotConstants.Arm.Elbow.kMaxOverrideDegreees * this.offset
-                    / Math.abs(this.offset);
-        } else {
-            this.offset = offset;
-        }
+        // if (Math.abs(offset) > RobotConstants.Arm.Elbow.kMaxOverrideDegreees) {
+        //     this.offset = RobotConstants.Arm.Elbow.kMaxOverrideDegreees * this.offset
+        //             / Math.abs(this.offset);
+        // } else {
+        //     this.offset = offset;
+        // }
         // setSystemTargetAngleInDegrees(orgTargetAngle);
 
     }
@@ -94,6 +95,13 @@ public class Joint extends SparkMaxRotatingSubsystem {
         @AutoLog
         public static class JointIOInputs extends SparkMaxRotatingSubsystemIOInputs{
             public double absEncoderPos=0;
+            public double mEncoderPositionUnadjusted=0;
+            public double mRotatorPower=0;
+
+            public void  updateFromSuper(){
+                mEncoderPositionUnadjusted= super.mEncoderPositionUnadjusted;
+                mRotatorPower=super.mRotatorPower;
+            }
         }
 
         protected abstract void setEncoderPositionFromAbsolute(JointIOInputs inputs);
@@ -117,7 +125,7 @@ public class Joint extends SparkMaxRotatingSubsystem {
                 counter = 0;
                 previousReading = inputs.absEncoderPos;
             }
-            if (counter > 100) { // Once it's maintained a constant value for long enough...
+            if (counter > 25) { // Once it's maintained a constant value for long enough...
                 setEncoderPositionFromAbsolute(inputs);
                 hasSetAbsolutePosition = true;
             }
@@ -178,6 +186,8 @@ public class Joint extends SparkMaxRotatingSubsystem {
             super.updateInputs(inputs);
             JointIOInputs input=(JointIOInputs)inputs;
             input.absEncoderPos=absEncoder.getAbsolutePosition();
+            input.updateFromSuper();
+            
             
         }
         

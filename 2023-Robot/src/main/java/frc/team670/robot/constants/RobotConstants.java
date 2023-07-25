@@ -73,7 +73,7 @@ public final class RobotConstants {
                     entry("kFrontLeftModuleSteerOffsetRadians", -Math.toRadians(318.604)),
                     entry("kShoulderAbsoluteEncoderVerticalOffset", 0.484233), // 0.47777
                     entry("kElbowAbsoluteEncoderVerticalOffset", 0.004892),
-                    entry("kWristAbsoluteEncoderVerticalOffset", 0.174231), // 0.177702
+                    entry("kWristAbsoluteEncoderVerticalOffset", 0.40864), // 0.177702
                     entry("kShoulderGearRatio", 96.0), entry("kElbowGearRatio", 70.833333333333),
                     entry("kSwerveModuleConfig", 2.0), entry("kWristGearRatio", 125.0))),
             entry(kSkipperAddress,

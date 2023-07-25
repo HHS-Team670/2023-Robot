@@ -1,11 +1,13 @@
 package frc.team670.robot.subsystems.arm;
 
 import com.revrobotics.CANSparkMax.IdleMode;
+
+import org.littletonrobotics.junction.Logger;
+
 import com.revrobotics.REVLibError;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team670.mustanglib.subsystems.SparkMaxRotatingSubsystem;
-import frc.team670.mustanglib.utils.Logger;
 import frc.team670.mustanglib.utils.functions.MathUtils;
 import frc.team670.mustanglib.utils.motorcontroller.SparkMAXFactory;
 import frc.team670.mustanglib.utils.motorcontroller.SparkMAXLite;
@@ -29,6 +31,13 @@ public class Shoulder extends Joint {
 
     public Shoulder() {
         super(new ShoulderIO(), new JointIOInputsAutoLogged());
+    }
+
+    @Override
+    public void setSystemTargetAngleInDegrees(double angle){
+        // Logger.getInstance().recordOutput("degree shoul/der", angle);
+        super.setSystemTargetAngleInDegrees(angle);
+        // Logger.getInstance().recordOutput("rotations shoulder", getMotorRotationsFromAngle(angle));
     }
 
     // @Override
@@ -68,9 +77,9 @@ public class Shoulder extends Joint {
             boolean followerOK = (followerRotatorError == REVLibError.kOk);
     
             if (!leaderOK && !followerOK) {
-                Logger.consoleError("Shoulder error! Leader error is " + leaderRotatorError.toString());
-                Logger.consoleError(
-                        "Shoulder error! Follower error is " + followerRotatorError.toString());
+                // Logger.consoleError("Shoulder error! Leader error is " + leaderRotatorError.toString());
+                // Logger.consoleError(
+                //         "Shoulder error! Follower error is " + followerRotatorError.toString());
                 return HealthState.RED;
             }
     

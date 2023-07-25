@@ -26,6 +26,9 @@ public class Elbow extends Joint {
         super(new ElbowIO(), new JointIOInputsAutoLogged());
        
     }
+    public void sendAngleToDashboard() {
+        SmartDashboard.putNumber("Elbow Position Deg", getCurrentAngleInDegrees());
+    }
 
 
 

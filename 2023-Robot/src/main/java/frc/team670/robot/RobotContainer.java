@@ -150,7 +150,7 @@ public class RobotContainer extends RobotContainerBase {
     @Override
     public void disabledPeriodic() {
         mArm.getShoulder().sendAngleToDashboard();
-        // mArm.getElbow().sendAngleToDashboard();
+        mArm.getElbow().sendAngleToDashboard();
         mArm.getWrist().sendAngleToDashboard();
 
         int selectedPath = (int) SmartDashboard.getNumber(kAutonChooserString, 0);
