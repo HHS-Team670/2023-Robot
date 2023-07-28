@@ -81,7 +81,7 @@ public final class RobotConstants extends RobotConstantsBase {
      */
 
     public static final String kSunTzuAddress = "00:80:2F:34:0B:07";
-    public static final String kSkipperAddress = "00:80:2F:33:D0:46";
+    public static final String kBenchAddress = "00:80:2F:33:D0:46";
     public static final String kRobotAddress = getMACAddress();
     
     private static  Map<String, Double> robotSpecificConstants = Map.ofEntries(
@@ -95,12 +95,12 @@ public final class RobotConstants extends RobotConstantsBase {
                     entry("kWristAbsoluteEncoderVerticalOffset", 0.380388), // 0.177702
                     entry("kShoulderGearRatio", 96.0), entry("kElbowGearRatio", 70.833333333333),
                     entry("kSwerveModuleConfig", 2.0), entry("kWristGearRatio", 125.0))),
-            entry(kSkipperAddress,
+            entry(kBenchAddress,
                     Map.ofEntries(
-                            entry("kBackRightModuleSteerOffsetRadians", -Math.toRadians(82.694)),
-                            entry("kBackLeftModuleSteerOffsetRadians", -Math.toRadians(233.29)),
-                            entry("kFrontRightModuleSteerOffsetRadians", -Math.toRadians(225.77)),
-                            entry("kFrontLeftModuleSteerOffsetRadians", -Math.toRadians(112.53)),
+                            entry("kBackRightModuleSteerOffsetRadians", -Math.toRadians(84.462891)),
+                            entry("kBackLeftModuleSteerOffsetRadians", -Math.toRadians(233.701172)),
+                            entry("kFrontRightModuleSteerOffsetRadians", -Math.toRadians(203.378906)),
+                            entry("kFrontLeftModuleSteerOffsetRadians", -Math.toRadians(131.923828)),
                             entry("kShoulderAbsoluteEncoderVerticalOffset", 0.895),
                             entry("kElbowAbsoluteEncoderVerticalOffset", 0.588),
                             entry("kWristAbsoluteEncoderVerticalOffset", 0.918),
