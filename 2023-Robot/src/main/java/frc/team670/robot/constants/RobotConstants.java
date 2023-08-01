@@ -63,7 +63,7 @@ public final class RobotConstants {
 
     public static final String kSunTzuAddress = "00:80:2F:34:0B:07";
     public static final String kSkipperAddress = "00:80:2F:33:D0:46";
-    public static final String kRobotAddress = getMACAddress();
+    public static final String kRobotAddress = getMACAddress().equals("")?kSunTzuAddress:getMACAddress();
     
     private static  Map<String, Double> robotSpecificConstants = Map.ofEntries(
         entry(kSunTzuAddress, Map.ofEntries(
@@ -352,14 +352,14 @@ public final class RobotConstants {
 
             public static final int kMotorID = 6;
             public static final double kLengthInches = 4;
-            public static final double kMassLB = 6.5;
+            public static final double kMassLB = 5;
             public static final double kMassDistribution = 1;
             public static final double kRollingSpeed = 1.0;
-            public static final double kEjectingSpeed = -0.60;
-            public static final double kCurrentMax = 23.0;
+            public static final double kEjectingSpeed = -0.40;
+            public static final double kCurrentMax = 30.0;
             public static final double kIdleSpeed = 0.05;
             public static final int kEjectIterations = 30;
-            public static final int kCurrentSpikeIterations = 25;
+            public static final int kCurrentSpikeIterations = 10;
         }
     }
 

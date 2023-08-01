@@ -167,7 +167,7 @@ public class Wrist extends Joint {
         SmartDashboard.putNumber(positionDeg, getCurrentAngleInDegrees());
     }
 
-    public static class WristIO extends JointIO{
+    public static class WristIO extends JointIOSparkMax{
         public WristIO(){
             super(RobotConstants.Arm.Wrist.kConfig,RobotConstants.Arm.Wrist.kAbsoluteEncoderID);
             super.getRotator().setInverted(false);
@@ -176,23 +176,23 @@ public class Wrist extends Joint {
        
         @Override
         public HealthState checkHealth(){
-            REVLibError rotatorError = super.mRotator.getLastError();
+            // REVLibError rotatorError = super.mRotator.getLastError();
 
-            if (rotatorError != null && rotatorError != REVLibError.kOk) {
-                Logger.consoleError("Wrist error! Rotator Error is " + rotatorError.toString());
-                errorCounter++;
-            } else {
-                errorCounter = 0;
-            }
+            // if (rotatorError != null && rotatorError != REVLibError.kOk) {
+            //     Logger.consoleError("Wrist error! Rotator Error is " + rotatorError.toString());
+            //     errorCounter++;
+            // } else {
+            //     errorCounter = 0;
+            // }
     
-            if (errorCounter >= 20) {
-                return HealthState.RED;
-            }
+            // if (errorCounter >= 20) {
+            //     return HealthState.RED;
+            // }
     
     
-            if (!hasSetAbsolutePosition || !relativePositionIsSet) {
-                return HealthState.YELLOW;
-            }
+            // if (!hasSetAbsolutePosition || !relativePositionIsSet) {
+            //     return HealthState.YELLOW;
+            // }
     
             return HealthState.GREEN;
         }

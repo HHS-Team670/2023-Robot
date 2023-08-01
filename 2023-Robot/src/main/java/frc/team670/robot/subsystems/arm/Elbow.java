@@ -64,7 +64,7 @@ public class Elbow extends Joint {
 
 
 
-    public static class ElbowIO extends JointIO{
+    public static class ElbowIO extends JointIOSparkMax{
 
      
 

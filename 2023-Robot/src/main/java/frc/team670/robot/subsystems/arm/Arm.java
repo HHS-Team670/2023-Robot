@@ -155,14 +155,17 @@ public class Arm extends MustangSubsystemBase {
         if (!hasSetWristTarget && elapsedTime > currentTimeDelays[2]) {
             hasSetWristTarget = true;
             
-            io.setElbowTargetAngleDegrees(targetState.getWristAngle());
+            io.setWristTargetAngleDegrees(targetState.getWristAngle());
         }
 
         Mechanism2d m2d=new Mechanism2d(3, 3);
         MechanismRoot2d m2dr= m2d.getRoot("Superstructure", 1.5, 0.5);
-        MechanismLigament2d shoulderLig = m2dr.append(new MechanismLigament2d("Shoulder", 0.66, -io.getShoulder().getCurrentAngleInDegrees()-90));
-        MechanismLigament2d elbowLig=shoulderLig.append(new MechanismLigament2d("Elbow", 0.8,(-io.getShoulder().getCurrentAngleInDegrees()+io.getElbow().getCurrentAngleInDegrees()-90)));
-        MechanismLigament2d wristLig=elbowLig.append(new MechanismLigament2d("Wrist", 0.3,-(-io.getShoulder().getCurrentAngleInDegrees()+io.getElbow().getCurrentAngleInDegrees()+io.getWrist().getCurrentAngleInDegrees())));
+        double transformedShoulderAngle=getShoulder().getCurrentAngleInDegrees()-90;
+        double transformedElbowAngle= -(transformedShoulderAngle-getElbow().getCurrentAngleInDegrees()+90);
+        double transformedWristAngle= -transformedElbowAngle+getWrist().getCurrentAngleInDegrees();
+        MechanismLigament2d shoulderLig = m2dr.append(new MechanismLigament2d("Shoulder", 0.66,transformedShoulderAngle));
+        MechanismLigament2d elbowLig=shoulderLig.append(new MechanismLigament2d("Elbow", 0.8,transformedElbowAngle));
+        MechanismLigament2d wristLig=elbowLig.append(new MechanismLigament2d("Wrist", 0.3,transformedWristAngle));
         Logger.getInstance().recordOutput("Arm", m2d);
     }
 

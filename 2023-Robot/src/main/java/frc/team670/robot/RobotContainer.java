@@ -75,7 +75,7 @@ public class RobotContainer extends RobotContainerBase {
 
     @Override
     public void robotInit() {
-        CameraServer.startAutomaticCapture().setVideoMode(PixelFormat.kYUYV, 160, 120, 30);
+        // CameraServer.startAutomaticCapture().setVideoMode(PixelFormat.kYUYV, 160, 120, 30);
 
         // mDriveBase.initVision(mVision);
         SmartDashboard.putNumber(kAutonChooserString, 0);
@@ -149,9 +149,9 @@ public class RobotContainer extends RobotContainerBase {
 
     @Override
     public void disabledPeriodic() {
-        mArm.getShoulder().sendAngleToDashboard();
-        mArm.getElbow().sendAngleToDashboard();
-        mArm.getWrist().sendAngleToDashboard();
+        // mArm.getShoulder().sendAngleToDashboard();
+        // mArm.getElbow().sendAngleToDashboard();
+        // mArm.getWrist().sendAngleToDashboard();
 
         int selectedPath = (int) SmartDashboard.getNumber(kAutonChooserString, 0);
         // mLed.updateAutonPathColor(selectedPath);
@@ -159,6 +159,9 @@ public class RobotContainer extends RobotContainerBase {
 
     @Override
     public void periodic() {
+        mArm.getShoulder().sendAngleToDashboard();
+        mArm.getElbow().sendAngleToDashboard();
+        mArm.getWrist().sendAngleToDashboard();
         // double cTime = DriverStation.getMatchTime();
         // if (cTime <= 0.1 && cTime != -1) {
         // driveBase.park();

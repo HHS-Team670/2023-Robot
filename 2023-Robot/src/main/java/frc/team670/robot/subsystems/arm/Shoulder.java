@@ -59,7 +59,7 @@ public class Shoulder extends Joint {
     }
 
 
-    public static class ShoulderIO extends JointIO{
+    public static class ShoulderIO extends JointIOSparkMax{
         private SparkMAXLite follower;
         public ShoulderIO() {
             super(RobotConstants.Arm.Shoulder.kConfig, RobotConstants.Arm.Shoulder.kAbsoluteEncoderID);
@@ -70,23 +70,23 @@ public class Shoulder extends Joint {
         }
         @Override
         public HealthState checkHealth() {
-            REVLibError leaderRotatorError = super.mRotator.getLastError();
-            REVLibError followerRotatorError = follower.getLastError();
+            // REVLibError leaderRotatorError = super.mRotator.getLastError();
+            // REVLibError followerRotatorError = follower.getLastError();
     
-            boolean leaderOK = (leaderRotatorError == REVLibError.kOk);
-            boolean followerOK = (followerRotatorError == REVLibError.kOk);
+            // boolean leaderOK = (leaderRotatorError == REVLibError.kOk);
+            // boolean followerOK = (followerRotatorError == REVLibError.kOk);
     
-            if (!leaderOK && !followerOK) {
-                // Logger.consoleError("Shoulder error! Leader error is " + leaderRotatorError.toString());
-                // Logger.consoleError(
-                //         "Shoulder error! Follower error is " + followerRotatorError.toString());
-                return HealthState.RED;
-            }
+            // if (!leaderOK && !followerOK) {
+            //     // Logger.consoleError("Shoulder error! Leader error is " + leaderRotatorError.toString());
+            //     // Logger.consoleError(
+            //     //         "Shoulder error! Follower error is " + followerRotatorError.toString());
+            //     return HealthState.RED;
+            // }
     
-            if ((leaderOK && !followerOK) || (!leaderOK && followerOK) || !hasSetAbsolutePosition
-                    || !relativePositionIsSet) {
-                return HealthState.YELLOW;
-            }
+            // if ((leaderOK && !followerOK) || (!leaderOK && followerOK) || !hasSetAbsolutePosition
+            //         || !relativePositionIsSet) {
+            //     return HealthState.YELLOW;
+            // }
     
             return HealthState.GREEN;
     

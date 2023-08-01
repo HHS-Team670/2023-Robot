@@ -11,17 +11,19 @@ public enum ArmState {
   
     //Angle-based states. For the shoulder, straight up is 180. If the elbow joint is straight, that's 180.
     
-    STOWED(0, 200, 20, 259),//was 259
+       
+    STOWED(0, 188, 10, 316),
 
     HYBRID(1, 140, 50, 254),
 
-    SCORE_MID(2, 185, 82, 138), 
-    SCORE_HIGH(3, 138, 170, 101),
+    SCORE_MID(2, 150, 150, 284), 
+    // SCORE_MID(2, 191, 91, 194),  possible score high
+    SCORE_HIGH(3, 267, 165, 145),
     STARTING(4, 205,25,270),
     TUNING(5, 90, 180, 180),
     SINGLE_STATION(6, 231, 13, 249),
-    INTAKE_SHELF(7, 213, 70, 150),
-    UPRIGHT_GROUND(8, 157, 35, 236);
+    INTAKE_SHELF(7, 200, 86, 193),
+    UPRIGHT_GROUND(8, 164, 33, 270);
     
 
 

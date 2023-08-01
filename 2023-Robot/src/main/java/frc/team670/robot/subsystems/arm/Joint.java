@@ -75,39 +75,13 @@ public class Joint extends SparkMaxRotatingSubsystem {
     }
     
 
-
-    public static abstract class JointIO extends SparkMaxRotatingSubsystemIO{
-
+    public static abstract class JointIOSparkMax extends JointIO{
         protected DutyCycleEncoder absEncoder;
-        protected boolean hasSetAbsolutePosition = false;
-        protected int counter = 0;
-        protected double previousReading = 0.0;
-        protected double calculatedRelativePosition = 0.0;
-        protected boolean relativePositionIsSet = false;
-        protected double errorCounter = 0;
-        
-        public JointIO(Config kConfig,int kAbsoluteEncoderID ) {
+        public JointIOSparkMax(Config kConfig,int kAbsoluteEncoderID ) {
             super(kConfig);
             absEncoder = new DutyCycleEncoder(kAbsoluteEncoderID);
 
         }
-
-        @AutoLog
-        public static class JointIOInputs extends SparkMaxRotatingSubsystemIOInputs{
-            public double absEncoderPos=0;
-            public double mEncoderPositionUnadjusted=0;
-            public double mRotatorPower=0;
-
-            public void  updateFromSuper(){
-                mEncoderPositionUnadjusted= super.mEncoderPositionUnadjusted;
-                mRotatorPower=super.mRotatorPower;
-            }
-        }
-
-        protected abstract void setEncoderPositionFromAbsolute(JointIOInputs inputs);
-
-        
-
         public void checkAlignment(JointIOInputs inputs){
             if (!hasSetAbsolutePosition) { // before it's set an absolute position...
 
@@ -140,6 +114,52 @@ public class Joint extends SparkMaxRotatingSubsystem {
             
         }
         }
+
+        public void updateInputs(LoggableInputs inputs){
+            super.updateInputs(inputs);
+            JointIOInputs input=(JointIOInputs)inputs;
+            input.absEncoderPos=absEncoder.getAbsolutePosition();
+            // input.mCurrentAngle
+            input.updateFromSuper();
+            
+            
+        }
+    }
+
+    public static abstract class JointIO extends SparkMaxRotatingSubsystemIO{
+
+   
+        protected boolean hasSetAbsolutePosition = false;
+        protected int counter = 0;
+        protected double previousReading = 0.0;
+        protected double calculatedRelativePosition = 0.0;
+        protected boolean relativePositionIsSet = false;
+        protected double errorCounter = 0;
+        
+        public JointIO(Config kConfig ) {
+            super(kConfig);
+            
+
+        }
+
+        @AutoLog
+        public static class JointIOInputs extends SparkMaxRotatingSubsystemIOInputs{
+            public double absEncoderPos=0;
+            public double mEncoderPositionUnadjusted=0;
+            public double mRotatorPower=0;
+            // public double mCurrentAngle=0;
+
+            public void  updateFromSuper(){
+                mEncoderPositionUnadjusted= super.mEncoderPositionUnadjusted;
+                mRotatorPower=super.mRotatorPower;
+            }
+        }
+
+        protected abstract void setEncoderPositionFromAbsolute(JointIOInputs inputs);
+
+        
+
+        public abstract void checkAlignment(JointIOInputs inputs);
          /**
      * Returns whether or not the relative position has been properly set from the absEncoder. When
      * resetPositionFromAbsolute() gets called, this will temporarily be false.
@@ -163,33 +183,32 @@ public class Joint extends SparkMaxRotatingSubsystem {
         @Override
         protected HealthState checkHealth() {
                           
-            REVLibError rotatorError = mRotator.getLastError();
+            // REVLibError rotatorError = mRotator.getLastError();
             
-            if (rotatorError != null && rotatorError != REVLibError.kOk) {
-                // Logger.consoleError("Elbow error! Rotator error is " + rotatorError.toString());
-                errorCounter++;
-            } else {
-                errorCounter = 0;
-            }
+            // if (rotatorError != null && rotatorError != REVLibError.kOk) {
+            //     // Logger.consoleError("Elbow error! Rotator error is " + rotatorError.toString());
+            //     errorCounter++;
+            // } else {
+            //     errorCounter = 0;
+            // }
     
-            if (errorCounter >= 20) {
-                return HealthState.RED;
-            }
+            // if (errorCounter >= 20) {
+            //     return HealthState.RED;
+            // }
     
-            if (!hasSetAbsolutePosition || !relativePositionIsSet) {
-                return HealthState.YELLOW;
-            }
+            // if (!hasSetAbsolutePosition || !relativePositionIsSet) {
+            //     return HealthState.YELLOW;
+            // }
     
             return HealthState.GREEN;
         }
-        public void updateInputs(LoggableInputs inputs){
+        public  void updateInputs(LoggableInputs inputs){
             super.updateInputs(inputs);
-            JointIOInputs input=(JointIOInputs)inputs;
-            input.absEncoderPos=absEncoder.getAbsolutePosition();
-            input.updateFromSuper();
-            
-            
         }
+            
+            
+            
+        
         
     }
 
