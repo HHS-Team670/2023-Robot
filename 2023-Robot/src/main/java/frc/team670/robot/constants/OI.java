@@ -44,7 +44,6 @@ public final class OI {
     private static POVButton uprightGround = new POVButton(operatorController, 180);
     private static POVButton scoreMidR = new POVButton(operatorController, 90);
     private static POVButton intakeShelf = new POVButton(operatorController, 270);
-    private static POVButton scoreHigh = new POVButton(operatorController, 0);
     private static JoystickButton zeroArm =
             new JoystickButton(operatorController, XboxButtons.X);
     private static JoystickButton clawIdle =
@@ -83,16 +82,16 @@ public final class OI {
 
     public static void configureButtonBindings() {
         DriveBase driveBase = DriveBase.getInstance();
-        Arm arm = Arm.getInstance();
-        Claw claw = Claw.getInstance();
-        LED led = LED.getInstance();
+        // Arm arm = Arm.getInstance();
+        // Claw claw = Claw.getInstance();
+        // LED led = LED.getInstance();
 
         driveBase.initDefaultCommand(new XboxSwerveDrive(driveBase, driverController));
 
         zeroGyroDriver.onTrue(new SetSwerveForwardDirection(driveBase));
-        zeroArm.onTrue(new ResetArmFromAbsolute(arm));
+        //zeroArm.onTrue(new ResetArmFromAbsolute(arm));
         singleSubAlign.whileTrue(new AutoAlignToSubstation(driveBase, false)); // moves to
-        resetManualOffset.onTrue(new ResetArmOffset(arm));                                   // substation
+       //resetManualOffset.onTrue(new ResetArmOffset(arm));                                   // substation
 
         alignToClosest.whileTrue(new AutoAlign(driveBase, AutoAlign.Direction.CLOSEST));
         alignToLeft.whileTrue(new AutoAlign(driveBase, AutoAlign.Direction.LEFT));
@@ -100,19 +99,19 @@ public final class OI {
 
         // arm movement commands
   
-        scoreMidR.onTrue(new MoveToTarget(arm, ArmState.SCORE_MID));
+        // scoreMidR.onTrue(new MoveToTarget(arm, ArmState.SCORE_MID));
   
-        scoreHigh.onTrue(new MoveToTarget(arm, ArmState.SCORE_HIGH));
-        intakeShelf.onTrue(new MoveToTarget(arm, claw, ArmState.INTAKE_SHELF));
-        uprightGround.onTrue(new MoveToTarget(arm, ArmState.UPRIGHT_GROUND));
-        stow.onTrue(new MoveToTarget(arm, ArmState.STOWED));
-        manualElbowControlNegative.onTrue(new ManualMoveElbow(arm, false));
-        manualElbowControlPositive.onTrue(new ManualMoveElbow(arm, true));
+        // scoreHigh.onTrue(new MoveToTarget(arm, ArmState.SCORE_HIGH));
+        // intakeShelf.onTrue(new MoveToTarget(arm, claw, ArmState.INTAKE_SHELF));
+        // uprightGround.onTrue(new MoveToTarget(arm, ArmState.UPRIGHT_GROUND));
+        // stow.onTrue(new MoveToTarget(arm, ArmState.STOWED));
+        // manualElbowControlNegative.onTrue(new ManualMoveElbow(arm, false));
+        // manualElbowControlPositive.onTrue(new ManualMoveElbow(arm, true));
 
         // Claw control commands
-        clawSuck.onTrue(new ClawInstantIntake(claw));
-        clawEject.onTrue(new EjectAndStow(claw, arm));
-        clawIdle.onTrue(new ClawIdle(claw));
+        // clawSuck.onTrue(new ClawInstantIntake(claw));
+        // clawEject.onTrue(new EjectAndStow(claw, arm));
+        // clawIdle.onTrue(new ClawIdle(claw));
 
         // Rotate to cardinal direction while driving
         XboxSwerveDrive driveCommand = (XboxSwerveDrive) driveBase.getDefaultCommand();
@@ -121,7 +120,7 @@ public final class OI {
         rotateTo180.onTrue(driveCommand.new SetDesiredHeading(new Rotation2d(Math.PI)));
         rotateTo270.onTrue(driveCommand.new SetDesiredHeading(new Rotation2d(3 * Math.PI / 2)));
 
-        cubeIntake.onTrue(new SetIntakeCube(led, claw));
-        coneIntake.onTrue(new SetIntakeCone(led, claw));
+        // cubeIntake.onTrue(new SetIntakeCube(led, claw));
+        // coneIntake.onTrue(new SetIntakeCone(led, claw));
     }
 }

@@ -45,14 +45,14 @@ public class ConeCubeCube extends SequentialCommandGroup implements MustangComma
 
         // eventMap stuff
         // eventMap.put("clawIntake1", new ClawInstantIntake(claw));
-        eventMap.put("setIntakeCone", new SetIntakeCone(led,claw));//here
-        eventMap.put("moveToMid", new MoveToTarget(arm, ArmState.SCORE_MID));
-        eventMap.put("moveToHigh", new MoveToTarget(arm, ArmState.SCORE_HIGH));
-        eventMap.put("clawEject", new ClawInstantEject(claw));
-        eventMap.put("moveToGround", new MoveToTarget(arm, ArmState.HYBRID));
-        eventMap.put("setIntakeCube", new SetIntakeCube(led,claw));//here
-        eventMap.put("clawIntake", new ClawInstantIntake(claw));
-        eventMap.put("moveToStowed", new MoveToTarget(arm, ArmState.STOWED));
+        // eventMap.put("setIntakeCone", new SetIntakeCone(led,claw));//here
+        // eventMap.put("moveToMid", new MoveToTarget(arm, ArmState.SCORE_MID));
+        // eventMap.put("moveToHigh", new MoveToTarget(arm, ArmState.SCORE_HIGH));
+        // eventMap.put("clawEject", new ClawInstantEject(claw));
+        // eventMap.put("moveToGround", new MoveToTarget(arm, ArmState.HYBRID));
+        // eventMap.put("setIntakeCube", new SetIntakeCube(led,claw));//here
+        // eventMap.put("clawIntake", new ClawInstantIntake(claw));
+        // eventMap.put("moveToStowed", new MoveToTarget(arm, ArmState.STOWED));
 
         CommandBase fullAuto = driveBase.getAutoBuilderFromEvents(eventMap).fullAuto(trajectoryGroup);
         addCommands(fullAuto);

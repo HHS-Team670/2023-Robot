@@ -37,22 +37,20 @@ public class ConeCube extends SequentialCommandGroup implements MustangCommand {
 
     public ConeCube(DriveBase driveBase, Claw claw, Arm arm,LED led, String pathName) {
         this.pathName = pathName;
-        List<PathPlannerTrajectory> trajectoryGroup = PathPlanner.loadPathGroup(pathName, 3, 2.5);
+        List<PathPlannerTrajectory> trajectoryGroup = PathPlanner.loadPathGroup(pathName, 2, 1);
 
 
         HashMap<String, Command> eventMap = new HashMap<>();
 
         // eventMap stuff
         //eventMap.put("clawIntake1", new ClawInstantIntake(claw));
-        eventMap.put("setIntakeCone", new SetIntakeCone(led,claw));//here
-        eventMap.put("moveToMid", new MoveToTarget(arm, ArmState.SCORE_MID));
-        eventMap.put("clawEject", new ClawInstantEject(claw));
-        eventMap.put("moveToGround", new MoveToTarget(arm, ArmState.HYBRID));
-        eventMap.put("setIntakeCube", new SetIntakeCube(led,claw));//here
-        eventMap.put("clawIntake", new ClawInstantIntake(claw)); //May want to use IntakeAndStow after testing.
-        eventMap.put("moveToStowed", new MoveToTarget(arm, ArmState.STOWED));
-        
-
+        // eventMap.put("setIntakeCone", new SetIntakeCone(led,claw));//here
+        // eventMap.put("moveToMid", new MoveToTarget(arm, ArmState.SCORE_MID));
+        // eventMap.put("clawEject", new ClawInstantEject(claw));
+        // eventMap.put("moveToGround", new MoveToTarget(arm, ArmState.HYBRID));
+        // eventMap.put("setIntakeCube", new SetIntakeCube(led,claw));//here
+        // eventMap.put("clawIntake", new ClawInstantIntake(claw)); //May want to use IntakeAndStow after testing.
+        // eventMap.put("moveToStowed", new MoveToTarget(arm, ArmState.STOWED));
 
         CommandBase fullAuto = driveBase.getAutoBuilderFromEvents(eventMap).fullAuto(trajectoryGroup);
         addCommands(fullAuto);

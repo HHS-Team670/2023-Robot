@@ -7,6 +7,7 @@
 
 package frc.team670.robot;
 
+
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.VideoMode.PixelFormat;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -38,37 +39,36 @@ import frc.team670.robot.subsystems.drivebase.DriveBase;
  */
 
 public class RobotContainer extends RobotContainerBase {
-    private final Vision mVision = Vision.getInstance();
+    // private final Vision mVision = Vision.getInstance();
     private final DriveBase mDriveBase = DriveBase.getInstance();
-    private final LED mLed = LED.getInstance();
-    private final Arm mArm = Arm.getInstance();
-    private final Claw mClaw = Claw.getInstance();
+    private final LED mLed = null;
+    private final Arm mArm = null;
+    private final Claw mClaw = null;
 
     private MustangCommand cableScore, cableEngage, stationScore, stationEngage, centerEngage,
             centerIntake, scoreMid;
 
-    private Notifier updateArbitraryFeedForward;
+    // private Notifier updateArbitraryFeedForward;
 
     private final String kMatchStartedString = "match-started";
     private final String kAutonChooserString = "auton-chooser";
 
     public RobotContainer() {
         super();
-        addSubsystem(mDriveBase, mVision, mArm, mArm.getShoulder(), mArm.getElbow(), mArm.getWrist(),
-                mClaw, mLed);
+        addSubsystem(mDriveBase);
         OI.configureButtonBindings();
 
         for (MustangSubsystemBase subsystem : getSubsystems()) {
             subsystem.setDebugSubsystem(true);
         }
 
-        cableScore = new ConeCube(mDriveBase, mClaw, mArm,mLed, "Grid 1 Two Piece");
-        stationScore = new ConeCubeCube(mDriveBase, mClaw,mArm,mLed, "Station3Piece");
-        cableEngage = new CubeEngage(mDriveBase, mClaw, mArm,mLed, "CableEngage");
-        stationEngage = new ScoreEngage(mDriveBase, mClaw, mArm, mLed,"StationScoreEngage3");
-        centerEngage = new CenterEngageSequential(mDriveBase, mClaw, mArm, mLed);
-        centerIntake = new CenterIntake(mDriveBase, mClaw, mArm, mLed, "CenterIntake");
-        scoreMid = new ScoreMid(mDriveBase, mClaw, mArm, mLed);
+        cableScore = new ConeCube(mDriveBase, mClaw, mArm,mLed, "Loop Back");
+        // stationScore = new ConeCubeCube(mDriveBase, mClaw,mArm,mLed, "Station3Piece");
+        // cableEngage = new CubeEngage(mDriveBase, mClaw, mArm,mLed, "CableEngage");
+        // stationEngage = new ScoreEngage(mDriveBase, mClaw, mArm, mLed,"StationScoreEngage3");
+        // centerEngage = new CenterEngageSequential(mDriveBase, mClaw, mArm, mLed);
+        // centerIntake = new CenterIntake(mDriveBase, mClaw, mArm, mLed, "CenterIntake");
+        // scoreMid = new ScoreMid(mDriveBase, mClaw, mArm, mLed);
 
     }
 
@@ -76,14 +76,14 @@ public class RobotContainer extends RobotContainerBase {
     public void robotInit() {
         CameraServer.startAutomaticCapture().setVideoMode(PixelFormat.kYUYV, 160, 120, 30);
 
-        mDriveBase.initVision(mVision);
+        // mDriveBase.initVision(mVision);
         SmartDashboard.putNumber(kAutonChooserString, 0);
-        updateArbitraryFeedForward = new Notifier(
-                () -> {
-                    mArm.updateArbitraryFeedForward();
-                });
+        // updateArbitraryFeedForward = new Notifier(
+        //         () -> {
+        //             mArm.updateArbitraryFeedForward();
+        //         });
 
-        updateArbitraryFeedForward.startPeriodic(0.01);
+        // updateArbitraryFeedForward.startPeriodic(0.01);
     }
 
     /**
@@ -122,19 +122,18 @@ public class RobotContainer extends RobotContainerBase {
             default:
                 autonCommand = cableScore;
         }
-        mLed.updateAutonPathColor(selectedPath);
         return autonCommand;
     }
 
     @Override
     public void autonomousInit() {
-        mArm.setStateToStarting();
+        // mArm.setStateToStarting();
     }
 
     @Override
     public void teleopInit() {
-        mArm.clearSetpoint();
-        new ResetArmFromAbsolute(mArm);
+        // mArm.clearSetpoint();
+        // new ResetArmFromAbsolute(mArm);
     }
 
     @Override
@@ -148,12 +147,8 @@ public class RobotContainer extends RobotContainerBase {
 
     @Override
     public void disabledPeriodic() {
-        mArm.getShoulder().sendAngleToDashboard();
-        mArm.getElbow().sendAngleToDashboard();
-        mArm.getWrist().sendAngleToDashboard();
 
-        int selectedPath = (int) SmartDashboard.getNumber(kAutonChooserString, 0);
-        mLed.updateAutonPathColor(selectedPath);
+        // int selectedPath = (int) SmartDashboard.getNumber(kAutonChooserString, 0);
     }
 
     @Override
