@@ -46,7 +46,7 @@ public class DriveBase extends SwerveDrive {
 
     @Override
     protected void initPoseEstimator() {
-        this.mPoseEstimator=new SwervePoseEstimator(this);
+        this.mPoseEstimator = new SwervePoseEstimator(this);
     }
 
 }
