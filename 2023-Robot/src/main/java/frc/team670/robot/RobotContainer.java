@@ -18,6 +18,7 @@ import frc.team670.mustanglib.commands.MustangCommand;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 import frc.team670.mustanglib.utils.MustangController;
 import frc.team670.robot.commands.arm.ResetArmFromAbsolute;
+import frc.team670.robot.commands.pathplanner.CenterEngage;
 import frc.team670.robot.commands.pathplanner.CenterEngageSequential;
 import frc.team670.robot.commands.pathplanner.CenterIntake;
 import frc.team670.robot.commands.pathplanner.ConeCube;
@@ -62,7 +63,7 @@ public class RobotContainer extends RobotContainerBase {
             subsystem.setDebugSubsystem(true);
         }
 
-        cableScore = new ConeCube(mDriveBase, mClaw, mArm,mLed, "Grid 9 Three Piece Hybrid");
+        cableScore = new CenterEngage(mDriveBase, mClaw, mArm,mLed, "MobilityEngage");
         // stationScore = new ConeCubeCube(mDriveBase, mClaw,mArm,mLed, "Station3Piece");
         // cableEngage = new CubeEngage(mDriveBase, mClaw, mArm,mLed, "CableEngage");
         // stationEngage = new ScoreEngage(mDriveBase, mClaw, mArm, mLed,"StationScoreEngage3");
