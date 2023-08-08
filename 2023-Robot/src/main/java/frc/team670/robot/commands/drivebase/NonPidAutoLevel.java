@@ -99,7 +99,7 @@ public class NonPidAutoLevel extends CommandBase implements MustangCommand {
     @Override
     public boolean isFinished() {
         if (hasTippedOver && Math.abs(pitch) < 4 && counter > 20) { 
-            //SmartDashboard.putBoolean("isFinished", true);
+            //SmartDashboard.putBoolean("isFinished", true);            
             return true;
         }
         // if (driveBase.getPitch() > (target - error) && driveBase.getPitch() < (target + error) && hasGoneUp) {
@@ -111,12 +111,13 @@ public class NonPidAutoLevel extends CommandBase implements MustangCommand {
 
     @Override
     public void end(boolean interrupted) {
-        //SmartDashboard.putBoolean("non PID auto level ended", true);
-            SwerveModuleState[] states = new SwerveModuleState[4];
-                states[0] = new SwerveModuleState(0.01, new Rotation2d(Math.PI/4)); 
-                states[1] = new SwerveModuleState(0.01, new Rotation2d(-Math.PI/4));
-                states[2] = new SwerveModuleState(0.01, new Rotation2d(-Math.PI/4));
-                states[3] = new SwerveModuleState(0.01, new Rotation2d(Math.PI/4));
-                driveBase.setModuleStates(states);
+        driveBase.park();
+        SmartDashboard.putBoolean("non PID auto level ended", true);
+        SwerveModuleState[] states = new SwerveModuleState[4];
+            states[0] = new SwerveModuleState(0.01, new Rotation2d(Math.PI/4)); 
+            states[1] = new SwerveModuleState(0.01, new Rotation2d(-Math.PI/4));
+            states[2] = new SwerveModuleState(0.01, new Rotation2d(-Math.PI/4));
+            states[3] = new SwerveModuleState(0.01, new Rotation2d(Math.PI/4));
+            driveBase.setModuleStates(states);
     }
 }
