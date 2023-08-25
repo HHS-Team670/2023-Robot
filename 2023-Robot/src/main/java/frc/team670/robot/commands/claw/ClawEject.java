@@ -1,46 +1,46 @@
-// package frc.team670.robot.commands.claw;
+package frc.team670.robot.commands.claw;
 
-// import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
-// import frc.team670.mustanglib.subsystems.MustangSubsystemBase.HealthState;
-// import frc.team670.mustanglib.commands.MustangCommand;
-// import java.util.Map;
+import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
+import frc.team670.mustanglib.subsystems.MustangSubsystemBase.HealthState;
+import frc.team670.mustanglib.commands.MustangCommand;
+import java.util.Map;
 
-// import edu.wpi.first.wpilibj2.command.CommandBase;
-// import frc.team670.robot.subsystems.Claw;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.team670.robot.subsystems.Claw;
 
-// /**
-//  * @author Tarini, Samanyu and Ishaan
-//  */
+/**
+ * @author Tarini, Samanyu and Ishaan
+ */
 
-// public class ClawEject extends CommandBase implements MustangCommand {
-//     private Claw claw;
+public class ClawEject extends CommandBase implements MustangCommand {
+    private Claw claw;
 
-//     public ClawEject(Claw claw) {
-//         this.claw = claw;
-//         addRequirements(claw);
-//     }
+    public ClawEject(Claw claw) {
+        this.claw = claw;
+        addRequirements(claw);
+    }
 
-//     // @Override
-//     // public void execute() {
-//     //     claw.startEjecting(); //Ejects at default speed. Call startEjecting(double) to set a speed
-//     // }
-//     @Override
-//     public void initialize() {
-//         claw.startEjecting();
+    // @Override
+    // public void execute() {
+    //     claw.startEjecting(); //Ejects at default speed. Call startEjecting(double) to set a speed
+    // }
+    @Override
+    public void initialize() {
+        claw.startEjecting();
 
-//     }
+    }
 
-//     @Override
-//     public boolean isFinished() {
-//         return !claw.isFull();
-//     }
+    @Override
+    public boolean isFinished() {
+        return !claw.isFull();
+    }
 
-//     public void end(boolean interrupted) {
-//         claw.setIdle();
-//     }
+    public void end(boolean interrupted) {
+        claw.setIdle();
+    }
 
-//     @Override
-//     public Map<MustangSubsystemBase, HealthState> getHealthRequirements() {
-//         return null;
-//     }
-// }
+    @Override
+    public Map<MustangSubsystemBase, HealthState> getHealthRequirements() {
+        return null;
+    }
+}

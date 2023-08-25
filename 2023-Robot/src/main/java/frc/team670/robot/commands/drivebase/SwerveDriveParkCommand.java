@@ -1,37 +1,36 @@
-// package frc.team670.robot.commands.drivebase;
+package frc.team670.robot.commands.drivebase;
 
-// import java.util.HashMap;
-// import java.util.Map;
+import java.util.HashMap;
+import java.util.Map;
 
-// import edu.wpi.first.math.geometry.Rotation2d;
-// import edu.wpi.first.math.kinematics.SwerveModuleState;
-// import edu.wpi.first.wpilibj2.command.InstantCommand;
-// import frc.team670.mustanglib.commands.MustangCommand;
-// import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
-// import frc.team670.mustanglib.subsystems.MustangSubsystemBase.HealthState;
-// import frc.team670.mustanglib.subsystems.drivebase.SwerveDrive;
 
-// // CommandBase or InstantCommand? InstantCommand works just fine
-// public class SwerveDriveParkCommand extends InstantCommand implements MustangCommand {
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import frc.team670.mustanglib.commands.MustangCommand;
+import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
+import frc.team670.mustanglib.subsystems.MustangSubsystemBase.HealthState;
+import frc.team670.mustanglib.subsystems.drivebase.SwerveDrive;
 
-//     private SwerveDrive driveBase;
+// CommandBase or InstantCommand? InstantCommand works just fine
+public class SwerveDriveParkCommand extends InstantCommand implements MustangCommand {
 
-//     public SwerveDriveParkCommand(SwerveDrive driveBase) {
-//         this.driveBase = driveBase;
-//     }
+    private SwerveDrive driveBase;
 
-//     public Map<MustangSubsystemBase, HealthState> getHealthRequirements() {
+    public SwerveDriveParkCommand(SwerveDrive driveBase) {
+        this.driveBase = driveBase;
+    }
 
-//         Map<MustangSubsystemBase, HealthState> healthRequirements = new HashMap<MustangSubsystemBase, HealthState>();
-//         // the drive base requires green so it is just put as that for now
-//         healthRequirements.put(driveBase, HealthState.GREEN);
-//         return healthRequirements;
+    public Map<MustangSubsystemBase, HealthState> getHealthRequirements() {
 
-//         // return null;
-//     }
+        Map<MustangSubsystemBase, HealthState> healthRequirements = new HashMap<MustangSubsystemBase, HealthState>();
+        // the drive base requires green so it is just put as that for now
+        healthRequirements.put(driveBase, HealthState.GREEN);
+        return healthRequirements;
 
-//     public void initialize() {
-//         driveBase.park();
-//     }
+        // return null;
+    }
 
-// }
+    public void initialize() {
+        driveBase.park();
+    }
+
+}

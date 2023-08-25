@@ -20,8 +20,8 @@ public class Joint extends SparkMaxRotatingSubsystem {
     protected JointIO io;
     public Joint(JointIO io,LoggableInputs inputs) {
         super(io,inputs);
-        this.io=io;
-        this.inputs=(JointIOInputs)(super.getInputs());
+        this.io = io;
+        this.inputs = (JointIOInputs)(super.getInputs());
         io.updateInputs(inputs);
     }
 

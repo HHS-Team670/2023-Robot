@@ -1,32 +1,32 @@
-// package frc.team670.robot.commands.claw;
+package frc.team670.robot.commands.claw;
 
-// import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
-// import frc.team670.mustanglib.subsystems.MustangSubsystemBase.HealthState;
-// import frc.team670.mustanglib.commands.MustangCommand;
-// import java.util.Map;
-// import edu.wpi.first.wpilibj2.command.InstantCommand;
-// import frc.team670.robot.subsystems.Claw;
+import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
+import frc.team670.mustanglib.subsystems.MustangSubsystemBase.HealthState;
+import frc.team670.mustanglib.commands.MustangCommand;
+import java.util.Map;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import frc.team670.robot.subsystems.Claw;
 
-// /**
-//  * @author Tarini, Samanyu and Ishaan
-//  */
+/**
+ * @author Tarini, Samanyu and Ishaan
+ */
 
-// public class ClawInstantIntake extends InstantCommand implements MustangCommand {
-//     private Claw claw;
+public class ClawInstantIntake extends InstantCommand implements MustangCommand {
+    private Claw claw;
 
-//     public ClawInstantIntake(Claw claw) {
-//         this.claw = claw;
-//         addRequirements(claw);
-//     }
+    public ClawInstantIntake(Claw claw) {
+        this.claw = claw;
+        addRequirements(claw);
+    }
 
-//     @Override
-//     public void initialize() {
-//         claw.startIntaking();
+    @Override
+    public void initialize() {
+        claw.startIntaking();
 
-//     }
+    }
 
-//     @Override
-//     public Map<MustangSubsystemBase, HealthState> getHealthRequirements() {
-//         return null;
-//     }
-// }
+    @Override
+    public Map<MustangSubsystemBase, HealthState> getHealthRequirements() {
+        return null;
+    }
+}
