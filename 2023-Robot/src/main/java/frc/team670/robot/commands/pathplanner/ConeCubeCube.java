@@ -38,7 +38,7 @@ public class ConeCubeCube extends SequentialCommandGroup implements MustangComma
 
     public ConeCubeCube(DriveBase driveBase, Claw claw, Arm arm,LED led, String pathName) {
         this.pathName = pathName;
-        List<PathPlannerTrajectory> trajectoryGroup = PathPlanner.loadPathGroup(pathName, 4, 4.5);
+        List<PathPlannerTrajectory> trajectoryGroup = PathPlanner.loadPathGroup(pathName, 1.5, 1);
 
 
         HashMap<String, Command> eventMap = new HashMap<>();
