@@ -52,6 +52,7 @@ public class ConeCube extends SequentialCommandGroup implements MustangCommand {
         // eventMap.put("clawIntake", new ClawInstantIntake(claw)); //May want to use IntakeAndStow after testing.
         // eventMap.put("moveToStowed", new MoveToTarget(arm, ArmState.STOWED));
 
+
         CommandBase fullAuto = driveBase.getAutoBuilderFromEvents(eventMap).fullAuto(trajectoryGroup);
         addCommands(fullAuto);
 
