@@ -382,7 +382,7 @@ public final class RobotConstants extends RobotConstantsBase {
         
         public static final class Deployer{
 
-                public static final int kSlot = 0;
+                public static final int kSlot = 3;
                 public static final Motor_Type kMotorType = MotorConfig.Motor_Type.NEO;
                 public static final IdleMode kIdleMode = IdleMode.kCoast;
 
