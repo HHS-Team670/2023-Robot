@@ -318,6 +318,7 @@ public class CubeIntake extends MustangSubsystemBase {
                 clearSetpoint();
                 rotatorSetpointCancelled = true;
             }
+            SmartDashboard.putNumber("Dployer absolute encoder position ", absEncoder.getAbsolutePosition());
         }
 
         public boolean hasReachedTargetPosition() {

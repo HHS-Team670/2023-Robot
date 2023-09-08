@@ -97,7 +97,7 @@ public final class RobotConstants extends RobotConstantsBase {
                     entry("kWristAbsoluteEncoderVerticalOffset", 0.380388), // 0.177702
                     entry("kShoulderGearRatio", 96.0), entry("kElbowGearRatio", 70.833333333333),
                     entry("kSwerveModuleConfig", 2.0), entry("kWristGearRatio", 125.0), 
-                    entry("kCubeIntakeGearRatio",25.0), entry("kAbsoluteEncoderPostionAtFlipoutMax", 0.0))),
+                    entry("kDeployerGearRatio",25.0), entry("kAbsoluteEncoderPostionAtFlipoutMax", 0.0))),
             entry(kSkipperAddress,
                     Map.ofEntries(
                             entry("kBackRightModuleSteerOffsetRadians", -Math.toRadians(82.694)),
@@ -109,7 +109,7 @@ public final class RobotConstants extends RobotConstantsBase {
                             entry("kWristAbsoluteEncoderVerticalOffset", 0.918),
                             entry("kShoulderGearRatio", 75.0), entry("kElbowGearRatio", 90.0),
                             entry("kSwerveModuleConfig", 1.0), entry("kWristGearRatio", 125.0),
-                            entry("kCubeIntakeGearRatio",25.0),entry("kAbsoluteEncoderPostionAtFlipoutZero",-0.25), entry("kAbsoluteEncoderPostionAtFlipoutMax", 0.07))))
+                            entry("kDeployerGearRatio",25.0),entry("kAbsoluteEncoderPostionAtFlipoutZero",-0.25), entry("kAbsoluteEncoderPostionAtFlipoutMax", 0.07))))
             .get(kRobotAddress);
 
     public static final class DriveBase extends SwerveDriveBase {
@@ -370,8 +370,8 @@ public final class RobotConstants extends RobotConstantsBase {
     public static final class CubeIntake{
 
 
-        public static final int kMotorID = 12;
-        public static final int kAbsoluteEncoderID = 5;
+        public static final int kMotorID = 9;
+        public static final int kAbsoluteEncoderID = 3;
 
         public static final double kRollingSpeed = 1.0;
         public static final double kEjectingSpeed = -0.6;
@@ -385,7 +385,7 @@ public final class RobotConstants extends RobotConstantsBase {
                 public static final int kSlot = 3;
                 public static final Motor_Type kMotorType = MotorConfig.Motor_Type.NEO;
                 public static final IdleMode kIdleMode = IdleMode.kCoast;
-
+                public static final int kMotorID=16;
                 public static final double kP = 0.00015;
                 public static final double kI = 0;
                 public static final double kD = 0;
