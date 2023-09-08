@@ -371,47 +371,13 @@ public class CubeIntake extends MustangSubsystemBase {
         private double angle; 
 
 
-        // public Deployer() {
-        //     super(RobotConstants.CubeIntake.Deployer.kConfig);
-        //     setName("Deployer");
-        //     kConfig=RobotConstants.CubeIntake.Deployer.kConfig;
-        //     // setLogFileHeader("abs-Encoder", "rel-encoder", "rel-encoder-vel", "angle", "isDeployed");
-        //     absEncoder = new DutyCycleEncoder(RobotConstants.CubeIntake.kAbsoluteEncoderID);
-        //     setEncoderPositionFromAbsolute();
-        //     enableCoastMode();
-        // }
+
 
         public static synchronized Deployer getInstance() {
             mInstance = mInstance == null ? new Deployer() : mInstance;
             return mInstance;
         }
-        // public double getSpeed() {
-        //     return mRotator.get();
-        // }
-
-        // public double getAbsoluteEncoderRotations() {
-        //     double pos = absEncoder.get();
-        //     while (pos > RobotConstants.CubeIntake.Deployer.kAbsoluteEncoderPostionAtFlipoutMax + 0.1) {
-        //         pos -= 1;
-        //     }
-        //     while (pos < RobotConstants.CubeIntake.Deployer.kAbsoluteEncoderPostionAtFlipoutZero - 0.1) {
-        //         pos += 1;
-        //     }
-        //     return pos;
-        // }
-
-        /**
-         * Sets the rotator encoder's reference position to the constant obtained from
-         * the absolute encoder corresponding to that position.
-         */
-        // public void setEncoderPositionFromAbsolute() {
-        //     clearSetpoint();
-            
-        //     mEncoder.setPosition(
-        //             -1 * (getAbsoluteEncoderRotations() - RobotConstants.CubeIntake.Deployer.kAbsoluteEncoderPostionAtFlipoutZero)
-        //                     * kConfig.kRotatorGearRatio());
-        //     // Logger.consoleLog("Encoder position set: %s", rotator_encoder.getPosition());
-        // }
+ 
 
         /**
          * @return the position, in number of rotations of the flipout
@@ -420,67 +386,6 @@ public class CubeIntake extends MustangSubsystemBase {
             return mEncoder.getPosition();
         }
 
-        // @Override
-        // public HealthState checkHealth() {
-
-        //     if (mRotator.isErrored()) {
-        //         return HealthState.RED;
-        //     }
-        //     return HealthState.GREEN;
-        // }
-
-        // /**
-        //  * Converts an intake angle into rotations
-        //  */
-        // private static int convertFlipoutDegreesToRotations(double degrees) {
-        //     // If straight up is 0 and going forward is positive
-        //     // percentage * half rotation
-        //     return (int) ((degrees / 90) *RobotConstants.CubeIntake.Deployer.kMaxFlipOutRotations);
-        // }
-
-        // /**
-        //  * Converts intake rotations into an angle
-        //  */
-        // private static double convertFlipoutRotationsToDegrees(double rotations) {
-        //     // If straight up is 0 and going forward is positive
-        //     return ((90 * rotations) / RobotConstants.CubeIntake.Deployer.kMaxFlipOutRotations);
-        // }
-
-        // /**
-        //  * Turns to a target angle the most efficient way.
-        //  */
-        // @Override
-        // public boolean setSystemTargetAngleInDegrees(double angleDegrees) {
-        //     angleDegrees = MathUtil.clamp(angleDegrees, 0, 90);
-        //     double currentAngle = getCurrentAngleInDegrees();
-        //     if (angleDegrees > currentAngle) {
-                
-        //         mController.setSmartMotionMaxAccel(RobotConstants.CubeIntake.Deployer.kMaxAccelDownwards, 0);
-        //     } else {
-        //         mController.setSmartMotionMaxAccel(RobotConstants.CubeIntake.Deployer.kMaxAccelUpwards, 0);
-        //     }
-        //     setSystemMotionTarget(convertFlipoutDegreesToRotations(angleDegrees));
-        //     return true;
-        // }
-
-        // /**
-        //  * @return the angle the flipout is currently turned to, between 0 and 90
-        //  */
-        // @Override
-        // public double getCurrentAngleInDegrees() {
-        //     return convertFlipoutRotationsToDegrees(getUnadjustedPosition());
-        // }
-
-        // @Override
-        // public void mustangPeriodic() {
-        //     debugSubsystem();
-        //     SmartDashboard.putNumber("Deployer ANgle", getCurrentAngleInDegrees());
-        //     if (angle == 90 && getCurrentAngleInDegrees() > 70 && !rotatorSetpointCancelled) {
-        //         clearSetpoint();
-        //         rotatorSetpointCancelled = true;
-        //     }
-        //     SmartDashboard.putNumber("Dployer absolute encoder position ", absEncoder.getAbsolutePosition());
-        // }
 
 
         public boolean deploy(boolean deploy) {
