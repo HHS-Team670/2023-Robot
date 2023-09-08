@@ -9,6 +9,19 @@
       }
     },
     "transitory": {
+      "Shuffleboard": {
+        "Drivetrain": {
+          "Back Left Module": {
+            "open": true
+          },
+          "Back Right Module": {
+            "open": true
+          },
+          "Front Left Module": {
+            "open": true
+          }
+        }
+      },
       "SmartDashboard": {
         "open": true
       }

@@ -97,7 +97,7 @@ public final class RobotConstants extends RobotConstantsBase {
                     entry("kWristAbsoluteEncoderVerticalOffset", 0.380388), // 0.177702
                     entry("kShoulderGearRatio", 96.0), entry("kElbowGearRatio", 70.833333333333),
                     entry("kSwerveModuleConfig", 2.0), entry("kWristGearRatio", 125.0), 
-                    entry("kDeployerGearRatio",25.0), entry("kAbsoluteEncoderPostionAtFlipoutMax", 0.0))),
+                    entry("kDeployerGearRatio",25.0), entry("kDeployerAbsoluteEncoderVerticalOffset",0.792352))),
             entry(kSkipperAddress,
                     Map.ofEntries(
                             entry("kBackRightModuleSteerOffsetRadians", -Math.toRadians(82.694)),
@@ -371,22 +371,23 @@ public final class RobotConstants extends RobotConstantsBase {
 
 
         public static final int kMotorID = 9;
-        public static final int kAbsoluteEncoderID = 3;
+        
 
-        public static final double kRollingSpeed = 1.0;
-        public static final double kEjectingSpeed = -0.6;
+        public static final double kRollingSpeed = 0.5;
+        public static final double kEjectingSpeed = -0.3;
         public static final double kCurrentMax = 30.0;
-        public static final double kIdleSpeed = 0.05;
+        public static final double kIdleSpeed = -0.05;
         public static final int kEjectIterations = 30;
         public static final int kCurrentSpikeIterations = 10;
         
         public static final class Deployer{
 
                 public static final int kSlot = 3;
+                public static final int kAbsoluteEncoderID = 3;
                 public static final Motor_Type kMotorType = MotorConfig.Motor_Type.NEO;
                 public static final IdleMode kIdleMode = IdleMode.kCoast;
                 public static final int kMotorID=16;
-                public static final double kP = 0.00015;
+                public static final double kP = 0.0004;
                 public static final double kI = 0;
                 public static final double kD = 0;
                 public static final double kFF = 0.000176;
@@ -405,11 +406,11 @@ public final class RobotConstants extends RobotConstantsBase {
                 public static final double kAllowedErrorRotations = kGearRatio* kAllowedErrorDegrees/360;
                 public static final double kMaxRotatorRPM = 3500;
                 public static final double kMinRotatorRPM = 0;
-                public static final double kMaxFlipOutRotations = -8.142;
+                // public static final double kMaxFlipOutRotations = -8.142;
                 public static final int  kMaxAccelDownwards = 700;
                 public static final int kMaxAccelUpwards = 1900;
-                public static final double kAbsoluteEncoderPostionAtFlipoutMax = RobotConstants.robotSpecificConstants.get("kAbsoluteEncoderPostionAtFlipoutMax");
-                public static final double kAbsoluteEncoderPostionAtFlipoutZero = RobotConstants.robotSpecificConstants.get("kAbsoluteEncoderPostionAtFlipoutZero");
+                public static final double kAbsoluteEncoderVerticalOffset = RobotConstants.robotSpecificConstants.get("kDeployerAbsoluteEncoderVerticalOffset");
+                // public static final double kAbsoluteEncoderPostionAtFlipoutZero = RobotConstants.robotSpecificConstants.get("kAbsoluteEncoderPostionAtFlipoutZero");
 
 
                 public static final SparkMaxRotatingSubsystem.Config kConfig = new SparkMaxRotatingSubsystem.Config(
