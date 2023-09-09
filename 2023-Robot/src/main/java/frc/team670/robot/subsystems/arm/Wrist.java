@@ -78,7 +78,7 @@ public class Wrist extends SparkMaxRotatingSubsystem {
         REVLibError rotatorError = super.mRotator.getLastError();
 
         if (rotatorError != null && rotatorError != REVLibError.kOk) {
-            Logger.consoleError("Wrist error! Rotator Error is " + rotatorError.toString());
+            Logger.consoleLog("Wrist error! Rotator Error is " + rotatorError.toString());
             errorCounter++;
         } else {
             errorCounter = 0;

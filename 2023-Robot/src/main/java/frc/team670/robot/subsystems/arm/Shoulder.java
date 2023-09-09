@@ -92,8 +92,8 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
         boolean followerOK = (followerRotatorError == REVLibError.kOk);
 
         if (!leaderOK && !followerOK) {
-            Logger.consoleError("Shoulder error! Leader error is " + leaderRotatorError.toString());
-            Logger.consoleError(
+            Logger.consoleLog("Shoulder error! Leader error is " + leaderRotatorError.toString());
+            Logger.consoleLog(
                     "Shoulder error! Follower error is " + followerRotatorError.toString());
             return HealthState.RED;
         }

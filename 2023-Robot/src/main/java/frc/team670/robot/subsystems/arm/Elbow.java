@@ -78,7 +78,7 @@ public class Elbow extends SparkMaxRotatingSubsystem {
         REVLibError rotatorError = super.mRotator.getLastError();
 
         if (rotatorError != null && rotatorError != REVLibError.kOk) {
-            Logger.consoleError("Elbow error! Rotator error is " + rotatorError.toString());
+            Logger.consoleLog("Elbow error! Rotator error is " + rotatorError.toString());
             errorCounter++;
         } else {
             errorCounter = 0;
