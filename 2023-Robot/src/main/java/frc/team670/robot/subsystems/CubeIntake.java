@@ -345,10 +345,10 @@ public class CubeIntake extends MustangSubsystemBase {
             }
             Logger.consoleLog("Deployer relativePositionIsSet = " + this.relativePositionIsSet);
         }
-        if (angle == 90 && super.getCurrentAngleInDegrees() < 170 && !rotatorSetpointCancelled) {
-            clearSetpoint();
-            rotatorSetpointCancelled = true;
-        }
+        // if (angle == 90 && super.getCurrentAngleInDegrees() < 170 && !rotatorSetpointCancelled) {
+        //     clearSetpoint();
+        //     rotatorSetpointCancelled = true;
+        // }
     }
 
     public void sendAngleToDashboard() {
