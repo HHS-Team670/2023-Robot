@@ -90,9 +90,9 @@ public final class RobotConstants extends RobotConstantsBase {
                     entry("kBackLeftModuleSteerOffsetRadians", -Math.toRadians(299.807)),
                     entry("kFrontRightModuleSteerOffsetRadians", -Math.toRadians(137.499)),
                     entry("kFrontLeftModuleSteerOffsetRadians", -Math.toRadians(318.604)),
-                    entry("kShoulderAbsoluteEncoderVerticalOffset", 0.484233), // 0.47777
+                    entry("kShoulderAbsoluteEncoderVerticalOffset", 0.475), // 0.47777
                     entry("kElbowAbsoluteEncoderVerticalOffset", 0.004892),
-                    entry("kWristAbsoluteEncoderVerticalOffset", 0.380388), // 0.177702
+                    entry("kWristAbsoluteEncoderVerticalOffset", 0.435), // 0.177702
                     entry("kShoulderGearRatio", 96.0), entry("kElbowGearRatio", 70.833333333333),
                     entry("kSwerveModuleConfig", 2.0), entry("kWristGearRatio", 45.0))),
             entry(kSkipperAddress,
