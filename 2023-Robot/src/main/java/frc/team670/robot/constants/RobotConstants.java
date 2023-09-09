@@ -96,7 +96,7 @@ public final class RobotConstants extends RobotConstantsBase {
                     entry("kElbowAbsoluteEncoderVerticalOffset", 0.004892),
                     entry("kWristAbsoluteEncoderVerticalOffset", 0.380388), // 0.177702
                     entry("kShoulderGearRatio", 96.0), entry("kElbowGearRatio", 70.833333333333),
-                    entry("kSwerveModuleConfig", 2.0), entry("kWristGearRatio", 125.0), 
+                    entry("kSwerveModuleConfig", 2.0), entry("kWristGearRatio", 45.0), 
                     entry("kDeployerGearRatio",25.0), entry("kDeployerAbsoluteEncoderVerticalOffset",0.792352))),
             entry(kSkipperAddress,
                     Map.ofEntries(
