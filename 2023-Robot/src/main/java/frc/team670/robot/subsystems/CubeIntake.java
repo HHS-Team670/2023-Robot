@@ -177,6 +177,8 @@ public class CubeIntake extends MustangSubsystemBase {
                     
                     
                 }
+                setIdle();
+                
                 break;
             default:
                 motor.set(0);
