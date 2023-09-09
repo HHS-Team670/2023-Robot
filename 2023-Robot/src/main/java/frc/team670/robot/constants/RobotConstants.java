@@ -387,7 +387,7 @@ public final class RobotConstants extends RobotConstantsBase {
                 public static final Motor_Type kMotorType = MotorConfig.Motor_Type.NEO;
                 public static final IdleMode kIdleMode = IdleMode.kCoast;
                 public static final int kMotorID=16;
-                public static final double kP = 0.0004;
+                public static final double kP = 0.008;
                 public static final double kI = 0;
                 public static final double kD = 0;
                 public static final double kFF = 0.000176;

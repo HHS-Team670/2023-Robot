@@ -298,11 +298,7 @@ public class CubeIntake extends MustangSubsystemBase {
         RobotConstants.CubeIntake.Deployer.kAllowedErrorRotations));
     }
 
-    @Override
-    public boolean setSystemTargetAngleInDegrees(double targetAngle) {
-     
-        return super.setSystemTargetAngleInDegrees(targetAngle);
-    }
+
 
     @Override
     public void debugSubsystem() {
@@ -391,11 +387,13 @@ public class CubeIntake extends MustangSubsystemBase {
         public boolean deploy(boolean deploy) {
             angle = 180;
             if (deploy) {
-                SmartDashboard.putBoolean("Deployed deployer",true);
+                SmartDashboard.putNumber("Deployed deployer",90);
                 angle = 90;
                 setRotatorMode(true);
                 rotatorSetpointCancelled = false;
+                setSystemTargetAngleInDegrees(angle);
             } else {
+                SmartDashboard.putNumber("Deployed deployer",180);
                 setRotatorMode(false);
             }
             setSystemTargetAngleInDegrees(angle);
