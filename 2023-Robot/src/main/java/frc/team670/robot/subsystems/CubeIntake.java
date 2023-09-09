@@ -167,7 +167,7 @@ public class CubeIntake extends MustangSubsystemBase {
 
             case EJECTING:
                
-                motor.set(ejectingSpeed);
+                motor.set(RobotConstants.CubeIntake.kEjectingSpeed);
                 
                 
                 ejectCounter++;
@@ -345,7 +345,7 @@ public class CubeIntake extends MustangSubsystemBase {
             }
             Logger.consoleLog("Deployer relativePositionIsSet = " + this.relativePositionIsSet);
         }
-        if (angle == 90 && super.getCurrentAngleInDegrees() > 80 && !rotatorSetpointCancelled) {
+        if (angle == 90 && super.getCurrentAngleInDegrees() < 170 && !rotatorSetpointCancelled) {
             clearSetpoint();
             rotatorSetpointCancelled = true;
         }
