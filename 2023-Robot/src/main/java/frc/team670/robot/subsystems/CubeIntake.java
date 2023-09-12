@@ -366,7 +366,7 @@ public class CubeIntake extends MustangSubsystemBase {
 
         private boolean rotatorSetpointCancelled = false;
 
-        private double angle; 
+        private double angle=180; 
 
 
 
