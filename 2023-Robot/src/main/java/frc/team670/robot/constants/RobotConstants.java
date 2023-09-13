@@ -413,9 +413,11 @@ public final class RobotConstants extends RobotConstantsBase {
                 // public static final double kAbsoluteEncoderPostionAtFlipoutZero = RobotConstants.robotSpecificConstants.get("kAbsoluteEncoderPostionAtFlipoutZero");
 
 
-                public static final SparkMaxRotatingSubsystem.Config kConfig = new SparkMaxRotatingSubsystem.Config(
-                kMotorID, kSlot, kMotorType, kIdleMode, kGearRatio, kP, kI, kD,kFF,kIz,kMaxOutput, kMinOutput, kMaxRotatorRPM, 
-                kMinRotatorRPM, kMaxAcceleration, kAllowedErrorDegrees, kSoftLimits, kContinuousCurrent, kPeakCurrent); 
+                public static final frc.team670.robot.subsystems.CubeIntake.Deployer.Config kConfig= new frc.team670.robot.subsystems.CubeIntake.Deployer.Config(
+                kMotorID, kSlot, kMotorType, kIdleMode, kGearRatio, kContinuousCurrent, kPeakCurrent);
+
+
+              
                 }
 } 
 

@@ -11,6 +11,7 @@ import frc.team670.mustanglib.subsystems.SparkMaxRotatingSubsystem;
 import frc.team670.mustanglib.utils.Logger;
 import frc.team670.mustanglib.utils.functions.MathUtils;
 import frc.team670.mustanglib.utils.motorcontroller.MotorConfig.Motor_Type;
+import frc.team670.mustanglib.utils.motorcontroller.MotorConfig;
 import frc.team670.mustanglib.utils.motorcontroller.SparkMAXFactory;
 import frc.team670.mustanglib.utils.motorcontroller.SparkMAXLite;
 import frc.team670.robot.constants.RobotConstants;
@@ -198,175 +199,87 @@ public class CubeIntake extends MustangSubsystemBase {
  * 
  * @author lakshbhambhani
  */
-    public static class Deployer extends SparkMaxRotatingSubsystem {
-
+    public static class Deployer extends MustangSubsystemBase {
+        public record Config(int kMotorID, int kSlot, MotorConfig.Motor_Type kMotorType,
+        IdleMode kIdleMode,double  kGearRatio, int kContinuousCurrent,int kPeakCurrent){}
         
-    private DutyCycleEncoder absEncoder;
-    private boolean hasSetAbsolutePosition = false;
+    
+
     private int counter = 0;
-    private double previousReading = 0.0;
-    private double calculatedRelativePosition = 0.0;
-    private boolean relativePositionIsSet = false;
     private double errorCounter = 0;
-
-    private final String positionDeg = "Deployer position (deg)";
-    private final String absEncoderPos = "Deployer abs encoder position";
-    private final String positionRot = "Deployer position (rotations)";
-    private final String setpointRot = "Deployer setpoint (rotations)";
+    private boolean deployed=false;
+`   private SparkMAXLite mRotator;
     private final String current = "Deployer current";
-
+    private final Config kConfig;
+    private static Deployer mInstance;
     // constructor that inits motors and stuff
 
     public Deployer() {
-        super(RobotConstants.CubeIntake.Deployer.kConfig);
+        
         kConfig=RobotConstants.CubeIntake.Deployer.kConfig;
-        absEncoder = new DutyCycleEncoder(RobotConstants.CubeIntake.Deployer.kAbsoluteEncoderID);
-        super.getRotator().setInverted(true);
+        mRotator= SparkMAXFactory.buildFactorySparkMAX(kConfig.kMotorID, kConfig.kMotorType);
+        mRotator.setInverted(true);
     }
 
-    /**
-     * PRIVATE method to set position from absolute. Do not use directly. Instead, use
-     * resetPositionFromAbsolute()
-     */
-    private void setEncoderPositionFromAbsolute() {
-        double absEncoderPosition = absEncoder.getAbsolutePosition();
-        double previousPositionRot = super.mEncoder.getPosition();
+   
 
-        if (absEncoderPosition != 0.0) {
-            double relativePosition = ((-1 * (absEncoderPosition
-                    - (RobotConstants.CubeIntake.Deployer.kAbsoluteEncoderVerticalOffset - 0.5)) + 2)
-                    * RobotConstants.CubeIntake.Deployer.kGearRatio) % RobotConstants.CubeIntake.Deployer.kGearRatio;
 
-            if (calculatedRelativePosition == 0.0
-                    || Math.abs(360 * ((previousPositionRot - relativePosition)
-                            / kConfig.kRotatorGearRatio())) < 10.0) {
-                clearSetpoint();
-                REVLibError error = mEncoder.setPosition(relativePosition);
-                SmartDashboard.putNumber("Deployer absEncoder position when reset",
-                        absEncoderPosition);
-                SmartDashboard.putNumber("Deployer relEncoder position when reset", relativePosition);
-                SmartDashboard.putString("Deployer error", error.toString());
-                calculatedRelativePosition = relativePosition;
-            }
-        }
-
-    }
-
-    @Override
-    public boolean getTimeout() {
-        return false;
-    }
 
     @Override
     public HealthState checkHealth() {
-        REVLibError rotatorError = super.mRotator.getLastError();
+        // REVLibError rotatorError = super.mRotator.getLastError();
 
-        if (rotatorError != null && rotatorError != REVLibError.kOk) {
-            Logger.consoleError("Deployer error! Rotator error is " + rotatorError.toString());
-            errorCounter++;
-        } else {
-            errorCounter = 0;
-        }
+        // if (rotatorError != null && rotatorError != REVLibError.kOk) {
+        //     Logger.consoleError("Deployer error! Rotator error is " + rotatorError.toString());
+        //     errorCounter++;
+        // } else {
+        //     errorCounter = 0;
+        // }
 
-        if (errorCounter >= 20) {
-            return HealthState.RED;
-        }
+        // if (errorCounter >= 20) {
+        //     return HealthState.RED;
+        // }
 
-        if (!hasSetAbsolutePosition || !relativePositionIsSet) {
-            return HealthState.YELLOW;
-        }
+        // if (!hasSetAbsolutePosition || !relativePositionIsSet) {
+        //     return HealthState.YELLOW;
+        // }
 
         return HealthState.GREEN;
     }
 
-    /**
-     * Returns whether or not the relative position has been properly set from the absEncoder. When
-     * resetPositionFromAbsolute() gets called, this will temporarily be false.
-     */
-    public boolean isRelativePositionSet() {
-        return relativePositionIsSet;
-    }
 
-    /**
-     * Public method to reset the position from the absolute position.
-     */
-    public void resetPositionFromAbsolute() {
-        setEncoderPositionFromAbsolute();
-    }
 
-    // @Override
-    public boolean hasReachedTargetPosition() {
-        return (MathUtils.doublesEqual(mEncoder.getPosition(), mSetpoint,
-        RobotConstants.CubeIntake.Deployer.kAllowedErrorRotations));
-    }
+
+
+
 
 
 
     @Override
     public void debugSubsystem() {
-        double relativePosition = super.mEncoder.getPosition();
+        // double relativePosition = super.mEncoder.getPosition();
 
-        SmartDashboard.putNumber(positionDeg, getCurrentAngleInDegrees());
-        SmartDashboard.putNumber(positionRot, relativePosition);
-        SmartDashboard.putNumber(absEncoderPos, absEncoder.getAbsolutePosition());
-        SmartDashboard.putNumber(setpointRot, mSetpoint);
-        SmartDashboard.putNumber(current, super.getRotator().getOutputCurrent());
-        SmartDashboard.putNumber("Deployer motor power: ", super.mRotator.get());
+        // SmartDashboard.putNumber(positionDeg, getCurrentAngleInDegrees());
+        // SmartDashboard.putNumber(positionRot, relativePosition);
+        // SmartDashboard.putNumber(absEncoderPos, absEncoder.getAbsolutePosition());
+        // SmartDashboard.putNumber(setpointRot, mSetpoint);
+        // SmartDashboard.putNumber(current, super.getRotator().getOutputCurrent());
+        // SmartDashboard.putNumber("Deployer motor power: ", super.mRotator.get());
     }
 
     @Override
     public void mustangPeriodic() {
-        if (!hasSetAbsolutePosition) { // before it's set an absolute position...
-            double position = absEncoder.getAbsolutePosition();
-            if (Math.abs(previousReading - position) < 0.02 && position != 0.0) { // If the current
-                                                                                  // reading is
-                                                                                  // PRECISELY
-                                                                                  // 0, then it's
-                                                                                  // not valid.
-                counter++; // increases the counter if the current reading is close enough to the
-                           // last
-                           // reading.
-                           // We do this because when the absEncoder gets initialized, its reading
-                           // fluctuates drastically at the start.
-            } else {
-                counter = 0;
-                previousReading = position;
-            }
-            if (counter > 100) { // Once it's maintained a constant value for long enough...
-                setEncoderPositionFromAbsolute();
-                hasSetAbsolutePosition = true;
-            }
-        } else if (!relativePositionIsSet) {
-            double position = super.mEncoder.getPosition();
-            Logger.consoleLog("Deployer relative position = " + position
-                    + ", calculatedRelativePosition = " + calculatedRelativePosition);
-            if (Math.abs(position - calculatedRelativePosition) < 0.5) {
-                relativePositionIsSet = true;
-            } else {
-                super.mEncoder.setPosition(calculatedRelativePosition);
-            }
-            Logger.consoleLog("Deployer relativePositionIsSet = " + this.relativePositionIsSet);
-        }
-        // if (angle == 90 && super.getCurrentAngleInDegrees() < 170 && !rotatorSetpointCancelled) {
-        //     clearSetpoint();
-        //     rotatorSetpointCancelled = true;
-        // }
+      
     }
 
-    public void sendAngleToDashboard() {
-        SmartDashboard.putNumber(positionDeg, getCurrentAngleInDegrees());
-    }
+
         // private DutyCycleEncoder absEncoder;
-        private final Config kConfig;
-        private static Deployer mInstance;
+      
 
         
         
 
 
-        private boolean rotatorSetpointCancelled = false;
-
-        private double angle=180; 
 
 
 
