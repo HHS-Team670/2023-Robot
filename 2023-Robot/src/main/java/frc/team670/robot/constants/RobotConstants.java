@@ -98,7 +98,7 @@ public final class RobotConstants extends RobotConstantsBase {
             entry(kBenchAddress,
                     Map.ofEntries(
                             entry("kBackRightModuleSteerOffsetRadians", -Math.toRadians(84.199218)),
-                            entry("kBackLeftModuleSteerOffsetRadians", -Math.toRadians(232.998052-180)),
+                            entry("kBackLeftModuleSteerOffsetRadians", -Math.toRadians(232.998052)),
                             entry("kFrontRightModuleSteerOffsetRadians", -Math.toRadians(203.554691)),
                             entry("kFrontLeftModuleSteerOffsetRadians", -Math.toRadians(133.857419)),
                             entry("kShoulderAbsoluteEncoderVerticalOffset", 0.895),
