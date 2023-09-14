@@ -373,8 +373,8 @@ public final class RobotConstants extends RobotConstantsBase {
         public static final int kMotorID = 9;
         
 
-        public static final double kRollingSpeed = 0.5;
-        public static final double kEjectingSpeed = -0.3;
+        public static final double kRollingSpeed = -0.5;
+        public static final double kEjectingSpeed = +0.3;
         public static final double kCurrentMax = 30.0;
         public static final double kIdleSpeed = -0.05;
         public static final int kEjectIterations = 30;
@@ -399,14 +399,17 @@ public final class RobotConstants extends RobotConstantsBase {
                 public static final double kAllowedErrorDegrees = 0.35;
 
                 public static final float[] kSoftLimits = null;
-                public static final int kContinuousCurrent = 20;
-                public static final int kPeakCurrent = 80;
+                public static final int kContinuousCurrent = 10;
+                public static final int kPeakCurrent = 30;
 
                 public static final double kGearRatio = RobotConstants.robotSpecificConstants.get("kDeployerGearRatio").intValue();
                 public static final double kAllowedErrorRotations = kGearRatio* kAllowedErrorDegrees/360;
                 public static final double kMaxRotatorRPM = 3500;
                 public static final double kMinRotatorRPM = 0;
                 // public static final double kMaxFlipOutRotations = -8.142;
+                public static final int kPeriodicsDown=17;
+                public static final int kPeriodicsUp=10;
+                public static final double kMotorSpeed=-0.68;
                 public static final int  kMaxAccelDownwards = 700;
                 public static final int kMaxAccelUpwards = 1900;
                 public static final double kAbsoluteEncoderVerticalOffset = RobotConstants.robotSpecificConstants.get("kDeployerAbsoluteEncoderVerticalOffset");
@@ -415,6 +418,8 @@ public final class RobotConstants extends RobotConstantsBase {
 
                 public static final frc.team670.robot.subsystems.CubeIntake.Deployer.Config kConfig= new frc.team670.robot.subsystems.CubeIntake.Deployer.Config(
                 kMotorID, kSlot, kMotorType, kIdleMode, kGearRatio, kContinuousCurrent, kPeakCurrent);
+                public static final double kDeployedIdleSpeed = -0.05;
+                
 
 
               

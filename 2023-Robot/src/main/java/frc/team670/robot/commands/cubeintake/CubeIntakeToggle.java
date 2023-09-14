@@ -26,6 +26,7 @@ public class CubeIntakeToggle extends InstantCommand implements MustangCommand {
 
     @Override 
     public void execute(){
+        // cubeIntake.startEjecting();
         if(cubeIntake.getDeployer().isDeployed()){
             cubeIntake.setIdle();
         }else  if(!cubeIntake.isFull()){

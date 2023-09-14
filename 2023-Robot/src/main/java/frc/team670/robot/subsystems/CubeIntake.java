@@ -86,18 +86,16 @@ public class CubeIntake extends MustangSubsystemBase {
      */
     public void startEjecting(double ejectingSpeed) {
         this.ejectingSpeed = ejectingSpeed;
-        if (this.status != Status.EJECTING) {
-            this.isFull = true;
-        }
-        deployer.deploy(true);
+      
+        // deployer.deploy(true);
         setStatus(Status.EJECTING);
     }
 
     public void startIntaking() {
-        if (this.status != Status.INTAKING) {
-            this.isFull = false;
-        }
-        deployer.deploy(true);
+        // if (this.status != Status.INTAKING) {
+        //     this.isFull = false;
+        // }
+        deployer.deploy(true);;
         setStatus(Status.INTAKING);
     }
 
@@ -135,10 +133,8 @@ public class CubeIntake extends MustangSubsystemBase {
         switch (status) {
             case IDLE:
 
-            
             motor.set(RobotConstants.CubeIntake.kIdleSpeed);
             
-
                 break;
             case INTAKING:
            
@@ -158,6 +154,7 @@ public class CubeIntake extends MustangSubsystemBase {
                         // OI.getOperatorController().rumble(0.5, 0.5);
                         currentSpikeCounter = 0;
                         setIdle();
+
                         Claw.getInstance().setIdle();
                         
                     }
@@ -197,19 +194,19 @@ public class CubeIntake extends MustangSubsystemBase {
 /**
  * Represents the deployer for the intake
  * 
- * @author lakshbhambhani
+ * @author armaangomes
  */
     public static class Deployer extends MustangSubsystemBase {
         public record Config(int kMotorID, int kSlot, MotorConfig.Motor_Type kMotorType,
-        IdleMode kIdleMode,double  kGearRatio, int kContinuousCurrent,int kPeakCurrent){}
+        IdleMode kIdleMode,double  kGearRatio, int kContinuousCurrent, int kPeakCurrent){}
         
     
 
     private int counter = 0;
-    private double errorCounter = 0;
+    // private double errorCounter = 0;
     private boolean deployed=false;
-`   private SparkMAXLite mRotator;
-    private final String current = "Deployer current";
+    private SparkMAXLite mRotator;
+    // private final String current = "Deployer current";
     private final Config kConfig;
     private static Deployer mInstance;
     // constructor that inits motors and stuff
@@ -219,6 +216,7 @@ public class CubeIntake extends MustangSubsystemBase {
         kConfig=RobotConstants.CubeIntake.Deployer.kConfig;
         mRotator= SparkMAXFactory.buildFactorySparkMAX(kConfig.kMotorID, kConfig.kMotorType);
         mRotator.setInverted(true);
+        mRotator.setSmartCurrentLimit(kConfig.kPeakCurrent, kConfig.kContinuousCurrent);
     }
 
    
@@ -227,24 +225,12 @@ public class CubeIntake extends MustangSubsystemBase {
 
     @Override
     public HealthState checkHealth() {
-        // REVLibError rotatorError = super.mRotator.getLastError();
-
-        // if (rotatorError != null && rotatorError != REVLibError.kOk) {
-        //     Logger.consoleError("Deployer error! Rotator error is " + rotatorError.toString());
-        //     errorCounter++;
-        // } else {
-        //     errorCounter = 0;
-        // }
-
-        // if (errorCounter >= 20) {
-        //     return HealthState.RED;
-        // }
-
-        // if (!hasSetAbsolutePosition || !relativePositionIsSet) {
-        //     return HealthState.YELLOW;
-        // }
-
+        if (mRotator == null || mRotator.isErrored()) {
+            return HealthState.RED;
+        }
         return HealthState.GREEN;
+
+       
     }
 
 
@@ -269,6 +255,15 @@ public class CubeIntake extends MustangSubsystemBase {
 
     @Override
     public void mustangPeriodic() {
+      counter--;
+      if(counter<=0){
+        counter=0;
+        mRotator.stopMotor();
+        if(deployed){
+            // mRotator.setSmartCurrentLimit(10);
+            mRotator.set(RobotConstants.CubeIntake.Deployer.kDeployedIdleSpeed);
+          }
+      }
       
     }
 
@@ -290,29 +285,34 @@ public class CubeIntake extends MustangSubsystemBase {
         }
  
 
-        /**
-         * @return the position, in number of rotations of the flipout
-         */
-        public double getPosition() {
-            return mEncoder.getPosition();
-        }
 
 
 
-        public boolean deploy(boolean deploy) {
-            angle = 180;
-            if (deploy) {
-                SmartDashboard.putNumber("Deployed deployer",90);
-                angle = 90;
-                setRotatorMode(true);
-                rotatorSetpointCancelled = false;
-                setSystemTargetAngleInDegrees(angle);
+
+        public void toggleDeployer() {
+            
+            if ( !isDeployed()) {
+                deploy(true);
+                
             } else {
-                SmartDashboard.putNumber("Deployed deployer",180);
-                setRotatorMode(false);
+                // SmartDashboard.putNumber("Deployed deployer",180);
+                deploy(false);
             }
-            setSystemTargetAngleInDegrees(angle);
-            return hasReachedTargetPosition();
+           
+         
+        }
+        public void deploy(boolean deploy){
+            if(deploy==true){
+                counter=RobotConstants.CubeIntake.Deployer.kPeriodicsDown;
+                mRotator.set(RobotConstants.CubeIntake.Deployer.kMotorSpeed);
+                setRotatorMode(true);
+                deployed=true;
+            }else{
+                counter=RobotConstants.CubeIntake.Deployer.kPeriodicsUp;
+                mRotator.set(-RobotConstants.CubeIntake.Deployer.kMotorSpeed);
+                setRotatorMode(false);
+                deployed=false;
+            }
         }
 
         /**
@@ -327,26 +327,14 @@ public class CubeIntake extends MustangSubsystemBase {
         }
 
         public boolean isDeployed() {
-            return (angle == 90);
+            return deployed;
         }
 
       
 
-        @Override
-        public void moveByPercentOutput(double output) {
 
-        }
 
-        // @Override
-        // public void debugSubsystem() {
-        //     SmartDashboard.putNumber("abs-Encoder", absEncoder.get());
-        //     SmartDashboard.putNumber("rel-Encoder", this.mEncoder.getPosition());
-        //     SmartDashboard.putNumber("rel-Encoder-vel", this.mEncoder.getVelocity());
-        //     SmartDashboard.putNumber("angle", getCurrentAngleInDegrees());
-        //     SmartDashboard.putBoolean("isDeployed", isDeployed());
 
-        //     // writeToLogFile(absEncoder.get(), this.rotator_encoder.getPosition(), this.rotator_encoder.getVelocity(),
-        //             // getCurrentAngleInDegrees(), isDeployed());
-        // }
+        
     }
 }
