@@ -23,7 +23,8 @@ public class Wrist extends SparkMaxRotatingSubsystem {
     private double calculatedRelativePosition = 0.0;
     private boolean relativePositionIsSet = false;
     private double errorCounter = 0;
-
+    private double offset = 0;
+    private double orgTargetAngle = 0; 
     private final String positionDeg = "Wrist position (deg)";
     private final String absEncoderPos = "Wrist abs encoder position";
     private final String positionRot = "Wrist position (rotations)";
@@ -72,6 +73,27 @@ public class Wrist extends SparkMaxRotatingSubsystem {
     public boolean getTimeout() {
         return false;
     }
+
+    @Override
+    public boolean setSystemTargetAngleInDegrees(double targetAngle) {
+        orgTargetAngle = targetAngle;
+        return super.setSystemTargetAngleInDegrees(targetAngle + offset);
+    }
+
+    private void setOffset(double offset) {
+        this.offset = offset;
+        setSystemTargetAngleInDegrees(orgTargetAngle);
+
+    }
+    public void resetOffset() {
+        setOffset(0);
+
+    }
+
+    public void addOffset(double offset) {
+        setOffset(this.offset + offset);
+    }
+    
 
     @Override
     public HealthState checkHealth() {
