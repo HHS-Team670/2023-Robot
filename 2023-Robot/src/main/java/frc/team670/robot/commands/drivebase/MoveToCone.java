@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 import org.photonvision.PhotonCamera;
+import org.photonvision.targeting.PhotonTrackedTarget;
 
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
@@ -13,6 +14,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.team670.mustanglib.commands.MustangCommand;
 import frc.team670.mustanglib.commands.MustangScheduler;
@@ -58,7 +60,9 @@ public class MoveToCone extends CommandBase implements MustangCommand {
     @Override
     public void initialize() {
         colorCam = driveBase.getPoseEstimator().getVision().getCameras()[1];
+        
     }
+
 
 
     public boolean hasTarget(){
@@ -67,8 +71,19 @@ public class MoveToCone extends CommandBase implements MustangCommand {
     //
     public double angleToCone(){
         var result = colorCam.getLatestResult();
-        if(result.hasTargets())
-            return colorCam.getLatestResult().getTargets().get(0).getPitch()/60;
+        if(result.hasTargets()){
+            double maxArea=0;
+            PhotonTrackedTarget bestTarget=null;
+            for (var target:result.getTargets()){
+                if(target.getArea()>maxArea){
+                    maxArea=target.getArea();
+                    bestTarget=target;
+                }
+            }
+            SmartDashboard.putNumber("Target Decimal",bestTarget.getPitch()/60);
+            return bestTarget.getPitch()/60;
+        }
+           
         else
             return 0;
             
