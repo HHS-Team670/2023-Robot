@@ -38,52 +38,27 @@ import frc.team670.robot.subsystems.drivebase.DriveBase;
  */
 
 public class RobotContainer extends RobotContainerBase {
-    private final Vision mVision = Vision.getInstance();
-    private final DriveBase mDriveBase = DriveBase.getInstance();
     private final LED mLed = LED.getInstance();
-    private final Arm mArm = Arm.getInstance();
-    private final Claw mClaw = Claw.getInstance();
 
-    private MustangCommand cableScore, cableEngage, stationScore, stationEngage, centerEngage,
-            centerIntake, scoreMid;
-
-    private Notifier updateArbitraryFeedForward;
 
     private final String kMatchStartedString = "match-started";
     private final String kAutonChooserString = "auton-chooser";
 
     public RobotContainer() {
         super();
-        addSubsystem(mDriveBase, mVision, mArm, mArm.getShoulder(), mArm.getElbow(), mArm.getWrist(),
-                mClaw, mLed);
+        addSubsystem(mLed);
         OI.configureButtonBindings();
 
         for (MustangSubsystemBase subsystem : getSubsystems()) {
             subsystem.setDebugSubsystem(true);
         }
 
-        cableScore = new ConeCube(mDriveBase, mClaw, mArm,mLed, "CableScoreShort");
-        stationScore = new ConeCubeCube(mDriveBase, mClaw,mArm,mLed, "Station3Piece");
-        cableEngage = new CubeEngage(mDriveBase, mClaw, mArm,mLed, "CableEngage");
-        stationEngage = new ScoreEngage(mDriveBase, mClaw, mArm, mLed,"StationScoreEngage3");
-        centerEngage = new CenterEngageSequential(mDriveBase, mClaw, mArm, mLed);
-        centerIntake = new CenterIntake(mDriveBase, mClaw, mArm, mLed, "CenterIntake");
-        scoreMid = new ScoreMid(mDriveBase, mClaw, mArm, mLed);
-
+      
     }
 
     @Override
     public void robotInit() {
-        CameraServer.startAutomaticCapture().setVideoMode(PixelFormat.kYUYV, 160, 120, 30);
-
-        mDriveBase.initVision(mVision);
-        SmartDashboard.putNumber(kAutonChooserString, 0);
-        updateArbitraryFeedForward = new Notifier(
-                () -> {
-                    mArm.updateArbitraryFeedForward();
-                });
-
-        updateArbitraryFeedForward.startPeriodic(0.01);
+        
     }
 
     /**
@@ -93,48 +68,16 @@ public class RobotContainer extends RobotContainerBase {
      */
     @Override
     public MustangCommand getAutonomousCommand() {
-        SmartDashboard.putBoolean(kMatchStartedString, true);
-
-        int selectedPath = (int) SmartDashboard.getNumber(kAutonChooserString, 0);
-        MustangCommand autonCommand;
-        switch (selectedPath) {
-            case 0:
-                autonCommand = cableScore;
-                break;
-            case 1:
-                autonCommand = stationScore;
-                break;
-            case 2:
-                autonCommand = cableEngage;
-                break;
-            case 3:
-                autonCommand = stationEngage;
-                break;
-            case 4:
-                autonCommand = centerEngage;
-                break;
-            case 5:
-                autonCommand = centerIntake;
-                break;
-            case 6:
-                autonCommand = scoreMid;
-                break;
-            default:
-                autonCommand = centerEngage;
-        }
-        mLed.updateAutonPathColor(selectedPath);
-        return autonCommand;
+        return null;
     }
 
     @Override
     public void autonomousInit() {
-        mArm.setStateToStarting();
     }
 
     @Override
     public void teleopInit() {
-        mArm.clearSetpoint();
-        new ResetArmFromAbsolute(mArm);
+        
     }
 
     @Override
@@ -143,17 +86,10 @@ public class RobotContainer extends RobotContainerBase {
 
     @Override
     public void disabled() {
-        SmartDashboard.putBoolean(kMatchStartedString, false);
     }
 
     @Override
     public void disabledPeriodic() {
-        mArm.getShoulder().sendAngleToDashboard();
-        mArm.getElbow().sendAngleToDashboard();
-        mArm.getWrist().sendAngleToDashboard();
-
-        int selectedPath = (int) SmartDashboard.getNumber(kAutonChooserString, 0);
-        mLed.updateAutonPathColor(selectedPath);
     }
 
     @Override
@@ -169,12 +105,10 @@ public class RobotContainer extends RobotContainerBase {
 
     @Override
     public void autonomousPeriodic() {
-        parkBeforeDisable();
     }
 
     @Override
     public void teleopPeriodic() {
-        parkBeforeDisable();
     }
 
     public MustangController getOperatorController() {
@@ -189,11 +123,5 @@ public class RobotContainer extends RobotContainerBase {
         return null;
     }
 
-    private void parkBeforeDisable() {
-        double cTime = DriverStation.getMatchTime();
-        if (cTime <= 0.1 && cTime != -1) {
-            mDriveBase.park();
-        }
-    }
 
 }

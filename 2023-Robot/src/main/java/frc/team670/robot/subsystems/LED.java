@@ -7,6 +7,7 @@ public class LED extends LEDSubsystem {
     private static LED mInstance;
     private LEDColor allianceColor;
     private int prevPath = -1;
+    private int hex = 0;
 
     public static synchronized LED getInstance() {
         mInstance = mInstance == null ? new LED() : mInstance;
@@ -17,6 +18,16 @@ public class LED extends LEDSubsystem {
         super(RobotConstants.Led.kPort, RobotConstants.Led.kStartIndex, RobotConstants.Led.kEndindex);
     }
 
+    public void changeHex(boolean increase){
+        if(increase){
+            hex++;
+        }else{
+            hex --;
+        }
+        solidhsv(new LEDColor(hex));
+
+    }
+    
     public void setCubeColor() {
         solidhsv(LEDColor.SEXY_PURPLE);
     }
@@ -34,34 +45,7 @@ public class LED extends LEDSubsystem {
     }
 
     public void updateAutonPathColor(int selectedPath) {
-        if (prevPath == selectedPath) return;
-        
-        switch (selectedPath) {
-            case 0:
-                blinkhsv(LEDColor.LIGHT_BLUE);
-                break;
-            case 1:
-                blinkhsv(LEDColor.SEXY_YELLOW);
-                break;
-            case 2:
-                blinkhsv(LEDColor.SEXY_PURPLE);
-                break;
-            case 3:
-                blinkhsv(LEDColor.GREEN);
-                break;
-            case 4:
-                animatedRainbow(false, 10, 10);
-                break;
-            case 5:
-                blinkhsv(LEDColor.PINK);
-                break;
-            case 6:
-                animatedMustangRainbow(10, 10);
-                break;
-            default:
-                animatedRainbow(false, 10, 10);
-        }
-        prevPath = selectedPath;
+       solidhsv(new LEDColor(hex));
     }
 
 }
