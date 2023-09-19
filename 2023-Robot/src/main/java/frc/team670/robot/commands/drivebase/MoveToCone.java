@@ -40,7 +40,7 @@ public class MoveToCone extends CommandBase implements MustangCommand {
     protected Map<MustangSubsystemBase, HealthState> healthReqs;
     private MustangController mController;
     private final static double kSensitivity=0.5;
-    private final static double kDeadband=0.1;
+    private final static double kDeadband=0.5;
 
     public MoveToCone(DriveBase driveBase,MustangController mController ) {
         this.driveBase = driveBase;
@@ -70,10 +70,12 @@ public class MoveToCone extends CommandBase implements MustangCommand {
     }
     @Override
     public void execute(){
-        driveBase.drive(ChassisSpeeds.fromFieldRelativeSpeeds(0,0,angleToCone()*kSensitivity,driveBase.getGyroscopeRotation()));
+        SmartDashboard.putNumber("Theta Velocit",kSensitivity*angleToCone());
+        driveBase.drive(ChassisSpeeds.fromFieldRelativeSpeeds(0, 0, kSensitivity*angleToCone(),        driveBase.getGyroscopeRotation()));    
     }
 
     public boolean isFinished(){
+        
         return mController.getRightStickX()>kDeadband||mController.getRightStickY()>kDeadband||mController.getLeftStickX()>kDeadband||mController.getLeftStickY()>kDeadband;
     }
 
