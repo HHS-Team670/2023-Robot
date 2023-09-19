@@ -13,6 +13,7 @@ import frc.team670.robot.commands.arm.ResetArmFromAbsolute;
 import frc.team670.robot.commands.arm.ResetArmOffset;
 import frc.team670.robot.commands.claw.ClawIdle;
 import frc.team670.robot.commands.claw.ClawInstantIntake;
+import frc.team670.robot.commands.drivebase.MoveToCone;
 import frc.team670.robot.commands.leds.SetIntakeCube;
 import frc.team670.robot.commands.leds.SetIntakeCone;
 import frc.team670.robot.commands.routines.EjectAndStow;
@@ -60,6 +61,7 @@ public final class OI {
             new JoystickButton(operatorController, XboxButtons.RIGHT_BUMPER);
     private static JoystickButton clawEject =
             new JoystickButton(driverController, XboxButtons.LEFT_BUMPER);
+    private static JoystickButton turnToCone= new JoystickButton(driverController,XboxButtons.RIGHT_BUMPER);
 
 
     // Align to cardinal directions
@@ -123,5 +125,6 @@ public final class OI {
 
         cubeIntake.onTrue(new SetIntakeCube(led, claw));
         coneIntake.onTrue(new SetIntakeCone(led, claw));
+        turnToCone.onTrue(new MoveToCone(driveBase, driverController));
     }
 }
