@@ -71,6 +71,7 @@ public class MoveToCone extends CommandBase implements MustangCommand {
     @Override
     public void execute(){
         driveBase.drive(ChassisSpeeds.fromFieldRelativeSpeeds(0,0,angleToCone()*kSensitivity,driveBase.getGyroscopeRotation()));
+        
     }
 
     public boolean isFinished(){
@@ -96,7 +97,7 @@ public class MoveToCone extends CommandBase implements MustangCommand {
                 }
             }
             SmartDashboard.putNumber("Target Decimal",bestTarget.getYaw()/60);
-            return bestTarget.getPitch()/60;
+            return bestTarget.getYaw()/60;
         }
            
         else
