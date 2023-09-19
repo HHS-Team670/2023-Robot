@@ -98,7 +98,7 @@ public class MoveToCone extends CommandBase implements MustangCommand {
                 }
             }
             SmartDashboard.putNumber("Target Decimal",bestTarget.getYaw()/60);
-            return bestTarget.getPitch()/60;
+            return bestTarget.getYaw()/60;
         }
            
         else
