@@ -9,13 +9,13 @@ import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase.HealthState;
 import frc.team670.robot.subsystems.CubeIntake;
 
-public class CubeIntakeToggle extends InstantCommand implements MustangCommand {
+public class ToggleCubeIntakeDeployer extends InstantCommand implements MustangCommand {
     CubeIntake cubeIntake;
     Map<MustangSubsystemBase, HealthState> healthRequirements =
                 new HashMap<MustangSubsystemBase, HealthState>();
 
 
-    public CubeIntakeToggle( CubeIntake cubeIntake) {
+    public ToggleCubeIntakeDeployer( CubeIntake cubeIntake) {
         this.cubeIntake = cubeIntake;
         addRequirements(cubeIntake);
         healthRequirements.put(cubeIntake, HealthState.YELLOW);
@@ -27,16 +27,7 @@ public class CubeIntakeToggle extends InstantCommand implements MustangCommand {
     @Override 
     public void execute(){
         // cubeIntake.startEjecting();
-        if(cubeIntake.getDeployer().isDeployed()){
-            cubeIntake.setIdle();
-            cubeIntake.toggleDeployer();
-        }else  if(!cubeIntake.isFull()){
-            cubeIntake.startIntaking();
-            cubeIntake.toggleDeployer();
-        }else{
-            cubeIntake.startEjecting();
-            cubeIntake.toggleDeployer();
-        }
+        cubeIntake.toggleDeployer();
     }
 
 
