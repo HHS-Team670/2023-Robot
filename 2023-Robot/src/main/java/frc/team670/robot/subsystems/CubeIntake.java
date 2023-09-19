@@ -77,6 +77,9 @@ public class CubeIntake extends MustangSubsystemBase {
     public void startEjecting() {
         this.startEjecting(RobotConstants.CubeIntake.kEjectingSpeed);
     }
+    public void toggleDeployer(){
+        deployer.toggleDeployer();
+    }
  
 
     /**
@@ -92,10 +95,7 @@ public class CubeIntake extends MustangSubsystemBase {
     }
 
     public void startIntaking() {
-        // if (this.status != Status.INTAKING) {
-        //     this.isFull = false;
-        // }
-        deployer.deploy(true);;
+
         setStatus(Status.INTAKING);
     }
 
@@ -103,7 +103,7 @@ public class CubeIntake extends MustangSubsystemBase {
      * Sets the CubeIntake to an IDLE state Please note that "IDLE" does not mean "stopped"!
      */
     public void setIdle() {
-        deployer.deploy(false);
+
         setStatus(Status.IDLE);
     }
 
