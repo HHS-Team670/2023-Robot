@@ -18,16 +18,16 @@ public class LED extends LEDSubsystem {
         super(RobotConstants.Led.kPort, RobotConstants.Led.kStartIndex, RobotConstants.Led.kEndindex);
     }
 
-    public void changeHex(boolean increase){
-        if(increase){
-            hex++;
-        }else{
-            hex --;
+    public void changeHex(boolean increase) {
+        if (increase) {
+            hex += 10;
+        } else {
+            hex -= 10;
         }
         solidhsv(new LEDColor(hex));
 
     }
-    
+
     public void setCubeColor() {
         solidhsv(LEDColor.SEXY_PURPLE);
     }
@@ -45,7 +45,7 @@ public class LED extends LEDSubsystem {
     }
 
     public void updateAutonPathColor(int selectedPath) {
-       solidhsv(new LEDColor(hex));
+        solidhsv(new LEDColor(hex));
     }
 
 }
