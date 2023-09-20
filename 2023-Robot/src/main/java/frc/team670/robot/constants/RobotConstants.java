@@ -377,7 +377,7 @@ public final class RobotConstants extends RobotConstantsBase {
         public static final double kEjectingSpeed = +0.3;
         public static final double kCurrentMax = 30.0;
         public static final double kIdleSpeed = -0.05;
-        public static final int kEjectIterations = 30;
+        public static final int kEjectIterations = 80;
         public static final int kCurrentSpikeIterations = 10;
         
         public static final class Deployer{
@@ -408,7 +408,7 @@ public final class RobotConstants extends RobotConstantsBase {
                 public static final double kMinRotatorRPM = 0;
                 // public static final double kMaxFlipOutRotations = -8.142;
                 public static final int kPeriodicsDown=17;
-                public static final int kPeriodicsUp=10;
+                public static final int kPeriodicsUp=17;
                 public static final double kMotorSpeed=-0.68;
                 public static final int  kMaxAccelDownwards = 700;
                 public static final int kMaxAccelUpwards = 1900;
