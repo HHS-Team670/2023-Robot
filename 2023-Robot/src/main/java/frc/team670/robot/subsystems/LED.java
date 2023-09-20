@@ -7,7 +7,7 @@ public class LED extends LEDSubsystem {
     private static LED mInstance;
     private LEDColor allianceColor;
     private int prevPath = -1;
-    private int hex = 0;
+    private int hue = 0;
 
     public static synchronized LED getInstance() {
         mInstance = mInstance == null ? new LED() : mInstance;
@@ -18,13 +18,13 @@ public class LED extends LEDSubsystem {
         super(RobotConstants.Led.kPort, RobotConstants.Led.kStartIndex, RobotConstants.Led.kEndindex);
     }
 
-    public void changeHex(boolean increase) {
+    public void changeHue(boolean increase) {
         if (increase) {
-            hex += 10;
+            hue += 10;
         } else {
-            hex -= 10;
+            hue -= 10;
         }
-        solidhsv(new LEDColor(hex));
+        solidhsv(new LEDColor(hue));
 
     }
 
@@ -45,7 +45,7 @@ public class LED extends LEDSubsystem {
     }
 
     public void updateAutonPathColor(int selectedPath) {
-        solidhsv(new LEDColor(hex));
+        solidhsv(new LEDColor(hue));
     }
 
 }

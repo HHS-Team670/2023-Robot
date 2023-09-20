@@ -25,7 +25,7 @@ public class ChangeColor extends InstantCommand implements MustangCommand {
     }
 
     public void initialize() {
-        led.changeHex(increase);
+        led.changeHue(increase);
     }
 
     @Override
