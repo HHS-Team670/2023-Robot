@@ -173,9 +173,9 @@ public class CubeIntake extends MustangSubsystemBase {
                     ejectCounter = 0;
                     isFull = false;
                     
-                    
+                    setIdle();
                 }
-                setIdle();
+                
                 
                 break;
             default:
