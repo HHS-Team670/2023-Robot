@@ -25,7 +25,6 @@ public class SetIntakeCube extends InstantCommand implements MustangCommand {
     }
 
     public void initialize() {
-        
         led.setCubeColor();
         claw.setGamePiece(Claw.GamePiece.CUBE);
     }

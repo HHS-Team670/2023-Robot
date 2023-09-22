@@ -65,7 +65,7 @@ public class RobotContainer extends RobotContainerBase {
         cableScore = new ConeCube(mDriveBase, mClaw, mArm,mLed, "CableScoreShort");
         stationScore = new ConeCubeCube(mDriveBase, mClaw,mArm,mLed, "Station3Piece");
         cableEngage = new CubeEngage(mDriveBase, mClaw, mArm,mLed, "CableEngage");
-        stationEngage = new ScoreEngage(mDriveBase, mClaw, mArm, mLed,"StationScoreEngage3");
+        stationEngage = new ScoreEngage(mDriveBase, mClaw, mArm, mLed,"test");
         centerEngage = new CenterEngageSequential(mDriveBase, mClaw, mArm, mLed);
         centerIntake = new CenterIntake(mDriveBase, mClaw, mArm, mLed, "CenterIntake");
         scoreMid = new ScoreMid(mDriveBase, mClaw, mArm, mLed);
@@ -123,7 +123,7 @@ public class RobotContainer extends RobotContainerBase {
                 autonCommand = centerEngage;
         }
         mLed.updateAutonPathColor(selectedPath);
-        return autonCommand;
+        return stationEngage;
     }
 
     @Override

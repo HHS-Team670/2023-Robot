@@ -49,8 +49,8 @@ public class CenterEngage extends SequentialCommandGroup implements MustangComma
         eventMap.put("stow", new MoveToTarget(arm, ArmState.STOWED));
         eventMap.put("autoLevel", new NonPidAutoLevel(driveBase, true));
 
-        CommandBase fullAuto = driveBase.getAutoBuilderFromEvents(eventMap).fullAuto(trajectoryGroup);
+        // CommandBase fullAuto = driveBase.getAutoBuilderFromEvents(eventMap).fullAuto(trajectoryGroup);
 
-        addCommands(fullAuto);
+        // addCommands(fullAuto);
     }
 }

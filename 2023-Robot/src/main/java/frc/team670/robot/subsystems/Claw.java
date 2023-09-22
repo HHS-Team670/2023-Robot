@@ -22,14 +22,14 @@ public class Claw extends MustangSubsystemBase {
 
     private SparkMAXLite motor;
     private Claw.Status status;
-    private Claw.GamePiece gamepiece=Claw.GamePiece.NONE;
+    private Claw.GamePiece gamepiece=Claw.GamePiece.CONE;
 
     private final String currentKey = "Claw motor current";
     private final String clawStateKey = "Claw state";
 
     private int currentSpikeCounter = 0;
     private int ejectCounter = 0;
-    private boolean isFull = false;
+    private boolean isFull = true;
     private double ejectingSpeed =
             RobotConstants.Arm.Claw.kEjectingSpeed;
     

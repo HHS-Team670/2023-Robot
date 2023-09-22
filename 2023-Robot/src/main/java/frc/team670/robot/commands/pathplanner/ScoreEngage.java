@@ -15,6 +15,7 @@ import frc.team670.mustanglib.commands.MustangCommand;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase.HealthState;
 import frc.team670.robot.commands.arm.MoveToTarget;
+import frc.team670.robot.commands.claw.ClawEject;
 import frc.team670.robot.commands.claw.ClawInstantEject;
 import frc.team670.robot.commands.claw.ClawInstantIntake;
 import frc.team670.robot.commands.drivebase.NonPidAutoLevel;
@@ -47,9 +48,10 @@ public class ScoreEngage extends SequentialCommandGroup implements MustangComman
 
         // eventMap stuff
         eventMap.put("setIntakeCone", new SetIntakeCone(led,claw));//here
-        eventMap.put("moveToMid", new MoveToTarget(arm, ArmState.SCORE_MID));
         eventMap.put("moveToStowed", new MoveToTarget(arm, ArmState.STOWED));
-        eventMap.put("clawEject", new ClawInstantEject(claw));
+        eventMap.put("moveToMid", new MoveToTarget(arm, ArmState.SCORE_MID));
+        eventMap.put("clawEject", new ClawEject(claw));
+        eventMap.put("moveToStowed1", new MoveToTarget(arm, ArmState.STOWED));
         eventMap.put("setIntakeCube", new SetIntakeCube(led,claw));//here
         eventMap.put("moveToGround", new MoveToTarget(arm, ArmState.HYBRID));
         eventMap.put("clawIntake", new ClawInstantIntake(claw)); // May want to use IntakeAndStow
