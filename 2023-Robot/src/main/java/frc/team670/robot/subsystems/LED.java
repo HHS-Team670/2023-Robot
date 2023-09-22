@@ -8,6 +8,7 @@ public class LED extends LEDSubsystem {
     private LEDColor allianceColor;
     private int prevPath = -1;
     private int hue = 0;
+    private int saturation = 0;
 
     public static synchronized LED getInstance() {
         mInstance = mInstance == null ? new LED() : mInstance;
@@ -25,6 +26,15 @@ public class LED extends LEDSubsystem {
             hue -= 10;
         }
         solidhsv(new LEDColor(hue));
+    }
+
+    public void changeSat(boolean increase) {
+        if (increase) {
+            saturation += 2;
+        } else {
+            saturation -= 2;
+        }
+        solidhsv(new LEDColor(hue, saturation));
 
     }
 
