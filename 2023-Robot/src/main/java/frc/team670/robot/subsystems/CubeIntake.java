@@ -78,6 +78,7 @@ public class CubeIntake extends MustangSubsystemBase {
         this.startEjecting(RobotConstants.CubeIntake.kEjectingSpeed);
     }
     public void toggleDeployer(){
+
         deployer.toggleDeployer();
     }
  
@@ -154,6 +155,7 @@ public class CubeIntake extends MustangSubsystemBase {
                         // OI.getOperatorController().rumble(0.5, 0.5);
                         currentSpikeCounter = 0;
                         setIdle();
+                        deployer.deploy(false);
 
                         Claw.getInstance().setIdle();
                         
@@ -172,8 +174,8 @@ public class CubeIntake extends MustangSubsystemBase {
                 if (ejectCounter > RobotConstants.CubeIntake.kEjectIterations) {
                     ejectCounter = 0;
                     isFull = false;
-                    
                     setIdle();
+                    
                 }
                 
                 
