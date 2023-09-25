@@ -87,8 +87,7 @@ public class MoveToCone extends CommandBase implements MustangCommand {
 
     public boolean isFinished(){
         
-        return Math.abs(mController.getRightStickX())>kDeadband|| Math.abs(mController.getRightStickY())>kDeadband||
-        Math.abs(mController.getLeftStickX())>kDeadband||Math.abs(mController.getLeftStickY())>kDeadband || !mController.getRightBumper();
+        return !mController.getRightBumper();
     }
 
 
