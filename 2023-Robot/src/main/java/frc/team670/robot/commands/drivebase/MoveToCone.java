@@ -82,7 +82,7 @@ public class MoveToCone extends CommandBase implements MustangCommand {
     @Override
     public void execute(){
         SmartDashboard.putNumber("Theta Velocit",kSensitivity*angleToCone());
-        driveBase.setmDesiredHeading(new Rotation2d(angleToCone()));    
+        driveBase.setmDesiredHeading(new Rotation2d(driveBase.getPose().getRotation().getRadians() + angleToCone()));    
     }
 
     public boolean isFinished(){
@@ -110,7 +110,7 @@ public class MoveToCone extends CommandBase implements MustangCommand {
             //     }
             // }
             // SmartDashboard.putNumber("Target Decimal",result.getTargets().get(0).getYaw()/60);
-            return -result.getTargets().get(0).getYaw();
+            return -result.getTargets().get(0).getYaw() * Math.PI / 180;
         }
            
         else
