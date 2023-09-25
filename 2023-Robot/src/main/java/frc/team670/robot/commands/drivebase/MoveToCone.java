@@ -52,7 +52,7 @@ public class MoveToCone extends CommandBase implements MustangCommand {
     private final static double kSensitivity=0.5;
     private final static double kDeadband=0.5;
 
-    public MoveToCone(DriveBase driveBase,MustangController mController ) {
+    public MoveToCone(DriveBase driveBase,MustangController mController ){
         this.driveBase = driveBase;
         this.mController=mController;
         this.healthReqs = new HashMap<MustangSubsystemBase, HealthState>();
@@ -87,7 +87,8 @@ public class MoveToCone extends CommandBase implements MustangCommand {
 
     public boolean isFinished(){
         
-        return Math.abs(mController.getRightStickX())>kDeadband||mController.getRightStickY()>kDeadband||mController.getLeftStickX()>kDeadband||mController.getLeftStickY()>kDeadband;
+        return Math.abs(mController.getRightStickX())>kDeadband|| Math.abs(mController.getRightStickY())>kDeadband||
+        Math.abs(mController.getLeftStickX())>kDeadband||Math.abs(mController.getLeftStickY())>kDeadband || !mController.getRightBumper();
     }
 
 
