@@ -351,7 +351,7 @@ public final class RobotConstants extends RobotConstantsBase {
             public static final double kEjectingSpeed = -0.40;
             public static final double kCurrentMax = 30.0;
             public static final double kIdleSpeed = 0.05;
-            public static final int kEjectIterations = 3000;
+            public static final double kEjectTime = 0.6;
             public static final int kCurrentSpikeIterations = 10;
             ;
         }

@@ -168,7 +168,7 @@ public class Claw extends MustangSubsystemBase {
                     motor.set(ejectingSpeed);
                 }
 
-                if (m_timer.hasElapsed(0.6)) {
+                if (m_timer.hasElapsed(RobotConstants.Arm.Claw.kEjectIterations)) {
                     isFull = false;
                     m_timer.stop();
                     if (DriverStation.isTeleopEnabled()) {
