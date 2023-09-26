@@ -14,6 +14,7 @@ import frc.team670.robot.commands.arm.ResetArmOffset;
 import frc.team670.robot.commands.claw.ClawIdle;
 import frc.team670.robot.commands.claw.ClawInstantIntake;
 import frc.team670.robot.commands.cubeintake.CubeIntakeToggle;
+import frc.team670.robot.commands.drivebase.MoveToCone;
 import frc.team670.robot.commands.leds.SetIntakeCube;
 import frc.team670.robot.commands.leds.SetIntakeCone;
 import frc.team670.robot.commands.routines.DualEject;
@@ -67,6 +68,7 @@ public final class OI {
     private static JoystickButton eject =
             new JoystickButton(driverController, XboxButtons.LEFT_BUMPER);
     private static JoystickButton toggleCubeIntake= new JoystickButton(operatorController, XboxButtons.LEFT_BUMPER);
+    private static JoystickButton turnToCone= new JoystickButton(driverController,XboxButtons.RIGHT_BUMPER);
 
 
     // Align to cardinal directions
@@ -129,7 +131,8 @@ public final class OI {
         rotateTo180.onTrue(driveCommand.new SetDesiredHeading(new Rotation2d(Math.PI)));
         rotateTo270.onTrue(driveCommand.new SetDesiredHeading(new Rotation2d(3 * Math.PI / 2)));
 
-        cubeSuck.onTrue(new SetIntakeCube(led, claw));
-        coneSuck.onTrue(new SetIntakeCone(led, claw));
+        cubeIntake.onTrue(new SetIntakeCube(led, claw));
+        coneIntake.onTrue(new SetIntakeCone(led, claw));
+        turnToCone.onTrue(new MoveToCone(driveBase, driverController));
     }
 }
