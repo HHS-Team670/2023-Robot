@@ -50,7 +50,7 @@ public class MoveToCone extends CommandBase implements MustangCommand {
     protected Map<MustangSubsystemBase, HealthState> healthReqs;
     private MustangController mController;
     private final static double kSensitivity=0.5;
-    private final static double kDeadband=0.5;
+
 
     public MoveToCone(DriveBase driveBase,MustangController mController ){
         this.driveBase = driveBase;
