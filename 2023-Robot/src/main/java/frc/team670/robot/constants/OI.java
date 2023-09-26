@@ -131,8 +131,8 @@ public final class OI {
         rotateTo180.onTrue(driveCommand.new SetDesiredHeading(new Rotation2d(Math.PI)));
         rotateTo270.onTrue(driveCommand.new SetDesiredHeading(new Rotation2d(3 * Math.PI / 2)));
 
-        cubeIntake.onTrue(new SetIntakeCube(led, claw));
-        coneIntake.onTrue(new SetIntakeCone(led, claw));
+        cubeSuck.onTrue(new SetIntakeCube(led, claw));
+        coneSuck.onTrue(new SetIntakeCone(led, claw));
         turnToCone.onTrue(new MoveToCone(driveBase, driverController));
     }
 }
