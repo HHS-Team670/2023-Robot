@@ -45,7 +45,7 @@ public class RobotContainer extends RobotContainerBase {
     private final Claw mClaw = Claw.getInstance();
 
     private MustangCommand cableScore, cableEngage, stationScore, stationEngage, centerEngage,
-            centerIntake, scoreMid;
+            centerIntake, scoreMid, leftTwoPiece, rightTwoPiece;
 
     private Notifier updateArbitraryFeedForward;
 
@@ -64,10 +64,12 @@ public class RobotContainer extends RobotContainerBase {
 
         cableScore = new ConeCube(mDriveBase, mClaw, mArm,mLed, "CableScoreShort");
         stationScore = new ConeCubeCube(mDriveBase, mClaw,mArm,mLed, "Station3Piece");
+        leftTwoPiece = new ConeCubeCube(mDriveBase, mClaw,mArm,mLed, "L2 Two-Piece Left");
+        rightTwoPiece = new ConeCubeCube(mDriveBase, mClaw,mArm,mLed, "L2 Two-Piece Right");
         cableEngage = new CubeEngage(mDriveBase, mClaw, mArm,mLed, "CableEngage");
         stationEngage = new ScoreEngage(mDriveBase, mClaw, mArm, mLed,"test");
         centerEngage = new CenterEngageSequential(mDriveBase, mClaw, mArm, mLed);
-        centerIntake = new CenterIntake(mDriveBase, mClaw, mArm, mLed, "StationScore");
+        centerIntake = new CenterIntake(mDriveBase, mClaw, mArm, mLed, "CenterIntake");
         scoreMid = new ScoreMid(mDriveBase, mClaw, mArm, mLed);
 
     }

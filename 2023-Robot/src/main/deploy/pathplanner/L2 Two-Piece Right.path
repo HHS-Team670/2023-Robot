@@ -1,0 +1,100 @@
+{
+  "waypoints": [
+    {
+      "anchorPoint": {
+        "x": 1.8381247472672897,
+        "y": 0.4339719498937688
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 2.8381247472672904,
+        "y": 0.4339719498937688
+      },
+      "holonomicAngle": -180.0,
+      "isReversal": false,
+      "velOverride": null,
+      "isLocked": false,
+      "isStopPoint": false,
+      "stopEvent": {
+        "names": [],
+        "executionBehavior": "parallel",
+        "waitBehavior": "none",
+        "waitTime": 0
+      }
+    },
+    {
+      "anchorPoint": {
+        "x": 6.662346363592468,
+        "y": 0.8912876792224933
+      },
+      "prevControl": {
+        "x": 6.662346363592468,
+        "y": -0.1087123207775067
+      },
+      "nextControl": {
+        "x": 6.662346363592468,
+        "y": -0.1087123207775067
+      },
+      "holonomicAngle": 0,
+      "isReversal": true,
+      "velOverride": null,
+      "isLocked": false,
+      "isStopPoint": false,
+      "stopEvent": {
+        "names": [],
+        "executionBehavior": "parallel",
+        "waitBehavior": "none",
+        "waitTime": 0
+      }
+    },
+    {
+      "anchorPoint": {
+        "x": 1.8232671438216141,
+        "y": 1.5893621832545308
+      },
+      "prevControl": {
+        "x": 2.656102760988576,
+        "y": 1.5559693267673804
+      },
+      "nextControl": null,
+      "holonomicAngle": -180.0,
+      "isReversal": false,
+      "velOverride": null,
+      "isLocked": false,
+      "isStopPoint": false,
+      "stopEvent": {
+        "names": [],
+        "executionBehavior": "parallel",
+        "waitBehavior": "none",
+        "waitTime": 0
+      }
+    }
+  ],
+  "markers": [
+    {
+      "position": 0.0,
+      "names": [
+        "moveToMid",
+        "clawEject",
+        "stow"
+      ]
+    },
+    {
+      "position": 2.0,
+      "names": [
+        "moveToMid",
+        "clawEject",
+        "stow"
+      ]
+    },
+    {
+      "position": 0.9991388494318182,
+      "names": [
+        "setIntakeCone",
+        "moveToGround",
+        "clawIntake",
+        "stow"
+      ]
+    }
+  ]
+}
