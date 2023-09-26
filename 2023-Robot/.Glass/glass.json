@@ -9,6 +9,19 @@
       }
     },
     "transitory": {
+      "Shuffleboard": {
+        "Drivetrain": {
+          "Back Left Module": {
+            "open": true
+          },
+          "Back Right Module": {
+            "open": true
+          },
+          "Front Left Module": {
+            "open": true
+          }
+        }
+      },
       "SmartDashboard": {
         "open": true
       }
@@ -67,7 +80,7 @@
     "Plot <2>": {
       "plots": [
         {
-          "height": 326,
+          "height": 0,
           "series": [
             {
               "color": [

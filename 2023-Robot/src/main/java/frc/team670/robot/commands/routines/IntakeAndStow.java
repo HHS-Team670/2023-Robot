@@ -21,8 +21,7 @@ public class IntakeAndStow extends SequentialCommandGroup implements MustangComm
     public IntakeAndStow(Claw claw, Arm arm) {
         healthReqs = new HashMap<MustangSubsystemBase, HealthState>();
         healthReqs.put(arm, HealthState.GREEN);
-        addRequirements(arm);
-        addRequirements(claw);
+        addRequirements(arm, claw);
         this.arm = arm;
         this.claw = claw;
         addCommands(new ClawIntake(claw), new MoveToTarget(arm, claw, ArmState.STOWED));

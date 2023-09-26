@@ -16,6 +16,7 @@ import java.util.Set;
 import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.auto.PIDConstants;
 import com.revrobotics.CANSparkMax.IdleMode;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.math.controller.PIDController;
@@ -34,6 +35,7 @@ import frc.team670.mustanglib.swervelib.Mk4iSwerveModuleHelper.GearRatio;
 import frc.team670.mustanglib.swervelib.ModuleConfiguration;
 import frc.team670.mustanglib.swervelib.SdsModuleConfigurations;
 import frc.team670.mustanglib.utils.motorcontroller.MotorConfig;
+import frc.team670.mustanglib.utils.motorcontroller.MotorConfig.Motor_Type;
 import frc.team670.robot.subsystems.arm.ArmSegment;
 
 /**
@@ -94,7 +96,8 @@ public final class RobotConstants extends RobotConstantsBase {
                     entry("kElbowAbsoluteEncoderVerticalOffset", 0.004892),
                     entry("kWristAbsoluteEncoderVerticalOffset", 0.380388), // 0.177702
                     entry("kShoulderGearRatio", 96.0), entry("kElbowGearRatio", 70.833333333333),
-                    entry("kSwerveModuleConfig", 2.0), entry("kWristGearRatio", 45.0))),
+                    entry("kSwerveModuleConfig", 2.0), entry("kWristGearRatio", 45.0), 
+                    entry("kDeployerGearRatio",25.0), entry("kDeployerAbsoluteEncoderVerticalOffset",0.792352))),
             entry(kSkipperAddress,
                     Map.ofEntries(
                             entry("kBackRightModuleSteerOffsetRadians", -Math.toRadians(82.694)),
@@ -105,7 +108,8 @@ public final class RobotConstants extends RobotConstantsBase {
                             entry("kElbowAbsoluteEncoderVerticalOffset", 0.588),
                             entry("kWristAbsoluteEncoderVerticalOffset", 0.918),
                             entry("kShoulderGearRatio", 75.0), entry("kElbowGearRatio", 90.0),
-                            entry("kSwerveModuleConfig", 1.0), entry("kWristGearRatio", 125.0))))
+                            entry("kSwerveModuleConfig", 1.0), entry("kWristGearRatio", 125.0),
+                            entry("kDeployerGearRatio",25.0),entry("kAbsoluteEncoderPostionAtFlipoutZero",-0.25), entry("kAbsoluteEncoderPostionAtFlipoutMax", 0.07))))
             .get(kRobotAddress);
 
     public static final class DriveBase extends SwerveDriveBase {
@@ -341,6 +345,7 @@ public final class RobotConstants extends RobotConstantsBase {
 
         }
 
+
         public static final class Claw {
 
             public static final int kMotorID = 6;
@@ -362,5 +367,63 @@ public final class RobotConstants extends RobotConstantsBase {
         public static final int kStartIndex = 0;
         public static final int kEndindex = 61;
     }
+    public static final class CubeIntake{
+
+
+        public static final int kMotorID = 9;
+        
+
+        public static final double kRollingSpeed = -0.5;
+        public static final double kEjectingSpeed = +0.8;
+        public static final double kCurrentMax = 30.0;
+        public static final double kIdleSpeed = -0.05;
+        public static final int kEjectIterations = 80;
+        public static final int kCurrentSpikeIterations = 11;
+        
+        public static final class Deployer{
+
+                public static final int kSlot = 3;
+                public static final int kAbsoluteEncoderID = 3;
+                public static final Motor_Type kMotorType = MotorConfig.Motor_Type.NEO;
+                public static final IdleMode kIdleMode = IdleMode.kCoast;
+                public static final int kMotorID=16;
+                public static final double kP = 0.008;
+                public static final double kI = 0;
+                public static final double kD = 0;
+                public static final double kFF = 0.000176;
+                public static final double kIz = 0;
+
+                public static final double kMaxOutput = 1;
+                public static final double kMinOutput = -1;
+                public static final double kMaxAcceleration = 1900;
+                public static final double kAllowedErrorDegrees = 0.35;
+
+                public static final float[] kSoftLimits = null;
+                public static final int kContinuousCurrent = 10;
+                public static final int kPeakCurrent = 32;
+
+                public static final double kGearRatio = RobotConstants.robotSpecificConstants.get("kDeployerGearRatio").intValue();
+                public static final double kAllowedErrorRotations = kGearRatio* kAllowedErrorDegrees/360;
+                public static final double kMaxRotatorRPM = 3500;
+                public static final double kMinRotatorRPM = 0;
+                // public static final double kMaxFlipOutRotations = -8.142;
+                public static final int kPeriodicsDown=21;
+                public static final int kPeriodicsUp=22;
+                public static final double kMotorSpeed=-0.7;
+                public static final int  kMaxAccelDownwards = 700;
+                public static final int kMaxAccelUpwards = 1900;
+                public static final double kAbsoluteEncoderVerticalOffset = RobotConstants.robotSpecificConstants.get("kDeployerAbsoluteEncoderVerticalOffset");
+                // public static final double kAbsoluteEncoderPostionAtFlipoutZero = RobotConstants.robotSpecificConstants.get("kAbsoluteEncoderPostionAtFlipoutZero");
+
+
+                public static final frc.team670.robot.subsystems.CubeIntake.Deployer.Config kConfig= new frc.team670.robot.subsystems.CubeIntake.Deployer.Config(
+                kMotorID, kSlot, kMotorType, kIdleMode, kGearRatio, kContinuousCurrent, kPeakCurrent);
+                public static final double kDeployedIdleSpeed = -0.05;
+                
+
+
+              
+                }
+} 
 
 }

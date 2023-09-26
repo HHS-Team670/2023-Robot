@@ -25,7 +25,10 @@ import frc.team670.robot.commands.pathplanner.CubeEngage;
 import frc.team670.robot.commands.pathplanner.ScoreEngage;
 import frc.team670.robot.commands.pathplanner.ScoreMid;
 import frc.team670.robot.constants.OI;
+
 import frc.team670.robot.subsystems.Claw;
+import frc.team670.robot.subsystems.CubeIntake;
+import frc.team670.robot.subsystems.CubeIntake.Deployer;
 import frc.team670.robot.subsystems.LED;
 import frc.team670.robot.subsystems.Vision;
 import frc.team670.robot.subsystems.arm.Arm;
@@ -43,6 +46,7 @@ public class RobotContainer extends RobotContainerBase {
     private final LED mLed = LED.getInstance();
     private final Arm mArm = Arm.getInstance();
     private final Claw mClaw = Claw.getInstance();
+    private final CubeIntake mCubeIntake = CubeIntake.getInstance();
 
     private MustangCommand cableScore, cableEngage, stationScore, stationEngage, centerEngage,
             centerIntake, scoreMid;
@@ -55,7 +59,7 @@ public class RobotContainer extends RobotContainerBase {
     public RobotContainer() {
         super();
         addSubsystem(mDriveBase, mVision, mArm, mArm.getShoulder(), mArm.getElbow(), mArm.getWrist(),
-                mClaw, mLed);
+                mClaw, mLed,mCubeIntake, mCubeIntake.getDeployer());
         OI.configureButtonBindings();
 
         for (MustangSubsystemBase subsystem : getSubsystems()) {
