@@ -9,16 +9,18 @@ import frc.team670.robot.constants.RobotConstants;
 import com.revrobotics.CANSparkMax.IdleMode;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Claw extends MustangSubsystemBase {
-
     public enum Status {
         EJECTING, INTAKING, IDLE;
     }
     public enum GamePiece{
         NONE,CONE,CUBE;
     }
+
+    protected Timer m_timer = new Timer();
 
     private SparkMAXLite motor;
     private Claw.Status status;
@@ -28,7 +30,6 @@ public class Claw extends MustangSubsystemBase {
     private final String clawStateKey = "Claw state";
 
     private int currentSpikeCounter = 0;
-    private int ejectCounter = 0;
     private boolean isFull = true;
     private double ejectingSpeed =
             RobotConstants.Arm.Claw.kEjectingSpeed;
@@ -81,6 +82,7 @@ public class Claw extends MustangSubsystemBase {
             this.isFull = true;
         }
         setStatus(Status.EJECTING);
+        m_timer.restart();
     }
 
     public void startIntaking() {
@@ -125,7 +127,6 @@ public class Claw extends MustangSubsystemBase {
 
     @Override
     public void mustangPeriodic() {
-
         switch (status) {
             case IDLE:
             if(gamepiece == GamePiece.CONE){
@@ -166,11 +167,10 @@ public class Claw extends MustangSubsystemBase {
                 }else{
                     motor.set(ejectingSpeed);
                 }
-                
-                ejectCounter++;
-                if (ejectCounter > RobotConstants.Arm.Claw.kEjectIterations) {
-                    ejectCounter = 0;
+
+                if (m_timer.hasElapsed(0.6)) {
                     isFull = false;
+                    m_timer.stop();
                     if (DriverStation.isTeleopEnabled()) {
                         if(this.gamepiece==GamePiece.CONE){
                             led.solidhsv(LEDColor.YELLOW);

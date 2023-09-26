@@ -18,7 +18,8 @@
       "stopEvent": {
         "names": [
           "moveToMid",
-          "clawEject"
+          "clawEject",
+          "moveToStowed"
         ],
         "executionBehavior": "sequential",
         "waitBehavior": "none",

@@ -26,6 +26,7 @@ public class ClawEject extends CommandBase implements MustangCommand {
     // }
     @Override
     public void initialize() {
+        System.out.println("initialized");
         claw.startEjecting();
 
     }
@@ -36,6 +37,8 @@ public class ClawEject extends CommandBase implements MustangCommand {
     }
 
     public void end(boolean interrupted) {
+        System.out.println("end");
+
         claw.setIdle();
     }
 
