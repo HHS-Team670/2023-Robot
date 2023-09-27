@@ -27,8 +27,13 @@ import frc.team670.robot.subsystems.arm.Arm;
 import frc.team670.robot.subsystems.arm.ArmState;
 import frc.team670.robot.subsystems.drivebase.DriveBase;
 import frc.team670.robot.subsystems.LED;
+import frc.team670.robot.subsystems.CubeIntake;
 import frc.team670.robot.commands.leds.SetIntakeCone;
 import frc.team670.robot.commands.leds.SetIntakeCube;
+import frc.team670.robot.commands.cubeintake.CubeIntakeIntake;
+import frc.team670.robot.commands.cubeintake.CubeIntakeToggle;
+import frc.team670.robot.commands.cubeintake.CubeIntakeEject;
+
 
 public class ScoreEngage extends SequentialCommandGroup implements MustangCommand {
 
@@ -39,9 +44,9 @@ public class ScoreEngage extends SequentialCommandGroup implements MustangComman
     }
 
 
-    public ScoreEngage(DriveBase driveBase, Claw claw, Arm arm,LED led, String pathName) {
+    public ScoreEngage(DriveBase driveBase, Claw claw, Arm arm,LED led, CubeIntake cubeIntake, String pathName) {
         this.pathName = pathName;
-        List<PathPlannerTrajectory> trajectoryGroup = PathPlanner.loadPathGroup(pathName, 4, 4.5);
+        List<PathPlannerTrajectory> trajectoryGroup = PathPlanner.loadPathGroup(pathName, 1.5, 1);
 
 
         HashMap<String, Command> eventMap = new HashMap<>();
@@ -55,10 +60,11 @@ public class ScoreEngage extends SequentialCommandGroup implements MustangComman
         eventMap.put("setIntakeCube", new SetIntakeCube(led,claw));//here
         eventMap.put("moveToGround", new MoveToTarget(arm, ArmState.HYBRID));
         eventMap.put("clawIntake", new ClawInstantIntake(claw)); // May want to use IntakeAndStow
-        
+        eventMap.put("cubeIntakeToggle", new CubeIntakeToggle(cubeIntake));
+        eventMap.put("cubeIntakeIntake", new CubeIntakeIntake(cubeIntake));
+        eventMap.put("cubeIntakeEject", new CubeIntakeEject(cubeIntake));
         CommandBase fullAuto = driveBase.getAutoBuilderFromEvents(eventMap).fullAuto(trajectoryGroup);
 
-        addCommands(fullAuto, new TurnToAngle(driveBase, 180, true, OI.getDriverController()),
-                new NonPidAutoLevel(driveBase, true));
+        addCommands(fullAuto, new NonPidAutoLevel(driveBase, false));
     }
 }

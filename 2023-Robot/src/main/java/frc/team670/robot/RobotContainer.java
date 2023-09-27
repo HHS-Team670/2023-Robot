@@ -69,7 +69,7 @@ public class RobotContainer extends RobotContainerBase {
         cableScore = new ConeCube(mDriveBase, mClaw, mArm,mLed, "CableScoreShort");
         stationScore = new ConeCubeCube(mDriveBase, mClaw,mArm,mLed, "Station3Piece");
         cableEngage = new CubeEngage(mDriveBase, mClaw, mArm,mLed, "CableEngage");
-        stationEngage = new ScoreEngage(mDriveBase, mClaw, mArm, mLed,"test");
+        stationEngage = new ScoreEngage(mDriveBase, mClaw, mArm, mLed, mCubeIntake, "Grid 6 Two Engage");
         centerEngage = new CenterEngageSequential(mDriveBase, mClaw, mArm, mLed);
         centerIntake = new CenterIntake(mDriveBase, mClaw, mArm, mLed, "CenterIntake");
         scoreMid = new ScoreMid(mDriveBase, mClaw, mArm, mLed);
