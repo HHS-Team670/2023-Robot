@@ -4,6 +4,7 @@ import com.revrobotics.REVLibError;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team670.mustanglib.subsystems.LEDSubsystem.LEDColor;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
@@ -29,7 +30,7 @@ public class CubeIntake extends MustangSubsystemBase {
 
     private final String currentKey = "CubeIntake motor current";
     private final String CubeIntakeStateKey = "CubeIntake state";
-
+    protected Timer m_timer = new Timer();
     private int currentSpikeCounter = 0;
     private int ejectCounter = 0;
     private boolean isFull = false;
@@ -93,6 +94,7 @@ public class CubeIntake extends MustangSubsystemBase {
       
         // deployer.deploy(true);
         setStatus(Status.EJECTING);
+        m_timer.restart();
     }
 
     public void startIntaking() {
@@ -170,9 +172,9 @@ public class CubeIntake extends MustangSubsystemBase {
                 motor.set(RobotConstants.CubeIntake.kEjectingSpeed);
                 
                 
-                ejectCounter++;
-                if (ejectCounter > RobotConstants.CubeIntake.kEjectIterations) {
-                    ejectCounter = 0;
+                
+                if (m_timer.hasElapsed(RobotConstants.Arm.Claw.kEjectTime)) {
+                    m_timer.stop();
                     isFull = false;
                     setIdle();
                     
@@ -204,13 +206,14 @@ public class CubeIntake extends MustangSubsystemBase {
         
     
 
-    private int counter = 0;
+    private double time = 0;
     // private double errorCounter = 0;
     private boolean deployed=false;
     private SparkMAXLite mRotator;
     // private final String current = "Deployer current";
     private final Config kConfig;
     private static Deployer mInstance;
+    protected Timer m_timer = new Timer();
     // constructor that inits motors and stuff
 
     public Deployer() {
@@ -257,9 +260,9 @@ public class CubeIntake extends MustangSubsystemBase {
 
     @Override
     public void mustangPeriodic() {
-      counter--;
-      if(counter<=0){
-        counter=0;
+      
+      if(m_timer.hasElapsed(time)){
+        m_timer.stop();
         mRotator.stopMotor();
         if(deployed){
             // mRotator.setSmartCurrentLimit(10);
@@ -305,12 +308,15 @@ public class CubeIntake extends MustangSubsystemBase {
         }
         public void deploy(boolean deploy){
             if(deploy==true){
-                counter=RobotConstants.CubeIntake.Deployer.kPeriodicsDown;
+                time=RobotConstants.CubeIntake.Deployer.kTimeDown;
+                m_timer.start();
                 mRotator.set(RobotConstants.CubeIntake.Deployer.kMotorSpeed);
                 setRotatorMode(true);
                 deployed=true;
             }else{
-                counter=RobotConstants.CubeIntake.Deployer.kPeriodicsUp;
+
+                time=RobotConstants.CubeIntake.Deployer.kTimeUp;
+                m_timer.start();
                 mRotator.set(-RobotConstants.CubeIntake.Deployer.kMotorSpeed);
                 setRotatorMode(false);
                 deployed=false;
