@@ -1,0 +1,179 @@
+{
+  "waypoints": [
+    {
+      "anchorPoint": {
+        "x": 1.8546943547201982,
+        "y": 0.4709157188225393
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 2.854694354720198,
+        "y": 0.4709157188225393
+      },
+      "holonomicAngle": 180.0,
+      "isReversal": false,
+      "velOverride": null,
+      "isLocked": false,
+      "isStopPoint": false,
+      "stopEvent": {
+        "names": [
+          "setIntakeCube",
+          "clawIntake",
+          "moveToStowed",
+          "moveToMid"
+        ],
+        "executionBehavior": "parallel",
+        "waitBehavior": "none",
+        "waitTime": 0
+      }
+    },
+    {
+      "anchorPoint": {
+        "x": 2.974523469649695,
+        "y": 0.46550199882083765
+      },
+      "prevControl": {
+        "x": 1.9745234696496952,
+        "y": 0.46550199882083765
+      },
+      "nextControl": {
+        "x": 3.9745234696496894,
+        "y": 0.46550199882083765
+      },
+      "holonomicAngle": 0,
+      "isReversal": false,
+      "velOverride": null,
+      "isLocked": false,
+      "isStopPoint": false,
+      "stopEvent": {
+        "names": [],
+        "executionBehavior": "parallel",
+        "waitBehavior": "none",
+        "waitTime": 0
+      }
+    },
+    {
+      "anchorPoint": {
+        "x": 5.889073250097455,
+        "y": 0.8820503778974131
+      },
+      "prevControl": {
+        "x": 5.684857235267584,
+        "y": 0.8430004749142521
+      },
+      "nextControl": {
+        "x": 6.093289264927327,
+        "y": 0.9211002808805746
+      },
+      "holonomicAngle": 0,
+      "isReversal": false,
+      "velOverride": null,
+      "isLocked": false,
+      "isStopPoint": false,
+      "stopEvent": {
+        "names": [],
+        "executionBehavior": "parallel",
+        "waitBehavior": "none",
+        "waitTime": 0
+      }
+    },
+    {
+      "anchorPoint": {
+        "x": 7.237134833617541,
+        "y": 0.8996379459230265
+      },
+      "prevControl": {
+        "x": 5.685488381704054,
+        "y": 0.8996379459230265
+      },
+      "nextControl": {
+        "x": 9.227629192237526,
+        "y": 0.8996379459230265
+      },
+      "holonomicAngle": 0,
+      "isReversal": false,
+      "velOverride": null,
+      "isLocked": false,
+      "isStopPoint": false,
+      "stopEvent": {
+        "names": [],
+        "executionBehavior": "parallel",
+        "waitBehavior": "none",
+        "waitTime": 0
+      }
+    },
+    {
+      "anchorPoint": {
+        "x": 5.88889928620786,
+        "y": 1.084748209318467
+      },
+      "prevControl": {
+        "x": 6.9910457730884215,
+        "y": 1.1233694774640388
+      },
+      "nextControl": {
+        "x": 5.210836971912659,
+        "y": 1.0609876413980253
+      },
+      "holonomicAngle": 180.0,
+      "isReversal": false,
+      "velOverride": null,
+      "isLocked": false,
+      "isStopPoint": false,
+      "stopEvent": {
+        "names": [],
+        "executionBehavior": "parallel",
+        "waitBehavior": "none",
+        "waitTime": 0
+      }
+    },
+    {
+      "anchorPoint": {
+        "x": 1.8467386779879897,
+        "y": 1.0379754806276107
+      },
+      "prevControl": {
+        "x": 1.339042885880515,
+        "y": 1.0379754806276107
+      },
+      "nextControl": null,
+      "holonomicAngle": 180.0,
+      "isReversal": false,
+      "velOverride": null,
+      "isLocked": false,
+      "isStopPoint": false,
+      "stopEvent": {
+        "names": [
+          "moveToMid",
+          "clawEject"
+        ],
+        "executionBehavior": "parallel",
+        "waitBehavior": "none",
+        "waitTime": 0
+      }
+    }
+  ],
+  "markers": [
+    {
+      "position": 0.016956676136363633,
+      "names": [
+        "clawEject",
+        "moveToStowed"
+      ]
+    },
+    {
+      "position": 1.4320456764914768,
+      "names": [
+        "setIntakeCube",
+        "moveToGround",
+        "clawIntake"
+      ]
+    },
+    {
+      "position": 3.686917391690341,
+      "names": [
+        "moveToStowed"
+      ]
+    }
+  ]
+}
