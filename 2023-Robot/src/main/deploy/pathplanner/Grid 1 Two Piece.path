@@ -17,7 +17,7 @@
       "isStopPoint": false,
       "stopEvent": {
         "names": [
-          "setIntakeCube",
+          "setIntakeCone",
           "clawIntake",
           "moveToStowed",
           "moveToMid"
@@ -129,12 +129,12 @@
     },
     {
       "anchorPoint": {
-        "x": 1.8711371135036108,
-        "y": 0.9688628891146664
+        "x": 1.871857885764925,
+        "y": 1.137917735199619
       },
       "prevControl": {
-        "x": 1.363441321396136,
-        "y": 0.9688628891146664
+        "x": 1.3641620936574503,
+        "y": 1.137917735199619
       },
       "nextControl": null,
       "holonomicAngle": 90.0,
