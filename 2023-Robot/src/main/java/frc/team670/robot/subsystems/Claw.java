@@ -159,6 +159,7 @@ public class Claw extends MustangSubsystemBase {
                 } else {
                     currentSpikeCounter = 0;
                 }
+                CubeIntake.getInstance().setIdle();
                 break;
 
             case EJECTING:
@@ -179,6 +180,7 @@ public class Claw extends MustangSubsystemBase {
                         }
                     }
                 }
+                CubeIntake.getInstance().setIdle();
                 break;
             default:
                 motor.set(0);

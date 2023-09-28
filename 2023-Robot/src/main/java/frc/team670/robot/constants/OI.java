@@ -14,6 +14,7 @@ import frc.team670.robot.commands.arm.ResetArmOffset;
 import frc.team670.robot.commands.claw.ClawIdle;
 import frc.team670.robot.commands.claw.ClawInstantIntake;
 import frc.team670.robot.commands.cubeintake.CubeIntakeToggle;
+import frc.team670.robot.commands.cubeintake.ToggleCubeIntakeDeployer;
 import frc.team670.robot.commands.drivebase.MoveToCone;
 import frc.team670.robot.commands.leds.SetIntakeCube;
 import frc.team670.robot.commands.leds.SetIntakeCone;
@@ -123,7 +124,7 @@ public final class OI {
         suck.onTrue(new DualIntake(claw,arm,cubeIntake));
         eject.onTrue(new DualEject(claw, arm, cubeIntake));
         clawIdle.onTrue(new DualIdle(claw, cubeIntake));
-        toggleCubeIntake.onTrue(new CubeIntakeToggle(cubeIntake));
+        toggleCubeIntake.onTrue(new ToggleCubeIntakeDeployer(cubeIntake));
         // Rotate to cardinal direction while driving
         XboxSwerveDrive driveCommand = (XboxSwerveDrive) driveBase.getDefaultCommand();
         rotateTo0.onTrue(driveCommand.new SetDesiredHeading(new Rotation2d(0)));

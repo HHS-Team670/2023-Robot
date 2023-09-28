@@ -21,7 +21,7 @@ public class DualIntake extends ParallelCommandGroup implements MustangCommand{
     public  DualIntake (Claw claw, Arm arm, CubeIntake cubeIntake){
         this.cubeIntake = cubeIntake;
         healthRequirements.put(cubeIntake, HealthState.YELLOW);
-        addCommands(new ClawInstantIntake(claw), new CubeIntakeIntake(cubeIntake));
+        addCommands(new IntakeAndStow(claw,arm), new CubeIntakeIntake(cubeIntake)); // This may cause issues 
     }
 
 

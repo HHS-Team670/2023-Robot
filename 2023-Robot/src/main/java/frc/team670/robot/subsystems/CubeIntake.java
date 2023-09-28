@@ -177,9 +177,9 @@ public class CubeIntake extends MustangSubsystemBase {
                     m_timer.stop();
                     isFull = false;
                     setIdle();
+                    Claw.getInstance().setIdle();
                     
                 }
-                
                 
                 break;
             default:
