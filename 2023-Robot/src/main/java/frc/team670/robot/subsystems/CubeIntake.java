@@ -191,6 +191,7 @@ public class CubeIntake extends MustangSubsystemBase {
     public void debugSubsystem() {
         SmartDashboard.putNumber(currentKey, motor.getOutputCurrent());
         SmartDashboard.putString(CubeIntakeStateKey, status.toString());
+        
     }
 
 
@@ -256,6 +257,7 @@ public class CubeIntake extends MustangSubsystemBase {
         // SmartDashboard.putNumber(setpointRot, mSetpoint);
         // SmartDashboard.putNumber(current, super.getRotator().getOutputCurrent());
         // SmartDashboard.putNumber("Deployer motor power: ", super.mRotator.get());
+        SmartDashboard.putNumber("Deployer motor power: ", mRotator.get());
     }
 
     @Override
@@ -263,6 +265,7 @@ public class CubeIntake extends MustangSubsystemBase {
       
       if(m_timer.hasElapsed(time)){
         m_timer.stop();
+        m_timer.reset();
         mRotator.stopMotor();
         if(deployed){
             // mRotator.setSmartCurrentLimit(10);

@@ -94,7 +94,7 @@ public final class RobotConstants extends RobotConstantsBase {
                     entry("kFrontLeftModuleSteerOffsetRadians", -Math.toRadians(318.604)),
                     entry("kShoulderAbsoluteEncoderVerticalOffset", 0.484233), // 0.47777
                     entry("kElbowAbsoluteEncoderVerticalOffset", 0.004892),
-                    entry("kWristAbsoluteEncoderVerticalOffset", 0.380388), // 0.177702
+                    entry("kWristAbsoluteEncoderVerticalOffset", 0.420540), // 0.177702
                     entry("kShoulderGearRatio", 96.0), entry("kElbowGearRatio", 70.833333333333),
                     entry("kSwerveModuleConfig", 2.0), entry("kWristGearRatio", 45.0), 
                     entry("kDeployerGearRatio",25.0), entry("kDeployerAbsoluteEncoderVerticalOffset",0.792352))),
@@ -407,9 +407,9 @@ public final class RobotConstants extends RobotConstantsBase {
                 public static final double kMaxRotatorRPM = 3500;
                 public static final double kMinRotatorRPM = 0;
                 // public static final double kMaxFlipOutRotations = -8.142;
-                public static final double kTimeDown=0.42;
-                public static final double kTimeUp=0.44;
-                public static final double kMotorSpeed=-0.7;
+                public static final double kTimeDown=0.2;
+                public static final double kTimeUp=0.2;
+                public static final double kMotorSpeed=-0.5;
                 public static final int  kMaxAccelDownwards = 700;
                 public static final int kMaxAccelUpwards = 1900;
                 public static final double kAbsoluteEncoderVerticalOffset = RobotConstants.robotSpecificConstants.get("kDeployerAbsoluteEncoderVerticalOffset");
