@@ -17,7 +17,7 @@
       "isStopPoint": false,
       "stopEvent": {
         "names": [
-          "setIntakeCube",
+          "setIntakeCone",
           "clawIntake",
           "moveToStowed",
           "moveToMid"
@@ -65,7 +65,7 @@
         "x": 5.816760071488081,
         "y": 0.8142139677155876
       },
-      "holonomicAngle": 0,
+      "holonomicAngle": 270.0,
       "isReversal": false,
       "velOverride": null,
       "isLocked": false,
@@ -90,7 +90,7 @@
         "x": 9.227629192237526,
         "y": 0.8996379459230265
       },
-      "holonomicAngle": 0,
+      "holonomicAngle": 270.0,
       "isReversal": false,
       "velOverride": null,
       "isLocked": false,
@@ -115,7 +115,7 @@
         "x": 5.190925355049496,
         "y": 0.9846401454141882
       },
-      "holonomicAngle": 180.0,
+      "holonomicAngle": 90.0,
       "isReversal": false,
       "velOverride": null,
       "isLocked": false,
@@ -129,23 +129,22 @@
     },
     {
       "anchorPoint": {
-        "x": 1.8498813537747518,
-        "y": 0.9470231724751637
+        "x": 1.871857885764925,
+        "y": 1.137917735199619
       },
       "prevControl": {
-        "x": 1.342185561667277,
-        "y": 0.9470231724751637
+        "x": 1.3641620936574503,
+        "y": 1.137917735199619
       },
       "nextControl": null,
-      "holonomicAngle": 180.0,
+      "holonomicAngle": 90.0,
       "isReversal": false,
       "velOverride": null,
       "isLocked": false,
       "isStopPoint": false,
       "stopEvent": {
         "names": [
-          "moveToMid",
-          "clawEject"
+          "cubeIntakeEject"
         ],
         "executionBehavior": "parallel",
         "waitBehavior": "none",
@@ -164,15 +163,8 @@
     {
       "position": 1.4320456764914768,
       "names": [
-        "setIntakeCube",
-        "moveToGround",
-        "clawIntake"
-      ]
-    },
-    {
-      "position": 3.686917391690341,
-      "names": [
-        "moveToStowed"
+        "toggleCubeIntakeDeployer",
+        "cubeIntakeIntake"
       ]
     }
   ]

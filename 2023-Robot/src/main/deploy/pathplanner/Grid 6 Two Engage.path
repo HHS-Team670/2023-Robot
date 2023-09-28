@@ -79,6 +79,31 @@
     },
     {
       "anchorPoint": {
+        "x": 7.351742606507131,
+        "y": 3.3219899720235637
+      },
+      "prevControl": {
+        "x": 7.861479058293463,
+        "y": 3.324296098852886
+      },
+      "nextControl": {
+        "x": 6.8420061547208,
+        "y": 3.3196838451942416
+      },
+      "holonomicAngle": 90.0,
+      "isReversal": false,
+      "velOverride": null,
+      "isLocked": false,
+      "isStopPoint": false,
+      "stopEvent": {
+        "names": [],
+        "executionBehavior": "parallel",
+        "waitBehavior": "none",
+        "waitTime": 0
+      }
+    },
+    {
+      "anchorPoint": {
         "x": 4.965409189020946,
         "y": 3.31
       },
@@ -93,7 +118,10 @@
       "isLocked": false,
       "isStopPoint": false,
       "stopEvent": {
-        "names": ["cubeIntakeEject"],
+        "names": [
+          "autoLevel",
+          "cubeIntakeEject"
+        ],
         "executionBehavior": "parallel",
         "waitBehavior": "none",
         "waitTime": 0
