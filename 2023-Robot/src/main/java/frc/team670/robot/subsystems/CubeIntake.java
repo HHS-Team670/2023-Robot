@@ -265,7 +265,6 @@ public class CubeIntake extends MustangSubsystemBase {
       
       if(m_timer.hasElapsed(time)){
         m_timer.stop();
-        m_timer.reset();
         mRotator.stopMotor();
         if(deployed){
             // mRotator.setSmartCurrentLimit(10);

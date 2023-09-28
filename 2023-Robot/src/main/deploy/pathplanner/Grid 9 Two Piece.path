@@ -153,12 +153,12 @@
     },
     {
       "anchorPoint": {
-        "x": 1.8593560433241745,
-        "y": 4.778360838961804
+        "x": 1.8301613690087188,
+        "y": 4.040574999851171
       },
       "prevControl": {
-        "x": 1.603824082241263,
-        "y": 4.759478281929926
+        "x": 1.5746294079258074,
+        "y": 4.021692442819293
       },
       "nextControl": null,
       "holonomicAngle": 90.0,
@@ -189,12 +189,6 @@
       "names": [
         "toggleCubeIntakeDeployer",
         "cubeIntakeIntake"
-      ]
-    },
-    {
-      "position": 3.600341796875,
-      "names": [
-        "moveToStowed"
       ]
     }
   ]
