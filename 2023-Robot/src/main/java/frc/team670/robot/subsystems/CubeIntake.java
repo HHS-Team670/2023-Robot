@@ -275,28 +275,11 @@ public class CubeIntake extends MustangSubsystemBase {
       
     }
 
-
-        // private DutyCycleEncoder absEncoder;
-      
-
-        
-        
-
-
-
-
-
-
         public static synchronized Deployer getInstance() {
             mInstance = mInstance == null ? new Deployer() : mInstance;
             return mInstance;
         }
  
-
-
-
-
-
         public void toggleDeployer() {
             
             if ( !isDeployed()) {
@@ -312,14 +295,14 @@ public class CubeIntake extends MustangSubsystemBase {
         public void deploy(boolean deploy){
             if(deploy==true){
                 time=RobotConstants.CubeIntake.Deployer.kTimeDown;
-                m_timer.start();
+                m_timer.restart();
                 mRotator.set(RobotConstants.CubeIntake.Deployer.kMotorSpeed);
                 setRotatorMode(true);
                 deployed=true;
             }else{
 
                 time=RobotConstants.CubeIntake.Deployer.kTimeUp;
-                m_timer.start();
+                m_timer.restart();
                 mRotator.set(-RobotConstants.CubeIntake.Deployer.kMotorSpeed);
                 setRotatorMode(false);
                 deployed=false;
