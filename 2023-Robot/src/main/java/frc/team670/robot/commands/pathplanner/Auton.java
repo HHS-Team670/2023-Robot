@@ -57,8 +57,9 @@ public class Auton extends SequentialCommandGroup implements MustangCommand {
         eventMap.put("toggleCubeIntakeDeployer", new ToggleCubeIntakeDeployer(cubeIntake));
         eventMap.put("cubeIntakeIntake", new CubeIntakeIntake(cubeIntake));
         eventMap.put("cubeIntakeEject", new CubeIntakeEject(cubeIntake));
+        eventMap.put("autoLevel", new NonPidAutoLevel(driveBase, false));
         CommandBase fullAuto = driveBase.getAutoBuilderFromEvents(eventMap).fullAuto(trajectoryGroup);
 
-        addCommands(fullAuto, new NonPidAutoLevel(driveBase, false));
+        addCommands(fullAuto);
     }
 }

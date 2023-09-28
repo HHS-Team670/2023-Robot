@@ -17,6 +17,7 @@ import frc.team670.mustanglib.commands.MustangCommand;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 import frc.team670.mustanglib.utils.MustangController;
 import frc.team670.robot.commands.arm.ResetArmFromAbsolute;
+import frc.team670.robot.commands.pathplanner.Auton;
 import frc.team670.robot.commands.pathplanner.CenterEngageSequential;
 import frc.team670.robot.commands.pathplanner.CenterIntake;
 import frc.team670.robot.commands.pathplanner.ConeCube;
@@ -69,7 +70,7 @@ public class RobotContainer extends RobotContainerBase {
         cableScore = new ConeCube(mDriveBase, mClaw, mArm,mLed, "CableScoreShort");
         stationScore = new ConeCubeCube(mDriveBase, mClaw,mArm,mLed, "Station3Piece");
         cableEngage = new CubeEngage(mDriveBase, mClaw, mArm,mLed, "CableEngage");
-        stationEngage = new ScoreEngage(mDriveBase, mClaw, mArm, mLed, mCubeIntake, "Grid 6 Two Engage");
+        stationEngage = new Auton(mDriveBase, mClaw, mArm, mLed, mCubeIntake, "Grid 1 Two Piece");
         centerEngage = new CenterEngageSequential(mDriveBase, mClaw, mArm, mLed);
         centerIntake = new CenterIntake(mDriveBase, mClaw, mArm, mLed, "CenterIntake");
         scoreMid = new ScoreMid(mDriveBase, mClaw, mArm, mLed);

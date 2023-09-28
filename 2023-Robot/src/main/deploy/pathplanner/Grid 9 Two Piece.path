@@ -18,11 +18,10 @@
       "stopEvent": {
         "names": [
           "setIntakeCone",
-          "clawIntake",
           "moveToStowed",
           "moveToMid"
         ],
-        "executionBehavior": "parallel",
+        "executionBehavior": "sequential",
         "waitBehavior": "none",
         "waitTime": 0
       }
@@ -171,7 +170,7 @@
         "names": [
           "cubeIntakeEject"
         ],
-        "executionBehavior": "parallel",
+        "executionBehavior": "sequential",
         "waitBehavior": "none",
         "waitTime": 0
       }
