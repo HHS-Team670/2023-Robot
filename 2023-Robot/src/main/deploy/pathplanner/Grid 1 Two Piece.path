@@ -19,7 +19,6 @@
         "names": [
           "setIntakeCone",
           "clawIntake",
-          "moveToStowed",
           "moveToMid"
         ],
         "executionBehavior": "sequential",

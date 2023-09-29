@@ -131,7 +131,7 @@ public class RobotContainer extends RobotContainerBase {
                 autonCommand = centerEngage;
         }
         mLed.updateAutonPathColor(selectedPath);
-        return cubeIntakeTest;
+        return stationEngage;
     }
 
     @Override
