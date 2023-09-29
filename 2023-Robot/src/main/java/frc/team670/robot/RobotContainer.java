@@ -75,7 +75,7 @@ public class RobotContainer extends RobotContainerBase {
         centerEngage = new CenterEngageSequential(mDriveBase, mClaw, mArm, mLed);
         centerIntake = new CenterIntake(mDriveBase, mClaw, mArm, mLed, "CenterIntake");
         scoreMid = new ScoreMid(mDriveBase, mClaw, mArm, mLed);
-        cubeIntakeTest= new CubeIntakeTest(mCubeIntake);
+        // cubeIntakeTest= new CubeIntakeTest(mCubeIntake);
         
 
     }

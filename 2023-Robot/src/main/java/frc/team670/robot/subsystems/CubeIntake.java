@@ -258,12 +258,14 @@ public class CubeIntake extends MustangSubsystemBase {
         // SmartDashboard.putNumber(current, super.getRotator().getOutputCurrent());
         // SmartDashboard.putNumber("Deployer motor power: ", super.mRotator.get());
         SmartDashboard.putNumber("Deployer motor power: ", mRotator.get());
+        SmartDashboard.putBoolean("Deployer deployeds", deployed);
     }
 
     @Override
     public void mustangPeriodic() {
       
       if(m_timer.hasElapsed(time)){
+        m_timer.reset();
         m_timer.stop();
         mRotator.stopMotor();
         if(deployed){

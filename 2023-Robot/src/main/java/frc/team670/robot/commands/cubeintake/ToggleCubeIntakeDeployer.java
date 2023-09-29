@@ -3,6 +3,7 @@ package frc.team670.robot.commands.cubeintake;
 import java.util.HashMap;
 import java.util.Map;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.team670.mustanglib.commands.MustangCommand;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
@@ -17,17 +18,16 @@ public class ToggleCubeIntakeDeployer extends InstantCommand implements MustangC
 
     public ToggleCubeIntakeDeployer( CubeIntake cubeIntake) {
         this.cubeIntake = cubeIntake;
-        addRequirements(cubeIntake);
         healthRequirements.put(cubeIntake, HealthState.YELLOW);
-
-        
-
+        SmartDashboard.putBoolean("deployed jiaerfioew", false);
     }
 
     @Override 
     public void execute(){
         // cubeIntake.startEjecting();
         cubeIntake.toggleDeployer();
+        SmartDashboard.putBoolean("deployed jiaerfioew", true);
+
     }
 
 
