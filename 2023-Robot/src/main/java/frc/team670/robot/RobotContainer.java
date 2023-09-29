@@ -25,6 +25,7 @@ import frc.team670.robot.commands.pathplanner.ConeCubeCube;
 import frc.team670.robot.commands.pathplanner.CubeEngage;
 import frc.team670.robot.commands.pathplanner.ScoreEngage;
 import frc.team670.robot.commands.pathplanner.ScoreMid;
+import frc.team670.robot.commands.pathplanner.CubeIntakeTest;
 import frc.team670.robot.constants.OI;
 
 import frc.team670.robot.subsystems.Claw;
@@ -50,7 +51,7 @@ public class RobotContainer extends RobotContainerBase {
     private final CubeIntake mCubeIntake = CubeIntake.getInstance();
 
     private MustangCommand cableScore, cableEngage, stationScore, stationEngage, centerEngage,
-            centerIntake, scoreMid;
+        centerIntake, scoreMid,cubeIntakeTest;
 
     private Notifier updateArbitraryFeedForward;
 
@@ -74,6 +75,8 @@ public class RobotContainer extends RobotContainerBase {
         centerEngage = new CenterEngageSequential(mDriveBase, mClaw, mArm, mLed);
         centerIntake = new CenterIntake(mDriveBase, mClaw, mArm, mLed, "CenterIntake");
         scoreMid = new ScoreMid(mDriveBase, mClaw, mArm, mLed);
+        cubeIntakeTest= new CubeIntakeTest(mCubeIntake);
+        
 
     }
 
@@ -128,7 +131,7 @@ public class RobotContainer extends RobotContainerBase {
                 autonCommand = centerEngage;
         }
         mLed.updateAutonPathColor(selectedPath);
-        return stationEngage;
+        return cubeIntakeTest;
     }
 
     @Override
