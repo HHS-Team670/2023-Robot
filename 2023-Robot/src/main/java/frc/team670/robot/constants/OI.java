@@ -8,6 +8,7 @@ import frc.team670.mustanglib.commands.drive.teleop.swerve.XboxSwerveDrive;
 import frc.team670.mustanglib.utils.MustangController;
 import frc.team670.mustanglib.utils.MustangController.XboxButtons;
 import frc.team670.robot.commands.arm.ManualMoveElbow;
+import frc.team670.robot.commands.arm.ManualMoveWrist;
 import frc.team670.robot.commands.arm.MoveToTarget;
 import frc.team670.robot.commands.arm.ResetArmFromAbsolute;
 import frc.team670.robot.commands.arm.ResetArmOffset;
@@ -117,8 +118,8 @@ public final class OI {
         intakeShelf.onTrue(new MoveToTarget(arm, claw, ArmState.INTAKE_SHELF));
         uprightGround.onTrue(new MoveToTarget(arm, ArmState.UPRIGHT_GROUND));
         stow.onTrue(new MoveToTarget(arm, ArmState.STOWED));
-        manualElbowControlNegative.onTrue(new ManualMoveElbow(arm, false));
-        manualElbowControlPositive.onTrue(new ManualMoveElbow(arm, true));
+        manualElbowControlNegative.onTrue(new ManualMoveWrist(arm, false));
+        manualElbowControlPositive.onTrue(new ManualMoveWrist(arm, true));
 
         // Claw control commands
         suck.onTrue(new DualIntake(claw,arm,cubeIntake));
