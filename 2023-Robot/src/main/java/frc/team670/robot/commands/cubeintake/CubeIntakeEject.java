@@ -17,7 +17,7 @@ public class CubeIntakeEject extends CommandBase implements MustangCommand {
 
     public CubeIntakeEject(CubeIntake cubeIntake) {
         this.cubeIntake = cubeIntake;
-        addRequirements(cubeIntake);
+        // addRequirements(cubeIntake);
     }
 
     // @Override
