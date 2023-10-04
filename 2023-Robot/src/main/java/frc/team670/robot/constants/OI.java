@@ -51,8 +51,8 @@ public final class OI {
 
     // Operator buttons
     private static POVButton uprightGround = new POVButton(operatorController, 180);
-    private static POVButton scoreMidR = new POVButton(operatorController, 90);
-    private static POVButton intakeShelf = new POVButton(operatorController, 270);
+    private static POVButton scoreMidR = new POVButton(operatorController, 270);
+    private static POVButton intakeShelf = new POVButton(operatorController, 90);
     private static POVButton scoreHigh = new POVButton(operatorController, 0);
     private static JoystickButton zeroArm =
             new JoystickButton(operatorController, XboxButtons.X);

@@ -18,6 +18,8 @@ public class ResetArmFromAbsolute extends InstantCommand implements MustangComma
 
     public void initialize() {
         arm.resetPositionFromAbsolute();
+        arm.getElbow().resetOffset();
+        arm.getWrist().resetOffset();
     }
 
     @Override

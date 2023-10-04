@@ -17,12 +17,12 @@ public enum ArmState {
 
     SCORE_MID(2, 200, 75, 184), 
     // SCORE_MID(2, 191, 91, 194),  possible score high
-    SCORE_HIGH(3, 167, 125, 185),
+    SCORE_HIGH(3, 167, 125, 180),
     STARTING(4, 205,25,270),
     TUNING(5, 90, 180, 180),
-    SINGLE_STATION(6, 231, 13, 249),
-    INTAKE_SHELF(7, 211, 73, 180),
-    UPRIGHT_GROUND(8, 164, 33, 260);
+    SINGLE_STATION(6, 231, 15, 249),
+    INTAKE_SHELF(7, 210, 76, 182),
+    UPRIGHT_GROUND(8, 162, 35, 260);
     
 
 
