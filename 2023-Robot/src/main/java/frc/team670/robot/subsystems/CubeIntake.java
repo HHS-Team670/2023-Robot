@@ -178,7 +178,7 @@ public class CubeIntake extends MustangSubsystemBase {
                     isFull = false;
                     setIdle();
                     Claw.getInstance().setIdle();
-                    
+                    LED.getInstance().solidhsv(LEDColor.GREEN);
                 }
                 
                 break;
