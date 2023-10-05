@@ -49,6 +49,7 @@ public class Auton extends SequentialCommandGroup implements MustangCommand {
         eventMap.put("setIntakeCone", new SetIntakeCone(led,claw));//here
         eventMap.put("moveToStowed", new MoveToTarget(arm, ArmState.STOWED));
         eventMap.put("moveToMid", new MoveToTarget(arm, ArmState.SCORE_MID));
+        eventMap.put("moveToHigh", new MoveToTarget(arm, ArmState.SCORE_HIGH));
         eventMap.put("clawEject", new ClawEject(claw));
         eventMap.put("setIntakeCube", new SetIntakeCube(led,claw));//here
         eventMap.put("moveToGround", new MoveToTarget(arm, ArmState.HYBRID));

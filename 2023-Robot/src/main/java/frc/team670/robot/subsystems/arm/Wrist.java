@@ -147,6 +147,7 @@ public class Wrist extends SparkMaxRotatingSubsystem {
         SmartDashboard.putNumber(positionRot, relativePosition);
         SmartDashboard.putNumber(absEncoderPos, absEncoder.getAbsolutePosition());
         SmartDashboard.putNumber(setpointRot, mSetpoint);
+        SmartDashboard.putNumber("Wrist Current", super.getRotator().getOutputCurrent());
 
     }
 
