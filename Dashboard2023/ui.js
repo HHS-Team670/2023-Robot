@@ -9,6 +9,8 @@ var selectedPath = ""
 
 var single_substation_coords = []
 
+var pathNames = ["grid6TwoEngage", "scoreMid", "grid1TwoPiece"]; // MAKE SURE THIS ORDER MATCHES SWITCH STATEMENT IN ROBOT CONTAINER
+
 
 function updatePath(evt) {
     if (document.querySelector(".path-dropdown:hover") != null) {
@@ -33,28 +35,12 @@ function setPaths() {
     var content = document.querySelector(".dropup-content")
     content.innerHTML = ""
 
-    var p1 = document.createElement("p")
-    p1.appendChild(document.createTextNode("cableScore"))
+    pathNames.forEach((path) => {
+        var option = document.createElement("p")
+        option.appendChild(document.createTextNode(path))
+        content.append(option)
+    })
 
-    var p2 = document.createElement("p")
-    p2.appendChild(document.createTextNode("stationScore"))
-
-    var p3 = document.createElement("p")
-    p3.appendChild(document.createTextNode("cableEngage"))
-
-    var p4 = document.createElement("p")
-    p4.appendChild(document.createTextNode("stationEngage"))
-
-    var p5 = document.createElement("p")
-    p5.appendChild(document.createTextNode("centerEngage"))
-
-    var p6 = document.createElement("p")
-    p6.appendChild(document.createTextNode("centerIntake"))
-
-    var p7 = document.createElement("p")
-    p7.appendChild(document.createTextNode("scoreMid"))
-
-    content.append(p1, p2, p3, p4, p5, p6, p7)
     resetAndAddDropdownListeners()
 }
 
@@ -413,30 +399,33 @@ NetworkTables.addKeyListener('/SmartDashboard/auton-chooser', (key, value) => {
     var currentPath = document.querySelector("#auto-form h3#current-path")
     var pathText = "Not Sent"
     var listenedAuto = Number(value)
-    switch (listenedAuto) { // Todo
-        case 0: // ConeCube(driveBase, claw, arm, "CableScore")
-            pathText = "cableScore"
-            break
-        case 1: // ConeCube(driveBase, claw, arm, "StationScore")
-            pathText = "stationScore"
-            break
-        case 2: // CubeEngage(driveBase, claw, arm, "CableEngage")
-            pathText = "cableEngage"
-            break
-        case 3: // CubeEngage(driveBase, claw, arm, "StationEngage")
-            pathText = "stationEngage"
-            break
-        case 4: // CenterEngage(driveBase, claw, arm, "CenterEngage")
-            pathText = "centerEngage"
-            break
-        case 5: // CenterEngage(driveBase, claw, arm, "CenterEngage")
-            pathText = "centerIntake"
-            break
-        case 6:
-            pathText = "scoreMid"
-        default:
-            pathText = "Not Sent"
+    if (listenedAuto >= 0 && listenedAuto < pathNames.length) {
+        pathText = pathNames[listenedAuto]
     }
+    // switch (listenedAuto) { // Todo
+    //     case 0: // ConeCube(driveBase, claw, arm, "CableScore")
+    //         pathText = "cableScore"
+    //         break
+    //     case 1: // ConeCube(driveBase, claw, arm, "StationScore")
+    //         pathText = "stationScore"
+    //         break
+    //     case 2: // CubeEngage(driveBase, claw, arm, "CableEngage")
+    //         pathText = "cableEngage"
+    //         break
+    //     case 3: // CubeEngage(driveBase, claw, arm, "StationEngage")
+    //         pathText = "stationEngage"
+    //         break
+    //     case 4: // CenterEngage(driveBase, claw, arm, "CenterEngage")
+    //         pathText = "centerEngage"
+    //         break
+    //     case 5: // CenterEngage(driveBase, claw, arm, "CenterEngage")
+    //         pathText = "centerIntake"
+    //         break
+    //     case 6:
+    //         pathText = "scoreMid"
+    //     default:
+    //         pathText = "Not Sent"
+    // }
     currentPath.innerHTML = ""
     currentPath.append("Current Path: " + pathText)
 })
@@ -524,24 +513,32 @@ document.getElementById("confirm-button").onclick = () => {
 
 function getAutonFromMap() {
     console.log("SELECTED VALUE", selectedPath)
-    switch (selectedPath) {
-        case "cableScore": // ConeCube(driveBase, claw, arm, "CableScore")
-            return 0.0
-        case "stationScore": // ConeCube(driveBase, claw, arm, "StationScore")
-            return 1.0
-        case "cableEngage": // CubeEngage(driveBase, claw, arm, "CableEngage")
-            return 2.0
-        case "stationEngage": // CubeEngage(driveBase, claw, arm, "StationEngage")
-            return 3.0
-        case "centerEngage": // CenterEngage(driveBase, claw, arm, "CenterEngage")
-            return 4.0
-        case "centerIntake": // CenterEngage(driveBase, claw, arm, "CenterEngage")
-            return 5.0
-        case "scoreMid":
-            return 6.0
-        default:
-            return -1
+    // switch (selectedPath) {
+    //     case "cableScore": // ConeCube(driveBase, claw, arm, "CableScore")
+    //         return 0.0
+    //     case "stationScore": // ConeCube(driveBase, claw, arm, "StationScore")
+    //         return 1.0
+    //     case "cableEngage": // CubeEngage(driveBase, claw, arm, "CableEngage")
+    //         return 2.0
+    //     case "stationEngage": // CubeEngage(driveBase, claw, arm, "StationEngage")
+    //         return 3.0
+    //     case "centerEngage": // CenterEngage(driveBase, claw, arm, "CenterEngage")
+    //         return 4.0
+    //     case "centerIntake": // CenterEngage(driveBase, claw, arm, "CenterEngage")
+    //         return 5.0
+    //     case "scoreMid":
+    //         return 6.0
+    //     default:
+        
+    //     return -1
+    // }
+
+    for (let i = 0; i < pathNames.length; i++) {
+        if (pathNames[i] == selectedPath) {
+            return i;
+        }
     }
+    return -1;
 }
 
 function getDelayTime() {
