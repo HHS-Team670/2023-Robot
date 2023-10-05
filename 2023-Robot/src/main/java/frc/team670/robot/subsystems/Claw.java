@@ -135,7 +135,7 @@ public class Claw extends MustangSubsystemBase {
                 motor.set(RobotConstants.Arm.Claw.kIdleSpeed);
             }
             if (DriverStation.isTeleopEnabled()) {
-                if(!isFull()||heldCounter>5){
+                if(!isFull()||heldCounter>20){
                     
                         if(this.gamepiece==GamePiece.CONE){
                             led.solidhsv(LEDColor.YELLOW);

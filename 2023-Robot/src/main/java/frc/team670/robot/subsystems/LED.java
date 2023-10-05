@@ -38,28 +38,32 @@ public class LED extends LEDSubsystem {
         
         switch (selectedPath) {
             case 0:
+                // animatedRainbow(false, 10, 10);
                 blinkhsv(LEDColor.LIGHT_BLUE);
+                // solidRainbow(false,140);
                 break;
             case 1:
-                blinkhsv(LEDColor.SEXY_YELLOW);
+                solidRainbow(false,140);
                 break;
             case 2:
-                blinkhsv(LEDColor.SEXY_PURPLE);
+                solidhsv(LEDColor.SEXY_PURPLE);
                 break;
             case 3:
-                blinkhsv(LEDColor.GREEN);
+                solidhsv(LEDColor.GREEN);
                 break;
             case 4:
                 animatedRainbow(false, 10, 10);
                 break;
             case 5:
-                blinkhsv(LEDColor.PINK);
+                solidhsv(LEDColor.PINK);
                 break;
             case 6:
                 animatedMustangRainbow(10, 10);
                 break;
             default:
-                animatedRainbow(false, 10, 10);
+                blinkhsv(LEDColor.LIGHT_BLUE);
+                // solidRainbow(false,140);
+
         }
         prevPath = selectedPath;
     }

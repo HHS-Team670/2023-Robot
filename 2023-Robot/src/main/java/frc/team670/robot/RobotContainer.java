@@ -32,6 +32,8 @@ import frc.team670.robot.subsystems.Claw;
 import frc.team670.robot.subsystems.CubeIntake;
 import frc.team670.robot.subsystems.CubeIntake.Deployer;
 import frc.team670.robot.subsystems.LED;
+import frc.team670.mustanglib.subsystems.LEDSubsystem.LEDColor;
+
 import frc.team670.robot.subsystems.Vision;
 import frc.team670.robot.subsystems.arm.Arm;
 import frc.team670.robot.subsystems.drivebase.DriveBase;
@@ -121,6 +123,7 @@ public class RobotContainer extends RobotContainerBase {
                 autonCommand = grid6TwoEngage;
         }
         mLed.updateAutonPathColor(selectedPath);
+        mLed.solidhsv(LEDColor.SEXY_PURPLE);
         return autonCommand;
     }
 
