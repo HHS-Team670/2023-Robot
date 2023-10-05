@@ -3,6 +3,7 @@ package frc.team670.robot.commands.pathplanner;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -14,6 +15,7 @@ import frc.team670.mustanglib.subsystems.MustangSubsystemBase.HealthState;
 import frc.team670.robot.commands.arm.MoveToTarget;
 import frc.team670.robot.commands.claw.ClawEject;
 import frc.team670.robot.commands.claw.ClawInstantIntake;
+import frc.team670.robot.commands.drivebase.AutoLevelShort;
 import frc.team670.robot.commands.drivebase.NonPidAutoLevel;
 import frc.team670.robot.subsystems.Claw;
 import frc.team670.robot.subsystems.arm.Arm;
@@ -59,6 +61,7 @@ public class Auton extends SequentialCommandGroup implements MustangCommand {
         eventMap.put("cubeIntakeIntake", new CubeIntakeIntake(cubeIntake));
         eventMap.put("cubeIntakeEject", new CubeIntakeEject(cubeIntake));
         eventMap.put("autoLevel", new NonPidAutoLevel(driveBase, false));
+        eventMap.put("autoLevelShort", new AutoLevelShort(driveBase, false));
         CommandBase fullAuto = driveBase.getAutoBuilderFromEvents(eventMap).fullAuto(trajectoryGroup);
 
         addCommands(fullAuto);

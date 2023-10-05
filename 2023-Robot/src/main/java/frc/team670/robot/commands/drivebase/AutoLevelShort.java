@@ -15,20 +15,17 @@ import frc.team670.robot.subsystems.arm.Arm;
 import frc.team670.robot.subsystems.arm.ArmState;
 import frc.team670.robot.subsystems.drivebase.DriveBase;
 
-public class NonPidAutoLevel extends CommandBase implements MustangCommand {
+public class AutoLevelShort extends CommandBase implements MustangCommand {
     DriveBase driveBase;
     double target = 0;
     double error = 2.5; // 2.5 degrees is allowable
     double pitch;
-    double previousPitch;
-    boolean hasGoneUp = false;
     boolean fromDriverSide = false;
     int counter;
-    boolean hasTippedOver;
 
 
 
-    public NonPidAutoLevel(DriveBase driveBase, boolean fromDriverSide) {
+    public AutoLevelShort(DriveBase driveBase, boolean fromDriverSide) {
         this.driveBase = driveBase;
         this.fromDriverSide = fromDriverSide;
         SmartDashboard.putNumber("backtracking iterations", 50);
@@ -42,17 +39,12 @@ public class NonPidAutoLevel extends CommandBase implements MustangCommand {
     @Override
     public void initialize() {
         counter = 0;
-        pitch = Math.abs(driveBase.getPitch());
-        previousPitch = Math.abs(driveBase.getPitch()); // just to ensure we are going forward
-        this.hasGoneUp = false;
-        this.hasTippedOver = false;
+        pitch = Math.abs(driveBase.getPitch()+ driveBase.getRoll());
     }
 
     @Override
     public void execute() {
-        previousPitch = pitch;
-        //SmartDashboard.putNumber("previousPitch", previousPitch);
-        pitch = Math.abs(driveBase.getPitch()+ driveBase.getRoll());
+        pitch = Math.abs(driveBase.getPitch() + driveBase.getRoll());
         SmartDashboard.putNumber("pitch", pitch);
         // SmartDashboard.putBoolean("hasGoneUp", hasGoneUp);
         // SmartDashboard.putBoolean("hasTippedOver", hasTippedOver);
@@ -60,36 +52,16 @@ public class NonPidAutoLevel extends CommandBase implements MustangCommand {
         // SmartDashboard.putNumber("non pid pose x", driveBase.getPose().getX());
         // SmartDashboard.putNumber("non pid pose y", driveBase.getPose().getY());
 
-        if (pitch > 12) {
-            hasGoneUp = true;
-        }
-
-        if (hasGoneUp && Math.abs(previousPitch - pitch) > 1 && Math.abs(pitch) < 6) {
-            hasTippedOver = true;
-        }
 
         ChassisSpeeds chassisSpeeds;
 
-        if(!hasGoneUp) {
-            if(fromDriverSide) {
-                chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(1, 0, 0, driveBase.getGyroscopeRotation());
-            } else {
-                chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(-1, 0, 0, driveBase.getGyroscopeRotation());
-            }
-        } else if (hasTippedOver) {
-             if (fromDriverSide) {
-                chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(-0.45, 0, 0, driveBase.getGyroscopeRotation());
-            } else {
-                chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(0.45, 0, 0, driveBase.getGyroscopeRotation());
-            }
-            counter++;
+        
+        if (fromDriverSide) {
+            chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(-0.45, 0, 0, driveBase.getGyroscopeRotation());
         } else {
-            if(fromDriverSide) {
-                chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(0.45, 0, 0, driveBase.getGyroscopeRotation());
-            } else {
-                chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(-0.45, 0, 0, driveBase.getGyroscopeRotation());
-            }
+            chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(0.45, 0, 0, driveBase.getGyroscopeRotation());
         }
+        counter++;
 
         SwerveModuleState[] states = driveBase.getSwerveKinematics().toSwerveModuleStates(chassisSpeeds);
         driveBase.setModuleStates(states);
@@ -98,7 +70,7 @@ public class NonPidAutoLevel extends CommandBase implements MustangCommand {
 
     @Override
     public boolean isFinished() {
-        if (hasTippedOver && Math.abs(pitch) < 4 && counter > 20) { 
+        if (Math.abs(pitch) < 2 && counter > 20) { 
             //SmartDashboard.putBoolean("isFinished", true);
             return true;
         }

@@ -76,7 +76,12 @@ public class CubeIntake extends MustangSubsystemBase {
     }
 
     public void startEjecting() {
-        this.startEjecting(RobotConstants.CubeIntake.kEjectingSpeed);
+        if(DriverStation.isAutonomous()){
+            this.startEjecting(1.0);
+        }else{
+            this.startEjecting(RobotConstants.CubeIntake.kEjectingSpeed);
+        }
+        
     }
     public void toggleDeployer(){
 

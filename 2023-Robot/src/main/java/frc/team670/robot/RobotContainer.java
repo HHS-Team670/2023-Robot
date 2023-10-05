@@ -50,8 +50,9 @@ public class RobotContainer extends RobotContainerBase {
     private final Claw mClaw = Claw.getInstance();
     private final CubeIntake mCubeIntake = CubeIntake.getInstance();
 
-    private MustangCommand cableScore, cableEngage, stationScore, stationEngage, centerEngage,
-        centerIntake, scoreMid,cubeIntakeTest;
+    // private MustangCommand cableScore, cableEngage, stationScore, stationEngage, centerEngage,
+    //     centerIntake, scoreMid,cubeIntakeTest;
+    private MustangCommand grid1TwoPiece, grid6TwoEngage, scoreMid;
 
     private Notifier updateArbitraryFeedForward;
 
@@ -68,13 +69,14 @@ public class RobotContainer extends RobotContainerBase {
             subsystem.setDebugSubsystem(true);
         }
 
-        cableScore = new ConeCube(mDriveBase, mClaw, mArm,mLed, "CableScoreShort");
-        stationScore = new ConeCubeCube(mDriveBase, mClaw,mArm,mLed, "Station3Piece");
-        cableEngage = new CubeEngage(mDriveBase, mClaw, mArm,mLed, "CableEngage");
-        stationEngage = new Auton(mDriveBase, mClaw, mArm, mLed, mCubeIntake, "Grid 6 Two Engage");
-        centerEngage = new CenterEngageSequential(mDriveBase, mClaw, mArm, mLed);
-        centerIntake = new CenterIntake(mDriveBase, mClaw, mArm, mLed, "CenterIntake");
+        // cableScore = new ConeCube(mDriveBase, mClaw, mArm,mLed, "CableScoreShort");
+        // stationScore = new ConeCubeCube(mDriveBase, mClaw,mArm,mLed, "Station3Piece");
+        // cableEngage = new CubeEngage(mDriveBase, mClaw, mArm,mLed, "CableEngage");
+        grid6TwoEngage = new Auton(mDriveBase, mClaw, mArm, mLed, mCubeIntake, "Grid 6 Two Engage");
+        // centerEngage = new CenterEngageSequential(mDriveBase, mClaw, mArm, mLed);
+        // centerIntake = new CenterIntake(mDriveBase, mClaw, mArm, mLed, "CenterIntake");
         scoreMid = new ScoreMid(mDriveBase, mClaw, mArm, mLed);
+        grid1TwoPiece = new Auton(mDriveBase, mClaw, mArm, mLed, mCubeIntake, "Grid 1 Two Piece");
         // cubeIntakeTest= new CubeIntakeTest(mCubeIntake);
         
 
@@ -107,31 +109,19 @@ public class RobotContainer extends RobotContainerBase {
         MustangCommand autonCommand;
         switch (selectedPath) {
             case 0:
-                autonCommand = cableScore;
+                autonCommand = grid6TwoEngage;
                 break;
             case 1:
-                autonCommand = stationScore;
-                break;
-            case 2:
-                autonCommand = cableEngage;
-                break;
-            case 3:
-                autonCommand = stationEngage;
-                break;
-            case 4:
-                autonCommand = centerEngage;
-                break;
-            case 5:
-                autonCommand = centerIntake;
-                break;
-            case 6:
                 autonCommand = scoreMid;
                 break;
+            case 2:
+                autonCommand = grid1TwoPiece;
+                break;
             default:
-                autonCommand = centerEngage;
+                autonCommand = grid6TwoEngage;
         }
         mLed.updateAutonPathColor(selectedPath);
-        return stationEngage;
+        return autonCommand;
     }
 
     @Override

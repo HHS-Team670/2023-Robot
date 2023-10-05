@@ -19,14 +19,12 @@ public class ToggleCubeIntakeDeployer extends InstantCommand implements MustangC
     public ToggleCubeIntakeDeployer( CubeIntake cubeIntake) {
         this.cubeIntake = cubeIntake;
         healthRequirements.put(cubeIntake, HealthState.YELLOW);
-        SmartDashboard.putBoolean("deployed jiaerfioew", false);
     }
 
     @Override 
     public void execute(){
         // cubeIntake.startEjecting();
         cubeIntake.toggleDeployer();
-        SmartDashboard.putBoolean("deployed jiaerfioew", true);
 
     }
 
