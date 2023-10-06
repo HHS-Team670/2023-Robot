@@ -172,37 +172,19 @@ NetworkTables.addKeyListener('/SmartDashboard/match-started', (key, value) => {
 NetworkTables.addKeyListener('/SmartDashboard/Single Substation', (key, poseString) => {
     single_substation_coords = parsePose(poseString)
 })
-var video = document.getElementById("video");
-var source = new XMLHttpRequest();
-source.open("GET", "http://photonvision.local:1181/stream.mjpg", true);
-source.responseType = "arraybuffer";
-source.onload = function() {
-  var buffer = source.response;
-  var videoCtx = video.getContext("2d");
-  var ctx = videoCtx.getImageData(0, 0, videoCtx.canvas.width, videoCtx.canvas.height);
-  for (var i = 0; i < ctx.data.length; i += 4) {
-    var red = (ctx.data[i] << 16) | (ctx.data[i + 1] << 8) | ctx.data[i];
-    var green = (ctx.data[i + 1] << 16) | (ctx.data[i + 2] << 8) | ctx.data[i + 3];
-    var blue = (ctx.data[i + 2] << 16) | (ctx.data[i + 3] << 8) | ctx.data[i + 4];
-    ctx.data[i] = red;
-    ctx.data[i + 1] = green;
-    ctx.data[i + 2] = blue;
-  }
-  videoCtx.putImageData(ctx, 0, 0);
-};
-source.send();
-// NetworkTables.addKeyListener('/SmartDashboard/Estimated Pose', (key, poseString) => {
-//     var field_coord = parsePose(poseString)
-//     var relX = field_coord[0] - single_substation_coords[0]
-//     var relY = -field_coord[1] + single_substation_coords[1]
-//     var rotation = -field_coord[2] + 90
 
-//     var robot_box = document.querySelector("div#robot")
-//     robot_box.style.transform = `translate(${relX*150}px, ${relY*150}px) rotate(${rotation}deg)`
-//     console.log(relX + " " + relY + " " + rotation)
-//     console.log((relX*150) + " " + (relY*150) + " " + rotation)
+NetworkTables.addKeyListener('/SmartDashboard/Estimated Pose', (key, poseString) => {
+    var field_coord = parsePose(poseString)
+    var relX = field_coord[0] - single_substation_coords[0]
+    var relY = -field_coord[1] + single_substation_coords[1]
+    var rotation = -field_coord[2] + 90
 
-// })
+    var robot_box = document.querySelector("div#robot")
+    robot_box.style.transform = `translate(${relX*150}px, ${relY*150}px) rotate(${rotation}deg)`
+    console.log(relX + " " + relY + " " + rotation)
+    console.log((relX*150) + " " + (relY*150) + " " + rotation)
+
+})
 
 var parsePose = (poseString) => {
     var x = Number(poseString.substring(1, poseString.indexOf(",")))
