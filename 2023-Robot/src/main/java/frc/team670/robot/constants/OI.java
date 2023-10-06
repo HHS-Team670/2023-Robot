@@ -17,6 +17,7 @@ import frc.team670.robot.commands.claw.ClawInstantIntake;
 import frc.team670.robot.commands.cubeintake.CubeIntakeToggle;
 import frc.team670.robot.commands.cubeintake.ToggleCubeIntakeDeployer;
 import frc.team670.robot.commands.drivebase.MoveToCone;
+import frc.team670.robot.commands.drivebase.NonPidAutoLevel;
 import frc.team670.robot.commands.leds.SetIntakeCube;
 import frc.team670.robot.commands.leds.SetIntakeCone;
 import frc.team670.robot.commands.routines.DualEject;
@@ -38,6 +39,8 @@ public final class OI {
     // Controllers
     private static MustangController driverController = new MustangController(0);
     private static MustangController operatorController = new MustangController(1);
+    private static MustangController backupController = new MustangController(3);
+    
 
     // Driver buttons
     private static JoystickButton resetManualOffset =
@@ -72,6 +75,7 @@ public final class OI {
     private static JoystickButton toggleCubeIntake= new JoystickButton(operatorController, XboxButtons.LEFT_BUMPER);
     private static JoystickButton turnToCone= new JoystickButton(driverController,XboxButtons.RIGHT_BUMPER);
 
+        private static JoystickButton autoLevel= new JoystickButton(backupController, XboxButtons.B);
 
     // Align to cardinal directions
     private static JoystickButton rotateTo0 = new JoystickButton(driverController, XboxButtons.Y);
@@ -136,5 +140,7 @@ public final class OI {
         cubeSuck.onTrue(new SetIntakeCube(led, claw));
         coneSuck.onTrue(new SetIntakeCone(led, claw));
         turnToCone.onTrue(new MoveToCone(driveBase, driverController));
+
+        autoLevel.onTrue(new NonPidAutoLevel(driveBase, true));
     }
 }
