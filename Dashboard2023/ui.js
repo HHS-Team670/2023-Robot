@@ -9,7 +9,7 @@ var selectedPath = ""
 
 var single_substation_coords = []
 
-var pathNames = ["grid6TwoEngage", "scoreMid", "grid1TwoPiece"]; // MAKE SURE THIS ORDER MATCHES SWITCH STATEMENT IN ROBOT CONTAINER
+var pathNames = ["grid6TwoEngage", "scoreMid", "grid1TwoPiece","centerEngage"]; // MAKE SURE THIS ORDER MATCHES SWITCH STATEMENT IN ROBOT CONTAINER
 
 
 function updatePath(evt) {
