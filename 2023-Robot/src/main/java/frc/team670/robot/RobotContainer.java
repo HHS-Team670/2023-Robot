@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team670.mustanglib.RobotContainerBase;
 import frc.team670.mustanglib.commands.MustangCommand;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
+import frc.team670.mustanglib.subsystems.LEDSubsystem.LEDColor;
 import frc.team670.mustanglib.utils.MustangController;
 import frc.team670.robot.commands.arm.ResetArmFromAbsolute;
 import frc.team670.robot.commands.pathplanner.Auton;
@@ -54,7 +55,7 @@ public class RobotContainer extends RobotContainerBase {
 
     // private MustangCommand cableScore, cableEngage, stationScore, stationEngage, centerEngage,
     //     centerIntake, scoreMid,cubeIntakeTest;
-    private MustangCommand grid1TwoPiece, grid6TwoEngage, scoreMid;
+    private MustangCommand grid1TwoPiece, grid6TwoEngage, scoreMid, centerEngage;
 
     private Notifier updateArbitraryFeedForward;
 
@@ -75,7 +76,7 @@ public class RobotContainer extends RobotContainerBase {
         // stationScore = new ConeCubeCube(mDriveBase, mClaw,mArm,mLed, "Station3Piece");
         // cableEngage = new CubeEngage(mDriveBase, mClaw, mArm,mLed, "CableEngage");
         grid6TwoEngage = new Auton(mDriveBase, mClaw, mArm, mLed, mCubeIntake, "Grid 6 Two Engage");
-        // centerEngage = new CenterEngageSequential(mDriveBase, mClaw, mArm, mLed);
+        centerEngage = new CenterEngageSequential(mDriveBase, mClaw, mArm, mLed);
         // centerIntake = new CenterIntake(mDriveBase, mClaw, mArm, mLed, "CenterIntake");
         scoreMid = new ScoreMid(mDriveBase, mClaw, mArm, mLed);
         grid1TwoPiece = new Auton(mDriveBase, mClaw, mArm, mLed, mCubeIntake, "Grid 1 Two Piece");
@@ -119,6 +120,9 @@ public class RobotContainer extends RobotContainerBase {
             case 2:
                 autonCommand = grid1TwoPiece;
                 break;
+            case 3:
+                autonCommand = centerEngage;
+                break;
             default:
                 autonCommand = grid6TwoEngage;
         }
@@ -154,6 +158,15 @@ public class RobotContainer extends RobotContainerBase {
         mArm.getWrist().sendAngleToDashboard();
 
         int selectedPath = (int) SmartDashboard.getNumber(kAutonChooserString, 0);
+        // The `mLed.updateAutonPathColor(selectedPath)` method is updating the color of the LED
+        // subsystem based on the selected autonomous path. The `selectedPath` variable represents the
+        // chosen autonomous path, and the `updateAutonPathColor()` method in the `LED` subsystem is
+        // responsible for changing the LED color accordingly.
+        // The `mLed.updateAutonPathColor(selectedPath)` method is updating the color of the LED
+        // subsystem based on the selected autonomous path. The `selectedPath` variable represents the
+        // chosen autonomous path, and the `updateAutonPathColor()` method in the `LED` subsystem is
+        // responsible for changing the LED color accordingly.
+
         mLed.updateAutonPathColor(selectedPath);
     }
 
