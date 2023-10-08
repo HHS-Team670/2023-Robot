@@ -44,7 +44,7 @@ public class AutoLevelShort extends CommandBase implements MustangCommand {
 
     @Override
     public void execute() {
-        pitch = Math.abs(driveBase.getPitch() + driveBase.getRoll());
+        pitch = Math.abs(driveBase.getPitch() )+Math.abs( driveBase.getRoll());
         SmartDashboard.putNumber("pitch", pitch);
         // SmartDashboard.putBoolean("hasGoneUp", hasGoneUp);
         // SmartDashboard.putBoolean("hasTippedOver", hasTippedOver);

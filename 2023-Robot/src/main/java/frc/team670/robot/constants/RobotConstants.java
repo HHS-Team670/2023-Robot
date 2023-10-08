@@ -173,7 +173,7 @@ public final class RobotConstants extends RobotConstantsBase {
 
     // vision
     public static final class Vision {
-        public static final String[] kVisionCameraIDs = { "Arducam_B", "Microsoft_LifeCam_HD-3000" };
+        public static final String[] kVisionCameraIDs = {"Microsoft_LifeCam_HD-3000" };
         public static final Transform3d[] kCameraOffsets = {
                 // Cam B - RIGHT
                 new Transform3d(
@@ -377,13 +377,13 @@ public final class RobotConstants extends RobotConstantsBase {
         // public static final double kEjectingSpeed = +0.8;
         public static final double kEjectingSpeed = +1.0;
         public static final double kCurrentMax = 30.0;
-        public static final double kIdleSpeed = -0.05;
+        public static final double kIdleSpeed = -0.08;
         public static final double kEjectTime = 1.6;
         public static final int kCurrentSpikeIterations = 11;
         
         public static final class Deployer{
 
-                public static final int kSlot = 3;
+        public static final int kSlot = 3;
                 public static final int kAbsoluteEncoderID = 3;
                 public static final Motor_Type kMotorType = MotorConfig.Motor_Type.NEO;
                 public static final IdleMode kIdleMode = IdleMode.kCoast;

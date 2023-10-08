@@ -46,7 +46,7 @@ import frc.team670.robot.subsystems.drivebase.DriveBase;
  */
 
 public class RobotContainer extends RobotContainerBase {
-    private final Vision mVision = Vision.getInstance();
+    // private final Vision mVision = Vision.getInstance();
     private final DriveBase mDriveBase = DriveBase.getInstance();
     private final LED mLed = LED.getInstance();
     private final Arm mArm = Arm.getInstance();
@@ -64,7 +64,7 @@ public class RobotContainer extends RobotContainerBase {
 
     public RobotContainer() {
         super();
-        addSubsystem(mDriveBase, mVision, mArm, mArm.getShoulder(), mArm.getElbow(), mArm.getWrist(),
+        addSubsystem(mDriveBase, mArm, mArm.getShoulder(), mArm.getElbow(), mArm.getWrist(),
                 mClaw, mLed,mCubeIntake, mCubeIntake.getDeployer());
         OI.configureButtonBindings();
 
@@ -89,7 +89,7 @@ public class RobotContainer extends RobotContainerBase {
     public void robotInit() {
         CameraServer.startAutomaticCapture().setVideoMode(PixelFormat.kYUYV, 160, 120, 30);
 
-        mDriveBase.initVision(mVision);
+        // mDriveBase.initVision(mVision);
         SmartDashboard.putNumber(kAutonChooserString, 0);
         updateArbitraryFeedForward = new Notifier(
                 () -> {

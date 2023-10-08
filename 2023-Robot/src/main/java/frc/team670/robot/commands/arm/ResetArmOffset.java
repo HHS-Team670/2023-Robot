@@ -29,6 +29,7 @@ public class ResetArmOffset extends InstantCommand implements MustangCommand {
 
     @Override
     public void execute() {
+        arm.getWrist().resetOffset();
         arm.getElbow().resetOffset();
         arm.getShoulder().resetOffset();
       

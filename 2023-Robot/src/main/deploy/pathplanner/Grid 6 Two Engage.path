@@ -102,12 +102,12 @@
     },
     {
       "anchorPoint": {
-        "x": 4.093249907216503,
-        "y": 3.3137321236393777
+        "x": 3.5522811653852293,
+        "y": 3.3126210080684926
       },
       "prevControl": {
-        "x": 4.865046592804778,
-        "y": 3.3179860843771167
+        "x": 4.324077850973509,
+        "y": 3.3168749688062316
       },
       "nextControl": null,
       "holonomicAngle": 90.0,
@@ -117,9 +117,7 @@
       "isStopPoint": false,
       "stopEvent": {
         "names": [
-          "autoLevelShort",
-          "toggleCubeIntakeDeployer",
-          "cubeIntakeEject"
+          "autoLevelShort"
         ],
         "executionBehavior": "parallel",
         "waitBehavior": "none",
@@ -147,7 +145,7 @@
       ]
     },
     {
-      "position": 3.9009099786931816,
+      "position": 3.854545454545454,
       "names": [
         "toggleCubeIntakeDeployer"
       ]

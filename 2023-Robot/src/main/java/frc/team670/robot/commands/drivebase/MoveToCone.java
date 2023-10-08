@@ -75,7 +75,7 @@ public class MoveToCone extends CommandBase implements MustangCommand {
 
     @Override
     public void initialize() {
-        colorCam = driveBase.getPoseEstimator().getVision().getCameras()[1];
+        colorCam = driveBase.getPoseEstimator().getVision().getCameras()[0];
         
         
     }

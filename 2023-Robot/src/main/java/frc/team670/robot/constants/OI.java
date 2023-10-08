@@ -38,6 +38,7 @@ public final class OI {
     // Controllers
     private static MustangController driverController = new MustangController(0);
     private static MustangController operatorController = new MustangController(1);
+    private static MustangController backupController = new MustangController(2);
 
     // Driver buttons
     private static JoystickButton resetManualOffset =
@@ -60,11 +61,14 @@ public final class OI {
             new JoystickButton(operatorController, XboxButtons.BACK);
 
     private static JoystickButton stow = new JoystickButton(operatorController, XboxButtons.B);
-    private static JoystickButton manualElbowControlPositive =
-            new JoystickButton(operatorController, XboxButtons.RIGHT_JOYSTICK_BUTTON);
-    private static JoystickButton manualElbowControlNegative =
+    private static JoystickButton manualWristControlPositive =
             new JoystickButton(operatorController, XboxButtons.LEFT_JOYSTICK_BUTTON);
-
+    private static JoystickButton manualWristControlNegative =
+            new JoystickButton(operatorController, XboxButtons.RIGHT_JOYSTICK_BUTTON);
+        private static JoystickButton manualElbowControlPositive =
+            new JoystickButton(backupController, XboxButtons.LEFT_JOYSTICK_BUTTON);
+    private static JoystickButton manualElbowControlNegative =
+            new JoystickButton(backupController, XboxButtons.RIGHT_JOYSTICK_BUTTON);
     private static JoystickButton suck =
             new JoystickButton(operatorController, XboxButtons.RIGHT_BUMPER);
     private static JoystickButton eject =
@@ -118,8 +122,10 @@ public final class OI {
         intakeShelf.onTrue(new MoveToTarget(arm, claw, ArmState.INTAKE_SHELF));
         uprightGround.onTrue(new MoveToTarget(arm, ArmState.UPRIGHT_GROUND));
         stow.onTrue(new MoveToTarget(arm, ArmState.STOWED));
-        manualElbowControlNegative.onTrue(new ManualMoveWrist(arm, false));
-        manualElbowControlPositive.onTrue(new ManualMoveWrist(arm, true));
+        manualWristControlNegative.onTrue(new ManualMoveWrist(arm, false));
+        manualWristControlPositive.onTrue(new ManualMoveWrist(arm, true));
+        manualElbowControlNegative.onTrue(new ManualMoveElbow(arm, false));
+        manualElbowControlPositive.onTrue(new ManualMoveElbow(arm, true));
 
         // Claw control commands
         suck.onTrue(new DualIntake(claw,arm,cubeIntake));
