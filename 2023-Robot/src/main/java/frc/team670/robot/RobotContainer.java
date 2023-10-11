@@ -78,7 +78,7 @@ public class RobotContainer extends RobotContainerBase {
         grid6TwoEngage = new Auton(mDriveBase, mClaw, mArm, mLed, mCubeIntake, "Grid 6 Two Engage");
         centerEngage = new CenterEngageSequential(mDriveBase, mClaw, mArm, mLed);
         // centerIntake = new CenterIntake(mDriveBase, mClaw, mArm, mLed, "CenterIntake");
-        scoreMid = new ScoreMid(mDriveBase, mClaw, mArm, mLed);
+        scoreMid = new Auton(mDriveBase, mClaw, mArm, mLed, mCubeIntake, "ScoreMid");
         grid1TwoPiece = new Auton(mDriveBase, mClaw, mArm, mLed, mCubeIntake, "Grid 1 Two Piece");
         // cubeIntakeTest= new CubeIntakeTest(mCubeIntake);
         

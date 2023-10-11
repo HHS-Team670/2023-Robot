@@ -57,9 +57,9 @@ public class AutoLevelShort extends CommandBase implements MustangCommand {
 
         
         if (fromDriverSide) {
-            chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(-0.45, 0, 0, driveBase.getGyroscopeRotation());
+            chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(-0.5, 0, 0, driveBase.getGyroscopeRotation());
         } else {
-            chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(0.45, 0, 0, driveBase.getGyroscopeRotation());
+            chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(0.5, 0, 0, driveBase.getGyroscopeRotation());
         }
         counter++;
 
