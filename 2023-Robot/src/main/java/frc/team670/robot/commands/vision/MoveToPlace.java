@@ -1,5 +1,4 @@
-package frc.team670.robot.commands.drivebase;
-
+import frc.team670.robot.commands.drivebase;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
@@ -41,18 +40,19 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  * MoveToPose - moves to specified pose. Cancels when button is released.
  */
-public class fewf extends CommandBase implements MustangCommand {
+public class MoveToPlace extends CommandBase implements MustangCommand {
     private DriveBase driveBase;
     // private final Pose2d endPose;
-    // private PhotonCamera colorCam;
+    private PhotonCamera colorCam;
     // private boolean backOut = false;
     Pose2d startPose;
     protected Map<MustangSubsystemBase, HealthState> healthReqs;
+    private MustangPPSwerveControllerCommand pathDrivingCommand;
     // private MustangController mController;
     // private final static double kSensitivity=0.5;
 
 
-    public fewf(DriveBase driveBase){
+    public MoveToPlace(DriveBase driveBase){
         this.driveBase = driveBase;
         this.healthReqs = new HashMap<MustangSubsystemBase, HealthState>();
         this.healthReqs.put(driveBase, HealthState.GREEN);
@@ -75,10 +75,10 @@ public class fewf extends CommandBase implements MustangCommand {
     @Override
     public void initialize() {
         this.startPose = driveBase.getPose();
-        Pose2d endPose = new Pose2d(startPose.getX() + 1, startPose.getY() + 1, startPose.getRotation);
+        Pose2d endPose = new Pose2d(startPose.getX() + 1, startPose.getY() + 1, startPose.getRotation());
         PathPlannerTrajectory traj = PathPlanner.generatePath(
                 RobotConstants.DriveBase.kAutoPathConstraints, new PathPoint(startPose.getTranslation(), new Rotation2d(0,0),
-                startPose.getRotation()), new PathPoint(endPose.getTranslation(), new Rotation2d(0, 0), startPose.getRotation().rotateBy(0));
+                startPose.getRotation()), new PathPoint(endPose.getTranslation(), new Rotation2d(0, 0), startPose.getRotation().rotateBy(new Rotation2d(0))));
                 );
         driveBase.getPoseEstimator().addTrajectory(traj);
 
