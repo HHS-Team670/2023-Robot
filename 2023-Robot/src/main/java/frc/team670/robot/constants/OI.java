@@ -25,6 +25,7 @@ import frc.team670.robot.commands.routines.DualIntake;
 import frc.team670.robot.commands.routines.DualIdle;
 import frc.team670.robot.commands.routines.EjectAndStow;
 import frc.team670.robot.commands.vision.AutoAlign;
+import frc.team670.robot.commands.vision.fewf;
 import frc.team670.robot.commands.vision.AutoAlignToSubstation;
 import frc.team670.robot.subsystems.Claw;
 import frc.team670.robot.subsystems.LED;
@@ -32,6 +33,7 @@ import frc.team670.robot.subsystems.arm.Arm;
 import frc.team670.robot.subsystems.arm.ArmState;
 import frc.team670.robot.subsystems.drivebase.DriveBase;
 import frc.team670.robot.subsystems.CubeIntake;
+
 
 
 public final class OI {
@@ -75,7 +77,7 @@ public final class OI {
     private static JoystickButton eject =
             new JoystickButton(driverController, XboxButtons.LEFT_BUMPER);
     private static JoystickButton toggleCubeIntake= new JoystickButton(operatorController, XboxButtons.LEFT_BUMPER);
-    private static JoystickButton turnToCone= new JoystickButton(driverController,XboxButtons.RIGHT_BUMPER);
+    private static JoystickButton fewf = new JoystickButton(driverController,XboxButtons.RIGHT_BUMPER);
 
         private static JoystickButton autoLevel= new JoystickButton(backupController, XboxButtons.B);
 
@@ -142,7 +144,7 @@ public final class OI {
 
         cubeSuck.onTrue(new SetIntakeCube(led, claw));
         coneSuck.onTrue(new SetIntakeCone(led, claw));
-        turnToCone.onTrue(new MoveToCone(driveBase, driverController));
+        fewf.onTrue(new fewf(driveBase));
 
         autoLevel.onTrue(new NonPidAutoLevel(driveBase, true));
     }
