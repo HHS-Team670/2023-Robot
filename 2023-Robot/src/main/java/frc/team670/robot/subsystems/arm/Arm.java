@@ -5,6 +5,9 @@ import java.util.Arrays;
 import java.util.Map;
 import static java.util.Map.entry;
 import java.util.PriorityQueue;
+
+import org.littletonrobotics.junction.Logger;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 import frc.team670.robot.constants.RobotConstants;
@@ -26,7 +29,7 @@ public class Arm extends MustangSubsystemBase {
     private boolean hasSetElbowTarget = true;
     private boolean hasSetWristTarget = true;
 
-    private final String targetPositionKey = "Arm target position";
+    private final String targetPositionKey = "Arm/target position";
 
     private long startingTime = 0;
 
@@ -201,9 +204,12 @@ public class Arm extends MustangSubsystemBase {
             if (currentTimeDelays == null) {
                 currentTimeDelays = new double[] {0, 0, 0};
             }
+            Logger.getInstance().recordOutput(getName()+"/moveToTarget()", "from " + this.targetState + " to "
+            + target + " is " + Arrays.toString(currentTimeDelays));
+            
 
-            SmartDashboard.putString("Arm moveToTarget()", "from " + this.targetState + " to "
-                    + target + " is " + Arrays.toString(currentTimeDelays));
+            // SmartDashboard.putString("Arm moveToTarget()", "from " + this.targetState + " to "
+            //         + target + " is " + Arrays.toString(currentTimeDelays));
 
             this.targetState = target;
 
@@ -287,7 +293,8 @@ public class Arm extends MustangSubsystemBase {
 
     @Override
     public void debugSubsystem() {
-        SmartDashboard.putString(targetPositionKey, getTargetState().toString());
+        Logger.getInstance().recordOutput(targetPositionKey, getTargetState().toString());
+        // SmartDashboard.putString(targetPositionKey, getTargetState().toString());
         // SmartDashboard.putNumber("Elbow offset", elbowOffset);
         // SmartDashboard.putNumber("Shoulder offset", shoulderOffset);
         // SmartDashboard.putNumber("Wrist offset", wristOffset);

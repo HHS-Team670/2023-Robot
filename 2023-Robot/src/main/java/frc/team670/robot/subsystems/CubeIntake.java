@@ -1,5 +1,8 @@
 package frc.team670.robot.subsystems;
 import com.revrobotics.CANSparkMax.IdleMode;
+
+import org.littletonrobotics.junction.Logger;
+
 import com.revrobotics.REVLibError;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -9,7 +12,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team670.mustanglib.subsystems.LEDSubsystem.LEDColor;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 import frc.team670.mustanglib.subsystems.SparkMaxRotatingSubsystem;
-import frc.team670.mustanglib.utils.Logger;
 import frc.team670.mustanglib.utils.functions.MathUtils;
 import frc.team670.mustanglib.utils.motorcontroller.MotorConfig.Motor_Type;
 import frc.team670.mustanglib.utils.motorcontroller.MotorConfig;
@@ -28,8 +30,8 @@ public class CubeIntake extends MustangSubsystemBase {
     private SparkMAXLite motor;
     private CubeIntake.Status status=Status.IDLE;
 
-    private final String currentKey = "CubeIntake motor current";
-    private final String CubeIntakeStateKey = "CubeIntake state";
+    private final String currentKey = "CubeIntake/motor current";
+    private final String CubeIntakeStateKey = "CubeIntake/state";
     protected Timer m_timer = new Timer();
     private int currentSpikeCounter = 0;
     private int ejectCounter = 0;
@@ -194,8 +196,8 @@ public class CubeIntake extends MustangSubsystemBase {
 
     @Override
     public void debugSubsystem() {
-        SmartDashboard.putNumber(currentKey, motor.getOutputCurrent());
-        SmartDashboard.putString(CubeIntakeStateKey, status.toString());
+        Logger.getInstance().recordOutput(currentKey, motor.getOutputCurrent());
+        Logger.getInstance().recordOutput(CubeIntakeStateKey, status.toString());
         
     }
 
@@ -262,8 +264,8 @@ public class CubeIntake extends MustangSubsystemBase {
         // SmartDashboard.putNumber(setpointRot, mSetpoint);
         // SmartDashboard.putNumber(current, super.getRotator().getOutputCurrent());
         // SmartDashboard.putNumber("Deployer motor power: ", super.mRotator.get());
-        SmartDashboard.putNumber("Deployer motor power: ", mRotator.get());
-        SmartDashboard.putBoolean("Deployer deployeds", deployed);
+        Logger.getInstance().recordOutput("Deployer/motor power: ", mRotator.get());
+        Logger.getInstance().recordOutput("Deployer/deployeds", deployed);
     }
 
     @Override

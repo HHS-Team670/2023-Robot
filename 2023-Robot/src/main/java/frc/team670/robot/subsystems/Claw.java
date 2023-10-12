@@ -6,11 +6,14 @@ import frc.team670.mustanglib.utils.motorcontroller.MotorConfig.Motor_Type;
 import frc.team670.mustanglib.utils.motorcontroller.SparkMAXFactory;
 import frc.team670.mustanglib.utils.motorcontroller.SparkMAXLite;
 import frc.team670.robot.constants.RobotConstants;
+
+import org.littletonrobotics.junction.Logger;
+
 import com.revrobotics.CANSparkMax.IdleMode;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+// import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Claw extends MustangSubsystemBase {
     public enum Status {
@@ -26,8 +29,8 @@ public class Claw extends MustangSubsystemBase {
     private Claw.Status status;
     private Claw.GamePiece gamepiece=Claw.GamePiece.CONE;
 
-    private final String currentKey = "Claw motor current";
-    private final String clawStateKey = "Claw state";
+    private final String currentKey = "Claw/motor current";
+    private final String clawStateKey = "Claw/state";
 
     private int currentSpikeCounter = 0;
     private boolean isFull = true;
@@ -200,8 +203,8 @@ public class Claw extends MustangSubsystemBase {
 
     @Override
     public void debugSubsystem() {
-        SmartDashboard.putNumber(currentKey, motor.getOutputCurrent());
-        SmartDashboard.putString(clawStateKey, status.toString());
+        Logger.getInstance().recordOutput(currentKey, motor.getOutputCurrent());
+        Logger.getInstance().recordOutput(clawStateKey, status.toString());
     }
 
 }

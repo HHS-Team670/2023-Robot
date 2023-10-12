@@ -1,11 +1,14 @@
 package frc.team670.robot.subsystems.arm;
 
 import com.revrobotics.CANSparkMax.IdleMode;
+
+import org.littletonrobotics.junction.Logger;
+
 import com.revrobotics.REVLibError;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+// import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team670.mustanglib.subsystems.SparkMaxRotatingSubsystem;
-import frc.team670.mustanglib.utils.Logger;
+
 import frc.team670.mustanglib.utils.functions.MathUtils;
 import frc.team670.mustanglib.utils.motorcontroller.SparkMAXFactory;
 import frc.team670.mustanglib.utils.motorcontroller.SparkMAXLite;
@@ -28,10 +31,10 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
     private double offset = 0;
     private double orgTargetAngle = 0;
 
-    private final String positionDeg = "Shoulder position (deg)";
-    private final String absEncoderPos = "Shoulder abs encoder position";
-    private final String positionRot = "Shoulder position (rotations)";
-    private final String setpointRot = "Shoulder setpoint (rotations)";
+    private final String positionDeg = "Shoulder/position (deg)";
+    private final String absEncoderPos = "Shoulder/abs encoder position";
+    private final String positionRot = "Shoulder/position (rotations)";
+    private final String setpointRot = "Shoulder/setpoint (rotations)";
     public static final double SHOULDER_ARBITRARY_FF = 0.5;
 
 
@@ -92,9 +95,9 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
         boolean followerOK = (followerRotatorError == REVLibError.kOk);
 
         if (!leaderOK && !followerOK) {
-            Logger.consoleLog("Shoulder error! Leader error is " + leaderRotatorError.toString());
-            Logger.consoleLog(
-                    "Shoulder error! Follower error is " + followerRotatorError.toString());
+            // Logger.consoleLog("Shoulder error! Leader error is " + leaderRotatorError.toString());
+            // Logger.consoleLog(
+            //         "Shoulder error! Follower error is " + followerRotatorError.toString());
             return HealthState.RED;
         }
 
@@ -117,11 +120,12 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
     @Override
     public void debugSubsystem() {
         double relativePosition = super.mEncoder.getPosition();
-        SmartDashboard.putNumber(positionDeg, getCurrentAngleInDegrees());
-        SmartDashboard.putNumber(positionRot, relativePosition);
-        SmartDashboard.putNumber(absEncoderPos, absEncoder.getAbsolutePosition());
-        SmartDashboard.putNumber(setpointRot, mSetpoint);
-        SmartDashboard.putNumber("Shoulder current", super.getRotator().getOutputCurrent());
+        Logger.getInstance().recordOutput(positionDeg, getCurrentAngleInDegrees());
+        Logger.getInstance().recordOutput(positionRot, relativePosition);
+        Logger.getInstance().recordOutput(absEncoderPos, absEncoder.getAbsolutePosition());
+        Logger.getInstance().recordOutput(setpointRot, mSetpoint);
+        Logger.getInstance().recordOutput("Shoulder/current", super.getRotator().getOutputCurrent());
+        sendAngleToDashboard();
 
     }
 
@@ -145,11 +149,11 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
                             / kConfig.kRotatorGearRatio())) < 5.0) {
                 clearSetpoint();
                 REVLibError error = mEncoder.setPosition(relativePosition);
-                SmartDashboard.putNumber("Shoulder absEncoder position when reset",
+                Logger.getInstance().recordOutput("Shoulder/absEncoder position when reset",
                         absEncoderPosition);
-                SmartDashboard.putNumber("Shoulder relEncoder position when reset",
+                Logger.getInstance().recordOutput("Shoulder/relEncoder position when reset",
                         relativePosition);
-                SmartDashboard.putString("Shoulder error", error.toString());
+                Logger.getInstance().recordOutput("Shoulder/error", error.toString());
                 calculatedRelativePosition = relativePosition;
             }
 
@@ -186,9 +190,9 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
             }
         } else if (!relativePositionIsSet) {
             double position = super.mEncoder.getPosition();
-            Logger.consoleLog("Shoulder relative position = " + position
-                    + ", calculatedRelativePosition = " + calculatedRelativePosition);
-            Logger.consoleLog("Shoulder relativePositionIsSet = " + this.relativePositionIsSet);
+            // Logger.consoleLog("Shoulder relative position = " + position
+            //         + ", calculatedRelativePosition = " + calculatedRelativePosition);
+            // Logger.consoleLog("Shoulder relativePositionIsSet = " + this.relativePositionIsSet);
             if (Math.abs(position - calculatedRelativePosition) < 0.5) {
                 relativePositionIsSet = true;
             } else {
@@ -198,6 +202,6 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
     }
 
     public void sendAngleToDashboard() {
-        SmartDashboard.putNumber(positionDeg, getCurrentAngleInDegrees());
+        Logger.getInstance().recordOutput(positionDeg, getCurrentAngleInDegrees());
     }
 }

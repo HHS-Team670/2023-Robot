@@ -1,8 +1,9 @@
 package frc.team670.robot.subsystems.arm;
 import java.util.ArrayList;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.team670.mustanglib.utils.Logger;
+import org.littletonrobotics.junction.Logger;
+
+// import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 /**
@@ -44,7 +45,7 @@ public class VoltageCalculator {
     public ArrayList<Double> calculateVoltages(double... anglesRelativeToPrevious) {
         // First, ensure that the number of received angles is correct
         if(anglesRelativeToPrevious.length != armSegments.length) {
-            Logger.consoleError("VoltageCalculator received the wrong number of angles! Received " + anglesRelativeToPrevious.length + " but expected " + armSegments.length);
+            // Logger.consoleError("VoltageCalculator received the wrong number of angles! Received " + anglesRelativeToPrevious.length + " but expected " + armSegments.length);
             return null;
         }
 
@@ -70,7 +71,7 @@ public class VoltageCalculator {
             
         }
 
-        SmartDashboard.putString(voltageString, voltages.toString());
+        Logger.getInstance().recordOutput("Arm/"+voltageString, voltages.toString());
 
         return voltages;
 
