@@ -1,4 +1,5 @@
-import frc.team670.robot.commands.drivebase;
+package frc.team670.robot.commands.vision;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
@@ -79,7 +80,7 @@ public class MoveToPlace extends CommandBase implements MustangCommand {
         PathPlannerTrajectory traj = PathPlanner.generatePath(
                 RobotConstants.DriveBase.kAutoPathConstraints, new PathPoint(startPose.getTranslation(), new Rotation2d(0,0),
                 startPose.getRotation()), new PathPoint(endPose.getTranslation(), new Rotation2d(0, 0), startPose.getRotation().rotateBy(new Rotation2d(0))));
-                );
+                ;
         driveBase.getPoseEstimator().addTrajectory(traj);
 
         pathDrivingCommand = driveBase.getFollowTrajectoryCommand(traj);
