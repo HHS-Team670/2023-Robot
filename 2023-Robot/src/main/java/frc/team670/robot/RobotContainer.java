@@ -75,7 +75,7 @@ public class RobotContainer extends RobotContainerBase {
         // cableScore = new ConeCube(mDriveBase, mClaw, mArm,mLed, "CableScoreShort");
         // stationScore = new ConeCubeCube(mDriveBase, mClaw,mArm,mLed, "Station3Piece");
         // cableEngage = new CubeEngage(mDriveBase, mClaw, mArm,mLed, "CableEngage");
-        grid6TwoEngage = new Auton(mDriveBase, mClaw, mArm, mLed, mCubeIntake, "Grid 6 Two Engage");
+        grid6TwoEngage = new Auton(mDriveBase, mClaw, mArm, mLed, mCubeIntake, "Jinho Path");
         centerEngage = new CenterEngageSequential(mDriveBase, mClaw, mArm, mLed);
         // centerIntake = new CenterIntake(mDriveBase, mClaw, mArm, mLed, "CenterIntake");
         scoreMid = new Auton(mDriveBase, mClaw, mArm, mLed, mCubeIntake, "ScoreMid");
@@ -109,23 +109,23 @@ public class RobotContainer extends RobotContainerBase {
         SmartDashboard.putBoolean(kMatchStartedString, true);
 
         int selectedPath = (int) SmartDashboard.getNumber(kAutonChooserString, 0);
-        MustangCommand autonCommand;
-        switch (selectedPath) {
-            case 0:
-                autonCommand = grid6TwoEngage;
-                break;
-            case 1:
-                autonCommand = scoreMid;
-                break;
-            case 2:
-                autonCommand = grid1TwoPiece;
-                break;
-            case 3:
-                autonCommand = centerEngage;
-                break;
-            default:
-                autonCommand = grid6TwoEngage;
-        }
+        MustangCommand autonCommand = grid6TwoEngage;
+        // switch (selectedPath) {
+        //     case 0:
+        //         autonCommand = grid6TwoEngage;
+        //         break;
+        //     case 1:
+        //         autonCommand = scoreMid;
+        //         break;
+        //     case 2:
+        //         autonCommand = grid1TwoPiece;
+        //         break;
+        //     case 3:
+        //         autonCommand = centerEngage;
+        //         break;
+        //     default:
+        //         autonCommand = grid6TwoEngage;
+        // }
         mLed.updateAutonPathColor(selectedPath);
         mLed.solidhsv(LEDColor.SEXY_PURPLE);
         return autonCommand;
