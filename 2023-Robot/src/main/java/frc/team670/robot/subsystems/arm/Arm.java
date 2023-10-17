@@ -1,14 +1,17 @@
 package frc.team670.robot.subsystems.arm;
 
+import static java.util.Map.entry;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Map;
-import static java.util.Map.entry;
 import java.util.PriorityQueue;
 
 import org.littletonrobotics.junction.Logger;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
+import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
+import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 import frc.team670.robot.constants.RobotConstants;
 
@@ -298,6 +301,15 @@ public class Arm extends MustangSubsystemBase {
         // SmartDashboard.putNumber("Elbow offset", elbowOffset);
         // SmartDashboard.putNumber("Shoulder offset", shoulderOffset);
         // SmartDashboard.putNumber("Wrist offset", wristOffset);
+        Mechanism2d m2d=new Mechanism2d(3, 3);
+        MechanismRoot2d m2dr= m2d.getRoot("Superstructure", 1.5, 0.5);
+        double transformedShoulderAngle=getShoulder().getCurrentAngleInDegrees()-90;
+        double transformedElbowAngle= -(transformedShoulderAngle-getElbow().getCurrentAngleInDegrees()+90);
+        double transformedWristAngle= -transformedElbowAngle+getWrist().getCurrentAngleInDegrees();
+        MechanismLigament2d shoulderLig = m2dr.append(new MechanismLigament2d("Shoulder", 0.66,transformedShoulderAngle));
+        MechanismLigament2d elbowLig=shoulderLig.append(new MechanismLigament2d("Elbow", 0.8,transformedElbowAngle));
+        MechanismLigament2d wristLig=elbowLig.append(new MechanismLigament2d("Wrist", 0.3,transformedWristAngle));
+        Logger.getInstance().recordOutput("Arm/arm", m2d);
     }
 
     /**
