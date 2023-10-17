@@ -44,7 +44,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class MoveToPlace extends CommandBase implements MustangCommand {
     private DriveBase driveBase;
     // private final Pose2d endPose;
-    private PhotonCamera colorCam;
+    // private PhotonCamera colorCam;
     // private boolean backOut = false;
     Pose2d startPose;
     protected Map<MustangSubsystemBase, HealthState> healthReqs;
@@ -76,7 +76,8 @@ public class MoveToPlace extends CommandBase implements MustangCommand {
     @Override
     public void initialize() {
         this.startPose = driveBase.getPose();
-        Pose2d endPose = new Pose2d(startPose.getX() + 1, startPose.getY() + 1, startPose.getRotation());
+        
+        Pose2d endPose = driveBase.getVision().getCameras()[1].getLatestResult().getTargets()[0].getPose();
         PathPlannerTrajectory traj = PathPlanner.generatePath(
                 RobotConstants.DriveBase.kAutoPathConstraints, new PathPoint(startPose.getTranslation(), new Rotation2d(0,0),
                 startPose.getRotation()), new PathPoint(endPose.getTranslation(), new Rotation2d(0, 0), startPose.getRotation().rotateBy(new Rotation2d(0))));
@@ -86,6 +87,7 @@ public class MoveToPlace extends CommandBase implements MustangCommand {
         pathDrivingCommand = driveBase.getFollowTrajectoryCommand(traj);
         MustangScheduler.getInstance().schedule(pathDrivingCommand, driveBase);
         MustangScheduler.getInstance().schedule(new IsLockedOn(driveBase, endPose), driveBase);
+    
         
     }
     // @Override
