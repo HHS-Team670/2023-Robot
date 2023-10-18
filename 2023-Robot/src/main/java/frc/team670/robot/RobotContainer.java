@@ -75,7 +75,7 @@ public class RobotContainer extends RobotContainerBase {
         // cableScore = new ConeCube(mDriveBase, mClaw, mArm,mLed, "CableScoreShort");
         // stationScore = new ConeCubeCube(mDriveBase, mClaw,mArm,mLed, "Station3Piece");
         // cableEngage = new CubeEngage(mDriveBase, mClaw, mArm,mLed, "CableEngage");
-        grid6TwoEngage = new Auton(mDriveBase, mClaw, mArm, mLed, mCubeIntake, "Jinho Path");
+        grid6TwoEngage = new Auton(mDriveBase, mClaw, mArm, mLed, mCubeIntake, "Ojas Path");
         centerEngage = new CenterEngageSequential(mDriveBase, mClaw, mArm, mLed);
         // centerIntake = new CenterIntake(mDriveBase, mClaw, mArm, mLed, "CenterIntake");
         scoreMid = new Auton(mDriveBase, mClaw, mArm, mLed, mCubeIntake, "ScoreMid");
