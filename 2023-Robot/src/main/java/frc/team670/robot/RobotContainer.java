@@ -39,6 +39,8 @@ import frc.team670.robot.subsystems.Vision;
 import frc.team670.robot.subsystems.arm.Arm;
 import frc.team670.robot.subsystems.drivebase.DriveBase;
 
+import frc.team670.robot.commands.pathplanner.aayushPath;
+
 /**
  * RobotContainer is where we put the high-level code for the robot. It contains
  * subsystems, OI
@@ -55,7 +57,9 @@ public class RobotContainer extends RobotContainerBase {
 
     // private MustangCommand cableScore, cableEngage, stationScore, stationEngage, centerEngage,
     //     centerIntake, scoreMid,cubeIntakeTest;
-    private MustangCommand grid1TwoPiece, grid6TwoEngage, scoreMid, centerEngage;
+    private MustangCommand grid1TwoPiece, grid6TwoEngage, scoreMid, centerEngage, aayushPath;
+
+    private MustangCommand anandPath;
 
     private Notifier updateArbitraryFeedForward;
 
@@ -81,6 +85,7 @@ public class RobotContainer extends RobotContainerBase {
         scoreMid = new Auton(mDriveBase, mClaw, mArm, mLed, mCubeIntake, "ScoreMid");
         grid1TwoPiece = new Auton(mDriveBase, mClaw, mArm, mLed, mCubeIntake, "Grid 1 Two Piece");
         // cubeIntakeTest= new CubeIntakeTest(mCubeIntake);
+        aayushPath = new aayushPath(mDriveBase, mArm, mCubeIntake);
         
 
     }
@@ -106,10 +111,10 @@ public class RobotContainer extends RobotContainerBase {
      */
     @Override
     public MustangCommand getAutonomousCommand() {
-        SmartDashboard.putBoolean(kMatchStartedString, true);
+        // SmartDashboard.putBoolean(kMatchStartedString, true);
 
-        int selectedPath = (int) SmartDashboard.getNumber(kAutonChooserString, 0);
-        MustangCommand autonCommand = grid6TwoEngage;
+        // int selectedPath = (int) SmartDashboard.getNumber(kAutonChooserString, 0);
+        MustangCommand autonCommand = aayushPath;
         // switch (selectedPath) {
         //     case 0:
         //         autonCommand = grid6TwoEngage;
@@ -126,8 +131,8 @@ public class RobotContainer extends RobotContainerBase {
         //     default:
         //         autonCommand = grid6TwoEngage;
         // }
-        mLed.updateAutonPathColor(selectedPath);
-        mLed.solidhsv(LEDColor.SEXY_PURPLE);
+        // mLed.updateAutonPathColor(selectedPath);
+        // mLed.solidhsv(LEDColor.SEXY_PURPLE);
         return autonCommand;
     }
 
