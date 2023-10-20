@@ -1,5 +1,6 @@
 package frc.team670.robot.subsystems;
 
+import edu.wpi.first.wpilibj.Timer;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 import frc.team670.mustanglib.utils.motorcontroller.SparkMAXFactory;
 import frc.team670.mustanglib.utils.motorcontroller.SparkMAXLite;
@@ -24,6 +25,7 @@ public class Claw extends MustangSubsystemBase {
     private double ejectingSpeed = RobotConstants.Arm.Claw.kEjectingSpeed;
     private LED led;
     private boolean isFull = true;
+    private Timer mTimer;
 
     private static Claw mInstance;
 
@@ -93,7 +95,45 @@ public class Claw extends MustangSubsystemBase {
 
     @Override
     public void mustangPeriodic() {
-        
+            //if cone then speed is inverted
+
+        switch(status){
+            case IDLE:
+            if(gamepiece == GamePiece.CONE){
+                motor.set(-RobotConstants.Arm.Claw.kIdleSpeed);
+            }else{
+                motor.set(RobotConstants.Arm.Claw.kIdleSpeed);
+            }
+                break;
+            case INTAKING:
+                if(gamepiece == GamePiece.CONE){
+                    motor.set(-RobotConstants.Arm.Claw.kRollingSpeed);
+                }else{
+                    motor.set(RobotConstants.Arm.Claw.kRollingSpeed);
+                }
+
+                if(motor.getOutputCurrent()>RobotConstants.Arm.Claw.kCurrentMax){
+
+                }
+                //Variables:
+                //RobotConstants.Arm.Claw.kCurrentSpikeIterations
+                //currentSpikeCounter
+                //isFull
+                //setIdle()
+                //Timer mTimer
+                //mTimer.hasElapsed();
+                //in start ejecting call mTimer.restart
+                //mTimer.stop()
+
+                //
+              
+                break;
+            case EJECTING:
+                break;
+            default:
+                motor.set(0);
+        }
+
     }
 
     @Override
