@@ -38,6 +38,7 @@ import frc.team670.mustanglib.subsystems.LEDSubsystem.LEDColor;
 import frc.team670.robot.subsystems.Vision;
 import frc.team670.robot.subsystems.arm.Arm;
 import frc.team670.robot.subsystems.drivebase.DriveBase;
+import frc.team670.robot.commands.pathplanner.anandPath;
 
 /**
  * RobotContainer is where we put the high-level code for the robot. It contains
@@ -56,6 +57,7 @@ public class RobotContainer extends RobotContainerBase {
     // private MustangCommand cableScore, cableEngage, stationScore, stationEngage, centerEngage,
     //     centerIntake, scoreMid,cubeIntakeTest;
     private MustangCommand grid1TwoPiece, grid6TwoEngage, scoreMid, centerEngage;
+    private MustangCommand anandPath;
 
     private Notifier updateArbitraryFeedForward;
 
@@ -81,7 +83,7 @@ public class RobotContainer extends RobotContainerBase {
         scoreMid = new Auton(mDriveBase, mClaw, mArm, mLed, mCubeIntake, "ScoreMid");
         grid1TwoPiece = new Auton(mDriveBase, mClaw, mArm, mLed, mCubeIntake, "Grid 1 Two Piece");
         // cubeIntakeTest= new CubeIntakeTest(mCubeIntake);
-        
+        anandPath = new anandPath(mDriveBase, mArm, mCubeIntake);
 
     }
 
