@@ -13,7 +13,6 @@ import com.revrobotics.CANSparkMax.IdleMode;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
-// import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Claw extends MustangSubsystemBase {
     public enum Status {

@@ -6,7 +6,6 @@ import org.littletonrobotics.junction.Logger;
 
 import com.revrobotics.REVLibError;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
-// import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team670.mustanglib.subsystems.SparkMaxRotatingSubsystem;
 
 import frc.team670.mustanglib.utils.functions.MathUtils;

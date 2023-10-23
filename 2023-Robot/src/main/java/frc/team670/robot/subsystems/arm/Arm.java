@@ -211,8 +211,7 @@ public class Arm extends MustangSubsystemBase {
             + target + " is " + Arrays.toString(currentTimeDelays));
             
 
-            // SmartDashboard.putString("Arm moveToTarget()", "from " + this.targetState + " to "
-            //         + target + " is " + Arrays.toString(currentTimeDelays));
+            
 
             this.targetState = target;
 
@@ -297,10 +296,6 @@ public class Arm extends MustangSubsystemBase {
     @Override
     public void debugSubsystem() {
         Logger.getInstance().recordOutput(targetPositionKey, getTargetState().toString());
-        // SmartDashboard.putString(targetPositionKey, getTargetState().toString());
-        // SmartDashboard.putNumber("Elbow offset", elbowOffset);
-        // SmartDashboard.putNumber("Shoulder offset", shoulderOffset);
-        // SmartDashboard.putNumber("Wrist offset", wristOffset);
         Mechanism2d m2d=new Mechanism2d(3, 3);
         MechanismRoot2d m2dr= m2d.getRoot("Superstructure", 1.5, 0.5);
         double transformedShoulderAngle=getShoulder().getCurrentAngleInDegrees()-90;
