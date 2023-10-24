@@ -20,7 +20,7 @@ import frc.team670.mustanglib.subsystems.MustangSubsystemBase.HealthState;
 import frc.team670.robot.subsystems.arm.Arm;
 import frc.team670.robot.subsystems.arm.ArmState;
 import frc.team670.robot.subsystems.drivebase.DriveBase;
-
+import frc.team670.robot.commands.arm.MoveDirectlyToTarget;
 import frc.team670.robot.commands.arm.MoveToTarget;
 import frc.team670.robot.commands.cubeintake.ToggleCubeIntakeDeployer;
 import frc.team670.robot.subsystems.CubeIntake;
@@ -31,7 +31,7 @@ public class aayushPath extends SequentialCommandGroup implements MustangCommand
         List<PathPlannerTrajectory> pathGroup = PathPlanner.loadPathGroup("Aayush Path", new PathConstraints(4, 3));
 
         HashMap<String, Command> eventMap = new HashMap<>();
-        eventMap.put("event", new MoveToTarget(arm, ArmState.STOWED));
+        eventMap.put("event", new MoveDirectlyToTarget(arm, ArmState.STOWED));
         eventMap.put("event1", new ToggleCubeIntakeDeployer(cubeIntake));
 
         CommandBase fullAuto = driveBase.getAutoBuilderFromEvents(eventMap).fullAuto(pathGroup);

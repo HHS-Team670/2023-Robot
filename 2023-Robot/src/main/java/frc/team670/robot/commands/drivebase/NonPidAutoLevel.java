@@ -16,7 +16,12 @@ import frc.team670.robot.subsystems.arm.ArmState;
 import frc.team670.robot.subsystems.drivebase.DriveBase;
 
 public class NonPidAutoLevel extends CommandBase implements MustangCommand {
+
+    /*
+     * focus on the drivebase for now
+     */
     DriveBase driveBase;
+
     double target = 0;
     double error = 2.5; // 2.5 degrees is allowable
     double pitch;
@@ -31,7 +36,9 @@ public class NonPidAutoLevel extends CommandBase implements MustangCommand {
     public NonPidAutoLevel(DriveBase driveBase, boolean fromDriverSide) {
         this.driveBase = driveBase;
         this.fromDriverSide = fromDriverSide;
-        SmartDashboard.putNumber("backtracking iterations", 50);
+
+        // debugging statement
+        // SmartDashboard.putNumber("backtracking iterations", 50);
     }
 
     @Override
@@ -51,9 +58,11 @@ public class NonPidAutoLevel extends CommandBase implements MustangCommand {
     @Override
     public void execute() {
         previousPitch = pitch;
-        //SmartDashboard.putNumber("previousPitch", previousPitch);
         pitch = Math.abs(driveBase.getPitch()+ driveBase.getRoll());
+        
+        // debugging statement
         SmartDashboard.putNumber("pitch", pitch);
+         //SmartDashboard.putNumber("previousPitch", previousPitch);
         // SmartDashboard.putBoolean("hasGoneUp", hasGoneUp);
         // SmartDashboard.putBoolean("hasTippedOver", hasTippedOver);
 
