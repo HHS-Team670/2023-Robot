@@ -40,9 +40,9 @@ public class Auton extends SequentialCommandGroup implements MustangCommand {
     }
 
 
-    public Auton(DriveBase driveBase, Claw claw, Arm arm,LED led, CubeIntake cubeIntake, String pathName) {
+    public Auton(DriveBase driveBase, Claw claw, Arm arm,LED led, CubeIntake cubeIntake, String pathName, boolean useAllianceColor, double maxVelocity, double maxAcc) {
         this.pathName = pathName;
-        List<PathPlannerTrajectory> trajectoryGroup = PathPlanner.loadPathGroup(pathName, 1.5, 1);
+        List<PathPlannerTrajectory> trajectoryGroup = PathPlanner.loadPathGroup(pathName, maxVelocity, maxAcc);
 
 
         HashMap<String, Command> eventMap = new HashMap<>();
@@ -62,7 +62,7 @@ public class Auton extends SequentialCommandGroup implements MustangCommand {
         eventMap.put("cubeIntakeEject", new CubeIntakeEject(cubeIntake));
         eventMap.put("autoLevel", new NonPidAutoLevel(driveBase, false));
         eventMap.put("autoLevelShort", new AutoLevelShort(driveBase, false));
-        CommandBase fullAuto = driveBase.getAutoBuilderFromEvents(eventMap).fullAuto(trajectoryGroup);
+        CommandBase fullAuto = driveBase.getAutoBuilderFromEvents(eventMap, useAllianceColor).fullAuto(trajectoryGroup);
 
         addCommands(fullAuto);
     }
