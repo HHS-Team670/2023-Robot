@@ -99,51 +99,48 @@ public final class OI {
     }
 
     public static void configureButtonBindings() {
-        DriveBase driveBase = DriveBase.getInstance();
-        Arm arm = Arm.getInstance();
-        Claw claw = Claw.getInstance();
         LED led = LED.getInstance();
-        CubeIntake cubeIntake = CubeIntake.getInstance();
+        // CubeIntake cubeIntake = CubeIntake.getInstance();
 
-        driveBase.initDefaultCommand(new XboxSwerveDrive(driveBase, driverController));
+        // driveBase.initDefaultCommand(new XboxSwerveDrive(driveBase, driverController));
 
-        zeroGyroDriver.onTrue(new SetSwerveForwardDirection(driveBase));
-        zeroArm.onTrue(new ResetArmFromAbsolute(arm));
-        singleSubAlign.whileTrue(new AutoAlignToSubstation(driveBase, false)); // moves to
-        resetManualOffset.onTrue(new ResetArmOffset(arm));                                   // substation
+        // zeroGyroDriver.onTrue(new SetSwerveForwardDirection(driveBase));
+        // zeroArm.onTrue(new ResetArmFromAbsolute(arm));
+        // singleSubAlign.whileTrue(new AutoAlignToSubstation(driveBase, false)); // moves to
+        // resetManualOffset.onTrue(new ResetArmOffset(arm));                                   // substation
 
-        alignToClosest.whileTrue(new AutoAlign(driveBase, AutoAlign.Direction.CLOSEST));
-        alignToLeft.whileTrue(new AutoAlign(driveBase, AutoAlign.Direction.LEFT));
-        alignToRight.whileTrue(new AutoAlign(driveBase, AutoAlign.Direction.RIGHT));
+        // alignToClosest.whileTrue(new AutoAlign(driveBase, AutoAlign.Direction.CLOSEST));
+        // alignToLeft.whileTrue(new AutoAlign(driveBase, AutoAlign.Direction.LEFT));
+        // alignToRight.whileTrue(new AutoAlign(driveBase, AutoAlign.Direction.RIGHT));
 
         // arm movement commands
   
-        scoreMidR.onTrue(new MoveToTarget(arm, ArmState.SCORE_MID));
+        // scoreMidR.onTrue(new MoveToTarget(arm, ArmState.SCORE_MID));
   
-        scoreHigh.onTrue(new MoveToTarget(arm, ArmState.SCORE_HIGH));
-        intakeShelf.onTrue(new MoveToTarget(arm, claw, ArmState.INTAKE_SHELF));
-        uprightGround.onTrue(new MoveToTarget(arm, ArmState.UPRIGHT_GROUND));
-        stow.onTrue(new MoveToTarget(arm, ArmState.STOWED));
-        manualWristControlNegative.onTrue(new ManualMoveWrist(arm, false));
-        manualWristControlPositive.onTrue(new ManualMoveWrist(arm, true));
-        manualElbowControlNegative.onTrue(new ManualMoveElbow(arm, false));
-        manualElbowControlPositive.onTrue(new ManualMoveElbow(arm, true));
-        // Claw control commands
-        suck.onTrue(new DualIntake(claw,arm,cubeIntake));
-        eject.onTrue(new DualEject(claw, arm, cubeIntake));
-        clawIdle.onTrue(new DualIdle(claw, cubeIntake));
-        toggleCubeIntake.onTrue(new ToggleCubeIntakeDeployer(cubeIntake));
-        // Rotate to cardinal direction while driving
-        XboxSwerveDrive driveCommand = (XboxSwerveDrive) driveBase.getDefaultCommand();
-        rotateTo0.onTrue(driveCommand.new SetDesiredHeading(new Rotation2d(0)));
-        rotateTo90.onTrue(driveCommand.new SetDesiredHeading(new Rotation2d(Math.PI / 2)));
-        rotateTo180.onTrue(driveCommand.new SetDesiredHeading(new Rotation2d(Math.PI)));
-        rotateTo270.onTrue(driveCommand.new SetDesiredHeading(new Rotation2d(3 * Math.PI / 2)));
+        // scoreHigh.onTrue(new MoveToTarget(arm, ArmState.SCORE_HIGH));
+        // intakeShelf.onTrue(new MoveToTarget(arm, claw, ArmState.INTAKE_SHELF));
+        // uprightGround.onTrue(new MoveToTarget(arm, ArmState.UPRIGHT_GROUND));
+        // stow.onTrue(new MoveToTarget(arm, ArmState.STOWED));
+        // manualWristControlNegative.onTrue(new ManualMoveWrist(arm, false));
+        // manualWristControlPositive.onTrue(new ManualMoveWrist(arm, true));
+        // manualElbowControlNegative.onTrue(new ManualMoveElbow(arm, false));
+        // manualElbowControlPositive.onTrue(new ManualMoveElbow(arm, true));
+        // // Claw control commands
+        // suck.onTrue(new DualIntake(claw,arm,cubeIntake));
+        // eject.onTrue(new DualEject(claw, arm, cubeIntake));
+        // clawIdle.onTrue(new DualIdle(claw, cubeIntake));
+        // toggleCubeIntake.onTrue(new ToggleCubeIntakeDeployer(cubeIntake));
+        // // Rotate to cardinal direction while driving
+        // XboxSwerveDrive driveCommand = (XboxSwerveDrive) driveBase.getDefaultCommand();
+        // rotateTo0.onTrue(driveCommand.new SetDesiredHeading(new Rotation2d(0)));
+        // rotateTo90.onTrue(driveCommand.new SetDesiredHeading(new Rotation2d(Math.PI / 2)));
+        // rotateTo180.onTrue(driveCommand.new SetDesiredHeading(new Rotation2d(Math.PI)));
+        // rotateTo270.onTrue(driveCommand.new SetDesiredHeading(new Rotation2d(3 * Math.PI / 2)));
 
-        cubeSuck.onTrue(new SetIntakeCube(led, claw));
-        coneSuck.onTrue(new SetIntakeCone(led, claw));
-        turnToCone.onTrue(new MoveToCone(driveBase, driverController));
+        // cubeSuck.onTrue(new SetIntakeCube(led, claw));
+        // coneSuck.onTrue(new SetIntakeCone(led, claw));
+        // turnToCone.onTrue(new MoveToCone(driveBase, driverController));
 
-        autoLevel.onTrue(new NonPidAutoLevel(driveBase, true));
+        // autoLevel.onTrue(new NonPidAutoLevel(driveBase, true));
     }
 }

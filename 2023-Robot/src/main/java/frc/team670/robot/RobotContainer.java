@@ -64,8 +64,7 @@ public class RobotContainer extends RobotContainerBase {
 
     public RobotContainer() {
         super();
-        addSubsystem(mDriveBase, mArm, mArm.getShoulder(), mArm.getElbow(), mArm.getWrist(),
-                mClaw, mLed,mCubeIntake, mCubeIntake.getDeployer());
+        addSubsystem(mLed);
         OI.configureButtonBindings();
 
         for (MustangSubsystemBase subsystem : getSubsystems()) {
@@ -75,11 +74,11 @@ public class RobotContainer extends RobotContainerBase {
         // cableScore = new ConeCube(mDriveBase, mClaw, mArm,mLed, "CableScoreShort");
         // stationScore = new ConeCubeCube(mDriveBase, mClaw,mArm,mLed, "Station3Piece");
         // cableEngage = new CubeEngage(mDriveBase, mClaw, mArm,mLed, "CableEngage");
-        grid6TwoEngage = new Auton(mDriveBase, mClaw, mArm, mLed, mCubeIntake, "Grid 6 Two Engage");
-        centerEngage = new CenterEngageSequential(mDriveBase, mClaw, mArm, mLed);
+        // grid6TwoEngage = new Auton(mDriveBase, mClaw, mArm, mLed, mCubeIntake, "Grid 6 Two Engage");
+        // centerEngage = new CenterEngageSequential(mDriveBase, mClaw, mArm, mLed);
         // centerIntake = new CenterIntake(mDriveBase, mClaw, mArm, mLed, "CenterIntake");
-        scoreMid = new Auton(mDriveBase, mClaw, mArm, mLed, mCubeIntake, "ScoreMid");
-        grid1TwoPiece = new Auton(mDriveBase, mClaw, mArm, mLed, mCubeIntake, "Grid 1 Two Piece");
+        // scoreMid = new Auton(mDriveBase, mClaw, mArm, mLed, mCubeIntake, "ScoreMid");
+        // grid1TwoPiece = new Auton(mDriveBase, mClaw, mArm, mLed, mCubeIntake, "Grid 1 Two Piece");
         // cubeIntakeTest= new CubeIntakeTest(mCubeIntake);
         
 
@@ -87,16 +86,17 @@ public class RobotContainer extends RobotContainerBase {
 
     @Override
     public void robotInit() {
-        CameraServer.startAutomaticCapture().setVideoMode(PixelFormat.kYUYV, 160, 120, 30);
+        // CameraServer.startAutomaticCapture().setVideoMode(PixelFormat.kYUYV, 160, 120, 30);
 
-        // mDriveBase.initVision(mVision);
-        SmartDashboard.putNumber(kAutonChooserString, 0);
-        updateArbitraryFeedForward = new Notifier(
-                () -> {
-                    mArm.updateArbitraryFeedForward();
-                });
+        // // mDriveBase.initVision(mVision);
+        // SmartDashboard.putNumber(kAutonChooserString, 0);
+        // updateArbitraryFeedForward = new Notifier(
+        //         () -> {
+        //             mArm.updateArbitraryFeedForward();
+        //         });
 
-        updateArbitraryFeedForward.startPeriodic(0.01);
+        // updateArbitraryFeedForward.startPeriodic(0.01);
+        mLed.blinkhsv(LEDColor.PURPLE);
     }
 
     /**
@@ -106,40 +106,40 @@ public class RobotContainer extends RobotContainerBase {
      */
     @Override
     public MustangCommand getAutonomousCommand() {
-        SmartDashboard.putBoolean(kMatchStartedString, true);
+        // SmartDashboard.putBoolean(kMatchStartedString, true);
 
-        int selectedPath = (int) SmartDashboard.getNumber(kAutonChooserString, 0);
-        MustangCommand autonCommand;
-        switch (selectedPath) {
-            case 0:
-                autonCommand = grid6TwoEngage;
-                break;
-            case 1:
-                autonCommand = scoreMid;
-                break;
-            case 2:
-                autonCommand = grid1TwoPiece;
-                break;
-            case 3:
-                autonCommand = centerEngage;
-                break;
-            default:
-                autonCommand = grid6TwoEngage;
-        }
-        mLed.updateAutonPathColor(selectedPath);
-        mLed.solidhsv(LEDColor.SEXY_PURPLE);
-        return autonCommand;
+        // int selectedPath = (int) SmartDashboard.getNumber(kAutonChooserString, 0);
+        // MustangCommand autonCommand;
+        // switch (selectedPath) {
+        //     case 0:
+        //         autonCommand = grid6TwoEngage;
+        //         break;
+        //     case 1:
+        //         autonCommand = scoreMid;
+        //         break;
+        //     case 2:
+        //         autonCommand = grid1TwoPiece;
+        //         break;
+        //     case 3:
+        //         autonCommand = centerEngage;
+        //         break;
+        //     default:
+        //         autonCommand = grid6TwoEngage;
+        // }
+        // mLed.updateAutonPathColor(selectedPath);
+        // mLed.solidhsv(LEDColor.SEXY_PURPLE);
+        return null;
     }
 
     @Override
     public void autonomousInit() {
-        mArm.setStateToStarting();
+        // mArm.setStateToStarting();
     }
 
     @Override
     public void teleopInit() {
-        mArm.clearSetpoint();
-        new ResetArmFromAbsolute(mArm);
+        // mArm.clearSetpoint();
+        // new ResetArmFromAbsolute(mArm);
     }
 
     @Override
@@ -148,14 +148,14 @@ public class RobotContainer extends RobotContainerBase {
 
     @Override
     public void disabled() {
-        SmartDashboard.putBoolean(kMatchStartedString, false);
+        // SmartDashboard.putBoolean(kMatchStartedString, false);
     }
 
     @Override
     public void disabledPeriodic() {
-        mArm.getShoulder().sendAngleToDashboard();
-        mArm.getElbow().sendAngleToDashboard();
-        mArm.getWrist().sendAngleToDashboard();
+        // mArm.getShoulder().sendAngleToDashboard();
+        // mArm.getElbow().sendAngleToDashboard();
+        // mArm.getWrist().sendAngleToDashboard();
 
         int selectedPath = (int) SmartDashboard.getNumber(kAutonChooserString, 0);
         // The `mLed.updateAutonPathColor(selectedPath)` method is updating the color of the LED
@@ -167,7 +167,7 @@ public class RobotContainer extends RobotContainerBase {
         // chosen autonomous path, and the `updateAutonPathColor()` method in the `LED` subsystem is
         // responsible for changing the LED color accordingly.
 
-        mLed.updateAutonPathColor(selectedPath);
+        // mLed.updateAutonPathColor(selectedPath);
     }
 
     @Override
