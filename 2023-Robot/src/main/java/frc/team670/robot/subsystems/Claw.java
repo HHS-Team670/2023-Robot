@@ -28,8 +28,9 @@ public class Claw extends MustangSubsystemBase {
     private Claw.Status status;
     private Claw.GamePiece gamepiece=Claw.GamePiece.CONE;
 
-    private final String currentKey = "Claw/motor current";
-    private final String clawStateKey = "Claw/state";
+    private final String kCurrentKey;
+    private final String kClawStateKey;
+    private final String kFull;
 
     private int currentSpikeCounter = 0;
     private boolean isFull = true;
@@ -55,6 +56,9 @@ public class Claw extends MustangSubsystemBase {
 
         motor.setInverted(true);
         motor.setIdleMode(IdleMode.kBrake);
+        kCurrentKey = getName()+"/MotorCurrent";
+        kClawStateKey = getName()+"/State";
+        kFull=getName()+"/IsFull";
     }
 
     public LED getLed() {
@@ -139,11 +143,11 @@ public class Claw extends MustangSubsystemBase {
             if (DriverStation.isTeleopEnabled()) {
                 if(!isFull()||heldCounter>20){
                     
-                        if(this.gamepiece==GamePiece.CONE){
-                            led.solidhsv(LEDColor.YELLOW);
-                        }else{
-                            led.solidhsv(LEDColor.PURPLE);
-                        }     
+                        // if(this.gamepiece==GamePiece.CONE){
+                        //     led.solidhsv(LEDColor.YELLOW);
+                        // }else{
+                        //     led.solidhsv(LEDColor.PURPLE);
+                        // }     
                 }else if(isFull()){
                     heldCounter++;
                 }
@@ -163,7 +167,7 @@ public class Claw extends MustangSubsystemBase {
                     if (currentSpikeCounter > RobotConstants.Arm.Claw.kCurrentSpikeIterations) {
                         isFull = true;
                         if (DriverStation.isTeleopEnabled()) {
-                            led.solidhsv(LEDColor.GREEN);
+                            // led.solidhsv(LEDColor.GREEN);
                         }
                        
                         // OI.getDriverController().rumble(0.5, 0.5);
@@ -186,13 +190,13 @@ public class Claw extends MustangSubsystemBase {
                 if (m_timer.hasElapsed(RobotConstants.Arm.Claw.kEjectTime)) {
                     isFull = false;
                     m_timer.stop();
-                    if (DriverStation.isTeleopEnabled()) {
-                        if(this.gamepiece==GamePiece.CONE){
-                            led.solidhsv(LEDColor.YELLOW);
-                        }else{
-                            led.solidhsv(LEDColor.PURPLE);
-                        }
-                    }
+                    // if (DriverStation.isTeleopEnabled()) {
+                    //     if(this.gamepiece==GamePiece.CONE){
+                    //         led.solidhsv(LEDColor.YELLOW);
+                    //     }else{
+                    //         led.solidhsv(LEDColor.PURPLE);
+                    //     }
+                    // }
                 }
                 break;
             default:
@@ -202,8 +206,9 @@ public class Claw extends MustangSubsystemBase {
 
     @Override
     public void debugSubsystem() {
-        Logger.getInstance().recordOutput(currentKey, motor.getOutputCurrent());
-        Logger.getInstance().recordOutput(clawStateKey, status.toString());
+        Logger.getInstance().recordOutput(kCurrentKey, motor.getOutputCurrent());
+        Logger.getInstance().recordOutput(kClawStateKey, status.toString());
+        Logger.getInstance().recordOutput(kFull,isFull());
     }
 
 }

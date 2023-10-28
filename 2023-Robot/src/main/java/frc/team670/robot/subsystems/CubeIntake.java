@@ -30,8 +30,8 @@ public class CubeIntake extends MustangSubsystemBase {
     private SparkMAXLite motor;
     private CubeIntake.Status status=Status.IDLE;
 
-    private final String currentKey = "CubeIntake/motor current";
-    private final String CubeIntakeStateKey = "CubeIntake/state";
+    private final String kCurrentKey;
+    private final String kCubeIntakeStateKey;
     protected Timer m_timer = new Timer();
     private int currentSpikeCounter = 0;
     private int ejectCounter = 0;
@@ -57,7 +57,8 @@ public class CubeIntake extends MustangSubsystemBase {
                 SparkMAXFactory.defaultConfig, Motor_Type.NEO);
         deployer=Deployer.getInstance();
         this.led = LED.getInstance();
-
+        kCurrentKey = "CubeIntake/MotorCurrent";
+        kCubeIntakeStateKey = "CubeIntake/State";
         motor.setInverted(true);
         motor.setIdleMode(IdleMode.kBrake);
     }
@@ -155,9 +156,9 @@ public class CubeIntake extends MustangSubsystemBase {
                     currentSpikeCounter++;
                     if (currentSpikeCounter > RobotConstants.CubeIntake.kCurrentSpikeIterations) {
                         isFull = true;
-                        if (DriverStation.isTeleopEnabled()) {
-                            led.solidhsv(LEDColor.GREEN);
-                        }
+                        // if (DriverStation.isTeleopEnabled()) {
+                        //     led.solidhsv(LEDColor.GREEN);
+                        // }
                         
                        
                         // OI.getDriverController().rumble(0.5, 0.5);
@@ -196,8 +197,8 @@ public class CubeIntake extends MustangSubsystemBase {
 
     @Override
     public void debugSubsystem() {
-        Logger.getInstance().recordOutput(currentKey, motor.getOutputCurrent());
-        Logger.getInstance().recordOutput(CubeIntakeStateKey, status.toString());
+        Logger.getInstance().recordOutput(kCurrentKey, motor.getOutputCurrent());
+        Logger.getInstance().recordOutput(kCubeIntakeStateKey, status.toString());
         
     }
 
