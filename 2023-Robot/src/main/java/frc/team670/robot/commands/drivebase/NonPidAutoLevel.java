@@ -58,7 +58,8 @@ public class NonPidAutoLevel extends CommandBase implements MustangCommand {
     @Override
     public void execute() {
         previousPitch = pitch;
-        pitch = Math.abs(driveBase.getPitch()+ driveBase.getRoll());
+
+        pitch = Math.abs(driveBase.getPitch());
         
         // debugging statement
         SmartDashboard.putNumber("pitch", pitch);
@@ -107,13 +108,13 @@ public class NonPidAutoLevel extends CommandBase implements MustangCommand {
 
     @Override
     public boolean isFinished() {
-        if (hasTippedOver && Math.abs(pitch) < 4 && counter > 20) { 
-            //SmartDashboard.putBoolean("isFinished", true);
-            return true;
-        }
-        // if (driveBase.getPitch() > (target - error) && driveBase.getPitch() < (target + error) && hasGoneUp) {
+        // if (hasTippedOver && Math.abs(pitch) < 4 && counter > 20) { 
+        //     //SmartDashboard.putBoolean("isFinished", true);
         //     return true;
         // }
+        if (driveBase.getPitch() > (target - error) && driveBase.getPitch() < (target + error) && hasGoneUp) {
+            return true;
+        }
         // SmartDashboard.putBoolean("level", level);
         return false;
     }
