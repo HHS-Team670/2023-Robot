@@ -31,6 +31,8 @@ public class Arm extends MustangSubsystemBase {
     private boolean hasSetShoulderTarget = true;
     private boolean hasSetElbowTarget = true;
     private boolean hasSetWristTarget = true;
+    private boolean mechanismLoggingEnabled=true;
+
 
     private final String targetPositionKey = "Arm/target position";
 
@@ -296,15 +298,17 @@ public class Arm extends MustangSubsystemBase {
     @Override
     public void debugSubsystem() {
         Logger.getInstance().recordOutput(targetPositionKey, getTargetState().toString());
-        Mechanism2d m2d=new Mechanism2d(3, 3);
-        MechanismRoot2d m2dr= m2d.getRoot("Superstructure", 1.5, 0.5);
-        double transformedShoulderAngle=getShoulder().getCurrentAngleInDegrees()-90;
-        double transformedElbowAngle= -(transformedShoulderAngle-getElbow().getCurrentAngleInDegrees()+90);
-        double transformedWristAngle= -transformedElbowAngle+getWrist().getCurrentAngleInDegrees();
-        MechanismLigament2d shoulderLig = m2dr.append(new MechanismLigament2d("Shoulder", 0.66,transformedShoulderAngle));
-        MechanismLigament2d elbowLig=shoulderLig.append(new MechanismLigament2d("Elbow", 0.8,transformedElbowAngle));
-        MechanismLigament2d wristLig=elbowLig.append(new MechanismLigament2d("Wrist", 0.3,transformedWristAngle));
-        Logger.getInstance().recordOutput("Arm/arm", m2d);
+        if(mechanismLoggingEnabled) {
+            Mechanism2d m2d=new Mechanism2d(3, 3);
+            MechanismRoot2d m2dr= m2d.getRoot("Superstructure", 1.5, 0.5);
+            double transformedShoulderAngle=getShoulder().getCurrentAngleInDegrees()-90;
+            double transformedElbowAngle= -(transformedShoulderAngle-getElbow().getCurrentAngleInDegrees()+90);
+            double transformedWristAngle= -transformedElbowAngle+getWrist().getCurrentAngleInDegrees();
+            MechanismLigament2d shoulderLig = m2dr.append(new MechanismLigament2d("Shoulder", 0.66,transformedShoulderAngle));
+            MechanismLigament2d elbowLig=shoulderLig.append(new MechanismLigament2d("Elbow", 0.8,transformedElbowAngle));
+            MechanismLigament2d wristLig=elbowLig.append(new MechanismLigament2d("Wrist", 0.3,transformedWristAngle));
+            Logger.getInstance().recordOutput("Arm/arm", m2d);
+        }
     }
 
     /**
@@ -353,6 +357,12 @@ public class Arm extends MustangSubsystemBase {
 
     public Wrist getWrist() {
         return wrist;
+    }
+    public boolean getMechanismLoggingEnabled(){
+        return mechanismLoggingEnabled;
+    }
+    public void  setMechanismLoggingEnabled(boolean mechanismLoggingEnabled){
+        this.mechanismLoggingEnabled=mechanismLoggingEnabled;
     }
 
     /**
