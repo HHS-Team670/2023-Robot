@@ -26,19 +26,17 @@ public class Wrist extends SparkMaxRotatingSubsystem {
     private boolean relativePositionIsSet = false;
     private double errorCounter = 0;
     private double offset = 0;
-    private double orgTargetAngle = 0; 
-    private final String positionDeg = "Wrist/position (deg)";
-    private final String absEncoderPos = "Wrist/abs encoder position";
-    private final String positionRot = "Wrist/position (rotations)";
-    private final String setpointRot = "Wrist/setpoint (rotations)";
+    private final String ABSENCODER_POS_RESET, RELENCODER_POS_RESET, CURRENT, ERROR;
 
 
     public Wrist() {
         super(RobotConstants.Arm.Wrist.kConfig);
         absEncoder = new DutyCycleEncoder(RobotConstants.Arm.Wrist.kAbsoluteEncoderID);
         super.getRotator().setInverted(false);
-
-
+        ABSENCODER_POS_RESET = getName() + "/absEncoder position when reset";
+        RELENCODER_POS_RESET = getName() + "/relEncoder position when reset";
+        ERROR = getName() + "/error";
+        CURRENT = getName() + "/Current";
     }
 
 
@@ -61,10 +59,10 @@ public class Wrist extends SparkMaxRotatingSubsystem {
                 clearSetpoint();
 
                 REVLibError error = mEncoder.setPosition(relativePosition);
-                Logger.getInstance().recordOutput("Wrist/absEncoder position when reset",
+                Logger.getInstance().recordOutput(ABSENCODER_POS_RESET,
                         absEncoderPosition);
-                        Logger.getInstance().recordOutput("Wrist/relEncoder position when reset", relativePosition);
-                        Logger.getInstance().recordOutput("Wrist/error", error.toString());
+                        Logger.getInstance().recordOutput(RELENCODER_POS_RESET, relativePosition);
+                        Logger.getInstance().recordOutput(ERROR, error.toString());
                 calculatedRelativePosition = relativePosition;
             }
 
@@ -146,10 +144,10 @@ public class Wrist extends SparkMaxRotatingSubsystem {
         double relativePosition = super.mEncoder.getPosition();
 
         Logger.getInstance().recordOutput(positionDeg, getCurrentAngleInDegrees());
-        Logger.getInstance().recordOutput(positionRot, relativePosition);
-        Logger.getInstance().recordOutput(absEncoderPos, absEncoder.getAbsolutePosition());
+        Logger.getInstance().recordOutput(RELENCODER_POS_RESET, relativePosition);
+        Logger.getInstance().recordOutput(ABSENCODER_POS_RESET, absEncoder.getAbsolutePosition());
         Logger.getInstance().recordOutput(setpointRot, mSetpoint);
-        Logger.getInstance().recordOutput("Wrist/Current", super.getRotator().getOutputCurrent());
+        Logger.getInstance().recordOutput(CURRENT, super.getRotator().getOutputCurrent());
         sendAngleToDashboard();
 
     }

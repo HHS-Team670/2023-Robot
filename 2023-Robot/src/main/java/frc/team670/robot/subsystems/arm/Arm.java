@@ -34,7 +34,8 @@ public class Arm extends MustangSubsystemBase {
     private boolean mechanismLoggingEnabled=true;
 
 
-    private final String targetPositionKey = "Arm/target position";
+    private final String ARM_TARGET_POSITION_KEY, ARM_MOVE_TO_TARGET, ARM_ARM;
+
 
     private long startingTime = 0;
 
@@ -113,6 +114,9 @@ public class Arm extends MustangSubsystemBase {
                 RobotConstants.Arm.Wrist.kWristSegment);
 
         init();
+       ARM_MOVE_TO_TARGET =  getName() + "/moveToTarget()";
+       ARM_TARGET_POSITION_KEY = getName() + "/target position";
+       ARM_ARM = getName() + "/arm";
     }
 
     /**
@@ -209,7 +213,7 @@ public class Arm extends MustangSubsystemBase {
             if (currentTimeDelays == null) {
                 currentTimeDelays = new double[] {0, 0, 0};
             }
-            Logger.getInstance().recordOutput(getName()+"/moveToTarget()", "from " + this.targetState + " to "
+            Logger.getInstance().recordOutput(ARM_MOVE_TO_TARGET, "from " + this.targetState + " to "
             + target + " is " + Arrays.toString(currentTimeDelays));
             
 
@@ -297,7 +301,7 @@ public class Arm extends MustangSubsystemBase {
 
     @Override
     public void debugSubsystem() {
-        Logger.getInstance().recordOutput(targetPositionKey, getTargetState().toString());
+        Logger.getInstance().recordOutput(ARM_TARGET_POSITION_KEY, getTargetState().toString());
         if(mechanismLoggingEnabled) {
             Mechanism2d m2d=new Mechanism2d(3, 3);
             MechanismRoot2d m2dr= m2d.getRoot("Superstructure", 1.5, 0.5);
@@ -307,7 +311,7 @@ public class Arm extends MustangSubsystemBase {
             MechanismLigament2d shoulderLig = m2dr.append(new MechanismLigament2d("Shoulder", 0.66,transformedShoulderAngle));
             MechanismLigament2d elbowLig=shoulderLig.append(new MechanismLigament2d("Elbow", 0.8,transformedElbowAngle));
             MechanismLigament2d wristLig=elbowLig.append(new MechanismLigament2d("Wrist", 0.3,transformedWristAngle));
-            Logger.getInstance().recordOutput("Arm/arm", m2d);
+            Logger.getInstance().recordOutput(ARM_ARM, m2d);
         }
     }
 

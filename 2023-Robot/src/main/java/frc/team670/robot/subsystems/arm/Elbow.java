@@ -28,11 +28,7 @@ public class Elbow extends SparkMaxRotatingSubsystem {
     private double orgTargetAngle = 0;
     private double errorCounter = 0;
 
-    private final String positionDeg = "Elbow/position (deg)";
-    private final String absEncoderPos = "Elbow/abs encoder position";
-    private final String positionRot = "Elbow/position (rotations)";
-    private final String setpointRot = "Elbow/setpoint (rotations)";
-    private final String current = "Elbow/current";
+    private final String ELBOW_POSITION_DEG, ELBOW_ABS_ENCODER_POS, ELBOW_POSITION_ROT, ELBOW_SETPOINT_ROT, ELBOW_CURRENT, ELBOW_ABS_ENCODER_POS_WHEN_RESET, ELBOW_REL_ENCODER_POS_WHEN_RESET, ELBOW_ERROR;
 
     // constructor that inits motors and stuff
 
@@ -40,6 +36,14 @@ public class Elbow extends SparkMaxRotatingSubsystem {
         super(RobotConstants.Arm.Elbow.kConfig);
         absEncoder = new DutyCycleEncoder(RobotConstants.Arm.Elbow.kAbsoluteEncoderID);
         super.getRotator().setInverted(true);
+        ELBOW_POSITION_DEG = getName() + "/position (deg)";
+        ELBOW_ABS_ENCODER_POS = getName() + "/abs encoder position";
+        ELBOW_POSITION_ROT = getName() + "/position (rotations)";
+        ELBOW_SETPOINT_ROT = getName() + "/setpoint (rotations)";
+        ELBOW_CURRENT = getName() + "/current";
+        ELBOW_ABS_ENCODER_POS_WHEN_RESET = getName() + "/absEncoder position when reset";
+        ELBOW_REL_ENCODER_POS_WHEN_RESET = getName() + "relEncoder position when reset";
+        ELBOW_ERROR = getName() + "/error";
     }
 
     /**
@@ -60,10 +64,10 @@ public class Elbow extends SparkMaxRotatingSubsystem {
                             / kConfig.kRotatorGearRatio())) < 10.0) {
                 clearSetpoint();
                 REVLibError error = mEncoder.setPosition(relativePosition);
-                Logger.getInstance().recordOutput("Elbow/absEncoder position when reset",
+                Logger.getInstance().recordOutput(ELBOW_ABS_ENCODER_POS_WHEN_RESET,
                         absEncoderPosition);
-                Logger.getInstance().recordOutput("Elbow/relEncoder position when reset", relativePosition);
-                Logger.getInstance().recordOutput("Elbow/error", error.toString());
+                Logger.getInstance().recordOutput(ELBOW_REL_ENCODER_POS_WHEN_RESET, relativePosition);
+                Logger.getInstance().recordOutput(ELBOW_ERROR, error.toString());
                 calculatedRelativePosition = relativePosition;
             }
         }
@@ -147,12 +151,12 @@ public class Elbow extends SparkMaxRotatingSubsystem {
     @Override
     public void debugSubsystem() {
         double relativePosition = super.mEncoder.getPosition();
-        Logger.getInstance().recordOutput(positionDeg,getCurrentAngleInDegrees());
+        Logger.getInstance().recordOutput(ELBOW_POSITION_DEG,getCurrentAngleInDegrees());
         
-        Logger.getInstance().recordOutput(positionRot, relativePosition);
-        Logger.getInstance().recordOutput(absEncoderPos, absEncoder.getAbsolutePosition());
-        Logger.getInstance().recordOutput(setpointRot, mSetpoint);
-        Logger.getInstance().recordOutput(current, super.getRotator().getOutputCurrent());
+        Logger.getInstance().recordOutput(ELBOW_POSITION_ROT, relativePosition);
+        Logger.getInstance().recordOutput(ELBOW_ABS_ENCODER_POS, absEncoder.getAbsolutePosition());
+        Logger.getInstance().recordOutput(ELBOW_SETPOINT_ROT, mSetpoint);
+        Logger.getInstance().recordOutput(ELBOW_CURRENT, super.getRotator().getOutputCurrent());
         sendAngleToDashboard();
         // Logger.getInstance().recordOutput("Elbow motor power: ", super.mRotator.get());
     }

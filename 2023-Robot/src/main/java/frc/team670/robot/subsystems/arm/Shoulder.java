@@ -30,10 +30,7 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
     private double offset = 0;
     private double orgTargetAngle = 0;
 
-    private final String positionDeg = "Shoulder/position (deg)";
-    private final String absEncoderPos = "Shoulder/abs encoder position";
-    private final String positionRot = "Shoulder/position (rotations)";
-    private final String setpointRot = "Shoulder/setpoint (rotations)";
+    private final String SHOULDER_POSITION_DEG, SHOULDER_ABS_ENCODER_POS, SHOULDER_POSITION_ROT, SHOULDER_SETPOINT_ROT, SHOULDER_CURRENT, SHOULDER_ABS_ENCODER_POS_WHEN_RESET, SHOULDER_ERROR, SHOULDER_REL_ENCODER_POS_WHEN_RESET;
     public static final double SHOULDER_ARBITRARY_FF = 0.5;
 
 
@@ -44,6 +41,15 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
                 .setPermanentFollower(RobotConstants.Arm.Shoulder.kFollowerMotorID, mRotator, true);
         follower.setIdleMode(IdleMode.kBrake);
         absEncoder = new DutyCycleEncoder(RobotConstants.Arm.Shoulder.kAbsoluteEncoderID);
+
+            SHOULDER_POSITION_DEG = getName() + "/position (deg)";
+            SHOULDER_ABS_ENCODER_POS = getName() + "/abs encoder position";
+            SHOULDER_POSITION_ROT = getName() + "/position (rotations)";
+            SHOULDER_SETPOINT_ROT = getName() + "/setpoint (rotations)";
+            SHOULDER_CURRENT = getName() + "/current";
+            SHOULDER_ABS_ENCODER_POS_WHEN_RESET = getName() + "/absEncoder position when reset";
+            SHOULDER_REL_ENCODER_POS_WHEN_RESET = getName() + "/relEncoder position when reset";
+            SHOULDER_ERROR = getName() + "/error";
     }
 
     /**
@@ -119,11 +125,11 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
     @Override
     public void debugSubsystem() {
         double relativePosition = super.mEncoder.getPosition();
-        Logger.getInstance().recordOutput(positionDeg, getCurrentAngleInDegrees());
-        Logger.getInstance().recordOutput(positionRot, relativePosition);
-        Logger.getInstance().recordOutput(absEncoderPos, absEncoder.getAbsolutePosition());
-        Logger.getInstance().recordOutput(setpointRot, mSetpoint);
-        Logger.getInstance().recordOutput("Shoulder/current", super.getRotator().getOutputCurrent());
+        Logger.getInstance().recordOutput(SHOULDER_POSITION_DEG, getCurrentAngleInDegrees());
+        Logger.getInstance().recordOutput(SHOULDER_POSITION_ROT, relativePosition);
+        Logger.getInstance().recordOutput(SHOULDER_ABS_ENCODER_POS, absEncoder.getAbsolutePosition());
+        Logger.getInstance().recordOutput(SHOULDER_SETPOINT_ROT, mSetpoint);
+        Logger.getInstance().recordOutput(SHOULDER_CURRENT, super.getRotator().getOutputCurrent());
         sendAngleToDashboard();
 
     }
@@ -148,11 +154,11 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
                             / kConfig.kRotatorGearRatio())) < 5.0) {
                 clearSetpoint();
                 REVLibError error = mEncoder.setPosition(relativePosition);
-                Logger.getInstance().recordOutput("Shoulder/absEncoder position when reset",
+                Logger.getInstance().recordOutput(SHOULDER_ABS_ENCODER_POS_WHEN_RESET,
                         absEncoderPosition);
-                Logger.getInstance().recordOutput("Shoulder/relEncoder position when reset",
+                Logger.getInstance().recordOutput(SHOULDER_REL_ENCODER_POS_WHEN_RESET,
                         relativePosition);
-                Logger.getInstance().recordOutput("Shoulder/error", error.toString());
+                Logger.getInstance().recordOutput(SHOULDER_ERROR, error.toString());
                 calculatedRelativePosition = relativePosition;
             }
 
@@ -201,6 +207,6 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
     }
 
     public void sendAngleToDashboard() {
-        Logger.getInstance().recordOutput(positionDeg, getCurrentAngleInDegrees());
+        Logger.getInstance().recordOutput(SHOULDER_POSITION_DEG, getCurrentAngleInDegrees());
     }
 }
