@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.team670.mustanglib.commands.MustangCommand;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase.HealthState;
-import frc.team670.mustanglib.utils.Logger;
+import frc.team670.mustanglib.utils.ConsoleLogger;
 import frc.team670.robot.commands.claw.ClawInstantIntake;
 import frc.team670.robot.commands.claw.ClawIntake;
 import frc.team670.robot.commands.routines.IntakeAndStow;
@@ -64,7 +64,7 @@ public class MoveToTarget extends CommandGroupBase implements MustangCommand {
 
   @Override
   public void initialize() {
-    Logger.consoleLog("Ran MoveToTarget with the target " + target.toString());
+    ConsoleLogger.consoleLog("Ran MoveToTarget with the target " + target.toString());
     // 1) get the valid paths from current state to the target, and add them in
     // sequence
     // 2) call get Valid Path in the arm

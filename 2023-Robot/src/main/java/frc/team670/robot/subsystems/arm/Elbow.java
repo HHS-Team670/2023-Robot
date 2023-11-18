@@ -7,7 +7,7 @@ import com.revrobotics.REVLibError;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team670.mustanglib.subsystems.SparkMaxRotatingSubsystem;
-
+import frc.team670.mustanglib.utils.ConsoleLogger;
 import frc.team670.mustanglib.utils.functions.MathUtils;
 import frc.team670.robot.constants.RobotConstants;
 
@@ -84,7 +84,7 @@ public class Elbow extends SparkMaxRotatingSubsystem {
         REVLibError rotatorError = super.mRotator.getLastError();
 
         if (rotatorError != null && rotatorError != REVLibError.kOk) {
-            // Logger.consoleLog("Elbow error! Rotator error is " + rotatorError.toString());
+            ConsoleLogger.consoleLog("Elbow error! Rotator error is " + rotatorError.toString());
             errorCounter++;
         } else {
             errorCounter = 0;
@@ -185,18 +185,17 @@ public class Elbow extends SparkMaxRotatingSubsystem {
             }
         } else if (!relativePositionIsSet) {
             double position = super.mEncoder.getPosition();
-            // Logger.consoleLog("Elbow/relative position = " + position
-            //         + ", calculatedRelativePosition = " + calculatedRelativePosition);
+            ConsoleLogger.consoleLog("Elbow/relative position = " + position + ", calculatedRelativePosition = " + calculatedRelativePosition);
             if (Math.abs(position - calculatedRelativePosition) < 0.5) {
                 relativePositionIsSet = true;
             } else {
                 super.mEncoder.setPosition(calculatedRelativePosition);
             }
-            // Logger.consoleLog("Elbow relativePositionIsSet = " + this.relativePositionIsSet);
+            ConsoleLogger.consoleLog("Elbow relativePositionIsSet = " + this.relativePositionIsSet);
         }
     }
 
     public void sendAngleToDashboard() {
-        Logger.getInstance().recordOutput(positionDeg, getCurrentAngleInDegrees());
+        Logger.getInstance().recordOutput(ELBOW_POSITION_DEG, getCurrentAngleInDegrees());
     }
 }

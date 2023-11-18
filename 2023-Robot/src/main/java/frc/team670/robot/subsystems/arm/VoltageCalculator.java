@@ -3,6 +3,8 @@ import java.util.ArrayList;
 
 import org.littletonrobotics.junction.Logger;
 
+import frc.team670.mustanglib.utils.ConsoleLogger;
+
 
 
 /**
@@ -45,7 +47,7 @@ public class VoltageCalculator {
     public ArrayList<Double> calculateVoltages(double... anglesRelativeToPrevious) {
         // First, ensure that the number of received angles is correct
         if(anglesRelativeToPrevious.length != armSegments.length) {
-            // Logger.consoleError("VoltageCalculator received the wrong number of angles! Received " + anglesRelativeToPrevious.length + " but expected " + armSegments.length);
+            ConsoleLogger.consoleError("VoltageCalculator received the wrong number of angles! Received " + anglesRelativeToPrevious.length + " but expected " + armSegments.length);
             return null;
         }
 

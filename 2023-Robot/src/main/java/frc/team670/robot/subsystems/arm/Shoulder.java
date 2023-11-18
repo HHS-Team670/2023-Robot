@@ -1,13 +1,13 @@
 package frc.team670.robot.subsystems.arm;
 
-import com.revrobotics.CANSparkMax.IdleMode;
-
 import org.littletonrobotics.junction.Logger;
 
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.REVLibError;
+
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import frc.team670.mustanglib.subsystems.SparkMaxRotatingSubsystem;
-
+import frc.team670.mustanglib.utils.ConsoleLogger;
 import frc.team670.mustanglib.utils.functions.MathUtils;
 import frc.team670.mustanglib.utils.motorcontroller.SparkMAXFactory;
 import frc.team670.mustanglib.utils.motorcontroller.SparkMAXLite;
@@ -100,9 +100,8 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
         boolean followerOK = (followerRotatorError == REVLibError.kOk);
 
         if (!leaderOK && !followerOK) {
-            // Logger.consoleLog("Shoulder error! Leader error is " + leaderRotatorError.toString());
-            // Logger.consoleLog(
-            //         "Shoulder error! Follower error is " + followerRotatorError.toString());
+            ConsoleLogger.consoleLog("Shoulder error! Leader error is " + leaderRotatorError.toString());
+            ConsoleLogger.consoleLog("Shoulder error! Follower error is " + followerRotatorError.toString());
             return HealthState.RED;
         }
 
@@ -195,9 +194,8 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
             }
         } else if (!relativePositionIsSet) {
             double position = super.mEncoder.getPosition();
-            // Logger.consoleLog("Shoulder relative position = " + position
-            //         + ", calculatedRelativePosition = " + calculatedRelativePosition);
-            // Logger.consoleLog("Shoulder relativePositionIsSet = " + this.relativePositionIsSet);
+            ConsoleLogger.consoleLog("Shoulder relative position = " + position  + ", calculatedRelativePosition = " + calculatedRelativePosition);
+            ConsoleLogger.consoleLog("Shoulder relativePositionIsSet = " + this.relativePositionIsSet);
             if (Math.abs(position - calculatedRelativePosition) < 0.5) {
                 relativePositionIsSet = true;
             } else {

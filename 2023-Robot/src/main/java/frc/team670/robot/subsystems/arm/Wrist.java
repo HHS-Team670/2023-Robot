@@ -7,7 +7,7 @@ import com.revrobotics.REVLibError;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team670.mustanglib.subsystems.SparkMaxRotatingSubsystem;
-
+import frc.team670.mustanglib.utils.ConsoleLogger;
 import frc.team670.mustanglib.utils.functions.MathUtils;
 import frc.team670.robot.constants.RobotConstants;
 
@@ -82,7 +82,7 @@ public class Wrist extends SparkMaxRotatingSubsystem {
 
     private void setOffset(double offset) {
         this.offset = offset;
-        setSystemTargetAngleInDegrees(orgTargetAngle);
+        setSystemTargetAngleInDegrees(orgTargetAngle+offset);
 
     }
     public void resetOffset() {
@@ -100,7 +100,7 @@ public class Wrist extends SparkMaxRotatingSubsystem {
         REVLibError rotatorError = super.mRotator.getLastError();
 
         if (rotatorError != null && rotatorError != REVLibError.kOk) {
-            // Logger.consoleLog("Wrist error! Rotator Error is " + rotatorError.toString());
+            ConsoleLogger.consoleLog("Wrist error! Rotator Error is " + rotatorError.toString());
             errorCounter++;
         } else {
             errorCounter = 0;

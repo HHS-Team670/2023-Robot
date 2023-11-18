@@ -3,7 +3,7 @@ package frc.team670.robot.commands.leds;
 import frc.team670.mustanglib.commands.MustangCommand;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase.HealthState;
-import frc.team670.mustanglib.utils.Logger;
+import frc.team670.mustanglib.utils.ConsoleLogger;
 import frc.team670.robot.subsystems.LED;
 import frc.team670.robot.subsystems.Claw;
 
