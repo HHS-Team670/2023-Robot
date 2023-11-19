@@ -30,7 +30,7 @@ public class CubeIntake extends MustangSubsystemBase {
     private SparkMAXLite motor;
     private CubeIntake.Status status=Status.IDLE;
 
-    private final String CUBEINTAKE_MOTOR_CURRENT, CUBEINTAKE_STATE;
+    private final String CUBEINTAKE_MOTOR_CURRENT_KEY, CUBEINTAKE_STATE_KEY;
     protected Timer m_timer = new Timer();
     private int currentSpikeCounter = 0;
     private int ejectCounter = 0;
@@ -56,8 +56,8 @@ public class CubeIntake extends MustangSubsystemBase {
                 SparkMAXFactory.defaultConfig, Motor_Type.NEO);
         deployer=Deployer.getInstance();
         this.led = LED.getInstance();
-        CUBEINTAKE_MOTOR_CURRENT = getName() + "/MotorCurrent";
-        CUBEINTAKE_STATE = getName() + "/State";
+        CUBEINTAKE_MOTOR_CURRENT_KEY = getName() + "/MotorCurrent";
+        CUBEINTAKE_STATE_KEY = getName() + "/State";
         motor.setInverted(true);
         motor.setIdleMode(IdleMode.kBrake);
     }
@@ -196,8 +196,8 @@ public class CubeIntake extends MustangSubsystemBase {
 
     @Override
     public void debugSubsystem() {
-        Logger.getInstance().recordOutput(CUBEINTAKE_MOTOR_CURRENT, motor.getOutputCurrent());
-        Logger.getInstance().recordOutput(CUBEINTAKE_STATE, status.toString());
+        Logger.getInstance().recordOutput(CUBEINTAKE_MOTOR_CURRENT_KEY, motor.getOutputCurrent());
+        Logger.getInstance().recordOutput(CUBEINTAKE_STATE_KEY, status.toString());
         
     }
 

@@ -28,7 +28,7 @@ public class Claw extends MustangSubsystemBase {
     private Claw.Status status;
     private Claw.GamePiece gamepiece=Claw.GamePiece.CONE;
 
-    private final String CLAW_MOTOR_CURRENT, CLAW_STATE, CLAW_IS_FULL;
+    private final String CLAW_MOTOR_CURRENT_KEY, CLAW_STATE_KEY, CLAW_IS_FULL_KEY;
 
     private int currentSpikeCounter = 0;
     private boolean isFull = true;
@@ -54,9 +54,9 @@ public class Claw extends MustangSubsystemBase {
 
         motor.setInverted(true);
         motor.setIdleMode(IdleMode.kBrake);
-        CLAW_MOTOR_CURRENT = getName() + "/MotorCurrent";
-        CLAW_STATE = getName() + "/State";
-        CLAW_IS_FULL = getName() + "/IsFull";
+        CLAW_MOTOR_CURRENT_KEY = getName() + "/MotorCurrent";
+        CLAW_STATE_KEY = getName() + "/State";
+        CLAW_IS_FULL_KEY = getName() + "/IsFull";
     }
 
     public LED getLed() {
@@ -204,9 +204,9 @@ public class Claw extends MustangSubsystemBase {
 
     @Override
     public void debugSubsystem() {
-        Logger.getInstance().recordOutput(CLAW_MOTOR_CURRENT, motor.getOutputCurrent());
-        Logger.getInstance().recordOutput(CLAW_STATE, status.toString());
-        Logger.getInstance().recordOutput(CLAW_IS_FULL,isFull());
+        Logger.getInstance().recordOutput(CLAW_MOTOR_CURRENT_KEY, motor.getOutputCurrent());
+        Logger.getInstance().recordOutput(CLAW_STATE_KEY, status.toString());
+        Logger.getInstance().recordOutput(CLAW_IS_FULL_KEY,isFull());
     }
 
 }
