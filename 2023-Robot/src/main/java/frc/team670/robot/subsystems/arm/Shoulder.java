@@ -42,14 +42,14 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
         follower.setIdleMode(IdleMode.kBrake);
         absEncoder = new DutyCycleEncoder(RobotConstants.Arm.Shoulder.kAbsoluteEncoderID);
 
-            SHOULDER_POSITION_DEG = getName() + "/position (deg)";
-            SHOULDER_ABS_ENCODER_POS = getName() + "/abs encoder position";
-            SHOULDER_POSITION_ROT = getName() + "/position (rotations)";
-            SHOULDER_SETPOINT_ROT = getName() + "/setpoint (rotations)";
-            SHOULDER_CURRENT = getName() + "/current";
-            SHOULDER_ABS_ENCODER_POS_WHEN_RESET = getName() + "/absEncoder position when reset";
-            SHOULDER_REL_ENCODER_POS_WHEN_RESET = getName() + "/relEncoder position when reset";
-            SHOULDER_ERROR = getName() + "/error";
+            SHOULDER_POSITION_DEG = getName() + "/PositionDeg";
+            SHOULDER_ABS_ENCODER_POS = getName() + "/AbsEncoderPosDeg";
+            SHOULDER_POSITION_ROT = getName() + "/PositionRot";
+            SHOULDER_SETPOINT_ROT = getName() + "/SetpointRot";
+            SHOULDER_CURRENT = getName() + "/Current";
+            SHOULDER_ABS_ENCODER_POS_WHEN_RESET = getName() + "/absEncoderResetPos";
+            SHOULDER_REL_ENCODER_POS_WHEN_RESET = getName() + "/relEncoderResetPos";
+            SHOULDER_ERROR = getName() + "/Error";
     }
 
     /**

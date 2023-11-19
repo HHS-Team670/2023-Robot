@@ -196,6 +196,6 @@ public class Elbow extends SparkMaxRotatingSubsystem {
     }
 
     public void sendAngleToDashboard() {
-        Logger.getInstance().recordOutput(ELBOW_POSITION_DEG, getCurrentAngleInDegrees());
+        Logger.getInstance().recordOutput(ELBOW_POSITION_DEG_KEY, getCurrentAngleInDegrees());
     }
 }
