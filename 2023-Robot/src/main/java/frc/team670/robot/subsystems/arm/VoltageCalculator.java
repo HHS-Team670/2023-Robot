@@ -29,7 +29,7 @@ public class VoltageCalculator {
      * @param armSegments The list of arm segments, in the order they are attached. The base joint must be first, and the furthest-out joint must be the end
      */
     public VoltageCalculator(ArmSegment... armSegments) {
-        ARM_VOLTAGE_STRING_KEY =  "Arm/VoltageCalculator output";
+        ARM_VOLTAGE_STRING_KEY = "Arm/VoltageCalculator output";
         this.armSegments = armSegments;
         
         maxXCMDisplacements = calculateXCMOffsets(new double[armSegments.length]); //Maximum center-of-mass displacements when all joints are parallel to ground
