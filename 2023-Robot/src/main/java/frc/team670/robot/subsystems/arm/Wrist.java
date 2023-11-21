@@ -26,6 +26,7 @@ public class Wrist extends SparkMaxRotatingSubsystem {
     private boolean relativePositionIsSet = false;
     private double errorCounter = 0;
     private double offset = 0;
+    private double orgTargetAngle;
     private final String WRIST_POSITION_DEG_KEY, WRIST_SETPOINT_ROT_KEY, WRIST_ABSENCODER_POS_RESET_KEY, WRIST_RELENCODER_POS_RESET_KEY, WRIST_CURRENT_KEY, WRIST_ERROR_KEY;
 
 
