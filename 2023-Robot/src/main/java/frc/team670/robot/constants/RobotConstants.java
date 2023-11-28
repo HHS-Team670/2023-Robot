@@ -173,18 +173,18 @@ public final class RobotConstants extends RobotConstantsBase {
 
     // vision
     public static final class Vision {
-        public static final String[] kVisionCameraIDs = {"Microsoft_LifeCam_HD-3000" };
+        public static final String[] kVisionCameraIDs = {"Arducam_B","Arducam_C" };
         public static final Transform3d[] kCameraOffsets = {
                 // Cam B - RIGHT
                 new Transform3d(
                         new Translation3d(Units.inchesToMeters(0.56), Units.inchesToMeters(-5.25),
                                 Units.inchesToMeters(19 + 5)),
-                        new Rotation3d(0, 0, Units.degreesToRadians(-45))),
+                        new Rotation3d(0, 0, Units.degreesToRadians(-45))),  
                 // Cam C - LEFT
                 new Transform3d(
                         new Translation3d(Units.inchesToMeters(0.56), Units.inchesToMeters(5.25),
                                 Units.inchesToMeters(19 + 5)),
-                        new Rotation3d(0, 0, Units.degreesToRadians(45))) };
+                        new Rotation3d(0, 0, Units.degreesToRadians(45)))};
 
         public static final double kLockedOnErrorX = 0.3;
         public static final double xLockedOnErrorY = 0.3;

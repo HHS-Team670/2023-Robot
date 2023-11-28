@@ -14,27 +14,16 @@ import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team670.mustanglib.RobotContainerBase;
 import frc.team670.mustanglib.commands.MustangCommand;
-import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 import frc.team670.mustanglib.subsystems.LEDSubsystem.LEDColor;
+import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 import frc.team670.mustanglib.utils.MustangController;
 import frc.team670.robot.commands.arm.ResetArmFromAbsolute;
 import frc.team670.robot.commands.pathplanner.Auton;
 import frc.team670.robot.commands.pathplanner.CenterEngageSequential;
-import frc.team670.robot.commands.pathplanner.CenterIntake;
-import frc.team670.robot.commands.pathplanner.ConeCube;
-import frc.team670.robot.commands.pathplanner.ConeCubeCube;
-import frc.team670.robot.commands.pathplanner.CubeEngage;
-import frc.team670.robot.commands.pathplanner.ScoreEngage;
-import frc.team670.robot.commands.pathplanner.ScoreMid;
-import frc.team670.robot.commands.pathplanner.CubeIntakeTest;
 import frc.team670.robot.constants.OI;
-
 import frc.team670.robot.subsystems.Claw;
 import frc.team670.robot.subsystems.CubeIntake;
-import frc.team670.robot.subsystems.CubeIntake.Deployer;
 import frc.team670.robot.subsystems.LED;
-import frc.team670.mustanglib.subsystems.LEDSubsystem.LEDColor;
-
 import frc.team670.robot.subsystems.Vision;
 import frc.team670.robot.subsystems.arm.Arm;
 import frc.team670.robot.subsystems.drivebase.DriveBase;
@@ -46,7 +35,7 @@ import frc.team670.robot.subsystems.drivebase.DriveBase;
  */
 
 public class RobotContainer extends RobotContainerBase {
-    // private final Vision mVision = Vision.getInstance();
+    private final Vision mVision = Vision.getInstance();
     private final DriveBase mDriveBase = DriveBase.getInstance();
     private final LED mLed = LED.getInstance();
     private final Arm mArm = Arm.getInstance();
@@ -55,7 +44,7 @@ public class RobotContainer extends RobotContainerBase {
 
     // private MustangCommand cableScore, cableEngage, stationScore, stationEngage, centerEngage,
     //     centerIntake, scoreMid,cubeIntakeTest;
-    private MustangCommand grid1TwoPiece, grid6TwoEngage, scoreMid, centerEngage;
+    private MustangCommand grid1TwoPiece, grid6TwoEngage, scoreMid, centerEngage, visionTest;
 
     private Notifier updateArbitraryFeedForward;
 
@@ -65,7 +54,7 @@ public class RobotContainer extends RobotContainerBase {
     public RobotContainer() {
         super();
         addSubsystem(mDriveBase, mArm, mArm.getShoulder(), mArm.getElbow(), mArm.getWrist(),
-                mClaw, mLed,mCubeIntake, mCubeIntake.getDeployer());
+                mClaw, mLed,mCubeIntake, mCubeIntake.getDeployer(), mVision);
         OI.configureButtonBindings();
 
         for (MustangSubsystemBase subsystem : getSubsystems()) {
@@ -80,6 +69,8 @@ public class RobotContainer extends RobotContainerBase {
         // centerIntake = new CenterIntake(mDriveBase, mClaw, mArm, mLed, "CenterIntake");
         scoreMid = new Auton(mDriveBase, mClaw, mArm, mLed, mCubeIntake, "ScoreMid");
         grid1TwoPiece = new Auton(mDriveBase, mClaw, mArm, mLed, mCubeIntake, "Grid 1 Two Piece");
+        visionTest = new Auton(mDriveBase, mClaw, mArm, mLed, mCubeIntake, "Vision Test 1"); 
+        //visionTest = new Auton(mDriveBase, mClaw, mArm, mLed, mCubeIntake, "Vision Test 2"); 
         // cubeIntakeTest= new CubeIntakeTest(mCubeIntake);
         
 
@@ -89,7 +80,7 @@ public class RobotContainer extends RobotContainerBase {
     public void robotInit() {
         CameraServer.startAutomaticCapture().setVideoMode(PixelFormat.kYUYV, 160, 120, 30);
 
-        // mDriveBase.initVision(mVision);
+        mDriveBase.initVision(mVision);
         SmartDashboard.putNumber(kAutonChooserString, 0);
         updateArbitraryFeedForward = new Notifier(
                 () -> {
@@ -126,7 +117,8 @@ public class RobotContainer extends RobotContainerBase {
             default:
                 autonCommand = grid6TwoEngage;
         }
-        mLed.updateAutonPathColor(selectedPath);
+        autonCommand = visionTest;
+     //   mLed.updateAutonPathColor(selectedPath);
         mLed.solidhsv(LEDColor.SEXY_PURPLE);
         return autonCommand;
     }

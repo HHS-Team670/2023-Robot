@@ -2,7 +2,6 @@ package frc.team670.robot.subsystems;
 
 import frc.team670.mustanglib.subsystems.VisionSubsystemBase;
 import frc.team670.robot.constants.RobotConstants;
-
 /**
  * @author ethan c
  */
