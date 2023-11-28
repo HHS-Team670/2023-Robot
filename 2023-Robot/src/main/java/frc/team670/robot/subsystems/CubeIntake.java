@@ -223,6 +223,7 @@ public class CubeIntake extends MustangSubsystemBase {
     private static Deployer mInstance;
     protected Timer m_timer = new Timer();
     // constructor that inits motors and stuff
+    private final String DEPLOYER_MOTOR_POWER_KEY, DEPLOYER_DEPLOYED_KEY;
 
     public Deployer() {
         
@@ -230,6 +231,8 @@ public class CubeIntake extends MustangSubsystemBase {
         mRotator= SparkMAXFactory.buildFactorySparkMAX(kConfig.kMotorID, kConfig.kMotorType);
         mRotator.setInverted(true);
         mRotator.setSmartCurrentLimit(kConfig.kPeakCurrent, kConfig.kContinuousCurrent);
+        DEPLOYER_MOTOR_POWER_KEY = this.getName() + "/MotorPower: ";
+        DEPLOYER_DEPLOYED_KEY = this.getName() + "/Deployed";
     }
 
    
@@ -264,8 +267,8 @@ public class CubeIntake extends MustangSubsystemBase {
         // SmartDashboard.putNumber(setpointRot, mSetpoint);
         // SmartDashboard.putNumber(current, super.getRotator().getOutputCurrent());
         // SmartDashboard.putNumber("Deployer motor power: ", super.mRotator.get());
-        Logger.getInstance().recordOutput("Deployer/motor power: ", mRotator.get());
-        Logger.getInstance().recordOutput("Deployer/deployeds", deployed);
+        Logger.getInstance().recordOutput(DEPLOYER_MOTOR_POWER_KEY, mRotator.get());
+        Logger.getInstance().recordOutput(DEPLOYER_DEPLOYED_KEY, deployed);
     }
 
     @Override
