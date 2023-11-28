@@ -47,8 +47,8 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
             SHOULDER_POSITION_ROT_KEY = getName() + "/PositionRot";
             SHOULDER_SETPOINT_ROT_KEY = getName() + "/SetpointRot";
             SHOULDER_CURRENT_KEY = getName() + "/Current";
-            SHOULDER_ABS_ENCODER_POS_WHEN_RESET_KEY = getName() + "/absEncoderResetPos";
-            SHOULDER_REL_ENCODER_POS_WHEN_RESET_KEY = getName() + "/relEncoderResetPos";
+            SHOULDER_ABS_ENCODER_POS_WHEN_RESET_KEY = getName() + "/AbsEncoderResetPos";
+            SHOULDER_REL_ENCODER_POS_WHEN_RESET_KEY = getName() + "/RelEncoderResetPos";
             SHOULDER_ERROR_KEY = getName() + "/Error";
     }
 
