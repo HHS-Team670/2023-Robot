@@ -173,7 +173,7 @@ public final class RobotConstants extends RobotConstantsBase {
 
     // vision
     public static final class Vision {
-        public static final String[] kVisionCameraIDs = {"Arducam_B","Arducam_C" };
+        public static final String[] kVisionCameraIDs = {"Arducam_B", "Arducam_C"};
         public static final Transform3d[] kCameraOffsets = {
                 // Cam B - RIGHT
                 new Transform3d(

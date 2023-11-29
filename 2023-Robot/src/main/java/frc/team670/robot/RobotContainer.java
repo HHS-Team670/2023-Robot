@@ -69,7 +69,7 @@ public class RobotContainer extends RobotContainerBase {
         // centerIntake = new CenterIntake(mDriveBase, mClaw, mArm, mLed, "CenterIntake");
         scoreMid = new Auton(mDriveBase, mClaw, mArm, mLed, mCubeIntake, "ScoreMid");
         grid1TwoPiece = new Auton(mDriveBase, mClaw, mArm, mLed, mCubeIntake, "Grid 1 Two Piece");
-        visionTest = new Auton(mDriveBase, mClaw, mArm, mLed, mCubeIntake, "Vision Test 1"); 
+        visionTest = new Auton(mDriveBase, mClaw, mArm, mLed, mCubeIntake, "StraightLine"); 
         //visionTest = new Auton(mDriveBase, mClaw, mArm, mLed, mCubeIntake, "Vision Test 2"); 
         // cubeIntakeTest= new CubeIntakeTest(mCubeIntake);
         

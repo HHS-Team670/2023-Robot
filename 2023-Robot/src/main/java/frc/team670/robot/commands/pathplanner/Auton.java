@@ -46,7 +46,7 @@ public class Auton extends SequentialCommandGroup implements MustangCommand {
 
     public Auton(DriveBase driveBase, Claw claw, Arm arm,LED led, CubeIntake cubeIntake, String pathName) {
         this.pathName = pathName;
-        List<PathPlannerTrajectory> trajectoryGroup = PathPlanner.loadPathGroup(pathName, 1.5, 1);
+        List<PathPlannerTrajectory> trajectoryGroup = PathPlanner.loadPathGroup(pathName, 0.5, 0.5);
 
 
         HashMap<String, Command> eventMap = new HashMap<>();
