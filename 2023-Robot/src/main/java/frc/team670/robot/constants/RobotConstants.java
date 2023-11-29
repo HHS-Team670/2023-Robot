@@ -32,6 +32,7 @@ import frc.team670.mustanglib.subsystems.VisionSubsystemBase.TagCountDeviation;
 import frc.team670.mustanglib.subsystems.VisionSubsystemBase.UnitDeviationParams;
 import frc.team670.mustanglib.subsystems.drivebase.SwerveDrive;
 import frc.team670.mustanglib.swervelib.Mk4iSwerveModuleHelper.GearRatio;
+import frc.team670.mustanglib.swervelib.redux.AbsoluteEncoderType;
 import frc.team670.mustanglib.swervelib.ModuleConfiguration;
 import frc.team670.mustanglib.swervelib.SdsModuleConfigurations;
 import frc.team670.mustanglib.utils.motorcontroller.MotorConfig;
@@ -146,6 +147,15 @@ public final class RobotConstants extends RobotConstantsBase {
                 
         public static final double kBackRightModuleSteerOffsetRadians = robotSpecificConstants
                 .get("kBackRightModuleSteerOffsetRadians");
+
+        public static final AbsoluteEncoderType kFrontLeftModuleEncoderType = AbsoluteEncoderType.CANCODER;
+        
+        public static final AbsoluteEncoderType kFrontRightModuleEncoderType = AbsoluteEncoderType.CANCODER;
+
+        public static final AbsoluteEncoderType kBackLeftModuleEncoderType = AbsoluteEncoderType.HELIUM_CANCODER;
+                
+        public static final AbsoluteEncoderType kBackRightModuleEncoderType = AbsoluteEncoderType.CANCODER;
+                
       
         
         
@@ -160,13 +170,13 @@ public final class RobotConstants extends RobotConstantsBase {
                 kWheelBaseMeters, kMaxVelocityMetersPerSecond,kMaxAngularVelocityRadiansPerSecond, kMaxVoltage, kMaxDriveCurrent,
                 kMaxSteerCurrent, kNAVXPort, kSwerveModuleGearRatio, kFrontLeftModuleDriveMotorID,
                 kFrontLeftModuleSteerMotorID, kFrontLeftModuleSteerEncoderID,
-                kFrontLeftModuleSteerOffsetRadians, kFrontRightModuleDriveMotorID,
+                kFrontLeftModuleSteerOffsetRadians, kFrontLeftModuleEncoderType, kFrontRightModuleDriveMotorID,
                 kFrontRightModuleSteerMotorID, kFrontRightModuleSteerEncoderID,
-                kFrontRightModuleSteerOffsetRadians, kBackLeftModuleDriveMotorID,
+                kFrontRightModuleSteerOffsetRadians, kFrontRightModuleEncoderType, kBackLeftModuleDriveMotorID,
                 kBackLeftModuleSteerMotorID, kBackLeftModuleSteerEncoderID,
-                kBackLeftModuleSteerOffsetRadians, kBackRightModuleDriveMotorID,
+                kBackLeftModuleSteerOffsetRadians, kBackLeftModuleEncoderType, kBackRightModuleDriveMotorID,
                 kBackRightModuleSteerMotorID, kBackRightModuleSteerEncoderID,
-                kBackRightModuleSteerOffsetRadians);
+                kBackRightModuleSteerOffsetRadians, kBackRightModuleEncoderType);
 
 
     }
