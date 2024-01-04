@@ -1,8 +1,10 @@
 package frc.team670.robot.subsystems.arm;
 import java.util.ArrayList;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.team670.mustanglib.utils.Logger;
+import org.littletonrobotics.junction.Logger;
+
+import frc.team670.mustanglib.utils.ConsoleLogger;
+
 
 
 /**
@@ -15,8 +17,8 @@ public class VoltageCalculator {
      */
     private ArmSegment[] armSegments;
 
-    private final String voltageString = "VoltageCalculator output";
-
+  
+    private final String ARM_VOLTAGE_STRING_KEY;
     /**
      * Array of MAXIMUM X_CM displacements. the calculate() method compares against these.
      */
@@ -27,6 +29,7 @@ public class VoltageCalculator {
      * @param armSegments The list of arm segments, in the order they are attached. The base joint must be first, and the furthest-out joint must be the end
      */
     public VoltageCalculator(ArmSegment... armSegments) {
+        ARM_VOLTAGE_STRING_KEY = "Arm/VoltageCalculatorOutput";
         this.armSegments = armSegments;
         
         maxXCMDisplacements = calculateXCMOffsets(new double[armSegments.length]); //Maximum center-of-mass displacements when all joints are parallel to ground
@@ -44,7 +47,7 @@ public class VoltageCalculator {
     public ArrayList<Double> calculateVoltages(double... anglesRelativeToPrevious) {
         // First, ensure that the number of received angles is correct
         if(anglesRelativeToPrevious.length != armSegments.length) {
-            Logger.consoleError("VoltageCalculator received the wrong number of angles! Received " + anglesRelativeToPrevious.length + " but expected " + armSegments.length);
+            ConsoleLogger.consoleError("VoltageCalculator received the wrong number of angles! Received " + anglesRelativeToPrevious.length + " but expected " + armSegments.length);
             return null;
         }
 
@@ -70,7 +73,7 @@ public class VoltageCalculator {
             
         }
 
-        SmartDashboard.putString(voltageString, voltages.toString());
+        Logger.getInstance().recordOutput(ARM_VOLTAGE_STRING_KEY, voltages.toString());
 
         return voltages;
 

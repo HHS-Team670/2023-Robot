@@ -1,5 +1,8 @@
 package frc.team670.robot.subsystems;
 import com.revrobotics.CANSparkMax.IdleMode;
+
+import org.littletonrobotics.junction.Logger;
+
 import com.revrobotics.REVLibError;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -9,7 +12,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team670.mustanglib.subsystems.LEDSubsystem.LEDColor;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 import frc.team670.mustanglib.subsystems.SparkMaxRotatingSubsystem;
-import frc.team670.mustanglib.utils.Logger;
 import frc.team670.mustanglib.utils.functions.MathUtils;
 import frc.team670.mustanglib.utils.motorcontroller.MotorConfig.Motor_Type;
 import frc.team670.mustanglib.utils.motorcontroller.MotorConfig;
@@ -28,8 +30,7 @@ public class CubeIntake extends MustangSubsystemBase {
     private SparkMAXLite motor;
     private CubeIntake.Status status=Status.IDLE;
 
-    private final String currentKey = "CubeIntake motor current";
-    private final String CubeIntakeStateKey = "CubeIntake state";
+    private final String CUBEINTAKE_MOTOR_CURRENT_KEY, CUBEINTAKE_STATE_KEY;
     protected Timer m_timer = new Timer();
     private int currentSpikeCounter = 0;
     private int ejectCounter = 0;
@@ -55,7 +56,8 @@ public class CubeIntake extends MustangSubsystemBase {
                 SparkMAXFactory.defaultConfig, Motor_Type.NEO);
         deployer=Deployer.getInstance();
         this.led = LED.getInstance();
-
+        CUBEINTAKE_MOTOR_CURRENT_KEY = getName() + "/MotorCurrent";
+        CUBEINTAKE_STATE_KEY = getName() + "/State";
         motor.setInverted(true);
         motor.setIdleMode(IdleMode.kBrake);
     }
@@ -153,9 +155,9 @@ public class CubeIntake extends MustangSubsystemBase {
                     currentSpikeCounter++;
                     if (currentSpikeCounter > RobotConstants.CubeIntake.kCurrentSpikeIterations) {
                         isFull = true;
-                        if (DriverStation.isTeleopEnabled()) {
-                            led.solidhsv(LEDColor.GREEN);
-                        }
+                        // if (DriverStation.isTeleopEnabled()) {
+                        //     led.solidhsv(LEDColor.GREEN);
+                        // }
                         
                        
                         // OI.getDriverController().rumble(0.5, 0.5);
@@ -194,8 +196,8 @@ public class CubeIntake extends MustangSubsystemBase {
 
     @Override
     public void debugSubsystem() {
-        SmartDashboard.putNumber(currentKey, motor.getOutputCurrent());
-        SmartDashboard.putString(CubeIntakeStateKey, status.toString());
+        Logger.getInstance().recordOutput(CUBEINTAKE_MOTOR_CURRENT_KEY, motor.getOutputCurrent());
+        Logger.getInstance().recordOutput(CUBEINTAKE_STATE_KEY, status.toString());
         
     }
 
@@ -221,6 +223,7 @@ public class CubeIntake extends MustangSubsystemBase {
     private static Deployer mInstance;
     protected Timer m_timer = new Timer();
     // constructor that inits motors and stuff
+    private final String DEPLOYER_MOTOR_POWER_KEY, DEPLOYER_DEPLOYED_KEY;
 
     public Deployer() {
         
@@ -228,6 +231,8 @@ public class CubeIntake extends MustangSubsystemBase {
         mRotator= SparkMAXFactory.buildFactorySparkMAX(kConfig.kMotorID, kConfig.kMotorType);
         mRotator.setInverted(true);
         mRotator.setSmartCurrentLimit(kConfig.kPeakCurrent, kConfig.kContinuousCurrent);
+        DEPLOYER_MOTOR_POWER_KEY = this.getName() + "/MotorPower: ";
+        DEPLOYER_DEPLOYED_KEY = this.getName() + "/Deployed";
     }
 
    
@@ -262,8 +267,8 @@ public class CubeIntake extends MustangSubsystemBase {
         // SmartDashboard.putNumber(setpointRot, mSetpoint);
         // SmartDashboard.putNumber(current, super.getRotator().getOutputCurrent());
         // SmartDashboard.putNumber("Deployer motor power: ", super.mRotator.get());
-        SmartDashboard.putNumber("Deployer motor power: ", mRotator.get());
-        SmartDashboard.putBoolean("Deployer deployeds", deployed);
+        Logger.getInstance().recordOutput(DEPLOYER_MOTOR_POWER_KEY, mRotator.get());
+        Logger.getInstance().recordOutput(DEPLOYER_DEPLOYED_KEY, deployed);
     }
 
     @Override

@@ -6,11 +6,13 @@ import frc.team670.mustanglib.utils.motorcontroller.MotorConfig.Motor_Type;
 import frc.team670.mustanglib.utils.motorcontroller.SparkMAXFactory;
 import frc.team670.mustanglib.utils.motorcontroller.SparkMAXLite;
 import frc.team670.robot.constants.RobotConstants;
+
+import org.littletonrobotics.junction.Logger;
+
 import com.revrobotics.CANSparkMax.IdleMode;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Claw extends MustangSubsystemBase {
     public enum Status {
@@ -26,8 +28,7 @@ public class Claw extends MustangSubsystemBase {
     private Claw.Status status;
     private Claw.GamePiece gamepiece=Claw.GamePiece.CONE;
 
-    private final String currentKey = "Claw motor current";
-    private final String clawStateKey = "Claw state";
+    private final String CLAW_MOTOR_CURRENT_KEY, CLAW_STATE_KEY, CLAW_IS_FULL_KEY;
 
     private int currentSpikeCounter = 0;
     private boolean isFull = true;
@@ -53,6 +54,9 @@ public class Claw extends MustangSubsystemBase {
 
         motor.setInverted(true);
         motor.setIdleMode(IdleMode.kBrake);
+        CLAW_MOTOR_CURRENT_KEY = getName() + "/MotorCurrent";
+        CLAW_STATE_KEY = getName() + "/State";
+        CLAW_IS_FULL_KEY = getName() + "/IsFull";
     }
 
     public LED getLed() {
@@ -137,11 +141,11 @@ public class Claw extends MustangSubsystemBase {
             if (DriverStation.isTeleopEnabled()) {
                 if(!isFull()||heldCounter>20){
                     
-                        if(this.gamepiece==GamePiece.CONE){
-                            led.solidhsv(LEDColor.YELLOW);
-                        }else{
-                            led.solidhsv(LEDColor.PURPLE);
-                        }     
+                        // if(this.gamepiece==GamePiece.CONE){
+                        //     led.solidhsv(LEDColor.YELLOW);
+                        // }else{
+                        //     led.solidhsv(LEDColor.PURPLE);
+                        // }     
                 }else if(isFull()){
                     heldCounter++;
                 }
@@ -161,7 +165,7 @@ public class Claw extends MustangSubsystemBase {
                     if (currentSpikeCounter > RobotConstants.Arm.Claw.kCurrentSpikeIterations) {
                         isFull = true;
                         if (DriverStation.isTeleopEnabled()) {
-                            led.solidhsv(LEDColor.GREEN);
+                            // led.solidhsv(LEDColor.GREEN);
                         }
                        
                         // OI.getDriverController().rumble(0.5, 0.5);
@@ -184,13 +188,13 @@ public class Claw extends MustangSubsystemBase {
                 if (m_timer.hasElapsed(RobotConstants.Arm.Claw.kEjectTime)) {
                     isFull = false;
                     m_timer.stop();
-                    if (DriverStation.isTeleopEnabled()) {
-                        if(this.gamepiece==GamePiece.CONE){
-                            led.solidhsv(LEDColor.YELLOW);
-                        }else{
-                            led.solidhsv(LEDColor.PURPLE);
-                        }
-                    }
+                    // if (DriverStation.isTeleopEnabled()) {
+                    //     if(this.gamepiece==GamePiece.CONE){
+                    //         led.solidhsv(LEDColor.YELLOW);
+                    //     }else{
+                    //         led.solidhsv(LEDColor.PURPLE);
+                    //     }
+                    // }
                 }
                 break;
             default:
@@ -200,8 +204,9 @@ public class Claw extends MustangSubsystemBase {
 
     @Override
     public void debugSubsystem() {
-        SmartDashboard.putNumber(currentKey, motor.getOutputCurrent());
-        SmartDashboard.putString(clawStateKey, status.toString());
+        Logger.getInstance().recordOutput(CLAW_MOTOR_CURRENT_KEY, motor.getOutputCurrent());
+        Logger.getInstance().recordOutput(CLAW_STATE_KEY, status.toString());
+        Logger.getInstance().recordOutput(CLAW_IS_FULL_KEY,isFull());
     }
 
 }

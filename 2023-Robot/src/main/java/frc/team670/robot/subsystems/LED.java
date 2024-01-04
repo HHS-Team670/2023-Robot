@@ -35,22 +35,22 @@ public class LED extends LEDSubsystem {
 
     public void updateAutonPathColor(int selectedPath) {
         
-        switch (selectedPath) {
-            case 0:
-                animatedRainbow(false, 10, 10);
-                break;
-            case 1:
-                animatedMustangRainbow(10, 10);
-                break;
-            case 2:
-                blinkhsv(LEDColor.SEXY_PURPLE, 40);
-                break;
-            case 3:
-                blinkhsv(LEDColor.GREEN, 40);
-                break;
-            default:
-                animatedRainbow(false, 10, 10);
-        }
+        // switch (selectedPath) {
+        //     case 0:
+        //         animatedRainbow(false, 10, 10);
+        //         break;
+        //     case 1:
+        //         animatedMustangRainbow(10, 10);
+        //         break;
+        //     case 2:
+        //         blinkhsv(LEDColor.SEXY_PURPLE, 40);
+        //         break;
+        //     case 3:
+        //         blinkhsv(LEDColor.GREEN, 40);
+        //         break;
+        //     default:
+        //         animatedRainbow(false, 10, 10);
+        // }
     }
 
 }

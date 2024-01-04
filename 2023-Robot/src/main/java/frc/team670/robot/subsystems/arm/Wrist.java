@@ -1,11 +1,13 @@
 
 package frc.team670.robot.subsystems.arm;
 
+import org.littletonrobotics.junction.Logger;
+
 import com.revrobotics.REVLibError;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team670.mustanglib.subsystems.SparkMaxRotatingSubsystem;
-import frc.team670.mustanglib.utils.Logger;
+import frc.team670.mustanglib.utils.ConsoleLogger;
 import frc.team670.mustanglib.utils.functions.MathUtils;
 import frc.team670.robot.constants.RobotConstants;
 
@@ -24,19 +26,20 @@ public class Wrist extends SparkMaxRotatingSubsystem {
     private boolean relativePositionIsSet = false;
     private double errorCounter = 0;
     private double offset = 0;
-    private double orgTargetAngle = 0; 
-    private final String positionDeg = "Wrist position (deg)";
-    private final String absEncoderPos = "Wrist abs encoder position";
-    private final String positionRot = "Wrist position (rotations)";
-    private final String setpointRot = "Wrist setpoint (rotations)";
+    private double orgTargetAngle;
+    private final String WRIST_POSITION_DEG_KEY, WRIST_SETPOINT_ROT_KEY, WRIST_ABSENCODER_POS_RESET_KEY, WRIST_RELENCODER_POS_RESET_KEY, WRIST_CURRENT_KEY, WRIST_ERROR_KEY;
 
 
     public Wrist() {
         super(RobotConstants.Arm.Wrist.kConfig);
         absEncoder = new DutyCycleEncoder(RobotConstants.Arm.Wrist.kAbsoluteEncoderID);
         super.getRotator().setInverted(false);
-
-
+        WRIST_POSITION_DEG_KEY = getName() + "/CurrentAngleDeg";
+        WRIST_SETPOINT_ROT_KEY = getName() + "/SetpointRot";
+        WRIST_ABSENCODER_POS_RESET_KEY = getName() + "/AbsEncoderPosWhenReset";
+        WRIST_RELENCODER_POS_RESET_KEY = getName() + "/RelEncoderPosWhenReset";
+        WRIST_ERROR_KEY = getName() + "/Error";
+        WRIST_CURRENT_KEY = getName() + "/Current";
     }
 
 
@@ -59,10 +62,10 @@ public class Wrist extends SparkMaxRotatingSubsystem {
                 clearSetpoint();
 
                 REVLibError error = mEncoder.setPosition(relativePosition);
-                SmartDashboard.putNumber("Wrist absEncoder position when reset",
+                Logger.getInstance().recordOutput(WRIST_ABSENCODER_POS_RESET_KEY,
                         absEncoderPosition);
-                SmartDashboard.putNumber("Wrist relEncoder position when reset", relativePosition);
-                SmartDashboard.putString("Wrist error", error.toString());
+                        Logger.getInstance().recordOutput(WRIST_RELENCODER_POS_RESET_KEY, relativePosition);
+                        Logger.getInstance().recordOutput(WRIST_ERROR_KEY, error.toString());
                 calculatedRelativePosition = relativePosition;
             }
 
@@ -82,7 +85,7 @@ public class Wrist extends SparkMaxRotatingSubsystem {
 
     private void setOffset(double offset) {
         this.offset = offset;
-        setSystemTargetAngleInDegrees(orgTargetAngle);
+        setSystemTargetAngleInDegrees(orgTargetAngle+offset);
 
     }
     public void resetOffset() {
@@ -100,7 +103,7 @@ public class Wrist extends SparkMaxRotatingSubsystem {
         REVLibError rotatorError = super.mRotator.getLastError();
 
         if (rotatorError != null && rotatorError != REVLibError.kOk) {
-            Logger.consoleLog("Wrist error! Rotator Error is " + rotatorError.toString());
+            ConsoleLogger.consoleLog("Wrist error! Rotator Error is " + rotatorError.toString());
             errorCounter++;
         } else {
             errorCounter = 0;
@@ -143,11 +146,12 @@ public class Wrist extends SparkMaxRotatingSubsystem {
     public void debugSubsystem() {
         double relativePosition = super.mEncoder.getPosition();
 
-        SmartDashboard.putNumber(positionDeg, getCurrentAngleInDegrees());
-        SmartDashboard.putNumber(positionRot, relativePosition);
-        SmartDashboard.putNumber(absEncoderPos, absEncoder.getAbsolutePosition());
-        SmartDashboard.putNumber(setpointRot, mSetpoint);
-        SmartDashboard.putNumber("Wrist Current", super.getRotator().getOutputCurrent());
+        Logger.getInstance().recordOutput(WRIST_POSITION_DEG_KEY, getCurrentAngleInDegrees());
+        Logger.getInstance().recordOutput(WRIST_RELENCODER_POS_RESET_KEY, relativePosition);
+        Logger.getInstance().recordOutput(WRIST_ABSENCODER_POS_RESET_KEY, absEncoder.getAbsolutePosition());
+        Logger.getInstance().recordOutput(WRIST_SETPOINT_ROT_KEY, mSetpoint);
+        Logger.getInstance().recordOutput(WRIST_CURRENT_KEY, super.getRotator().getOutputCurrent());
+        sendAngleToDashboard();
 
     }
 
@@ -183,6 +187,6 @@ public class Wrist extends SparkMaxRotatingSubsystem {
     }
 
     public void sendAngleToDashboard() {
-        SmartDashboard.putNumber(positionDeg, getCurrentAngleInDegrees());
+        Logger.getInstance().recordOutput(WRIST_POSITION_DEG_KEY, getCurrentAngleInDegrees());
     }
 }

@@ -1,11 +1,13 @@
 package frc.team670.robot.subsystems.arm;
 
+import org.littletonrobotics.junction.Logger;
+
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.REVLibError;
+
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team670.mustanglib.subsystems.SparkMaxRotatingSubsystem;
-import frc.team670.mustanglib.utils.Logger;
+import frc.team670.mustanglib.utils.ConsoleLogger;
 import frc.team670.mustanglib.utils.functions.MathUtils;
 import frc.team670.mustanglib.utils.motorcontroller.SparkMAXFactory;
 import frc.team670.mustanglib.utils.motorcontroller.SparkMAXLite;
@@ -28,10 +30,7 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
     private double offset = 0;
     private double orgTargetAngle = 0;
 
-    private final String positionDeg = "Shoulder position (deg)";
-    private final String absEncoderPos = "Shoulder abs encoder position";
-    private final String positionRot = "Shoulder position (rotations)";
-    private final String setpointRot = "Shoulder setpoint (rotations)";
+    private final String SHOULDER_POSITION_DEG_KEY, SHOULDER_ABS_ENCODER_POS_KEY, SHOULDER_POSITION_ROT_KEY, SHOULDER_SETPOINT_ROT_KEY, SHOULDER_CURRENT_KEY, SHOULDER_ABS_ENCODER_POS_WHEN_RESET_KEY, SHOULDER_ERROR_KEY, SHOULDER_REL_ENCODER_POS_WHEN_RESET_KEY;
     public static final double SHOULDER_ARBITRARY_FF = 0.5;
 
 
@@ -42,6 +41,15 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
                 .setPermanentFollower(RobotConstants.Arm.Shoulder.kFollowerMotorID, mRotator, true);
         follower.setIdleMode(IdleMode.kBrake);
         absEncoder = new DutyCycleEncoder(RobotConstants.Arm.Shoulder.kAbsoluteEncoderID);
+
+            SHOULDER_POSITION_DEG_KEY = getName() + "/PositionDeg";
+            SHOULDER_ABS_ENCODER_POS_KEY = getName() + "/AbsEncoderPosDeg";
+            SHOULDER_POSITION_ROT_KEY = getName() + "/PositionRot";
+            SHOULDER_SETPOINT_ROT_KEY = getName() + "/SetpointRot";
+            SHOULDER_CURRENT_KEY = getName() + "/Current";
+            SHOULDER_ABS_ENCODER_POS_WHEN_RESET_KEY = getName() + "/AbsEncoderResetPos";
+            SHOULDER_REL_ENCODER_POS_WHEN_RESET_KEY = getName() + "/RelEncoderResetPos";
+            SHOULDER_ERROR_KEY = getName() + "/Error";
     }
 
     /**
@@ -92,9 +100,8 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
         boolean followerOK = (followerRotatorError == REVLibError.kOk);
 
         if (!leaderOK && !followerOK) {
-            Logger.consoleLog("Shoulder error! Leader error is " + leaderRotatorError.toString());
-            Logger.consoleLog(
-                    "Shoulder error! Follower error is " + followerRotatorError.toString());
+            ConsoleLogger.consoleLog("Shoulder error! Leader error is " + leaderRotatorError.toString());
+            ConsoleLogger.consoleLog("Shoulder error! Follower error is " + followerRotatorError.toString());
             return HealthState.RED;
         }
 
@@ -117,11 +124,12 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
     @Override
     public void debugSubsystem() {
         double relativePosition = super.mEncoder.getPosition();
-        SmartDashboard.putNumber(positionDeg, getCurrentAngleInDegrees());
-        SmartDashboard.putNumber(positionRot, relativePosition);
-        SmartDashboard.putNumber(absEncoderPos, absEncoder.getAbsolutePosition());
-        SmartDashboard.putNumber(setpointRot, mSetpoint);
-        SmartDashboard.putNumber("Shoulder current", super.getRotator().getOutputCurrent());
+        Logger.getInstance().recordOutput(SHOULDER_POSITION_DEG_KEY, getCurrentAngleInDegrees());
+        Logger.getInstance().recordOutput(SHOULDER_POSITION_ROT_KEY, relativePosition);
+        Logger.getInstance().recordOutput(SHOULDER_ABS_ENCODER_POS_KEY, absEncoder.getAbsolutePosition());
+        Logger.getInstance().recordOutput(SHOULDER_SETPOINT_ROT_KEY, mSetpoint);
+        Logger.getInstance().recordOutput(SHOULDER_CURRENT_KEY, super.getRotator().getOutputCurrent());
+        sendAngleToDashboard();
 
     }
 
@@ -145,11 +153,11 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
                             / kConfig.kRotatorGearRatio())) < 5.0) {
                 clearSetpoint();
                 REVLibError error = mEncoder.setPosition(relativePosition);
-                SmartDashboard.putNumber("Shoulder absEncoder position when reset",
+                Logger.getInstance().recordOutput(SHOULDER_ABS_ENCODER_POS_WHEN_RESET_KEY,
                         absEncoderPosition);
-                SmartDashboard.putNumber("Shoulder relEncoder position when reset",
+                Logger.getInstance().recordOutput(SHOULDER_REL_ENCODER_POS_WHEN_RESET_KEY,
                         relativePosition);
-                SmartDashboard.putString("Shoulder error", error.toString());
+                Logger.getInstance().recordOutput(SHOULDER_ERROR_KEY, error.toString());
                 calculatedRelativePosition = relativePosition;
             }
 
@@ -186,9 +194,8 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
             }
         } else if (!relativePositionIsSet) {
             double position = super.mEncoder.getPosition();
-            Logger.consoleLog("Shoulder relative position = " + position
-                    + ", calculatedRelativePosition = " + calculatedRelativePosition);
-            Logger.consoleLog("Shoulder relativePositionIsSet = " + this.relativePositionIsSet);
+            ConsoleLogger.consoleLog("Shoulder relative position = " + position  + ", calculatedRelativePosition = " + calculatedRelativePosition);
+            ConsoleLogger.consoleLog("Shoulder relativePositionIsSet = " + this.relativePositionIsSet);
             if (Math.abs(position - calculatedRelativePosition) < 0.5) {
                 relativePositionIsSet = true;
             } else {
@@ -198,6 +205,6 @@ public class Shoulder extends SparkMaxRotatingSubsystem {
     }
 
     public void sendAngleToDashboard() {
-        SmartDashboard.putNumber(positionDeg, getCurrentAngleInDegrees());
+        Logger.getInstance().recordOutput(SHOULDER_POSITION_DEG_KEY, getCurrentAngleInDegrees());
     }
 }

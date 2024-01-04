@@ -1,11 +1,13 @@
 
 package frc.team670.robot.subsystems.arm;
 
+import org.littletonrobotics.junction.Logger;
+
 import com.revrobotics.REVLibError;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team670.mustanglib.subsystems.SparkMaxRotatingSubsystem;
-import frc.team670.mustanglib.utils.Logger;
+import frc.team670.mustanglib.utils.ConsoleLogger;
 import frc.team670.mustanglib.utils.functions.MathUtils;
 import frc.team670.robot.constants.RobotConstants;
 
@@ -26,11 +28,7 @@ public class Elbow extends SparkMaxRotatingSubsystem {
     private double orgTargetAngle = 0;
     private double errorCounter = 0;
 
-    private final String positionDeg = "Elbow position (deg)";
-    private final String absEncoderPos = "Elbow abs encoder position";
-    private final String positionRot = "Elbow position (rotations)";
-    private final String setpointRot = "Elbow setpoint (rotations)";
-    private final String current = "Elbow current";
+    private final String ELBOW_POSITION_DEG_KEY, ELBOW_ABS_ENCODER_POS_KEY, ELBOW_POSITION_ROT_KEY, ELBOW_SETPOINT_ROT_KEY, ELBOW_CURRENT_KEY, ELBOW_ABS_ENCODER_POS_WHEN_RESET_KEY, ELBOW_REL_ENCODER_POS_WHEN_RESET_KEY, ELBOW_ERROR_KEY;
 
     // constructor that inits motors and stuff
 
@@ -38,6 +36,14 @@ public class Elbow extends SparkMaxRotatingSubsystem {
         super(RobotConstants.Arm.Elbow.kConfig);
         absEncoder = new DutyCycleEncoder(RobotConstants.Arm.Elbow.kAbsoluteEncoderID);
         super.getRotator().setInverted(true);
+        ELBOW_POSITION_DEG_KEY = getName() + "/CurrentAngleDeg";
+        ELBOW_ABS_ENCODER_POS_KEY = getName() + "/AbsEncoderPos";
+        ELBOW_POSITION_ROT_KEY = getName() + "/PosRot";
+        ELBOW_SETPOINT_ROT_KEY = getName() + "/SetpointRot";
+        ELBOW_CURRENT_KEY = getName() + "/Current";
+        ELBOW_ABS_ENCODER_POS_WHEN_RESET_KEY = getName() + "/AbsEncoderPosWhenReset";
+        ELBOW_REL_ENCODER_POS_WHEN_RESET_KEY = getName() + "/RelEncoderPosWhenReset";
+        ELBOW_ERROR_KEY = getName() + "/Error";
     }
 
     /**
@@ -58,10 +64,10 @@ public class Elbow extends SparkMaxRotatingSubsystem {
                             / kConfig.kRotatorGearRatio())) < 10.0) {
                 clearSetpoint();
                 REVLibError error = mEncoder.setPosition(relativePosition);
-                SmartDashboard.putNumber("Elbow absEncoder position when reset",
+                Logger.getInstance().recordOutput(ELBOW_ABS_ENCODER_POS_WHEN_RESET_KEY,
                         absEncoderPosition);
-                SmartDashboard.putNumber("Elbow relEncoder position when reset", relativePosition);
-                SmartDashboard.putString("Elbow error", error.toString());
+                Logger.getInstance().recordOutput(ELBOW_REL_ENCODER_POS_WHEN_RESET_KEY, relativePosition);
+                Logger.getInstance().recordOutput(ELBOW_ERROR_KEY, error.toString());
                 calculatedRelativePosition = relativePosition;
             }
         }
@@ -78,7 +84,7 @@ public class Elbow extends SparkMaxRotatingSubsystem {
         REVLibError rotatorError = super.mRotator.getLastError();
 
         if (rotatorError != null && rotatorError != REVLibError.kOk) {
-            Logger.consoleLog("Elbow error! Rotator error is " + rotatorError.toString());
+            ConsoleLogger.consoleLog("Elbow error! Rotator error is " + rotatorError.toString());
             errorCounter++;
         } else {
             errorCounter = 0;
@@ -145,13 +151,14 @@ public class Elbow extends SparkMaxRotatingSubsystem {
     @Override
     public void debugSubsystem() {
         double relativePosition = super.mEncoder.getPosition();
-
-        SmartDashboard.putNumber(positionDeg, getCurrentAngleInDegrees());
-        SmartDashboard.putNumber(positionRot, relativePosition);
-        SmartDashboard.putNumber(absEncoderPos, absEncoder.getAbsolutePosition());
-        SmartDashboard.putNumber(setpointRot, mSetpoint);
-        SmartDashboard.putNumber(current, super.getRotator().getOutputCurrent());
-        SmartDashboard.putNumber("Elbow motor power: ", super.mRotator.get());
+        Logger.getInstance().recordOutput(ELBOW_POSITION_DEG_KEY,getCurrentAngleInDegrees());
+        
+        Logger.getInstance().recordOutput(ELBOW_POSITION_ROT_KEY, relativePosition);
+        Logger.getInstance().recordOutput(ELBOW_ABS_ENCODER_POS_KEY, absEncoder.getAbsolutePosition());
+        Logger.getInstance().recordOutput(ELBOW_SETPOINT_ROT_KEY, mSetpoint);
+        Logger.getInstance().recordOutput(ELBOW_CURRENT_KEY, super.getRotator().getOutputCurrent());
+        sendAngleToDashboard();
+        // Logger.getInstance().recordOutput("Elbow motor power: ", super.mRotator.get());
     }
 
     @Override
@@ -178,18 +185,17 @@ public class Elbow extends SparkMaxRotatingSubsystem {
             }
         } else if (!relativePositionIsSet) {
             double position = super.mEncoder.getPosition();
-            Logger.consoleLog("Elbow relative position = " + position
-                    + ", calculatedRelativePosition = " + calculatedRelativePosition);
+            ConsoleLogger.consoleLog("Elbow/relative position = " + position + ", calculatedRelativePosition = " + calculatedRelativePosition);
             if (Math.abs(position - calculatedRelativePosition) < 0.5) {
                 relativePositionIsSet = true;
             } else {
                 super.mEncoder.setPosition(calculatedRelativePosition);
             }
-            Logger.consoleLog("Elbow relativePositionIsSet = " + this.relativePositionIsSet);
+            ConsoleLogger.consoleLog("Elbow relativePositionIsSet = " + this.relativePositionIsSet);
         }
     }
 
     public void sendAngleToDashboard() {
-        SmartDashboard.putNumber(positionDeg, getCurrentAngleInDegrees());
+        Logger.getInstance().recordOutput(ELBOW_POSITION_DEG_KEY, getCurrentAngleInDegrees());
     }
 }

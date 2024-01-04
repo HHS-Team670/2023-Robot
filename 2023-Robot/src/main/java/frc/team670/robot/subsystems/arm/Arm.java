@@ -1,11 +1,17 @@
 package frc.team670.robot.subsystems.arm;
 
+import static java.util.Map.entry;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Map;
-import static java.util.Map.entry;
 import java.util.PriorityQueue;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import org.littletonrobotics.junction.Logger;
+
+import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
+import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
+import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 import frc.team670.robot.constants.RobotConstants;
 
@@ -25,8 +31,11 @@ public class Arm extends MustangSubsystemBase {
     private boolean hasSetShoulderTarget = true;
     private boolean hasSetElbowTarget = true;
     private boolean hasSetWristTarget = true;
+    private boolean mechanismLoggingEnabled=true;
 
-    private final String targetPositionKey = "Arm target position";
+
+    private final String ARM_TARGET_POSITION_KEY, ARM_MOVE_TO_TARGET_KEY, ARM_ARM_KEY;
+
 
     private long startingTime = 0;
 
@@ -105,6 +114,9 @@ public class Arm extends MustangSubsystemBase {
                 RobotConstants.Arm.Wrist.kWristSegment);
 
         init();
+       ARM_MOVE_TO_TARGET_KEY =  getName() + "/MoveToTarget";
+       ARM_TARGET_POSITION_KEY = getName() + "/TargetPosition";
+       ARM_ARM_KEY = getName() + "/Arm";
     }
 
     /**
@@ -201,9 +213,11 @@ public class Arm extends MustangSubsystemBase {
             if (currentTimeDelays == null) {
                 currentTimeDelays = new double[] {0, 0, 0};
             }
+            Logger.getInstance().recordOutput(ARM_MOVE_TO_TARGET_KEY, "from " + this.targetState + " to "
+            + target + " is " + Arrays.toString(currentTimeDelays));
+            
 
-            SmartDashboard.putString("Arm moveToTarget()", "from " + this.targetState + " to "
-                    + target + " is " + Arrays.toString(currentTimeDelays));
+            
 
             this.targetState = target;
 
@@ -287,10 +301,18 @@ public class Arm extends MustangSubsystemBase {
 
     @Override
     public void debugSubsystem() {
-        SmartDashboard.putString(targetPositionKey, getTargetState().toString());
-        // SmartDashboard.putNumber("Elbow offset", elbowOffset);
-        // SmartDashboard.putNumber("Shoulder offset", shoulderOffset);
-        // SmartDashboard.putNumber("Wrist offset", wristOffset);
+        Logger.getInstance().recordOutput(ARM_TARGET_POSITION_KEY, getTargetState().toString());
+        if(mechanismLoggingEnabled) {
+            Mechanism2d m2d=new Mechanism2d(3, 3);
+            MechanismRoot2d m2dr= m2d.getRoot("Superstructure", 1.5, 0.5);
+            double transformedShoulderAngle=getShoulder().getCurrentAngleInDegrees()-90;
+            double transformedElbowAngle= -(transformedShoulderAngle-getElbow().getCurrentAngleInDegrees()+90);
+            double transformedWristAngle= -transformedElbowAngle+getWrist().getCurrentAngleInDegrees();
+            MechanismLigament2d shoulderLig = m2dr.append(new MechanismLigament2d("Shoulder", 0.66,transformedShoulderAngle));
+            MechanismLigament2d elbowLig=shoulderLig.append(new MechanismLigament2d("Elbow", 0.8,transformedElbowAngle));
+            MechanismLigament2d wristLig=elbowLig.append(new MechanismLigament2d("Wrist", 0.3,transformedWristAngle));
+            Logger.getInstance().recordOutput(ARM_ARM_KEY, m2d);
+        }
     }
 
     /**
@@ -339,6 +361,12 @@ public class Arm extends MustangSubsystemBase {
 
     public Wrist getWrist() {
         return wrist;
+    }
+    public boolean getMechanismLoggingEnabled(){
+        return mechanismLoggingEnabled;
+    }
+    public void  setMechanismLoggingEnabled(boolean mechanismLoggingEnabled){
+        this.mechanismLoggingEnabled=mechanismLoggingEnabled;
     }
 
     /**

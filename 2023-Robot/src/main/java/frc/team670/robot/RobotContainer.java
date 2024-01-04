@@ -126,8 +126,8 @@ public class RobotContainer extends RobotContainerBase {
             default:
                 autonCommand = grid6TwoEngage;
         }
-        mLed.updateAutonPathColor(selectedPath);
-        mLed.solidhsv(LEDColor.SEXY_PURPLE);
+        // mLed.updateAutonPathColor(selectedPath);
+        // mLed.solidhsv(LEDColor.SEXY_PURPLE);
         return autonCommand;
     }
 
@@ -167,7 +167,7 @@ public class RobotContainer extends RobotContainerBase {
         // chosen autonomous path, and the `updateAutonPathColor()` method in the `LED` subsystem is
         // responsible for changing the LED color accordingly.
 
-        mLed.updateAutonPathColor(selectedPath);
+        // mLed.updateAutonPathColor(selectedPath);
     }
 
     @Override
