@@ -120,7 +120,7 @@ public final class RobotConstants extends RobotConstantsBase {
        public static final double kTrackWidthMeters = 0.6096;
        public static final double kWheelBaseMeters = 0.6096;
        
-       public final static SerialPort.Port kNAVXPort = SerialPort.Port.kMXP;
+       public final static SerialPort.Port kNAVXPort = SerialPort.Port.kUSB;
 
        public static final double kMaxSpeedMetersPerSecond = 2;// 1. Not constant between auton path, 2. Robot specific
        public static final double kMaxAccelerationMetersPerSecondSquared = 1;
