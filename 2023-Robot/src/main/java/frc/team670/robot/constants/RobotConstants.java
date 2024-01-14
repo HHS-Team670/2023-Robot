@@ -82,7 +82,7 @@ public final class RobotConstants extends RobotConstantsBase {
      * is spinning in the incorrect direction. i.e -Math.toRadians(<angle> + 180.0).
      */
 
-    public static final String kSunTzuAddress = "00:80:2F:34:0B:07";
+    public static final String kSunTzuAddress = "00:80:2F:17:80:83";
     public static final String kSkipperAddress = "00:80:2F:33:D0:46";
     public static final String kRobotAddress = getMACAddress();
     
@@ -120,7 +120,7 @@ public final class RobotConstants extends RobotConstantsBase {
        public static final double kTrackWidthMeters = 0.6096;
        public static final double kWheelBaseMeters = 0.6096;
        
-       public final static SerialPort.Port kNAVXPort = SerialPort.Port.kMXP;
+       public final static SerialPort.Port kNAVXPort = SerialPort.Port.kUSB;
 
        public static final double kMaxSpeedMetersPerSecond = 2;// 1. Not constant between auton path, 2. Robot specific
        public static final double kMaxAccelerationMetersPerSecondSquared = 1;
