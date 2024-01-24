@@ -32,6 +32,7 @@ import frc.team670.robot.subsystems.arm.Arm;
 import frc.team670.robot.subsystems.arm.ArmState;
 import frc.team670.robot.subsystems.drivebase.DriveBase;
 import frc.team670.robot.subsystems.CubeIntake;
+import frc.team670.robot.commands.drivebase.*;
 
 
 public final class OI {
@@ -85,7 +86,7 @@ public final class OI {
     private static JoystickButton coneSuck = new JoystickButton(operatorController, XboxButtons.Y);
     private static JoystickButton cubeSuck = new JoystickButton(operatorController, XboxButtons.A);
 
-    
+
     public static MustangController getDriverController() {
         return driverController;
     }
@@ -137,7 +138,9 @@ public final class OI {
 
         cubeSuck.onTrue(new SetIntakeCube(led, claw));
         coneSuck.onTrue(new SetIntakeCone(led, claw));
-        turnToCone.onTrue(new MoveToCone(driveBase, driverController));
+        turnToCone.onTrue(new MoveToTargetVision(driveBase, driverController));
 
     }
+  
 }
+

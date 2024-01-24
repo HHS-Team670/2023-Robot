@@ -54,7 +54,7 @@ public class RobotContainer extends RobotContainerBase {
     public RobotContainer() {
         super();
         addSubsystem(mDriveBase, mArm, mArm.getShoulder(), mArm.getElbow(), mArm.getWrist(),
-                mClaw, mLed,mCubeIntake, mCubeIntake.getDeployer(), mVision);
+                 mLed, mVision);
         OI.configureButtonBindings();
 
         for (MustangSubsystemBase subsystem : getSubsystems()) {
@@ -65,7 +65,7 @@ public class RobotContainer extends RobotContainerBase {
         // stationScore = new ConeCubeCube(mDriveBase, mClaw,mArm,mLed, "Station3Piece");
         // cableEngage = new CubeEngage(mDriveBase, mClaw, mArm,mLed, "CableEngage");
         grid6TwoEngage = new Auton(mDriveBase, mClaw, mArm, mLed, mCubeIntake, "Grid 6 Two Engage");
-        centerEngage = new CenterEngageSequential(mDriveBase, mClaw, mArm, mLed);
+        //centerEngage = new CenterEngageSequential(mDriveBase, mClaw, mArm, mLed);
         // centerIntake = new CenterIntake(mDriveBase, mClaw, mArm, mLed, "CenterIntake");
         scoreMid = new Auton(mDriveBase, mClaw, mArm, mLed, mCubeIntake, "ScoreMid");
         grid1TwoPiece = new Auton(mDriveBase, mClaw, mArm, mLed, mCubeIntake, "Grid 1 Two Piece");

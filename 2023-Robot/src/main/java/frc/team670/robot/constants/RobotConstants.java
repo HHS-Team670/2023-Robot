@@ -82,7 +82,7 @@ public final class RobotConstants extends RobotConstantsBase {
      * is spinning in the incorrect direction. i.e -Math.toRadians(<angle> + 180.0).
      */
 
-    public static final String kSunTzuAddress = "00:80:2F:34:0B:07";
+    public static final String kSunTzuAddress = "00:80:2F:17:80:83";
     public static final String kSkipperAddress = "00:80:2F:33:D0:46";
     public static final String kRobotAddress = getMACAddress();
     
@@ -179,12 +179,12 @@ public final class RobotConstants extends RobotConstantsBase {
                 new Transform3d(
                         new Translation3d(Units.inchesToMeters(0.56), Units.inchesToMeters(-5.25),
                                 Units.inchesToMeters(19 + 5)),
-                        new Rotation3d(0, 0, Units.degreesToRadians(-45))),  
+                        new Rotation3d(0, 0, Units.degreesToRadians(0))),  
                 // Cam C - LEFT
                 new Transform3d(
                         new Translation3d(Units.inchesToMeters(0.56), Units.inchesToMeters(5.25),
                                 Units.inchesToMeters(19 + 5)),
-                        new Rotation3d(0, 0, Units.degreesToRadians(45)))};
+                        new Rotation3d(0, 0, Units.degreesToRadians(0)))};
 
         public static final double kLockedOnErrorX = 0.3;
         public static final double xLockedOnErrorY = 0.3;
@@ -197,11 +197,11 @@ public final class RobotConstants extends RobotConstantsBase {
         public static final int kMaxFrameFIDs = 4;
         public static final Map<Integer, TagCountDeviation> kVisionStdFromTagsSeen = Map.ofEntries(
             Map.entry(1, new TagCountDeviation(
-                new UnitDeviationParams(.25, .4, .9),
-                new UnitDeviationParams(.35, .5, 1.2),
+                new UnitDeviationParams(.25, .4, .25),
+                new UnitDeviationParams(.35, .5, .4),
                 new UnitDeviationParams(.5, .7, 1.5))),
             Map.entry(2, new TagCountDeviation(
-                new UnitDeviationParams(.35, .1, .4), new UnitDeviationParams(.5, .7, 1.5))),
+                new UnitDeviationParams(.35, .1, .3), new UnitDeviationParams(.5, .7, 1.5))),
             Map.entry(3, new TagCountDeviation(
                 new UnitDeviationParams(.25, .07, .25), new UnitDeviationParams(.15, 1, 1.5)))
         );

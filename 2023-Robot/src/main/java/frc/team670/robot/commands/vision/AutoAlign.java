@@ -47,7 +47,6 @@ public class AutoAlign extends CommandBase implements MustangCommand {
     public void initialize() {
         if (targets.isEmpty())
             loadTargets();
-
         goal = getClosestTargetIndex(driveBase.getPose());
 
         // boolean backUp = false;
