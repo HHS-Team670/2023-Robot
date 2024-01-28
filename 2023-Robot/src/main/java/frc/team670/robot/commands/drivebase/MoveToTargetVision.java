@@ -6,9 +6,10 @@ import java.util.Map;
 import org.photonvision.PhotonCamera;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
-import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.team670.mustanglib.RobotConstantsBase;
 import frc.team670.mustanglib.commands.MustangCommand;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase;
 import frc.team670.mustanglib.subsystems.MustangSubsystemBase.HealthState;
@@ -26,11 +27,17 @@ public class MoveToTargetVision extends CommandBase implements MustangCommand {
     private MustangController mController;
     private final static double kSensitivity=0.5;
     private double prevTimestamp = 0;
+    private double targetDistX;
+    private double targetDistY;
+    private double[] lastChange;
 
 
-    public MoveToTargetVision(DriveBase driveBase,MustangController mController){
+
+    public MoveToTargetVision(DriveBase driveBase,MustangController mController, double targetDistX, double targetDistY){
         this.driveBase = driveBase;
         this.mController=mController;
+        this.targetDistX = targetDistX;
+        this.targetDistY = targetDistY;
         this.healthReqs = new HashMap<MustangSubsystemBase, HealthState>();
         this.healthReqs.put(driveBase, HealthState.GREEN);
         SmartDashboard.putNumber("Target Decimal",0);
@@ -57,8 +64,20 @@ public class MoveToTargetVision extends CommandBase implements MustangCommand {
     }
     @Override
     public void execute(){
-        // SmartDashboard.putNumber("Theta Velocit",kSensitivity*angleToTarget());
-        driveBase.setmDesiredHeading(new Rotation2d(driveBase.getPose().getRotation().getRadians() + angleToTarget()));    
+        SmartDashboard.putNumber("A value", driveBase.getGyroscopeRotation().getRadians());
+        SmartDashboard.putNumber("A controller value", mController.getRightStickX() + mController.getRightStickY());
+        double[] changes = moveToTarget();
+
+        SmartDashboard.putNumber("A dX", changes[0]);
+        SmartDashboard.putNumber("A dY", changes[1]);
+        SmartDashboard.putNumber("A dTheta", changes[2]);
+
+        double xVel = RobotConstantsBase.SwerveDriveBase.xController.calculate(changes[0]);
+        double yVel = RobotConstantsBase.SwerveDriveBase.yController.calculate(changes[1]);
+        double thetaVel = RobotConstantsBase.SwerveDriveBase.thetaController.calculate(changes[2]);
+        driveBase.drive((ChassisSpeeds.fromFieldRelativeSpeeds(-xVel, -yVel, thetaVel,
+                driveBase.getGyroscopeRotation())));
+        
     }
 
     public boolean isFinished(){
@@ -77,17 +96,19 @@ public class MoveToTargetVision extends CommandBase implements MustangCommand {
        return targets > 0;
     }
     //
-    public double angleToTarget(){
+    public double[] moveToTarget(){
         double distance = 0;
         double bestDistance = 1000;
         PhotonTrackedTarget bestTarget = null; 
         double bestTargetLatency = 0;
-        for (PhotonCamera c : cameras){
+        PhotonCamera c = null;
+        for (int i = 0; i < cameras.length; i++){
             try{
+                c = cameras[i];
                 var result = c.getLatestResult();
-                if(prevTimestamp < result.getTimestampSeconds()){
-                    continue;
-                } 
+                // if(prevTimestamp >= result.getTimestampSeconds()){
+                //     continue;
+                // } 
                 if(result.hasTargets()){
                     for (PhotonTrackedTarget target : result.getTargets()) {
                         var transform = target.getBestCameraToTarget();
@@ -108,14 +129,26 @@ public class MoveToTargetVision extends CommandBase implements MustangCommand {
         }
         
         if(bestTarget != null){
+            //Turning
             double factor = calcLatencyFactor(bestTarget, bestTargetLatency);
             SmartDashboard.putNumber("A Latency Factor", factor);
-                        double result = -(bestTarget.getYaw() + factor) * Math.PI / 180;
+            double dTheta = -(bestTarget.getYaw() + factor) * Math.PI / 180;
+            SmartDashboard.putNumber("A Turning", dTheta);
 
-            SmartDashboard.putNumber("A Turning", result);
-            return result;
+            //Moving
+            var transform = bestTarget.getBestCameraToTarget();
+            double dX = (targetDistX - transform.getX());
+            double dY = (targetDistY - transform.getY());
+
+            lastChange = new double[]{dX, dY, dTheta};
+
+            return lastChange;
         }
-       return 0;
+
+        if(lastChange != null)
+            return lastChange;
+
+       return new double[3];
     }
     public double calcLatencyFactor(PhotonTrackedTarget bestTarget, double bestTargetLatency){
         //Rotation2d heading = driveBase.getGyroscopeRotation();
@@ -123,5 +156,9 @@ public class MoveToTargetVision extends CommandBase implements MustangCommand {
         return bestTargetLatency* driveBase.getChassisSpeeds().vyMetersPerSecond * (100/distanceX);
     }
     
+    public double adjustForDeceleration(){
+        
+        return 0;
+    }
 }
 

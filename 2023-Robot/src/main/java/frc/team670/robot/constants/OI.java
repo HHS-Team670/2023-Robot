@@ -138,7 +138,7 @@ public final class OI {
 
         cubeSuck.onTrue(new SetIntakeCube(led, claw));
         coneSuck.onTrue(new SetIntakeCone(led, claw));
-        turnToCone.onTrue(new MoveToTargetVision(driveBase, driverController));
+        turnToCone.onTrue(new MoveToTargetVision(driveBase, driverController, 0.5, 0));
 
     }
   
