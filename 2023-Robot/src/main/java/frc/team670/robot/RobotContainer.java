@@ -53,8 +53,8 @@ public class RobotContainer extends RobotContainerBase {
 
     public RobotContainer() {
         super();
-        addSubsystem(mDriveBase, mArm, mArm.getShoulder(), mArm.getElbow(),
-                 mLed, mVision);
+        addSubsystem(mDriveBase,
+                 mVision);
         OI.configureButtonBindings();
 
         for (MustangSubsystemBase subsystem : getSubsystems()) {
