@@ -13,6 +13,13 @@
             "request": "launch",
             "mainClass": "",
             "vmArgs": "-javaagent:${userHome}\\.appmap\\lib\\java\\appmap.jar"
+        },
+        {
+            "type": "java",
+            "name": "Run with AppMap",
+            "request": "launch",
+            "mainClass": "",
+            "vmArgs": "-javaagent:${userHome}\\.appmap\\lib\\java\\appmap.jar"
         }
     ]
 }

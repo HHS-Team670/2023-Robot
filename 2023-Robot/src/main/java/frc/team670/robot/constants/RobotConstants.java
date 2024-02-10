@@ -88,13 +88,13 @@ public final class RobotConstants extends RobotConstantsBase {
     
     private static  Map<String, Double> robotSpecificConstants = Map.ofEntries(
         entry(kSunTzuAddress, Map.ofEntries(
-                    entry("kBackRightModuleSteerOffsetRadians", -Math.toRadians(90.895)),
-                    entry("kBackLeftModuleSteerOffsetRadians", -Math.toRadians(299.807)),
-                    entry("kFrontRightModuleSteerOffsetRadians", -Math.toRadians(137.499)),
-                    entry("kFrontLeftModuleSteerOffsetRadians", -Math.toRadians(318.604)),
+                    entry("kBackRightModuleSteerOffsetRadians", -Math.toRadians(30.234375)),
+                    entry("kBackLeftModuleSteerOffsetRadians", -Math.toRadians(132.890625)),
+                    entry("kFrontRightModuleSteerOffsetRadians", -Math.toRadians(137.285156)),
+                    entry("kFrontLeftModuleSteerOffsetRadians", -Math.toRadians(45.439453)),
                     entry("kShoulderAbsoluteEncoderVerticalOffset", 0.484233), // 0.47777
                     entry("kElbowAbsoluteEncoderVerticalOffset", 0.004892),
-                    entry("kWristAbsoluteEncoderVerticalOffset", 0.420540), // 0.177702
+                    entry("kWristAbsoluteEncoderVerticalOffset", 0.429016), // 0.177702
                     entry("kShoulderGearRatio", 96.0), entry("kElbowGearRatio", 70.833333333333),
                     entry("kSwerveModuleConfig", 2.0), entry("kWristGearRatio", 45.0), 
                     entry("kDeployerGearRatio",25.0), entry("kDeployerAbsoluteEncoderVerticalOffset",0.792352))),
